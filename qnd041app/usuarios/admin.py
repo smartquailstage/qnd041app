@@ -4,7 +4,7 @@ import datetime
 import datetime
 from django.contrib import admin
 from django.http import HttpResponse
-from .models import Profile, Perfil_Terapeuta
+from .models import Profile, Edificio
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from unfold.admin import ModelAdmin
@@ -73,12 +73,12 @@ export_to_excel.short_description = 'Exportar a Excel'
 
 
 
-@admin.register(Perfil_Terapeuta)
-class Perfil_TerapeutaAdmin(ModelAdmin):
-    list_display = ['user', 'especialidad']
+@admin.register(Edificio)
+class EdificioAdmin(ModelAdmin):
+    list_display = ['user', 'especialidad','presupuesto', 'k', 'puntos_minimos']
     actions = [ export_to_csv, export_to_excel]
-    verbose_name = "Información de perfil de Terapeuta"
-    verbose_name_plural = "Información de perfiles de terapeutas"
+    verbose_name = "Información de perfil de Edificio"
+    verbose_name_plural = "Información de perfiles de Eficios"
 
 @admin.register(Profile)
 class ProfileAdmin(ModelAdmin):

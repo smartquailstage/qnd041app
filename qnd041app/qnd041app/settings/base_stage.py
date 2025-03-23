@@ -106,9 +106,9 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 UNFOLD = {
-    "SITE_TITLE": "MEDDES-Centro de rehabilitación integral",
-    "SITE_HEADER": "MEDDES",
-    "SITE_SUBHEADER": "Centro de rehabilitación integral",
+    "SITE_TITLE": "HomeDetail Beneficios",
+    "SITE_HEADER": "HomeDetail",
+    "SITE_SUBHEADER": "Beneficios",
     "SITE_DROPDOWN": [
         {
             "icon": "diamond",
@@ -120,12 +120,12 @@ UNFOLD = {
     "SITE_URL": "/",
     # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
     "SITE_ICON": {
-        "light": lambda request: static("img/BA-LOGOS/logo_test.png"),
-        "dark": lambda request: static("img/BA-LOGOS/logo_test.png"),
+        "light": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
+        "dark": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
     },
     "SITE_LOGO": {
-        "light": lambda request: static("img/BA-LOGOS/logo_test.png"),
-        "dark": lambda request: static("img/BA-LOGOS/logo_test.png"),
+        "light": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
+        "dark": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
     },
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
@@ -133,7 +133,7 @@ UNFOLD = {
             "rel": "icon",
             "sizes": "32x32",
             "type": "image/svg+xml",
-            "href": lambda request: static("img/BA-LOGOS/logo_test.png"),
+            "href": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
         },
     ],
     "SHOW_HISTORY": True,
@@ -141,9 +141,9 @@ UNFOLD = {
     "SHOW_BACK_BUTTON": False,
     
     "ENVIRONMENT": "Production.environment_callback",
-    "THEME": "light",
+    "THEME": "dark",
     "LOGIN": {
-        "image": lambda request: static("img/BA-BG/test.png"),
+        "image": lambda request: static("img/BA-BG/test2.jpg"),
        # "redirect_after": lambda request: reverse_lazy("admin:usuarios_changelist"),
     },
     "STYLES": [
@@ -163,8 +163,8 @@ UNFOLD = {
             "500": "0, 180, 81",
             "600": "75 85 99",
             "700": "55 65 81",
-            "800": "31 41 55",
-            "900": "17 24 39",
+            "800": "240 117 8",
+            "900": "3 33 66",
             "950": "3 7 18",
         },
         "primary": {
@@ -173,11 +173,11 @@ UNFOLD = {
             "200": "233 213 255",
             "300": "216 180 254",
             "400": "192 132 252",
-            "500": "168 85 247",
-            "600": "46 168 77",
+            "500": "233 244 255",
+            "600": "240 117 8",
             "700": "126 34 206",
-            "800": "107 33 168",
-            "900": "88 28 135",
+            "800": "22 47 83",
+            "900": "189 94 10",
             "950": "59 7 100",
         },
         "font": {
@@ -185,7 +185,7 @@ UNFOLD = {
             "subtle-dark": "var(--color-base-400)",  # text-base-400
             "default-light": "var(--color-base-600)",  # text-base-600
             "default-dark": "var(--color-base-300)",  # text-base-300
-            "important-light": "var(--color-base-900)",  # text-base-900
+            "important-light": "240 117 8",  # text-base-900
             "important-dark": "var(--color-base-100)",  # text-base-100
         },
     },

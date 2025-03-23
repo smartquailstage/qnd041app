@@ -246,9 +246,9 @@ ion-icon {
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-  color: #31408c;
-  text-decoration: none;
-  background-color: rgb(192, 219, 237);
+    color: #055c1f;
+    text-decoration: none;
+    background-color: rgb(43 190 70 / 41%);
 }
 
 .menu-label {
@@ -339,12 +339,13 @@ ion-icon {
     padding: 0 1.5rem;
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
-    background-color: #72d5f329;
+    /* Gradiente en escala de verde con tres colores */
+    background: linear-gradient(to right, #a8d08d, #6fae3a, #2f6b20);
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
-   
 }
+
 
 .top-header .navbar {
     width: 100%;
@@ -976,7 +977,7 @@ ion-icon {
 }
 
 .profile-cover {
-    background-image: url("../images/cards/profile-cover.png");
+    background-image: url("../images/profile_bg.jpg");
     background-size: cover;
     height: 10rem;
     background-position: center;
