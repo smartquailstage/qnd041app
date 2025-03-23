@@ -113,11 +113,11 @@ UNFOLD = {
         {
             "icon": "diamond",
             "title": _("My site"),
-            "link": "admin:shop_category_changelist",
+            "link": "https://homedetailecuador.com/",
         },
         # ...
     ],
-    "SITE_URL": "/",
+    "SITE_URL": "https://homedetailecuador.com/",
     # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
     "SITE_ICON": {
         "light": lambda request: static("img/BA-LOGOS/logoHomeDetail.png"),
