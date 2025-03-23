@@ -25,7 +25,7 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     - name: Build container image
-      working-directory: ./qnd031dock
+      working-directory: ./qnd041dock
       run: | 
         docker build -f Dockerfile \
             -t smartquail/qnd041app:latest \

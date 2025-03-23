@@ -11,9 +11,9 @@ else
 fi
 
 # Variables de configuración
-SETTINGS_MODULE="qnd031app.settings.pro"
-NODE_NAME="qnd031app"
-DJANGO_SETTINGS_MODULE="qnd031app.settings.pro"
+SETTINGS_MODULE="qnd041app.settings.pro"
+NODE_NAME="qnd041app"
+DJANGO_SETTINGS_MODULE="qnd041app.settings.pro"
 APP_PORT=${PORT:-9000}  # Asegúrate de que esta variable esté configurada en tu entorno Kubernetes
 SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"support@smartquail.io"}
 
