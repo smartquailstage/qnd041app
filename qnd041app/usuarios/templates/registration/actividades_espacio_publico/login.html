@@ -1,0 +1,115 @@
+{% extends "base_activity_login.html" %}
+{% load wagtailimages_tags wagtailcore_tags menu_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Ingresar{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
+    <div class="card radius-10">
+      <div class="card-body p-4">
+        <img src="{% static 'assets/images/escudo.png' %}" style="width: 50px;" alt="">
+        <img src="{% static 'assets/images/secretaria.png' %}" style="width: 170px;" alt="">
+        <h3 style="color:#2a3881">Levantamiento de actividades culturales en espacios públicos. <i class="lni lni-twitch"></i> </h3>
+        <h4 class="text-center"></h4>
+        <p class="text-left">Sistema de gestión de actividades culturales en el espacio público de la secretaría de cultura del Distrito Metropolitano de Quito </p>
+        <form class="form-body row g-3" method="post">
+          {% csrf_token %}
+          <div class="col-12 col-lg-12">
+            <div class="d-grid gap-2">
+              <a href="{% url 'social:begin' 'facebook' %}" class="btn border border-2 border-primary"><img
+                  src="{% static 'assets/images/icons/facebook.png' %}" width="20" alt=""><span
+                  class="ms-3 fw-500">Ingresar con Facebook</span></a>
+              <a href="{% url 'social:begin' 'twitter' %}" class="btn border border-2 border-dark"><img
+                  src="{% static 'assets/images/icons/google.png' %}" width="20" alt=""><span
+                  class="ms-3 fw-500">
+                  Ingresar con Google</span></a>
+              <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn border border-2 border-dark"><img
+                  src="{% static 'assets/images/icons/twitter.png' %}" width="20" alt=""><span
+                  class="ms-3 fw-500">
+                  Ingresar con Twitter</span></a>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="position-relative border-bottom my-3">
+              <div class="position-absolute seperator-2 translate-middle-y">O</div>
+            </div>
+          </div>
+
+          {% if form.errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              Your username and password didn't match. Please try again.
+            </div>
+          </div>
+          {% endif %}
+
+          {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
+          {% endfor %}
+
+          {% if form.non_field_errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+              {{ error }}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% for field in form.visible_fields %}
+          <div class="col-12">
+            <div class="form-group">
+              {{ field.label_tag }}
+              {% if form.is_bound %}
+              {% if field.errors %}
+              {% render_field field class="form-control is-invalid" %}
+              {% for error in field.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+              {% else %}
+              {% render_field field class="form-control is-valid" %}
+              {% endif %}
+              {% else %}
+              {% render_field field class="form-control" %}
+              {% endif %}
+              {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+
+          <p>¿Olvidó su contraseña?<a href="{% url 'password_reset' %}"> Recuperar contraseña</a></p>
+
+          <div class="col-12">
+            <p>Al ingresar, usted automáticamente acepta las <a href="{% url 'usuarios:activity_privacy_policy' %}">políticas de privacidad</a> y los  <a href="{% url 'usuarios:activity_terms_of_use' %}">términos y condiciones de uso</a> de la plataforma.</p>
+          </div>
+
+          <div class="col-12 d-grid">
+            <button type="submit" class="btn btn-primary" value="Log in">Ingresar</button>
+          </div>
+
+          <div class="col-12">
+            <p>¿No se ha registrado todavía?<a href="{% url 'usuarios:activity_register' %}"> Registrarse</a></p>
+            <p  style="text-align: center; font-size: 10px;">AppRelease: QND.V1.0</p>
+          </div>
+
+       
+
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+{% endblock %}

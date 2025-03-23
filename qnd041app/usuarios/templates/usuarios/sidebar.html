@@ -1,0 +1,65 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+<aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="" class="logo-icon" alt="logo icon">
+        </div>
+        <div>
+            <h4 class="logo-text">
+                <div>
+                    <img src="{% static 'img/BA-LOGOS/logo_test.png' %}"  width="100px" alt="logo icon">
+                </div>
+            </h4>
+        </div>
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+        <li>
+            <a href="{% url 'usuarios:dashboard' %}">
+                <div class="parent-icon">
+                    <ion-icon name="home-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Inicio</div>
+            </a>
+        </li>
+ 
+                       
+
+        
+        <li class="menu-label">Configuraciones </li>
+        <li>
+            <a href="{% url 'usuarios:perfil' %}">
+                <div class="parent-icon">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Perfil de usuario</div>
+            </a>
+        </li>
+
+
+    
+        <li>
+            <a class="nav-link dark-mode-icon" href="javascript:;">
+                <div class="mode-icon">
+                    <ion-icon name="moon-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Contraste</div>
+            </a>
+        </li>
+    
+        <li>
+            <a href="{% url 'logout' %}">
+                <div class="parent-icon">
+                    <ion-icon name="exit-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Salir</div>
+            </a>
+        </li>
+    </ul>
+    <!--end navigation-->
+
+
+</aside>

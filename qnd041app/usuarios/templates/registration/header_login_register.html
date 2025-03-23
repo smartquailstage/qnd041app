@@ -1,0 +1,24 @@
+
+{% load wagtailimages_tags wagtailcore_tags menu_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white p-3">
+      <div class="container-fluid">
+        <a href="javascript:;">
+          <img src="{% static 'assets/images/escudo.png' %}" style="width: 30px; border-radius: 15%;" alt="">
+          <img src="{% static 'assets/images/secretaria.png' %}" style="width: 70px;" alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="d-flex">
+            <a href="{% url 'usuarios:login' %}" class="btn btn-sm btn-primary px-4 radius-30">Ingresar</a>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>

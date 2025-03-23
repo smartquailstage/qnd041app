@@ -1,0 +1,78 @@
+{% extends "usuarios/base_login.html" %}
+{% load wagtailimages_tags wagtailcore_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+
+{% block title %}Log-in{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
+    <div class="card radius-10">
+      <div class="card-body p-4">
+        <div class="text-center">
+          <h4>Sign Up</h4>
+          <p>Creat New account</p>
+        </div>
+        <form class="form-body row g-3">
+          <div class="col-12 col-lg-12">
+            <div class="d-grid gap-2">
+              <a href="javascript:;" class="btn border border-2 border-primary"><img
+                  src="assets/images/icons/google.png" width="20" alt=""><span class="ms-3 fw-500">Sign up with
+                  Google</span></a>
+              <a href="javascript:;" class="btn border border-2 border-dark"><img
+                  src="assets/images/icons/apple-black-logo.png" width="20" alt=""><span class="ms-3 fw-500">Sign
+                  up with Apple</span></a>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="position-relative border-bottom my-3">
+              <div class="position-absolute seperator-2 translate-middle-y">OR</div>
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="inputName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Your name">
+          </div>
+          <div class="col-12">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail" placeholder="abc@example.com">
+          </div>
+          <div class="col-12">
+            <label for="inputPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="inputPassword" placeholder="Your password">
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+                I agree the Terms and Conditions
+              </label>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="d-grid">
+              <button type="button" class="btn btn-primary">Sign Up</button>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12 text-center">
+            <p class="mb-0">Already have an account? <a href="authentication-sign-in-basic.html">Sign in</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <h1>Log-in</h1>
+  <p>Please, use the following form to log-in:</p>
+  <form action="." method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Log in"></p>
+  </form>
+{% endblock %}

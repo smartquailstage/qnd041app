@@ -1,0 +1,70 @@
+name: SmartQuail Django-app & Postgress Test SMARTQUAIL QND41
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  app_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./qnd041app
+    env:
+      DJANGO_SECRET_KEY: test-key-not-good
+      NAME_DB: QND141STDB
+      PASSWORD_DB: Support1719@
+      USER_DB: sqadmindb
+      HOST_DB: smartquaildb
+      PORT_DB: 5432 
+      DB_IGNORE_SSL: "true"
+
+    services:
+      smartquaildb:
+        image: postgres:16-alpine
+        env: 
+          POSTGRES_DB: QND041STDB
+          POSTGRES_PASSWORD: Support1719@
+          POSTGRES_USER: sqadmindb
+          POSTGRES_HOST: smartquaildb
+          POSTGRES_PORT: 5432 
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.11]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install -r dependencias/111.txt
+        pip3 install uwsgi  # Instalar uWSGI para la prueba
+
+
+
+    - name: Start uWSGI server
+      run: |
+        # Iniciar el servidor uWSGI en segundo plano
+        uwsgi --workers 2  --master  --enable-threads  --module qnd041app.wsgi  --ini uwsgi_stage.ini &
+        # Esperar un momento para asegurarse de que uWSGI esté corriendo
+        sleep 5
+
+    - name: Run Tests with Django
+      run: |
+        # Ejecutar las pruebas de Django
+        python3 manage.py test --settings=qnd041app.settings.stage

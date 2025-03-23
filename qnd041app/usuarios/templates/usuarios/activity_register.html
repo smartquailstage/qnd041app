@@ -1,0 +1,116 @@
+{% extends "activity_base_register.html" %}
+{% load wagtailimages_tags wagtailcore_tags menu_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Crear una Cuenta{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
+    <div class="card radius-10">
+      <div class="card-body p-4">
+        <img src="{% static 'assets/images/escudo.png' %}" style="width: 50px;" alt="">
+        <img src="{% static 'assets/images/secretaria.png' %}" style="width: 170px;" alt="">
+        <p class="text-left">Formulario de registro al sistema de gestión de convocatorias y levantamiento de actividades en el espacio público, de la secretaría de cultura </p>
+        <form class="form-body row g-3" method="post">
+          {% csrf_token %}
+          <div class="col-12 col-lg-12">
+            <div class="position-relative border-bottom my-3">
+            </div>
+          </div>
+
+          {% for hidden_field in user_form.hidden_fields %}
+          {{ hidden_field }}
+          {% endfor %}
+
+          {% if user_form.non_field_errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              {% for error in user_form.non_field_errors %}
+              {{ error }}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% for field in user_form.visible_fields %}
+          <div class="col-12">
+            <div class="form-group">
+              {{ field.label_tag }}
+              {% if user_form.is_bound %}
+              {% if field.errors %}
+              {% render_field field class="form-control is-invalid" %}
+              {% for error in field.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+              {% else %}
+              {% render_field field class="form-control is-valid" %}
+              {% endif %}
+              {% else %}
+              {% render_field field class="form-control" %}
+              {% endif %}
+              {% if field.help_text %}
+              <small class="form-text text-muted" placeholder="Your Email">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+          
+          {% for hidden_field in user_form.hidden_fields %}
+          {{ hidden_field }}
+          {% endfor %}
+
+          {% if user_form.non_field_errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              {% for error in user_form.non_field_errors %}
+              {{ error }}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% for field in group_form.visible_fields %}
+          <div class="col-12">
+            <div class="form-group">
+              {{ field.label_tag }}
+              {% if user_form.is_bound %}
+              {% if field.errors %}
+              {% render_field field class="form-control is-invalid" %}
+              {% for error in field.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+              {% endfor %}
+              {% else %}
+              {% render_field field class="form-control is-valid" %}
+              {% endif %}
+              {% else %}
+              {% render_field field class="form-control" %}
+              {% endif %}
+              {% if field.help_text %}
+              <small class="form-text text-muted" placeholder="Your Email">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+
+          
+
+          <div class="col-12 d-grid">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

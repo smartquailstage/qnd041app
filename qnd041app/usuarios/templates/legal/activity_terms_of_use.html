@@ -1,0 +1,29 @@
+{% extends "base_activity_login.html" %}
+{% load wagtailimages_tags wagtailcore_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+
+<div class="card radius-10">
+    <div class="card-body">
+        {% for item in items %}
+        <h4>{{ item.title }} </h4>
+       <p>{{ item.content }}</p> 
+        {% endfor %}
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+
+{% endblock %}

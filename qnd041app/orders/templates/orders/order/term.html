@@ -1,0 +1,136 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+
+
+{% block title %}
+  {% trans "Checkout" %}
+{% endblock %}
+
+{% block content %}
+{% include 'cart/detail_header.html' %}
+
+<div id="wrapper">
+  <!-- content -->	
+  <div class="content">
+      <!-- column-image  -->	
+
+     
+        
+  <div class="column-image ">
+         
+          <div class="overlay"></div>
+          
+          <div class="column-title">
+            <h2>{% trans "Your list tours for Floreana Island:"  %}</h2>
+           
+             
+          
+           
+            <div class="section-title fl-wrap">
+             
+
+              
+                
+                  <div id="contact-form" class="fl-wrap">
+                    <div class="container small-container">
+      
+                      
+                {% for item in cart %}
+                <ul>
+                  <li><span>{% trans "Tour" %} :</span>{{ item.product.name }} </li>
+                    <li><span># <i class="fal fa-user"></i>:</span>{{ item.quantity }}</li>
+                    <li><span>Sub total :</span>${{ item.price|floatformat:"2" }}</li>
+                    <li><span>Total :</span>${{ item.total_price|floatformat:"2" }}</li>
+                    <li><span>Discount :</span>
+                      {% blocktrans with code=cart.coupon.code discount=cart.coupon.discount %}
+                        {{ code }} ({{ discount }}% off)
+                      {% endblocktrans %}
+                      <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
+                    </li>
+                    <p>{% trans "Total" %}: ${{ cart.get_total_price_after_discount|floatformat:"2" }}</p>
+                </ul>
+                {% endfor %}
+              </div> 
+            </div>  
+          </div>
+        </div> 
+        
+         
+         
+      </div>
+     
+      <!-- column-image end  -->	
+      <!-- column-wrapper -->	
+      <div class="column-wrapper ">
+        <img src="{% static '/img/logo_flor.png' %} " width=300px>
+<!--scroll-nav-wrap -->	
+      </section>
+							
+          <section id="sec3">
+              <div class="container small-container">
+                <div class="section-title fl-wrap">
+                    
+                   <h3>{%  trans "TERMS & CONDITIONS OF ISLA FLOREANA GALAPAGOS RESERVATION SERVICE." %} </h3> 
+                   
+                 
+        
+                  </div>
+                  {% for c in categories %}
+                  {% if category.slug == c.slug %}{% endif %}
+                  <div class="column-wrapper_item fl-wrap">
+                      <div class="column-wrapper_text fl-wrap">
+                          <div id="contact-form" class="fl-wrap">
+                              <div id="message"></div>
+                            
+                            <p>{{c.name}}</p>   
+                            
+                              
+                              {{ c.terms }}
+                             
+                          </div>
+                      </div>
+                  </div>
+                 
+                  {% endfor %}
+                 
+                  
+              </div>
+
+             
+          </section>
+
+
+          <!--section end  -->	
+          <!--footer -->			
+          <footer class="min-footer fl-wrap content-animvisible">
+              <div class="container small-container">
+                  <div class="footer-inner fl-wrap">
+                      <!-- policy-box-->
+                      <div class="policy-box">
+                          <span>&#169; 
+                             Powered by SmartQuail, Inc / Design by Edward Cooper </span>
+                      </div>
+                      <!-- policy-box end-->
+                      <a href="{% url "cart:cart_detail" %}" class="to-top-btn">Back to Cart <i class="fal fa-shopping-cart"></i></a>
+                  </div>
+              </div>
+          </footer>
+          <!--footer end  -->	
+      </div>
+      <!-- column-wrapper -->	
+  </div>
+  <!--content end-->	
+  <!--share-wrapper-->
+  <div class="share-wrapper">
+      <div class="share-container fl-wrap  isShare"></div>
+  </div>
+  <!--share-wrapper end-->
+</div>
+{% endblock %}

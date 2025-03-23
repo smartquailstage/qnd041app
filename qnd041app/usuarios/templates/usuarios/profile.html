@@ -1,0 +1,132 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+    <div class="row">
+        <div class="col-12 col-lg-8 col-xl-9">
+          <div class="card overflow-hidden radius-10">
+            <div class="profile-cover bg-dark position-relative mb-4">
+                <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="User Photo">
+                    {% else %}
+                        <img src="{% static 'img/user.png' %}" alt="Default Photo">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+              <div class="mt-5 d-flex align-items-start justify-content-between">
+                <div class="">
+                  <h3 class="mb-2">{{ user.get_full_name }}</h3>
+                  <p class="mb-1"><strong>Edad:</strong>{{ profile.edad }}</p>
+                  <p class="mb-1"> <stronG>Curso:</stronG> {{ profile.curso }} </p>
+                  <p class="mb-1"> <stronG>Paralelo:</stronG> {{ profile.curso }} </p>
+                  <p class="mb-1"> <stronG>Terapéuta Asignado:</stronG> {{ profile.user_terapeuta }} </p>                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <div class="card">
+            <div class="card-body">
+              <div class="mt-5 d-flex align-items-start justify-content-between">
+                <div class="">
+                  <p class="mb-1"><strong>Correo Electrónico</strong>{{ profile.email }}</p>
+                  <p class="mb-1"><strong>Telefono de contacto</strong>{{ profile.telefono  }}</p>
+                  <p class="mb-1"><strong>Dirección</strong>{{ profile.direccion  }}</p>
+                  <p class="mb-1"><strong>Nombre del paciente</strong>{{ profile.Paciente_nombre }}</p>
+                  <p  class="mb-1"><strong>Nacionalidad:</strong>  {{ profile.nacionalidad }} </p>
+                  <p class="mb-1"> <stronG>Genero:</stronG> {{ profile.sexo }} </p>                 
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div class="card">
+            <div class="card-body">
+              <h4 class="mb-2"><ion-icon name="people"></ion-icon> Representante </h4>
+              <p class="mb-1"><strong>Nombre del representante:</strong> {{ profile.representante_legal_nombre  }} {{ profile.representante_legal_apellido   }}</p>
+              <p class="mb-1"><strong>Nombre del Factura:</strong> {{ profile.nombre_factura  }}</p>
+              <p class="mb-1"><strong>R.U.C del representante</strong>{{ profile.ruc }}</p>
+              <p class="mb-1"><strong>Nombre de Factura</strong>{{ profile.nombre_factura  }}</p>
+             
+            </div>
+          </div> 
+        </div>
+        <div class="col-12 col-lg-4 col-xl-3">
+          <div class="card radius-10">
+            <div class="card-body">
+              <h5 class="mb-3">  <ion-icon name="people"></ion-icon>Información de Domicilio</h5>
+              <p class="mb-0">
+               
+               <strong>País de residencia:</strong>  {{ contact.pais_residencia }}
+              </p>
+              <p class="mb-0">
+                
+                <strong>Ciudad en ecuador:</strong> {{ contact.provincia_cantones_ecuador  }}
+              </p>
+              <p class="mb-0">
+               
+                <strong>Parroquia en Quito:</strong>  {{ contact.parroquia_quito }}
+              </p>
+               <p class="mb-0">
+        
+                <strong>Dirección: </strong> {{ contact.direccion }}, {{ contact.georeferenciacion }}
+              </p>
+            </div>
+          </div>
+    
+          <div class="card radius-10">
+           
+            <div class="card-body">
+              <h5 class="mb-3"><ion-icon name="paper-plane-outline"></ion-icon> Información de Contacto </h5>
+              <p class="mb-0">
+               
+                <strong>telefono:</strong>  {{ contact.telefono }}
+               </p>
+               <p class="mb-0">
+                 
+                 <strong>Correo electrónico:</strong> {{ profile.user.email }}
+               </p>
+               <p class="mb-0">
+                
+                 <strong>Perfil de redes sociales:</strong>  <a href="#"> {{ contact.perfil_redes_sociales }}</a>
+               </p>
+
+            </div>
+          </div>
+
+          <div class="card radius-10">
+
+            <div class="card-body">
+              <h5 class="mb-3"> <ion-icon name="newspaper-outline"></ion-icon> Información de Personería </h5>
+              <p class="mb-0">
+               <strong>Registro único de contribuyente (R.U.C):</strong>   {{ legal.ruc }}
+              </p>
+              <p class="mb-0">
+                
+                <strong>Personería Jurídica:</strong> {{ legal.tipo_personeria  }}
+              </p>
+            
+            </div>
+
+    
+    
+        </div>
+
+ 
+      </div>
+    </div>
+</div>
+
+{% endblock %}

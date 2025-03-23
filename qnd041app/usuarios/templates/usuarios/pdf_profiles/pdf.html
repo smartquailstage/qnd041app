@@ -1,0 +1,117 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+{% load thumbnail %}
+
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="report.css" rel="stylesheet">
+    <title>Report</title>
+    <meta name="description" content="Report example">
+  </head>
+
+  <body>
+
+    <article id="columns">
+
+      <section>
+        <p>
+         Expediente de Usuario : {{ profile.user }}
+        </p>
+      </section>
+
+      <table>
+        <tr>
+          <th>Información de Usuario </th>
+          <th>Información de contactos </th>
+          <th>Información de personería </th>
+          <th>Información de Actividad cultural </th>
+
+        </tr>
+        <tr>
+          <td>Nombre completo: <strong>{{ profile.user.get_full_name  }}</strong></td>
+          <td>País de residencia: {{ contacts.pais_residencias  }}</td>
+          <td>R.U.C/C.I: {{ legal.ruc  }}</td>
+          <td>URL de portafolio digital: {{ activity.portafolio  }}</td>
+
+        </tr>
+        <tr>
+          <td>Fecha de nacimiento: <strong>{{ profile.date_of_birth }}</strong></td>
+          <td>Telefono de contacto: {{ contacts.telefono }}</td>
+          <td>Tipo de personería: {{ legal.tipo_personeria }}</td>
+          <td>Disciplina Artistica: {{ activity.disciplina_artistica }}</td>
+        </tr>
+       
+        <tr>
+          <td>Actividad en la plataforma: <strong>{{ profile.activity }}</strong></td>
+          <td>Dirección:<strong> {{ contacts.direccion }}</strong></td>
+          <td>Representante legal: {{ legal.representante_legal_nombre }}</td>
+          <td>Experiencia en el ambito cultural: {{ activity.experiencia_ambito_cultural }}</td>
+  
+        </tr>
+        <tr>
+          <td>Nacionalidad: <strong>{{ profile.nacionalidad }}</strong></td>
+          <td>Provincia/canton: <strong>{{ contacts.provincia_cantones_ecuador  }}</strong></td>
+          <td>Tipo de organización: <strong>{{ legal.categoria_personeria }}</strong></td>
+          <td>¿Tiene registro R.U.A.C? : {{ activity.registro_ruac  }}</td>
+        </tr>
+        <tr>
+          <td>Se autoidentifica con pueblos originarios: <strong>{{ profile.autoidentificacion }}</strong></td>
+          <td>Parroquia : <strong>{{ contacts.parroquia_quito  }}</strong></td>
+          <td>¿ La organización es de fines de lucro?: <strong>
+            {% if legal.fines_lucro is True %}
+          Si
+        </strong>
+        {% else %}
+      NO
+      {% endif %}
+      </td>
+          <td>¿Pertence a una agremiación cultural?: {{ activity.pertenece_agremiacion_colectivo }}</td>
+
+        </tr>
+        <tr>
+          <td>Genero: <strong>{{ profile.genero }}</strong></td>
+          <td>Referencia : <strong>{{ contacts.georeferenciacion }}</strong></td>
+          <td>Actividad Principal : <strong>{{ legal.actividad_principal }}</strong></td>
+          <td>Nombre de agremiación a la que pertence: {{ activity.nombre_agremiacion }}</td>
+        </tr>
+      </table>
+
+
+ 
+
+
+      <table>
+        <thead>
+            <tr>
+                <th>¿Aceptó declaratória de veracidad?</th>
+                {% if declaratoria.acepta_terminos_condiciones is True %}
+                <th>Si</th>
+                {% else %}
+                <th>No</th>
+                {% endif %}
+
+            </tr>
+        </thead>
+      
+    </table>
+
+
+    
+      
+    </article>
+
+    <article id="skills">
+      <h3>Este documento es oficial y se ecuentra certificado digitalmente</h3>
+      </article>
+
+    
+
+
+  </body>
+</html>

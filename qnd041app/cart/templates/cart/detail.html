@@ -1,0 +1,194 @@
+
+{% extends "shop/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+
+
+
+{% block content %}
+{% include 'cart/detail_header.html' %}
+
+<div id="wrapper">
+  <!-- content -->	
+  <div class="content">
+      <!-- column-image  -->	
+      <div class="column-image">
+         
+          <div class="overlay"></div>
+          <div class="overlay"></div>
+          
+          <div class="bg"  data-bg="{% static 'img/4.jpg' %}"></div>
+      <div class="overlay"></div> 
+          <div class="column-title">
+            
+            <img src="{% static 'img/logo_flor.png' %}" width="350px">
+            <div class="overlay"></div> 
+              <h2>{% trans "Reservations" %}</h2>
+          </div>
+
+          
+
+        
+        
+          <div class="fixed-column-dec"></div>
+      </div>
+      <!-- column-image end  -->	
+      <!-- column-wrapper -->	
+      <div class="column-wrapper  single-content-section">
+
+          <!-- fixed-bottom-content-->	
+        <div class="fixed-bottom-content">
+                            <!-- pagination   -->
+                            <div class="content-nav-fixed">
+                                <ul>
+                                    <li>
+                                        <a href="{% url "shop:product_list" %}" class="ln"><i class="fal fa-long-arrow-left"></i><span> <strong>- {% trans "Continue shopping" %}</strong></span></a>
+                                        <div class="content-nav_mediatooltip cnmd_leftside"><img  src="images/folio/1.jpg"   alt=""></div>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "orders:order_create" %}" class="rn">{% trans "CheckIn" %}<span > <strong><i class="fal fa-plane"></i> </strong></span> <i class="fal fa-long-arrow-right"></i></a>
+                                        <div class="content-nav_mediatooltip cnmd_rightside"><img  src="images/folio/1.jpg"   alt=""></div>
+                                    </li>
+                                </ul>
+                            </div>
+        </div>
+          <!-- fixed-bottom-content end -->	
+          <!--section  -->	
+        
+          <section id="sec3">
+            <div class="container small-container">
+                <div class="section-title fl-wrap">
+                  
+                
+                    <h3>{% trans "Make Reservations" %}</h3>
+                    
+                </div>
+                <div class="column-wrapper_item fl-wrap">
+                    <div class="column-wrapper_text fl-wrap">
+                        <!-- serv-wrap--> 
+                        <div class="serv-wrap fl-wrap">
+                            <!-- serv-item --> 
+                            {% for item in cart %}
+                            {% with product=item.product %}
+                           
+                            <div class="serv-item">
+                             
+                              <h4>{{ product.name }}</h4>
+
+                                <div class="serv-media">
+                                  <a href="{{ product.get_absolute_url }}">
+                                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" width="300px">
+                                  </a>
+                                 
+                                </div>
+
+                                <div class="column-wrapper_item fl-wrap">
+                                  
+                                  <div class="column-wrapper_text fl-wrap">
+                                      
+                                      <div class="contact-details fl-wrap">
+                                        
+                                       
+                                        
+                                          <ul>
+                                           
+                                              <li><span>{% trans "Price per person "%} :</span>$ {{ item.price }}</li>
+                                              <li><span>{% trans "Final Price" %} :</span>${{ item.total_price }}</li>
+                                              <li><span># {% trans "persons" %} <i class="fal fa-user"></i> :</span> 
+                                                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                                  {{ item.update_quantity_form.quantity }}
+                                                  {{ item.update_quantity_form.update }}
+                                                  <input type="submit" class="btn btn-primary btn-block" value="Update">
+                                                  {% csrf_token %}
+                                                </form> 
+                                                <li>
+                                                  <p>{% trans "Apply a Coupon" %}</p>
+  <form action="{% url "coupons:apply" %}" method="post">
+    {{ coupon_apply_form }}
+    <input type="submit" value="Apply" class="btn btn-primary btn-block" >
+    {% csrf_token %}
+  </form>
+                                                </li>
+                                              <li>
+
+                                                {% if cart.coupon %}
+        <tr class="subtotal">
+        <td>Subtotal</td>
+        <td colspan="4"></td>
+        <td class="num">${{ cart.get_total_price|floatformat:"2" }}</td>
+      </tr>
+      <tr>
+        <td>
+          "{{ cart.coupon.code }}" coupon
+          ({{ cart.coupon.discount }}% off )
+        </td>
+        <td colspan="4">
+          <td class="num neg">
+            - $ {{cart.get_discount|floatformat:"2" }}
+          </td>
+        </td>
+      </tr>
+      {% endif %}
+                                              </li>
+                                              
+                                            
+                                           
+                                          
+                                                <a href="{% url "cart:cart_remove" product.id %}" type="submit" value="Apply" class="btn btn-primary btn-block" > {% trans "Cancel" %}</a>
+                                             
+                                                
+                                          </ul>
+                                      </div>
+                                
+                                  </div>
+                                
+                              </div>
+
+                              
+                               
+                            </div>
+                            {% endwith %}
+                              {% endfor %}
+                           
+                            <!-- serv-item end --> 
+                            <!-- serv-item --> 
+                            
+                            <!-- serv-item end -->                                                  
+                        </div>
+                        <!-- serv-wrap end --> 
+                        <p>{{product.description}}</p>
+                    </div>
+                </div>
+            </div>
+
+            
+        </section>
+       
+          <!--section end  -->	
+          <!--footer -->			
+          <footer class="min-footer fl-wrap content-animvisible">
+              <div class="container small-container">
+                  <div class="footer-inner fl-wrap">
+                      <!-- policy-box-->
+                      <div class="policy-box">
+                        <span>&#169; Powered by SmartQuail, Inc / Design by Edward Cooper  </span>
+                      </div>
+                      <!-- policy-box end-->
+                      <a href="#" class="to-top-btn to-top">Back to top <i class="fal fa-long-arrow-up"></i></a>
+                  </div>
+              </div>
+          </footer>
+          <!--footer end  -->	
+      </div>
+      <!-- column-wrapper -->	
+  </div>
+  <!--content end-->	
+  <!--share-wrapper-->
+  <div class="share-wrapper">
+      <div class="share-container fl-wrap  isShare"></div>
+  </div>
+  <!--share-wrapper end-->
+</div>
+
+{% endblock %}

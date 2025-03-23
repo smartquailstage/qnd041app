@@ -1,0 +1,24 @@
+{% extends "activity_base_register.html" %}
+{% load wagtailimages_tags wagtailcore_tags menu_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}SU registro se realizó con exito{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
+    <div class="card radius-10">
+      <div class="card-body p-4">
+        <img src="{% static '/images/logocultura.png' %}" style="width: 170px;" alt="">
+        <h4 class="text-center">Bienvenido {{ new_user.first_name }}!</h4>
+        <p class="text-center">Al sistema de gestión de convocatorias y levantamiento de actividades en el espacio
+          publico, de la secretaría de cultura. Ya puede ingresar a la plataforma de gestion cultural.  </p>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

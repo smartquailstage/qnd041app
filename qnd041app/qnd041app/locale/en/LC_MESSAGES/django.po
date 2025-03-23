@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-09 17:17-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: qnd111app/settings/base_prod.py:260 qnd111app/settings/base_prod.py:285
+msgid "Business Analytics"
+msgstr ""
+
+#: qnd111app/settings/base_prod.py:265 qnd111app/settings/base_prod.py:290
+msgid "Dashboard"
+msgstr ""
+
+#: qnd111app/settings/base_prod.py:272 qnd111app/settings/base_prod.py:297
+#: qnd111app/settings/stage.py:180
+msgid "Users"
+msgstr ""
+
+#: qnd111app/settings/base_prod.py:277 qnd111app/settings/base_prod.py:302
+#: qnd111app/settings/stage.py:190
+msgid "SmartBusinessMedia"
+msgstr ""
+
+#: qnd111app/settings/base_prod.py:319
+msgid "Categories"
+msgstr ""
+
+#: qnd111app/settings/base_stage.py:280
+msgid "English"
+msgstr ""
+
+#: qnd111app/settings/base_stage.py:281
+msgid "Spanish"
+msgstr ""
+
+#: qnd111app/settings/stage.py:104
+msgid "E-Commerce Management"
+msgstr ""
+
+#: qnd111app/settings/stage.py:109
+msgid "Product Categories"
+msgstr ""
+
+#: qnd111app/settings/stage.py:114
+msgid "Products Details"
+msgstr ""
+
+#: qnd111app/settings/stage.py:119
+msgid "Orders Purchases"
+msgstr ""
+
+#: qnd111app/settings/stage.py:124
+msgid "Coupons"
+msgstr ""
+
+#: qnd111app/settings/stage.py:131
+msgid "E-commerce Analytics"
+msgstr ""
+
+#: qnd111app/settings/stage.py:136 qnd111app/settings/stage.py:158
+msgid "Products vs Sales"
+msgstr ""
+
+#: qnd111app/settings/stage.py:141 qnd111app/settings/stage.py:163
+msgid "Total product Sales"
+msgstr ""
+
+#: qnd111app/settings/stage.py:146 qnd111app/settings/stage.py:168
+msgid "Total Sales"
+msgstr ""
+
+#: qnd111app/settings/stage.py:153
+msgid "E-commerce Statistics"
+msgstr ""
+
+#: qnd111app/settings/stage.py:175
+msgid "Users and Groups Management"
+msgstr ""
+
+#: qnd111app/settings/stage.py:185
+msgid "Groups"
+msgstr ""
+
+#: qnd111app/settings/stage.py:205
+msgid "Products"
+msgstr ""

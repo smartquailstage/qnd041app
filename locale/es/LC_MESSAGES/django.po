@@ -1,0 +1,351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-30 17:22-0500\n"
+"PO-Revision-Date: 2022-10-11 22:26-0519\n"
+"Last-Translator: Mau Silva <smartquail.dev@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.9.8\n"
+
+#: cart/templates/cart/detail.html:27
+msgid "Reservations"
+msgstr "Reservaciones"
+
+#: cart/templates/cart/detail.html:46
+msgid "Continue shopping"
+msgstr "ver mas tours"
+
+#: cart/templates/cart/detail.html:50
+msgid "CheckIn"
+msgstr "Registrarse"
+
+#: cart/templates/cart/detail.html:64
+msgid "Make Reservations"
+msgstr "Realice su reserva"
+
+#: cart/templates/cart/detail.html:96
+msgid "Price per person "
+msgstr "Precio por persona"
+
+#: cart/templates/cart/detail.html:97
+msgid "Final Price"
+msgstr "Precio final"
+
+#: cart/templates/cart/detail.html:98
+msgid "persons"
+msgstr "Número de personas"
+
+#: cart/templates/cart/detail.html:106
+msgid "Apply a Coupon"
+msgstr "Aplicar Cupón de descuento"
+
+#: cart/templates/cart/detail.html:138
+msgid "Cancel"
+msgstr "Cancelar reserva"
+
+#: cart/templates/cart/detail_header.html:53
+#: shop/templates/shop/list_header.html:52
+msgid "The Island"
+msgstr "La Isla"
+
+#: cart/templates/cart/detail_header.html:56
+#: shop/templates/shop/list_header.html:55
+msgid "Charms"
+msgstr "Encantos"
+
+#: cart/templates/cart/detail_header.html:59
+#: shop/templates/shop/list_header.html:58
+msgid "Worlds"
+msgstr "Mundos"
+
+#: cart/templates/cart/detail_header.html:61
+#: shop/templates/shop/list_header.html:60
+msgid "Natural Environ"
+msgstr "Entorno Natural"
+
+#: cart/templates/cart/detail_header.html:62
+#: shop/templates/shop/list_header.html:61
+msgid "Geological Environ"
+msgstr "Entorno Geologico"
+
+#: cart/templates/cart/detail_header.html:63
+#: shop/templates/shop/list_header.html:62
+msgid "Marine Environ"
+msgstr "Entorno Marino"
+
+#: cart/templates/cart/detail_header.html:64
+#: shop/templates/shop/list_header.html:63
+msgid "Community Environ"
+msgstr "Entorno Comunitario"
+
+#: cart/templates/cart/detail_header.html:69
+#: shop/templates/shop/list_header.html:68
+msgid "Hosts"
+msgstr "Anfitriones"
+
+#: cart/templates/cart/detail_header.html:72
+#: shop/templates/shop/list_header.html:71
+#: shop/templates/shop/product/list.html:31
+msgid "Expeditions"
+msgstr "Expediciones"
+
+#: cart/templates/cart/detail_header.html:75
+#: shop/templates/shop/list_header.html:74
+msgid "Contacts"
+msgstr "Contacto"
+
+#: cart/templates/cart/detail_header.html:81
+#: shop/templates/shop/list_header.html:80
+#, fuzzy
+#| msgid "Lenguage"
+msgid "Languages"
+msgstr "Idioma"
+
+#: coupons/forms.py:6
+msgid "Coupon"
+msgstr "Cupon"
+
+#: orders/models.py:13
+msgid "First name"
+msgstr "Nombres:"
+
+#: orders/models.py:14
+msgid "Last name"
+msgstr "Apellidos:"
+
+#: orders/models.py:15
+msgid "E-mail"
+msgstr "Correo electrónico"
+
+#: orders/models.py:16
+msgid "Contact phone number"
+msgstr "Número de telefono de contacto"
+
+#: orders/models.py:29
+msgid "Date & time for Arrival to CC-floreana"
+msgstr "Fecha y hora de arrivo al CC-floreana"
+
+#: orders/models.py:30
+msgid "Date & time for Departure to CC-floreana"
+msgstr "Fecha y hora de salida del CC-floreana"
+
+#: orders/models.py:34
+msgid "I accept the terms and conditions of this services."
+msgstr "Yo acepto las condiciones y clausuras de servicio"
+
+#: orders/templates/orders/order/create.html:13
+#: orders/templates/orders/order/term.html:13
+msgid "Checkout"
+msgstr "Pagar Tour"
+
+#: orders/templates/orders/order/create.html:33
+#: orders/templates/orders/order/term.html:31
+msgid "Your list tours for Floreana Island:"
+msgstr "Tu lista de reservas"
+
+#: orders/templates/orders/order/create.html:50
+#: orders/templates/orders/order/term.html:47
+msgid "Tour"
+msgstr "Tour"
+
+#: orders/templates/orders/order/create.html:55
+#: orders/templates/orders/order/term.html:52
+#, python-format
+msgid ""
+"\n"
+"                        %(code)s (%(discount)s%% off)\n"
+"                      "
+msgstr ""
+
+#: orders/templates/orders/order/create.html:60
+#: orders/templates/orders/order/term.html:57
+#: payment/templates/payment/process.html:65
+msgid "Total"
+msgstr "Total"
+
+#: orders/templates/orders/order/create.html:80
+msgid "Check In Now!"
+msgstr "¡ Reservar ahora !"
+
+#: orders/templates/orders/order/create.html:81
+msgid "To Centro Comunitario Isla Floreana"
+msgstr "Al Centro Comunitario Isla Floreana"
+
+#: orders/templates/orders/order/create.html:82
+msgid ""
+"Fill out the form below and you will receive an email confirmation of your "
+"Check In Track."
+msgstr ""
+"Llene el siguiente formulario para recibir un mail de confirmación de la "
+"reserva."
+
+#: orders/templates/orders/order/create.html:110
+msgid "Place order"
+msgstr "Pagar tour"
+
+#: orders/templates/orders/order/create.html:111
+msgid "terms & conditions for reserve this service"
+msgstr "Términos y condiciones de este servicio"
+
+#: orders/templates/orders/order/created.html:5
+#: orders/templates/orders/order/created.html:9
+msgid "Thank you"
+msgstr "Gracias"
+
+#: orders/templates/orders/order/term.html:80
+msgid "TERMS & CONDITIONS OF ISLA FLOREANA GALAPAGOS RESERVATION SERVICE."
+msgstr "Terminos y condiciones de servicios de ISLA FLOREANA GALAPAGOS."
+
+#: orders/urls.py:9
+msgid "create/"
+msgstr "Crear"
+
+#: orders/urls.py:10
+msgid "Order_terms/"
+msgstr "Terminos y condiciones"
+
+#: payment/templates/payment/canceled.html:19
+msgid "Payment Cancel"
+msgstr "Pago Cancelado"
+
+#: payment/templates/payment/done.html:20
+msgid "Payment Done"
+msgstr "Pago realizado"
+
+#: payment/templates/payment/done.html:21
+msgid "Your dream trip, its every closer"
+msgstr "Cada vez mas cerca del viaje de tus sueños"
+
+#: payment/templates/payment/done.html:35
+msgid ""
+"Your payment reservation for Centro Cultural Isla Floreana was successful"
+msgstr ""
+"El pago de tu reserva para el Centro Cultural Isla Floreana, se realizó co "
+"éxito."
+
+#: payment/templates/payment/done.html:36
+msgid "Your payment reservation has been processed successfully."
+msgstr "El pago de tu reserva fue procesado satisfactoriamente."
+
+#: payment/templates/payment/done.html:37
+msgid "THANKS FOR VISIT US"
+msgstr "GRACIAS POR VISITARNOS"
+
+#: payment/templates/payment/process.html:25
+msgid "Payment Process"
+msgstr "Proceso de Pago"
+
+#: payment/templates/payment/process.html:45
+msgid "Pay your reservation now"
+msgstr "Paga tus reservas ahora al CENTRO COMUNITARIO ISLA FLOREANA "
+
+#: payment/templates/payment/process.html:46
+msgid ""
+"Pay your reservation securely and quickly, with our e-commerce system. We "
+"accept the following credit cards."
+msgstr ""
+"Paga tu reserva de manera rapida y segura, con nuestro sistema de e-"
+"commerce. Aceptamos las siguientes tarjetas de credito"
+
+#: payment/templates/payment/process.html:59
+msgid "Discount"
+msgstr "Descuento"
+
+#: payment/templates/payment/process.html:60
+#, python-format
+msgid ""
+"\n"
+"                                %(code)s (%(discount)s%% off)\n"
+"                              "
+msgstr ""
+
+#: payment/templates/payment/process.html:80
+msgid "Credit Card Number"
+msgstr "Tarjeta de credito"
+
+#: payment/templates/payment/process.html:87
+msgid "Valid Thru"
+msgstr "Código reverso de la tarjeta"
+
+#: payment/templates/payment/process.html:120
+msgid "Back to top"
+msgstr "Volver hacia arriba"
+
+#: shop/templates/shop/product/cart_list.html:31
+msgid "Make your reservations online and pay now, easily and securely."
+msgstr ""
+"Realiza tus reservas online y paga tus paquetes turísticos ahora de manera "
+"rápida y segura."
+
+#: shop/templates/shop/product/cart_list.html:55
+#: shop/templates/shop/product/cart_list.html:66
+msgid "Your"
+msgstr "Tu"
+
+#: shop/templates/shop/product/cart_list.html:55
+msgid "reservation shopping"
+msgstr "de reservas para comprar"
+
+#: shop/templates/shop/product/cart_list.html:55
+msgid "have to "
+msgstr "Tienes"
+
+#: shop/templates/shop/product/cart_list.html:57
+#, python-format
+msgid ""
+"\n"
+"                                  <p> <li>%(total_items)s  passengers tour "
+"reservation\n"
+"                                   %(total_items_plural)s:\n"
+"                                    $%(total_price)s</li></p>\n"
+"                                  "
+msgstr ""
+
+#: shop/templates/shop/product/cart_list.html:66
+msgid "is empty."
+msgstr "Esta vacío"
+
+#: shop/templates/shop/product/detail.html:91
+msgid "Make you reservation now"
+msgstr "Realiza tus reserva ahora"
+
+#: shop/templates/shop/product/detail.html:97
+msgid "Number of persons on Tour"
+msgstr "Número de personas en el tour"
+
+#: shop/templates/shop/product/detail.html:136
+msgid "Add a cart"
+msgstr "Agregar al carro de reservas"
+
+#: shop/templates/shop/product/list.html:32
+msgid "GET THE MOST OUT OF FLOREANA"
+msgstr "Aprovecha Floreana al máximo"
+
+#: shop/templates/shop/product/list.html:73
+msgid "Download here the description"
+msgstr ""
+
+#~ msgid "Description"
+#~ msgstr "Descripción"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "    <p>Your order has been successfully completed. Your order number is "
+#~ "<strong>%(order_id)s</strong>.</p>\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "Su reserva ha sido satisfactoriamente completada. "

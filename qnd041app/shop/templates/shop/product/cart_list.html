@@ -1,0 +1,106 @@
+
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+{% block content %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% include 'shop/list_header.html' %}
+
+<div id="wrapper">
+  <!-- content -->	
+  <div class="content">
+    
+      <!-- column-image  -->	
+      <div class="column-image">
+          <div class="bg"  data-bg="{% static 'img/1.jpg' %}"></div>
+          <div class="overlay"></div>
+          <div class="column-title">
+            <img src="{% static '/img/logo_flor.png' %} " width=300px>
+              <h2 style="font-size: 100px;"><i class="fal fa-shopping-cart"></i></h2>
+              <p>{% trans "Make your reservations online and pay now, easily and securely." %}</p>
+          </div>
+      
+          <div class="fixed-column-dec"></div>
+      </div>
+      <!-- column-image end  -->	
+      <!-- column-wrapper -->	
+      <div class="column-wrapper  single-content-section">
+    
+          <!-- fixed-bottom-content-->	
+       
+          <!-- fixed-bottom-content end -->	
+          <!--section  -->	
+   
+          <section class="single-content-section">
+              <div class="container small-container">
+               
+                  <!-- post -->
+                  
+                  <div class="post fl-wrap fw-post">
+                    <div id="subheader">
+                        <div class="cart">
+                          {% with total_items=cart|length %}
+                              {% if cart|length > 0 %}
+                                <h2 style="font-size:30px;">{% trans "Your" %}  <i class="fal fa-shopping-cart"></i> {% trans "reservation shopping" %} {% trans "have to "%}:
+                                <a href="{% url "cart:cart_detail" %}">
+                                  {% blocktrans with total_items_plural=total_items|pluralize  total_price=cart.get_total_price %}
+                                  <p> <li>{{ total_items }}  passengers tour reservation
+                                   {{ total_items_plural }}:
+                                    ${{ total_price }}</li></p>
+                                  {% endblocktrans %}
+                                
+                                </a>
+            
+                              {% else %}
+                               <h2>{% trans "Your" %}<i class="fal fa-shopping-cart"></i>  {% trans "is empty." %}</h2> 
+                              {% endif %}
+                            {% endwith %}
+                        </h2>
+                        </div>
+                      </div>
+                      
+                      
+                      <!-- blog media end -->
+                   
+                 
+
+              </div>
+          </section>
+         
+          <!--section end  -->	
+          <!--footer -->			
+          <footer class="min-footer fl-wrap content-animvisible">
+              <div class="container small-container">
+                  <div class="footer-inner fl-wrap">
+                      <!-- policy-box-->
+                      <div class="policy-box">
+                        <span> Design by Edward Cooper /&#169; Powered by <img src="{% static 'img/logo_smartquailWW.png' %}" width="130px">   </span>
+                      </div>
+                      <!-- policy-box end-->
+                    
+                  </div>
+              </div>
+          </footer>
+          <!--footer end  -->	
+      </div>
+      <!-- column-wrapper -->	
+  </div>
+  <!--content end-->	
+  <!--share-wrapper-->
+  <div class="share-wrapper">
+      <div class="share-container fl-wrap  isShare"></div>
+  </div>
+  <!--share-wrapper end-->
+</div>
+{% endblock %}

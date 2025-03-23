@@ -1,0 +1,208 @@
+{% extends "base_dash.html" %}
+{% load wagtailimages_tags wagtailcore_tags %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+    <!--start breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3"><ion-icon name="card"></ion-icon> Inscripción</div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0 align-items-center">
+            <li class="breadcrumb-item"><a href="javascript:;">
+              <ion-icon name="compass"></ion-icon>
+              </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{% block title %} Ingreso de información de contactos de usuarios {% endblock %}</li>
+          </ol>
+        </nav>
+      </div>
+
+    </div>
+
+    <h6 class="text-uppercase">Proceso de Inscripción para el uso del sistema de gestión de fomento y actividades culturales en espacios públicos.</h6>
+    <hr>
+  <div id="stepper1" class="bs-stepper">
+    <div class="card">
+      
+      <div class="card-header">
+        <div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between" role="tablist">
+          <div class="step" data-target="#test-nl-1">
+          <div class="step-trigger" role="tab" id="stepper1trigger1" aria-controls="test-nl-1">
+            <div class="bs-stepper-circle"><i class='bx bx-user fs-4'></i></div>
+            <div class="">
+              <h5 class="mb-0 steper-title">Perfil de usuario</h5>
+              <p class="mb-0 steper-sub-title">Información de Perfil </p>
+            </div>
+          </div>
+          </div>
+          <div class="bs-stepper-line"></div>
+          <div class="step" data-target="#test-nl-2">
+            <div class="step-trigger" role="tab" id="stepper2trigger2" aria-controls="test-nl-2">
+            <div class="bs-stepper-circle"><ion-icon name="paper-plane-outline"></ion-icon></div>
+            <div class="">
+              <h5 class="mb-0 steper-title">Contacto de usuario</h5>
+              <p class="mb-0 steper-sub-title">Información de contacto </p>
+            </div>
+            </div>
+          </div>
+          <div class="bs-stepper-line"></div>
+          <div class="step" data-target="#test-nl-3">
+            <div class="step-trigger" role="tab" id="stepper2trigger3" aria-controls="test-nl-3">
+            <div class="bs-stepper-circle"><i class='bx bxs-graduation fs-4'></i></div>
+            <div class="">
+              <h5 class="mb-0 steper-title">Personería Jurídica</h5>
+              <p class="mb-0 steper-sub-title">Información de personería jurídica</p>
+            </div>
+            </div>
+          </div>
+          <div class="bs-stepper-line"></div>
+            <div class="step" data-target="#test-nl-4">
+              <div class="step-trigger" role="tab" id="stepper2trigger4" aria-controls="test-nl-4">
+              <div class="bs-stepper-circle"><i class='bx bx-play fs-4'></i></div>
+              <div class="">
+                <h5 class="mb-0 steper-title">Actividad Cultural</h5>
+                <p class="mb-0 steper-sub-title">Información actividad cultural</p>
+              </div>
+              </div>
+            </div>
+        </div>
+      </div>
+     
+     
+      <div class="card-body">
+      
+      <div class="bs-stepper-content">
+        <form action="." method="post" enctype="multipart/form-data">
+
+          <div class="row g-3">
+
+                <div class="col-12 col-lg-6">
+                  {% for field in contact4_form.visible_fields %}
+                  {% if field.name == 'telefono' %}
+                    <label for="{{ field.id }}" class="form-label">Escriba su número de teléfono</label>
+                    {% if field.errors %}
+                      {% render_field field class="form-control" %}
+                      {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                          {{ error }}
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      {% render_field field class="form-control" %}
+                    {% endif %}
+                    {% if field.help_text %}
+                      <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                {% for field in contact4_form.visible_fields %}
+                {% if field.name == 'direccion' %}
+                  <label for="{{ field.id }}" class="form-label">Dirección</label>
+                  {% if field.errors %}
+                    {% render_field field class="form-control" %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback">
+                        {{ error }}
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    {% render_field field class="form-control" %}
+                  {% endif %}
+                  {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+              {% for field in contact4_form.visible_fields %}
+              {% if field.name == 'georeferenciacion' %}
+                <label for="{{ field.id }}" class="form-label">Referecia de domicilio</label>
+                {% if field.errors %}
+                  {% render_field field class="form-control" %}
+                  {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  {% render_field field class="form-control" %}
+                {% endif %}
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% for field in contact4_form.visible_fields %}
+              {% if field.name == 'perfil_redes_sociales' %}
+                <label for="{{ field.id }}" class="form-label">Dirección de perfil de redes sociales</label>
+                {% if field.errors %}
+                  {% render_field field class="form-control" %}
+                  {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  {% render_field field class="form-control" %}
+                {% endif %}
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+                 
+            </div>
+    
+
+            {% csrf_token %}
+            <div class="col-12">
+              <div class="d-flex align-items-center gap-3">
+
+                <a href ="{% url 'usuarios:edit_contact1' %}" class="btn btn-secondary px-4"><i class='bx bx-left-arrow-alt me-2'></i>Atras</a>
+                <button class="btn btn-primary px-4"  type="submit" value="Save changes"><i class='bx bx-save me-2'></i>Guardar</button>
+               
+
+               
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+       
+      </div>
+     </div>
+  </div>
+
+
+    
+  </div>
+
+
+
+
+
+  
+{% endblock %}
+
+<h1>Edit your account</h1>
+  <p>You can edit your account using the following form:</p>
+  <form action="." method="post" enctype="multipart/form-data">
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Save changes"></p>
+  </form>
