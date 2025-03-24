@@ -3923,7 +3923,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 	--bs-card-color:#fff ;
-	--bs-card-bg: #ef961b;
+	--bs-card-bg: #fb7600c9;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
@@ -7746,8 +7746,9 @@ textarea.form-control-lg {
 }
 .bg-primary {
 	--bs-bg-opacity: 1;
-	background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity))!important
+	background-color: #f7b116 !important;
 }
+
 .bg-secondary {
 	--bs-bg-opacity: 1;
 	background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity))!important
