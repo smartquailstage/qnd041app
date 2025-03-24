@@ -32,7 +32,7 @@ body {
     color: #4c5258;
     font-size: 14px;
     letter-spacing: .5px;
-    background-color: #ffffff;
+    background-color: #ef971b;
     overflow-x: hidden;
     font-family: Roboto, sans-serif;
 }
@@ -1319,7 +1319,7 @@ ul.categories-list li {
     top: 0;
     right: 0;
     left: 0;
-    background-image: url("../images/escudo.png");
+    background-image: url("../images/profile_bg.jpg");
   }
 
 .social-login a {

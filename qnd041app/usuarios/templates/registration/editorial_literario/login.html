@@ -9,94 +9,100 @@
 
 
 <div class="wrapper">
-  <div class="container">
-
-<div class="row">
-  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
-    <div class="card radius-10">
-      <div class="card-body p-4">
-        <img src="{% static '' %}" style="width: 50px;" alt="">
-        <img src="{% static 'img/BA-LOGOS/logoHomeDetail.png' %}" style="width: 110px;" alt="">
-        <h2 style="color:#dfdfdf; font-size: 14pt;">Beneficios HomeDetail<i class="lni lni-helth"></i> </h2>
-        <h4 class="text-center"></h4>
-        <p class="text-left">Ingresar sus datos para iniciar sesión </p>
-        <form class="form-body row g-3" method="post">
-          {% csrf_token %}
-   
-          <div class="col-12 col-lg-12">
-            <div class="position-relative border-bottom my-3">
-              <div class="position-absolute seperator-2 translate-middle-y">O</div>
+  <div class="">
+    <div class="row g-0 m-0">
+      <div class="col-xl-6 col-lg-12">
+        <div class="login-cover-wrapper">
+          <div class="card shadow-none">
+            <div class="card-body p-4">
+              <img src="{% static '' %}" style="width: 50px;" alt="">
+              <img src="{% static 'img/BA-LOGOS/logoHomeDetail.png' %}" style="width: 110px;" alt="">
+              <h2 style="color:#3005c1; font-size: 14pt;">Beneficios HomeDetail<i class="lni lni-helth"></i> </h2>
+              <h4 class="text-center"></h4>
+              <p class="text-left">Ingresar sus datos para iniciar sesión </p>
+              <form class="form-body row g-3" method="post">
+                {% csrf_token %}
+         
+                <div class="col-12 col-lg-12">
+                  <div class="position-relative border-bottom my-3">
+                    <div class="position-absolute seperator-2 translate-middle-y">O</div>
+                  </div>
+                </div>
+      
+                {% if form.errors %}
+                <div class="col-12">
+                  <div class="alert alert-danger" role="alert">
+                    Your username and password didn't match. Please try again.
+                  </div>
+                </div>
+                {% endif %}
+      
+                {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+      
+                {% if form.non_field_errors %}
+                <div class="col-12">
+                  <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+      
+                {% for field in form.visible_fields %}
+                <div class="col-12">
+                  <div class="form-group">
+                    {{ field.label_tag }}
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                      {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endfor %}
+      
+                <p>¿Olvidó su contraseña?<a href="{% url 'password_reset' %}"> Recuperar contraseña</a></p>
+      
+      
+                <div class="col-12 d-grid">
+                  <button type="submit" class="btn btn-primary" value="Log in">Ingresar</button>
+                </div>
+      
+      
+                <div class="col-12">
+                 
+                </div>
+      
+              </form>
             </div>
           </div>
-
-          {% if form.errors %}
-          <div class="col-12">
-            <div class="alert alert-danger" role="alert">
-              Your username and password didn't match. Please try again.
-            </div>
-          </div>
-          {% endif %}
-
-          {% for hidden_field in form.hidden_fields %}
-          {{ hidden_field }}
-          {% endfor %}
-
-          {% if form.non_field_errors %}
-          <div class="col-12">
-            <div class="alert alert-danger" role="alert">
-              {% for error in form.non_field_errors %}
-              {{ error }}
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-
-          {% for field in form.visible_fields %}
-          <div class="col-12">
-            <div class="form-group">
-              {{ field.label_tag }}
-              {% if form.is_bound %}
-              {% if field.errors %}
-              {% render_field field class="form-control is-invalid" %}
-              {% for error in field.errors %}
-              <div class="invalid-feedback">
-                {{ error }}
-              </div>
-              {% endfor %}
-              {% else %}
-              {% render_field field class="form-control is-valid" %}
-              {% endif %}
-              {% else %}
-              {% render_field field class="form-control" %}
-              {% endif %}
-              {% if field.help_text %}
-              <small class="form-text text-muted">{{ field.help_text }}</small>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-
-          <p>¿Olvidó su contraseña?<a href="{% url 'password_reset' %}"> Recuperar contraseña</a></p>
-
-
-          <div class="col-12 d-grid">
-            <button type="submit" class="btn btn-primary" value="Log in">Ingresar</button>
-          </div>
-
-
-          <div class="col-12">
-           
-          </div>
-
-        </form>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-12">
+        <div class="position-fixed top-0 h-100 d-xl-block d-none register-cover-img">
+        </div>
       </div>
     </div>
+    <!--end row-->
   </div>
-  
 </div>
-</div>
-  
-</div>
+
+
 
 
 {% endblock %}
