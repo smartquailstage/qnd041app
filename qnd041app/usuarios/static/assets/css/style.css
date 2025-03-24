@@ -38,7 +38,7 @@ body {
 }
 
 a {
-    color: #2eaa57;
+    color: #080cf7;
     text-decoration: none;
 }
 
@@ -246,9 +246,9 @@ ion-icon {
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-    color: #055c1f;
+    color: #ff9400;
     text-decoration: none;
-    background-color: rgb(43 190 70 / 41%);
+    background-color: rgba(239, 150, 27, 0.39);
 }
 
 .menu-label {
@@ -340,7 +340,7 @@ ion-icon {
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
     /* Gradiente en escala de verde con tres colores */
-    background: linear-gradient(to right, #a8d08d, #6fae3a, #2f6b20);
+    background: linear-gradient(to right, #ffc07e, #cc7607, #f27507);
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
@@ -1300,7 +1300,7 @@ ul.categories-list li {
 }
 
 .seperator-2 {
-    background-color: #ffffff;
+    background-color: #ef961b;
     left: 45%;
     padding: 0px 10px;
 }
@@ -1319,7 +1319,7 @@ ul.categories-list li {
     top: 0;
     right: 0;
     left: 0;
-    background-image: url("../images/login_bg/bg.png");
+    background-image: url("../images/profile_bg.jpg");
   }
 
 .social-login a {
@@ -1359,7 +1359,7 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("../images/login_bg/bg.png");
+    background-image: url("../images/profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -1368,7 +1368,7 @@ ul.categories-list li {
 
 
 .register-cover-img {
-    background-image: url("../images/login_bg/bg.png");
+    background-image: url("../images/profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -1376,7 +1376,7 @@ ul.categories-list li {
 }
 
 .au-reset-password-cover {
-    background-image: url("../images/login_bg/bg.png");
+    background-image: url("../images/profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;

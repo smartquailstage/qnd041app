@@ -80,7 +80,7 @@
 	--bs-body-line-height: 1.5;
 	--bs-body-color: #212529;
 	--bs-body-color-rgb: 33, 37, 41;
-	--bs-body-bg: #fff;
+	--bs-body-bg: #354d88;
 	--bs-body-bg-rgb: 255, 255, 255;
 	--bs-emphasis-color: #000;
 	--bs-emphasis-color-rgb: 0, 0, 0;
@@ -3923,7 +3923,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 	--bs-card-color: ;
-	--bs-card-bg: var(--bs-body-bg);
+	--bs-card-bg: #354d88;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
