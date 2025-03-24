@@ -9,10 +9,44 @@
 
 {% block content %}
 
+   
+
 <div class="page-content-wrapper">
+
+  
     <!-- start page content-->
    <div class="page-content">
+
+              <!--start breadcrumb-->
+              <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                <div class="breadcrumb-title pe-3">Pages</div>
+                <div class="ps-3">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0 align-items-center">
+                      <li class="breadcrumb-item"><a href="javascript:;"><ion-icon name="home-outline"></ion-icon></a>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">Invoice</li>
+                    </ol>
+                  </nav>
+                </div>
+                <div class="ms-auto">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary">Settings</button>
+                    <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                      <a class="dropdown-item" href="javascript:;">Another action</a>
+                      <a class="dropdown-item" href="javascript:;">Something else here</a>
+                      <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+       
+
+    
     <div class="row">
+      
         <div class="col-12 col-lg-8 col-xl-9">
           <div class="card overflow-hidden radius-10">
             <div class="profile-cover bg-dark position-relative mb-4">
@@ -34,34 +68,133 @@
                   <p class="mb-1"> <stronG>Terapéuta Asignado:</stronG> {{ profile.user_terapeuta }} </p>                  
                 </div>
               </div>
-            </div>
-          </div>
 
-            <div class="card">
-            <div class="card-body">
-              <div class="mt-5 d-flex align-items-start justify-content-between">
+              <div class="card-header py-3">
+                <div class="row align-items-center g-3">
+                  <div class="col-12 col-lg-6">
+                    <h5 class="mb-0">Company Name, Inc</h5>
+                  </div>
+                  <div class="col-12 col-lg-6 text-md-end">
+                    <a href="javascript:;" class="btn btn-primary me-2"><ion-icon name="file-tray-full-sharp"></ion-icon>Export as PDF</a>
+                    <a href="javascript:;" onclick="window.print()" class="btn btn-secondary"><ion-icon name="print-sharp"></ion-icon>Print</a>
+                  </div>
+                </div>
+           </div>
+           <div class="card-header py-2">
+             <div class="row row-cols-1 row-cols-lg-3">
+               <div class="col">
                 <div class="">
-                  <p class="mb-1"><strong>Correo Electrónico</strong>{{ profile.email }}</p>
-                  <p class="mb-1"><strong>Telefono de contacto</strong>{{ profile.telefono  }}</p>
-                  <p class="mb-1"><strong>Dirección</strong>{{ profile.direccion  }}</p>
-                  <p class="mb-1"><strong>Nombre del paciente</strong>{{ profile.Paciente_nombre }}</p>
-                  <p  class="mb-1"><strong>Nacionalidad:</strong>  {{ profile.nacionalidad }} </p>
-                  <p class="mb-1"> <stronG>Genero:</stronG> {{ profile.sexo }} </p>                 
+                  <small>from</small>
+                  <address class="m-t-5 m-b-5">
+                     <strong class="text-inverse">Twitter, Inc.</strong><br>
+                     Street Address<br>
+                     City, Zip Code<br>
+                     Phone: (123) 456-7890<br>
+                     Fax: (123) 456-7890
+                  </address>
+                 </div>
+               </div>
+               <div class="col">
+                <div class="">
+                  <small>to</small>
+                  <address class="m-t-5 m-b-5">
+                     <strong class="text-inverse">Company Name</strong><br>
+                     Street Address<br>
+                     City, Zip Code<br>
+                     Phone: (123) 456-7890<br>
+                     Fax: (123) 456-7890
+                  </address>
+                 </div>
+              </div>
+              <div class="col">
+                <div class="">
+                  <small>Invoice / July period</small>
+                  <div class=""><b>August 3,2012</b></div>
+                  <div class="invoice-detail">
+                     #0000123DSS<br>
+                     Services Product
+                  </div>
                 </div>
               </div>
-            </div>
+             </div>
+           </div>
+
+           <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-invoice">
+                 <thead>
+                    <tr>
+                       <th>TASK DESCRIPTION</th>
+                       <th class="text-center" width="10%">RATE</th>
+                       <th class="text-center" width="10%">HOURS</th>
+                       <th class="text-right" width="20%">LINE TOTAL</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr>
+                       <td>
+                          <span class="text-inverse">Website design &amp; development</span><br>
+                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                       </td>
+                       <td class="text-center">$50.00</td>
+                       <td class="text-center">50</td>
+                       <td class="text-right">$2,500.00</td>
+                    </tr>
+                    <tr>
+                       <td>
+                          <span class="text-inverse">Branding</span><br>
+                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                       </td>
+                       <td class="text-center">$50.00</td>
+                       <td class="text-center">40</td>
+                       <td class="text-right">$2,000.00</td>
+                    </tr>
+                    <tr>
+                       <td>
+                          <span class="text-inverse">Redesign Service</span><br>
+                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                       </td>
+                       <td class="text-center">$50.00</td>
+                       <td class="text-center">50</td>
+                       <td class="text-right">$2,500.00</td>
+                    </tr>
+                 </tbody>
+              </table>
+           </div>
+
+           <div class="row bg-light align-items-center m-0">
+             <div class="col col-auto p-4">
+                <p class="mb-0">SUBTOTAL</p>
+                <h4 class="mb-0">$4,500.00</h4>
+             </div>
+             <div class="col col-auto p-4">
+                <i class="bi bi-plus-lg text-muted"></i>
+             </div>
+             <div class="col col-auto me-auto p-4">
+                <p class="mb-0">PAYPAL FEE (5.4%)</p>
+                <h4 class="mb-0">$108.00</h4>
+             </div>
+             <div class="col bg-primary col-auto p-4">
+              <p class="mb-0 text-white">TOTAL</p>
+              <h4 class="mb-0 text-white">$4508.00</h4>
+             </div>
+           </div><!--end row-->
+
+           <hr>
+         <!-- begin invoice-note -->
+         <div class="my-3">
+          * Make all cheques payable to [Your Company Name]<br>
+          * Payment is due within 30 days<br>
+          * If you have any questions concerning this invoice, contact  [Name, Phone Number, Email]
+         </div>
+       <!-- end invoice-note -->
           </div>
-         
-          <div class="card">
-            <div class="card-body">
-              <h4 class="mb-2"><ion-icon name="people"></ion-icon> Representante </h4>
-              <p class="mb-1"><strong>Nombre del representante:</strong> {{ profile.representante_legal_nombre  }} {{ profile.representante_legal_apellido   }}</p>
-              <p class="mb-1"><strong>Nombre del Factura:</strong> {{ profile.nombre_factura  }}</p>
-              <p class="mb-1"><strong>R.U.C del representante</strong>{{ profile.ruc }}</p>
-              <p class="mb-1"><strong>Nombre de Factura</strong>{{ profile.nombre_factura  }}</p>
-             
+
             </div>
-          </div> 
+
+
+          </div>
+
         </div>
         <div class="col-12 col-lg-4 col-xl-3">
           <div class="card radius-10">
@@ -127,6 +260,7 @@
  
       </div>
     </div>
+</div>
 </div>
 
 {% endblock %}
