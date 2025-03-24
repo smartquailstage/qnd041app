@@ -106,7 +106,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 UNFOLD = {
-    "SITE_TITLE": "HomeDetail Beneficios",
+    "SITE_TITLE": "HomeDetail Beneficios - ERP",
     "SITE_HEADER": "HomeDetail",
     "SITE_SUBHEADER": "Beneficios",
     "SITE_DROPDOWN": [
@@ -143,7 +143,7 @@ UNFOLD = {
     "ENVIRONMENT": "Production.environment_callback",
     "THEME": "dark",
     "LOGIN": {
-        "image": lambda request: static("img/BA-BG/test2.jpg"),
+        "image": lambda request: static("assets/images/profile_bg.jpg"),
        # "redirect_after": lambda request: reverse_lazy("admin:usuarios_changelist"),
     },
     "STYLES": [
