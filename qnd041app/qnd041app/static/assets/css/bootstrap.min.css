@@ -1621,8 +1621,8 @@ progress {
 }
 .table>:not(caption)>*>* {
 	padding: .5rem .5rem;
-	color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
-	background-color: var(--bs-table-bg);
+	color: #fff;
+	background-color: #ef971b;
 	border-bottom-width: var(--bs-border-width);
 	box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)))
 }
@@ -1671,7 +1671,7 @@ progress {
 }
 .table-primary {
 	--bs-table-color: #000;
-	--bs-table-bg: #cfe2ff;
+	--bs-table-bg: #ef971b;
 	--bs-table-border-color: #bacbe6;
 	--bs-table-striped-bg: #c5d7f2;
 	--bs-table-striped-color: #000;
@@ -3923,7 +3923,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 	--bs-card-color:#fff ;
-	--bs-card-bg: #ef961b;
+	--bs-card-bg: #fb7600c9;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
@@ -7746,8 +7746,10 @@ textarea.form-control-lg {
 }
 .bg-primary {
 	--bs-bg-opacity: 1;
-	background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity))!important
+	background-color: #e85e0d !important;
 }
+
+
 .bg-secondary {
 	--bs-bg-opacity: 1;
 	background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity))!important
@@ -7769,8 +7771,8 @@ textarea.form-control-lg {
 	background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity))!important
 }
 .bg-light {
-	--bs-bg-opacity: 1;
-	background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity))!important
+    --bs-bg-opacity: 1;
+    background-color: rgb(38 100 163) !important;
 }
 .bg-dark {
 	--bs-bg-opacity: 1;
