@@ -106,7 +106,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 UNFOLD = {
-    "SITE_TITLE": "HomeDetail Beneficios - ERP",
+    "SITE_TITLE": "HomeDetail Grupo Beneficios - ERP",
     "SITE_HEADER": "HomeDetail",
     "SITE_SUBHEADER": "Beneficios",
     "SITE_DROPDOWN": [
