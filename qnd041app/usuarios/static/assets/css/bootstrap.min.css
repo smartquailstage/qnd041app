@@ -1621,7 +1621,7 @@ progress {
 }
 .table>:not(caption)>*>* {
 	padding: .5rem .5rem;
-	color: #1236a4;
+	color: #fff;
 	background-color: #ef971b;
 	border-bottom-width: var(--bs-border-width);
 	box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)))
@@ -7746,8 +7746,9 @@ textarea.form-control-lg {
 }
 .bg-primary {
 	--bs-bg-opacity: 1;
-	background-color: #f7b116 !important;
+	background-color: #18cdf7!important;
 }
+
 
 .bg-secondary {
 	--bs-bg-opacity: 1;
