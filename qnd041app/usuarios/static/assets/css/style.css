@@ -95,13 +95,14 @@ ion-icon {
     left: 0;
     width: 260px;
     height: 100%;
-    background-color: #ffffff;
+    background-color: #312783;
     background-clip: padding-box;
-    border-right: 1px solid #e2e3e4;
+    border-right: 1px solid #ef961b;
     transition: all .2s;
     z-index: 16;
     box-shadow: none;
-}
+  }
+
 
 
 .sidebar-wrapper .sidebar-header {
@@ -114,7 +115,7 @@ ion-icon {
     bottom: 0;
     padding: 0 15px;
     z-index: 5;
-    background-color: #ffffff;
+    background-color: #310693;
     border-right: 1px solid #e2e3e4;
     border-bottom: 0px solid #e4e4e4;
     transition: all .2s;
