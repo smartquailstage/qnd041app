@@ -1320,7 +1320,7 @@ ul.categories-list li {
     top: 0;
     right: 0;
     left: 0;
-    background-image: url("../images/profile_bg.jpg");
+    background-image: url("../images/hd_profile_bg.jpg");
   }
 
 .social-login a {
@@ -1360,7 +1360,7 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("../images/profile_bg.jpg");
+    background-image: url("../images/hd_profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -1369,7 +1369,7 @@ ul.categories-list li {
 
 
 .register-cover-img {
-    background-image: url("../images/profile_bg.jpg");
+    background-image: url("../images/hd_profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -1377,7 +1377,7 @@ ul.categories-list li {
 }
 
 .au-reset-password-cover {
-    background-image: url("../images/profile_bg.jpg");
+    background-image: url("../images/hd_profile_bg.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
