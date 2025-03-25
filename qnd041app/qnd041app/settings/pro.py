@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1','localhost','meddes.smartquail.io', '164.90.247.153
 #CSRF_COOKIE_SECURE = True
 #CSRF_TRUSTED_ORIGINS = ['https://www.smartquail.io','https://146.190.164.22']
 CORS_ALLOWED_ORIGINS = [
-    'https://meddes.smartquail.io/analytics/','https://meddes.smartquail.io/MEDDES/ingresar'
+    'https://hdbeneficios.smartquail.io/analytics/','https://hdbeneficios.smartquail.io/MEDDES/ingresar'
     # Otros orígenes permitidos si los hay
 ]
 

@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Load environment variables from the .env_local file.
-ENV_FILE_PATH = BASE_DIR / ".env_stage"
+ENV_FILE_PATH = BASE_DIR / ".env_prod"
 load_dotenv(dotenv_path=ENV_FILE_PATH)
 
 # Retrieve the Django secret key from environment variables.
