@@ -143,7 +143,7 @@ UNFOLD = {
     "ENVIRONMENT": "Production.environment_callback",
     "THEME": "dark",
     "LOGIN": {
-        "image": lambda request: static("assets/images/profile_bg.jpg"),
+        "image": lambda request: static("assets/images/hd_profile_bg.jpg"),
        # "redirect_after": lambda request: reverse_lazy("admin:usuarios_changelist"),
     },
     "STYLES": [
