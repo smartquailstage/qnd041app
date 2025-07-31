@@ -1,0 +1,62 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+        
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:citas_record' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>                       
+                            <h4 class="mb-0 text-primary">Calendario</h4>
+                            <p class="mb-0" style="margin-top: 0px;">  <ion-icon name="medkit"></ion-icon> Pendientes {{ mensajes_nuevos }}  / Confirmadas {{ leidos }} </p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="calendar"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+      
+        <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <a href="{% url 'usuarios:citas_total' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                           
+
+                            <h4 class="mb-0 text-primary">Confirmar cita </h4>
+                            <p class="mb-0" style="margin-top: 0px;">  <ion-icon name="medkit"></ion-icon>  por confirmar {{ mensajes_nuevos }} </p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="medkit"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        </div>
+
+                <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:agendar_cita' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="mb-0 text-primary">Agendar cita</h4>
+                             <p class="mb-0" style="margin-top: 0px;"> Grupo MEDDES®</p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="bookmarks"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>

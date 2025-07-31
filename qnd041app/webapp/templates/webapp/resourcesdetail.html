@@ -1,0 +1,82 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+{% main_menu template="webapp/home/header.html" %}
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="pt-100 pt-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 portfolio-left">
+          <div class="portfolio-slider owl-carousel">
+            {% for item in page.galleria_resourcedetail_Page.all %}
+            {% image item.image_1 scale-100 as s1 %}
+            <div class="item"><img class="img-responsive" src="{{ s1.url }}" alt=""/></div>
+            {% image item.image_2 scale-100 as s2 %}
+            <div class="item"><img class="img-responsive" src="{{ s2.url }}" alt=""/></div>
+            {% image item.image_3 scale-100 as s3 %}
+            <div class="item"><img class="img-responsive" src="{{ s3.url }}" alt=""/></div>
+            {% endfor %}
+          </div>
+          <h3>{{self.title_resource}}</h3>
+          
+            {% for block in self.content %}
+             {% include_block block %}   
+            {% endfor %}
+       
+         
+        </div>
+        <!--=== Left Side End ===-->
+        <div class="col-md-3 portfolio-right">
+          <ul class="project-detail-box">
+            <li><strong>Resource</strong>{{ self.tags }}</li>
+            <li><strong>Name</strong><a href="single-portfolio.html#">{{self.title_resource}}</a></li>
+          </ul>
+          <div class="post-controls">
+            <div class="post-share">
+              <ul>
+                {% if settings.webapp.SocialMediaSettings.facebook %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.facebook}}"><i class="icofont icofont-facebook"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.twitter %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.linkedin %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.linkedin}}"><i class="icofont icofont-linkedin"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.youtube %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.youtube }}"><i class="icofont icofont-youtube"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.instagram %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.instagram  }}"><i class="icofont icofont-instagram "></i></a> </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          <p class="mt-30"> {{ self.abstract | richtext }} </p>
+        </div>
+        <!--=== Right Side End ===-->
+      </div>
+    </div>
+  </section>
+  <!--=== Portfolio End ======-->
+
+
+{% include 'webapp/home/callacction_section.html' %}
+{% include 'webapp/home/footer_section.html' %}
+{% endblock %}

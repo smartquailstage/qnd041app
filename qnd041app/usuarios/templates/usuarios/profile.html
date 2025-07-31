@@ -9,189 +9,252 @@
 
 {% block content %}
 
-   
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <div class="page-content-wrapper">
-
-  
     <!-- start page content-->
    <div class="page-content">
-
-    
     <div class="row">
-      
         <div class="col-12 col-lg-8 col-xl-9">
-          <div class="card overflow-hidden radius-10">
-            <div class="profile-cover bg-dark position-relative mb-4">
-                <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
-                    {% if profile.photo %}
-                        <img src="{{ profile.photo.url }}" alt="User Photo">
-                    {% else %}
-                        <img src="{% static 'img/user.png' %}" alt="Default Photo">
-                    {% endif %}
-                </div>
-            </div>
+
+            <div class="card overflow-hidden radius-10">
+<div class="profile-cover bg-dark position-relative mb-4">
+  
+  <!-- Logo arriba a la derecha -->
+  <div class="position-absolute top-0 end-0 m-3">
+    <img src="{% static 'img/logo_header.png' %}" alt="Logo" style="height: 60px;">
+      <h5 style="color: rgb(52, 132, 72);"><i class="bx bx-plus-medical"></i> Servicios Terapéuticos</h5>
+  </div>
+
+  <!-- Avatar centrado -->
+<div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
+  {% if profile.photo and profile.photo.url %}
+    <img src="{{ profile.photo.url }}" alt="User Photo">
+  {% else %}
+    <img src="{% static 'img/BA-LOGOS/user.png' %}" style="width:150px;" alt="Default Photo">
+  {% endif %}
+
+</div>
+</div>
             <div class="card-body">
               <div class="mt-5 d-flex align-items-start justify-content-between">
                 <div class="">
-                  <h3 class="mb-2">{{ user.get_full_name }}</h3>                
+                  <h3 class="mb-2">{{ profile.nombre_paciente }}</h3>
+                  <p class="mb-2" style ="margin-top:-15px;">{{ profile.apellidos_paciente }}, {{ profile.edad_detallada }}</p>  
+                   <p class="mb-2" style ="margin-top:-5px;">Paciente - MEDDES®</p>   
+                   <p class="mb-1"><strong>{{ profile.institucion|default:"Particular" }}</strong></p>  
+                  <p class="mb-0"><strong>{{ profile.tipos|join:" + " }}</strong></p>            
                 </div>
               </div>
-
-        <div class="card-header py-3">
-                <div class="row align-items-center g-3">
-                  <div class="col-12 col-lg-6">
-                    <h5 class="mb-0">Bienvenidos al Grupo de Beneficios, HomeDetail.S.A</h5>
-                  </div>
-
-                </div>
-           </div>
-           <div class="row bg-light align-items-center m-0">
-            <div class="col col-auto p-4">
-               <p class="mb-0">TOTAL DE PUNTOS ACUMULADOS</p>
-               <h4 class="mb-0">$4,500.00</h4>
-            </div>
-            <div class="col col-auto p-4">
-               <i class="bi bi-plus-lg text-muted"></i>
-            </div>
-            <div class="col col-auto me-auto p-4">
-               <p class="mb-0">PORCENTAJE DE ALICUOTA (5.4%)</p>
-               <h4 class="mb-0">$108.00</h4>
-            </div>
-            <div class="col bg-primary col-auto p-4">
-             <p class="mb-0 text-white">BENEFICIO</p>
-             <h4 class="mb-0 text-white">$4508.00</h4>
-            </div>
-          </div><!--end row-->
-          
-      
-
-           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-invoice">
-                 <thead>
-                    <tr>
-                       <th>TASK DESCRIPTION</th>
-                       <th class="text-center" width="10%">RATE</th>
-                       <th class="text-center" width="10%">HOURS</th>
-                       <th class="text-right" width="20%">LINE TOTAL</th>
-                    </tr>
-                 </thead>
-                 <tbody>
-                    <tr>
-                       <td>
-                          <span class="text-inverse">Website design &amp; development</span><br>
-                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                       </td>
-                       <td class="text-center">$50.00</td>
-                       <td class="text-center">50</td>
-                       <td class="text-right">$2,500.00</td>
-                    </tr>
-                    <tr>
-                       <td>
-                          <span class="text-inverse">Branding</span><br>
-                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                       </td>
-                       <td class="text-center">$50.00</td>
-                       <td class="text-center">40</td>
-                       <td class="text-right">$2,000.00</td>
-                    </tr>
-                    <tr>
-                       <td>
-                          <span class="text-inverse">Redesign Service</span><br>
-                          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                       </td>
-                       <td class="text-center">$50.00</td>
-                       <td class="text-center">50</td>
-                       <td class="text-right">$2,500.00</td>
-                    </tr>
-                 </tbody>
-              </table>
-           </div>
-
-         
-
-           <hr>
-         <!-- begin invoice-note -->
-         <div class="my-3">
-          * Make all cheques payable to [Your Company Name]<br>
-          * Payment is due within 30 days<br>
-          * If you have any questions concerning this invoice, contact  [Name, Phone Number, Email]
-         </div>
-       <!-- end invoice-note -->
-          </div>
-
             </div>
 
-
-          </div>
-
-        </div>
-        <div class="col-12 col-lg-4 col-xl-3">
-          <div class="card radius-10">
-            <div class="card-body">
-              <h5 class="mb-3">  <ion-icon name="people"></ion-icon>Información de Domicilio</h5>
-              <p class="mb-0">
-               
-               <strong>País de residencia:</strong>  {{ contact.pais_residencia }}
-              </p>
-              <p class="mb-0">
-                
-                <strong>Ciudad en ecuador:</strong> {{ contact.provincia_cantones_ecuador  }}
-              </p>
-              <p class="mb-0">
-               
-                <strong>Parroquia en Quito:</strong>  {{ contact.parroquia_quito }}
-              </p>
-               <p class="mb-0">
-        
-                <strong>Dirección: </strong> {{ contact.direccion }}, {{ contact.georeferenciacion }}
-              </p>
-            </div>
-          </div>
-    
-          <div class="card radius-10">
-           
-            <div class="card-body">
-              <h5 class="mb-3"><ion-icon name="paper-plane-outline"></ion-icon> Información de Contacto </h5>
-              <p class="mb-0">
-               
-                <strong>telefono:</strong>  {{ contact.telefono }}
-               </p>
-               <p class="mb-0">
-                 
-                 <strong>Correo electrónico:</strong> {{ profile.user.email }}
-               </p>
-               <p class="mb-0">
-                
-                 <strong>Perfil de redes sociales:</strong>  <a href="#"> {{ contact.perfil_redes_sociales }}</a>
-               </p>
-
-            </div>
-          </div>
-
-          <div class="card radius-10">
-
-            <div class="card-body">
-              <h5 class="mb-3"> <ion-icon name="newspaper-outline"></ion-icon> Información de Personería </h5>
-              <p class="mb-0">
-               <strong>Registro único de contribuyente (R.U.C):</strong>   {{ legal.ruc }}
-              </p>
-              <p class="mb-0">
-                
-                <strong>Personería Jurídica:</strong> {{ legal.tipo_personeria  }}
-              </p>
             
+
+            
+
+
+
+</div>
+
+
+<div class="row row-cols-1 row-cols-lg-3 g-3"> <!-- g-3 agrega espacio uniforme entre tarjetas -->
+
+{% if ultima_tarea_pendiente and ultima_tarea_enviada.media_terapia %}
+<div class="col">
+    <div class="card radius-10 bg-primary text-white h-100">
+        <div class="card-body text-left">
+            <div class="d-flex align-items-center mb-3 justify-content-center">
+                <div class="service-box bg-white text-white me-2">
+                    <div class="font-22">
+                        <ion-icon name="pulse-outline"></ion-icon>
+                    </div>
+                </div>
+                <h6 class="mb-0 border-bottom">Actividad Terapéutica</h6>
             </div>
 
-    
-    
-        </div>
+            <div class="position-relative d-inline-block">
+                <a href="{{ ultima_tarea_enviada.media_terapia.url }}" target="_blank">
+                    <img id="thumbnailPreview"
+                         src="{{ ultima_tarea_enviada.thumbnail_url|default:'https://via.placeholder.com/160x160.png?text=Video' }}"
+                         alt="Previsualización del video"
+                         class="img-fluid rounded-circle shadow"
+                         style="width: 160px; height: 160px; object-fit: cover;">
 
- 
-      </div>
+                    <div class="position-absolute top-50 start-50 translate-middle">
+                        <span class="bg-white text-secondary rounded-circle p-2 shadow" style="font-size: 1.5rem;">
+                            <i class="bi bi-play-fill"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="mt-3 pt-2 border-top">
+                <p class="mb-0">Realizado:
+                    <strong>{{ ultima_tarea_enviada.fecha_actividad|date:"d/m/Y H:i" }}</strong>
+                </p>
+                <p class="mb-0"><strong>Terapeuta Responsable:</strong>
+                    Dr. {{ ultima_tarea_enviada.terapeuta.get_full_name|default:"No asignado" }}
+                </p>
+                <p class="mb-0"><strong>Lugar:</strong>
+                    {{ ultima_tarea_enviada.sucursal|default:"No especificado" }}
+                </p>
+                <p class="mb-0"><strong>Actividad:</strong>
+                    {{ ultima_tarea_enviada.descripcion_actividad|safe }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <video id="hiddenVideo" src="{{ ultima_tarea_enviada.media_terapia.url }}" style="display: none;"></video>
+</div>
+{% endif %}
+
+
+    {% if ultima_cita %}
+<div class="col">
+    <div class="card radius-10 bg-primary text-white h-100">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+                <div class="service-box bg-white text-white me-2">
+                    <div class="font-22">
+                        <i class="lni lni-checkmark"></i>
+                    </div>
+                </div>
+                <h6 class="mb-0 border-bottom">Asistencia Terapéutica</h6>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-start mb-3">
+                <!-- Fecha -->
+                <div class="text-center bg-white text-primary p-2 rounded shadow-sm me-3" style="width: 70px;">
+                    <div class="fw-bold" style="font-size: 1.5rem;">
+                        {{ ultima_cita.cita_terapeutica_asignada|date:"d" }}
+                    </div>
+                    <div style="text-transform: uppercase; font-size: 0.8rem;">
+                        {{ ultima_cita.cita_terapeutica_asignada|date:"b" }}
+                    </div>
+                </div>
+
+                <!-- Hora -->
+                <div class="text-center bg-white text-primary p-2 rounded shadow-sm me-3" style="width: 70px;">
+                    <div class="fw-bold" style="font-size: 1.5rem;">
+                        <i class="lni lni-alarm-clock"></i>
+                    </div>
+                    <div style="text-transform: uppercase; font-size: 0.8rem;">
+                        {{ ultima_cita.hora|default:"—" }}
+                    </div>
+                </div>
+
+                <!-- Lugar -->
+                <div class="text-center bg-white text-primary p-2 rounded shadow-sm me-3" style="width: 70px;">
+                    <div class="fw-bold" style="font-size: 1.5rem;">
+                        <i class="lni lni-map"></i>
+                    </div>
+                    <div style="text-transform: uppercase; font-size: 0.8rem;">
+                        {{ ultima_cita.sucursal|default:"Sin asignar" }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div>
+                <span class="badge p-2
+                    {% if ultima_cita.asistire %}
+                        bg-success
+                    {% else %}
+                        bg-warning text-dark
+                    {% endif %}
+                ">
+                    {% if ultima_cita.asistire %}
+                        <i class="fadeIn animated bx bx-check-double"></i> Asistencia Confirmada
+                    {% else %}
+                        <i class="lni lni-checkmark"></i> Asistencia Pendiente
+                    {% endif %}
+                </span>
+            </div>
+
+
+
+            <div class="mt-3 pt-2 border-top">
+                <p class="mb-0"><strong>Terapéuta:</strong> {{ ultima_cita.terapeuta.get_full_name }}</p>
+                <p class="mb-0"><strong>Actividad:</strong> {{ ultima_cita.titulo|default:"Sin título" }}</p>
+            </div>
+        </div>
     </div>
 </div>
+{% endif %}
+
+            
+{% if ultima_tarea %}
+    <div class="col">
+        <div class="card radius-10 bg-primary text-white h-100">
+            
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="service-box bg-white text-white me-2">
+                        <div class="font-22">
+                            <i class="lni lni-notepad"></i>
+                        </div>
+                    </div>
+                    <h6 class="mb-0">Tarea Terapéutica Asignada</h6>
+                </div>
+
+                <div class="d-flex flex-wrap gap-3 mb-3">
+                    <div class="bg-white text-primary text-center p-2 rounded shadow-sm" style="width: 110px;">
+                        <small>Enviada</small>
+                        <div class="fw-bold">{{ ultima_tarea.fecha_envio|date:"d M Y" }}</div>
+                    </div>
+                    <div class="bg-white text-primary text-center p-2 rounded shadow-sm" style="width: 110px;">
+                        <small>Entrega</small>
+                        <div class="fw-bold">{{ ultima_tarea.fecha_entrega|date:"d M Y" }}</div>
+                    </div>
+                    <div>
+                        <span class="badge {% if ultima_tarea.actividad_realizada %}bg-success{% else %}bg-warning text-dark{% endif %} p-2">
+                            {% if ultima_tarea.actividad_realizada %}✔ Realizada{% else %}⏳ Pendiente{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                {% if ultima_tarea.material_adjunto %}
+                <p class="mt-3 mb-0">
+                    <strong>Material:</strong>
+                    <a class="text-white text-decoration-underline" href="{{ ultima_tarea.material_adjunto.url }}" download>Descargar</a>
+                </p>
+                {% endif %}
+
+                <a href="{% url 'usuarios:ver_tarea' pk=ultima_tarea.pk %}">
+                    <div class="d-flex align-items-center theme-icons shadow-sm p-2 cursor-pointer rounded mt-3">
+                        <div class="font-22"><ion-icon name="pencil"></ion-icon></div>
+                        <div class="ms-2">Realizar Actividad</div>
+                    </div>
+                </a>
+
+                  <div class="mt-3 pt-2 border-top">
+                    <p class="mb-0"><strong> {{ ultima_cita.descripcion_tarea  }} </strong></p>   
+                    
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    {% else %}
+
+            {% endif %}
 </div>
+
+
+    
+
+
+        </div>
+        {% include 'usuarios/panel_usuario2.html' %} 
+    </div>
+</div>
+
+</div>
+
+
+
+
 
 {% endblock %}

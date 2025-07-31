@@ -1,0 +1,15 @@
+{% extends "admin/login.html" %}
+
+{% block password %}
+    <div class="form-row">
+        <label for="id_password" class="required">Password</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <img src="{{ request.unfold.LOGIN.password_icon }}" alt="Password Icon" width="16" height="16">
+                </span>
+            </div>
+            <input type="password" name="password" class="form-control" id="id_password" required>
+        </div>
+    </div>
+{% endblock %}

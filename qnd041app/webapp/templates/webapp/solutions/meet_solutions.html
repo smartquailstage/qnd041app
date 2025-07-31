@@ -1,0 +1,41 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+
+{% for item in page.galleria.all %}
+{% image item.profile_pic scale-100 as s1 %}
+<style>
+   .portfolio-cover-bg {
+  background-image: url("{{ s1.url }}");
+}
+</style>
+{% endfor %}
+
+
+
+<section class="title-hero-bg blog-cover-bg" data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="page-title text-center">
+        {% for solution in solutions %}
+        <h1>{{ solution.category }}</h1>
+        {{ solution.id }}
+        {% endfor %}
+        <h4 class="text-uppercase mt-30 white-color">{{ page.custom_title}}</h4>
+      </div>
+    </div>
+  </section>
+  <!--=== page-title-section end ===-->
+
+  
+
+
+<section class="title-hero-bg portfolio-cover-bg  data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="page-title text-center">
+        <h1>{{page.title}}</h1>
+      </div>
+    </div>
+  </section>
+

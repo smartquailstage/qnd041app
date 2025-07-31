@@ -1,0 +1,83 @@
+{% load filters %}
+<div class="bg-white border border-base-200 flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs light:bg-base-900 light:border-base-800">
+  <div class="grow relative">
+    <div class="max-h-[600px] overflow-auto">
+      <table class="border-collapse w-full min-w-[900px]">
+        <thead class="sticky top-0 z-10">
+          <tr class="bg-base-50 dark:bg-base-800">
+            <th class="border border-dashed border-base-200 bg-white dark:bg-base-900 sticky left-0 z-20"></th>
+            {% for hora in horas %}
+              <th class="border border-dashed border-base-200 font-normal px-3 py-2 text-left bg-white dark:bg-base-900 text-font-important-light dark:text-font-important-dark">
+                <div class="font-semibold truncate">{{ hora }}</div>
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for dia_info in agenda_dias %}
+            <tr>
+              <td class="border border-dashed border-base-200 sticky left-0 z-10 bg-white dark:bg-base-900 px-3 py-2">
+                <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                  {{ dia_info.date|date:"j \\d\\e F" }}
+                </div>
+                <div class="mt-0.5 text-xs">{{ dia_info.date|date:"l" }}</div>
+              </td>
+
+              {% for hora in horas %}
+                <td class="border border-dashed border-base-200 align-top px-3 py-2 bg-white dark:bg-base-900">
+                  {% with tareas=dia_info.agenda|get_item:hora %}
+                    {% if tareas %}
+                      {% for tarea in tareas %}
+                        <div class="flex flex-col justify-center px-2 py-2 mb-2 rounded-default
+                          {% if tarea.actividad_realizada == 'Sí' %}
+                            bg-green-600
+                          {% elif tarea.asistio == 'Sí' %}
+                            bg-blue-600
+                          {% else %}
+                            bg-gray-500
+                          {% endif %}
+                          border-4 border-purple-600
+                          text-white dark:text-base-600">
+
+                          <span class="mt-0.5 truncate font-semibold">
+                            {{ tarea.nombre_paciente }}
+                          </span>
+
+                          {% if tarea.titulo %}
+                            <span class="mt-0.5 text-xs italic truncate">
+                              {{ tarea.titulo }}
+                            </span>
+                          {% endif %}
+
+                          <span class="mt-0.5 text-xs italic truncate">
+                            Terapeuta: {{ tarea.terapeuta }}
+                          </span>
+
+                          <span class="mt-0.5 text-xs">
+                            Asistió: {{ tarea.asistio }}
+                          </span>
+                          <span class="mt-0.5 text-xs">
+                            Tarea enviada: {{ tarea.tarea_enviada }}
+                          </span>
+                          <span class="mt-0.5 text-xs">
+                            Realizada: {{ tarea.actividad_realizada }}
+                          </span>
+                          <span class="mt-0.5 text-xs">
+                            Duración: {{ tarea.duracion }}
+                          </span>
+
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <div class="text-gray-400 text-xs">–</div>
+                    {% endif %}
+                  {% endwith %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

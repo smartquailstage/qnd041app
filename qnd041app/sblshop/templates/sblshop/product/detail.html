@@ -1,0 +1,114 @@
+{% extends "sblshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+
+{% block content %}
+{% include 'shop/header.html' %}
+
+<section class="pt-50 pb-50 dark-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+       
+      </div>
+      <div class="col-md-1"></div>
+   
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="product-slider flexslider">
+          <ul class="slides">
+            <li data-thumb="assets/images/shop/single-product-01.jpg"> <img src="http://www.incognitothemes.com/scoda/assets/images/shop/single-product-01.jpg" class="img-responsive" alt="single-product" /> </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2> <i class="icofont {{product.icon}} font-50px default-icon"></i> {{ product.name }}</h2>
+        <h3 class="grey">$ {{ product.price }}</h3>
+        <div class="single-product-des">
+          <h5>Product Desription</h5>
+          <p><strong>{% trans 'Features' %}</strong> {{ product.description|linebreaks }} </p>
+        </div>
+        <div class="single-product-qty">
+          <form action="{% url "sblcart:cart_add" product.id %}" method="post" >
+            {% csrf_token %}
+            {% for hidden_field in cart_product_form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+          
+            {% if cart_product_form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {% for error in cart_product_form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+          
+            
+              <div class="form-group ">
+                {% for field in cart_product_form.visible_fields %}
+                {{ field.label_tag }}
+          
+                {% if form.is_bound %}
+                  {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback">
+                        {{ error }}
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                  {% endif %}
+                {% else %}
+                  {% render_field field class="form-control" %}
+                {% endif %}
+          
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+      
+                {% endif %}
+                {% endfor %} 
+
+                <input type="submit" value="{% trans 'Order Now' %}" class="btn btn-color btn-circle">
+
+          </form>
+        </div>
+        <div class="product-fabric-detail">
+          <h5>{%trans 'Characteristcs'%}</h5>
+          <p>
+            <ul>
+              <li>{{ product.item1 }}</li>
+              <li>{{ product.item2 }}</li>
+              <li>{{ product.item3 }}</li>
+              <li>{{ product.item4 }}</li>
+            </ul>
+            </p>
+          <h5>{% trans 'Terms & Conditions' %}</h5>
+          <p>Machine wash cold Do not bleach or wash with chlorine based detergent or water Wash/dry inside out Do not iron directly on prints Dry promptly in shade
+            Dry on a flat surface as hanging may cause measurement variations Product color may vary little due to photography Wash with similar clothes.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+{% endblock %}

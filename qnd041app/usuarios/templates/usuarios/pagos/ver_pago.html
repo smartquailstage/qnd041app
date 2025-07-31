@@ -1,0 +1,57 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-9">
+                <div class="card radius-10 bg-yellow">
+                    <div class="card-body">
+                        <h5 class="mb-0">
+                            Estado de pago:
+                            {% if pago.estado_de_pago == 'Pendiente' %}
+                                <span class="badge bg-warning">Pendiente</span>
+                            {% elif pago.estado_de_pago == 'Vencido' %}
+                                <span class="badge bg-danger">Vencido</span>
+                            {% elif pago.estado_de_pago == 'Al día' %}
+                                <span class="badge bg-success">Al día</span>
+                            {% endif %}
+                        </h5>
+                        <h6 class="mt-2">Servicio: {{ pago.servicio }}</h6>
+                        <h6>Factura: {{ pago.numero_factura }}</h6>
+                        <h6>Monto a cancelar: ${{ pago.pago }}</h6>
+                        <h6>Fecha de emisión: {{ pago.fecha_emision_factura }}</h6>
+                        <h6>Fecha de vencimiento: {{ pago.fecha_vencimiento }}</h6>
+                        <h6>Método de pago: {{ pago.metodo_pago|default:"-" }}</h6>
+                        <h6>Banco: {{ pago.banco|default:"-" }}</h6>
+                        <h6>Número de cuenta: {{ pago.cuenta|default:"-" }}</h6>
+                        <h6>Plan: {{ pago.plan|default:"-" }}</h6>
+                    </div>
+                </div>
+
+                <div class="card radius-10 bg-yellow mt-3">
+                    <div class="card-body">
+                        <h5 class="mb-0"><ion-icon name="wallet-outline"></ion-icon> Comprobante</h5>
+                        {% if pago.comprobante_pago %}
+                            <p><strong>Archivo:</strong> <a href="{{ pago.comprobante_pago.url }}" target="_blank">Ver comprobante</a></p>
+                            <p><strong>Número:</strong> {{ pago.numero_de_comprobante }}</p>
+                            <p><strong>Fecha de pago:</strong> {{ pago.fecha_pago|default:"No registrada" }}</p>
+                        {% else %}
+                            <div class="alert alert-danger">No se ha subido ningún comprobante.</div>
+                            <a href="{% url 'usuarios:subir_comprobante_pago' pago.id %}" class="btn btn-dark">Subir Comprobante</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

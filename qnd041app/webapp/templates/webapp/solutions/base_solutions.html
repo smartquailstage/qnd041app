@@ -1,0 +1,17 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+{% include 'webapp/solutions/solutions_carousel.html' %}
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+{% endblock %}

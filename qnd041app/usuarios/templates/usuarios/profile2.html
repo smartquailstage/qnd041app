@@ -1,0 +1,214 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+    <div class="row">
+
+
+      
+        <div class="col-12 col-lg-8 col-xl-9">
+          <div class="card overflow-hidden radius-10">
+            <div class="profile-cover bg-dark position-relative mb-4">
+                <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="User Photo">
+                    {% else %}
+                        <img src="{% static 'img/user.png' %}" alt="Default Photo">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+              <div class="mt-5 d-flex align-items-start justify-content-between">
+                <div class="">
+                  <h3 class="mb-2">{{ profile.nombre_paciente }}</h3>  
+                  <p class="mb-2" style ="margin-top:-15px;">{{ profile.apellidos_paciente }}</p>              
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-invoice">
+                   <thead>
+                      <tr>
+                         <th> <ion-icon name="pulse-outline"></ion-icon> Servicio Médico Contratado</th>
+                         <th> <ion-icon name="pulse-outline"></ion-icon> Sucursal</th>
+                         <th class="text-center" width="10%">Fecha de Inicio</th>
+                         <th class="text-center" width="10%">Fecha Alta</th>
+                         <th class="text-right" width="20%">Valor</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <td>
+                            <span class="text-inverse">{{ profile.tipo_servicio }}</span><br>
+                            <small>{{ profile.user_terapeuta }}</small>
+                         </td>
+                         <td class="text-center">{{ profile.sucursal }}</td>
+                         <td class="text-center">{{ profile.fecha_inicio }}</td>
+                         <td class="text-center">{{ profile.fecha_terminacion }}</td>
+                         <td class="text-right">$2,500.00</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+
+ 
+             <hr>
+
+            </div>
+
+          </div>
+
+
+        </div>
+ 
+
+        <div class="col-12 col-lg-4 col-xl-3">
+
+          <div class="card radius-10">
+            <div class="card-body">
+              <h5 class="mb-3">  <ion-icon name="person-add"></ion-icon> Datos de Paciente</h5>
+              <p class="mb-0">
+               
+               <strong>Nombre:</strong>  {{ user.get_full_name }}
+              </p>
+              <p class="mb-0">
+                
+                <strong>Edad:</strong> {{ profile.edad }} años
+              </p>
+              <p class="mb-0">
+               
+                <strong>Nacionalidad:</strong>  {{ profile.nacionalidad }}
+              </p>
+               <p class="mb-0">
+        
+                <strong>Sexo: </strong> {{ profile.sexo }}
+              </p>
+              <p class="mb-0">
+                <strong>Unidad Educativa: </strong> {{ profile.unidad_educativa }}
+              </p>
+            </div>
+          </div>
+
+          <div class="card radius-10">
+            <div class="card-body">
+              <h5 class="mb-3">  <ion-icon name="body-outline"></ion-icon> Datos del Rpresentante</h5>
+              <p class="mb-0">
+               
+               <strong>Nombre Completo:</strong>  {{ profile.nombre_representante }} {{ profile.apellidos_representante_legal }}
+              </p>
+              <p class="mb-0">
+                
+                <strong>Relación con el paciente:</strong> {{ profile.relacion_del_representante }}
+              </p>
+              <p class="mb-0">
+               
+                <strong>Correo Electónico:</strong>  {{ profile.email }}
+              </p>
+               <p class="mb-0">
+        
+                <strong>Dirección: </strong> {{ profile.provincia }}, {{ profile.ciudad }}, {{ profile.direccion }}
+              </p>
+
+                <p class="mb-0">       
+                <strong>Telefono de Contacto: </strong> {{ profile.celular  }}
+              </p>
+
+            </div>
+
+
+          </div>
+
+          <div class="card radius-10 bg-primary">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Estado de Cuenta</p>
+                  <h4 class="mb-0 text-primary">{{ estado_de_pago }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <ion-icon name="wallet" role="img" class="md hydrated" aria-label="notifications sharp"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+ 
+      </div>
+class="col-12 col-lg-4 col-xl-3
+      
+
+      <div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-4">
+
+        <div class="col">
+          <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Notificaciones</p>
+                  <h4 class="mb-0 text-primary">{{ cantidad_mensajes_recibidos }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <ion-icon name="notifications-sharp" role="img" class="md hydrated" aria-label="notifications sharp"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card radius-10 bg-info ">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Taréas Asiganadas</p>
+                  <h4 class="mb-0 text-primary">{{ cantidad_terapias_realizadas }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <div class="font-22">	<i class="bx bx-plus-medical"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card radius-10 bg-orange">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Citas Médicas</p>
+                  <h4 class="mb-0 text-primary">{{ citas_realizadas }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <div class="font-22">	<i class="fadeIn animated bx bx-heart-circle"></i>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+
+
+
+
+      
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+<p class="text-center mt-30">
+    {% if category.slug == smartbusinessmedia %}
+    <a href="{% url "sbmshop:product_list" %}" class="btn btn-yellow btn-rounded btn-animate">
+        <span>{% trans 'Order Now' %} <i class="icofont icofont-arrow-right"></i></span>
+    </a> 
+    {% endif %}
+    

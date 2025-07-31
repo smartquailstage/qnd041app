@@ -1,0 +1,153 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+{% main_menu template="webapp/home/header.html" %}
+
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+<section class="white-bg">
+    <div class="col-md-6 col-sm-4 bg-flex bg-flex-right">
+      {% for item in page.aboutus_item_Page.all %}
+      {% image item.image_1 scale-100 as banner %}
+      <div class="bg-flex-holder bg-flex-cover" style="background-image: url('{{ banner.url }}');"></div>
+      {% endfor %}
+    </div>
+    <div class="container">
+      <div class="col-md-5 col-sm-7">
+        <h2 class="text-uppercase font-700">{% trans 'About of SmartQuail' %}</h2>
+        <h4 class="mt-10 line-height-26 default-color">Part of your success.</h4>
+        <p class="mt-20">{{ self.aboutus | richtext }}</p>
+      </div>
+    </div>
+  </section>
+
+
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h2 class="text-uppercase font-700">{% trans 'Meet Our Team' %}</h2>
+          <h4 class="mt-10 line-height-26 text-uppercase">- {% trans  'We Are Proud of them' %} -</h4>
+        </div>
+      </div>
+      <div class="row mt-50">
+        
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="team-member-container gallery-image-hover">
+            {% for item in page.aboutus_item_Page.all %}
+            {% image item.image_2 scale-100 as team1 %}
+            <img src="{{ team1.url }}" class="img-responsive" alt="team-01">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">{{ item.team1_name }}</h4>
+                  <p class="member-subtitle">{{ item.team1_position }}</p>
+                  <ul class="member-icons">
+                    {% if settings.webapp.SocialMediaTeam1Settings.facebook %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.facebook }}" target="_blank"><i class="icofont icofont-facebook"></i></a></li>
+                    {% endif %}
+                    {% if settings.webapp.SocialMediaTeam1Settings.instagram %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.instagram }}" target="_blank"><i class="icofont icofont-instagram"></i></a></li>
+                    {% endif %}
+                    {% if settings.webapp.SocialMediaTeam1Settings.twitter %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.twitter }}" target="_blank"><i class="icofont icofont-twitter"></i></a></li>
+                    {% endif %}
+                    {% if settings.webapp.SocialMediaTeam1Settings.linkedin %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.linkedin }}" target="_blank"><i class="icofont icofont-linkedin"></i></a></li>
+                    {% endif %}
+                    {% if settings.webapp.SocialMediaTeam1Settings.behance %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.behance }}" target="_blank"><i class="icofont icofont-behance"></i></a></li>
+                    {% endif %}
+                    {% if settings.webapp.SocialMediaTeam1Settings.youtube %}
+                    <li><a href="{{ settings.webapp.SocialMediaTeam1Settings.youtube }}" target="_blank"><i class="icofont icofont-youtube"></i></a></li>
+                    {% endif %}
+                    <li><a href="https://api.whatsapp.com/send?phone=593984534954" target="_blank"><i class="icofont icofont-whatsapp"></i></a></li>
+                    <li><a href="mailto:info@smartquail.io" target="_blank"><i class="icofont icofont-envelope"></i></a></li>
+    
+                  </ul>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+     
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="team-member-container gallery-image-hover"> <img src="assets/images/team/team-02.jpg" class="img-responsive" alt="team-02">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Alice Andrews</h4>
+                  <p class="member-subtitle">Photographer</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="fa fa-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="team-member-container gallery-image-hover"> <img src="assets/images/team/team-03.jpg" class="img-responsive" alt="team-03">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Nicholas Hart</h4>
+                  <p class="member-subtitle">Web Developer</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="fa fa-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="team-member-container gallery-image-hover"> <img src="assets/images/team/team-04.jpg" class="img-responsive" alt="team-04">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Grace Ross</h4>
+                  <p class="member-subtitle">CEO/Founder</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="about-us.html#"><i class="fa fa-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+      </div>
+    </div>
+  </section>
+
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock content %}

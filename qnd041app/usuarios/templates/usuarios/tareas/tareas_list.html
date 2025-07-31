@@ -1,0 +1,47 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/tareas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+                {% if tareas_nuevas %}
+                    <div class="row row-cols-1 row-cols-lg-3">
+                        {% for tarea in tareas_nuevas %}
+                            <div class="col mb-3">
+                                <a href="{% url 'usuarios:ver_tarea' tarea.id %}">
+                                    <div class="card radius-10 bg-warning text-dark">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="service-box bg-white text-white me-2">
+                                                    <ion-icon name="document-text-outline"></ion-icon>
+                                                </div>
+                                                <h5 class="mb-0">{{ tarea.terapeuta }}</h5>
+                                            </div>
+                                            <h6>{{ tarea.fecha_entrega|date:"d M Y" }}</h6>
+                                            <p>{{ tarea.titulo|default:"(Sin título)"|truncatechars:40 }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        No tienes tareas nuevas asignadas.
+                    </div>
+                {% endif %}
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

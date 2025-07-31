@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load unfold %}
+
+<div class="relative grow">
+    <input type="{{ widget.type }}"
+           name="{{ widget.name }}"
+           id="{{ widget.attrs.id }}"
+           value="{{ widget.value|default_if_none:'' }}"
+           class="unfold-input w-full custom-timepicker px-3 py-2"
+           autocomplete="off"
+           {% include "django/forms/widgets/attrs.html" %} />
+
+    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+        <button type="button"
+                id="timepicker-toggle-{{ widget.attrs.id }}"
+                aria-label="{% trans 'Abrir reloj' %}"
+                class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-600 rounded">
+            <i class="fas fa-clock"></i>
+        </button>
+    </div>
+</div>

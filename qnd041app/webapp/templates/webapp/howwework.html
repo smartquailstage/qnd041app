@@ -1,0 +1,110 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+{% main_menu template="webapp/home/header.html" %}
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section class="white-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h2 class="text-uppercase wow fadeTop" data-wow-delay="0.1s">Meet Our Partners</h2>
+          <h4 class="text-uppercase source-font wow fadeTop" data-wow-delay="0.2s">- We Are Stronger -</h4>
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop" data-wow-delay="0.3s">
+          <div class="team-member-container gallery-image-hover border-radius-5"> <img src="assets/images/team/team-01.jpg" class="img-responsive" alt="team-01">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Randy Bell</h4>
+                  <p class="member-subtitle">UI/UX Designer</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-linkedin"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop" data-wow-delay="0.4s">
+          <div class="team-member-container gallery-image-hover border-radius-5"> <img src="assets/images/team/team-02.jpg" class="img-responsive" alt="team-02">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Alice Andrews</h4>
+                  <p class="member-subtitle">Photographer</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-linkedin"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop" data-wow-delay="0.5s">
+          <div class="team-member-container gallery-image-hover border-radius-5"> <img src="assets/images/team/team-03.jpg" class="img-responsive" alt="team-03">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Nicholas Hart</h4>
+                  <p class="member-subtitle">Web Developer</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-linkedin"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop" data-wow-delay="0.6s">
+          <div class="team-member-container gallery-image-hover border-radius-5"> <img src="assets/images/team/team-04.jpg" class="img-responsive" alt="team-04">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">Grace Ross</h4>
+                  <p class="member-subtitle">CEO/Founder</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="small-business.html#"><i class="icofont icofont-linkedin"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+      </div>
+    </div>
+  </section>
+
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock content %}

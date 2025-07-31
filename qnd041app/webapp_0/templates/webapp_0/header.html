@@ -1,0 +1,37 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load social_share %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+<header class="main-header">
+    <!-- logo   -->
+    
+    <a href="{% slugurl 'home' %}" class="logo-holder">
+        <img src="{% static 'assets/images/escudo.png' %}" style="width: 30px;" alt="">
+        <img src="{% static 'assets/images/secretaria.png' %}" style="width: 110px;" alt=""></a>  
+    
+    <!-- logo end  -->		
+    <!-- search -->				
+    
+    <!-- search end  -->
+    <div class="sb-button"></div>
+    <div class="share-btn showshare"><i class="fal fa-megaphone"></i><span>Compartir</span></div>
+    <!-- mobile nav -->
+    <div class="nav-button-wrap">
+        <div class="nav-button"><span></span><span></span><span></span></div>
+    </div>
+    <!-- mobile nav end-->				
+    <!--  navigation -->
+    <div class="nav-holder main-menu">
+        <nav>
+         
+        </nav>
+    </div>
+    <!-- navigation  end -->               
+</header>
+
+

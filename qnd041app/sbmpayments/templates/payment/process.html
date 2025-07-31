@@ -1,0 +1,195 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+SmartQuailSmartTransfer
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/payment_styling.css' %}">
+
+<style>
+    p {
+        letter-spacing: normal;
+        line-height: 24px;
+        color: #373232;
+        font-weight: 300;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #0d0d0d;
+        margin: 10px 0;
+        font-style: normal;
+        font-family: 'Jost', sans-serif;
+    }
+</style>
+
+{% include 'sbmshop/header.html' %}
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <form action="." id="payment" method="post">
+          <div class="checkout-form">
+            <div class="row">
+              <div class="col-md-6 mb-20">
+                <div class="mb-20">
+                  <h5 class="upper-case">{% trans 'Descargo de Responsabilidad sobre el Manejo de Información Personal' %}</h5>
+                </div>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  En SmartQuail, la seguridad de tus datos personales y la protección de tu privacidad son nuestra máxima prioridad. Queremos asegurarte que tomamos todas las medidas necesarias para proteger tu información cuando realizas una compra en nuestro sitio web.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  1. Protección de Datos y Seguridad de Pagos
+                  Utilizamos tecnologías de vanguardia para garantizar que tu información personal y de pago se maneje de forma segura. Al realizar una compra, todos los datos relacionados con tu tarjeta de crédito y otros detalles sensibles son procesados a través de plataformas de pago seguras y cifradas, como Braintree.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  2. Cifrado de Extremo a Extremo
+                  Desde el momento en que ingresas tus datos hasta que se procesan las transacciones, todos los datos son cifrados mediante un protocolo de cifrado de extremo a extremo. Esto significa que la información de tu tarjeta de crédito, como el número de la tarjeta, el CVV y la fecha de vencimiento, no se almacena ni se cifra en nuestros sistemas. Estos datos solo se transmiten a los servidores de Braintree para su procesamiento seguro.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  3. No Almacenamos Información Sensible
+                  En SmartQuail, no almacenamos ninguna información sensible sobre tus métodos de pago ni tus datos personales, como números de tarjeta, nombres de clientes o detalles de contacto. Todos estos datos son gestionados directamente por nuestros socios de pago, como Braintree, que cumplen con los más altos estándares de seguridad del sector.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  4. Información que Almacenamos
+                  La única información que almacenamos en nuestros sistemas de información es la relacionada con la compra de productos, como el historial de tus compras, los productos adquiridos, y los detalles de envío necesarios para completar el proceso de entrega. Esta información es utilizada exclusivamente para procesar tus pedidos y mejorar nuestra experiencia de cliente.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  5. Cumplimiento de Normativas de Privacidad
+                  Cumplimos con todas las normativas y regulaciones locales e internacionales de protección de datos, como el Reglamento General de Protección de Datos (GDPR) en Europa, para garantizar que tu información se maneje de forma transparente, segura y conforme a la ley.
+                </p>
+                <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                  Si tienes alguna pregunta sobre cómo protegemos tu información o cómo manejamos tus datos personales, no dudes en contactarnos.
+                </p>
+              </div>
+
+              <div class="col-md-6">
+                <div class="mb-20">
+                  <h5 class="upper-case">Credit Card Info</h5>
+                </div>
+                <!-- Braintree Hosted Fields will replace these inputs -->
+                <div class="form-group">
+                  <label>Credit Card Name</label>
+                  <input class="form-control" id="fullname" name="fullname" type="text" required="required" placeholder="Full Name" data-error="Valid Credit Card Name is Required">
+                  <div class="help-block with-errors mt-20"></div>
+                </div>
+
+                <div class="form-group">
+                  <label>Card Number</label>
+                  <div id="card-number"></div>
+                  <div class="help-block with-errors mt-20"></div>
+                </div>
+                
+                <div class="form-group">
+                  <div class="col-xs-4 pl-0">
+                    <label>CVV</label>
+                    <div id="cvv"></div>
+                    <div class="help-block with-errors mt-20"></div>
+                  </div>
+                  <div class="col-xs-4 pl-0">
+                    <label>Exp. Month</label>
+                    <div id="expiration-date"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <h5 class="upper-case">Order Total</h5>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <h5>$59.99</h5>
+                    </div>
+                  </div>
+                </div>
+
+                {% csrf_token %}
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <div class="form-group">
+                  <div>
+                    <button class="btn btn-color btn-block btn-animate" type="submit" name="submitorder" id="submit-order" disabled>
+                      <span>Submit order <i class="icofont icofont-check"></i></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include 'webapp/home/footer_section.html' %}
+
+<!-- Load Braintree JS SDK -->
+<script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
+
+<script>
+  // Crea la instancia del cliente de Braintree con el client_token
+  braintree.client.create({
+    authorization: '{{ client_token }}'  <!-- Asegúrate de que client_token esté definido -->
+  }, function (clientErr, clientInstance) {
+    if (clientErr) {
+      console.error(clientErr);
+      return;
+    }
+
+    // Crea los Hosted Fields para mostrar los campos de pago
+    braintree.hostedFields.create({
+      client: clientInstance,
+      styles: {
+        'input': {
+          'font-size': '10px',  // Tamaño global de la fuente
+          'color': '#333',
+          'padding': '5px',
+          'background-color': '#fff',
+        },
+        'input.invalid': {'color': 'red'},
+        'input.valid': {'color': 'green'}
+      },
+      fields: {
+        number: {selector: '#card-number'},
+        cvv: {selector: '#cvv'},
+        expirationDate: {selector: '#expiration-date'}
+      }
+    }, function (hostedFieldsErr, hostedFieldsInstance) {
+      if (hostedFieldsErr) {
+        console.error(hostedFieldsErr);
+        return;
+      }
+
+      // Habilitar el botón de envío una vez que los campos estén listos
+      document.getElementById('submit-order').removeAttribute('disabled');
+
+      // Manejar el envío del formulario
+      var form = document.querySelector('#payment');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Evitar el envío normal del formulario
+
+        // Tokenizar los datos de la tarjeta usando los Hosted Fields
+        hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+          if (tokenizeErr) {
+            console.error(tokenizeErr);
+            return;
+          }
+
+          // Establecer el nonce (token de pago) en el formulario antes de enviarlo
+          document.getElementById('nonce').value = payload.nonce;
+
+          // Enviar el formulario
+          form.submit();
+        });
+      });
+    });
+  });
+</script>
+
+{% endblock %}

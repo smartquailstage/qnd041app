@@ -1,0 +1,58 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+   <div class="page-content">
+      <div class="row">
+         {% include 'usuarios/citas/barra_herramientas.html' %}
+         {% include 'usuarios/logo.html' %}
+      </div>
+
+      <div class="row">
+         <div class="col-12 col-lg-8 col-xl-9">
+            <div class="card radius-10">
+               <div class="card-body">
+                  <form method="POST">
+                     {% csrf_token %}
+
+  
+
+                     <!-- Fecha -->
+                     <div class="mb-3">
+                        {{ form.fecha.label_tag }}
+                        <input type="date" name="{{ form.fecha.name }}" class="form-control datepicker" value="{{ form.fecha.value|default_if_none:'' }}">
+                     </div>
+
+                     <!-- Hora -->
+                     <div class="mb-3">
+                        {{ form.hora.label_tag }}
+                        <input type="time" name="{{ form.hora.name }}" class="form-control timepicker" value="{{ form.hora.value|default_if_none:'' }}">
+                     </div>
+
+                     <!-- Tipo de cita -->
+
+                     <!-- Sucursal -->
+                     <div class="mb-3">
+                        {{ form.sucursal.label_tag }}
+                        {{ form.sucursal|add_class:"form-select" }}
+                     </div>
+
+                     <!-- Notas -->
+                     <div class="mb-3">
+                        {{ form.notas.label_tag }}
+                        {{ form.notas|add_class:"form-control" }}
+                     </div>
+
+                     <button type="submit" class="btn btn-primary">Agendar cita</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+
+         {% include 'usuarios/panel_usuario.html' %}
+      </div>
+   </div>
+</div>
+{% endblock %}

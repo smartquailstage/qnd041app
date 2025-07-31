@@ -1,0 +1,54 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/citas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+                <h4>Citas Agendadas por ti</h4>
+                <p>Total: {{ total }} | Confirmadas: {{ confirmadas }} | No confirmadas: {{ no_confirmadas }}</p>
+
+                {% if citas %}
+                    <div class="row row-cols-1 row-cols-lg-3">
+                        {% for cita in citas %}
+                            <div class="col mb-3">
+                                <a href="{% url 'usuarios:ver_cita' cita.id %}">
+                                    <div class="card radius-10 bg-success text-white">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="service-box bg-white text-white me-2">
+                                                    {% if cita.estado == 'pendiente' %}
+                                                        <ion-icon name="pulse"></ion-icon>
+                                                    {% elif cita.estado == 'confirmada' %}
+                                                        <ion-icon name="card"></ion-icon>
+                                                    {% elif cita.estado == 'cancelada' %}
+                                                        <ion-icon name="megaphone"></ion-icon>
+                                                    {% endif %}
+                                                </div>
+                                                <h5 class="mb-0">{{ cita.destinatario.get_full_name }}</h5>
+                                            </div>
+                                            <h6>{{ cita.fecha|date:"d M Y H:i" }}</h6>
+                                            <p>{{ cita.notas|truncatechars:50 }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">No has agendado ninguna cita.</div>
+                {% endif %}
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

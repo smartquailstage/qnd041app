@@ -1,0 +1,45 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+{% block content %}
+
+
+
+{% main_menu template="webapp/home/header.html" %}
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+         
+        </div>
+        <div class="col-md-1"></div>
+     
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 terms">
+          <h2 class="font-700">{{ self.thank_you_text|richtext }}</h2>
+          <p>{% trans 'Be Smart, be a SmartQuail!' %}</p>
+       
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% include 'webapp/home/footer_section.html' %}
+  {% endblock content %}

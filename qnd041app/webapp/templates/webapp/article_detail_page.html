@@ -1,0 +1,165 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+
+
+
+
+
+{% main_menu template="webapp/home/header.html" %}
+
+{% for item in page.galleria_article_Page.all %}
+{% image item.image_1 scale-100 as s1 %}
+<style>
+.blog-cover-bg {
+	background-image: url("s1.url");
+}
+</style>
+{% endfor %}
+
+<section class="title-hero-bg blog-cover-bg" data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="page-title text-center">
+        <h1> {{ self.category }} </h1>
+        <h4 class="text-uppercase mt-30 white-color">{{ self.custom_subtitle }}</h4>
+      </div>
+    </div>
+  </section>
+  <!--=== page-title-section end ===-->
+
+  <!--=== Blogs Start ======-->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="post">
+            
+            <div class="post-info">
+              <h3><a href="#">{{ self.custom_title }}</a></h3>
+              <h6>{{ self.date |date:'d F Y ' }}</h6>
+              <p>{{ self.abstract | richtext }}</p>
+            
+            </div>
+          </div>
+          <div class="blog-standard">
+            {% for block in self.content %}
+            {% include_block block %}
+            {% endfor %}
+           
+          </div>
+          
+          <div class="post-controls">
+            <div class="post-share">
+                
+              <ul>
+                <li> {% trans 'We Social:' %}' </li>
+                {% if settings.webapp.SocialMediaSettings.facebook %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.facebook}}"><i class="icofont icofont-facebook"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.twitter %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.linkedin %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.linkedin}}"><i class="icofont icofont-linkedin"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.youtube %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.youtube }}"><i class="icofont icofont-youtube"></i></a> </li>
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.instagram %}
+                <li> <a href="{{ settings.webapp.SocialMediaSettings.instagram  }}"><i class="icofont icofont-instagram "></i></a> </li>
+                {% endif %}
+
+              </ul>
+            </div>
+
+          </div>
+          {% for question, answers in results.items %}
+          <h2>{{ question }}</h2>
+          {% for answer, count in answers.items %}
+          
+          <blockquote>
+              {{ count }}  <i class="icofont icofont-comment"></i><p>"{{ answer }}" </p>
+            </blockquote>
+            {% endfor %}
+            {% endfor %}
+          <div id="respond" class="comment-respond">
+            <h2 id="reply-title" class="comment-reply-title">{% trans 'Post a comment' %}</h2>
+            <form id="form-comments" class="comment-form" action="{% pageurl page %}" method="POST">
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                  {{ hidden_field }}
+                {% endfor %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                <div class="form-group">
+                
+                        {% for field in form.visible_fields %}
+                        {{ field.label_tag }}
+                  
+                        {% if form.is_bound %}
+                          {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for error in field.errors %}
+                              <div class="invalid-feedback">
+                                {{ error }}
+                              </div>
+                            {% endfor %}
+                          {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                          {% endif %}
+                        {% else %}
+                          {% render_field field class="form-control" %}
+                        {% endif %}
+                  
+                        {% if field.help_text %}
+                          <small class="form-text text-muted">{{ field.help_text }}</small>
+                  
+                        {% endif %}
+                        {% endfor %}   
+                   
+                  </div>
+                <p class="form-submit">
+                    <input name="submit" type="submit" id="submit-btn" class="btn btn-color btn-square" value="Post Comment">
+                    <input type="hidden" name="comment_post_ID">
+                    <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+                  </p>
+            </form>
+           
+
+          </div>
+        </div>
+        <!--=== Left Side End===-->
+        <div class="col-md-3 col-md-offset-1 right-col-rv">
+          <div class="widget sidebar_widget">
+          </div>
+          <div class="widget widget_about">
+            <h4 class="widget-title">{% trans 'About the author' %}</h4>
+            {% for item in page.galleria_article_Page.all %}
+            {% image item.image_1 scale-100 as s2 %}
+            <img src="{{ s2.url }}" class=" work-item-wrap  work-item-thumbnail" style="max-height:75px;width:75px;border-radius: 50%; " >
+            {% endfor %}
+            <a href="#"><h3>{{ self.author }}</h3></a>
+            <p>{{ self.bio }}</p>
+          </div>
+
+        </div>
+        <!--=== Right Side End ===-->
+      </div>
+    </div>
+  </section>
+
+  {% include 'webapp/home/footer_section.html' %}
+
+{% endblock %}

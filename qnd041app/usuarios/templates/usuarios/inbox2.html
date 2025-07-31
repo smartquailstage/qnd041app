@@ -1,0 +1,81 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+<style>
+  .table-hover tbody tr:hover {
+    background-color: #18bb6b; /* Color de fondo al pasar el mouse */
+    cursor: pointer; /* Opcional: muestra el cursor como puntero */
+  }
+</style>
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+
+
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+            <h3> {{ total }} <ion-icon name="notifications"></ion-icon> /  {{ leidos }} <ion-icon name="mail-open"></ion-icon>  / {{ no_leidos }} <ion-icon name="mail-unread"></ion-icon></h3>
+          
+            <hr/>
+              </div>
+              <div class="table-responsive mt-3">
+                <table class="table align-middle table-hover table-bordered"  style="width:100%">
+                  <thead>
+                    <tr>
+                      <th scope="col">Bandeja de Entrada</th>
+                    </tr>
+                  </thead>  
+                  <tbody>
+                    {% for mensaje in mensajes %}
+                    <tr onclick="window.location.href='{% url 'usuarios:ver_mensaje' mensaje.id %}'" style="cursor: pointer;">
+
+
+                      <td>
+                        
+                        <div>
+                          {% if mensaje.asunto == 'consulta' or mensaje.asunto == 'Sugerencia' or mensaje.asunto == 'Informativo' %}
+                            <span class="badge bg-success">Informativo</span>
+                          {% elif mensaje.asunto == 'Terapéutico' %}  
+                            <span class="badge bg-warning">Terapéutico</span>
+                          {% elif mensaje.asunto == 'Solicitud de pago vencido' or mensaje.asunto == 'Solicitud de Certificado Médico' or mensaje.asunto == 'Reclamo del servicio  Médico'  or mensaje.asunto == 'Cancelación del servicio Médico'  %}
+                            <span class="badge bg-danger">Urgente</span>
+                          {% endif %}
+                        </div>
+                        <p>{{ mensaje.asunto }}</p>
+                        {% if mensaje.leido %}
+                        <ion-icon name="mail-open"></ion-icon>Leído
+                      {% else %}
+                        <ion-icon name="mail-unread"></ion-icon>Nuevo
+                      {% endif %}
+                      {{ mensaje.fecha_envio|date:"j/n/Y" }} {{ mensaje.fecha_envio|date:"H:i" }}
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="7">No hay mensajes disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  
+                </table>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+</div>  
+
+
+
+
+{% endblock %}

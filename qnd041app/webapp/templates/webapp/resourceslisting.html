@@ -1,0 +1,77 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+
+
+
+<section class="pt-0 pb-0">
+    <div class="slider-bg flexslider">
+      <ul class="slides">
+        <!--=== SLIDE 1 ===-->
+        <li>
+        {% for item in page.galleria_resources_Page.all %}
+        {% image item.image scale-100 as banner %}
+          <div class="slide-img" style="background:url('{{ banner.url }}') center center / cover scroll no-repeat;"></div>
+        {% endfor %}
+          <div class="hero-text-wrap">
+            <div class="hero-text white-color">
+              <div class="container text-left">
+                <h3 class="white-color font-400">{% trans 'Technologies Resources for Business'%}</h3>
+                <h2 class="white-color font-700">{{ page.custom_title }}
+                  <div class="animate-caption capitalize mt-50">
+                    <h2 class="white-color mt-30 text-left"><span class="rotate">Data Science & Big Data | Machine Learning /ML  | Cloud Infrastructure | and | Intelligence Artificial /AI</span></h2>
+                  </div>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="portfolio-container text-center">
+          <ul id="portfolio-filter" class="list-inline filter-transparent wow fadeTop" data-wow-delay="0.1s">
+            <li class="active" data-group="all">All</li>
+            <li data-group="Data Science">Data Science</li>
+            <li data-group="Big Data"> Big Data</li>
+            <li data-group="Machine Learning">Machine Learning</li>
+            <li data-group="Cloud Infrastructure">Cloud Infrastructure</li>
+            <li data-group="Intelligence Artificial">Intelligence Artificial</li>
+          </ul>
+          <ul id="portfolio-grid" class="three-column hover-two">
+            {% for post in posts %}
+            <li class="portfolio-item wow fadeIn" data-wow-delay="{{ self.delay }}" data-groups='["all", "{{ post.tags }}"]'>
+              <div class="portfolio gallery-image-hover portfolio-masonry-item">
+                <div class="dark-overlay"></div>
+                {% image post.blog_image scale-100 as s1 %}
+                <img src="{{s1.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{ post.title_resource }}</h3>
+                    <a href="{{ post.url }}" class="links">{{ post.tags }}</a> </div>
+                  <!--=== /.project-info ===-->
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock content %}

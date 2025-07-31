@@ -1,0 +1,59 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <!-- start page content -->
+    <div class="page-content">
+   
+  <div class="row">
+
+         {% include 'usuarios/barra_herramientas.html' %} 
+         {% include 'usuarios/logo.html' %} 
+
+    </div> <!-- Fin row -->
+    
+    <div class="row">
+            <!-- Sección de mensajes -->
+               <div class="col-12 col-md-6 col-lg-9">
+    <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+
+                           
+                 <h5 class="mb-0">                 
+                    {% if mensaje.asunto == 'consulta' or mensaje.asunto == 'Sugerencia' or mensaje.asunto == 'Informativo' %}
+                      Asunto: <span class="badge bg-success">Informativo</span>
+                    {% elif mensaje.asunto == 'Terapéutico' %}  
+                      Asunto: <span class="badge bg-warning">Terapéutico</span>
+                      <h6> Enviado: {{ mensaje.fecha_envio }}</h6> 
+                     
+                    {% elif mensaje.asunto == 'Solicitud de pago vencido' or mensaje.asunto == 'Solicitud de Certificado Médico' or mensaje.asunto == 'Reclamo del servicio  Médico'  or mensaje.asunto == 'Cancelación del servicio Médico'  %}
+                      Asunto: <span class="badge bg-danger">Urgente</span>
+                    {% endif %}
+                  </h5>
+                  <h6 class="mb-0">{{ mensaje.emisor.first_name }} {{ mensaje.emisor.last_name }}</h6>
+                  <p class="mb-0" >Grupo MEDDES®</p>
+                  {% if mensaje.leido == True %}  
+                      <h6>Leído <ion-icon name="eye-outline"></ion-icon></h6>
+                    {% else %}
+                      <h6>Nuevo <ion-icon name="eye-off-outline"></ion-icon></h6>
+                    {% endif %} 
+            </div>
+    </div>
+        <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+                <h5 class="mb-0"><ion-icon name="notifications-sharp"></ion-icon> Notificación</h5>
+                <p>{{ mensaje.cuerpo|safe }}</p>
+            </div>
+    </div>
+    </div>
+
+             {% include 'usuarios/panel_usuario.html' %} 
+
+    </div> <!-- Fin row -->
+
+        
+    </div> <!-- Fin page-content -->
+</div> <!-- Fin page-content-wrapper -->
+{% endblock %}

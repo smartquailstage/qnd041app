@@ -9,39 +9,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- loader-->
-  <link href="{% static 'assets/css/pace.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/login_css/css/pace.min.css' %}" rel="stylesheet" />
   <script src="{% static 'assets/js/pace.min.js' %}"></script>
 
   <!--plugins-->
   <link href="{% static 'assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet" />
 
   <!-- CSS Files -->
-  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/bootstrap-extended.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/login_css/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/login_css/css/css/bootstrap-extended.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/login_css/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/login_css/css/icons.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
-  <title>BENEFICIOS HOMEDETAIL - INGRESAR</title>
+  <title>MEDDES- Centro de Rehabilitación Integral</title>
 </head>
 
 <body>
 
+  <div class="login-bg-overlay au-sign-up-basic"></div>
+
+  <!--start wrapper-->
+  <div class="wrapper">
+{% block content %}
+{% endblock %}
+    <footer class="my-5">
+      <div class="container">
+        <div class="d-flex align-items-center gap-4 fs-5 justify-content-center social-login-footer">
+          <a href="javascript:;">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </a>
+          <a href="javascript:;">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a>
+          <a href="javascript:;">
+            <ion-icon name="logo-github"></ion-icon>
+          </a>
+          <a href="javascript:;">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </a>
+          <a href="javascript:;">
+            <ion-icon name="logo-pinterest"></ion-icon>
+          </a>
+        </div>
+        <div class="text-center">
+         
+
+<p style="line-height: 0.8;margin-bottom: 0rem;">
+  <strong>MEDDES.S.A </strong>es soportado por   
+  <a href="https://ec.smartquail.io" class="text-blue-600 hover:underline">
+    <img src="{% static 'img/BA-LOGOS/logo_smartquailFooter.png' %}" alt="Logo del proveedor" style="width: 120px;" />
+  </a>
+</p>
+<p style="font-size: 10px; line-height: 0.8; margin-top: 0; margin-bottom: 0;">
+  <strong> 2025 ® Todos los Derechos Reservados, Ecuador</strong>
+</p>
 
 
 
-     
-      {% block content %}
-      {% endblock %}
-     
- 
-
-
-
+        </div>
+      </div>
+    </footer>
+  </div>
   <!--end wrapper-->
 
 
-  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

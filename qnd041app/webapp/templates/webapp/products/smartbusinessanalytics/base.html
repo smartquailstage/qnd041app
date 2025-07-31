@@ -1,0 +1,75 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>SmartQuail-IT Cloud Business</title>
+<link rel="shortcut icon" href="{% static 'img/logo.png' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/master.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/audio.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/icofont/icofont.min.css' %}">
+
+</head>
+<body>
+
+<!--=== Loader Start ======-->
+<div id="loader-overlay">
+  <div class="loader-wrapper">
+    <div class="scoda-pulse"></div>
+  </div>
+</div>
+<!--=== Loader End ======-->
+
+<!--=== Wrapper Start ===-->
+<div class="wrapper" id="main">
+
+  {% block content %}
+  {% endblock %}
+
+
+  <!--=== GO TO TOP  ===-->
+  <a href="index.html#" id="back-to-top" title="Back to top">&uarr;</a>
+  <!--=== GO TO TOP End ===-->
+
+</div>
+<!--=== Wrapper End ===-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1eO-IAC9PhPE5APzZDSs8W40ewuxnsu8"></script>
+<!--=== Javascript Plugins ===-->
+<script src="{% static 'products/smartbusinessanalytics/js/jquery.min.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/validator.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/plugins.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/master.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/bootsnav.js' %}"></script>
+<!--=== Javascript Plugins End ===-->
+
+<script>
+  window.onload = function() {
+    document.getElementById("main").classList.add("loaded")
+
+    lax.setup()
+
+    const update = () => {
+      lax.update(window.scrollY)
+      window.requestAnimationFrame(update)
+    }
+
+    window.requestAnimationFrame(update)
+
+    let w = window.innerWidth
+    window.addEventListener("resize", function() {
+      if(w !== window.innerWidth) {
+        lax.updateElements()
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

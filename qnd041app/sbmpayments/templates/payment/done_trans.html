@@ -1,0 +1,337 @@
+<!-- templates/sbmorders/order/transfer_confirmation.html -->
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+SmartQuailSmartTransfer
+{% endblock %}
+
+{% block content %}
+
+<style>
+    p {
+        letter-spacing: normal;
+        line-height: 24px;
+        color: #373232;
+        font-weight: 300;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #0d0d0d;
+        margin: 10px 0;
+        font-style: normal;
+        font-family: 'Jost', sans-serif;
+    }
+</style>
+
+{% include 'sbmshop/header.html' %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="checkout-form">
+              
+                        <div class="row">
+                            <div class="col-md-6 mb-20">
+                                <div class="mb-20">
+                                    <h5 class="upper-case">{% trans '¡Su compra se ha realizado con éxito!' %}</h5>
+                                </div>
+                            
+                             
+                            
+                                <div class="mb-20">
+                                   
+                                </div>
+                            
+                            
+                                <!-- Tabla de la Orden -->
+                                <div class="mb-20">
+                                    <h5 class="upper-case">{% trans 'Información de Pago' %}</h5>
+                                    <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+                                    
+                                        <tbody>
+
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Payment Date-Time' %}:</td>
+                                                <td style="padding: 8px;"> {{ order.created }}</td>
+                                            </tr>
+                                          
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Track ID payment ' %}:</td>
+                                                <td style="padding: 8px;"> 1000-00000000{{ order.id }}</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Customer Bank Name' %}:</td>
+                                                <td style="padding: 8px;"> {{bank.bank}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Customer Bank ID number Reciept' %}:</td>
+                                                <td style="padding: 8px;"> {{bank.bank_id}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Payment status' %}:</td>
+                                                {% if bank.paid == False %}
+                                                    <td style="padding: 8px; color:#2e58d9;">{% trans 'Pending' %}</td>
+                                                {% else %}
+                                                    <td style="padding: 8px; color:#3888f7;">{% trans 'Paid' %}</td>
+                                                {% endif %}
+                                            </tr>
+                                          
+                                        </tbody>
+                                    </table>
+                                    <p style="letter-spacing: normal; line-height: 14px; color: #373232; font-weight: 100; font-size: 10pt;">
+                                        {% trans 'Una vez que Smarquail verifique que el pago es efectivo, imadiatamente el sistema enviara el producto al siguiente corro electrónico,' %} {{order.email }}. {% trans 'Con la siguiente descripción' %}:</p>
+                                </div>
+
+                                <h5 class="upper-case">{% trans 'SmartQuail® IT Cloud Business Product' %}</h5>
+                                <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+                                    <tbody>
+                                        <!-- Nombre del Producto -->
+
+
+
+                                        {% for item in order.items.all %}
+
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Product Name' %}: </td>
+                                            <td style="padding: 8px;">{{ item.product.name }} </td>
+
+                                
+                                        <!-- Categoría del Producto -->
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Product Category' %}: </td>
+                                            <td style="padding: 8px;">{{ item.product.category }} {% trans 'Usuarios Simuláneos' %}</td>
+                                        </tr>
+
+                                        {% if  item.product.category == "0-10" %}
+                                        fsafs
+                                        {% else %}
+                                         sdafs
+                                        {% endif %}
+
+                                        {% endfor %}
+
+                                       <p> {{ order.category }}</p>
+
+                                     
+                                
+                                   
+                                             {% if  item.order.category == '0-10' %}
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                            <td style="padding: 8px;">1 Core</td>
+                                        </tr>
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                            <td style="padding: 8px;">512 MB</td>
+                                        </tr>
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                            <td style="padding: 8px;">5 GB</td>
+                                        </tr>
+                                            {% elif order.product_category == 'Small-S2'%}
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                            <td style="padding: 8px;">2 Core</td>
+                                        </tr>
+                                      
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                            <td style="padding: 8px;"> 512 MB </td>
+                                        </tr>
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                            <td style="padding: 8px;">5 GB</td>
+
+                                            {% elif order.product_category == 'baja'%}
+
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                            <td style="padding: 8px;">3 Core</td>
+                                        </tr>
+                                      
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                            <td style="padding: 8px;">1GB </td>
+                                        </tr>
+                                
+                                        <tr>
+                                            <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                            <td style="padding: 8px;">15 GB</td>
+
+                                               {% elif order.product_category == '0-10'%}
+
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                                <td style="padding: 8px;">3 Core</td>
+                                            </tr>
+                                          
+                                    
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                                <td style="padding: 8px;">2GB </td>
+                                            </tr>
+                                    
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                                <td style="padding: 8px;">25 GB</td>
+
+                                                {% elif order.product_category == 'medium-S3'%}
+
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                                    <td style="padding: 8px;">3 Core</td>
+                                                </tr>
+                                              
+                                        
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                                    <td style="padding: 8px;">2GB </td>
+                                                </tr>
+                                        
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                                    <td style="padding: 8px;">50 GB</td>
+
+                                                    {% elif order.product_category == 'heigh-S1'%}
+
+                                                    <tr>
+                                                        <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                                                        <td style="padding: 8px;">4 Core</td>
+                                                    </tr>
+                                                  
+                                            
+                                                    <tr>
+                                                        <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                                                        <td style="padding: 8px;">2GB </td>
+                                                    </tr>
+                                            
+                                                    <tr>
+                                                        <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                                                        <td style="padding: 8px;">100 GB</td>
+
+                                        {% endif %}
+
+                                      
+
+                                    </tbody>
+                                </table>
+                                
+                                
+
+                             
+
+                            </div>
+                            
+
+                            <div class="col-md-6 mb-20">
+                                <div class="mb-20">
+                            
+                                    <h5 class="upper-case">{% trans 'SmartQuail® IT Cloud Business Subscripcion' %}</h5>
+                                    <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+                                        <tbody>
+                                            <!-- Información del negocio -->
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Business Name' %}: </td>
+                                                <td style="padding: 8px;">{{ order.business_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Customer Name' %}: </td>
+                                                <td style="padding: 8px;">{{ order.first_name }} {{ order.last_name }}</td>
+                                            </tr>
+                            
+                                            <!-- Bucle para los items -->
+                                            {% for item in order.items.all %}
+
+                                     
+
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Price' %}:</td>
+                                                    <td style="padding: 8px;">$ {{ item.price }} / month</td>
+                                                </tr>
+                            
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Subscription Period' %}:</td>
+                                                    <td class="num">{{ item.quantity }}</td>
+                                                </tr>
+                            
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Promocional Discount' %}:</td>
+                                                    <td style="padding: 8px;">{{ item.discount }}</td>
+                                                </tr>
+                            
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Promocional Code' %}:</td>
+                                                    <td style="padding: 8px;">{{ item.code }}</td>
+                                                </tr>
+                            
+                                                <tr>
+                                                    <td style="padding: 8px;">{% trans 'Total Price' %}:</td>
+                                                    <td style="padding: 8px;">$ {{ item.get_cost }}</td>
+                                                </tr>
+                                            {% endfor %}
+                            
+                                            <!-- Información adicional -->
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'BusinessQnode®-Url' %}:</td>
+                                                <td style="padding: 8px;">https://{{ order.business_name }}.uio.smartquail.io</td>
+                                            </tr>
+                            
+                                            <tr>
+                                                <td style="padding: 8px;">{% trans 'Date Subscripcion Expire' %}:</td>
+                                                <td style="padding: 8px;">{{ order.expire }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            
+                                    <h5 class="upper-case">{% trans 'Agradecimientos' %}</h5>
+
+
+                            <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">  Queremos agradecerte sinceramente por elegir uno de nuestros productos de SmartQuail. Con tu compra, no solo estás adquiriendo una tecnología innovadora, sino que estás realizando una contribución significativa al fortalecimiento de una comunidad OpenSource.
+
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">  Cada producto de SmartQuail y sus proyectos están diseñados para apoyar a pequeños emprendedores, comerciantes y productores locales, promoviendo una microeconomía sustentable que favorece tanto el crecimiento de la comunidad como el cuidado del medio ambiente.</p>
+                            
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">  Creemos firmemente que la única forma de democratizar y regularizar el avance de las inteligencias artificiales es dándoles a las personas las herramientas para volverse inteligentes en el uso de estas tecnologías. Por eso, en SmartQuail entendemos las tecnologías inteligentes como herramientas disponibles, accesibles, seguras y privadas que están al alcance de todos.</p>
+                            
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">  Al elegir SmartQuail, no solo estás invirtiendo en innovación, sino que también estás ayudando a construir un futuro más justo, equitativo y sostenible para todos.</p>
+                            
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;"> ¡Gracias por ser parte de este cambio! Tu compra tiene un impacto real en el futuro de la tecnología, la comunidad y el planeta.</p> 
+                            
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">  Juntos, avanzamos hacia un futuro más inteligente y accesible para todos.</p>
+                                <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;"> Be Smart, Be a ... </p>
+                                </div>
+                            </div>
+                            
+
+                           
+                
+                          </div>
+                         </div>
+
+                         
+            </div>
+        </div>      
+    </div>
+</div>
+</section>
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+
+
+{% endblock %}
+
+

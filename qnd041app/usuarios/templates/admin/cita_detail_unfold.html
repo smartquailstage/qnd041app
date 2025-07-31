@@ -1,0 +1,1316 @@
+{% extends "unfold/base.html" %}
+{% load i18n admin_urls static admin_list unfold_list %}
+{% load unfold %}
+
+
+
+
+
+
+
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <script src="{% url 'admin:jsi18n' %}"></script>
+
+    {{ media.css }}
+
+    {% if not actions_on_top and not actions_on_bottom %}
+        <style>
+            #changelist table thead th:first-child {width: inherit}
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {{ media.js }}
+{% endblock %}
+
+
+{% block base %}
+    <div id="page" class="flex max-w-full min-h-screen {% element_classes 'page' %}">
+        {% if not is_popup and is_nav_sidebar_enabled %}
+            {% block nav-sidebar %}
+                {% include "admin/nav_sidebar.html" %}
+            {% endblock %}
+        {% endif %}
+
+        <div id="main" class="bg-white flex flex-col grow min-w-0 dark:bg-base-900 {% element_classes 'main' %}">
+            {% include "unfold/helpers/header.html" %}
+
+            {% if not is_popup %}
+                {% spaceless %}
+                    {% block breadcrumbs %}
+                        <div class="px-4">
+                            <div class="container mb-12 mx-auto -my-3">
+                                <ul class="flex flex-wrap">
+                                    {% url 'admin:index' as link %}
+                                    {% trans 'Home' as name %}
+                                    {% include 'unfold/helpers/breadcrumb_item.html' with link=link name=name %}
+                                    {% block custom_breadcrumbs %}{% endblock %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endblock %}
+                {% endspaceless %}
+            {% endif %}
+
+            {% block messages %}
+                <div class="px-4">
+                    <div class="{% if not cl.model_admin.list_fullwidth %}container{% endif %} mx-auto">
+                        {% include "unfold/helpers/messages.html" %}
+                    </div>
+                </div>
+            {% endblock messages %}
+
+            <div class="px-4 pb-8 grow">
+                <div id="content" class="{% if not cl.model_admin.list_fullwidth %}container{% endif %} mx-auto {% block coltype %}colM{% endblock %}">
+                    {% if cl %}
+                        {% tab_list "changelist" cl.opts %}
+                    {% elif opts %}
+                        {% tab_list "changeform" opts %}
+                    {% endif %}
+{% block content %}
+
+
+
+  <div class="bg-white border border-base-200 flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs light:bg-base-900 light:border-base-800 ">
+    
+
+    <div class="grow relative ">
+        
+                <div class="overflow-auto w-full" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;">
+    <table class="border-separate w-full">
+        <thead>
+            <tr>
+                <th></th>
+
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #1
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 35,952
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #2
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 30,253
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #3
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 23,064
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #4
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 15,690
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #5
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 14,055
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #6
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 12,347
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #7
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 9,772
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #8
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 8,356
+                            </div>
+                        
+                    </th>
+                
+                    <th class="font-normal px-3 pb-2.5 text-left">
+                        <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                            Group #9
+                        </div>
+
+                        
+                            <div class="mt-0.5 text-xs truncate">
+                                Total 8,713
+                            </div>
+                        
+                    </th>
+                
+            </tr>
+        </thead>
+
+        <tbody>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 03, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 41,380
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-800 dark:bg-primary-100 text-white dark:text-base-600">
+                                <span>
+                                    4711
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        24%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-700 dark:bg-primary-200 text-white dark:text-base-600">
+                                <span>
+                                    4513
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        66%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-600 dark:bg-primary-300 text-white dark:text-base-600">
+                                <span>
+                                    4708
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        53%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-500 dark:bg-primary-400 text-white dark:text-base-600">
+                                <span>
+                                    4126
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        100%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-400 dark:bg-primary-500 text-white dark:text-base-600">
+                                <span>
+                                    4859
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        19%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    4985
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        90%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    4366
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        81%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    4267
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        79%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    4845
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        88%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 04, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 32,369
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-700 dark:bg-primary-200 text-white dark:text-base-600">
+                                <span>
+                                    4137
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        100%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-600 dark:bg-primary-300 text-white dark:text-base-600">
+                                <span>
+                                    4449
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        25%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-500 dark:bg-primary-400 text-white dark:text-base-600">
+                                <span>
+                                    4376
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        92%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-400 dark:bg-primary-500 text-white dark:text-base-600">
+                                <span>
+                                    3601
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        91%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    3713
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        40%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    3498
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        82%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    3188
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        78%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    2690
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        56%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    2717
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        61%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 05, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 25,086
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-600 dark:bg-primary-300 text-white dark:text-base-600">
+                                <span>
+                                    4998
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        32%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-500 dark:bg-primary-400 text-white dark:text-base-600">
+                                <span>
+                                    3853
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        96%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-400 dark:bg-primary-500 text-white dark:text-base-600">
+                                <span>
+                                    3389
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        12%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    2707
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        68%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    3047
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        66%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    2354
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        61%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    2188
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        88%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1399
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        76%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1151
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        52%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 06, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 16,105
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-500 dark:bg-primary-400 text-white dark:text-base-600">
+                                <span>
+                                    4158
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        81%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-400 dark:bg-primary-500 text-white dark:text-base-600">
+                                <span>
+                                    3505
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        99%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    3468
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        29%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    2099
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        14%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    1335
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        24%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1510
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        25%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    30
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        16%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 07, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 14,270
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-400 dark:bg-primary-500 text-white dark:text-base-600">
+                                <span>
+                                    4653
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        67%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    4040
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        82%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    2666
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        29%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    1810
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        51%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1101
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        76%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 08, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 10,329
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-300 dark:bg-primary-600">
+                                <span>
+                                    4169
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        91%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    2924
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        71%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    1889
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        36%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1347
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        27%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 09, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 10,125
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-200 dark:bg-primary-700">
+                                <span>
+                                    4866
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        12%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    3640
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        81%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    1619
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        77%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+                <tr class="h-full">
+                    <td>
+                        <div class="pr-3 py-2.5">
+                            <div class="font-semibold text-font-important-light truncate dark:text-font-important-dark">
+                                May 10, 2025
+                            </div>
+
+                            
+                                <div class="mt-0.5 text-xs">
+                                    Total 8,538
+                                </div>
+                            
+                        </div>
+                    </td>
+
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-primary-100 dark:bg-primary-800">
+                                <span>
+                                    4260
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        98%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    3329
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        74%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    949
+                                </span>
+
+                                
+                                    <span class="mt-0.5">
+                                        41%
+                                    </span>
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                        <td class="h-full">
+                            <div class="flex flex-col h-[66px] justify-center px-3 py-2.5 rounded-default bg-base-50 border border-base-200 border-dashed dark:bg-base-800 dark:border-base-700">
+                                <span>
+                                    0
+                                </span>
+
+                                
+                            </div>
+                        </td>
+                    
+                </tr>
+            
+        </tbody>
+    </table>
+</div></div></div></div><div class="simplebar-placeholder" style="width: 1200px; height: 596px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>
+
+            
+
+        
+
+        
+    </div>
+
+    
+</div>
+
+
+{% for card in cards %}
+
+
+
+
+  <div class="card">
+    <h2>{{ card.title }}</h2>
+    <ul>
+      {% for item in card.items %}
+        <li><strong>{{ item.title }}:</strong> {{ item.description }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endfor %}
+
+{% endblock %}
+
+                    {% block sidebar %}{% endblock %}
+                </div>
+            </div>
+
+            {% block footer %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+
+
+
+

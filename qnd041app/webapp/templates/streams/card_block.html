@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+
+<div class="card-block">
+    <h2>{{ self.title }}</h2>
+
+        {{ self.body|richtext }}
+
+    
+    {% if self.link_url %}
+        <a href="{{ self.link_url }}" class="card-link">{{ self.link_text }}</a>
+    {% endif %}
+</div>

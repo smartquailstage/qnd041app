@@ -1,0 +1,21 @@
+/* Estilo personalizado para el badge */
+.badge-custom-dark {
+    background-color: #3d3d38 !important;
+    color: white !important;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+
+
+.bg-red-600 {
+    background-color: #e82b0c  !important
+  }
+
+
+
+  .h-8 {
+    height: calc(var(--spacing)*7);
+  }

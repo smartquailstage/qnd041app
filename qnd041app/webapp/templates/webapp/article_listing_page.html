@@ -1,0 +1,59 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% load menu_tags %}
+
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+         
+        </div>
+        <div class="col-md-1"></div>
+     
+      </div>
+    </div>
+  </section>
+
+
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h2 class="text-uppercase">{{page.custom_title}}</h2>
+          <h4 class="text-uppercase source-font">- {% trans 'Latest Aticles' %} -</h4>
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-md-12 remove-padding">
+          <div class="owl-carousel blog-slider">
+            {% for post in posts %}
+            <div class="post">
+              <div class="post-img"> 
+                {% image post.blog_image fill-250x250 as blog_img %}
+                <img class="img-responsive" src="{{ blog_img.url }}" alt="{{ blog_img.alt }}"/>
+             </div>     
+              <div class="post-info">
+                <h3><a href="{{ post.url }}">{{ post.custom_title }}</a></h3>
+                {# @todo add a summary field to BlogDetailPage; make it a RichTextField with only Bold and Italic enabled. #}
+                <h6>{{ post.date |date:'d F Y ' }}</h6>
+                <p>{{ post.abstract | richtext }}</p>
+                <a class="readmore" href="{{ post.url }}"><span>{% trans 'Read More' %}</span></a> 
+            </div>
+            </div>
+            {% endfor %}
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock content %}

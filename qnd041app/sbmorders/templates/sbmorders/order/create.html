@@ -1,0 +1,566 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Checkout
+{% endblock %}
+
+{% block content %}
+{% include 'sbmshop/header.html' %}
+
+
+<link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}">
+<link rel="stylesheet" href="{% static 'fontawesome/css/brands.css' %}">
+<link rel="stylesheet" href="{% static 'fontawesome/css/solid.css' %}">
+
+<style>
+  body {
+    color: #1f90b5;
+    background: #f1f1f1;
+    font-size: 15px;
+    font-family: 'Hind', sans-serif;
+    text-align: justify;
+}
+
+.checkout-form .form-group label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  color: #ec8f08;
+  margin: 10px 0;
+  font-style: normal;
+  font-family: 'Jost', sans-serif;
+}
+
+
+.btn-color {
+  color: #fff;
+  border-color: #f5318e;
+  background-color: #f5318e;
+}
+
+.checkout-form .form-group label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+}
+
+strong {
+    color: rgba(242, 239, 239, 0.972);
+}
+
+</style>
+
+
+{% for item in cart %}
+<style>
+
+.dark-bg {
+    background-color: {{ item.product.color }};
+}
+
+  section {
+    padding-top: 120px;
+    padding-bottom: 120px;
+    position: relative;
+    z-index: 10;
+    background-image: url( '{{ item.product.background.url}}');
+   
+    
+  }
+
+  .checkout-form {
+    padding: 30px;
+    box-shadow: 0 10px 30px 5px rgba(17, 21, 23, .1);
+    background: #0d0d0d;
+}
+
+</style>
+{% endfor %}
+
+<section class="pt-50 pb-50 dark-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="black-gb col-md-12">
+        <form action="." method="post" class="order-form">
+          <div class="checkout-form">
+            <div class="row">
+              <div class="col-md-6 mb-20">
+                <div class="mb-20">
+                 <h1>{% trans 'Subscription process' %}</h1>
+
+                 <div class="panel-group accordion-color mt-50" id="accordion-color">
+
+                  <div class="panel panel-default ">
+                
+                    <div class="panel-heading">
+                     
+                      <h3 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
+                           {% trans 'Terms &  subscription policies' %}  </a>
+                         </h3>
+                        
+                    </div>
+          
+                    
+                    <div id="collapseOne" class="panel-collapse collapse ">
+                      
+                      <div class="panel-body">
+                        <p style="line-height: 16px;color: #333;">{{ product.terms_policies|richtext }}</p> 
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="form-group">
+                    <h5 class="upper-case">{% trans 'Payment Method' %}</h5>
+                    <p>{% trans 'Please select your preferred payment method.' %}</p>
+                    
+                    <form method="post">
+                      <div>
+                          <input type="radio" name="payment_method" value="card" id="id_payment_method_card">
+                          <label for="id_payment_method_card">{% trans 'Credit/Debit Card' %}<i class="icofont icofont-credit"></i></label>
+                      </div>
+                      <div>
+                          <input type="radio" name="payment_method" value="bank_transfer" id="id_payment_method_bank_transfer">
+                          <label for="id_payment_method_bank_transfer">{% trans 'Bank Transfer' %}<i class="icofont icofont-bank-transfer"></i></label>
+                      </div>
+                      <div>
+                          <input type="radio" name="payment_method" value="paypal" id="id_payment_method_paypal">
+                          <label for="id_payment_method_paypal">{% trans 'PayPal Payment Gateway' %}</label>
+                      </div>
+                  </form>
+                    
+                    
+                  </div>
+
+                </div>
+
+
+                
+                
+                <p>{% trans 'Please fill out the following form to complete your SmartBusinessMedia® subscription.' %} </p>
+
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                
+              
+                    {% if field.name == 'first_name' %}
+                        <label for="{{ field.id }}" class="form-label"><strong>{% trans "Owner's subscription name" %}</strong></label>
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" required="required" %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control" required="required" %}
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted"></small>
+                        {% endif %}
+
+                    {% elif field.name == 'last_name' %}
+                        <label for="{{ field.id }}" class="form-label"><strong>{% trans "Owner's subscription last name" %}</strong></label>
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" required="required" %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control" required="required" %}
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">** {% trans 'Escriba tal como indica el comprobante bancario' %} .</small>
+                        {% endif %}
+
+
+                        <h5>{% trans ' Contact Information' %}</h5>
+                    {% elif field.name == 'address' %}
+                        <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Business local address' %}</strong></label>
+                        {% if field.errors %}
+                             {% render_field field class="form-control is-invalid" required="required" %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                             {% render_field field class="form-control is-invalid" required="required" %}
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted"></small>
+                        {% endif %}
+
+
+                        
+                        {% elif field.name == 'phonenumber' %}
+                            <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Contact Phone Number ' %}</strong></label>
+                            {% if field.errors %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                            {% endif %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted"></small>
+                            {% endif %}
+
+
+                        {% elif field.name == 'email' %}
+                            <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Email' %}</strong></label>
+                            {% if field.errors %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                            {% endif %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted"></small>
+                            {% endif %}
+
+
+                            {% elif field.name == 'city' %}
+                            <label for="{{ field.id }}" class="form-label"><strong>{% trans 'City' %}</strong></label>
+                            {% if field.errors %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                 {% render_field field class="form-control is-invalid" required="required" %}
+                            {% endif %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted"></small>
+                            {% endif %}
+
+                            <h5>{% trans 'Business Information' %}</h5>
+                            {% elif field.name == 'business_name' %}
+                                <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Your business Name' %}</strong></label>
+                                {% if field.errors %}
+                                     {% render_field field class="form-control is-invalid" required="required" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                     {% render_field field class="form-control is-invalid" required="required" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted"></small>
+                                {% endif %}
+
+                                {% elif field.name == 'RUC' %}
+                                <label for="{{ field.id }}" class="form-label"><strong>{% trans 'National or T.A.X  I.D Number ' %}</strong></label>
+                                {% if field.errors %}
+                                     {% render_field field class="form-control is-invalid" required="required" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                     {% render_field field class="form-control is-invalid" required="required" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted"></small>
+                                {% endif %}
+
+                             
+
+                                {% elif field.name == 'RUC' %}
+                                <label for="{{ field.id }}" class="form-label"><strong>{% trans 'National or T.A.X  I.D ' %}</strong></label>
+                                {% if field.errors %}
+                                     {% render_field field class="form-control is-invalid" required="required" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                     {% render_field field class="form-control-check is-invalid" required="required" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted"></small>
+                                {% endif %}
+                           
+
+                             
+
+                                {% elif field.name == 'accept_terms_and_conditions' %}
+                                
+                               
+                                
+                                <label for="{{ field.id }}" class="form-label"><strong>{% trans "I'm Agree" %}</strong></label>
+                                
+                                {% if field.errors %}
+                                     {% render_field field class="form-check is-invalid" required="required" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                     {% render_field field class="form-check is-invalid" required="required" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted"></small>
+                                {% endif %}
+
+                                <p style="line-height: 16px;color: #ec4f8e;">{% trans 'I hereby acknowledge that I have read and fully understood the terms and conditions of the User Agreement and the Subscription Policies. By continuing with this process, I confirm that I agree to abide by all the terms and policies outlined therein.' %}</p>
+
+                                
+
+
+                     
+
+
+
+
+
+                    {% endif %}
+
+                    
+
+
+                {% endfor %}
+                
+                <!-- Mostrar errores de campo en general -->
+                {% if form.errors %}
+                  <div class="alert alert-warning alert-dismissible" role="alert">
+                    {% for field in form %}
+                      {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+
+                
+               
+
+               
+
+              </div>
+
+            
+
+              <div class="col-md-6">
+                <div class="product-slider flexslider">
+                  <ul class="slides">
+                    {% for item in cart %}
+                    <li data-thumb="{{ item.product.image.url }}"> <img src="{{ item.product.image.url }}" class="img-responsive" alt="single-product" /> </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+              
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      {% for item in cart %}
+                      <h5 class="upper-case">{% trans 'Suscription Information' %}</h5>
+                    <p>{{ item.product.description}} </p>
+                  {% endfor %}
+                </div>
+              
+                {% for item in cart %}
+                      <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+                        <tbody>
+                            <!-- Nombre del Producto -->
+
+                    
+
+                            <tr>
+                                <td style="padding: 8px;">{% trans 'Product Name' %}: </td>
+                                <td style="padding: 8px;">{{ item.product.name}} </t>
+                            <tr>
+                                <td style="padding: 8px;">{% trans 'Product Avality' %}: </td>
+                                <td style="padding: 8px;">{{ item.product.category }} </td>
+                            </tr>
+                          </tbody>
+                        
+                          </table>
+
+                        
+
+                          
+
+    
+
+                              
+                          
+{% for item in products_with_technologies %}
+    <h5 class="upper-case">{% trans 'Front End' %}</h5>
+    <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+          <tbody>
+              <!-- Nombre del Producto -->
+
+              {% if item.technologies %}
+              {% for tech in item.technologies %}
+              <tr>
+                  <td style="padding: 8px;">{% trans 'Node Name' %}: </td>
+                  <td style="padding: 8px;">{{ tech.Node_name }}</t>
+              <tr>
+                
+                  <td style="padding: 8px;">{% trans 'Node Version' %}: </td>
+                  <td style="padding: 8px;">{{ tech.version }}</td>
+              </tr>
+              <tr>
+                
+                <td style="padding: 8px;">{% trans 'App Type' %}: </td>
+                <td style="padding: 8px;">{{ tech.App_type }}</td>
+            </tr>
+            <tr>
+                
+              <td style="padding: 8px;">{% trans 'Domain Name' %}: </td>
+              <td style="padding: 8px;">{{ tech.Domain  }}</td>
+          </tr>
+
+          <tr>
+                
+            <td style="padding: 8px;">{% trans 'Reliability' %}: </td>
+            <td style="padding: 8px;">{{ tech.Types_reliable_systems }}</td>
+        </tr>
+
+              
+            </tbody>
+
+          
+    </table> 
+
+
+
+
+
+                                  
+
+                       <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+                              <tbody>
+                                 
+
+                            <h5 class="upper-case">{% trans 'Cloud Resources Requirements' %}</h5>
+                  
+                  <tr>
+                    <td style="padding: 8px;">{% trans 'Virtual Central Processing Unit (vCPU)' %}:</td>
+                    <td style="padding: 8px;">{{ tech.procesing_resourse }}</td>
+                </tr>
+              
+        
+                <tr>
+                    <td style="padding: 8px;">{% trans 'Virtual Memory' %}:</td>
+                    <td style="padding: 8px;">{{ tech.memory_resourse }}</td>
+                </tr>
+        
+                <tr>
+                    <td style="padding: 8px;">{% trans 'Storage' %}:</td>
+                    <td style="padding: 8px;">{{ tech.storge_resourse }}</td>
+                </tr>
+
+                {% endfor %}
+              {% else %}
+             <p>No technologies assigned to this product.</p>
+            {% endif %} 
+                {% endfor %}
+             
+             
+               
+            
+                              
+                          
+
+                        </tbody>
+                    </table>
+                <table class="table" style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;" >
+                  <h5 class="upper-case">{% trans 'Payment Invoice' %}</h5>
+
+
+                  <tr>
+                    <td style="padding: 8px;">{% trans 'Subscription price' %}: </td>
+                    <td style="padding: 8px;"> $ {{ item.price }}/ months </td>
+                </tr>
+
+                  
+                  <tr>
+                    <td style="padding: 8px;">{% trans 'Period Subscrition' %}: </td>
+                    <td style="padding: 8px;"> {{ item.quantity }} months. </td>
+                </tr>
+              
+
+                  <tr>
+                    <td style="padding: 8px;">{% trans 'Subscrition Sub Total Value' %}: </td>
+                    <td style="padding: 8px;">$ {{ cart.get_total_price }} </td>
+                </tr>
+
+
+                <tr>
+                  <td style="padding: 8px;">{% trans 'Promotional Discount' %}: </td>
+                  <td style="padding: 8px;">$ {{ cart.get_discount }}  </td>
+              </tr>
+
+                <tr>
+                  <td style="padding: 8px;">{% trans 'Subscription Total Value' %}: </td>
+                  <td style="padding: 8px;">$ {{ cart.get_total_price_after_discount }} </td>
+              </tr>
+
+              
+
+                </table>
+                       
+                  </div>
+                 
+            {% endfor %}
+                </div>
+
+               
+
+                <div class="form-group">
+                  <button class="btn btn-color btn-block btn-default" value="Place order" type="submit">
+                    <span>{% trans 'Pay Subscription' %} <i class="icofont icofont-check"></i></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

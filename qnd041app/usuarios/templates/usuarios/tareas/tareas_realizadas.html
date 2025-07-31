@@ -1,0 +1,53 @@
+{% extends "base_dash.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+    <div class="row">
+    <div class="col-12 col-lg-9">
+
+        {% if tareas_completadas %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for tarea in tareas_completadas %}
+                    <div class="col">
+                        <div class="card radius-10 border-success bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">{{ tarea.titulo|default:"(Sin título)" }}</h5>
+                                    <ion-icon name="checkmark-done-outline" class="text-success" style="font-size: 1.4em;"></ion-icon>
+                                </div>
+                                <p class="card-text">
+                                    <strong>Fecha de entrega:</strong> {{ tarea.fecha_entrega|date:"d M Y" }}<br>
+                                    <strong>Terapeuta:</strong> {{ tarea.terapeuta }}<br>
+                                    <strong>Descripción:</strong> {{ tarea.descripcion_tarea|truncatechars:80 }}
+                                </p>
+
+                                {% if tarea.respuesta_paciente %}
+                                    <a href="{{ tarea.respuesta_paciente.url }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                                        Ver respuesta enviada
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Aún no has realizado ninguna tarea.
+            </div>
+        {% endif %}
+    </div>
+
+    {% include 'usuarios/panel_usuario.html' %}
+</div>
+
+    </div>
+</div>
+{% endblock %}

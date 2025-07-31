@@ -1,0 +1,65 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+        
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:citas_record' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>                       
+                            <h5 class="mb-0 text-primary"> {{ total }} Citas Agendadas</h5>
+                            <p class="mb-0" style="margin-top: 0px;"> 
+                             {{ confirmadas }} Asistidas  </p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                           
+                            <i class="lni lni-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+      
+        <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <a href="{% url 'usuarios:citas_total' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                           
+
+                            <h5 class="mb-0 text-primary">{{ pendientes }} Asistencias Pendientes</h5>
+                         
+
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                              <i class="lni lni-hourglass"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        </div>
+
+                <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:agendar_cita' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0 text-primary">Agendar cita</h5>
+                             <p class="mb-0" style="margin-top: 0px;"> Grupo MEDDES®</p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="bookmarks"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>

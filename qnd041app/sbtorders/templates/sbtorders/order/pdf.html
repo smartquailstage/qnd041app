@@ -1,0 +1,119 @@
+{% load static %}
+{% load qr_code %}
+{% load humanize %}
+
+<html>
+  <head>
+   
+    <link href="{% static 'css/orders.css' %}" media="print" rel="stylesheet">
+    <title>00000{{ order.id }}</title>
+    <meta name="description" content="Invoice demo sample">
+  </head>
+
+  <body>
+    <div style="background-color:#000;">
+      <img src="{% static 'img/logoSQ_responsive.png' %} " style="display:inline-flex;" align="left"  width="50%">
+    </div>
+
+    <aside>
+      <address id="from">
+        C.O.T: Ms. Silva Mauricio
+        SMARTQUAIL S.A.S
+        info@smartquail.io
+        R.U.C: 1793206532001
+      </address>
+   
+      <address id="to">
+      C.O:{{order.first_name}} {{order.last_name}}
+      {{order.business_name}}  
+       {{ order.email }}
+       R.U.C: {{ order.RUC }} 
+      </address>
+    </aside>
+
+    <dl id="informations" style="display:inline-block;">
+      <dt>Ciudad</dt>
+    <dd>{{order.city }}- {{order.country}}
+    </dd>
+    <dt>Fecha</dt>
+      <dd>{{ order.created|date:"M d, Y" }} </dd>
+      <dt>Cotización</dt>
+      <dd>00000{{ order.id }}</dd>
+      <dt>operado por</dt>
+      <dd>{{order.product_name}}</dd>
+    </dl>
+<h4>{{order.project_name}}</h4>
+<h3>{{ item.product.category }}</h3> 
+
+    <table>
+      <thead>
+        <tr>
+        <th>#</th>
+        <th>Item</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %} 
+        <td>{{ item.id }}</td>
+        <td style="text-align: left;">{{ item.product.name }}</td> 
+        <td> {{ item.quantity }}  </td>
+        <td> {{ item.price|floatformat:2 }} $  </td>
+        <td> {{ item.get_cost|floatformat:2 }} $</td>
+      </tr>
+      {% endfor %}
+      </tr>
+     </tbody>
+    </table>
+
+    <table id="total">
+      <thead>
+        <tr>
+          <th style="background:#f6f6f6; color:#000; text-align:left;">Valores a pagar</th>
+          <th style="background:#f6f6f6; color:#000; text-align:left;">Información de la bancaria</th>
+          <th style="background:#f6f6f6; color:#000; text-align:left; ">Estado de Cotización</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr> 
+         
+          <td class="num"> Sub Total: $ {{order.get_total_cost |floatformat:2 }}  </td>
+     
+          <td style="text-align:left ;">Banco Internacional</td>
+          <td>Estado: {% if order.aprobe %}Aprobado{% else %}No aprobado{% endif %}</td>
+        </tr> 
+        <tr>
+        <td>I.V.A ( {{order.iva}}) % : $ {{ order.tax_subtotal|floatformat:2 }}</td>
+          <td style="text-align:left ;">C.T.A:708011138</td>
+          <td>válido hasta: {{ order.expire |date:"M d, Y"  }}</td>
+        </tr>
+         <tr> 
+         <td class="num">Total :$ {{ order.total|floatformat:2 }} </td>
+          <td style="text-align:left ;">Cuenta de Ahorros</td>
+          <td>Última actualización: {{ order.updated|date:" M d, Y"  }}</td>
+        </tr>
+        <tr> 
+          <td class="num">Descuento :  $ {{ order.Anticipo|floatformat:2 }}</td>
+          <td style="text-align:left ;">profix group</td>
+          <td>Tiempo de implementación: 30 días</td>
+          
+        </tr> 
+        <tr>
+        <td>
+        </td>
+        </tr>
+        <tr> 
+          <td style = "font-size:12px;font-weight: bold; color:#b60202;;"class="num">Valor a cancelar: $ {{ order.total|floatformat:2 }} / Mes</td>
+        </tr> 
+      </tbody>
+    
+    </table>
+
+   
+   
+  </body>
+</html>
+
+   

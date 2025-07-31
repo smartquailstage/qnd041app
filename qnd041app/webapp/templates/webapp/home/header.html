@@ -1,0 +1,291 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+
+  <!--=== Header Start ===-->
+  <nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav on no-full">
+    <!--=== 
+    <div class="fullscreen-search-overlay" id="search-overlay"> <a href="index.html#" class="fullscreen-close" id="fullscreen-close-button"><i class="icofont icofont-close"></i></a>
+      <div id="fullscreen-search-wrapper">
+                   
+                    <form method="post" class="form login_type text-center" id="fullscreen-searchform" >
+                     
+                      <input type="text" name="username" class="form-control mb-20" placeholder="Username">
+                
+                      <input type="password" name="password" class="form-control mb-20" placeholder="Password">
+                  
+                      <button type="submit" name="login" class="btn btn-color btn-circle full-width">LOGIN</button>
+                    
+                      <h6 class="mt-20 gray-light"> DON'T HAVE AN ACCOUNT? </h6>
+                  
+                      <a href="login.html#">SIGN UP <i class="fa fa-angle-double-right"></i> </a>
+                    </form>
+                  
+                 
+      
+      </div>
+    </div>
+  ===-->
+
+    <div class="container">
+      {% for language_code, language_name in LANGUAGES %}
+      {% get_language_info for language_code as lang %}
+      {% if language_code == LANGUAGE_CODE %}
+      <div class="attr-nav">
+        <ul>
+          <li class="dropdown"> 
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >  {{ lang.code }}</a>
+            <ul class="dropdown-menu cart-list">
+              <li>
+                {% for language_code, language_name in LANGUAGES %}
+                    {% get_language_info for language_code as lang %}
+                    <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
+                        {{ lang.name_local }}
+                    </a>
+                {% endfor %}
+            </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      {% endif %}
+      {% endfor %}
+      <!--=== End Atribute Navigation ===-->
+
+      <!--=== Start Header Navigation ===-->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"> <i class="icofont icofont-navigation-menu"></i> </button>
+        <div class="logo"> <a href="{% slugurl 'home' %}"> <img class="logo logo-display" src="{% static 'img/logo_smartquailWhite.png' %}" alt=""> 
+          <img class="logo logo-scrolled"  src="{% static 'img/logoSQ_responsive.png' %}" alt=""> </a> </div>
+      </div>
+      <!--=== End Header Navigation ===-->
+
+      <!--=== Collect the nav links, forms, and other content for toggling ===-->
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'inicio' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Products' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia®</h6></a>
+                    <div class="content">
+                      <ul class="menu-col">
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Media Customer Relationship Management Plataform (MCRM).'%}</a></li>
+
+                        <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'Marketing Media Consulting' %}</a></li>
+                       
+                      </ul>
+                    </div>
+                  </div>
+                  <!--=== end col-3 ===-->
+                  <div class="col-menu col-md-3">
+                    <h6 class="title">SmartBusinessTechnologies®</h6>
+                    <div class="content">
+                      <ul class="menu-col">
+                        <li><a href="creative-onepage.html">IT Cloud Architectures Technologies</a></li>
+                        <li><a href="creative-portfolio.html">IT Cloud Infrastructures Technologies</a></li>
+                        <li><a href="personal-resume.html">IT  Cloud Technologies Consulting</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Solutions' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    {% bycategory_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycategory.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% byorganizationtype_menus as menus2 %}
+                    {% for menu in menus2 %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/byorganizationtype.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% bycustomer_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycustomer.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+
+               
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Training & Jobs' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    {% training_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/training/training.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% jobs_menus as menus2 %}
+                    {% for menu in menus2 %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/training/jobs.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Resources' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    {% ourvision_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/resources/ourvision.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% topics_menus as menus2 %}
+                    {% for menu in menus2 %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/resources/topics.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {%  articles_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/resources/articles.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% news_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/resources/news.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+               
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Partners' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    {% forcustomers_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/forcustomers.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% forpartners_menus as menus2 %}
+                    {% for menu in menus2 %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/forpartners.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'About' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+                  <div class="col-menu col-md-3">
+                    {% aboutus_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/aboutus.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% opensource_menus as menus2 %}
+                    {% for menu in menus2 %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/opensource.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% companydetails_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/companydetails.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-menu col-md-3">
+                    {% communities_menus as menus %}
+                    {% for menu in menus %}
+                    <h6 class="title">{{menu.heading}}</h6>
+                    <div class="content">
+                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/communities.html" %}
+                    </div>
+                    {% endfor %}
+                  </div>
+               
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!--=== /.navbar-collapse ===-->
+    </div>
+  </nav>

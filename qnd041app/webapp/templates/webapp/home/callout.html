@@ -1,0 +1,50 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+<section class="first-ico-box">
+    <div class="dn-bg-lines">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="left_parallax">
+      <div class="vertical-text">
+        <h3 data-lax-preset="driftRight" data-lax-optimize=true class="lax chunkyText font-700 dark-color">{% trans 'IT Solutions' %}</h3>
+      </div>
+    </div>
+    <div class="right_parallax">
+      <h3 data-lax-preset="driftLeft" data-lax-optimize=true class="lax chunkyText font-700 red-color">Be smart, Be a Smart Quail</h3>
+    </div>
+  
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h2 class="wow fadeTop" data-wow-delay="0.1s">{% trans 'We improve you business' %}</h2>
+          <h4 class="text-uppercase wow fadeTop" data-wow-delay="0.2s"></h4>
+          <br>
+          <br>
+          <p class="mt-30 wow fadeTop" data-wow-delay="0.3s">{{page.banner_title10|richtext}}</p>
+        </div>
+      </div>
+
+      <div class="row mt-50">
+        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.1s"> 
+          <i class="icofont icofont-chart-histogram-alt font-50px default-icon"></i>
+          <h4 class="text-uppercase">{% trans 'IT Cloud Business' %}</h4>
+          
+          <p>{{page.info7}}  <a href="{% slugurl 'itbusiness' %}">{% trans 'Learn more' %}</a></p>
+        </div>
+        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.2s">
+           <i class="icofont icofont-circuit  font-50px default-icon"></i>
+         
+          <h4 class="text-uppercase">{% trans 'SmartQuail Technologies' %}</h4>
+          <p>{{page.info8}} <a href="{% slugurl 'itcloudbusinessdevops' %}">{% trans 'Learn more' %}</a></p>
+        </div>
+        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.3s"> 
+          <i class="icofont icofont-rss-feed font-50px default-icon"></i>
+          <h4 class="text-uppercase">{% trans 'IT Cloud Busines News' %}</h4>
+          <p>{{page.info9}} <a href="{% slugurl 'itbusinessmedia' %}">{% trans 'Learn more' %}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>

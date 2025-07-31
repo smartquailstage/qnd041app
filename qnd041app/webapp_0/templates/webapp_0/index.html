@@ -1,0 +1,225 @@
+{% extends "webapp_0/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+{% main_menu template="webapp_0/header.html" %}
+
+
+
+<div id="wrapper">
+    <!--content -->	
+    <div class="content full-height">
+        <!--home-main_container-->	
+        <div class="home-main_container">
+            <!--follow-wrap-->
+       
+            <!--follow-wrap end-->
+            <div class="full-height fl-wrap hidden-item">
+                <!--fs-slider-wrap-->	
+                <div class="fs-slider-wrap full-height fl-wrap">
+                    <div class="fs-slider lightgallery full-height fl-wrap" data-mousecontrol2="true">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper" >
+                                <!-- swiper-slide-->
+                                
+                                <div class="swiper-slide hov_zoom">
+                                    <div class="fs-slider-item fl-wrap">
+                                        {% for item in page.galleria.all %}
+                                        {% image item.image scale-100 as s1 %}
+                                        <div class="bg"  data-bg="{{ s1.url }}"></div>
+                                        {% endfor %}
+                                        <div class="overlay"></div>
+                                        <div class="fs-slider_align_title">
+                                            
+                                            <h2><a href="portfolio-single.html">{{ page.banner_title4 | richtext }}</a></h2>
+                                            <p>{{ page.TS_info1 | richtext }} </p>
+                                            <div class="clearfix"></div>
+                                            <a href="{% url 'usuarios:login' %}" class="btn fl-btn">Postular a convocatorias </a>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="swiper-slide hov_zoom">
+                                    <div class="fs-slider-item fl-wrap">
+                                        {% for item in page.galleria.all %}
+                                        {% image item.image_2 scale-100 as s1 %}
+                                        <div class="bg"  data-bg="{{ s1.url }}"></div>
+                                        {% endfor %}
+                                        <div class="overlay"></div>
+                                        <div class="fs-slider_align_title">
+                                            
+                                            <h2><a href="portfolio-single.html">{{ page.banner_title5 | richtext }}</a></h2>
+                                            <p>{{ page.TS_info2 | richtext }} </p>
+                                            <div class="clearfix"></div>
+                                            <a href="{% url 'usuarios:login_activity' %}" class="btn fl-btn">Proponer actividad cultural</a>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="swiper-slide hov_zoom">
+                                    <div class="fs-slider-item fl-wrap">
+                                        {% for item in page.galleria.all %}
+                                        {% image item.image_3 scale-100 as s1 %}
+                                        <div class="bg"  data-bg="{{ s1.url }}"></div>
+                                        {% endfor %}
+                                        <div class="overlay"></div>
+                                        <div class="fs-slider_align_title">
+                                            
+                                            <h2><a href="portfolio-single.html">{{ page.banner_title6 | richtext }}</a></h2>
+                                            <p>{{ page.TS_info3 | richtext }} </p>
+                                            <div class="clearfix"></div>
+                                            <a href="{% url 'usuarios:login' %}" class="btn fl-btn">Postular a convocatorias </a>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="swiper-slide hov_zoom">
+                                    <div class="fs-slider-item fl-wrap">
+                                        {% for item in page.galleria.all %}
+                                        {% image item.image_4_2 scale-100 as s1 %}
+                                        <div class="bg"  data-bg="{{ s1.url }}"></div>
+                                        {% endfor %}
+                                        <div class="overlay"></div>
+                                        <div class="fs-slider_align_title">
+                                            
+                                            <h2><a href="portfolio-single.html">{{ page.banner_title7 | richtext }}</a></h2>
+                                            <p>{{ page.TS_info3 | richtext }} </p>
+                                            <div class="clearfix"></div>
+                                            <a href="{% url 'usuarios:login_activity' %}" class="btn fl-btn">Proponer actividad cultural</a>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                
+                                <!-- swiper-slide-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fs-slider-wrap end-->
+                <div class="ss-slider-cont ss-slider-cont-prev hero-slider-button-prev color-bg"><i class="fal fa-long-arrow-left"></i></div>
+                <div class="ss-slider-cont ss-slider-cont-next hero-slider-button-next color-bg"><i class="fal fa-long-arrow-right"></i></div>
+                <div class="hero-slider-wrap_pagination hlaf-slider-pag hlaf-slider-pag_fs"></div>
+                <!-- home-slider-counter-wrap-->
+  
+                <!-- home-slider-counter-wrap end-->
+            </div>
+        </div>
+        <!--home-main_container end-->
+    </div>
+    <!--content end-->	
+    <!--share-wrapper-->
+    <div class="share-wrapper">
+        <div class="share-container fl-wrap  isShare"></div>
+    </div>
+    <!--share-wrapper end-->
+</div>
+            <!-- wrapper end -->
+            <!-- sidebar -->
+
+            <div class="sb-overlay"></div>
+            <div class="hiiden-sidebar-wrap outsb">
+                <!-- sb-widget-wrap-->
+                <div class="sb-widget-wrap fl-wrap">
+                    <h3>Dejanos tu comentario</h3>
+                    <div class="sb-widget  fl-wrap">
+                        
+                        <div class="column-wrapper_item fl-wrap">
+                            <div class="column-wrapper_text fl-wrap">
+                                <div id="contact-form" class="fl-wrap">
+                                    <div id="message"></div>
+                                    <form action="{% pageurl page %}" method="POST" novalidate class="custom-form" action="php/contact.php" name="contactform" >
+                                        <fieldset>
+                                          
+                                                {% csrf_token %}
+                                                {% for hidden_field in form.hidden_fields %}
+                                                  {{ hidden_field }}
+                                                {% endfor %}
+                                              
+                                                {% if form.non_field_errors %}
+                                                  <div class="alert alert-danger" role="alert">
+                                                    {% for error in form.non_field_errors %}
+                                                      {{ error }}
+                                                    {% endfor %}
+                                                  </div>
+                                                {% endif %}
+                                              
+                                                {% for field in form.visible_fields %}
+                                                  <div class="form-group">
+                                                    {{ field.label_tag }}
+                                              
+                                                    {% if form.is_bound %}
+                                                      {% if field.errors %}
+                                                        {% render_field field class="form-control is-invalid" %}
+                                                        {% for error in field.errors %}
+                                                          <div class="invalid-feedback">
+                                                            {{ error }}
+                                                          </div>
+                                                        {% endfor %}
+                                                      {% else %}
+                                                        {% render_field field class="form-control is-valid" %}
+                                                      {% endif %}
+                                                    {% else %}
+                                                      {% render_field field class="form-control" %}
+                                                    {% endif %}
+                                              
+                                                    {% if field.help_text %}
+                                                      <small class="form-text text-muted" placeholder="Your Email">{{ field.help_text }}</small>
+                                                    {% endif %}
+                                                  </div>
+                                                  
+                                                {% endfor %}  
+                                        </fieldset>
+                                        <button type="submit" id="subscribe-button" class="subscribe-button">Enviar comentario</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <!-- sb-widget-wrap end--> 
+                <!-- sb-widget-wrap-->
+                <div class="sb-widget-wrap fl-wrap">
+                    <h3>Redes sociales de la Secretaría de Cultura del Distrito Metropolitano de Quito.</h3>
+                    <div class="sb-widget    fl-wrap">
+                        <div class="sidebar-social fl-wrap">
+                            <ul>
+                                {% if settings.webapp_0.SocialMediaSettings.facebook %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                {% endif %}
+                                {% if settings.webapp_0.SocialMediaSettings.instagram %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                {% endif %}
+                                {% if settings.webapp_0.SocialMediaSettings.twitter %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                {% endif %}
+                                {% if settings.webapp_0.SocialMediaSettings.linkedin %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                {% endif %}
+                                {% if settings.webapp_0.SocialMediaSettings.behance %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.behance }}" target="_blank"><i class="fab fa-behance"></i></a></li>
+                                {% endif %}
+                                {% if settings.webapp_0.SocialMediaSettings.youtube %}
+                                <li><a href="{{ settings.webapp_0.SocialMediaSettings.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                                {% endif %}
+                                <li><a href="https://api.whatsapp.com/send?phone=593" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+                                <li><a href="mailto:info@fomentoquito.gob.ec" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- sb-widget-wrap end-->                                   
+                <!-- sb-widget-wrap-->
+        
+                {% include 'webapp_0/footer.html' %}
+                <!-- sb-widget-wrap end-->    
+            </div>
+           
+       
+        <!-- Main end -->
+   {% endblock %}

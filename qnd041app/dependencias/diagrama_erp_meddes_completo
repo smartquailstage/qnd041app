@@ -1,0 +1,50 @@
+// Diagrama ER - MEDDES con Automatización
+digraph {
+	rankdir=LR size=10
+	User [label="User
+(Django Auth)" color=lightblue shape=box style=filled]
+	Profile [label="Profile
+(Paciente)" color=lightblue shape=box style=filled]
+	Perfil_Terapeuta [label=Perfil_Terapeuta color=lightblue shape=box style=filled]
+	Prospecion_Administrativa [label="Prospeción
+Administrativa" color=lightblue shape=box style=filled]
+	Pagos [label=Pagos color=lightblue shape=box style=filled]
+	Tareas [label="Tareas
+Terapéuticas" color=lightblue shape=box style=filled]
+	Mensaje [label="Mensajes
+Internos" color=lightblue shape=box style=filled]
+	Cita [label="Citas
+Médicas" color=lightblue shape=box style=filled]
+	Dashboard [label="Dashboard
+Informativo" color=lightblue shape=box style=filled]
+	WebInterface [label="🌐 Interfaz Web
+(Gestión de usuarios, citas, mensajes, tareas)" color=lightblue shape=box style=filled]
+	EmailService [label="📧 Servicio de Email
+(Notificaciones Automáticas)" color=lightblue shape=box style=filled]
+	WhatsAppAPI [label="📱 WhatsApp API
+(Mensajería Automatizada)" color=lightblue shape=box style=filled]
+	User -> Profile
+	User -> Perfil_Terapeuta
+	User -> Prospecion_Administrativa
+	User -> Pagos
+	User -> Tareas
+	User -> Mensaje
+	Profile -> Tareas
+	Profile -> Pagos
+	Profile -> Cita
+	Perfil_Terapeuta -> Profile
+	Perfil_Terapeuta -> Tareas
+	Mensaje -> User
+	Cita -> User
+	Dashboard -> WebInterface
+	WebInterface -> User
+	WebInterface -> Mensaje
+	WebInterface -> Cita
+	WebInterface -> Tareas
+	WebInterface -> Pagos
+	WebInterface -> Profile
+	EmailService -> Mensaje
+	EmailService -> Cita
+	WhatsAppAPI -> Cita
+	WhatsAppAPI -> Mensaje
+}

@@ -1,0 +1,55 @@
+{% extends "base_dash.html" %}
+{% load static %}
+{% block content %}
+
+<div class="page-content-wrapper">
+  <div class="page-content">
+    <div class="row">
+      {% include 'usuarios/pagos/barra_herramientas.html' %}
+      {% include 'usuarios/logo.html' %}
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-lg-8 col-xl-9">
+      
+        {% if pagos_pendientes %}
+        <div class="row row-cols-1 row-cols-lg-2">
+          {% for pago in pagos_pendientes %}
+          <div class="col mb-3">
+            <div class="card border-warning">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <div class="service-box bg-white text-warning me-2 d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">
+                    <ion-icon name="alert-circle-outline"></ion-icon>
+                  </div>
+                  <h5 class="mb-0">{{ pago.servicio }}</h5>
+                </div>
+                <p><ion-icon name="calendar-outline"></ion-icon> Vence: <strong>{{ pago.fecha_vencimiento|date:"d M Y" }}</strong></p>
+                <p><ion-icon name="cash-outline"></ion-icon> Monto: <strong>{{ pago.pago }}</strong></p>
+                <p><ion-icon name="warning-outline"></ion-icon> Estado: <span class="badge bg-warning text-dark">Pendiente</span></p>
+
+                {% if not pago.comprobante_pago %}
+                <a href="{% url 'usuarios:subir_comprobante_pago' pago.id %}" class="btn btn-sm btn-outline-primary">
+                  <ion-icon name="cloud-upload-outline"></ion-icon> Subir comprobante
+                </a>
+                {% else %}
+                <p><ion-icon name="checkmark-circle-outline"></ion-icon> Comprobante cargado ✅</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-4">
+          <ion-icon name="information-circle-outline"></ion-icon> No tienes pagos pendientes.
+        </div>
+        {% endif %}
+      </div>
+
+      {% include 'usuarios/panel_usuario.html' %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

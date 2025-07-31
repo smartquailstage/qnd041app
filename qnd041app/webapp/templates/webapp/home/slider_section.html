@@ -1,0 +1,120 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+
+
+  <!--=== Flex Slider Start ===-->
+  <section class="pt-0 pb-0">
+    <div class="slider-bg ">
+      <ul class="slides">
+        <!--=== SLIDE 1 ===-->
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image scale-100 as s1 %}
+          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sq gradient-overlay-bg-sq">
+            <div class="hero-text white-color">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"></h2>
+                
+                <h1 class="white-color text-uppercase font-700"><img src="{% static 'img/logo_smartquailWhite.png' %}">{{page.banner_title4|richtext}}</h1>
+               
+                <h3 class="white-color font-200">{{page.TS_info1}}<br>{{page.info1}}</h3>
+                <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-white btn-rounded btn-animate"><span>{% trans 'Learn more' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!--=== SLIDE 2 ===-->
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_2 scale-100 as s2 %}
+          <div class="slide-img" style="background:url('{{s2.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sbm gradient-overlay-bg-sbm">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinessmedia.png' %}">{{page.banner_title5|richtext}}</h2>
+                <h5 class="white-color text-uppercase font-200">{{page.TS_info2}}<br></h5>
+                <h5 class="white-color text-uppercase font-200"> {{page.info2}}</h5>
+                {% include 'sbmshop/product/sbm_list.html' %}
+                <a href="{% slugurl 'smartbusinessmediainfo' %}" class=" btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_3 scale-100 as s3 %}
+          <div class="slide-img" style="background:url('{{s3.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sba gradient-overlay-bg-sba">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinessanalytics.png' %}">{{page.banner_title6|richtext}}</h2>
+                <h5 class="white-color text-uppercase font-200">{{page.TS_info3}}<br></h5>
+                <h5 class="white-color text-uppercase font-200"> {{page.info3}}</h5>
+                {% include 'sbashop/product/sbm_list.html' %}
+               
+                <a href="{% slugurl 'smartbusinessanalyticsinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Create your IT BusinessAnalytics' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_4 scale-100 as s4 %}
+          <div class="slide-img" style="background:url('{{s4.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sbl gradient-overlay-bg-sbl">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/SmartBusinessLaw.png' %}">{{page.banner_title7|richtext}}</h2>
+                <h5 class="white-color text-uppercase font-200">{{page.TS_info4}}<br></h5>
+                <h5 class="white-color text-uppercase font-200"> {{page.info4}}</h5>
+                {% include 'sblshop/product/sbm_list.html' %} 
+                  <a  href="{% slugurl 'smartbusinesslawinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Contact Us' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_5 scale-100 as s5 %}
+          <div class="slide-img" style="background:url('{{s5.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sbt gradient-overlay-bg-sbt">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinesstechnologies.png' %}">{{page.banner_title8|richtext}}</h2>
+                <h5 class="white-color text-uppercase font-200">{{page.TS_info5}}<br></h5>
+                <h5 class="white-color text-uppercase font-200"> {{page.info5}}</h5>
+                {% include 'sbtshop/product/sbm_list.html' %}
+                 <a href="{% slugurl 'smartbusinesstechnologiesinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Contact Us' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!--=== SLIDE 3 ===-->
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_6 scale-100 as s6 %}
+          <div class="slide-img" style="background:url('{{s6.url}}') center center / cover scroll no-repeat;"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sbactivitys  gradient-overlay-bg-sbactivitys">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5">{{page.banner_title9|richtext}}</h2>
+                <h1 class="white-color text-uppercase font-700">{{page.TS_info6}}</h1>
+                <h3 class="white-color font-400">{{page.info6}}</h3>
+                <p class="text-center mt-30"><a href="{% slugurl 'porfolio' %}" class="btn btn-dark btn-rounded">{% trans 'Register, Now!' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>

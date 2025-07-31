@@ -1,0 +1,80 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <!-- start page content -->
+    <div class="page-content">
+  <div class="row">
+
+        <!-- Card 1: Leídas -->
+        
+         {% include 'usuarios/barra_herramientas.html' %} 
+
+         {% include 'usuarios/logo.html' %} 
+
+    </div> 
+    
+        <div class="row">
+            <!-- Sección de mensajes -->
+           <div class="col-12 col-lg-8 col-xl-9">
+   <div class="row row-cols-1 row-cols-lg-3">
+    {% for mensaje in mensajes %}
+        <div class="col">
+            <a href="{% url 'usuarios:ver_mensaje' mensaje.id %}">
+                <div class="card radius-10 {% if mensaje.leido %}bg-success{% else %}bg-warning{% endif %}">
+                    <div class="card-body text-white">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="service-box bg-white text-white me-2">
+                                {% if mensaje.asunto == 'Informativo' %}
+                                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                      
+
+                                {% elif mensaje.asunto == 'Terapéutico' %}
+                                    <ion-icon name="pulse"></ion-icon>
+                                {% elif mensaje.asunto == 'Solicitud de pago vencido' %}
+                                    <ion-icon name="card"></ion-icon>
+                                {% elif mensaje.asunto == 'Reclamo del servicio  Médico' %}
+                                    <ion-icon name="megaphone"></ion-icon>
+                                {% elif mensaje.asunto == 'Consulta' %}
+                                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                                {% endif %}
+                            </div>
+                            <h5 class="mb-0">{{ mensaje.emisor.get_full_name }}</h5>
+                        </div>
+                        <p>Grupo MEDDES®</p>
+                        <h4 class="mb-0">{{ mensaje.asunto|truncatechars:50 }}</h4>
+                        <p class="mb-0">Enviado hace {{ mensaje.fecha_envio|timesince }}</p>
+                        {% if not mensaje.leido %}
+                            <span class="badge bg-dark mt-2">  <ion-icon name="eye-off-outline"></ion-icon> Nuevo </span>
+                        {% else %}
+                            <span class="badge bg-light mt-2">  <ion-icon name="eye-outline"></ion-icon> Visto </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% empty %}
+        <div class="col">
+            <div class="alert alert-info">
+                No hay mensajes en su bandeja de entrada.
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+</div>
+
+  {% include 'usuarios/panel_usuario.html' %} 
+
+        </div> <!-- Fin row -->
+
+        
+    </div> <!-- Fin page-content -->
+
+
+
+    
+</div> <!-- Fin page-content-wrapper -->
+{% endblock %}

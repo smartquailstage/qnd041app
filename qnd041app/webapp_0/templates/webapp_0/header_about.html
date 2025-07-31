@@ -1,0 +1,52 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static %}
+{% load menu_tags %}
+
+<header class="main-header">
+    <!-- logo   -->
+    {%for item in page.galleria_7.all %}
+     {% image item.logo width-110 format-png as logo %}
+    <a href="{% slugurl 'home' %}" class="logo-holder"><img src="{{logo.url}}" alt=""></a>  
+    {% endfor %}
+    <!-- logo end  -->		
+    <!-- search -->				
+    
+    <!-- search end  -->
+    <div class="share-btn showshare"><i class="fal fa-megaphone"></i><span>Share</span></div>
+    <!-- mobile nav -->
+    <div class="nav-button-wrap">
+        <div class="nav-button"><span></span><span></span><span></span></div>
+    </div>
+    <!-- mobile nav end-->				
+    <!--  navigation -->
+    <div class="nav-holder main-menu">
+        <nav>
+            <ul>
+                <li>
+                    <a href="{% slugurl 'home' %}" class="act-link">Home</a>
+                    <!--second level -->
+                </li>
+                <li>
+                    <a href="#">Portfolio </a>
+                    <ul>
+                        {% for item in menu_items %}
+                        <li><a href="{{ item.href }}"> {{ item.text }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'wagtailadmin_home' %}">Customers</a>
+                </li>
+                <li>
+                    <a href="{% slugurl 'shootingnow' %}">Shooting now</a>
+                </li>
+                <li>
+                    <a href="{% slugurl 'about' %}">About me</a>
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+    <!-- navigation  end -->               
+</header>

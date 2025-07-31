@@ -1,0 +1,128 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+  
+  
+  <!--=== Portfolio Start ===-->
+  <section class="pt-0 pb-0">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="portfolio-container text-center">
+          {% for item in page.galleria.all %}
+          <ul id="portfolio-grid" class="three-column">
+            <li class="portfolio-item wow fadeIn wow fadeIn" data-wow-delay="0.1s" data-groups='["all", "print", "branding"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                
+                {% image item.image_7 scale-100 as s1 %}
+                <img src="{{s1.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_1}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_1}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="{{s1.url}}"><i class="icofont icofont-eye-open"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            <li class="portfolio-item wow fadeIn" data-wow-delay="0.2s" data-groups='["all", "branding", "web"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_8 scale-100 as s2 %}
+                <img src="{{s2.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_2}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_2}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="{{s2.url}}"><i class="icofont icofont-search-1"></i></a></li>
+                    <li><a href="single-portfolio.html"><i class="icofont icofont-link-alt"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            <li class="portfolio-item wow fadeIn" data-wow-delay="0.3s" data-groups='["all", "branding"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_9 scale-100 as s3 %}
+                <img src="{{s3.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_3}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_3}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="{{s3.url}}"><i class="icofont icofont-search-1"></i></a></li>
+                    <li><a href="single-portfolio.html"><i class="icofont icofont-link-alt"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            <li class="portfolio-item wow fadeIn" data-wow-delay="0.4s" data-groups='["all", "print", "design"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_10 scale-100 as s4 %}
+                <img src="{{s4.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_4}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_4}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="{{s4.url}}"><i class="icofont icofont-search-1"></i></a></li>
+                    <li><a href="single-portfolio.html"><i class="icofont icofont-link-alt"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            <li class="portfolio-item wow fadeIn" data-wow-delay="0.5s" data-groups='["all", "design"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_11 scale-100 as s5 %}
+                <img src="{{s5.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_5}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_5}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="{{s5.url}}"><i class="icofont icofont-search-1"></i></a></li>
+                    <li><a href="single-portfolio.html"><i class="icofont icofont-link-alt"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            <li class="portfolio-item wow fadeIn" data-wow-delay="0.6s" data-groups='["all", "design", "web"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_12 scale-100 as s6 %}
+                <img src="{{s6.url}}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{page.product_6}}</h3>
+                    <a href="single-portfolio.html" class="links">{{page.product_description_6}}</a> </div>
+                  <!--=== /.project-info ===-->
+                  <ul class="portfolio-details">
+                    <li><a class="alpha-lightbox" href="assets/images/portfolio/grid/6.jpg"><i class="icofont icofont-search-1"></i></a></li>
+                    <li><a href="single-portfolio.html"><i class="icofont icofont-link-alt"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+          </ul>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Portfolio End ===-->

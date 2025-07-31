@@ -1,0 +1,107 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+  
+  
+  <!--=== Our Team Start ===-->
+  <section class="white-bg pb-0">
+    <div class="dn-bg-lines">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h2 class="wow fadeTop" data-wow-delay="0.1s">{% trans 'Meet Our Team' %}</h2>
+          <h4 class="text-uppercase wow fadeTop" data-wow-delay="0.2s">- {% trans 'We Are Stronger in IT Business' %} -</h4>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      {% for item in page.galleria.all %}
+      <div class="row mt-50">
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop remove-padding" data-wow-delay="0.3s">
+          {% image item.image_13 scale-100 as s1 %}
+          <div class="team-member-container gallery-image-hover"> <img src="{{s1.url}}" class="img-responsive" alt="team-01">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">{{page.team_1}}</h4>
+                  <p class="member-subtitle">{{page.team_descrp_1}}</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop remove-padding" data-wow-delay="0.4s">
+          {% image item.image_14 scale-100 as s2 %}
+          <div class="team-member-container gallery-image-hover"> <img src="{{s2.url}}" class="img-responsive" alt="team-02">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">{{page.team_2}}</h4>
+                  <p class="member-subtitle">{{page.team_descrp_2}}</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop remove-padding" data-wow-delay="0.5s">
+          {% image item.image_15 scale-100 as s3 %}
+          <div class="team-member-container gallery-image-hover"> <img src="{{s3.url}}" class="img-responsive" alt="team-03">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">{{page.team_3}}</h4>
+                  <p class="member-subtitle">{{page.team_descrp_3}}</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+        <div class="col-md-3 col-sm-6 col-xs-12 wow fadeTop remove-padding" data-wow-delay="0.6s">
+          {% image item.image_16 scale-100 as s4 %}
+          <div class="team-member-container gallery-image-hover"> <img src="{{s4.url}}" class="img-responsive" alt="team-04">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <h4 class="member-title">{{page.team_4}}</h4>
+                  <p class="member-subtitle">{{page.team_descrp_4}}</p>
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-facebook"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-twitter"></i></a></li>
+                    <li class="social-icon"><a href="index.html#"><i class="icofont icofont-youtube"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--=== Member End ===-->
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  <!--=== Our Team End ===-->

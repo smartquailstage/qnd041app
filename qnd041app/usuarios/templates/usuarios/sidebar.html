@@ -5,13 +5,12 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{% static 'img/BA-LOGOS/logoHomeDetail.png' %}" class="logo-icon" alt="logo icon">
-            
+            <img src="{% static 'img/BA-LOGOS/loro.png' %}" class="logo-icon"  width="130px" alt="logo icon">
         </div>
         <div>
             <h4 class="logo-text">
                 <div>
-                    <img src=""  width="100px" alt="logo icon">
+                    <img src="{% static 'img/BA-LOGOS/logo_short.png' %}"  width="150x" alt="logo icon">
                 </div>
             </h4>
         </div>
@@ -19,37 +18,66 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
 
- 
-                       
-
+                    
         
-        <li class="menu-label">Configuraciones </li>
+        <li class="menu-label">Mi Proceso Terapéutico </li>
+
         <li>
             <a href="{% url 'usuarios:perfil' %}">
                 <div class="parent-icon">
-                    <ion-icon name="person-add"></ion-icon>
+                    <i class="bx bx-plus-medical"></i>
                 </div>
-                <div class="menu-title">Mis Beneficios</div>
+                <div class="menu-title">Mis Servicios</div>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'usuarios:actividad_list'  %}">
+                <div class="parent-icon">
+                   <i class="fadeIn animated bx bx-street-view"></i>
+                </div>
+                <div class="menu-title"> Mis Terápias </div>
             </a>
         </li>
 
 
-    
         <li>
-            <a class="nav-link dark-mode-icon" href="javascript:;">
-                <div class="mode-icon">
-                    <ion-icon name="moon-outline"></ion-icon>
+            <a href="{% url 'usuarios:inbox' %}">
+                <div class="parent-icon">
+                    <ion-icon name="notifications-outline"></ion-icon>
                 </div>
-                <div class="menu-title">Contraste</div>
+                <div class="menu-title">Mis Comunicaciones</div>
             </a>
         </li>
-    
+
         <li>
-            <a href="{% url 'logout' %}">
+            <a href="{% url 'usuarios:lista_pagos' %}">
+                <div class="parent-icon">
+                    <ion-icon name="wallet-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Mis Ordenes de Pagos </div>
+            </a>
+        </li>
+
+                <li>
+            <a href="{% url 'usuarios:vista_certificados' %}">
+                <div class="parent-icon">
+                    <ion-icon name="file-tray-full-outline"></ion-icon>
+                </div>
+                <div class="menu-title">Mis Informes</div>
+            </a>
+        </li>
+
+
+
+        <li class="menu-label">Configuraciones</li>
+
+        <li>
+            <a href="{% url 'usuarios:logout' %}">
                 <div class="parent-icon">
                     <ion-icon name="exit-outline"></ion-icon>
                 </div>
-                <div class="menu-title">Salir</div>
+                <div class="menu-title">Salir de MEDDES®</div>
             </a>
         </li>
     </ul>
@@ -57,3 +85,5 @@
 
 
 </aside>
+
+

@@ -1,0 +1,55 @@
+
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+<section class="pt-50 pb-50 white-bg">
+    <div class="container">
+      <div class="row">
+        <div id="client-slider" class="owl-carousel">
+        {% for item in page.galleria.all %}
+        {% image item.image_17 scale-100 as s1 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s1.url }}" alt="01"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_18 scale-100 as s2 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s2.url }}" alt="02"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_19 scale-100 as s3 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s3.url }}" alt="03"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_20 scale-100 as s4 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s4.url }}" alt="04"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_21 scale-100 as s5 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s5.url }}" alt="05"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_22 scale-100 as s6 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s6.url }}" alt="06"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_23 scale-100 as s7 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s7.url }}" alt="07"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_24 scale-100 as s8 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s8.url }}" alt="08"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_25 scale-100 as s9 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s9.url }}" alt="09"/> </div>
+        {% endfor %}
+        {% for item in page.galleria.all %}
+        {% image item.image_26 scale-100 as s10 %}
+          <div class="client-logo"> <img class="img-responsive" src="{{ s10.url }}" alt="10"/> </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>

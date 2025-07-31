@@ -1,0 +1,68 @@
+// Diagrama ER - Sistema MEDDES
+digraph {
+	User [label="User
+id
+username
+email" shape=record]
+	Profile [label="Profile
+user_id (FK)
+nombre_paciente
+apellidos_paciente
+fecha_nacimiento
+edad
+direccion
+telefono
+celular
+user_terapeuta (FK)" shape=record]
+	Perfil_Terapeuta [label="Perfil_Terapeuta
+user_id (FK)
+especialidad" shape=record]
+	prospeccion_administrativa [label="prospeccion_administrativa
+user_id (FK)
+especialidad" shape=record]
+	Mensaje [label="Mensaje
+emisor (FK)
+receptor (FK)
+asunto
+cuerpo
+leido
+fecha_envio" shape=record]
+	Cita [label="Cita
+creador (FK)
+destinatario (FK)
+fecha
+motivo
+estado
+profile_id (FK)" shape=record]
+	pagos [label="pagos
+user_id (FK)
+profile_id (FK)
+plan
+pago
+fecha_pago
+estado_de_pago" shape=record]
+	tareas [label="tareas
+user_id (FK)
+profile_id (FK)
+terapeuta (FK)
+titulo
+descripcion_tarea" shape=record]
+	Dashboard [label="Dashboard
+titulo
+informacion_basica
+link_soporte_tecnico" shape=record]
+	Profile -> User
+	Profile -> Perfil_Terapeuta
+	Perfil_Terapeuta -> User
+	prospeccion_administrativa -> User
+	Mensaje -> User
+	Mensaje -> User
+	Cita -> User
+	Cita -> User
+	Cita -> Profile
+	pagos -> User
+	pagos -> Profile
+	tareas -> User
+	tareas -> Profile
+	tareas -> Perfil_Terapeuta
+}

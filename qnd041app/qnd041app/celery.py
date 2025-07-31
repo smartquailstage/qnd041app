@@ -1,12 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
+from django.conf import settings
 
 # Establece el módulo de configuración de Django para Celery.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'qnd41app.settings.base')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'qnd041app.settings.stage')
 
 # Crea una instancia de Celery.
-app = Celery('qnd41app')
+app = Celery('qnd041app')
 
 # Configura Celery utilizando la configuración de Django.
 # La opción 'namespace' especifica que las configuraciones de Celery deben estar bajo el prefijo CELERY en el archivo de configuración de Django.
@@ -18,6 +19,13 @@ app.autodiscover_tasks()
 
 # Un ejemplo de cómo se podría configurar un backend de resultados y un broker si fuera necesario:
 app.conf.update(
-     broker_url='redis://localhost:6379/0',
-     result_backend='redis://localhost:6379/0',
+     broker_url='pyamqp://guest:guest@localhost//',
+     result_backend='django-db',
+     broker_connection_retry_on_startup = True
  )
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
+
+

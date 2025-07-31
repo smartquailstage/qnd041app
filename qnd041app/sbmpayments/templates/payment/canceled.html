@@ -1,0 +1,108 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+SmartQuailSmartTransfer
+{% endblock %}
+
+{% block content %}
+
+<style>
+    p {
+        letter-spacing: normal;
+        line-height: 24px;
+        color: #373232;
+        font-weight: 300;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #0d0d0d;
+        margin: 10px 0;
+        font-style: normal;
+        font-family: 'Jost', sans-serif;
+    }
+</style>
+
+{% include 'sbmshop/header.html' %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form  action="." method="POST">
+                    <div class="checkout-form">
+                        <div class="row">
+
+                          <div class="col-md-6">
+                            <div class="mb-20">
+                              <h5 class="upper-case">SmartBusinessMedia® {% trans 'Payment Process' %}</h5>
+                              <h2>{% trans 'Your payment process has not been successful.' %} </h2>
+                               
+
+                            </div>
+                          
+                         
+
+                
+                           
+
+                        </div>
+                          
+                          <div class="col-md-6 mb-20">
+                            <div class="mb-20">
+                              <h5 class="upper-case">{% trans 'We were unable to process your payment. ' %}</h5>
+                              <h3>{% trans 'Here are some possible reasons why this may have occurred' %}</h3>
+                            </div>
+
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" >
+                            {% trans "Insufficient funds: There may not be enough balance in your account to complete the transaction."%}
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" >
+                           {% trans "Incorrect card details: Please ensure the card number, expiration date, and CVV code are entered correctly." %}
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                            {% trans "Expired card: The card you are using may have expired. Please check the expiration date.." %}
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                            {% trans "Bank restrictions: Your bank may have placed restrictions on online transactions or payments to certain merchants." %}
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                           {% trans "Security blocks: Sometimes, our payment system may flag the transaction as suspicious. Please contact your bank or try using a different card." %}
+                          </p>
+
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                            {% trans "Technical issues: There could have been a temporary issue with our payment gateway or your bank's system." %}
+                           </p>
+
+                           <h4>{% trans "Please verify your payment details and try again. If the issue persists, contact your bank for more information or use an alternative payment method." %}</h4>
+
+
+                        
+                         
+          
+        
+              
+                          </div>
+
+                            
+                            
+                             
+                          
+                        </div>
+                        
+                    </div>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+
+{% for item in page.galleria.all %}
+{% image item.profile_pic scale-100 as s1 %}
+<style>
+   .portfolio-cover-bg {
+  background-image: url("{{ s1.url }}");
+}
+</style>
+{% endfor %}
+
+
+<section class="title-hero-bg portfolio-cover-bg  data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="page-title text-center">
+        <h1>{{page.title}}</h1>
+      </div>
+    </div>
+  </section>
+
+<section class="white-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-30 wow fadeLeft" data-wow-delay="0.1s">
+          <h2 class="text-uppercase font-700 mt-0">Meet Our Company</h2>
+          <p class="mt-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac vulputate dolor. Nullam venenatis enim in quam euismod fringilla. Donec in risus eget purus mattis varius. Nulla dapibus quis orci et tincidunt. Phasellus in rhoncus quam. Fusce a est lacinia, ultricies mi nec, rutrum dolor.</p>
+          <p>Donec vehicula cursus metus viverra aliquet Aliquam tincidunt dolor a auctor finibus. Sed in sodales magna. Etiam eget velit nec urna facilisis fringilla sed eget purus. Ut pulvinar ullamcorper mauris non tristique.</p>
+          <a class="btn btn-color btn-rounded btn-animate mt-20"><span>Read more <i class="icofont icofont-arrow-right"></i></span></a> </div>
+        <div class="col-md-6 wow fadeTop" data-wow-delay="0.2s">
+          <div class="arcon-video-box"> <img class="img-responsive" src="http://www.incognitothemes.com/scoda/assets/images/about-video-img.jpg" alt="">
+            <div class="arcon-video-box_overlay">
+              <div class="center-layout">
+                <div class="v-align-middle"> <a class="popup-youtube" href="https://www.youtube.com/watch?v=sU3FkzUKHXU">
+                  <div class="play-button"><i class="icofont-youtube-play"></i> </div>
+                  </a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="white-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-30 wow fadeLeft" data-wow-delay="0.1s">
+          <h2 class="text-uppercase font-700 mt-0">Meet Our Company</h2>
+          <p class="mt-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac vulputate dolor. Nullam venenatis enim in quam euismod fringilla. Donec in risus eget purus mattis varius. Nulla dapibus quis orci et tincidunt. Phasellus in rhoncus quam. Fusce a est lacinia, ultricies mi nec, rutrum dolor.</p>
+          <p>Donec vehicula cursus metus viverra aliquet Aliquam tincidunt dolor a auctor finibus. Sed in sodales magna. Etiam eget velit nec urna facilisis fringilla sed eget purus. Ut pulvinar ullamcorper mauris non tristique.</p>
+          <a class="btn btn-color btn-rounded btn-animate mt-20"><span>Read more <i class="icofont icofont-arrow-right"></i></span></a> </div>
+        <div class="col-md-6 wow fadeTop" data-wow-delay="0.2s">
+          <div class="arcon-video-box"> <img class="img-responsive" src="http://www.incognitothemes.com/scoda/assets/images/about-video-img.jpg" alt="">
+            <div class="arcon-video-box_overlay">
+              <div class="center-layout">
+                <div class="v-align-middle"> <a class="popup-youtube" href="https://www.youtube.com/watch?v=sU3FkzUKHXU">
+                  <div class="play-button"><i class="icofont-youtube-play"></i> </div>
+                  </a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="white-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-30 wow fadeLeft" data-wow-delay="0.1s">
+          <h2 class="text-uppercase font-700 mt-0">Meet Our Company</h2>
+          <p class="mt-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac vulputate dolor. Nullam venenatis enim in quam euismod fringilla. Donec in risus eget purus mattis varius. Nulla dapibus quis orci et tincidunt. Phasellus in rhoncus quam. Fusce a est lacinia, ultricies mi nec, rutrum dolor.</p>
+          <p>Donec vehicula cursus metus viverra aliquet Aliquam tincidunt dolor a auctor finibus. Sed in sodales magna. Etiam eget velit nec urna facilisis fringilla sed eget purus. Ut pulvinar ullamcorper mauris non tristique.</p>
+          <a class="btn btn-color btn-rounded btn-animate mt-20"><span>Read more <i class="icofont icofont-arrow-right"></i></span></a> </div>
+        <div class="col-md-6 wow fadeTop" data-wow-delay="0.2s">
+          <div class="arcon-video-box"> <img class="img-responsive" src="http://www.incognitothemes.com/scoda/assets/images/about-video-img.jpg" alt="">
+            <div class="arcon-video-box_overlay">
+              <div class="center-layout">
+                <div class="v-align-middle"> <a class="popup-youtube" href="https://www.youtube.com/watch?v=sU3FkzUKHXU">
+                  <div class="play-button"><i class="icofont-youtube-play"></i> </div>
+                  </a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

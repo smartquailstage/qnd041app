@@ -1,0 +1,70 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+<section class="main-section white-bg" id="feature">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h1 class="wow fadeInUp font-700" data-wow-delay="0.1s">{% trans 'Business Media Envelopment' %}</h1>
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-md-4 col-sm-12">
+          <div class="pt-100 pb-100 pull-left">
+            <div class="feature-box text-left wow fadeInLeft" data-wow-delay="0.1s">
+              <div class="pull-left"><i class="icofont icofont-instrument font-50px red-icon"></i></div>
+              <div class="pull-right">
+                <h4 class="mt-0">{% trans 'Business Story Telling' %}</h4>
+                <p>{{page.banner_title5 | richtext }}. <a href="#">{% trans 'See more' %}</a></p>
+              </div>
+            </div>
+            <div class="feature-box text-left mt-30 wow fadeInLeft" data-wow-delay="0.2s">
+              <div class="pull-left"><i class="icofont icofont-gear font-50px red-icon"></i></div>
+              <div class="pull-right">
+                <h4 class="mt-0">{% trans 'SEM Strategy' %}</h4>
+                <p>{{page.banner_title6 | richtext }}<a href="#">{% trans 'See more' %}</a></p>
+              </div>
+            </div>
+            <div class="feature-box text-left mt-30 wow fadeInLeft" data-wow-delay="0.3s">
+              <div class="pull-left"><i class="icofont icofont-layers font-50px red-icon"></i></div>
+              <div class="pull-right">
+                <h4 class="mt-0">{% trans 'SEO Strategy' %}</h4>
+                <p>{{page.banner_title7 | richtext }}.<a href="#">{% trans 'See more' %}</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 wow fadeInUp col-sm-12" data-wow-delay="0.2s"> <img class="img-responsive" src="http://www.incognitothemes.com/scoda/assets/images/slides/iPhone-big.png" alt=""/> </div>
+        <div class="col-md-4 col-sm-12">
+          <div class="pt-100 pb-100 pull-left">
+            <div class="feature-box-right text-right wow fadeInRight" data-wow-delay="0.1s">
+              <div class="pull-right"><i class="icofont icofont-light-bulb font-50px red-icon"></i></div>
+              <div class="pull-left">
+                <h4 class="mt-0">{% trans 'Community Manager (RRSS)' %}</h4>
+                <p>{{page.banner_title8 | richtext }}<a href="#">{% trans 'See more' %}</a></p>
+              </div>
+            </div>
+            <div class="feature-box-right text-right mt-30 wow fadeInRight" data-wow-delay="0.2s">
+              <div class="pull-right"><i class="icofont icofont-paper-plane font-50px red-icon"></i></div>
+              <div class="pull-left">
+                <h4 class="mt-0">{% trans 'Web3.0 Development' %}</h4>
+                <p>{{page.banner_title9 | richtext }}<a href="#">{% trans 'See more' %}</a></p>
+              </div>
+            </div>
+            <div class="feature-box-right text-right mt-30 wow fadeInRight" data-wow-delay="0.3s">
+              <div class="pull-right"><i class="icofont icofont-headphone-alt font-50px red-icon"></i></div>
+              <div class="pull-left">
+                <h4 class="mt-0">{% trans 'Media Analytics' %}</h4>
+                <p>{{page.banner_title10 | richtext }}<a href="#">{% trans 'See more' %}</a>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

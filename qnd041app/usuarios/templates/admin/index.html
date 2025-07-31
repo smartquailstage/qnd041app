@@ -1,0 +1,35 @@
+{% extends 'admin/base.html' %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block title %}
+    {{ title }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <h1 class="text-2xl font-bold mb-6">Bienvenido, {{ request.user.first_name }}</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-4 shadow rounded">
+            <h2 class="text-lg font-semibold">Total de usuarios</h2>
+            <p class="text-xl">{{ users_count }}</p>
+        </div>
+
+        <div class="bg-white p-4 shadow rounded">
+            <h2 class="text-lg font-semibold">Total de pedidos</h2>
+            <p class="text-xl">{{ orders_count }}</p>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <a href="/admin/auth/user/" class="text-blue-600 hover:underline">Ver usuarios</a> |
+        <a href="/admin/miapp/pedido/" class="text-blue-600 hover:underline">Ver pedidos</a>
+    </div>
+</div>
+{% endblock %}

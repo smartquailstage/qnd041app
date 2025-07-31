@@ -1,0 +1,26 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+  <!--=== Call to Action Start ======-->
+  <section class="pt-50 pb-50 default-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="cta-heading-left">
+            <p class="subtitle mt-20">{{page.banner_title}}</p>
+            <h3>{{page.slogan}}</h3>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+          <div class="cta-heading-right">
+            <p class="mt-20 content-text">{{page.slogan_descriptcion}}</p>
+            <p class="mt-50"><a class="btn btn-rounded btn-white">{% trans 'Contact Us' %}</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Call to Action End ======-->

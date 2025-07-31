@@ -1,0 +1,53 @@
+{% extends "base_dash.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Tarea: {{ tarea.titulo }}</h4>
+                <p>{{ tarea.descripcion_tarea }}</p>
+                <p><strong>Fecha entrega:</strong> {{ tarea.fecha_entrega }}</p>
+                <hr>
+
+                <h5>Conversación / Actividad</h5>
+                <div class="mb-4">
+                    {% for comentario in comentarios %}
+                        <div class="card mb-2 {% if comentario.autor == request.user %}bg-light{% else %}bg-white{% endif %}">
+                            <div class="card-body">
+                                <strong>{{ comentario.autor.get_full_name }}</strong>
+                                <p class="mb-1">{{ comentario.mensaje }}</p>
+                                {% if comentario.archivo %}
+                                    <a href="{{ comentario.archivo.url }}" target="_blank">Ver archivo adjunto</a>
+                                {% endif %}
+                                <small class="d-block text-muted">{{ comentario.fecha|date:"d M Y H:i" }}</small>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No hay comentarios aún.</p>
+                    {% endfor %}
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="mensaje">Nuevo comentario:</label>
+                        {{ form.mensaje|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="archivo">Adjuntar archivo (opcional):</label>
+                        {{ form.archivo|add_class:"form-control" }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

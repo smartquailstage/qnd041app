@@ -1,0 +1,50 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+        
+
+<!-- Card: Mis Actividades -->
+<div class="col-12 col-md-6 col-lg-3">
+    <a href="{% url 'usuarios:actividad_list' %}">
+
+        <div class="card radius-10 bg-yellow border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="mb-1 text-primary">Mis Actividades</h5>
+                        <p class="mb-0 text-muted">
+                            <strong>{{ actividades_realizadas }}</strong> Realizadas /
+                            <strong>{{ actividades_nuevas }}</strong> Pendientes
+                        </p>
+                    </div>
+                    <div class="ms-auto widget-icon bg-light-primary text-primary rounded-circle p-2">
+                         <ion-icon name="pulse-outline" size="small"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<!-- Card: Mis Tareas -->
+<div class="col-12 col-md-6 col-lg-3">
+    <a href="{% url 'usuarios:tarea_list'  %}">
+        <div class="card radius-10 bg-yellow mb-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="mb-0 text-primary">Mis Tareas</h5>
+                        <p class="mb-0" style="margin-top: 0px;">
+                            {{ tareas_con_alta }} Realizadas /
+                            {{ tareas_nuevas }} Pendientes
+                        </p>
+                    </div>
+                    <div class="ms-auto widget-icon bg-light-primary text-primary">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

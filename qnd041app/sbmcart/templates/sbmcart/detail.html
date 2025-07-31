@@ -1,0 +1,278 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+SmartQuail® shopping cart
+{% endblock %}
+
+{% block content %}
+
+<style>
+ body {
+  color: #fcfafb;
+  font-size: 15px;
+  font-family: 'Hind', sans-serif;
+  text-align: justify;
+  background-color: #0d0d0d;
+}
+ 
+
+
+ .dark-bg {
+  background-color: {{product.color}};
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #f8c44d;
+  margin: 10px 0;
+  font-style: normal;
+  font-family: 'Jost', sans-serif;
+}
+
+
+.grey {
+  color: #1f8db0 !important;
+}
+
+.btn-color {
+  color: #fff;
+  border-color: #e23285;
+  background-color: #e23185;
+}
+
+
+.blog-cover-bg {
+  background-image: url('{{ product.background.url }}');
+}
+
+.white-bg {
+  background-color: #0d0d0d;
+}
+
+.panel-default > .panel-heading {
+  color: #fbec15;
+  background-color: #0d0d0d;
+  border-color: #de2f82;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel {
+  margin-bottom: 20px;
+  background-color: #0d0d0d;
+  border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.accordion-color .panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border: 1px solid #e23185;
+  background: #fff
+}
+
+.table-bordered th {
+      background-color: #ff0083; /* Mismo color que el borde */
+      color: #fff; /* Cambiar el texto a blanco para mejor contraste */
+  }
+
+
+
+  h1, h2, h3, h4, h5, h6 {
+      color: #f4efef;
+      margin: 10px 0;
+      font-style: normal;
+      font-family: 'Jost', sans-serif;
+  }
+
+
+  .table-bordered {
+  border: 3px solid #e23185;
+}
+
+
+section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+  position: relative;
+  z-index: 10;
+  background: #0d0d0d;
+}
+
+.highlight {
+              background-color: #e23185; /* Color de fondo amarillo */
+              font-weight: bold;
+          }
+
+strong {
+    color: #f4f731;
+}
+
+</style>
+
+
+{% include 'sbmshop/header.html' %}
+
+<section>
+  
+  <div class="container">
+    <div class="row">
+
+    <div class="col-md-6">
+        <div class="product-slider flexslider">     
+       
+        <h1>{% trans 'Checkout your suscription plan.' %}</h1>
+       
+        <p>
+          {% trans "This product includes public domain access with SSL/TTL protection, as well as a user manual, which will be automatically sent to your email once the payment for the selected product is processed. Before checking out, please ensure that the subscription plan you have chosen aligns with your business model and the product you wish to purchase." %}
+        </p>
+
+        {% for item in cart %}
+        <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>SmartBusinessMedia® Subscriptions</th>
+                  <th>{% trans 'Detail' %}</th>
+              </tr>
+          </thead>
+          <tbody>
+              
+              <tr>
+                  <td>{% trans 'SmartQuail® Product' %}</td>
+                  <td>{{ item.product.name }}</td>
+              </tr>
+      
+              <!-- Resaltada: Business model -->
+              <tr class="highlight">
+                  <td>{% trans 'Business model' %}</td>
+                  <td>{{ item.product.category }}</td>
+              </tr>
+      
+              <tr>
+                  <td>{% trans 'Make monthly payments' %}</td>
+                  <td>$ {{ item.price }}</td>
+              </tr>
+      
+              <!-- Resaltada: Subscription period -->
+              <tr class="highlight">
+                  <td>{% trans 'Subscription period' %}</td>
+                  <td>{{ item.quantity }} months</td>
+              </tr>
+      
+              <tr>
+                  <td>{% trans 'Sub total' %}</td>
+                  <td>$ {{ item.total_price }}</td>
+              </tr>
+
+              {% if item.product.coupon %}
+              <tr>
+                <td>{% trans 'Promotional Discount' %}</td>
+                <td style="color: #fff126;background-color: #0d0d0d;">- ${{ cart.get_discount|floatformat:"2"  }}</td>
+            </tr>
+              {% else %}
+              {% endif %}
+
+
+          
+
+
+              
+          </tbody>
+          <tfoot>
+              <!-- Resaltada: Total Pay -->
+              <tr class="highlight">
+                  <td>{% trans 'Total Pay' %}</td>
+                  <td>$ {{ cart.get_total_price_after_discount|floatformat:"2" }}</td>
+              </tr>
+          </tfoot>
+        </table>
+
+        {% endfor %}
+    </div>
+      </div>
+      <div class="col-md-6">
+        <div class="product-slider flexslider">     
+{% for item in cart %}
+
+{% if item.product.coupon %}
+<h1>{% trans "You're lucky¡" %}</h1>
+<h3>{% trans 'This product has the follow promotional code' %}</h3>
+<h4 style="background-color: #f5f902; color: #0d0d0d;">{{ item.product.coupon }}</h4>
+
+      <form action="{% url 'sbmcoupons:apply' %}" method="post">
+        {% csrf_token %}
+        {% for field in coupon_apply_form.visible_fields %}
+        
+      
+            {% if field.name == 'code' %}
+                <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Write in to below box the promotional Code' %}</strong></label>
+                {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" required="required" %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% render_field field class="form-control" required="required" %}
+                {% endif %}
+                {% if field.help_text %}
+                    <small class="form-text text-muted"></small>
+                {% endif %}
+        {% endif %}
+
+        {% endfor %}
+
+        <input type="submit" class="btn btn-outline-blue btn-default"  value="Apply">
+      
+
+      </form>
+{% else %}
+{% endif %}
+
+<h1 style="color:#e23185">{% trans 'Final Price to Pay' %}</h1>
+<h1 style="color:#e23185">$ {{ cart.get_total_price_after_discount|floatformat:"2" }}</h1>
+{% if item.product.coupon %}
+<h2> {% trans 'You Saved' %}: ${{ cart.get_discount|floatformat:"2"  }}   </h2>
+{% else %}
+
+{% endif %}
+
+
+      {% endfor %}
+
+
+     
+    </div>
+    
+
+    <div class="product-slider flexslider"> 
+      <a href="{% url "sbmshop:product_list" %}" class="btn btn-outline-white   btn-default">{% trans 'Continue shopping' %}</a>
+      <a href="{% url "sbmorders:order_create" %}" class="btn btn-outline-blue btn-default">
+        {% trans 'Checkout' %}
+      </a>
+
+    </div>
+
+  
+   
+   
+  </div>
+</section>
+
+
+{% include 'webapp/home/footer_section.html' %}
+
+{% endblock %}

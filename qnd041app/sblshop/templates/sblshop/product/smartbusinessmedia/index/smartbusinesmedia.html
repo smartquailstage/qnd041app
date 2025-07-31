@@ -1,0 +1,29 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+{% include 'webapp/products/smartbusinessmedia/index/banner.html' %}
+{% include 'webapp/products/smartbusinessmedia/index/features.html' %}
+{% include 'webapp/products/smartbusinessmedia/index/pricing.html' %}
+{% include 'shop/product/sbm.html' %}
+{% include 'webapp/products/smartbusinessmedia/index/stelar.html' %}
+{% include 'webapp/products/smartbusinessmedia/index/contact.html' %}
+{% include 'webapp/home/footer_section.html' %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

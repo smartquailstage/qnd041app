@@ -1,0 +1,51 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/pagos/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+
+                <div class="card radius-10">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Subir Comprobante de Pago</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <p><strong>Paciente:</strong> {{ pago.profile.nombre_paciente }} {{ pago.profile.apellidos_paciente }}</p>
+                        <p><strong>Servicio:</strong> {{ pago.servicio }}</p>
+                        <p><strong>Monto a pagar:</strong> {{ pago.pago }}</p>
+
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="comprobante_pago" class="form-label">Archivo del comprobante</label>
+                                <input type="file" name="comprobante_pago" id="comprobante_pago" class="form-control" accept="application/pdf,image/*">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Subir Comprobante</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

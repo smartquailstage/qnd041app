@@ -1,0 +1,75 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+
+        <div class="row">
+            {% include 'usuarios/citas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+
+                {% if citas %}
+                    <div class="row row-cols-1 row-cols-lg-3 g-5">
+                        {% for cita in citas %}
+                            <div class="col">
+                                <a href="{% url 'usuarios:ver_cita' cita.id %}" class="text-decoration-none">
+                                    <div class="card radius-10 bg-warning text-dark h-100">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="service-box bg-white text-white me-2 d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">
+                                                   <i class="lni lni-hourglass"></i>
+                                                </div>
+                                                <h5 class="mb-0 border-bottom">{{ cita.motivo|default:"(Sin motivo)" }}</h5>
+                                            </div>
+
+                                            <div class="d-flex align-items-center justify-content-start mb-3">
+                                                <!-- Fecha -->
+                                                <div class="text-center bg-white text-primary p-2 rounded shadow-sm me-3" style="width: 70px;">
+                                                    <div class="fw-bold" style="font-size: 1.5rem;">
+                                                        {{ cita.fecha|date:"d" }}
+                                                    </div>
+                                                    <div style="text-transform: uppercase; font-size: 0.8rem;">
+                                                        {{ cita.fecha|date:"b" }}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Hora -->
+                                                <div class="text-center bg-white text-primary p-2 rounded shadow-sm me-3" style="width: 70px;">
+                                                    <div class="fw-bold" style="font-size: 1.5rem;">
+                                                        <i class="lni lni-alarm-clock"></i>
+                                                    </div>
+                                                    <div style="text-transform: uppercase; font-size: 0.8rem;">
+                                                        {{ cita.hora|time:"H:i" }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Paciente y notas -->
+                                            <p class="mb-1"><strong>Paciente:</strong> {{ cita.profile.user.first_name }} {{ cita.profile.user.last_name }}</p>
+                                            <p class="mb-1"> {{ cita.notas|default:"(Sin notas)"|truncatechars:50 }}</p>
+
+                                            <!-- Estado -->
+                                            <span class="badge bg-dark text-white">Pendiente</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No tienes citas pendientes agendadas.</div>
+                {% endif %}
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

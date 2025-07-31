@@ -1,0 +1,49 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+{% main_menu template="webapp/home/header.html" %}
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% for item in page.partners_item_Page.all %}
+  
+  <section class="white-bg">
+   
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-md-6 mb-30 wow fadeLeft" data-wow-delay="0.1s">
+          
+          <h2 class="text-uppercase font-700 mt-0">{{item.partner_name}}</h2>
+          <p class="mt-20">{{item.partner_description | richtext }}</p>
+          <span></span> 
+        </div>
+        <div class="col-md-6 wow fadeTop" data-wow-delay="0.2s">
+          <div class="arcon-video-box"> 
+            {% image item.partner_image scale-100 as s1 %}
+            <img class="img-responsive" src="{{ s1.url }}" alt="">
+          </div>
+        </div>
+      </div>
+   
+    </div>
+  </section>
+  {% endfor %}
+
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock content %}

@@ -5,99 +5,133 @@
 {% block title %}Ingresar{% endblock %}
 
 {% block content %}
-
-
-
-<div class="wrapper">
-  <div class="">
-    <div class="row g-0 m-0">
-      <div class="col-xl-6 col-lg-12">
-        <div class="login-cover-wrapper">
-          <div class="card shadow-none">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
+          <div class="card radius-10">
             <div class="card-body p-4">
-              <img src="{% static '' %}" style="width: 50px;" alt="">
-              <img src="{% static 'img/BA-LOGOS/logoHomeDetail.png' %}" style="width: 110px;" alt="">
-              <h2 style="color:#3005c1; font-size: 14pt;">Grupo Beneficios HomeDetail<i class="lni lni-helth"></i> </h2>
-              <h4 class="text-center"></h4>
-              <p class="text-left">Ingresar sus datos para iniciar sesión </p>
-              <form class="form-body row g-3" method="post">
-                {% csrf_token %}
-         
-      
-                {% if form.errors %}
-                <div class="col-12">
-                  <div class="alert alert-danger" role="alert">
-                    Your username and password didn't match. Please try again.
-                  </div>
+              <div class="text-left">
+            
+                 <img src="{% static 'img/BA-LOGOS/logoF.png' %}" style="width: 280px;" alt="">
+             
+              </div>
+                  <form class="form-body row g-3" method="post">
+             
+
+              <div class="col-12 col-lg-12">
+                <h4>Bienvenido a nuestra plataforma de gestión terapéutica.</h4>
+<p class="text-left">  Si usted es paciente registrado en MEDDES , por favor ingrese su correo electrónico y contraseña asociados a su cuenta  en los campos correspondientes. </p>
+              {% csrf_token %}
+                <div class="position-relative border-bottom my-3">
+                  <div class="position-absolute seperator-2 translate-middle-y"></div>
                 </div>
-                {% endif %}
-      
-                {% for hidden_field in form.hidden_fields %}
-                {{ hidden_field }}
-                {% endfor %}
-      
-                {% if form.non_field_errors %}
-                <div class="col-12">
-                  <div class="alert alert-danger" role="alert">
-                    {% for error in form.non_field_errors %}
+              </div>
+
+              {% if form.errors %}
+              <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                  Correo o contraseña incorrectos. Intente de nuevo.
+                </div>
+              </div>
+              {% endif %}
+
+              {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+              {% endfor %}
+
+              {% if form.non_field_errors %}
+              <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
                     {{ error }}
-                    {% endfor %}
-                  </div>
+                  {% endfor %}
                 </div>
-                {% endif %}
-      
-                {% for field in form.visible_fields %}
-                <div class="col-12">
-                  <div class="form-group">
-                    {{ field.label_tag }}
-                    {% if form.is_bound %}
-                    {% if field.errors %}
-                    {% render_field field class="form-control is-invalid" %}
-                    {% for error in field.errors %}
-                    <div class="invalid-feedback">
-                      {{ error }}
-                    </div>
-                    {% endfor %}
-                    {% else %}
-                    {% render_field field class="form-control is-valid" %}
-                    {% endif %}
-                    {% else %}
-                    {% render_field field class="form-control" %}
-                    {% endif %}
-                    {% if field.help_text %}
-                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                  </div>
+              </div>
+              {% endif %}
+
+              <!-- Campo Email -->
+              <div class="col-12">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                <div class="input-group">
+        
+                  {% if form.is_bound and form.email.errors %}
+                    {% render_field form.email class="form-control is-invalid" %}
+                  {% elif form.is_bound %}
+                    {% render_field form.email class="form-control is-valid" %}
+                  {% else %}
+                    {% render_field form.email class="form-control" %}
+                  {% endif %}
                 </div>
+                {% for error in form.email.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
-      
-                <p>¿Olvidó su contraseña?<a href="{% url 'password_reset' %}"> Recuperar contraseña</a></p>
-      
-      
-                <div class="col-12 d-grid">
-                  <button type="submit" class="btn btn-primary" value="Log in">Ingresar</button>
+              </div>
+
+              <!-- Campo Contraseña -->
+              <div class="col-12">
+                <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                <div class="input-group">
+                  {% if form.is_bound and form.password.errors %}
+                    {% render_field form.password class="form-control is-invalid" id="passwordInput" %}
+                  {% elif form.is_bound %}
+                    {% render_field form.password class="form-control is-valid" id="passwordInput" %}
+                  {% else %}
+                    {% render_field form.password class="form-control" id="passwordInput" %}
+                  {% endif %}
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                    <i class="bi bi-eye"></i>
+                  </button>
                 </div>
-      
-      
-                <div class="col-12">
-                 
-                </div>
-      
-              </form>
+                {% for error in form.password.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="col-12 d-grid">
+                <button type="submit" class="btn btn-outline-secondary" value="Log in">Ingresar</button>
+              </div>
+
+   <div class="col-12 text-center">
+  <p style="font-size: 10px;">
+  <strong>Al ingresar, usted esta aceptando los <a href="{% url 'usuarios:politicas_terminos' %}">términos y condiciones de uso y la política de privacidad.</a></strong>
+
+     <strong>Para más información:</strong> 
+     <a href="mailto:info@meddes.com.ec" class="text-green-600 hover:underline">info@meddes.com.ec</a> | 
+     <a href="https://wa.me/5939963639500" target="_blank" class="text-blue-600 hover:underline">+593 99-6363-9500</a> |
+
+     <strong>Matriz:</strong> La Niña, E8-58 y Yánez Pinzón, Ed. Royal Business, tercer piso No. 307, Quito | Ecuador
+
+     
+  </p>
+
+</div>
+
+
+            </form>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-xl-6 col-lg-12">
-        <div class="position-fixed top-0 h-100 d-xl-block d-none register-cover-img">
-        </div>
-      </div>
     </div>
-    <!--end row-->
-  </div>
-</div>
 
 
+    <!-- Script mostrar/ocultar contraseña -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("passwordInput");
+
+    togglePassword.addEventListener("click", function () {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+
+      this.innerHTML = type === "password"
+        ? '<i class="bi bi-eye"></i>'
+        : '<i class="bi bi-eye-slash"></i>';
+    });
+  });
+</script>
 
 
 {% endblock %}

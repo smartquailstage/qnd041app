@@ -1,0 +1,87 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            {% include 'usuarios/citas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+                {% if cita %}
+                    <div class="card radius-10 
+                        {% if cita.confirmada %}
+                            bg-orange text-white
+                        {% elif cita.cancelada %}
+                            bg-danger text-white
+                        {% elif cita.pendiente %}
+                            bg-warning text-dark
+                        {% else %}
+                            bg-secondary text-white
+                        {% endif %}
+                        shadow">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">
+                                <i class="lni lni-calendar"></i> Detalles de la Cita
+                            </h5>
+
+                            <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
+
+                            <p><strong>Fecha:</strong> {{ cita.fecha|date:"d M Y" }}</p>
+                            <p><strong>Hora:</strong> {{ cita.hora|time:"H:i" }} - {{ cita.hora_fin|time:"H:i" }}</p>
+                            <p><strong>Duración:</strong> {{ cita.get_duracion }}</p>
+
+                            {% if cita.sucursal %}
+                                <p><strong>Sucursal:</strong> {{ cita.sucursal }}</p>
+                            {% endif %}
+
+                            {% if cita.profile %}
+                                <p><strong>Paciente:</strong> {{ cita.profile.get_full_name }}</p>
+                            {% elif cita.nombre_paciente %}
+                                <p><strong>Paciente Particular:</strong> {{ cita.nombre_paciente }}</p>
+                            {% endif %}
+
+                            {% if cita.profile_terapeuta %}
+                                <p><strong>Terapeuta:</strong> {{ cita.profile_terapeuta }}</p>
+                            {% endif %}
+
+                            <p><strong>Notas:</strong> {{ cita.notas|default:"(Sin notas adicionales)" }}</p>
+
+                            <hr>
+
+                            <div>
+                                <span class="badge p-2
+                                    {% if cita.confirmada  %}
+                                        bg-success
+                                    {% elif cita.cancelada %}
+                                        bg-danger
+                                    {% else %}
+                                        bg-warning text-dark
+                                    {% endif %}
+                                ">
+                                    {% if cita.confirmada %}
+                                        <i class="fadeIn animated bx bx-check-double"></i> Asistida
+                                    {% elif cita.cancelada %}
+                                        ✖ Asistencia Cancelada
+                                    {% else %}
+                                        <i class="lni lni-checkmark"></i> Asistencia Pendiente
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">No se encontró la información de esta cita.</div>
+                {% endif %}
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

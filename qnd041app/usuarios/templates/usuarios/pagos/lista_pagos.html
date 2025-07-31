@@ -1,0 +1,92 @@
+{% extends "base_dash.html" %}
+{% load static %}
+{% block content %}
+
+<div class="page-content-wrapper">
+  <div class="page-content">
+    <div class="row">
+      {% include 'usuarios/pagos/barra_herramientas.html' %}
+      {% include 'usuarios/logo.html' %}
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-lg-8 col-xl-9">
+
+        {% if pagos_usuario %}
+        <div class="row row-cols-1 row-cols-lg-2">
+          {% for pago in pagos_usuario %}
+          <div class="col mb-3">
+            <div class="card radius-10 
+              {% if pago.al_dia %}
+                bg-success text-white
+              {% elif pago.vencido %}
+                bg-danger text-white
+              {% elif pago.pendiente %}
+                bg-warning text-dark
+              {% else %}
+                bg-secondary text-white
+              {% endif %}
+            ">
+              <div class="card-body">
+                <!-- Encabezado con ícono y servicio -->
+                <div class="d-flex align-items-center mb-2">
+                  <div class="service-box bg-white text-white me-2 d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px;">
+                    <ion-icon name="pricetags-outline"></ion-icon>
+                  </div>
+                  <h6 class="mb-0">{{ pago.servicio }}</h6>
+                </div>
+
+                <!-- Detalles -->
+                <p><ion-icon name="calendar-outline"></ion-icon>
+                  {% if pago.vencido %}
+                    Venció:
+                  {% else %}
+                    Vence:
+                  {% endif %}
+                  <strong>{{ pago.fecha_vencimiento|date:"d M Y" }}</strong>
+                </p>
+
+                <p><ion-icon name="cash-outline"></ion-icon> Monto: <strong>{{ pago.pago }}</strong></p>
+
+                <p>
+                  <ion-icon name="pulse-outline"></ion-icon> Estado: 
+                  {% if pago.al_dia %}
+                    <span class="badge bg-light text-success">Pagado</span>
+                  {% elif pago.vencido %}
+                    <span class="badge bg-light text-danger">Vencido</span>
+                  {% elif pago.pendiente %}
+                    <span class="badge bg-light text-warning">Pendiente</span>
+                  {% else %}
+                    <span class="badge bg-secondary">Desconocido</span>
+                  {% endif %}
+                </p>
+
+                <!-- Comprobante -->
+                {% if pago.comprobante_pago %}
+                <a href="{{ pago.comprobante_pago.url }}" class="btn btn-sm btn-outline-light" target="_blank">
+                  <ion-icon name="eye-outline"></ion-icon> Ver comprobante
+                </a>
+                {% else %}
+                <a href="{% url 'usuarios:subir_comprobante_pago' pago.id %}" class="btn btn-sm btn-outline-dark">
+                  <ion-icon name="cloud-upload-outline"></ion-icon> Subir comprobante
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Si no hay pagos -->
+        <div class="alert alert-info mt-4">
+          <ion-icon name="information-circle-outline"></ion-icon> No tienes órdenes de pago registradas.
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Panel lateral -->
+      {% include 'usuarios/panel_usuario.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}

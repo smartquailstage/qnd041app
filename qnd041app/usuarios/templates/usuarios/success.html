@@ -1,0 +1,136 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <!-- start page content -->
+    <div class="page-content">
+   
+  <div class="row">
+
+        <!-- Card 1: Leídas -->
+        
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:inbox_total' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>                       
+                            <h4 class="mb-0 text-primary">Bandeja de entrada</h4>
+                            <p class="mb-0" style="margin-top: 0px;"> Nuevas {{ mensajes_nuevos }} <ion-icon name="mail-unread"></ion-icon> / En bandeja {{ leidos }} <ion-icon name="mail-open"></ion-icon>  </p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="archive"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+      
+        <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <a href="{% url 'usuarios:inbox' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                           
+
+                            <h4 class="mb-0 text-primary">Leer Notificaciones</h4>
+                            <p class="mb-0" style="margin-top: 0px;"> Nuevas {{ mensajes_nuevos }} <ion-icon name="mail-unread"></ion-icon> </p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="mail-unread"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        </div>
+
+                <!-- Card 2: No leídas -->
+        <div class="col-12 col-md-6 col-lg-3">
+           <a href="{% url 'usuarios:enviar_mensaje' %}">
+            <div class="card radius-10 bg-yellow mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="mb-0 text-primary">Realizar Consulta </h4>
+                             <p class="mb-0" style="margin-top: 0px;"> Grupo MEDDES®</p>
+                        </div>
+                        <div class="ms-auto widget-icon bg-light-primary text-primary">
+                            <ion-icon name="send"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+
+         {% include 'usuarios/logo.html' %} 
+
+    </div> <!-- Fin row -->
+    
+    <div class="row">
+            <!-- Sección de mensajes -->
+            <div class="col-12 col-lg-8 col-xl-9">
+                {% if mensajes_recientes %}
+                    <div class="row row-cols-1 row-cols-lg-3">
+                        {% for mensaje in mensajes_recientes %}
+                            <div class="col">
+                                <a href="{% url 'usuarios:ver_mensaje' mensaje.id %}">
+                                    <div class="card radius-10 bg-success">
+                                        <div class="card-body text-white">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="service-box bg-white text-white me-2">
+                                                    {% if mensaje.asunto == 'Terapéutico' %}
+                                                        <ion-icon name="pulse"></ion-icon>
+                                                    {% elif mensaje.asunto == 'Solicitud de pago vencido' %}
+                                                        <ion-icon name="card"></ion-icon>
+                                                    {% elif mensaje.asunto == 'Reclamo del servicio  Médico' %}
+                                                        <ion-icon name="megaphone"></ion-icon>
+                                                    {% endif %}
+                                                </div>
+                                                <h5 class="mb-0">{{ mensaje.emisor.get_full_name }}</h5>
+                                            </div>
+                                            <p>Grupo MEDDES®</p>
+                                            <h4 class="mb-0">{{ mensaje.asunto|truncatechars:50 }}</h4>
+                                            <p class="mb-0">Enviado hace {{ mensaje.fecha_envio|timesince }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="card-body">
+                        <div class="alert alert-dismissible fade show py-2 bg-success">
+                            <div class="d-flex align-items-center">
+                                <div class="fs-3 text-white">
+                                    <ion-icon name="checkmark-circle-sharp"></ion-icon>
+                                </div>
+                                <div class="ms-3">
+                              
+<div class="text-white">
+    Su consulta ha sido enviada exitosamente al equipo especializado de Grupo MEDDES®.
+    <p class="mb-0">En breve recibirá una respuesta en su bandeja de entrada. Agradecemos su confianza.</p>
+</div>
+
+                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+             {% include 'usuarios/panel_usuario.html' %} 
+
+    </div> <!-- Fin row -->
+
+        
+    </div> <!-- Fin page-content -->
+</div> <!-- Fin page-content-wrapper -->
+{% endblock %}

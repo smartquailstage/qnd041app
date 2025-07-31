@@ -4,15 +4,28 @@ django>=4.2,<5.0
 # Django Baton
 #django-baton==2.6.2
 django-unfold
+python-decouple
+django-taggit
 
+matplotlib
+scipy
+pandas
+numpy
 
+# Wagtail
+wagtail==6.3.1
+wagtailmedia
+wagtail_localize
+wagtailgmaps
+fontawesome
 
 psycopg
 
 # Django Social Share
 django-social-share
+django_extensions
 
-
+django-tinymce==4.1.0
 
 # XlsxWriter
 XlsxWriter
@@ -89,8 +102,16 @@ django-ckeditor
 # Django QR Code
 django-qr-code
 
+
+django_celery_beat
+django-appointment
+django_celery_results
+django-scheduler
+
 # Django Braces
 django-braces
+
+django-q
 
 # Django Environ
 django-environ>=0.10.0
@@ -127,7 +148,7 @@ django-seed
 
 # Pymemcache
 pymemcache>=3.5.2
-
+django-money
 # Boto3
 boto3>=1.26.6
 
@@ -150,3 +171,6 @@ qrcode
 
 twilio 
 requests
+
+django-celery-beat 
+django-celery-results

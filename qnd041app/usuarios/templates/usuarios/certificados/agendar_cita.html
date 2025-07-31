@@ -1,0 +1,50 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+
+      <div class="row">
+
+
+
+         {% include 'usuarios/logo.html' %} 
+
+    </div> <!-- Fin row -->
+
+    <div class="row">
+        <div class="col-12 col-lg-8 col-xl-9">
+
+     <div class="card radius-10">
+    <div class="card-body">
+           <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.motivo.label_tag }}<br>
+            {{ form.motivo }}
+        </div>
+        <div class="mb-3">
+            {{ form.fecha.label_tag }}<br>
+            {{ form.fecha }}
+        </div>
+        <button type="submit" class="btn btn-primary">Agendar cita</button>
+    </form>
+    </div>
+</div>
+
+
+    </div>
+
+     {% include 'usuarios/panel_usuario.html' %} 
+    </div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <!-- start page content -->
+    <div class="page-content">
+   
+  <div class="row">
+
+
+         {% include 'usuarios/logo.html' %} 
+
+    </div> <!-- Fin row -->
+    
+    <div class="row">
+            <!-- Sección de mensajes -->
+               <div class="col-12 col-md-6 col-lg-9">
+    <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+
+                           
+                 <h5 class="mb-0">                 
+                    {% if cita.estado == 'pendiente' %}
+                      Asunto: <span class="badge bg-success">Pendiente</span>
+                    {% elif cita.estado == 'confirmada' %}  
+                      Asunto: <span class="badge bg-warning">Confirmada</span>
+                      <h6> Enviado: {{ mensaje.fecha_envio }}</h6> 
+                     
+                    {% elif cita.estado == 'Cancelada'  %}
+                      Asunto: <span class="badge bg-danger">Cancelada</span>
+                    {% endif %}
+                  </h5>
+                  <h6 class="mb-0">{{ cita.destinatario.first_name }} {{ cita.destinatario.last_name }}</h6>
+                  <p class="mb-0" >Grupo MEDDES®</p>
+                  {% if cita.is_active == True %}  
+                      <h6>Agendado <ion-icon name="eye-outline"></ion-icon></h6>
+                    {% else %}
+                      <h6>Cancelado<ion-icon name="eye-off-outline"></ion-icon></h6>
+                    {% endif %} 
+            </div>
+    </div>
+        <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+                <h5 class="mb-0"><ion-icon name="notifications-sharp"></ion-icon> Cita </h5>
+                <p>{{ cita.notes|safe }}</p>
+              {% if request.user == cita.destinatario %}
+  <form method="post" action="{% url 'usuarios:confirmar_cita' cita.id %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Confirmar Cita</button>
+  </form>
+
+  <form method="post" action="{% url 'usuarios:cancelar_cita' cita.id %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Cancelar Cita</button>
+  </form>
+{% endif %}
+
+            </div>
+    </div>
+    </div>
+
+             {% include 'usuarios/panel_usuario.html' %} 
+
+    </div> <!-- Fin row -->
+
+        
+    </div> <!-- Fin page-content -->
+</div> <!-- Fin page-content-wrapper -->
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "shop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+{% for product in products %}
+<style>
+ 
+  .blog-cover-bg {
+  background-image: url("{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}");
+}
+
+</style>
+{% endfor%}
+
+{% include 'shop/header.html' %}
+
+
+<section class="title-hero-bg blog-cover-bg" data-stellar-background-ratio="0.2">
+  <div class="container">
+    <div class="page-title text-center">
+      
+      {% for c in categories %}    
+      <img src="{% if c.logo %}{{ c.logo.url }}{% else %}{% endif %}">     
+      <h4 class="text-uppercase mt-30 white-color">{{c.slogan}}</h4>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="container">
+    <div class="row">
+     
+      <div class="col-sm-8 section-heading">
+        <h2 class="text-uppercase wow fadeTop" data-wow-delay="0.1s">{% trans 'Legal IT Cloud Business Systems' %}</h2>
+        <h4 class="text-uppercase text-uppercase wow fadeTop" data-wow-delay="0.2s">- Tell a Bigger Story -</h4>
+        <div class="mt-30 wow fadeTop" data-wow-delay="0.3s">
+          <p>We are a fully in-house digital agency focusing on branding, marketing, web design and development with clients ranging from start-ups, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius quam ut magna ultricies pellentesque. </p>
+        </div>
+        asas
+    </div>
+    <div class="row mt-50">
+      {% for product in products %}
+      <div class="col-md-4 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.1s">
+        <div class="pull-left"><i class="icofont {{product.icon}} font-50px default-icon"></i></div>
+        <div class="pull-right">
+          <h5 class="mt-0 upper-case">{{product.name}}</h5>
+          <p>{{ product.description|linebreaks }} <a href="{{ product.get_absolute_url }}" >{% trans 'Order this plan now'  %}</a><i class ="icofont icofont-arrow-right"></i> </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
+
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+{% endblock %}

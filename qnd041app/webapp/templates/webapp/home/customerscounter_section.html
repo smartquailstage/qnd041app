@@ -1,0 +1,31 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load humanize %}
+{% load static %}
+ 
+ 
+ <!--=== Counter Start ===-->
+  <section class="dark-bg pt-80 pb-80">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 counter text-center col-sm-6 wow fadeTop" data-wow-delay="0.1s">
+          <h2 class="count white-color font-700">{{ page.numero_coffe}}</h2>
+          <h3>Cup Of Tea</h3>
+        </div>
+        <div class="col-md-3 counter text-center col-sm-6 wow fadeTop" data-wow-delay="0.2s">
+          <h2 class="count white-color font-700">{{page.numero_experiencia}}</h2>
+          <h3>Years Of Experience</h3>
+        </div>
+        <div class="col-md-3 counter text-center col-sm-6 wow fadeTop" data-wow-delay="0.3s">
+          <h2 class="count white-color font-700">{{page.numero_horas}}</h2>
+          <h3>Hours Of Project</h3>
+        </div>
+        <div class="col-md-3 counter text-center col-sm-6 wow fadeTop" data-wow-delay="0.4s">
+          <h2 class="count white-color font-700">{{page.numero_wins}}</h2>
+          <h3>Projects Wins</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Counter End ===-->

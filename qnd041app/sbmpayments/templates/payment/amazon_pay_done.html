@@ -1,0 +1,9 @@
+<!-- amazon_pay_done.html -->
+<h1>Pago completado</h1>
+<p>Gracias por tu compra. El pago se ha procesado correctamente.</p>
+<p>Detalles de la orden:</p>
+<ul>
+    <li>ID de la orden: {{ order.id }}</li>
+    <li>Total: ${{ order.get_total_cost }}</li>
+    <li>Estado: {{ order.status }}</li>
+</ul>

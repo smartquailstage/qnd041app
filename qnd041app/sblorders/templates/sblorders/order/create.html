@@ -1,0 +1,107 @@
+{% extends "sblorders/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Checkout
+{% endblock %}
+
+{% block content %}
+{% include 'shop/header.html' %}
+<section class="pt-50 pb-50 dark-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+       
+      </div>
+      <div class="col-md-1"></div>
+   
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <form  action="." method="post" class="order-form"  >
+          <div class="checkout-form">
+            <div class="row">
+              <div class="col-md-6 mb-20">
+                <div class="mb-20">
+                  <h5 class="upper-case">Billing Address</h5>
+                </div>
+                {% csrf_token %}
+                {% for hidden_field in form.hidden_fields %}
+                  {{ hidden_field }}
+                {% endfor %}
+                {% if form.non_field_errors %}
+                  <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+            <div class="form-group ">
+              {% for field in form.visible_fields %}
+              {{ field.label_tag }}
+        
+              {% if form.is_bound %}
+                {% if field.errors %}
+                  {% render_field field class="form-control is-invalid" %}
+                  {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                      {{ error }}
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  {% render_field field class="form-control is-valid" %}
+                {% endif %}
+              {% else %}
+                {% render_field field class="form-control" %}
+              {% endif %}
+        
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+        
+              {% endif %}
+              {% endfor %}             
+            </div>         
+          </div>
+
+              <div class="col-md-6">
+                <div class="mb-20">
+                  <h5 class="upper-case">Order Product Info</h5>
+                </div>
+
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <h5 class="upper-case">Order Total</h5>
+                      {% for item in cart %}
+                      <h5>
+                        {{ item.quantity }}x {{ item.product.name }}
+                        <span>${{ item.total_price }}</span>
+                      </h5>
+                    {% endfor %}
+                    </div>
+                    <div class="col-xs-6 text-right">
+                      <h5>$ {{ cart.get_total_price }}</h5>
+                    </div>
+                  </div>
+                </div>   
+                <div class="form-group">
+                  <button class="btn btn-color btn-block btn-animate" value="Place order"  type="submit" ><span>Submit order <i class="icofont icofont-check"></i></span></button>
+              </div>           
+              </div>
+            </div>
+          </div>      
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

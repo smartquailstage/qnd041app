@@ -1,0 +1,83 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+{% block content %}
+{% main_menu template="webapp/home/header.html" %}
+
+<section class="pt-50 pb-50 dark-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 terms">
+          <h2 class="font-700">{%trans 'Complete this form, for apply the job oportunity ' %} </h2>
+          <h3>{{self.jobs_category}}</h3>
+          <form id="form-comments" class="comment-form" action="{% pageurl page %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="form-group">
+            
+                    {% for field in form.visible_fields %}
+                    {{ field.label_tag }}
+              
+                    {% if form.is_bound %}
+                      {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                        {% for error in field.errors %}
+                          <div class="invalid-feedback">
+                            {{ error }}
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        {% render_field field class="form-control is-valid" %}
+                      {% endif %}
+                    {% else %}
+                      {% render_field field class="form-control" %}
+                    {% endif %}
+              
+                    {% if field.help_text %}
+                      <small class="form-text text-muted">{{ field.help_text }}</small>
+              
+                    {% endif %}
+                    {% endfor %}   
+               
+              </div>
+            <p class="form-submit">
+                <input name="submit" type="submit" id="submit-btn" class="btn btn-color btn-square" value="{% trans 'Submit your aplication' %}">
+                <input type="hidden" name="comment_post_ID">
+                <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+              </p>
+        </form>
+
+          <h2 class="mt-80 font-700">Benefits</h2>
+          <p>{{ self.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock %}

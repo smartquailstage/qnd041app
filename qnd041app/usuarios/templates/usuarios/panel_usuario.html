@@ -1,0 +1,130 @@
+
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+       <div class="col-12 col-lg-4 col-xl-3">
+
+<a href="">
+<div class="card radius-10 
+  {% if estado_de_pago == 'Al día' %}
+    bg-success
+  {% elif estado_de_pago == 'Pendiente' %}
+    bg-warning
+  {% elif estado_de_pago == 'Vencido' %}
+    bg-danger
+  {% else %}
+    bg-secondary
+  {% endif %}
+">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div>
+        <p class="mb-1 text-white">Estado de Cuenta</p>
+        <h4 class="mb-0 text-white">
+          {{ estado_de_pago }}
+          {% if estado_de_pago == 'Vencido' %}
+            <span class="badge bg-white text-danger">En mora</span>
+          {% elif estado_de_pago == 'Pendiente' %}
+            <span class="badge bg-white text-white">Por efectivizar {{ pagos }}</span>
+          {% elif estado_de_pago == 'Al día' %}
+            <span class="badge bg-white text-success">✔</span>
+          {% endif %}
+        </h4>
+      </div>
+      <div class="ms-auto widget-icon bg-light text-primary">
+        <ion-icon name="wallet" role="img" class="md hydrated" aria-label="wallet"></ion-icon>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+
+
+     <a href="{% url 'usuarios:inbox_total' %}">    
+          <div class="card radius-10 bg-yellow">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                   <p class="mb-1">Notificaciones Recibidas</p>
+                  <h4 class="mb-0 text-primary">{{ cantidad_mensajes_recibidos }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <ion-icon name="notifications-sharp" role="img" class="md hydrated" aria-label="notifications sharp"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+      </a>                
+        
+      <a href="{% url 'usuarios:lista_tareas' %}"> 
+      <div class="card radius-10 bg-info ">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Taréas Asiganadas</p>
+                  <h4 class="mb-0 text-primary">{{ cantidad_terapias_realizadas }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <div class="font-22">	<ion-icon name="pencil-outline"></ion-icon> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </a>
+          
+          
+        <a href="{% url 'usuarios:citas_total' %}">
+          <div class="card radius-10 bg-orange">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="">
+                  <p class="mb-1">Citas Teraéuticas Asistidas</p>
+                  <h4 class="mb-0 text-primary">{{ citas_realizadas }}</h4>
+                </div>
+                <div class="ms-auto widget-icon bg-light-primary text-primary">
+                  <div class="font-22">	<ion-icon name="calendar-outline"></ion-icon>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+          </div>
+        </a>
+
+
+<a href="{% url 'usuarios:vista_certificados' %}">        
+<div class="card radius-10 
+  {% if profile.es_alta %}
+    bg-success
+  {% elif profile.es_retirado %}
+    bg-danger
+  {% elif profile.es_pausa %}
+    bg-warning
+  {% elif profile.es_en_terapia %}
+    bg-primary
+  {% else %}
+    bg-secondary
+  {% endif %}
+">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div>
+        <p class="mb-1 text-white">Estado</p>
+        <h4 class="mb-0 text-white"> 
+          {{ estado_terapia }}
+        </h4>
+      </div>
+      <div class="ms-auto widget-icon bg-light text-white">
+        <div class="font-22">	
+          <i class="bx bx-plus-medical"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+

@@ -1,0 +1,61 @@
+{% extends "base_dash.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row mb-4">
+            {% include 'usuarios/tareas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-8 col-xl-9">
+
+                {% if actividades %}
+                    <div class="row g-3">
+                        {% for actividad in actividades %}
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <a href="{% url 'usuarios:actividad_detail' actividad.pk %}" class="text-decoration-none">
+                                    <div class="card h-100 shadow-sm border-0 hover-shadow transition">
+                                        <div class="card-body bg-info text-white rounded">
+                                            <h5 class="card-title fw-semibold mb-2 text-truncate">
+                                                {{ actividad.titulo|default:"(Sin título)"|truncatechars:40 }}
+                                            </h5>
+                                            <p class="card-text small mb-1">
+                                                📅 <strong>Fecha:</strong> {{ actividad.fecha_actividad|date:"d M Y H:i" }}
+                                            </p>
+                                            <p class="card-text small mb-1">
+                                                👨‍⚕️ <strong>Terapeuta:</strong> {{ actividad.terapeuta.get_full_name }}
+                                            </p>
+                                            
+                                            <span class="badge 
+                                                {% if actividad.actividad_realizada %}
+                                                    bg-success
+                                                {% else %}
+                                                    bg-warning text-dark
+                                                {% endif %}">
+                                                {% if actividad.actividad_realizada %}
+                                                    Realizada
+                                                {% else %}
+                                                    Pendiente
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="bi bi-info-circle me-2"></i> No tienes actividades asignadas.
+                    </div>
+                {% endif %}
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

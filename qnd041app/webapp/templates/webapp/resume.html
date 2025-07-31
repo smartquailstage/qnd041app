@@ -1,0 +1,270 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+{% main_menu template="webapp/home//header.html" %}
+
+
+
+  <!--=== Parallax Start ======-->
+  <section class="pt-0 pb-0" id="home">
+    <div class="full-screen-bg">
+    {% image self.image scale-100 as s1 %}
+      <div class="parallax-img" style="background: url('{{ s1.url }}') center center / cover scroll no-repeat;"></div>
+      <canvas></canvas>
+      <div class="hero-text-wrap">
+        <div class="hero-text white-color">
+          <div class="container text-center">
+            <h1 class="white-color font-700">{{ self.custom_title }} </h1>
+            <div class="animate-caption">
+              <h2 class="white-color mt-30"><span class="rotate">Hello | I m  | {{ self.aboutus | richtext }} | {{ self.aboutus_1 | richtext }}  | & | {{ self.aboutus_2 | richtext }} </span></h2>
+            </div>
+            <p class="text-center mt-30"><a class="btn btn-outline-white btn-circle">{% trans 'View Resume' %}</a> <a class="btn btn-dark btn-circle">Hire Me</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Parallax End ======-->
+
+  <!--=== Who We Are Start ======-->
+  <section class="main-section" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h1 class="text-uppercase font-700">{% trans 'Porfolio' %}</h1>
+          <div class="mt-30">
+            <p>{{ self.aboutus_3 | richtext }} </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!--=== Who We Are End ======-->
+
+  <!--=== Portfolio Start ======-->
+  <section class="pt-0 pb-0" id="portfolio">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="portfolio-container text-center">
+          <ul id="portfolio-filter" class="list-inline filter-transparent">
+            <li class="active" data-group="all">All</li>
+            <li data-group="{{self.porfolio_1}}">{{self.porfolio_1}}</li>
+            <li data-group="{{self.porfolio_2}}">{{self.porfolio_2}}</li>
+            <li data-group="{{self.porfolio_3}}">{{self.porfolio_3}}</li>
+            <li data-group="{{self.porfolio_4}}">{{self.porfolio_4}}</li>
+          </ul>
+          <ul id="portfolio-grid" class="three-column hover-two">
+            {% for item in page.porfolio_item_Page.all %}
+            <li class="portfolio-item" data-groups='["all", "{{ item.porfolio }}", "branding"]'>
+              <div class="portfolio gallery-image-hover">
+                <div class="dark-overlay"></div>
+                {% image item.image_1 scale-100 as porfolio1 %}
+                <img src="{{ porfolio1.url }}" alt="">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{ item.porfolio_title }}</h3>
+                 </div>
+                  <!--=== /.project-info ===-->
+                </div>
+              </div>
+              <!--=== /.portfolio ===-->
+            </li>
+            {% endfor %}
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Portfolio End ======-->
+
+  <!--=== Resume Start ======-->
+  <section class="dark-bg" id="resume">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading white-color">
+          <h1 class="text-uppercase font-700"> {% trans 'My Resume' %}</h1>
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-md-12">
+          <h3 class="mt-10 raleway-font font-700 text-uppercase">Experience</h3>
+          <p class="white-color">{{ self.experience_mesange }}</p>
+         
+          <ul class="resume-slider owl-carousel">
+            {% for item in page.experiece_item_Page.all %}
+            <li>
+             
+              <h3><i class="icofont icofont-calendar"></i>{{ item.Fecha }}</h3>
+              <h3><i class="icofont icofont-envato"></i>{{ item.business_title }}</h3>
+              <h2>{{ item.business_chage }}</h2>
+              <p>{{ item.business_activity }}</p>
+            
+            </li>
+            {% endfor %}
+          </ul>
+         
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-md-12">
+          <h3 class="mt-10 font-700 text-uppercase">{% trans 'Education' %}</h3>
+          <p class="white-color">{{ self.educational_mesange }}</p>
+          
+          <ul class="resume-slider owl-carousel">
+            {% for item in page.educational_item_Page.all %}
+            <li>
+              <h3><i class="icofont icofont-calendar"></i>{{ item.Fecha }}</h3>
+              <h3><i class="icofont icofont-envato"></i> {{item.academy_title}}</h3>
+              <h2> {{ item.title  }}</h2>
+              <p>{{ item.academy_activity }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+         
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Resume End ======-->
+
+  <!--=== Contact Us Start ======-->
+  <section class="contact-us" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 section-heading">
+          <h1 class="text-uppercase font-700">{% trans 'Contact Me' %}</h1>
+        </div>
+      </div>
+      <div class="row mt-50">
+        <div class="col-sm-12 col-md-offset-2 col-md-8">
+          <form id="form-comments" class="comment-form" action="{% pageurl page %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <p class="text-center">
+              <button type="submit" name="submit" class="btn btn-color btn-circle">Send Request</button>
+            </p>
+
+        </form>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--=== Contact Us End ======-->
+
+
+<script>
+var canvas = document.querySelector("canvas");
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+var ctx = canvas.getContext("2d");
+
+var TAU = 2 * Math.PI;
+
+times = [];
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+function Ball (startX, startY, startVelX, startVelY) {
+  this.x = startX || Math.random() * canvas.width;
+  this.y = startY || Math.random() * canvas.height;
+  this.vel = {
+    x: startVelX || Math.random() * 2 - 1,
+    y: startVelY || Math.random() * 2 - 1
+  };
+  this.update = function(canvas) {
+    if (this.x > canvas.width + 50 || this.x < -50) {
+      this.vel.x = -this.vel.x;
+    }
+    if (this.y > canvas.height + 50 || this.y < -50) {
+      this.vel.y = -this.vel.y;
+    }
+    this.x += this.vel.x;
+    this.y += this.vel.y;
+  };
+  this.draw = function(ctx, can) {
+    ctx.beginPath();
+    var distM = distMouse(this);
+    if (distM > 200) {
+      ctx.fillStyle = "#f1f1f1";
+      ctx.globalAlpha = .2;
+    } else {
+      ctx.fillStyle = '#c94b4b';
+      ctx.globalAlpha = 1 - distM / 240;
+    }
+    ctx.arc((0.5 + this.x) | 0, (0.5 + this.y) | 0, 3, 0, TAU, false);
+    ctx.fill();
+  }
+}
+
+var balls = [];
+for (var i = 0; i < canvas.width * canvas.height / (65*65); i++) {
+  balls.push(new Ball(Math.random() * canvas.width, Math.random() * canvas.height));
+}
+
+var lastTime = Date.now();
+function update() {
+  var diff = Date.now() - lastTime;
+  for (var frame = 0; frame * 16.6667 < diff; frame++) {
+    for (var index = 0; index < balls.length; index++) {
+      balls[index].update(canvas);
+    }
+  }
+  lastTime = Date.now();
+}
+var mouseX = -1e9, mouseY = -1e9;
+document.addEventListener('mousemove', function(event) {
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+});
+
+function distMouse(ball) {
+  return Math.hypot(ball.x - mouseX, ball.y - mouseY);
+}
+
+function draw() {
+  for (var index = 0; index < balls.length; index++) {
+    var ball = balls[index];
+    ctx.beginPath();
+    for (var index2 = balls.length - 1; index2 > index; index2 += -1) {
+      var ball2 = balls[index2];
+	var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
+        if (dist < 100) {
+          var distM = distMouse(ball2);
+          if (distM > 150) {
+            ctx.strokeStyle = "#c94b4b";
+          	ctx.globalAlpha = .2;
+          } else {
+            ctx.globalAlpha = 0;
+          }
+          ctx.moveTo((0.5 + ball.x) | 0, (0.5 + ball.y) | 0);
+          ctx.lineTo((0.5 + ball2.x) | 0, (0.5 + ball2.y) | 0);
+        }
+}
+    ctx.stroke();
+    ball.draw(ctx, canvas);
+  }
+}
+
+// Start
+loop();
+//# sourceURL=pen.js
+</script>
+
+
+{% include 'webapp/home/footer_section.html' %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+             {% include 'usuarios/citas/barra_herramientas.html' %}
+            {% include 'usuarios/logo.html' %}
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-9">
+                <!-- Detalle del estado de la cita -->
+                <div class="card radius-10 bg-light">
+                    <div class="card-body">
+                        <h5>
+                            Asunto:
+                            {% if cita.pendiente %}
+                                <span class="badge bg-warning">Pendiente</span>
+                            {% elif cita.confirmada %}
+                                <span class="badge bg-success">Confirmada</span>
+                            {% elif cita.cancelada %}
+                                <span class="badge bg-danger">Cancelada</span>
+                            {% endif %}
+                        </h5>
+
+                        <h6 class="mb-0">{{ cita.destinatario.first_name }} {{ cita.destinatario.last_name }}</h6>
+                        <p class="mb-0">Grupo MEDDES®</p>
+
+                        {% if cita.confirmada or cita.pendiente %}
+                            <h6>Agendado <ion-icon name="eye-outline"></ion-icon></h6>
+                        {% else %}
+                            <h6>Cancelado <ion-icon name="eye-off-outline"></ion-icon></h6>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Información adicional y formulario -->
+                <div class="card radius-10 bg-light mt-3">
+                    <div class="card-body">
+                        <h5><ion-icon name="calendar-outline"></ion-icon> Detalles de la Cita</h5>
+                        <p style="margin-bottom: 0rem;"><strong>Fecha:</strong> {{ cita.fecha }}</p>
+                         <p style="margin-bottom: 0rem;"><strong>Hora:</strong> {{ cita.hora }}</p>
+                         <p style="margin-bottom: 0rem;"><strong>Motivo:</strong> {{ cita.motivo }}</p>
+                         <p style="margin-bottom: 0rem;"><strong>Notas:</strong> {{ cita.notas|default:"(Sin notas)" }}</p>
+                         <p style="margin-bottom: 0rem;"><strong>Tipo:</strong> {{ cita.get_tipo_cita_display }}</p>
+
+                        {% if request.user == cita.destinatario or request.user == cita.creador %}
+                            {% if cita.pendiente %}
+                                <form method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" name="accion" value="confirmar" class="btn btn-success">Confirmar Cita</button>
+                                    <button type="submit" name="accion" value="cancelar" class="btn btn-danger">Cancelar Cita</button>
+                                </form>
+                            {% else %}
+                                <div class="alert alert-info mt-3">
+                                    Esta cita ya ha sido {{ cita.confirmada|yesno:"confirmada,cancelada" }}.
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% include 'usuarios/panel_usuario.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

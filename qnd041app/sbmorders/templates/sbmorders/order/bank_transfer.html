@@ -1,0 +1,186 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+SmartQuailSmartTransfer
+{% endblock %}
+
+{% block content %}
+
+<style>
+    p {
+        letter-spacing: normal;
+        line-height: 24px;
+        color: #373232;
+        font-weight: 300;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #0d0d0d;
+        margin: 10px 0;
+        font-style: normal;
+        font-family: 'Jost', sans-serif;
+    }
+</style>
+
+{% include 'sbmshop/header.html' %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form  action="." method="POST">
+                    <div class="checkout-form">
+                        <div class="row">
+                          
+                          <div class="col-md-6 mb-20">
+                            <div class="mb-20">
+                              <h5 class="upper-case">{% trans 'Políticas de privacidad y uso de información' %}</h5>
+                            </div>
+                           
+            
+                            <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">En SmartQuail, la seguridad de tus datos personales y la protección de tu privacidad son nuestra máxima prioridad. Queremos asegurarte que tomamos todas las medidas necesarias para proteger tu información cuando realizas una compra en nuestro sitio web.</p>
+                            
+                           <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" > 1. Protección de Datos y Seguridad de Pagos
+                            Utilizamos tecnologías de vanguardia para garantizar que tu información personal y de pago se maneje de forma segura. Al realizar una compra, todos los datos relacionados con tu tarjeta de crédito y otros detalles sensibles son procesados a través de plataformas de pago seguras y cifradas, como Braintree.
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" >
+                            2. Cifrado de Extremo a Extremo
+                            Desde el momento en que ingresas tus datos hasta que se procesan las transacciones, todos los datos son cifrados mediante un protocolo de cifrado de extremo a extremo. Esto significa que la información de tu tarjeta de crédito, como el número de la tarjeta, el CVV y la fecha de vencimiento, no se almacena ni se cifra en nuestros sistemas. Estos datos solo se transmiten a los servidores de Braintree para su procesamiento seguro.
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" >
+                            3. No Almacenamos Información Sensible
+                            En SmartQuail, no almacenamos ninguna información sensible sobre tus métodos de pago ni tus datos personales, como números de tarjeta, nombres de clientes o detalles de contacto. Todos estos datos son gestionados directamente por nuestros socios de pago, como Braintree, que cumplen con los más altos estándares de seguridad del sector.
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                            4. Información que Almacenamos
+                            La única información que almacenamos en nuestros sistemas de información es la relacionada con la compra de productos, como el historial de tus compras, los productos adquiridos, y los detalles de envío necesarios para completar el proceso de entrega. Esta información es utilizada exclusivamente para procesar tus pedidos y mejorar nuestra experiencia de cliente.
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+            
+                         
+                            5. Cumplimiento de Normativas de Privacidad
+                            Cumplimos con todas las normativas y regulaciones locales e internacionales de protección de datos, como el Reglamento General de Protección de Datos (GDPR) en Europa, para garantizar que tu información se maneje de forma transparente, segura y conforme a la ley.
+                          </p>
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                            Si tienes alguna pregunta sobre cómo protegemos tu información o cómo manejamos tus datos personales, no dudes en contactarnos.
+                          </p>
+
+
+                          <div class="mb-20">
+                            <h5 class="upper-case">{% trans 'Terminos y Condiciones de uso' %}</h5>
+                          </div>
+                         
+          
+                          <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;">
+                          {% trans 'El pago será considerado efectivo una vez que el sistema bancario local confirme la transacción realizada. La validación de la transacción se llevará a cabo verificando los siguientes aspectos: La identidad del usuario que realizó el pago. La verificación de los datos del banco y la transacción. La validación de la fecha y hora en la que se realizó la compra. Solo después de la confirmación por parte del sistema bancario local, se procesará el pedido y se iniciará el envío de los productos adquiridos. Si la transacción no puede ser confirmada o es rechazada, el pago no será considerado válido y no se procederá con la entrega del producto.' %}</p>
+                          
+               <p style="letter-spacing: normal; line-height: 14px; color: #373232;font-weight: 100;font-size: 10pt;" >el plazo mínimo estimado para la entrega del producto es de aproximadamente 24 horas</p>         
+                          </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-20">
+                                  <h5 class="upper-case">SmartBusinessMedia® {% trans 'Payment Process' %}</h5>
+                                  <h5>{% trans 'Subscription Payment Track ID' %} : 1000-0000000{{ order.id }}</h5>
+                                   
+                                    <h5>{% trans 'Scan the QR-Code for get SmartQuail Bank Information & copy to the bank place required' %}</h5>
+                                    {% if qr_code_base64 %}
+                                    <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="QR Code">
+                                    {% endif %}
+                                  
+                                   
+                                    
+                                    <h5>{% trans 'Fill this form with the bank  ticket information' %}</h5>
+                                </div>
+                              
+                                {% csrf_token %}
+                                {% for field in form.visible_fields %}
+                                    {% if field.name == 'bank' %}
+                                        <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Nombre de Institución financiera desde donde se realiza el pago.' %}</strong></label>
+                                        {% if field.errors %}
+                                            {% render_field field class="form-control is-invalid" required="required" %}
+                                            {% for error in field.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field class="form-control" required="required" %}
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <small class="form-text text-muted"></small>
+                                        {% endif %}
+                                    {% elif field.name == 'bank_id' %}
+                                        <label for="{{ field.id }}" class="form-label"><strong>{% trans 'ID de operación bancaria realizada.' %}</strong></label>
+                                        {% if field.errors %}
+                                            {% render_field field class="form-control is-invalid" required="required" %}
+                                            {% for error in field.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field class="form-control" required="required" %}
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <small class="form-text text-muted">** {% trans 'Escriba tal como indica el comprobante bancario' %} .</small>
+                                        {% endif %}
+                                        <h5>{% trans 'Acept the policyes & terms for purchase technologies products ' %}</h5>
+                                    {% elif field.name == 'accept_terms_and_conditions' %}
+                                        <label for="{{ field.id }}" class="form-check-label"><strong>{% trans 'Acepto los términos y condiciones del contrato' %}</strong></label>
+                                        {% if field.errors %}
+                                            {% render_field field type="checkbox" class="form-check-input is-invalid" required="required" %}
+                                            {% for error in field.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ error }}
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% render_field field type="checkbox" class="form-check-input" required="required" %}
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <small class="form-text text-muted"></small>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                <!-- Mostrar errores de campo en general -->
+                                {% if form.errors %}
+                                  <div class="alert alert-danger" role="alert">
+                                    {% for field in form %}
+                                      {% for error in field.errors %}
+                                        <p>{{ error }}</p>
+                                      {% endfor %}
+                                    {% endfor %}
+                                  </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                  <button type="submit" class="btn btn-color btn-block btn-animate">{% trans 'Submit Payment Request' %}</button>
+                              </div>
+                                
+
+                               
+
+                            </div>
+                            
+                             
+                          
+                        </div>
+                        
+                    </div>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+
+
+{% endblock %}

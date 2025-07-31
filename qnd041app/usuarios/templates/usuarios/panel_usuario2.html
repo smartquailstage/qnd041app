@@ -1,0 +1,81 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+<div class="col-12 col-lg-4 col-xl-3">
+
+    <div class="card radius-10 bg-success">
+      <div class="card-body text-white">
+        <div class="d-flex align-items-center mb-2">
+                
+          <div class="service-box bg-white text-white me-2">
+            <ion-icon name="person-add" role="img" class="md hydrated" aria-label="person add"></ion-icon>
+
+          </div>
+         
+          <h6 class="mb-3">Mis datos Personales</h6>
+         
+        </div>
+
+        <p class="mb-0"><ion-icon name="egg-outline"></ion-icon> {{ profile.fecha_nacimiento  }} </p>
+        <p class="mb-0"><ion-icon name="location-outline"></ion-icon> {{ profile.nacionalidad }}</p>
+        <p class="mb-0"><ion-icon name="male-female-outline"></ion-icon> {{ profile.sexo }}</p>
+        <p class="mb-0"><ion-icon name="navigate-circle-outline"></ion-icon> {{ profile.sucursales }}</p>
+      </div>  
+    </div>
+
+    <!-- Tarjeta de última cita -->
+    <div class="card radius-10 bg-success">
+      <div class="card-body text-white">
+        <div class="d-flex align-items-center mb-2">
+          <div class="service-box bg-white text-white me-2">
+            <ion-icon name="accessibility-outline" role="img" class="md hydrated" aria-label="accessibility outline"></ion-icon>
+          </div>
+          <h6 class="mb-0">Mi Representante/Tutor</h6>
+        </div>
+        <p class="mb-0"><ion-icon name="woman-outline"></ion-icon> {{ profile.nombres_representante_legal }} {{ profile.apellidos_representante_legal }}</p>
+        <p class="mb-0"><ion-icon name="accessibility-outline"></ion-icon></strong> {{ profile.relacion_del_representante }}</p>
+        <p class="mb-0"><ion-icon name="mail-outline"></ion-icon> {{ profile.email }}</p>
+        <p class="mb-0"><ion-icon name="logo-whatsapp"></ion-icon> {{ profile.celular }}</p>
+      </div>
+    </div>
+
+
+    <div class="card radius-10 bg-success">
+      <div class="card-body text-white">
+        <div class="d-flex align-items-center mb-2">
+          <div class="service-box bg-white text-white me-2">
+            <i class="lni lni-sthethoscope"></i>
+          </div>
+          <h6 class="mb-0">Mis terapeutas </h6>
+        </div>
+        <p class="mb-0"><ion-icon name="heart-circle-outline"></ion-icon>
+    <strong>
+    {% for terapeuta in profile.user_terapeutas.all %}
+      {{ terapeuta }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      No hay terapeutas asignados.
+    {% endfor %}
+  </strong>
+</p>
+ 
+
+
+
+
+        
+    
+    </div>
+  </div>
+
+
+<!-- Carta separada para el video -->
+<!-- Carta separada para el video -->
+
+
+</div>
+
+

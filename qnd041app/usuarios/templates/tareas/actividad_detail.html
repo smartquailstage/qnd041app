@@ -1,0 +1,67 @@
+{% extends "base_dash.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                        <div class="me-3">
+                            <span class="bg-white text-primary rounded-circle p-2 d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <ion-icon name="pulse-outline" size="small"></ion-icon>
+                            </span>
+                        </div>
+                        <h5 class="mb-0">Actividad Terapéutica</h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        {% if actividad.media_terapia %}
+                        <figure class="text-center">
+                            <a href="{{ actividad.media_terapia.url }}" target="_blank" class="text-decoration-none position-relative d-inline-block">
+                                <img id="thumbnailPreview"
+                                     src="{% static 'img/default_video_thumb.jpg' %}"
+                                     alt="Previsualización del video"
+                                     class="img-thumbnail rounded-circle shadow-sm"
+                                     style="width: 160px; height: 160px; object-fit: cover;">
+
+                                <span class="position-absolute top-50 start-50 translate-middle bg-white text-dark rounded-circle p-2 shadow" style="font-size: 1.5rem;">
+                                    <i class="bi bi-play-fill"></i>
+                                </span>
+                            </a>
+                            <figcaption class="mt-2 small text-muted">Haz clic para ver el video</figcaption>
+                        </figure>
+                        {% else %}
+                        <div class="alert alert-light border-start border-4 border-warning mt-3" role="alert">
+                            <strong>ℹ️ No hay video disponible para esta actividad.</strong>
+                        </div>
+                        {% endif %}
+
+                        <hr class="my-4">
+
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5">📅 Realizado:</dt>
+                            <dd class="col-sm-7">{{ actividad.fecha_actividad|date:"d/m/Y H:i" }}</dd>
+
+                            <dt class="col-sm-5">👨‍⚕️ Terapeuta Responsable:</dt>
+                            <dd class="col-sm-7">Dr. {{ actividad.terapeuta.get_full_name }}</dd>
+
+                            <dt class="col-sm-5">📍 Lugar:</dt>
+                            <dd class="col-sm-7">{{ actividad.sucursal }}</dd>
+
+                            <dt class="col-sm-5">📝 Actividad:</dt>
+                            <dd class="col-sm-7">{{ actividad.descripcion_actividad|safe }}</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                {% if actividad.media_terapia %}
+                    <video id="hiddenVideo" src="{{ actividad.media_terapia.url }}" style="display: none;"></video>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

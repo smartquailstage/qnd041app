@@ -1,0 +1,75 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+
+{% for item in page.galleria.all %}
+{% image item.profile_pic scale-100 as s1 %}
+<style>
+   .portfolio-cover-bg {
+  background-image: url("{{ s1.url }}");
+}
+</style>
+{% endfor %}
+
+
+<section class="title-hero-bg portfolio-cover-bg  data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="page-title text-center">
+        <h1>{{page.title}}</h1>
+      </div>
+    </div>
+  </section>
+
+<section class="first-ico-box white-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="section-heading text-left">
+            <h4 class="text-uppercase wow fadeLeft josefin-font" data-wow-delay="0.2s">Our Features</h4>
+            <h2 class="wow fadeLeft josefin-font font-600" data-wow-delay="0.1s">The Importance of Human Centered Design</h2>
+          </div>
+          <div class="panel-group accordion-style-01" id="accordion-style">
+            <div class="panel">
+              <div class="panel-heading"> <a data-toggle="collapse" data-parent="#accordion-style" href="design-studio.html#question1" aria-expanded="false" class="collapsed">
+                <div class="panel-title">UX and UI Design <span class="pull-right"><i class="ion-android-remove"></i></span> </div>
+                </a> </div>
+              <div id="question1" class="panel-collapse collapse in" aria-expanded="false" role="tablist">
+                <div class="panel-body"> We’ve all overheard conversations, walking down hip streets of the world’s tech capitals, discussions about the great ‘UX’ of a product, or the poor ‘UI’ of a website. </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading"> <a data-toggle="collapse" data-parent="#accordion-style" href="design-studio.html#question2" aria-expanded="false" class="collapsed">
+                <div class="panel-title">Development <span class="pull-right"><i class="ion-android-add"></i></span> </div>
+                </a> </div>
+              <div id="question2" class="panel-collapse collapse" aria-expanded="false" role="tablist">
+                <div class="panel-body"> Web development refers to building, creating, and an maintaining websites. It includes aspects such as web design, web publishing, web programming, and database management. While the terms "web developer" and "web designer" are often used synonymously, they do not mean the same thing. </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading"> <a data-toggle="collapse" data-parent="#accordion-style" href="design-studio.html#question3" aria-expanded="false" class="collapsed">
+                <div class="panel-title">Motion Graphics <span class="pull-right"><i class="ion-android-add"></i></span> </div>
+                </a> </div>
+              <div id="question3" class="panel-collapse collapse" aria-expanded="false" role="tablist">
+                <div class="panel-body"> Motion graphics are pieces of animation or digital footage which create the illusion of motion or rotation, and are usually combined with audio for use in multimedia projects. </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading"> <a data-toggle="collapse" data-parent="#accordion-style" href="design-studio.html#question4" aria-expanded="false" class="collapsed">
+                <div class="panel-title">Digital Marketing <span class="pull-right"><i class="ion-android-add"></i></span> </div>
+                </a> </div>
+              <div id="question4" class="panel-collapse collapse" aria-expanded="false" role="tablist">
+                <div class="panel-body"> Digital marketing is the marketing of products or services using digital technologies, mainly on the Internet, but also including mobile phones, display advertising, and any other digital medium. </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="single-img">
+            <img class="img-responsive" src="http://www.incognitothemes.com/scoda/assets/images/single-img.png" alt="team-img" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
