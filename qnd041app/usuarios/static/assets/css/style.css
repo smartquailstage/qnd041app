@@ -1368,9 +1368,8 @@ ul.categories-list li {
     background-position: center;
     background-size: cover;
     width: 100%;
-    transform: skewX(-10deg);
+    transform: skewX(-1.5deg);
 }
-
 
 .register-cover-img {
     background-image: url("../images/login_bg/bg.png");
