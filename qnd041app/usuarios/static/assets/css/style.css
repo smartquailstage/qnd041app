@@ -29,16 +29,16 @@ File: style.css
 /* Genral */
 
 body {
-    color: #4c5258;
+    color: #fff;
     font-size: 14px;
     letter-spacing: .5px;
-    background-color: #e4eff3;
+    background-color: #282424;
     overflow-x: hidden;
     font-family: Roboto, sans-serif;
 }
 
 a {
-    color: #fbff00;
+    color: #508eac;
     text-decoration: none;
 }
 
@@ -1324,7 +1324,7 @@ ul.categories-list li {
     top: 0;
     right: 0;
     left: 0;
-    background-image: url("../images/login_bg/bg.png");
+
   }
 
 .social-login a {
@@ -1403,7 +1403,7 @@ ul.categories-list li {
 }
 
 .au-sign-up-basic {
-    background-image: url("../images/login_bg/bg.png");
+    background-image: url("");
     background-position: center;
     background-size: cover;
 }

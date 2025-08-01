@@ -13,7 +13,21 @@ DEBUG=os.environ.get("DEBUG")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else []
 
 
+WAGTAIL_SITE_NAME = "SmartQuail IT Cloud Business" 
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Español'),
+    ('fr', 'Français'),
+    # agrega más idiomas si necesitas
+]
+
+LANGUAGE_CODE = 'en'  # idioma por defecto
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
+
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
 #import wagtail_ai
 
