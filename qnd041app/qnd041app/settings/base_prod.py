@@ -168,6 +168,7 @@ INSTALLED_APPS = [
 
 from usuarios.utils import permission_callback 
 
+
 def badge_color_callback(request):
     count = 1  # Cambia este valor para probar diferentes colores
 
@@ -177,6 +178,7 @@ def badge_color_callback(request):
         return "info"  # si tienes una clase para warning
     else:
         return "info"
+
 
 
 def is_terapeuta(request):
@@ -191,8 +193,18 @@ def is_financiero(request):
 def is_institucional(request):
     return request.user.groups.filter(name="institucional").exists()
 
+def is_comercial(request):
+    return request.user.groups.filter(name="comercial").exists()
+
 def is_superuser(request):
     return request.user.is_superuser
+
+def is_comercial_o_isuperuser(request):
+    return is_comercial(request) or is_superuser(request)
+
+def is_comercial_o_administrativo(request):
+    return is_comercial(request) or is_administrativo(request) or is_superuser(request)
+
 
 def is_administrativo_o_isuperuser(request):
     return is_administrativo(request) or is_superuser(request)
@@ -211,7 +223,6 @@ def is_admin_o_financiero(request):
 
 def is_all(request):
     return is_administrativo(request) or is_financiero(request) or is_superuser(request) or is_terapeuta(request) or is_institucional(request)
-
 
 
 
@@ -251,7 +262,7 @@ UNFOLD = {
     "SHOW_VIEW_ON_SITE": True,
     "SHOW_BACK_BUTTON": True,
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
-    "ENVIRONMENT": "qnd031app.utils.environment.environment_callback",
+    "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
     "LOGIN": {  "image": lambda request: static("img/BA-BG/test.jpg"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
@@ -358,7 +369,7 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_prospeccion_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_meddes",
                 "badge_color": "colors-primary-500",
-                "permission": is_administrativo_o_isuperuser,
+                "permission": is_comercial_o_administrativo,
             },
             {
                 "title": _("Instituciones"),
@@ -366,7 +377,7 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_prospecion_administrativa_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_prospeccion",
                 "badge_color": "custom-green-success",
-                "permission": is_institucional_o_administrativo,
+                "permission": is_comercial_o_administrativo,
             },
             {
                 "title": _("Historiales"),
@@ -382,7 +393,7 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_cita_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_citas",
                 "badge_color": "font-subtle-light",
-                "permission": is_administrativo_o_isuperuser,
+                "permission": is_comercial_o_administrativo,
             },
             {
                 "title": _("Pagos"),
@@ -567,7 +578,7 @@ AUTHENTICATION_BACKENDS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": [BASE_DIR /  "qnd031app","templates"], 
+        "DIRS": [BASE_DIR /  "qnd041app","templates"], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

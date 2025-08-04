@@ -198,8 +198,17 @@ def is_financiero(request):
 def is_institucional(request):
     return request.user.groups.filter(name="institucional").exists()
 
+def is_comercial(request):
+    return request.user.groups.filter(name="comercial").exists()
+
 def is_superuser(request):
     return request.user.is_superuser
+
+def is_comercial_o_isuperuser(request):
+    return is_comercial(request) or is_superuser(request)
+
+def is_comercial_o_administrativo(request):
+    return is_comercial(request) or is_administrativo(request) or is_superuser(request)
 
 def is_administrativo_o_isuperuser(request):
     return is_administrativo(request) or is_superuser(request)

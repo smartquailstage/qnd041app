@@ -8,7 +8,7 @@ IP = os.environ.get("IP")
 DOMAIN = os.environ.get("DOMAIN")
 HOST = os.environ.get("HOST")
 
-ALLOWED_HOSTS='127.0.0.1',"localhost","https://www.smartquail.io", "www.smartquail.io","64.23.178.103"
+ALLOWED_HOSTS='127.0.0.1',"localhost","https://ec.smartquail.io", "ec.smartquail.io","64.23.178.103"
 
 #import wagtail_ai
 
@@ -26,7 +26,7 @@ ALLOWED_HOSTS='127.0.0.1',"localhost","https://www.smartquail.io", "www.smartqua
 #CSRF_COOKIE_SECURE = True
 #CSRF_TRUSTED_ORIGINS = ['https://qnd03101.smartquail.io','https://meddes.smartquail.io/','https://146.190.164.22']
 CORS_ALLOWED_ORIGINS = [
-    'https://www.smartquail.io','www.smartquail.io'
+    'https://ec.smartquail.io','ec.smartquail.io'
     # Otros orígenes permitidos si los hay
 ]
 
