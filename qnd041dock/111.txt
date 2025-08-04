@@ -4,19 +4,33 @@ django>=4.2,<5.0
 # Django Baton
 #django-baton==2.6.2
 django-unfold
+python-decouple
+django-taggit
+
+matplotlib
+scipy
+pandas
+numpy
 
 # Wagtail
-wagtail
+wagtail==6.3.1
+wagtailmedia
+wagtail_localize
+wagtailgmaps
+wagtailmenus>=1.5.1
+wagtail-modeltranslation
+wagtail_modeladmin
+
+
+fontawesome
 
 psycopg
 
 # Django Social Share
 django-social-share
+django_extensions
 
-# Wagtail Google Maps
-wagtailgmaps
-wagtail-modeltranslation
-wagtail_modeladmin
+django-tinymce==4.1.0
 
 # XlsxWriter
 XlsxWriter
@@ -93,8 +107,16 @@ django-ckeditor
 # Django QR Code
 django-qr-code
 
+
+django_celery_beat
+django-appointment
+django_celery_results
+django-scheduler
+
 # Django Braces
 django-braces
+
+django-q
 
 # Django Environ
 django-environ>=0.10.0
@@ -111,14 +133,11 @@ django-localflavor
 # Django Rosetta
 django-rosetta
 
-# Wagtail Localize
-wagtail-localize
 
 # Django Memcache Status
 django-memcache-status
 
-# Wagtail Media
-wagtailmedia
+
 
 # Django Forms Bootstrap
 django-forms-bootstrap
@@ -134,7 +153,7 @@ django-seed
 
 # Pymemcache
 pymemcache>=3.5.2
-
+django-money
 # Boto3
 boto3>=1.26.6
 
@@ -153,12 +172,10 @@ braintree>=4.29.0
 # Weasyprint
 weasyprint>=57.0
 
-# Wagtail Menus
-wagtailmenus>=1.5.1
-
 qrcode
 
 twilio 
 requests
-openai
-wagtail-ai
+
+django-celery-beat 
+django-celery-results
