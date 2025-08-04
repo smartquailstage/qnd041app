@@ -519,8 +519,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     #'elasticapm.contrib.django.middleware.TracingMiddleware'
-    #'wagtail.core.middleware.site.SiteMiddleware',
-    #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'wagtail.core.middleware.site.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 #ELASTIC_APM = {
@@ -709,6 +709,22 @@ LANGUAGE_CODE = 'es'
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 TIME_ZONE = 'America/Guayaquil'  # O 'America/Mexico_City', 'America/Argentina/Buenos_Aires', etc.
+
+
+
+WAGTAIL_SITE_NAME = "Smart Business MEDIA"
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', 'English'),
+    ('fr', 'French'),
+    ('es', 'Spanish'),
+]
+
+
+WAGTAIL_I18N_ENABLED = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 USE_I18N = True
 USE_L10N = True
