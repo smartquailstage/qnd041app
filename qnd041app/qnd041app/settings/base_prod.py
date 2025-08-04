@@ -69,100 +69,116 @@ from usuarios.utils import permission_callback
 
 
 INSTALLED_APPS = [
-
-
-    
-    "unfold",  # before django.contrib.admin
-    "django.contrib.admin",
-    "django.contrib.auth",
-
+    # Unfold (debe ir antes del admin)
+    "unfold",
     "unfold.contrib.forms",
-    "unfold.contrib.filters",  # optional, if special filters are needed
-    "unfold.contrib.inlines",  # optional, if special inlines are needed
-    "unfold.contrib.import_export",  # optional, if django-import-export package is used
-    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    "unfold.contrib.filters",  # opcional
+    "unfold.contrib.inlines",  # opcional
+    "unfold.contrib.import_export",  # opcional
+    "unfold.contrib.guardian",  # opcional
     "unfold.contrib.simple_history",
 
-    #'webapp',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'serviceapp',
-
-    
-    #'citas_regulares',
-
-
-   # 'appointment',
-    'django_extensions',
-    #'shop',
-    #'orders',
-    #'payment',
-    #'coupons',
-    'django_celery_results',
-    'django_celery_beat',
+    # Django core apps
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+ 
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+     "taggit",
 
 
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
 
-    
-    
+  #  "wagtail.search",
+  #  "wagtail.sites",
+  #  "wagtail.locales",
+    "wagtail_localize", 
+    "wagtail_localize.locales",
+    "wagtailmedia",
+#    "wagtail.contrib.forms",
+ #   "wagtail.contrib.redirects",
+    "wagtail.contrib.routable_page",
+    "wagtail.contrib.settings",
 
+    # Wagtail plugins
+    "wagtailgmaps",
+    "wagtailmenus",
+    # "wagtail_modeltranslation",  # Descomentar si se usa
 
-    
+    # Terceros / externos
+    "rest_framework",
+    "ckeditor",
+    "parler",
+    "djmoney",
+    "localflavor",
+    "boto3",
+    "storages",
+    "sorl.thumbnail",
+    "embed_video",
+    "social_django",
+    "django_celery_beat",
+    "django_celery_results",
+    "django_extensions",
+    "widget_tweaks",
+    "django_forms_bootstrap",
+    "bootstrap4",
+    "bootstrap5",
+    "bootstrap_datepicker_plus",
+    "jquery",
+    "qr_code",
+    "tinymce",
+    "phone_field",
+    "phonenumber_field",
+    "django_social_share",
+    "rosetta",
 
-   
-    
+    # Apps propias del proyecto
+    "usuarios",
+    "core",
+    "webapp",
+    "serviceapp",
+    "citas_regulares",
 
-   # 'agenda',
-    #'schedule',
-    'usuarios',
+    # E-commerce apps
+    "coupons",
+    "shop",
+    "orders",
+    "cart",
+    #SmartBusinessANALYTICS
+    "sbacart",
+    "sbashop",
+    "sbaorders",
+    #SmartBusinessLaw
+    "sblcart",
+    "sblshop",
+    "sblorders",
 
-
-
-    #'parler',
-    'core',
-    'django.contrib.humanize',
-
-
-
-
-
-   
-    #'subscription',
-
-    'django_social_share',
-   # 'taggit',
-    'widget_tweaks',
-    'django_forms_bootstrap',
-    'bootstrap4',
-    'social_django',
-    'sorl.thumbnail',
-    'embed_video',
-    'qr_code',
-    'storages',
-    'boto3',
-    'rest_framework',
-    'ckeditor',
-    'localflavor',
-   
-    'jquery',
-    'phone_field',
-    'phonenumber_field',
-    'bootstrap5',
-
-    'bootstrap_datepicker_plus',
-    'djmoney',
-    'tinymce',
-   
-
-    #WEBAPP
-    #'wagtail_modeltranslation',
-    #'wagtail_modeltranslation.makemigrations',
-    #'wagtail_modeltranslation.migrate',
-
-  
+    #SmartBusinessTechonologies 
+    "sbtcart",
+    "sbtshop",
+    "sbtorders",
+    #SmartBusinessMedia
+    "sbmcart",
+    "sbmshop",
+    "sbmorders",
+    "sbmcoupons",
+    "sbmpayments",
+    #"sbacart",
+    #"sbashop",
+    #"sbaorders",
 ]
+
 
 
 
