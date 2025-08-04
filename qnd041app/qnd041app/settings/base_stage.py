@@ -26,25 +26,38 @@ if SECRET_KEY is None:
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+
     'handlers': {
-        'file': {
+        'console': {
             'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.environ.get('DJANGO_LOG_FILE', os.path.join(BASE_DIR, 'logs', 'qnd041.log')),
+            'class': 'logging.StreamHandler',
             'formatter': 'json',
         },
     },
+
     'formatters': {
         'json': {
-            'format': '{"time": "%(asctime)s", "level": "%(levelname)s", "name": "%(name)s", "message": "%(message)s"}'
+            'format': (
+                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", '
+                '"logger": "%(name)s", "message": "%(message)s", '
+                '"module": "%(module)s", "process": %(process)d, "thread": %(thread)d}'
+            ),
         },
     },
+
     'root': {
-        'handlers': ['file'],
+        'handlers': ['console'],
         'level': 'INFO',
     },
-}
 
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
 
 INSTALLED_APPS = [

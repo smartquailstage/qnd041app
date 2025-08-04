@@ -66,6 +66,42 @@ SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 from usuarios.utils import permission_callback 
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'json',
+        },
+    },
+
+    'formatters': {
+        'json': {
+            'format': (
+                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", '
+                '"logger": "%(name)s", "message": "%(message)s", '
+                '"module": "%(module)s", "process": %(process)d, "thread": %(thread)d}'
+            ),
+        },
+    },
+
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
 
 
 INSTALLED_APPS = [
