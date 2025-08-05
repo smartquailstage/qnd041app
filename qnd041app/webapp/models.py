@@ -23,6 +23,10 @@ from wagtail.images.models import Image
 class ConsultasHome(AbstractFormField):
     page = ParentalKey('Home', on_delete=models.CASCADE, related_name='form_fields')
 
+
+    class Meta:
+        app_label = "webapp"
+
 # Modelo para la página de inicio
 class Home(AbstractEmailForm):
     template = "webapp/home/home.html"
