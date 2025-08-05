@@ -1,10 +1,8 @@
 from django.db import models
-from wagtail.admin.panels import FieldPanel
-from wagtail.models import Page
-from wagtail_localize.models import TranslatableMixin
 from django.urls import reverse
 
-class Category(TranslatableMixin, models.Model):
+
+class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, null=True)
     image = models.ImageField(upload_to='categories/%Y/%m/%d', blank=True, null=True)
@@ -14,23 +12,9 @@ class Category(TranslatableMixin, models.Model):
     detail = models.FileField(upload_to='tours/%Y/%m/%d', null=True)
     terms = models.TextField(blank=True, null=True)
 
-    content_panels = Page.content_panels + [
-        FieldPanel('name'),
-        FieldPanel('slug'),
-        FieldPanel('image'),
-        FieldPanel('salidas'),
-        FieldPanel('desde'),
-        FieldPanel('description'),
-        FieldPanel('detail'),
-        FieldPanel('terms'),
-    ]
-
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
-        constraints = [
-            models.UniqueConstraint(fields=['translation_key', 'locale'], name='unique_translation_key_locale_shop_category')
-        ]
 
     def __str__(self):
         return self.name or str(self.id)
@@ -39,10 +23,7 @@ class Category(TranslatableMixin, models.Model):
         return reverse('shop:product_list_by_category', args=[self.slug])
 
 
-
-
-
-class Product(TranslatableMixin, models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     description = models.TextField(blank=True)
@@ -67,8 +48,3 @@ class Product(TranslatableMixin, models.Model):
     class Meta:
         ordering = ('name',)
         index_together = (('id', 'slug'),)
-        constraints = [
-            models.UniqueConstraint(fields=['translation_key', 'locale'], name='unique_translation_key_locale_shop_product')
-        ]
-
-
