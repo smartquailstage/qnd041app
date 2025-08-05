@@ -519,8 +519,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     #'elasticapm.contrib.django.middleware.TracingMiddleware'
-    'wagtail.core.middleware.site.SiteMiddleware',
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    #'wagtail.core.middleware.site.SiteMiddleware',
+    #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 #ELASTIC_APM = {
