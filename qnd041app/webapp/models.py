@@ -22,8 +22,6 @@ from wagtail.images.models import Image
 # Modelo para los campos del formulario de la página de inicio
 class ConsultasHome(AbstractFormField):
     page = ParentalKey('Home', on_delete=models.CASCADE, related_name='form_fields')
-
-
     class Meta:
         app_label = "webapp"
 
