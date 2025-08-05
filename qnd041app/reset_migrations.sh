@@ -8,11 +8,11 @@ find . -path "*/migrations/0*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc" -delete
 
 # Paso 2: Regenerar migraciones
-echo "⚙️  Generando nuevas migraciones..."
-python manage.py makemigrations
+#echo "⚙️  Generando nuevas migraciones..."
+#python manage.py makemigrations
 
 # Paso 3: Aplicar migraciones
-echo "🚀 Aplicando migraciones..."
-python manage.py migrate
+#echo "🚀 Aplicando migraciones..."
+#python manage.py migrate
 
 echo "✅ Migraciones reiniciadas (base de datos conservada)."
