@@ -19,15 +19,15 @@ from wagtail.search import index
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.images.models import Image
 # Modelo para los campos del formulario de la página de inicio
-class ConsultasHome(AbstractFormField):
-    page = ParentalKey('Home', on_delete=models.CASCADE, related_name='form_fields')
+#class ConsultasHome(AbstractFormField):
+#    page = ParentalKey('Home', on_delete=models.CASCADE, related_name='form_fields')
 
-    class Meta:
-        app_label = "webapp"
+#    class Meta:
+#        app_label = "webapp"
 
 
 # Modelo para la página de inicio
-class Home(AbstractEmailForm):
+class Home(Page):
     template = "webapp/home/home.html"
 
     # Campos de texto para banners

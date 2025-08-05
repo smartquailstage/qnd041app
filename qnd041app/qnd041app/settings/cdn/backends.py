@@ -1,7 +1,7 @@
 from storages.backends.s3boto3 import S3Boto3Storage
 import os
 
-aws_location = os.environ.get("AWS_LOCATION", "qn041app")
+aws_location = os.environ.get("AWS_LOCATION", "qnd041app")
 
 
 class StaticRootS3BotoStorage(S3Boto3Storage):
