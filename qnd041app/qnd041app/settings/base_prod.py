@@ -735,9 +735,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
-DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE")
-STATICFILES_STORAGE =  os.environ.get("STATICFILES_STORAGE")
 
 # Rutas públicas a los archivos
-MEDIA_URL = "https://www-static.sfo3.digitaloceanspaces.com/media/"
-STATIC_URL = "https://www-static.sfo3.digitaloceanspaces.com/static/"
+#MEDIA_URL = "https://www-static.sfo3.digitaloceanspaces.com/media/"
+#STATIC_URL = "https://www-static.sfo3.digitaloceanspaces.com/static/"
