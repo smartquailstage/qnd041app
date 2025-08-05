@@ -7,7 +7,7 @@ def main():
     """Run administrative tasks."""
     
     # Imponer el valor por defecto, sin depender del entorno
-    os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE', 'qnd12app.settings.pro')
+    os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE', 'qnd041app.settings.pro')
 
     try:
         from django.core.management import execute_from_command_line
