@@ -123,8 +123,14 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-     "taggit",
+    
 
+         # Apps propias del proyecto
+    "usuarios",
+    "core",
+    "webapp",
+    "serviceapp",
+    "citas_regulares",
 
     'wagtail.embeds',
     'wagtail.sites',
@@ -178,13 +184,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "rosetta",
-
-    # Apps propias del proyecto
-    "usuarios",
-    "core",
-    "webapp",
-    "serviceapp",
-    "citas_regulares",
+    "taggit",
 
     # E-commerce apps
     "coupons",
