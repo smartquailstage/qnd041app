@@ -710,7 +710,7 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 TIME_ZONE = 'America/Guayaquil'  # O 'America/Mexico_City', 'America/Argentina/Buenos_Aires', etc.
 
-
+WAGTAIL_ADMIN_BASE_URL = 'https://ec.smartquail.io'
 
 WAGTAIL_SITE_NAME = "Smart Business MEDIA"
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
