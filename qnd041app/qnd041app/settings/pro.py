@@ -31,7 +31,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 21 * 1024 * 1024  # 21 MB para tener margen
+FILE_UPLOAD_MAX_MEMORY_SIZE = 21 * 1024 * 1024
 
+# Wagtail-specific settings
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # 20 MB
+WAGTAILIMAGES_MAX_IMAGE_PIXELS = 150_000_000  # Opcional: mayor resolución permitida
 
 
 DATABASES = {
