@@ -85,31 +85,160 @@ class Home(Page):
     consulta = RichTextField(blank=True, verbose_name='Mensaje para consulta')
     thank_you_text = RichTextField(blank=True)
 
-    # Paneles (omitidos aquí para brevedad; asumimos que ya están bien)
+    content_panels = Page.content_panels + [
+        # Galerías
+        FieldPanel("banner_title4"),
+        FieldPanel("TS_info1"),
+        FieldPanel("info1"),
 
-    class Meta:
-        app_label = "webapp"
+        FieldPanel("banner_title5"),
+        FieldPanel("TS_info2"),
+        FieldPanel("info2"),
 
+        FieldPanel("banner_title6"),
+        FieldPanel("TS_info3"),
+        FieldPanel("info3"),
 
-# Modelo para la galería de la página de inicio
-class GaleriaHome(Orderable):
-    page = ParentalKey(Home, on_delete=models.CASCADE, related_name='galleria')
-    logo = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Logotipo SmartQuail')
-    profile_pic = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Foto de perfil')
+        FieldPanel("banner_title7"),
+        FieldPanel("TS_info4"),
+        FieldPanel("info4"),
 
-    image = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 1')
-    for i in range(2, 27):
-        locals()[f'image_{i}'] = models.ForeignKey(
-            Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+',
-            verbose_name=f'Imagen Slide Banner {i}'
-        )
+        FieldPanel("banner_title8"),
+        FieldPanel("TS_info5"),
+        FieldPanel("info5"),
 
-    panels = [FieldPanel('logo'), FieldPanel('profile_pic')] + [
-        FieldPanel(f'image_{i}') if i > 1 else FieldPanel('image') for i in range(1, 27)
+        FieldPanel("banner_title9"),
+        FieldPanel("TS_info6"),
+        FieldPanel("info6"),
+
+        # Callout
+        FieldPanel("banner_title10"),
+        FieldPanel("info7"),
+        FieldPanel("info8"),
+        FieldPanel("info9"),
+
+        # Productos
+        FieldPanel("product_1"),
+        FieldPanel("product_description_1"),
+        FieldPanel("product_2"),
+        FieldPanel("product_description_2"),
+        FieldPanel("product_3"),
+        FieldPanel("product_description_3"),
+        FieldPanel("product_4"),
+        FieldPanel("product_description_4"),
+        FieldPanel("product_5"),
+        FieldPanel("product_description_5"),
+        FieldPanel("product_6"),
+        FieldPanel("product_description_6"),
+
+        # Contadores
+        FieldPanel("numero_coffe"),
+        FieldPanel("numero_experiencia"),
+        FieldPanel("numero_horas"),
+        FieldPanel("numero_wins"),
+
+        # Equipo
+        FieldPanel("team_1"),
+        FieldPanel("team_descrp_1"),
+        FieldPanel("team_2"),
+        FieldPanel("team_descrp_2"),
+        FieldPanel("team_3"),
+        FieldPanel("team_descrp_3"),
+        FieldPanel("team_4"),
+        FieldPanel("team_descrp_4"),
+
+        # Adicionales
+        FieldPanel("banner_title"),
+        FieldPanel("slogan"),
+        FieldPanel("slogan_descriptcion"),
+        FieldPanel("custom_title"),
+        FieldPanel("consulta"),
+        FieldPanel("thank_you_text"),
+
+        InlinePanel('galleria', label="Imagenes de Fondo Barner"),
     ]
 
-    class Meta:
-        app_label = "webapp"
+    
+
+
+
+
+class GaleriaHome(Orderable):
+    page = ParentalKey('Home', on_delete=models.CASCADE, related_name='galleria')
+
+    logo = models.ForeignKey(
+        Image, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name='+', verbose_name='Logotipo SmartQuail'
+    )
+    profile_pic = models.ForeignKey(
+        Image, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name='+', verbose_name='Foto de perfil'
+    )
+
+    # Imagen principal
+    image = models.ForeignKey(
+        Image, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name='+', verbose_name='Imagen Slide Banner 1'
+    )
+
+    # Imagenes 2 al 26
+    image_2 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 2')
+    image_3 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 3')
+    image_4 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 4')
+    image_5 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 5')
+    image_6 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 6')
+    image_7 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 7')
+    image_8 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 8')
+    image_9 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 9')
+    image_10 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 10')
+    image_11 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 11')
+    image_12 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 12')
+    image_13 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 13')
+    image_14 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 14')
+    image_15 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 15')
+    image_16 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 16')
+    image_17 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 17')
+    image_18 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 18')
+    image_19 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 19')
+    image_20 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 20')
+    image_21 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 21')
+    image_22 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 22')
+    image_23 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 23')
+    image_24 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 24')
+    image_25 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 25')
+    image_26 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 26')
+
+    panels = [
+        FieldPanel('logo'),
+        FieldPanel('profile_pic'),
+        FieldPanel('image'),
+        FieldPanel('image_2'),
+        FieldPanel('image_3'),
+        FieldPanel('image_4'),
+        FieldPanel('image_5'),
+        FieldPanel('image_6'),
+        FieldPanel('image_7'),
+        FieldPanel('image_8'),
+        FieldPanel('image_9'),
+        FieldPanel('image_10'),
+        FieldPanel('image_11'),
+        FieldPanel('image_12'),
+        FieldPanel('image_13'),
+        FieldPanel('image_14'),
+        FieldPanel('image_15'),
+        FieldPanel('image_16'),
+        FieldPanel('image_17'),
+        FieldPanel('image_18'),
+        FieldPanel('image_19'),
+        FieldPanel('image_20'),
+        FieldPanel('image_21'),
+        FieldPanel('image_22'),
+        FieldPanel('image_23'),
+        FieldPanel('image_24'),
+        FieldPanel('image_25'),
+        FieldPanel('image_26'),
+    ]
+
 
 
 @register_setting

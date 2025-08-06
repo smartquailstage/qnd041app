@@ -1,8 +1,0 @@
-/* custom_admin.css */
-#site-name {
-    background-image: url("/static/img/logo.png");
-    background-size: contain; /* Ajusta el tamaño del logo */
-    background-repeat: no-repeat;
-    height: 80px; /* Ajusta este valor según el tamaño deseado */
-    text-indent: -9999px; /* Oculta el texto del sitio si quieres solo el logo */
-}
