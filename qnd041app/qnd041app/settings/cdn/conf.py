@@ -14,14 +14,14 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = os.environ.get("AWS_LOCATION")  # 'static' o 'media'
 
 # Asegúrate de que la URL de los archivos estáticos esté correcta
-STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static'
 
 # Almacenamiento de archivos estáticos
 STATICFILES_STORAGE = os.environ.get("STATICFILES_STORAGE")
 
 # Almacenamiento de archivos de medios
 DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE")
-MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/media/"
+MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/"
 
 # Si usas DigitalOcean, añade esta configuración
 AWS_S3_SIGNATURE_VERSION = 's3v4'
