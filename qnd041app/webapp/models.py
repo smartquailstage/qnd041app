@@ -26,6 +26,67 @@ from wagtail.images.models import Image
 #        app_label = "webapp"
 
 
+from datetime import datetime, timezone
+from django.utils.timezone import now
+
+class ProximamentePage(Page):
+    descripcion = RichTextField(blank=True, verbose_name="Descripción")
+    imagen_destacada = models.ForeignKey(
+        Image,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name="Imagen destacada"
+    )
+    fecha_lanzamiento = models.DateTimeField(
+        verbose_name="Fecha y hora del lanzamiento"
+    )
+    enlace_redes = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name="Enlace a redes sociales o sitio temporal"
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('descripcion'),
+        FieldPanel('fecha_lanzamiento'),
+        FieldPanel('enlace_redes'),
+        FieldPanel('imagen_destacada'),
+    ]
+
+    template = "webapp/proximamente/proximamente.html"
+
+    @property
+    def countdown(self):
+        now_time = now()
+
+        if self.fecha_lanzamiento <= now_time:
+            return {
+                "expired": True,
+                "days": 0,
+                "hours": 0,
+                "minutes": 0,
+                "seconds": 0,
+            }
+
+        delta = self.fecha_lanzamiento - now_time
+        total_seconds = int(delta.total_seconds())
+
+        days = total_seconds // (24 * 3600)
+        hours = (total_seconds % (24 * 3600)) // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+
+        return {
+            "expired": False,
+            "days": days,
+            "hours": hours,
+            "minutes": minutes,
+            "seconds": seconds,
+        }
+
+
 # Modelo para la página de inicio
 class Home(Page):
     template = "webapp/home/home.html"
