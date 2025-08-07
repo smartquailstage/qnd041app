@@ -22,8 +22,13 @@ LANGUAGES = [
     # agrega más idiomas si necesitas
 ]
 
-LANGUAGE_CODE = 'en'  # idioma por defecto
-WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
+LANGUAGE_CODE = 'es'  # idioma por defecto
+TIME_ZONE = 'America/Guayaquil'  # zona horaria por defecto
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', "English"),
+    ('es', "Spanish"),
+    ('fr', "French"),
+]
 
 USE_I18N = True
 USE_L10N = True

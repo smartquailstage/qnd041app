@@ -7,6 +7,7 @@
 
 
 
+
   <!--=== Header Start ===-->
   <nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav on no-full">
     <!--=== 
@@ -33,28 +34,33 @@
   ===-->
 
     <div class="container">
-      {% for language_code, language_name in LANGUAGES %}
-      {% get_language_info for language_code as lang %}
-      {% if language_code == LANGUAGE_CODE %}
-      <div class="attr-nav">
-        <ul>
-          <li class="dropdown"> 
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >  {{ lang.code }}</a>
-            <ul class="dropdown-menu cart-list">
-              <li>
-                {% for language_code, language_name in LANGUAGES %}
-                    {% get_language_info for language_code as lang %}
-                    <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
-                        {{ lang.name_local }}
-                    </a>
-                {% endfor %}
-            </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      {% endif %}
+<div class="attr-nav">
+  <ul>
+    <li class="dropdown">
+      {% for code, name in LANGUAGES %}
+        {% if code == LANGUAGE_CODE %}
+          {% get_language_info for code as current_lang %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {{ current_lang.code }}
+          </a>
+        {% endif %}
       {% endfor %}
+
+      <ul class="dropdown-menu cart-list">
+        {% for code, name in LANGUAGES %}
+          {% get_language_info for code as lang %}
+          {% language code %}
+            <li>
+              <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ code }}">
+                {{ lang.name_local }}
+              </a>
+            </li>
+          {% endlanguage %}
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</div>
       <!--=== End Atribute Navigation ===-->
 
       <!--=== Start Header Navigation ===-->

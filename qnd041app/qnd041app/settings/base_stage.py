@@ -79,8 +79,14 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-     "taggit",
+    
 
+         # Apps propias del proyecto
+    "usuarios",
+    "core",
+    "webapp",
+    "serviceapp",
+    "citas_regulares",
 
     'wagtail.embeds',
     'wagtail.sites',
@@ -95,14 +101,13 @@ INSTALLED_APPS = [
   #  "wagtail.search",
   #  "wagtail.sites",
   #  "wagtail.locales",
-    "wagtail.contrib.routable_page",
-    "wagtail.contrib.settings",
-    "wagtail_localize",
+    "wagtail_localize", 
     "wagtail_localize.locales",
     "wagtailmedia",
 #    "wagtail.contrib.forms",
  #   "wagtail.contrib.redirects",
-
+    "wagtail.contrib.routable_page",
+    "wagtail.contrib.settings",
 
     # Wagtail plugins
     "wagtailgmaps",
@@ -135,13 +140,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "rosetta",
-
-    # Apps propias del proyecto
-    "usuarios",
-    "core",
-    "webapp",
-    "serviceapp",
-    "citas_regulares",
+    "taggit",
 
     # E-commerce apps
     "coupons",
@@ -728,7 +727,7 @@ UNFOLD = {
 
 
 
-
+SITE_ID = 1
 
 
 def badge_callback(request):
@@ -760,9 +759,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    #'wagtail.core.middleware.site.SiteMiddleware',
-    #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+   # 'wagtail.core.middleware.site.SiteMiddleware',
+   # 'wagtail.contrib.redirects.middleware.RedirectMiddleware',
    # 'shop.middleware.LocaleRedirectMiddleware', 
 ]
 
@@ -781,7 +779,7 @@ LANGUAGES = [
 ]
 
 ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
-#SITE_ID = 1
+SITE_ID = 1
 #WagtailAnalitycs
 
 

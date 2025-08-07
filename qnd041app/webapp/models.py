@@ -93,8 +93,8 @@ class Home(Page):
 
     # Campos de texto para banners
     banner_title4 = RichTextField(blank=True, verbose_name='Título de galería-1')
-    TS_info1 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Subtítulo info')
-    info1 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Info')
+    TS_info1 = models.CharField(max_length=500, null=True, blank=True, verbose_name='Subtítulo info')
+    info1 = models.CharField(max_length=500, null=True, blank=True, verbose_name='Info')
 
     banner_title5 = RichTextField(blank=True, verbose_name='Título de galería-2')
     TS_info2 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Subtítulo-2 info')
