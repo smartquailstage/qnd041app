@@ -95,9 +95,9 @@ ion-icon {
     left: 0;
     width: 260px;
     height: 100%;
-    background-color: #ffffff;
+    background-color: #b5181a;
     background-clip: padding-box;
-    border-right: 1px solid #e2e3e4;
+    border-right: 1px solid #b5181a;
     transition: all .2s;
     z-index: 16;
     box-shadow: none;
@@ -114,14 +114,14 @@ ion-icon {
     bottom: 0;
     padding: 0 15px;
     z-index: 5;
-    background-color: #ffffff;
+    background-color: #b5181a;
     border-right: 0px solid #e2e3e4;
     border-bottom: 0px solid #e4e4e4;
     transition: all .2s;
 }
 
 .sidebar-wrapper .sidebar-header .logo-icon {
-  width: 62px;
+  width: 38px;
 }
 
 .sidebar-wrapper .sidebar-header .logo-text {
@@ -143,11 +143,11 @@ ion-icon {
     border-radius: 50%;
     font-size: 22px;
     cursor: pointer;
-    color: #293445;
+    color: #fff;
 }
 
 .toggle-icon:hover {
-    background-color: #f5f5f5;
+    background-color: #df0b0b;
 }
 
 .sidebar-wrapper ul {
@@ -200,7 +200,7 @@ ion-icon {
 	justify-content: left;
 	padding: 6px 10px;
 	font-size: 16px;
-	color: #5f5f5f;
+	color: #f9eaea;
 	outline-width: 0;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -232,8 +232,9 @@ ion-icon {
 }
 
 .sidebar-wrapper .metismenu ul {
-	background: rgb(255 255 255 / 0%);
-    border: 1px solid #f4ebf8;
+	background: rgb(152 7 7);
+    border: 0px solid #f4ebf8;
+    border-radius: 3%;
 }
 
 .sidebar-wrapper .metismenu ul ul a {
@@ -248,9 +249,10 @@ ion-icon {
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-    color: #055c1f;
+    color: #fdfafa;
     text-decoration: none;
-    background-color: rgba(36, 151, 219, 0.41);
+    background-color: rgb(181 24 26);
+;
 }
 
 .menu-label {
@@ -337,12 +339,12 @@ ion-icon {
     top: 0;
     left: 260px;
     right: 0;
-    height: 65px;
+    height: 41px;
     padding: 0 1.5rem;
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
     /* Gradiente en escala de verde con tres colores */
-    background: linear-gradient(to right, #fffafa, #079738, #2ea950);
+    background: #282424;
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
@@ -413,11 +415,11 @@ ion-icon {
 }
 
 .top-header .navbar .top-navbar-right .nav-item:hover {
-    background-color: #45a243;
+    background-color: #e40707;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color: #ffffff;
+    color:#ffffff;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;

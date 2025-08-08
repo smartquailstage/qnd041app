@@ -266,7 +266,7 @@
       {% if profile_photo %}
         <img src="{{ profile_photo }}" class="user-img" alt="Foto de perfil">
           {% else %}
-       <img src="{% static 'img/BA-LOGOS/user.png' %}" style="width:30px;" alt="Default Photo">
+       <img src="{% static 'assets/images/login_bg/Sello2.png' %}" style="width:30px;" alt="Default Photo">
       {% endif %}
     
 
@@ -278,9 +278,9 @@
     <li>
       <a class="dropdown-item" href="{% url 'usuarios:perfil' %}">
         <div class="d-flex  flex-row  align-items-center gap-2">
-          {% if profile_photo %}
-            <img src="{{ profile_photo }}" alt="Foto de perfil" class="rounded-circle" width="44" height="44">
-          {% endif %}
+    
+            <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto de perfil" class="rounded-circle" width="44" height="44">
+     
           <div class="">
             <h6 class="mb-0 dropdown-user-name">{{ name }} {{ last_name }}</h6>
             <small class="mb-0 dropdown-user-designation text-secondary">Paciente MEDDES®</small>

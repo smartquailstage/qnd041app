@@ -1,3 +1,9 @@
+.text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgb(105, 106, 108);
+}
+
+
 /* Estilo personalizado para el badge */
 .badge-custom-dark {
     background-color: #3d3d38 !important;
@@ -17,5 +23,5 @@
 
 
   .h-8 {
-    height: calc(var(--spacing)*7);
+    height: 1.5rem;
   }

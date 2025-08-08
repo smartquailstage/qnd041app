@@ -1,0 +1,67 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="page-content-wrapper">
+    <!-- start page content-->
+   <div class="page-content">
+<!-- Formulario de estimación de recursos -->
+<div class="row mt-4">
+    <div class="col-12 col-lg-8 col-xl-9">
+        <div class="card radius-10 border shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-calculator"></i> Estimación de Recursos de Nube</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.servicio.id_for_label }}" class="form-label">Servicio</label>
+                        {% render_field form.servicio class="form-control" %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.usuarios_estimados.id_for_label }}" class="form-label">Usuarios Estimados</label>
+                        {% render_field form.usuarios_estimados class="form-control" %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.tipo_uso.id_for_label }}" class="form-label">Tipo de Uso</label>
+                        {% render_field form.tipo_uso class="form-select" %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.proveedor.id_for_label }}" class="form-label">Proveedor</label>
+                        {% render_field form.proveedor class="form-select" %}
+                    </div>
+
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-arrow-right-circle-fill"></i> Calcular Estimación
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+
+
+{% endblock %}

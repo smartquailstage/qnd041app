@@ -1,0 +1,86 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+    <!-- Resultado de la estimación -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="bi bi-bar-chart-line"></i> Resultado de Estimación</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Servicio:</strong> {{ estimacion.servicio }}</p>
+            <p><strong>Usuarios estimados:</strong> {{ estimacion.usuarios_estimados }}</p>
+            <p><strong>Tipo de uso:</strong> {{ estimacion.get_tipo_uso_display }}</p>
+            <p><strong>Proveedor:</strong> {{ estimacion.get_proveedor_display }}</p>
+
+            <hr>
+            <h6>Recursos recomendados:</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>vCPU:</strong> {{ estimacion.vcpu }} Núcleos</li>
+                <li class="list-group-item"><strong>RAM:</strong> {{ estimacion.ram_gb }} GB</li>
+                <li class="list-group-item"><strong>Almacenamiento:</strong> {{ estimacion.almacenamiento_gb }} GB</li>
+                <li class="list-group-item"><strong>Costo estimado mensual:</strong> <span class="text-success">${{ estimacion.costo_estimado }}</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Nuevo formulario para otra estimación -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-calculator"></i> Nueva Estimación</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="{{ form.servicio.id_for_label }}" class="form-label">Servicio</label>
+                    {% render_field form.servicio class="form-control" %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.usuarios_estimados.id_for_label }}" class="form-label">Usuarios Estimados</label>
+                    {% render_field form.usuarios_estimados class="form-control" %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.tipo_uso.id_for_label }}" class="form-label">Tipo de Uso</label>
+                    {% render_field form.tipo_uso class="form-select" %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.proveedor.id_for_label }}" class="form-label">Proveedor</label>
+                    {% render_field form.proveedor class="form-select" %}
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-play-circle-fill"></i> Calcular Estimación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
