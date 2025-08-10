@@ -105,16 +105,16 @@ class Home(Page):
     info3 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Info-3')
 
     banner_title7 = RichTextField(blank=True, verbose_name='Título de galería-4')
-    TS_info4 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Subtítulo-4 info')
-    info4 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Info-4')
+    TS_info4 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Subtítulo-4 info')
+    info4 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Info-4')
 
     banner_title8 = RichTextField(blank=True, verbose_name='Título de galería-5')
-    TS_info5 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Subtítulo-5 info')
-    info5 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Info-5')
+    TS_info5 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Subtítulo-5 info')
+    info5 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Info-5')
 
     banner_title9 = RichTextField(blank=True, verbose_name='Título de galería-6')
-    TS_info6 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Subtítulo-6 info')
-    info6 = models.CharField(max_length=150, null=True, blank=True, verbose_name='Info-6')
+    TS_info6 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Subtítulo-6 info')
+    info6 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Info-6')
 
     # Callout
     banner_title10 = RichTextField(blank=True, verbose_name='Mejoramos')

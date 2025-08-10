@@ -9,8 +9,8 @@ ENV_FILE_PATH = BASE_DIR / ".env_stage"
 load_dotenv(str(ENV_FILE_PATH))
 
 DEBUG=os.environ.get("DEBUG")
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else []
+ALLOWED_HOSTS="127.0.0.1","localhost","https://ec.smartquail.io","qnd03101.smartquail.io","64.23.178.103","ec.smartquail.io"
+#ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else []
 
 
 WAGTAIL_SITE_NAME = "SmartQuail IT Cloud Business" 
