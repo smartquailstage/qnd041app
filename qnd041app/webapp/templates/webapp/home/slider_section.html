@@ -41,7 +41,7 @@
                 <h5 class="white-color text-uppercase font-200">{{page.TS_info2}}<br></h5>
                 <h5 class="white-color text-uppercase font-200"> {{page.info2}}</h5>
                 {% include 'sbmshop/product/sbm_list.html' %}
-                <a href="{% url "sbmshop:product_list" %}}" class=" btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+                <a href="{% url 'sbmshop:product_list' %}" class=" btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
                
               </div>
             </div>
@@ -60,7 +60,7 @@
                 <h5 class="white-color text-uppercase font-200"> {{page.info3}}</h5>
                 {% include 'sbashop/product/sbm_list.html' %} 
                
-                <a href="{% slugurl 'smartbusinessanalyticsinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Create your IT BusinessAnalytics' %}</a> </p>
+                <a href="{% slugurl 'smartbusinessanalyticsinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
