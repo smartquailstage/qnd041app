@@ -81,12 +81,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     
 
-         # Apps propias del proyecto
-    "usuarios",
-    "core",
-    "webapp",
-    "serviceapp",
-    "citas_regulares",
+
 
     'wagtail.embeds',
     'wagtail.sites',
@@ -139,8 +134,13 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
-    "rosetta",
-    "taggit",
+
+             # Apps propias del proyecto
+    "usuarios",
+    "core",
+    "webapp",
+    "serviceapp",
+    "citas_regulares",
 
     # E-commerce apps
     "cloudcalc",
@@ -170,6 +170,8 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+    "rosetta",
+    "taggit",
 ]
 
 
@@ -572,7 +574,7 @@ UNFOLD = {
             "300": "209 213 219",
             "400": "232 43 12",
             "500": "51 55 53",
-            "600": "75 85 99",
+            "600": "124 128 134",
             "700": "7 121 176",
             "800": "4 168 79",
             "900": "60 59 59",
