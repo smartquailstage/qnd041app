@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import LoginForm,MensajeForm,CitaForm,TareaComentarioForm, AutorizacionForm                 
+from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm, AutorizacionForm                 
 from .models import Profile, Cita
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -21,6 +21,30 @@ from .models import Cita,tareas, pagos  # Asegúrate de usar la ruta correcta
 from django.http import HttpResponseForbidden
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+  
+            
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Save the User object
+            new_user.save()
+            # Create the user profile and related objects
+            Profile.objects.create(user=new_user)
+
+           
+            return render(request, 'usuarios/register_done.html', {'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'usuarios/register.html', {'user_form': user_form})
 
 
 

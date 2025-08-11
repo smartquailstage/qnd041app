@@ -10,13 +10,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>SmartQuail-IT Cloud Business</title>
-<link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
-<link rel="stylesheet" href="{% static 'assets/css/master.css' %}">
-<link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
-<link rel="stylesheet" href="{% static 'assets/icofont/icofont.min.css' %}">
-<link rel="stylesheet" type="text/css" href="http://www.incognitothemes.com/scoda/revolution/css/settings.css">
-<link rel="stylesheet" type="text/css" href="http://www.incognitothemes.com/scoda/revolution/css/layers.css">
-<link rel="stylesheet" type="text/css" href="http://www.incognitothemes.com/scoda/revolution/css/navigation.css">
+<link rel="shortcut icon" href="{% static 'img/logo.png' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/master.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/css/audio.css' %}">
+<link rel="stylesheet" href="{% static 'products/smartbusinessanalytics/icofont/icofont.min.css' %}">
+
+
 
 </head>
 <body>
@@ -42,136 +42,13 @@
 
 </div>
 <!--=== Wrapper End ===-->
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1eO-IAC9PhPE5APzZDSs8W40ewuxnsu8"></script>
 <!--=== Javascript Plugins ===-->
-<script src="{% static 'assets/js/jquery.min.js' %}"></script>
-<script src="{% static 'assets/js/validator.js' %}"></script>
-<script src="{% static 'assets/js/plugins.js' %}"></script>
-<script src="{% static 'assets/js/master.js' %}"></script>
-<script src="{% static 'assets/js/bootsnav.js' %}"></script>
-
-<script src="http://www.incognitothemes.com/scoda/revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/jquery.themepunch.revolution.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.actions.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.carousel.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.kenburn.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.layeranimation.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.migration.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.navigation.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.parallax.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.slideanims.min.js"></script>
-<script src="http://www.incognitothemes.com/scoda/revolution/js/revolution.extension.video.min.js"></script>
-<!--== Javascript Plugins End ==-->
-
-<script>
-var revapi1078,
-	tpj=jQuery;
-
-	tpj(document).ready(function() {
-	/* ===== REVOLUTION SLIDER MAIN DEMO ===== */
-
-		if(tpj("#rev_slider_landing_custom").revolution == undefined){
-						revslider_showDoubleJqueryError("#rev_slider_landing_custom");
-					}else{
-						$("#rev_slider_landing_custom").show().revolution({
-							sliderType:"standard",
-							jsFileLocation:"revolution/js/",
-							sliderLayout:"fullscreen",
-							dottedOverlay:"none",
-							delay:9000,
-							navigation: {
-								keyboardNavigation:"off",
-								keyboard_direction: "horizontal",
-								mouseScrollNavigation:"off",
-	 							mouseScrollReverse:"default",
-								onHoverStop:"off",
-								touch:{
-									touchenabled:"on",
-									swipe_threshold: 75,
-									swipe_min_touches: 1,
-									swipe_direction: "horizontal",
-									drag_block_vertical: false
-								}
-								,
-								arrows: {
-									style:"hades",
-									enable:false,
-									hide_onmobile:true,
-									hide_under:600,
-									hide_onleave:true,
-									hide_delay:200,
-									hide_delay_mobile:1200,
-									tmp:'<div class="tp-arr-allwrapper"><div class="tp-arr-imgholder"></div></div>',
-									left: {
-										h_align:"left",
-										v_align:"center",
-										h_offset:30,
-										v_offset:0
-									},
-									right: {
-										h_align:"right",
-										v_align:"center",
-										h_offset:30,
-										v_offset:0
-									}
-								}
-								,
-								bullets: {
-									enable:false,
-									hide_onmobile:false,
-									hide_under:600,
-									style:"uranus",
-									hide_onleave:true,
-									hide_delay:200,
-									hide_delay_mobile:1200,
-									direction:"horizontal",
-									h_align:"center",
-									v_align:"bottom",
-									h_offset:0,
-									v_offset:30,
-									space:20,
-									tmp:'<span class="tp-bullet-inner"></span>'
-								}
-							},
-							viewPort: {
-								enable:false,
-								outof:"pause",
-								visible_area:"80%",
-								presize:false
-							},
-							responsiveLevels:[1240,1024,778,480],
-							visibilityLevels:[1240,1024,778,480],
-							gridwidth:[1240,1024,778,480],
-							gridheight:[600,600,500,400],
-							lazyType:"none",
-							parallax: {
-								type:"mouse",
-								origo:"slidercenter",
-								speed:2000,
-								levels:[2,3,4,5,6,7,12,16,10,50,47,48,49,50,51,55],
-							},
-							shadow:0,
-							spinner:"off",
-							stopLoop:"off",
-							stopAfterLoops:-1,
-							stopAtSlide:-1,
-							shuffle:"off",
-							autoHeight:"off",
-							hideThumbsOnMobile:"off",
-							hideSliderAtLimit:0,
-							hideCaptionAtLimit:0,
-							hideAllCaptionAtLilmit:0,
-							debugMode:false,
-							fallbacks: {
-								simplifyAll:"off",
-								nextSlideOnWindowFocus:"off",
-								disableFocusListener:false,
-							}
-						});
-					}
-
-	});
-</script>
+<script src="{% static 'products/smartbusinessanalytics/js/jquery.min.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/validator.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/plugins.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/master.js' %}"></script>
+<script src="{% static 'products/smartbusinessanalytics/js/bootsnav.js' %}"></script>
 <!--=== Javascript Plugins End ===-->
 
 <script>
@@ -194,6 +71,34 @@ var revapi1078,
       }
     });
   }
+
+
+// Filtrar los productos según la categoría
+function filterByCategory(categorySlug) {
+  // Seleccionar todos los elementos de producto
+  const items = document.querySelectorAll('.portfolio-item');
+  
+  // Recorremos todos los productos
+  items.forEach(item => {
+    // Obtener las categorías de este producto
+    const groups = JSON.parse(item.getAttribute('data-groups'));
+    
+    // Si la categoría seleccionada está en las categorías del producto, mostrarlo
+    if (groups.includes(categorySlug) || categorySlug === 'all') {
+      item.style.display = 'block';  // Mostrar el producto
+    } else {
+      item.style.display = 'none';   // Ocultar el producto
+    }
+  });
+}
+
+// Mostrar todos los productos al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+  // Por defecto, mostrar todos los productos
+  filterByCategory('all');
+});
+
+
 </script>
 
 </body>

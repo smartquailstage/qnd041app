@@ -1,7 +1,13 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+
+{% load static %}
+
 <p class="text-center mt-30">
     {% if category.slug == smartbusinessanalitycs %}
-    <a href="{% url "sbashop:product_list" %}" class="btn btn-red  btn-rounded btn-animate">
-        <span>Learn More <i class="icofont icofont-arrow-right"></i></span>
+    <a href="{% url 'usuarios:register' %}" class="btn btn-red  btn-rounded btn-animate">
+        <span>{% trans 'View Demo' %} <i class="icofont icofont-arrow-right"></i></span>
     </a> 
     {% endif %}
     

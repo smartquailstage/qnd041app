@@ -6,7 +6,7 @@
 
 <p class="text-center mt-30">
     {% if category.slug == smartbusinessmedia %}
-    <a href="{% slugurl 'smartbusinessmediainfo' %}" class="btn btn-yellow btn-rounded btn-animate">
+    <a href="{% url 'usuarios:register' %}" class="btn btn-yellow btn-rounded btn-animate">
         <span>{% trans 'View Demo' %} <i class="icofont icofont-arrow-right"></i></span>
     </a> 
     {% endif %}
