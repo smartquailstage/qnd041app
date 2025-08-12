@@ -118,9 +118,9 @@ class Home(Page):
 
     # Callout
     banner_title10 = RichTextField(blank=True, verbose_name='Mejoramos')
-    info7 = models.CharField(max_length=180, null=True, blank=True, verbose_name='IT Business Analytics')
-    info8 = models.CharField(max_length=180, null=True, blank=True, verbose_name='IT Business Cloud DevOps')
-    info9 = models.CharField(max_length=180, null=True, blank=True, verbose_name='IT Business Media')
+    info7 = models.CharField(max_length=280, null=True, blank=True, verbose_name='IT Business Analytics')
+    info8 = models.CharField(max_length=280, null=True, blank=True, verbose_name='IT Business Cloud DevOps')
+    info9 = models.CharField(max_length=280, null=True, blank=True, verbose_name='IT Business Media')
 
     # Productos
     for i in range(1, 7):

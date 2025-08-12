@@ -1,0 +1,123 @@
+#
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-08-12 03:51:05.589318+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"X-WagtailLocalize-TranslationID: d03c2994-add6-4caa-aace-03a782d0e9cd\n"
+
+msgctxt "title"
+msgid "home"
+msgstr "accueil"
+
+msgctxt "slug"
+msgid "home"
+msgstr "accueil"
+
+msgctxt "banner_title4"
+msgid "Cloud-based Information and Communication Technologies (ICT)"
+msgstr "Technologies de l'information et de la communication basées sur le cloud (TIC)"
+
+msgctxt "TS_info1"
+msgid "Cloud innovation within your organization’s reach: discover the most advanced cloud-based ICT solutions in Ecuador for businesses, community projects, and social initiatives."
+msgstr "Innovation cloud à la portée de votre organisation : découvrez en Équateur les solutions TIC cloud les plus avancées pour les entreprises, les projets communautaires et les initiatives sociales."
+
+msgctxt "info1"
+msgid "Connect with us and join our technology community in Ecuador."
+msgstr "Rejoignez-nous et faites partie de notre communauté technologique en Équateur."
+
+msgctxt "banner_title5"
+msgid "We provide your organization with tailored technological solutions for digital marketing success."
+msgstr "Nous fournissons à votre organisation des solutions technologiques sur mesure pour réussir dans le marketing numérique."
+
+msgctxt "TS_info2"
+msgid "Where art and technology meet."
+msgstr "Là où l'art et la technologie se rencontrent."
+
+msgctxt "info2"
+msgid "Manage your multimedia content in the cloud in real time, and automatically boost its reach and visibility."
+msgstr "Gérez votre contenu multimédia dans le cloud en temps réel et améliorez automatiquement sa portée et sa visibilité."
+
+msgctxt "banner_title6"
+msgid "We are your strategic partner in financial and statistical technologies for your business organization."
+msgstr "Nous sommes votre partenaire stratégique en technologies financières et statistiques pour votre organisation."
+
+msgctxt "TS_info3"
+msgid "Make smarter decisions powered by real-time, data-driven technology."
+msgstr "Prenez des décisions plus intelligentes grâce à une technologie basée sur les données en temps réel."
+
+msgctxt "info3"
+msgid "Unify your data, unlock actionable insights, and drive faster, smarter growth."
+msgstr "Unifiez vos données, découvrez des informations exploitables et stimulez une croissance plus rapide et plus intelligente."
+
+msgctxt "TS_info4"
+msgid "We are your technology partner for certified and tokenized information solutions powered by blockchain, ensuring the legal validity, authenticity, and integrity of your reports, invoices, and contracts."
+msgstr "Nous sommes votre partenaire technologique pour des solutions d'information certifiées et tokenisées grâce à la blockchain, garantissant la validité légale, l'authenticité et l'intégrité de vos rapports, factures et contrats."
+
+msgctxt "info4"
+msgid "We bring legal security and full traceability to your business processes."
+msgstr "Nous apportons une sécurité juridique et une traçabilité complète à vos processus d'entreprise."
+
+msgctxt "banner_title8"
+msgid "We are your partner in native cloud information technologies."
+msgstr "Nous sommes votre partenaire en technologies d'information natives dans le cloud."
+
+msgctxt "TS_info5"
+msgid "We develop, implement, and automate all your processes using the most innovative solutions available."
+msgstr "Nous développons, mettons en œuvre et automatisons tous vos processus à l'aide des solutions les plus innovantes disponibles."
+
+msgctxt "info5"
+msgid "Empower your business through cloud technology. We streamline operations, elevate customer experience, and drive growth with scalable solutions."
+msgstr "Renforcez votre entreprise grâce à la technologie cloud. Nous rationalisons les opérations, améliorons l'expérience client et favorisons la croissance avec des solutions évolutives."
+
+msgctxt "banner_title9"
+msgid "Join now and grow with us."
+msgstr "Rejoignez-nous maintenant et développez-vous avec nous."
+
+msgctxt "TS_info6"
+msgid "Start today"
+msgstr "Commencez aujourd'hui"
+
+msgctxt "info6"
+msgid "Register now and unlock your growth potential."
+msgstr "Inscrivez-vous maintenant et libérez votre potentiel de croissance."
+
+msgctxt "banner_title10"
+msgid "We design, implement, and optimize your cloud-based information system following the DevSecOps approach, ensuring security, continuous integration, and agile delivery in just 16 days."
+msgstr "Nous concevons, mettons en œuvre et optimisons votre système d'information cloud en suivant l'approche DevSecOps, garantissant sécurité, intégration continue et livraison agile en seulement 16 jours."
+
+msgctxt "info7"
+msgid "IT Cloud Business is a business model developed by SmartQuail, Inc. that democratizes access to technological project development for social and business organizations."
+msgstr "IT Cloud Business est un modèle commercial développé par SmartQuail, Inc. qui démocratise l'accès au développement de projets technologiques pour les organisations sociales et commerciales."
+
+msgctxt "info8"
+msgid "We are a multidisciplinary team of young scientists, artists, creatives, and developers dedicated to implementing technological solutions that are both profitable and functional."
+msgstr "Nous sommes une équipe multidisciplinaire de jeunes scientifiques, artistes, créatifs et développeurs dédiée à la mise en œuvre de solutions technologiques à la fois rentables et fonctionnelles."
+
+msgctxt "info9"
+msgid "Follow us on our social media channels and news feed to stay up to date in real time with the latest updates and developments in the world of the ICT"
+msgstr "Suivez-nous sur nos réseaux sociaux et notre fil d’actualités pour rester informé en temps réel des dernières nouveautés du monde des TIC."
+
+msgctxt "team_1"
+msgid "Dev"
+msgstr "Dév"
+
+msgctxt "team_descrp_1"
+msgid "dsafsa"
+msgstr "Description en attente"
+
+msgctxt "team_2"
+msgid "fsafdsa"
+msgstr "Nom en attente"
+
+msgctxt "banner_title"
+msgid "Register today and access all the digital tools your business needs to succeed"
+msgstr "Inscrivez-vous aujourd'hui et accédez à tous les outils numériques dont votre entreprise a besoin pour réussir"
+
+msgctxt "slogan"
+msgid "Be Smart, Be a SmartQuail"
+msgstr "Soyez malin, soyez un SmartQuail"
+
+msgctxt "slogan_descriptcion"
+msgid "Deploy your business in the cloud and unleash AI-driven agents to elevate your brand with SmartQuail,Inc in just minutes."
+msgstr "Déployez votre entreprise dans le cloud et libérez des agents IA pour faire évoluer votre marque avec SmartQuail, Inc. en quelques minutes."
