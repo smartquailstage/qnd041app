@@ -1,0 +1,28 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+{% include 'webapp/products/smartbusinesslaw/index/banner.html' %}
+{% include 'webapp/products/smartbusinesslaw/index/features.html' %}
+{% include 'webapp/products/smartbusinesslaw/index/products.html' %}
+{% include 'webapp/products/smartbusinesslaw/index/stelar.html' %}
+{% include 'webapp/products/smartbusinesslaw/index/contact.html' %}
+{% include 'webapp/home/footer_section.html' %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

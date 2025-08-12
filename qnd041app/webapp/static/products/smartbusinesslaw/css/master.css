@@ -3836,6 +3836,7 @@ ul.footer-gallery li img {
     width: 100%;
     z-index: 10;
     color: #fff;
+    top:530px;
 }
 .slider-bg .hero-text P{
 	line-height: 50px;

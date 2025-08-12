@@ -1,0 +1,29 @@
+{% extends "webapp/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+{% block content %}
+
+{% main_menu template="webapp/home/header.html" %}
+
+{% include 'webapp/products/smartbusinessanalytics/index/banner.html' %}
+{% include 'webapp/products/smartbusinessanalytics/index/features.html' %}
+{% include 'webapp/products/smartbusinessanalytics//index/pricing.html' %}
+{% include 'shop/product/sba.html' %}
+{% include 'webapp/products/smartbusinessanalytics/index/stelar.html' %}
+{% include 'webapp/products/smartbusinessanalytics/index/contact.html' %}
+{% include 'webapp/home/footer_section.html' %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

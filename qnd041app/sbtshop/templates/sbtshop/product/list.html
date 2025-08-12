@@ -1,4 +1,4 @@
-{% extends "shop/base.html" %}
+{% extends "sbtshop/base.html" %}
 {% load i18n wagtailcore_tags wagtailimages_tags %}
 {% load static %}
 
@@ -8,57 +8,472 @@
 {% endblock %}
 
 {% block content %}
-{% for product in products %}
+
 <style>
  
-  .blog-cover-bg {
-  background-image: url("{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}");
+ .blog-cover-bg {
+  background-image: url("{% static '/img/smartbusinessmedia/2.png' %}");
+}
+
+
+p {
+    letter-spacing: normal;
+    line-height: 12px;
+    color: #151414;
+    font-weight: 300;
+}
+h3 {
+  font-size: 20px;
+}
+
+.portfolio:hover .portfolio-description .portfolio-title {
+  top: 15px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.portfolio-wrap {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  margin-top: -95px;
+}
+
+.flexslider .slides img {
+  width: 81%;
+  display: block;
+}
+
+.btn-white {
+    color: #f1f1f1;
+    border-color: #e14a83;
+    background-color: #e14a83;
 }
 
 </style>
-{% endfor%}
-
-{% include 'shop/header.html' %}
 
 
-<section class="title-hero-bg blog-cover-bg" data-stellar-background-ratio="0.2">
-  <div class="container">
-    <div class="page-title text-center">
-      
-      {% for c in categories %}    
-      <img src="{% if c.logo %}{{ c.logo.url }}{% else %}{% endif %}">     
-      <h4 class="text-uppercase mt-30 white-color">{{c.slogan}}</h4>
-      {% endfor %}
-    </div>
+{% include 'sbmshop/header.html' %}
+
+
+<section class="pt-0 pb-0">
+  <div class="slider-bg flexslider">
+    <ul class="slides">
+      <!--=== SLIDE 1 ===-->
+      <li>
+        <div class="slide-img"  style="background: url('{% static 'img/smartbusinessmedia/2.png' %}') center center / cover no-repeat;" data-stellar-background-ratio="0.2" ></div>
+
+        <div class="hero-text-wrap">
+          <div class="hero-text white-color">
+            <div class="container text-left">
+
+            
+              <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/2.png' %}" > 
+            
+              <h3 style="color:#358eb2" class="white-color">{% trans 'Your smartest IT Cloud Growth partner for Marketing Business Models.' %}</h3>
+              <h3 style="color:#358eb2" >{% trans 'Where Art and Technology Meet' %}</h3>
+
+                <div class="animate-caption capitalize mt-50">
+                  <h3 class="mt-30 text-left" style="color:#e14a83" ><span class="rotate" style="color:#e14a83"> (CRM) {% trans 'Customer Relationship Management' %}  | +(I+D) {% trans 'Implentation & Front End Devlopment' %} | (+A) {% trans 'Marketing process automation' %} | and |  (+AI) {% trans 'Marketing Artificial Inteligent' %}</span></h3>
+                </div>
+                <a href="#Choose" class="btn btn-white btn-circle">{% trans 'Start Your Business Media Project' %}</a>
+               
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
-</section>
+</section>  
 
 
-<section>
+<section id="Choose" class="black-bg">
   <div class="container">
     <div class="row">
-     
-      <div class="col-sm-8 section-heading">
-        <h2 class="text-uppercase wow fadeTop" data-wow-delay="0.1s">{% trans 'Legal IT Cloud Business Systems' %}</h2>
-        <h4 class="text-uppercase text-uppercase wow fadeTop" data-wow-delay="0.2s">- Tell a Bigger Story -</h4>
-        <div class="mt-30 wow fadeTop" data-wow-delay="0.3s">
-          <p>We are a fully in-house digital agency focusing on branding, marketing, web design and development with clients ranging from start-ups, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius quam ut magna ultricies pellentesque. </p>
+      <div class="col-md-6">
+        <h1>{% trans "Let’s Start" %}</h1>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Join us and discover which startup marketing model best fits your business strategy!.'%}</p>
+      
+        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Marketing Business Models Scale' %}</h3>
+        
+       
+        <div class="panel-group accordion-color mt-50" id="accordion-color">
+         
+         
+          <div class="panel panel-default">
+            {% for c in categories %}
+            <div class="panel-heading">
+              {% if c.title == 'Pre-Seed' %}
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
+                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                 </h3>
+                 {% else %}
+                 {% endif %}
+            </div>
+
+          {% endfor %} 
+            
+            <div id="collapseOne" class="panel-collapse collapse">
+              
+              <div class="panel-body">
+                {% for c in categories %}
+                
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+               
+                {% endfor %} 
+              </div>
+             
+              
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            {% for c in categories %}
+            <div class="panel-heading">
+              {% if c.title == 'Stage' %}
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo"> 
+                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                 </h3>
+                 {% else %}
+                 {% endif %}
+            </div>
+
+          {% endfor %} 
+            
+            <div id="collapseTwo" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+                {% for c in categories %}
+                
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+               
+                {% endfor %} 
+              </div>
+             
+              
+            </div>
+          </div>
+
+          <div class="panel panel-default ">
+            {% for c in categories %}
+            <div class="panel-heading">
+              {% if c.title == 'Stage-A' %}
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree"> 
+                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                 </h3>
+                 {% else %}
+                 {% endif %}
+            </div>
+
+          {% endfor %} 
+            
+            <div id="collapseTree" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+                {% for c in categories %}
+                
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+               
+                {% endfor %} 
+              </div>
+             
+              
+            </div>
+          </div>
+
+        
         </div>
-        asas
-    </div>
-    <div class="row mt-50">
-      {% for product in products %}
-      <div class="col-md-4 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.1s">
-        <div class="pull-left"><i class="icofont {{product.icon}} font-50px default-icon"></i></div>
-        <div class="pull-right">
-          <h5 class="mt-0 upper-case">{{product.name}}</h5>
-          <p>{{ product.description|linebreaks }} <a href="{{ product.get_absolute_url }}" >{% trans 'Order this plan now'  %}</a><i class ="icofont icofont-arrow-right"></i> </p>
+
+        </div>
+
+        <div class="col-md-6">
+               
+          <div class="panel-group accordion-color mt-50" id="accordion-color">
+
+            <div class="panel panel-default">
+              {% for c in categories %}
+              <div class="panel-heading">
+                {% if c.title == 'Growth-Stage' %}
+                <h3 class="panel-title">
+                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFour"> 
+                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                   </h3>
+                   {% else %}
+                   {% endif %}
+              </div>
+  
+            {% endfor %} 
+              
+              <div id="collapseFour" class="panel-collapse collapse">
+                
+                <div class="panel-body">
+                  {% for c in categories %}
+                  
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+                 
+                  {% endfor %} 
+                </div>
+               
+                
+              </div>
+            </div>
+           
+           
+            <div class="panel panel-default">
+              {% for c in categories %}
+              <div class="panel-heading">
+                {% if c.title == 'Growth-Stage-A' %}
+                <h3 class="panel-title">
+                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFive"> 
+                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                   </h3>
+                   {% else %}
+                   {% endif %}
+              </div>
+  
+            {% endfor %} 
+              
+              <div id="collapseFive" class="panel-collapse collapse">
+                
+                <div class="panel-body">
+                  {% for c in categories %}
+                  
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+                 
+                  {% endfor %} 
+                </div>
+               
+                
+              </div>
+            </div>
+  
+            <div class="panel panel-default">
+              {% for c in categories %}
+              <div class="panel-heading">
+                {% if c.title == 'Scale-Up' %}
+                <h3 class="panel-title">
+                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSix"> 
+                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                   </h3>
+                   {% else %}
+                   {% endif %}
+              </div>
+  
+            {% endfor %} 
+              
+              <div id="collapseSix" class="panel-collapse collapse ">
+                
+                <div class="panel-body">
+                  {% for c in categories %}
+                  
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+                 
+                  {% endfor %} 
+                </div>
+               
+                
+              </div>
+            </div>
+  
+            <div class="panel panel-default ">
+              {% for c in categories %}
+              <div class="panel-heading">
+                {% if c.title == 'Unicorn' %}
+                <h3 class="panel-title">
+                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSeven"> 
+                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
+                   </h3>
+                   {% else %}
+                   {% endif %}
+              </div>
+  
+            {% endfor %} 
+              
+              <div id="collapseSeven" class="panel-collapse collapse ">
+                
+                <div class="panel-body">
+                  {% for c in categories %}
+                  
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+                 
+                  {% endfor %} 
+                </div>
+               
+                
+              </div>
+            </div>
+  
+          
+          </div>
+  
+          </div>
+      
+    
+
+   
+  </div>
+</section>
+
+
+<section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="cta-heading-left">
+          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Tell us, Which is your Marketing Business Model.' %}</p>
+       
         </div>
       </div>
-      {% endfor %}
+      <div class="col-md-1"></div>
+      <div class="col-md-6">
+      </div>
+    </div>
+ 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="cta-heading-right">
+          <p class="mt-20 content-text">{% trans "At Smartquail, Inc., we believe that a business model is primarily defined by its reach and impact on the community. It's essential to choose the product you want to obtain based on your business model. With SmartBusinessTechnologies, we automatically calculate the cloud resources your business model requires. This allows us to optimize the cloud resources you use, ultimately reducing costs. In this way, we develop technologies that are both user-friendly and environmentally sustainable." %}</p>
+        </div>
+        <hr>
+      
+        </ul>
+       
+        
+      </div>
     </div>
   </div>
 </section>
+
+<section id="SBM" class="pt-100">
+  <div class="container">
+    <div class="row">
+      <div class="portfolio-container text-center">  
+        <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>  
+        <p style="color:#e6e6e6;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
+        <ul id="portfolio-filter" class="list-inline filter-transparent">
+          {% for c in categories %}
+          <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
+            {{ c.title }} 
+          
+          </li>
+     
+          {% endfor %}
+        </ul>
+        <hr>
+        
+        <!-- Portfolio of products -->
+        <ul id="portfolio-grid" class="four-column hover-two">
+          {% for product in products %}
+            <li class="portfolio-item" data-groups='[ "{{ product.category }}" ]'>
+              <div class="portfolio">
+                <div class="dark-overlay"></div>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <div class="portfolio-wrap">
+                  <div class="portfolio-description">
+                    <h3 class="portfolio-title">{{ product.name }}</h3>
+                    {% if product.available == 'True' %}
+                      <p class="portfolio-title">{% trans 'Available' %}</p>
+                    {% else %}
+                      <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
+                    {% endif %}
+                    <p class="portfolio-title">{% trans 'Marketing Business Model:' %} {{ product.category  }}</p>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
+                  </div>
+                  <ul class="portfolio-details">
+                    {% if product.available == 'True' %}
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Subscribe Now</a></li>
+                    {% else %}
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Learn more</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section  id="Staff" style="background: #e63286;" >
+  <div class="container">
+    <div class="row startup-member">
+      <div class="col-sm-8 section-heading">
+        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/3.png' %}" > {% trans 'Consulting us' %}</h2>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
+      </div>
+      {% for staff_item in products_staff %}
+
+      <div class="col-md-3 col-sm-6">
+        <div class="member text-center">
+          <div class="team-member-container">
+            <!-- Aquí debes usar 'staff_item' para acceder a los atributos -->
+            <img src="{{ staff_item.ceo_profile_img.url }}" class="img-responsive" alt="team-01">
+            <div class="member-caption">
+              <div class="member-description text-center">
+                <div class="member-description-wrap">
+                  <ul class="member-icons">
+                    <li class="social-icon"><a href="#"><i class="icofont icofont-user"></i> See My Profile </a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Aquí también debes usar 'staff_item' -->
+          <h4 class="member-title">{{ staff_item.ceo_name }} {{ staff_item.ceo_lastname }}</h4>
+          <p class="member-subtitle">{{ staff_item.ceo_sector }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    
+
+     
+      <!--=== Member End ===-->
+
+    
+
+
+    </div>
+  </div>
+</section>
+
+
+<section style="background: #42557b;" class="pt-50 pb-50 black-bg">
+  <div class="container">
+    <div class="row">
+      <div id="client-slider" class="owl-carousel">
+        {% for tech_items in products_tech %}
+        <div class="client-logo"> <img class="img-responsive" src="{{ tech_items.logo_img.url }}" alt="01"/> </div>
+        {% endfor %}
+  
+      </div>
+    </div>
+  </div>
+</section>
+
 
 
 

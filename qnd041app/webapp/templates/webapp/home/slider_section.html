@@ -58,7 +58,7 @@
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinessanalytics.png' %}">{{page.banner_title6|richtext}}</h2>
                 <h5 class="white-color text-uppercase font-200">{{page.TS_info3}}<br></h5>
                 <h5 class="white-color text-uppercase font-200"> {{page.info3}}</h5>
-                {% include 'sbashop/product/sbm_list.html' %} 
+                {% include 'sbashop/product/sba_list.html' %} 
                
                 <a href="{% url 'sbashop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
               </div>
@@ -76,8 +76,8 @@
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/SmartBusinessLaw.png' %}">{{page.banner_title7|richtext}}</h2>
                 <h5 class="white-color text-uppercase font-200">{{page.TS_info4}}<br></h5>
                 <h5 class="white-color text-uppercase font-200"> {{page.info4}}</h5>
-                {% include 'sblshop/product/sbm_list.html' %} 
-                  <a  href="{% slugurl 'smartbusinesslawinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Contact Us' %}</a> </p>
+                {% include 'sblshop/product/sbl_list.html' %} 
+                  <a  href="{% url 'sblshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -93,8 +93,8 @@
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinesstechnologies.png' %}">{{page.banner_title8|richtext}}</h2>
                 <h5 class="white-color text-uppercase font-200">{{page.TS_info5}}<br></h5>
                 <h5 class="white-color text-uppercase font-200"> {{page.info5}}</h5>
-                {% include 'sbtshop/product/sbm_list.html' %}
-                 <a href="{% slugurl 'smartbusinesstechnologiesinfo' %}" class="btn btn-outline-white btn-rounded">{% trans 'Contact Us' %}</a> </p>
+                {% include 'sbtshop/product/sbt_list.html' %}
+                 <a href="{% url 'sbtshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@
                 <h2 class="white-color font-500 letter-spacing-5">{{page.banner_title9|richtext}}</h2>
                 <h1 class="white-color text-uppercase font-700">{{page.TS_info6}}</h1>
                 <h3 class="white-color font-400">{{page.info6}}</h3>
-                <p class="text-center mt-30"><a href="{% slugurl 'porfolio' %}" class="btn btn-dark btn-rounded">{% trans 'Register, Now!' %}</a> </p>
+                <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-dark btn-rounded">{% trans 'Register, Now!' %}</a> </p>
               </div>
             </div>
           </div>
