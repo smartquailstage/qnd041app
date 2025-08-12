@@ -103,7 +103,6 @@ LOGGING = {
 }
 
 
-
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
     "unfold",
@@ -125,12 +124,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     
 
-         # Apps propias del proyecto
-    "usuarios",
-    "core",
-    "webapp",
-    "serviceapp",
-    "citas_regulares",
+
 
     'wagtail.embeds',
     'wagtail.sites',
@@ -183,10 +177,16 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
-    "rosetta",
-    "taggit",
+
+             # Apps propias del proyecto
+    "usuarios",
+    "core",
+    "webapp",
+    "serviceapp",
+    "citas_regulares",
 
     # E-commerce apps
+    "cloudcalc",
     "coupons",
     "shop",
     "orders",
@@ -213,6 +213,8 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+    "rosetta",
+    "taggit",
 ]
 
 
