@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 01:00-0500\n"
+"POT-Creation-Date: 2025-08-11 23:15-0500\n"
 "PO-Revision-Date: 2025-08-10 01:11-0500\n"
 "Last-Translator:   <sasa@assd.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,8 +93,8 @@ msgstr ""
 
 #: agenda/templates/admin/auth/user/add_form.html:7
 msgid ""
-"First, enter a username and password. Then, you’ll be able to edit more user"
-" options."
+"First, enter a username and password. Then, you’ll be able to edit more user "
+"options."
 msgstr ""
 
 #: agenda/templates/admin/auth/user/add_form.html:9
@@ -170,8 +170,8 @@ msgstr ""
 #: agenda/templates/admin/delete_confirmation.html:53
 #, python-format
 msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the"
-" following protected related objects:"
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
 msgstr ""
 
 #: agenda/templates/admin/delete_confirmation.html:69
@@ -241,8 +241,8 @@ msgstr ""
 #: agenda/templates/admin/login.html:44 core/templates/admin/login.html:39
 #, python-format
 msgid ""
-"You are authenticated as %(username)s, but are not authorized to access this"
-" page. Would you like to login to a different account?"
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
 msgstr ""
 
 #: agenda/templates/admin/login.html:67 core/templates/admin/login.html:63
@@ -280,8 +280,8 @@ msgstr[1] ""
 
 #: agenda/templates/admin/object_history.html:84
 msgid ""
-"This object doesn’t have a change history. It probably wasn’t added via this"
-" admin site."
+"This object doesn’t have a change history. It probably wasn’t added via this "
+"admin site."
 msgstr ""
 
 #: agenda/templates/admin/pagination.html:12
@@ -882,6 +882,7 @@ msgstr ""
 #: sbmshop/templates/sbmshop/header.html:201
 #: sbtorders/templates/sbtorders/header.html:185
 #: sbtshop/templates/sbtshop/header.html:185
+#: sbtshop/templates/sbtshop/product/sbt_list.html:10
 #: webapp/templates/webapp/home/header.html:174
 msgid "Resources"
 msgstr ""
@@ -916,7 +917,6 @@ msgstr ""
 
 #: sbashop/templates/sbashop/product/detail.html:84
 #: sblshop/templates/sblshop/product/detail.html:84
-#: sbmshop/templates/sbmshop/product/sbm_list.html:9
 #: sbtshop/templates/sbtshop/product/detail.html:84
 msgid "Order Now"
 msgstr ""
@@ -933,20 +933,234 @@ msgstr ""
 msgid "Terms & Conditions"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/list.html:42
-msgid "Legalsa IT Cloud Business Systems"
+#: sbashop/templates/sbashop/product/list.html:74
+#: sblshop/templates/sblshop/product/list.html:74
+msgid "Your ."
 msgstr ""
 
-#: sbashop/templates/sbashop/product/list.html:56
-#: sblshop/templates/sblshop/product/list.html:55
-#: sbtshop/templates/sbtshop/product/list.html:55
-msgid "Order this plan now"
+#: sbashop/templates/sbashop/product/list.html:75
+#: sblshop/templates/sblshop/product/list.html:75
+#: sbmshop/templates/sbmshop/product/list.html:75
+#: sbtshop/templates/sbtshop/product/list.html:75
+msgid "Where Art and Technology Meet"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/banner.html:21
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/banner.html:21
+#: sbashop/templates/sbashop/product/list.html:78
+#: sblshop/templates/sblshop/product/list.html:78
+#: sbmshop/templates/sbmshop/product/list.html:78
+#: sbtshop/templates/sbtshop/product/list.html:78
+msgid "Customer Relationship Management"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:78
+#: sblshop/templates/sblshop/product/list.html:78
+#: sbmshop/templates/sbmshop/product/list.html:78
+#: sbtshop/templates/sbtshop/product/list.html:78
+msgid "Implentation & Front End Devlopment"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:78
+#: sblshop/templates/sblshop/product/list.html:78
+#: sbmshop/templates/sbmshop/product/list.html:78
+#: sbtshop/templates/sbtshop/product/list.html:78
+msgid "Marketing process automation"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:78
+#: sblshop/templates/sblshop/product/list.html:78
+#: sbmshop/templates/sbmshop/product/list.html:78
+#: sbtshop/templates/sbtshop/product/list.html:78
+msgid "Marketing Artificial Inteligent"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:80
+#: sblshop/templates/sblshop/product/list.html:80
+#: sbmshop/templates/sbmshop/product/list.html:80
+#: sbtshop/templates/sbtshop/product/list.html:80
+msgid "Start Your Business Media Project"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:95
+#: sblshop/templates/sblshop/product/list.html:95
+#: sbmshop/templates/sbmshop/product/list.html:95
+#: sbtshop/templates/sbtshop/product/list.html:95
+msgid "Let’s Start"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:96
+#: sblshop/templates/sblshop/product/list.html:96
+#: sbmshop/templates/sbmshop/product/list.html:96
+#: sbtshop/templates/sbtshop/product/list.html:96
+msgid ""
+"Join us and discover which startup marketing model best fits your business "
+"strategy!."
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:98
+#: sblshop/templates/sblshop/product/list.html:98
+#: sbmshop/templates/sbmshop/product/list.html:98
+#: sbtshop/templates/sbtshop/product/list.html:98
+msgid "Marketing Business Models Scale"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:110
+#: sbashop/templates/sbashop/product/list.html:140
+#: sbashop/templates/sbashop/product/list.html:170
+#: sbashop/templates/sbashop/product/list.html:209
+#: sbashop/templates/sbashop/product/list.html:240
+#: sbashop/templates/sbashop/product/list.html:270
+#: sbashop/templates/sbashop/product/list.html:300
+#: sblshop/templates/sblshop/product/list.html:110
+#: sblshop/templates/sblshop/product/list.html:140
+#: sblshop/templates/sblshop/product/list.html:170
+#: sblshop/templates/sblshop/product/list.html:209
+#: sblshop/templates/sblshop/product/list.html:240
+#: sblshop/templates/sblshop/product/list.html:270
+#: sblshop/templates/sblshop/product/list.html:300
+#: sbmshop/templates/sbmshop/product/list.html:110
+#: sbmshop/templates/sbmshop/product/list.html:140
+#: sbmshop/templates/sbmshop/product/list.html:170
+#: sbmshop/templates/sbmshop/product/list.html:209
+#: sbmshop/templates/sbmshop/product/list.html:240
+#: sbmshop/templates/sbmshop/product/list.html:270
+#: sbmshop/templates/sbmshop/product/list.html:300
+#: sbtshop/templates/sbtshop/product/list.html:110
+#: sbtshop/templates/sbtshop/product/list.html:140
+#: sbtshop/templates/sbtshop/product/list.html:170
+#: sbtshop/templates/sbtshop/product/list.html:209
+#: sbtshop/templates/sbtshop/product/list.html:240
+#: sbtshop/templates/sbtshop/product/list.html:270
+#: sbtshop/templates/sbtshop/product/list.html:300
+msgid "Customers"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:110
+#: sbashop/templates/sbashop/product/list.html:140
+#: sbashop/templates/sbashop/product/list.html:170
+#: sbashop/templates/sbashop/product/list.html:209
+#: sbashop/templates/sbashop/product/list.html:240
+#: sbashop/templates/sbashop/product/list.html:270
+#: sbashop/templates/sbashop/product/list.html:300
+#: sblshop/templates/sblshop/product/list.html:110
+#: sblshop/templates/sblshop/product/list.html:140
+#: sblshop/templates/sblshop/product/list.html:170
+#: sblshop/templates/sblshop/product/list.html:209
+#: sblshop/templates/sblshop/product/list.html:240
+#: sblshop/templates/sblshop/product/list.html:270
+#: sblshop/templates/sblshop/product/list.html:300
+#: sbmshop/templates/sbmshop/product/list.html:110
+#: sbmshop/templates/sbmshop/product/list.html:140
+#: sbmshop/templates/sbmshop/product/list.html:170
+#: sbmshop/templates/sbmshop/product/list.html:209
+#: sbmshop/templates/sbmshop/product/list.html:240
+#: sbmshop/templates/sbmshop/product/list.html:270
+#: sbmshop/templates/sbmshop/product/list.html:300
+#: sbtshop/templates/sbtshop/product/list.html:110
+#: sbtshop/templates/sbtshop/product/list.html:140
+#: sbtshop/templates/sbtshop/product/list.html:170
+#: sbtshop/templates/sbtshop/product/list.html:209
+#: sbtshop/templates/sbtshop/product/list.html:240
+#: sbtshop/templates/sbtshop/product/list.html:270
+#: sbtshop/templates/sbtshop/product/list.html:300
+msgid "Employes"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:341
+#: sblshop/templates/sblshop/product/list.html:341
+#: sbmshop/templates/sbmshop/product/list.html:341
+#: sbtshop/templates/sbtshop/product/list.html:341
+msgid "Tell us, Which is your Marketing Business Model."
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:353
+#: sblshop/templates/sblshop/product/list.html:353
+#: sbmshop/templates/sbmshop/product/list.html:353
+#: sbtshop/templates/sbtshop/product/list.html:353
+msgid ""
+"At Smartquail, Inc., we believe that a business model is primarily defined "
+"by its reach and impact on the community. It's essential to choose the "
+"product you want to obtain based on your business model. With "
+"SmartBusinessTechnologies, we automatically calculate the cloud resources "
+"your business model requires. This allows us to optimize the cloud resources "
+"you use, ultimately reducing costs. In this way, we develop technologies "
+"that are both user-friendly and environmentally sustainable."
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:369
+#: sblshop/templates/sblshop/product/list.html:369
+#: sbmshop/templates/sbmshop/product/list.html:369
+#: sbtshop/templates/sbtshop/product/list.html:369
+msgid "IT Cloud Business Media CRM"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:370
+#: sblshop/templates/sblshop/product/list.html:370
+#: sbmshop/templates/sbmshop/product/list.html:370
+#: sbtshop/templates/sbtshop/product/list.html:370
+msgid ""
+"Select the SmartBusinessMedia CRM that best aligns with your marketing "
+"business model."
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:393
+#: sblshop/templates/sblshop/product/list.html:393
+#: sbmshop/templates/sbmshop/product/list.html:393
+#: sbtshop/templates/sbtshop/product/list.html:393
+msgid "Available"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:395
+#: sblshop/templates/sblshop/product/list.html:395
+#: sbmshop/templates/sbmshop/product/list.html:395
+#: sbtshop/templates/sbtshop/product/list.html:395
+msgid "Coming Soon"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:397
+#: sblshop/templates/sblshop/product/list.html:397
+#: sbmshop/templates/sbmshop/product/list.html:397
+#: sbtshop/templates/sbtshop/product/list.html:397
+msgid "Marketing Business Model:"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:398
+#: sblshop/templates/sblshop/product/list.html:398
+#: sbmshop/templates/sbmshop/product/list.html:398
+#: sbtshop/templates/sbtshop/product/list.html:398
+msgid "Subscription:"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:398
+#: sblshop/templates/sblshop/product/list.html:398
+#: sbmshop/templates/sbmshop/product/list.html:398
+#: sbtshop/templates/sbtshop/product/list.html:398
+msgid "Monthly"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:425
+#: sblshop/templates/sblshop/product/list.html:425
+#: sbmshop/templates/sbmshop/product/list.html:425
+#: sbtshop/templates/sbtshop/product/list.html:425
+msgid "Consulting us"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/list.html:426
+#: sblshop/templates/sblshop/product/list.html:426
+#: sbmshop/templates/sbmshop/product/list.html:426
+#: sbtshop/templates/sbtshop/product/list.html:426
+msgid "We are professional, creative, smart, and fun!"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/sba_list.html:10
+#: sblshop/templates/sblshop/product/sbl_list.html:11
+#: sbmshop/templates/sbmshop/product/sbm_list.html:10
+msgid "View Demo"
+msgstr ""
+
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/banner.html:21
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/banner.html:21
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/banner.html:21
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/banner.html:21
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/banner.html:21
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/banner.html:21
 #: webapp/templates/webapp/products/smartbusinesslaw/index/banner.html:21
 #: webapp/templates/webapp/products/smartbusinessmedia/index/banner.html:21
@@ -954,10 +1168,10 @@ msgstr ""
 msgid "Order now"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:13
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:13
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:13
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:13
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:13
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:13
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:13
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:13
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:13
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:13
@@ -965,10 +1179,10 @@ msgstr ""
 msgid "Business Media Envelopment"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:22
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:22
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:22
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:22
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:22
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:22
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:22
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:22
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:22
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:22
@@ -976,30 +1190,30 @@ msgstr ""
 msgid "Business Story Telling"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:23
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:30
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:37
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:49
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:56
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:63
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:23
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:30
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:37
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:49
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:56
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:63
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:23
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:30
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:37
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:49
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:56
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:63
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:23
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:30
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:37
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:49
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:56
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:63
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:23
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:30
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:37
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:49
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:56
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:63
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:23
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:30
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:37
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:49
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:56
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:63
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:23
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:30
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:37
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:49
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:56
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:63
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:23
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:30
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:37
@@ -1027,10 +1241,10 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:29
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:29
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:29
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:29
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:29
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:29
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:29
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:29
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:29
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:29
@@ -1038,10 +1252,10 @@ msgstr ""
 msgid "SEM Strategy"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:36
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:36
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:36
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:36
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:36
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:36
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:36
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:36
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:36
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:36
@@ -1049,10 +1263,10 @@ msgstr ""
 msgid "SEO Strategy"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:48
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:48
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:48
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:48
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:48
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:48
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:48
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:48
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:48
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:48
@@ -1060,10 +1274,10 @@ msgstr ""
 msgid "Community Manager (RRSS)"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:55
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:55
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:55
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:55
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:55
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:55
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:55
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:55
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:55
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:55
@@ -1071,20 +1285,15 @@ msgstr ""
 msgid "Web3.0 Development"
 msgstr ""
 
-#: sbashop/templates/sbashop/product/smartbusinessmedia/index/features.html:62
-#: sblshop/templates/sblshop/product/smartbusinessmedia/index/features.html:62
+#: sbashop/templates/sbashop/product/smartbusinesstechnologies/index/features.html:62
+#: sblshop/templates/sblshop/product/smartbusinesslaw/index/features.html:62
 #: sbmshop/templates/sbmshop/product/smartbusinessmedia/index/features.html:62
-#: sbtshop/templates/sbtshop/product/smartbusinessmedia/index/features.html:62
+#: sbtshop/templates/sbtshop/product/smartbusinesstechnologies/index/features.html:62
 #: webapp/templates/webapp/products/smartbusinessanalytics/index/features.html:62
 #: webapp/templates/webapp/products/smartbusinesslaw/index/features.html:62
 #: webapp/templates/webapp/products/smartbusinessmedia/index/features.html:62
 #: webapp/templates/webapp/products/smartbusinesstechnologies/index/features.html:62
 msgid "Media Analytics"
-msgstr ""
-
-#: sblshop/templates/sblshop/product/list.html:42
-#: sbtshop/templates/sbtshop/product/list.html:42
-msgid "Legal IT Cloud Business Systems"
 msgstr ""
 
 #: sbmcart/templates/sbmcart/detail.html:136
@@ -1165,8 +1374,8 @@ msgstr ""
 msgid ""
 "El pago será considerado efectivo una vez que el sistema bancario local "
 "confirme la transacción realizada. La validación de la transacción se "
-"llevará a cabo verificando los siguientes aspectos: La identidad del usuario"
-" que realizó el pago. La verificación de los datos del banco y la "
+"llevará a cabo verificando los siguientes aspectos: La identidad del usuario "
+"que realizó el pago. La verificación de los datos del banco y la "
 "transacción. La validación de la fecha y hora en la que se realizó la "
 "compra. Solo después de la confirmación por parte del sistema bancario "
 "local, se procesará el pedido y se iniciará el envío de los productos "
@@ -1658,8 +1867,8 @@ msgstr ""
 #: sbmshop/templates/sbmshop/product/detail.html:120
 msgid ""
 "Este proyecto está licenciado bajo los términos de la Licencia Open Source "
-"correspondiente. Esto significa que puedes usar, modificar y distribuir este"
-" software de forma libre, siempre y cuando cumplas con los términos "
+"correspondiente. Esto significa que puedes usar, modificar y distribuir este "
+"software de forma libre, siempre y cuando cumplas con los términos "
 "establecidos en la licencia MIT."
 msgstr ""
 
@@ -1718,118 +1927,8 @@ msgid "Demand on it"
 msgstr ""
 
 #: sbmshop/templates/sbmshop/product/list.html:74
+#: sbtshop/templates/sbtshop/product/list.html:74
 msgid "Your smartest IT Cloud Growth partner for Marketing Business Models."
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:75
-msgid "Where Art and Technology Meet"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:78
-msgid "Customer Relationship Management"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:78
-msgid "Implentation & Front End Devlopment"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:78
-msgid "Marketing process automation"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:78
-msgid "Marketing Artificial Inteligent"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:80
-msgid "Start Your Business Media Project"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:95
-msgid "Let’s Start"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:96
-msgid ""
-"Join us and discover which startup marketing model best fits your business "
-"strategy!."
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:98
-msgid "Marketing Business Models Scale"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:110
-#: sbmshop/templates/sbmshop/product/list.html:140
-#: sbmshop/templates/sbmshop/product/list.html:170
-#: sbmshop/templates/sbmshop/product/list.html:209
-#: sbmshop/templates/sbmshop/product/list.html:240
-#: sbmshop/templates/sbmshop/product/list.html:270
-#: sbmshop/templates/sbmshop/product/list.html:300
-msgid "Customers"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:110
-#: sbmshop/templates/sbmshop/product/list.html:140
-#: sbmshop/templates/sbmshop/product/list.html:170
-#: sbmshop/templates/sbmshop/product/list.html:209
-#: sbmshop/templates/sbmshop/product/list.html:240
-#: sbmshop/templates/sbmshop/product/list.html:270
-#: sbmshop/templates/sbmshop/product/list.html:300
-msgid "Employes"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:341
-msgid "Tell us, Which is your Marketing Business Model."
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:353
-msgid ""
-"At Smartquail, Inc., we believe that a business model is primarily defined "
-"by its reach and impact on the community. It's essential to choose the "
-"product you want to obtain based on your business model. With "
-"SmartBusinessTechnologies, we automatically calculate the cloud resources "
-"your business model requires. This allows us to optimize the cloud resources"
-" you use, ultimately reducing costs. In this way, we develop technologies "
-"that are both user-friendly and environmentally sustainable."
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:369
-msgid "IT Cloud Business Media CRM"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:370
-msgid ""
-"Select the SmartBusinessMedia CRM that best aligns with your marketing "
-"business model."
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:393
-msgid "Available"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:395
-msgid "Coming Soon"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:397
-msgid "Marketing Business Model:"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:398
-msgid "Subscription:"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:398
-msgid "Monthly"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:425
-msgid "Consulting us"
-msgstr ""
-
-#: sbmshop/templates/sbmshop/product/list.html:426
-msgid "We are professional, creative, smart, and fun!"
 msgstr ""
 
 #: sbmshop/templates/sbmshop/product/manual_pdf.html:28
@@ -1861,7 +1960,8 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                                  <p> <li>%(total_items)s  passengers tour reservation\n"
+"                                  <p> <li>%(total_items)s  passengers tour "
+"reservation\n"
 "                                   %(total_items_plural)s:\n"
 "                                    $%(total_price)s</li></p>\n"
 "                                  "
@@ -1921,8 +2021,8 @@ msgstr ""
 
 #: usuarios/templates/registration/password_change_form.html:35
 msgid ""
-"Please enter your old password, for security’s sake, and then enter your new"
-" password twice so we can verify you typed it in correctly."
+"Please enter your old password, for security’s sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
 msgstr ""
 
 #: webapp/templates/webapp/aboutus.html:34
@@ -1974,30 +2074,33 @@ msgstr ""
 #: webapp/templates/webapp/home/callout.html:46
 #: webapp/templates/webapp/home/slider_section.html:26
 #: webapp/templates/webapp/home/slider_section.html:44
+#: webapp/templates/webapp/home/slider_section.html:63
+#: webapp/templates/webapp/home/slider_section.html:80
+#: webapp/templates/webapp/home/slider_section.html:97
 #, fuzzy
 msgid "Learn more"
 msgstr "Saber Más"
 
 #: webapp/templates/webapp/createitbusiness/slider_section.html:56
-#: webapp/templates/webapp/home/slider_section.html:62
 msgid "Create your IT BusinessAnalytics"
 msgstr ""
 
 #: webapp/templates/webapp/createitbusiness/slider_section.html:73
 #: webapp/templates/webapp/createitbusiness/slider_section.html:90
-#: webapp/templates/webapp/home/callacction_section.html:20
-#: webapp/templates/webapp/home/slider_section.html:79
-#: webapp/templates/webapp/home/slider_section.html:96
 msgid "Contact Us"
 msgstr ""
 
 #: webapp/templates/webapp/createitbusiness/slider_section.html:107
-#: webapp/templates/webapp/home/slider_section.html:113
+#: webapp/templates/webapp/home/slider_section.html:114
 msgid "Register, Now!"
 msgstr ""
 
 #: webapp/templates/webapp/home/OurTeam_section.html:20
 msgid "We Are Stronger in IT Business"
+msgstr ""
+
+#: webapp/templates/webapp/home/callacction_section.html:20
+msgid "Register"
 msgstr ""
 
 #: webapp/templates/webapp/home/callout.html:12
@@ -2013,11 +2116,27 @@ msgid "IT Cloud Business"
 msgstr ""
 
 #: webapp/templates/webapp/home/callout.html:40
-msgid "SmartQuail Technologies"
+msgid "Who we are?"
 msgstr ""
 
 #: webapp/templates/webapp/home/callout.html:45
-msgid "IT Cloud Busines News"
+msgid "SmartQuail Feed"
+msgstr ""
+
+#: webapp/templates/webapp/home/customerscounter_section.html:14
+msgid "Social Projects"
+msgstr ""
+
+#: webapp/templates/webapp/home/customerscounter_section.html:18
+msgid "Years Of Experience"
+msgstr ""
+
+#: webapp/templates/webapp/home/customerscounter_section.html:22
+msgid "Hours Of Project"
+msgstr ""
+
+#: webapp/templates/webapp/home/customerscounter_section.html:26
+msgid "Projects Wins"
 msgstr ""
 
 #: webapp/templates/webapp/home/footer_section.html:17

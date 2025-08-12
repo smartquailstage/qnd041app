@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-11 23:15-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: qnd041app/settings/base_local.py:273 qnd041app/settings/base_prod.py:290
+#: qnd041app/settings/base_stage.py:250 qnd041app/settings/base_stage.py:524
+msgid "Usuarios(AUTH)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:274 qnd041app/settings/base_prod.py:291
+#: qnd041app/settings/base_stage.py:251 qnd041app/settings/base_stage.py:525
+msgid "Roles(RBAC)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:275 qnd041app/settings/base_prod.py:292
+#: qnd041app/settings/base_stage.py:252 qnd041app/settings/base_stage.py:526
+msgid "Administrativos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:276 qnd041app/settings/base_prod.py:293
+#: qnd041app/settings/base_stage.py:253 qnd041app/settings/base_stage.py:527
+msgid "Institucionales"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:277 qnd041app/settings/base_prod.py:294
+#: qnd041app/settings/base_stage.py:254 qnd041app/settings/base_stage.py:528
+msgid "Terapeutas"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:278 qnd041app/settings/base_prod.py:295
+#: qnd041app/settings/base_stage.py:529
+msgid "Servicios"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:280 qnd041app/settings/base_prod.py:297
+#: qnd041app/settings/base_stage.py:257 qnd041app/settings/base_stage.py:531
+msgid "Sucursales"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:281 qnd041app/settings/base_prod.py:298
+#: qnd041app/settings/base_stage.py:258 qnd041app/settings/base_stage.py:532
+msgid "Monitoreo"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:282 qnd041app/settings/base_prod.py:299
+#: qnd041app/settings/base_stage.py:259 qnd041app/settings/base_stage.py:533
+msgid "Soporte"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:360 qnd041app/settings/base_prod.py:385
+#: qnd041app/settings/base_stage.py:337 qnd041app/settings/base_stage.py:611
+msgid "Perfil Institucional"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:373 qnd041app/settings/base_prod.py:398
+#: qnd041app/settings/base_stage.py:350 qnd041app/settings/base_stage.py:624
+msgid "Comunicaciones"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:378 qnd041app/settings/base_prod.py:403
+#: qnd041app/settings/base_stage.py:355 qnd041app/settings/base_stage.py:629
+msgid "Bandeja de Entrada"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:389 qnd041app/settings/base_prod.py:414
+#: qnd041app/settings/base_stage.py:366 qnd041app/settings/base_stage.py:640
+msgid "Registros Administrativos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:394 qnd041app/settings/base_prod.py:419
+#: qnd041app/settings/base_stage.py:371 qnd041app/settings/base_stage.py:645
+msgid "Prospecciones"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:402 qnd041app/settings/base_prod.py:427
+#: qnd041app/settings/base_stage.py:379 qnd041app/settings/base_stage.py:653
+msgid "Instituciones"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:410 qnd041app/settings/base_stage.py:387
+#: qnd041app/settings/base_stage.py:661
+msgid "Pacientes"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:418 qnd041app/settings/base_prod.py:443
+#: qnd041app/settings/base_stage.py:395 qnd041app/settings/base_stage.py:669
+msgid "Agenda"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:426 qnd041app/settings/base_prod.py:451
+#: qnd041app/settings/base_stage.py:403 qnd041app/settings/base_stage.py:677
+msgid "Pagos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:436 qnd041app/settings/base_prod.py:461
+#: qnd041app/settings/base_stage.py:413 qnd041app/settings/base_stage.py:687
+msgid "Registros Terapéuticos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:441 qnd041app/settings/base_prod.py:466
+#: qnd041app/settings/base_stage.py:418 qnd041app/settings/base_stage.py:692
+msgid "Valoraciones"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:449 qnd041app/settings/base_prod.py:474
+#: qnd041app/settings/base_stage.py:426 qnd041app/settings/base_stage.py:700
+msgid "Terapias"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:464 qnd041app/settings/base_prod.py:489
+#: qnd041app/settings/base_stage.py:441 qnd041app/settings/base_stage.py:715
+msgid "Users"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:527 qnd041app/settings/base_stage.py:777
+msgid "Español"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:528 qnd041app/settings/base_stage.py:778
+msgid "Inglés"
+msgstr ""
+
+#: qnd041app/settings/base_prod.py:435
+msgid "Historiales"
+msgstr ""
