@@ -25,14 +25,46 @@ from tinymce.models import HTMLField
 from django.contrib.auth.models import AbstractUser
 from serviceapp.models import ServicioTerapeutico
 from decimal import Decimal
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+
+from django.conf import settings
 
 
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Debe ingresar un correo electrónico')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
 
 
 
 class AdministrativeProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='admin_profile')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_of_birth = models.DateField("Fecha de nacimiento")
     gender_choices = [
         ('M', 'Masculino'),
@@ -183,7 +215,7 @@ class Prospeccion(models.Model):
 
 
 class PerfilInstitucional(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     colegio = models.ForeignKey(Prospeccion, on_delete=models.SET_NULL, null=True)
     cargo = models.CharField(max_length=100, null=True, blank=True, verbose_name="Cargo del Usuario en la Institución")
     phone_regex = RegexValidator(
@@ -1517,7 +1549,7 @@ class BitacoraDesarrollo(models.Model):
     fecha_entrega = models.DateField(blank=True, null=True)  # nuevo campo automático
     incarge = models.CharField(blank=True, null=True,max_length=200, choices=INCHARGE)
     SmartQuail_Tech = models.CharField(max_length=200, choices=SQCREW,null=True, blank=True)
-    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tipo_cambio = models.CharField(max_length=200, choices=TIPO_SISTEMA_CHOICES)
     tipo_tecnologia = models.CharField(max_length=200, choices=TIPO_TECHNOLOGIAS_CHOICES)
     titulo = models.CharField(max_length=200)

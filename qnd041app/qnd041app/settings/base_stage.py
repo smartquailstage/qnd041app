@@ -60,6 +60,9 @@ LOGGING = {
 }
 
 
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
     "unfold",
@@ -140,7 +143,7 @@ INSTALLED_APPS = [
     "core",
     "webapp",
     "serviceapp",
-    "citas_regulares",
+    #"citas_regulares",
 
     # E-commerce apps
     "cloudcalc",

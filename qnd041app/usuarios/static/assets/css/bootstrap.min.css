@@ -7129,7 +7129,7 @@ textarea.form-control-lg {
 .my-5 {
 	margin-top: 23rem!important;
 	margin-bottom: 3rem!important;
-    background-color: #00000057; 
+    background-color: #282424; 
 }
 .my-auto {
 	margin-top: auto!important;
@@ -7790,7 +7790,7 @@ textarea.form-control-lg {
 }
 .bg-white {
 	--bs-bg-opacity: 1;
-	background-color: #18bb6b;
+	background-color: #fafafa;
 }
 .bg-body {
 	--bs-bg-opacity: 1;

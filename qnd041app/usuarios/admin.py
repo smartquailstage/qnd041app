@@ -50,7 +50,7 @@ from unfold.contrib.filters.admin import (
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from .widgets import CustomDatePickerWidget
-from .models import AdministrativeProfile
+from .models import AdministrativeProfile,CustomUser
 from django.contrib.auth.admin import UserAdmin
 
 from collections import defaultdict
@@ -63,7 +63,23 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 
 
-
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    list_display = ['email', 'first_name', 'is_staff']
+    ordering = ('email',)
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        ('Información personal', {'fields': ('first_name',)}),
+        ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Fechas importantes', {'fields': ('last_login',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'first_name', 'password1', 'password2')}
+        ),
+    )
 
 
 class ProblemaFrecuenteInline(TabularInline):
@@ -109,18 +125,8 @@ def dashboard_callback(request, context):
 
 
 
-# 1. Anular el registro por defecto
-#admin.site.unregister(User)
-admin.site.unregister(Group)
 
 
-
-
-# Registrar el modelo Group con estilo Unfold también
-@admin.register(Group)
-class CustomGroupAdmin(GroupAdmin, ModelAdmin):
-    search_fields = ("name",)
-    ordering = ("name",)
 
 
 
@@ -155,50 +161,6 @@ class ComentariosCitaSection(TableSection):
 
 
 
-
-class CustomUserChangeForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # Aquí puedes agregar lógica según el usuario actual
-        user = getattr(self, 'current_user', None)
-        if user and not user.is_superuser:
-            for field in ['is_active', 'is_staff', 'is_superuser']:
-                self.fields[field].disabled = True
-
-class CustomUserAdmin(UserAdmin):
-    form = CustomUserChangeForm
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.current_user = request.user  # Pasamos el usuario actual al form
-        return form
-
-# Re-registramos el modelo User con el nuevo admin
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
-
-
-
-class CustomAdminSite(UnfoldAdminSite):
-    site_header = "Panel de Administración"
-    site_title = "QNODES"
-    index_title = "Dashboard"
-
-
-    def each_context(self, request):
-        context = super().each_context(request)
-        # Aquí podés agregar tus citas si querés pasarlas al template
-        from usuarios.models import Cita  # ajustá si tu modelo se llama distinto
-
-        context["citas"] = Cita.objects.all()
-        return context
-
-custom_admin_site = CustomAdminSite(name="custom_admin_site")
 
 #def profile_pdf(obj):
 #    return mark_safe('<a href="{}">ver perfil</a>'.format(
@@ -292,13 +254,6 @@ class CitasRecibidasInline(admin.TabularInline):
     verbose_name = "Cita recibida"
     verbose_name_plural = "Citas recibidas"
 
-class CustomUserAdmin(BaseUserAdmin):
-    inlines = [
-               CitasCreadasInline,
-               CitasRecibidasInline]
-
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
 
 
 
