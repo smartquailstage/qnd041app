@@ -82,10 +82,8 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    
-
-
-
+     "webapp",
+     "core",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -94,6 +92,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
+     
     'wagtail',
 
   #  "wagtail.search",
@@ -140,8 +139,8 @@ INSTALLED_APPS = [
 
              # Apps propias del proyecto
     "usuarios",
-    "core",
-    "webapp",
+   
+   
     "serviceapp",
     #"citas_regulares",
 
@@ -725,7 +724,7 @@ UNFOLD = {
 }
 
 
-
+WAGTAIL_VERSION_UPDATE_NOTIFICATION = False
 
 
 

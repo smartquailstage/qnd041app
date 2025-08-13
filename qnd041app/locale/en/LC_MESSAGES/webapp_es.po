@@ -1,10 +1,10 @@
 #
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2025-08-12 03:26:54.287477+00:00\n"
+"POT-Creation-Date: 2025-08-13 06:04:32.664843+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"X-WagtailLocalize-TranslationID: 00d9032f-0f74-4088-885b-153eff7c2b08\n"
+"X-WagtailLocalize-TranslationID: ef0130fd-7b62-4c8b-baaf-2c34839fdd78\n"
 
 msgctxt "title"
 msgid "home"
@@ -15,32 +15,32 @@ msgid "home"
 msgstr "inicio"
 
 msgctxt "banner_title4"
-msgid "Cloud-based Information and Communication Technologies (ICT)"
-msgstr "Tecnologías de información y comunicación en la nube"
+msgid "home"
+msgstr "inicio"
 
 msgctxt "TS_info1"
-msgid "Cloud innovation within your organization’s reach: discover the most advanced cloud-based ICT solutions in Ecuador for businesses, community projects, and social initiatives."
-msgstr "Innovación en la nube, al alcance de tu organización: descubre en Ecuador las TIC más avanzadas en la nube para empresas, proyectos comunitarios y sociales."
+msgid "Cloud-based Information and Communication Technologies (ICT)"
+msgstr "Tecnologías de la Información y Comunicación (TIC) basadas en la nube"
 
 msgctxt "info1"
 msgid "Connect with us and join our technology community in Ecuador."
-msgstr "Conócenos y sé parte de nuestra comunidad tecnológica en Ecuador."
+msgstr "Conéctate con nosotros y únete a nuestra comunidad tecnológica en Ecuador."
 
 msgctxt "banner_title5"
 msgid "We provide your organization with tailored technological solutions for digital marketing success."
-msgstr "Brindamos a su organización soluciones tecnológicas a medida para alcanzar el éxito en su estrategia de marketing digital."
+msgstr "Proveemos a tu organización soluciones tecnológicas personalizadas para el éxito en marketing digital."
 
 msgctxt "TS_info2"
 msgid "Where art and technology meet."
-msgstr "Donde el arte y la tecnología se encuentran"
+msgstr "Donde el arte y la tecnología se encuentran."
 
 msgctxt "info2"
 msgid "Manage your multimedia content in the cloud in real time, and automatically boost its reach and visibility."
-msgstr "Administra tu contenido multimedia en la nube en tiempo real y aumenta automáticamente su alcance y visibilidad."
+msgstr "Gestiona tu contenido multimedia en la nube en tiempo real y potencia automáticamente su alcance y visibilidad."
 
 msgctxt "banner_title6"
 msgid "We are your strategic partner in financial and statistical technologies for your business organization."
-msgstr "Somos tu aliado estratégico en tecnologías financieras y estadísticas para tu organización empresarial."
+msgstr "Somos tu socio estratégico en tecnologías financieras y estadísticas para tu organización empresarial."
 
 msgctxt "TS_info3"
 msgid "Make smarter decisions powered by real-time, data-driven technology."
@@ -48,27 +48,33 @@ msgstr "Toma decisiones más inteligentes impulsadas por tecnología basada en d
 
 msgctxt "info3"
 msgid "Unify your data, unlock actionable insights, and drive faster, smarter growth."
-msgstr "Centraliza tus datos, descubre información útil y genera un crecimiento más rápido e inteligente."
+msgstr "Unifica tus datos, descubre conocimientos accionables y promueve un crecimiento más rápido e inteligente."
+
+msgctxt "banner_title7"
+msgid ""
+"We are your technology partner for certified and tokenized information solutions powered by blockchain, ensuring the legal validity, authenticity, and integrity of your reports, invoices, and "
+"contracts."
+msgstr "Somos tu socio tecnológico para soluciones de información certificadas y tokenizadas mediante blockchain, garantizando la validez legal, autenticidad e integridad de tus reportes, facturas y contratos."
 
 msgctxt "TS_info4"
-msgid "We are your technology partner for certified and tokenized information solutions powered by blockchain, ensuring the legal validity, authenticity, and integrity of your reports, invoices, and contracts."
-msgstr "Somos tu socio tecnológico para soluciones de información certificada y tokenizada impulsadas por blockchain, garantizando la validez legal, autenticidad e integridad de tus informes, facturas y contratos."
+msgid "We bring legal security and full traceability to your business processes."
+msgstr "Aportamos seguridad legal y trazabilidad completa a tus procesos empresariales."
 
 msgctxt "info4"
-msgid "We bring legal security and full traceability to your business processes."
-msgstr "Brindamos seguridad jurídica y trazabilidad total a tus procesos empresariales."
+msgid "We are your partner in native cloud information technologies."
+msgstr "Somos tu socio en tecnologías de información nativas en la nube."
 
 msgctxt "banner_title8"
 msgid "We are your partner in native cloud information technologies."
-msgstr "Somos tu aliado en tecnologías de información nativas en la nube."
+msgstr "Somos tu socio en tecnologías de información nativas en la nube."
 
 msgctxt "TS_info5"
 msgid "We develop, implement, and automate all your processes using the most innovative solutions available."
-msgstr "Desarrollamos, implementamos y automatizamos todos tus procesos utilizando las soluciones más innovadoras disponibles en el mercado."
+msgstr "Desarrollamos, implementamos y automatizamos todos tus procesos usando las soluciones más innovadoras disponibles."
 
 msgctxt "info5"
 msgid "Empower your business through cloud technology. We streamline operations, elevate customer experience, and drive growth with scalable solutions."
-msgstr "Impulsa tu negocio a través de la tecnología en la nube. Optimizamos las operaciones, mejoramos la experiencia del cliente y fomentamos el crecimiento con soluciones escalables."
+msgstr "Potencia tu negocio mediante tecnología en la nube. Optimizamos operaciones, mejoramos la experiencia del cliente y fomentamos el crecimiento con soluciones escalables."
 
 msgctxt "banner_title9"
 msgid "Join now and grow with us."
@@ -92,11 +98,11 @@ msgstr "IT Cloud Business es un modelo de negocio desarrollado por SmartQuail, I
 
 msgctxt "info8"
 msgid "We are a multidisciplinary team of young scientists, artists, creatives, and developers dedicated to implementing technological solutions that are both profitable and functional."
-msgstr "Somos un equipo multidisciplinario de jóvenes científicos, artistas, creativos y desarrolladores dedicados a implementar soluciones tecnológicas que sean rentables y funcionales."
+msgstr "Somos un equipo multidisciplinario de jóvenes científicos, artistas, creativos y desarrolladores dedicados a implementar soluciones tecnológicas rentables y funcionales."
 
 msgctxt "info9"
 msgid "Follow us on our social media channels and news feed to stay up to date in real time with the latest updates and developments in the world of the ICT"
-msgstr "Síguenos en nuestras redes sociales y en nuestro canal de noticias para mantenerte al día en tiempo real con las últimas actualizaciones y novedades del mundo de las TIC."
+msgstr "Síguenos en nuestras redes sociales y canal de noticias para mantenerte al día en tiempo real con las últimas novedades y desarrollos en el mundo de las TIC."
 
 msgctxt "team_1"
 msgid "Dev"
@@ -104,11 +110,11 @@ msgstr "Desarrollador"
 
 msgctxt "team_descrp_1"
 msgid "dsafsa"
-msgstr "Descripción pendiente"
+msgstr "dsafsa"
 
 msgctxt "team_2"
 msgid "fsafdsa"
-msgstr "Nombre pendiente"
+msgstr "fsafdsa"
 
 msgctxt "banner_title"
 msgid "Register today and access all the digital tools your business needs to succeed"
@@ -120,4 +126,4 @@ msgstr "Sé inteligente, sé un SmartQuail"
 
 msgctxt "slogan_descriptcion"
 msgid "Deploy your business in the cloud and unleash AI-driven agents to elevate your brand with SmartQuail,Inc in just minutes."
-msgstr "Despliega tu negocio en la nube y activa agentes impulsados por IA para llevar tu marca al siguiente nivel con SmartQuail, Inc. en solo minutos."
+msgstr "Lanza tu negocio en la nube y activa agentes impulsados por IA para elevar tu marca con SmartQuail, Inc. en solo minutos."

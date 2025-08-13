@@ -32,7 +32,7 @@ from django.utils import timezone
 from unfold.components import BaseComponent, register_component
 from unfold.sections import TableSection, TemplateSection
 from django.utils.timezone import now
-from .forms import  CitaForm,AdministrativeProfileForm,AsistenciaTerapeutaAdminForm,CitaAdminForm, ValoracionTerapiaAdminForm, ProfileAdminForm, PerfilTerapeutaAdminForm,PerfilTerapeutaForm, ServicioTerapeuticoForm, ProspecionAdministrativaForm,PerfilTerapeutaForm,PerfilPacientesForm
+from .forms import CustomUserCreationForm ,CustomUserChangeForm,UserRegistrationForm, CitaForm,AdministrativeProfileForm,AsistenciaTerapeutaAdminForm,CitaAdminForm, ValoracionTerapiaAdminForm, ProfileAdminForm, PerfilTerapeutaAdminForm,PerfilTerapeutaForm, ServicioTerapeuticoForm, ProspecionAdministrativaForm,PerfilTerapeutaForm,PerfilPacientesForm
 from django.template.loader import render_to_string
 from unfold.decorators import action
 from django.http import HttpRequest
@@ -62,24 +62,42 @@ from datetime import timedelta, time, date
 from datetime import datetime
 from django.contrib.auth import get_user_model
 
-
 @admin.register(CustomUser)
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin, ModelAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['email', 'first_name', 'is_staff']
+
+    list_display = ['email', 'first_name','last_name', 'is_staff']
     ordering = ('email',)
+
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Información personal', {'fields': ('first_name',)}),
         ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Fechas importantes', {'fields': ('last_login',)}),
     )
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'password1', 'password2')}
-        ),
+            'fields': ('email', 'first_name','last_name', 'password1', 'password2'),
+        }),
     )
+
+from django.urls import path, reverse
+from django.http import HttpResponseRedirect
+
+def redirect_auth_user_changelist(request):
+    # Redirige hacia tu vista real del admin
+    return HttpResponseRedirect(reverse('admin:usuarios_customuser_changelist'))
+
+# Agregar URL personalizada al admin
+admin.site.get_urls = (lambda get_urls: 
+    lambda: [
+        path('auth/user/', redirect_auth_user_changelist, name='auth_user_changelist'),
+    ] + get_urls()
+)(admin.site.get_urls)
 
 
 class ProblemaFrecuenteInline(TabularInline):

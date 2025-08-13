@@ -36,6 +36,7 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError('Debe ingresar un correo electrónico')
         email = self.normalize_email(email)
+        
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -48,10 +49,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    email = models.EmailField(unique=True, verbose_name="Correo Electrónico")
+    first_name = models.CharField(max_length=30, blank=True, verbose_name="Nombres")
+    last_name = models.CharField(max_length=150, blank=True, verbose_name="Apellidos") 
+    is_active = models.BooleanField(default=True, verbose_name="Es activo")
+    is_staff = models.BooleanField(default=False, verbose_name="Es Staff")
 
     objects = CustomUserManager()
 

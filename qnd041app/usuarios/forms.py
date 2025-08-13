@@ -16,29 +16,63 @@ from django import forms
 from .widgets import CustomDatePickerWidget
 from .widgets import CustomTimePickerWidget, CustomDateTimePickerWidget
 from django.utils.timezone import localtime, is_naive, make_aware
-from datetime import date, datetime
-
-
-
+from .models import CustomUser
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(label='Password',
-                               widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password',
-                                widget=forms.PasswordInput)
+    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
+
     class Meta:
-        model = User
-        fields = ('first_name', 'email')
+        model = CustomUser
+        fields = ('email', 'first_name')  # No username
 
     def clean_password2(self):
         cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
-    
+        if cd.get('password') != cd.get('password2'):
+            raise forms.ValidationError('Las contraseñas no coinciden.')
+        return cd.get('password2')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 
 
+class CustomUserCreationForm(forms.ModelForm):
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repetir contraseña', widget=forms.PasswordInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'first_name')
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+class CustomUserChangeForm(forms.ModelForm):
+    password = ReadOnlyPasswordHashField()
+
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'first_name','last_name', 'password', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+
+    def clean_password(self):
+        return self.initial["password"]
 
 
 

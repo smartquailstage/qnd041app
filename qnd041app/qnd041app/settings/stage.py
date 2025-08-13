@@ -18,7 +18,7 @@ WAGTAIL_SITE_NAME = "SmartQuail IT Cloud Business"
 LANGUAGES = [
     ('en', 'English'),
     ('es', 'Español'),
-    ('fr', 'Français'),
+
     # agrega más idiomas si necesitas
 ]
 
@@ -27,7 +27,7 @@ TIME_ZONE = 'America/Guayaquil'  # zona horaria por defecto
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('en', "English"),
     ('es', "Spanish"),
-    ('fr', "French"),
+
 ]
 
 USE_I18N = True

@@ -717,7 +717,6 @@ WAGTAIL_ADMIN_BASE_URL = 'https://ec.smartquail.io'
 WAGTAIL_SITE_NAME = "Smart Business MEDIA"
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('en', 'English'),
-    ('fr', 'French'),
     ('es', 'Spanish'),
 ]
 
