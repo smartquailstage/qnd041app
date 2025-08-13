@@ -112,7 +112,7 @@ INSTALLED_APPS = [
     "core",
     "webapp",
     "serviceapp",
-    "citas_regulares",
+    #"citas_regulares",
 
     'wagtail.embeds',
     'wagtail.sites',
