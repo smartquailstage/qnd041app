@@ -626,7 +626,7 @@ AUTHENTICATION_BACKENDS = [
 
 
 
-
+AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 
 TEMPLATES = [
