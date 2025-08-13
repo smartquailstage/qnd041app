@@ -183,7 +183,7 @@ INSTALLED_APPS = [
     "core",
     "webapp",
     "serviceapp",
-    "citas_regulares",
+    #"citas_regulares",
 
     # E-commerce apps
     "cloudcalc",
