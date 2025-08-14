@@ -21,6 +21,30 @@ from .models import Cita,tareas, pagos  # Asegúrate de usar la ruta correcta
 from django.http import HttpResponseForbidden
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.urls import reverse
+
+
+
+def activar_cuenta(request, uidb64, token):
+    try:
+        # Decodificar el UID del enlace
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        # Activar la cuenta
+        user.is_active = True
+        user.save()
+        return render(request, 'usuarios/activation_success.html', {'user': user})
+    else:
+        return render(request, 'usuarios/activation_invalid.html')
 
 
 
@@ -29,22 +53,70 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # Create a new user object but avoid saving it yet
+            # Crear el nuevo usuario, pero inactivo
             new_user = user_form.save(commit=False)
-  
-            
-            # Set the chosen password
             new_user.set_password(user_form.cleaned_data['password'])
-            # Save the User object
+            new_user.is_active = False  # El usuario debe activar su cuenta por correo
             new_user.save()
-            # Create the user profile and related objects
+
+            # Crear perfil
             Profile.objects.create(user=new_user)
 
-           
+            # Generar token y UID
+            token = default_token_generator.make_token(new_user)
+            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
+
+            # URL de activación
+            activation_url = request.build_absolute_uri(
+                reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid, 'token': token})
+            )
+
+            # Asunto y contenido
+            subject = 'Activa tu cuenta'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = new_user.email
+
+            # Texto plano (por compatibilidad)
+            text_content = f'''
+Hola {new_user.email},
+
+Gracias por registrarte.
+
+Activa tu cuenta haciendo clic en el siguiente enlace:
+
+{activation_url}
+'''
+
+            # HTML con estilo
+            html_content = f'''
+<html>
+  <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 30px;">
+    <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+      <h2 style="color: #333;">Hola {new_user.email},</h2>
+      <p style="font-size: 16px; color: #555;">
+        Gracias por registrarte en nuestro sitio. Para activar tu cuenta, por favor haz clic en el siguiente botón:
+      </p>
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="{activation_url}" style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Activar cuenta</a>
+      </p>
+      <p style="font-size: 14px; color: #999;">
+        Si tú no realizaste este registro, puedes ignorar este mensaje.
+      </p>
+    </div>
+  </body>
+</html>
+'''
+
+            # Enviar correo
+            email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
             return render(request, 'usuarios/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'usuarios/register.html', {'user_form': user_form})
+
 
 
 

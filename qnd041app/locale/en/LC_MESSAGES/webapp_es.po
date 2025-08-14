@@ -127,3 +127,4 @@ msgstr "Sé inteligente, sé un SmartQuail"
 msgctxt "slogan_descriptcion"
 msgid "Deploy your business in the cloud and unleash AI-driven agents to elevate your brand with SmartQuail,Inc in just minutes."
 msgstr "Lanza tu negocio en la nube y activa agentes impulsados por IA para elevar tu marca con SmartQuail, Inc. en solo minutos."
+    
