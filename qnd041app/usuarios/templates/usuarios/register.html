@@ -7,110 +7,111 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col-xl-5 col-lg-6 col-md-7 mx-auto mt-5">
-    <div class="card radius-10">
-      <div class="card-body p-4">
-        <img src="" style="width: 50px;" alt="">
-        <img src="" style="width: 170px;" alt="">
-        <p class="text-left">Formulario de registro </p>
+<style>
+  .custom-card-width {
+    width: 100%;
+    max-width: 500px; /* Igual que el login */
+  }
+  .logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+</style>
+
+<!--start wrapper-->
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div>
+    <div class="logo-container">
+      <a href="{% slugurl 'home' %}">
+        <img src="{% static '/img/BA-LOGOS/logo_smartquailgray.png' %}" style="width: 350px;" alt="Logo">
+      </a>
+    </div>
+
+    <div class="card shadow custom-card-width">
+      <div class="card-body">
+        <div class="text-left mb-4">
+          <p>Formulario de registro en SmartQuail IT Cloud Business</p>
+        </div>
+
         <form class="form-body row g-3" method="post">
           {% csrf_token %}
-          <div class="col-12 col-lg-12">
-            <div class="position-relative border-bottom my-3">
-            </div>
-          </div>
 
           {% for hidden_field in user_form.hidden_fields %}
-          {{ hidden_field }}
+            {{ hidden_field }}
           {% endfor %}
 
           {% if user_form.non_field_errors %}
-          <div class="col-12">
-            <div class="alert alert-danger" role="alert">
-              {% for error in user_form.non_field_errors %}
-              {{ error }}
-              {% endfor %}
+            <div class="col-12">
+              <div class="alert alert-danger" role="alert">
+                {% for error in user_form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
             </div>
-          </div>
           {% endif %}
 
+          <!-- Campos de user_form -->
           {% for field in user_form.visible_fields %}
           <div class="col-12">
-            <div class="form-group">
-              {{ field.label_tag }}
-              {% if user_form.is_bound %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if user_form.is_bound %}
               {% if field.errors %}
-              {% render_field field class="form-control is-invalid" %}
-              {% for error in field.errors %}
-              <div class="invalid-feedback">
-                {{ error }}
-              </div>
-              {% endfor %}
+                {% render_field field class="form-control is-invalid" %}
               {% else %}
-              {% render_field field class="form-control is-valid" %}
+                {% render_field field class="form-control is-valid" %}
               {% endif %}
-              {% else %}
+            {% else %}
               {% render_field field class="form-control" %}
-              {% endif %}
-              {% if field.help_text %}
-              <small class="form-text text-muted" placeholder="Your Email">{{ field.help_text }}</small>
-              {% endif %}
-            </div>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
           </div>
           {% endfor %}
-          
-          {% for hidden_field in user_form.hidden_fields %}
-          {{ hidden_field }}
-          {% endfor %}
 
-          {% if user_form.non_field_errors %}
-          <div class="col-12">
-            <div class="alert alert-danger" role="alert">
-              {% for error in user_form.non_field_errors %}
-              {{ error }}
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-
+          <!-- Campos de group_form -->
           {% for field in group_form.visible_fields %}
           <div class="col-12">
-            <div class="form-group">
-              {{ field.label_tag }}
-              {% if user_form.is_bound %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if group_form.is_bound %}
               {% if field.errors %}
-              {% render_field field class="form-control is-invalid" %}
-              {% for error in field.errors %}
-              <div class="invalid-feedback">
-                {{ error }}
-              </div>
-              {% endfor %}
+                {% render_field field class="form-control is-invalid" %}
               {% else %}
-              {% render_field field class="form-control is-valid" %}
+                {% render_field field class="form-control is-valid" %}
               {% endif %}
-              {% else %}
+            {% else %}
               {% render_field field class="form-control" %}
-              {% endif %}
-              {% if field.help_text %}
-              <small class="form-text text-muted" placeholder="Your Email">{{ field.help_text }}</small>
-              {% endif %}
-            </div>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
           </div>
           {% endfor %}
 
-          
-
+          <!-- Botón -->
           <div class="col-12 d-grid">
             <button type="submit" class="btn btn-primary">Registrarse</button>
           </div>
 
-
+          <div class="col-12 d-flex justify-content-between">
+            <p class="mb-0">
+              <a href="{% url 'usuarios:login' %}">¿Ya tienes cuenta?</a>
+            </p>
+            <p class="mb-0">
+              <a href="#">¿Necesitas ayuda?</a>
+            </p>
+          </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
+<!--end wrapper-->
 
 {% endblock %}

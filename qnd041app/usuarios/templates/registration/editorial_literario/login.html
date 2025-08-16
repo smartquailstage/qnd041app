@@ -1,129 +1,122 @@
-{% extends "base_login.html" %}
+{% extends "base_register.html" %}
 {% load widget_tweaks %}
-{% load static %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
 
 {% block title %}Ingresar{% endblock %}
 
 {% block content %}
+
+<style>
+  .custom-card-width {
+    width: 100%;
+    max-width: 500px; /* puedes ajustar esto a 600px o más si deseas */
+  }
+  .logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+</style>
+
 <!--start wrapper-->
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div>
+    <div class="logo-container">
+      <a href="{% slugurl 'home' %}"><img src="{% static '/img/BA-LOGOS/logo_smartquailgray.png' %}" style="width: 350px;" alt="Logo"></a>
+    </div>
+    <div class="card shadow custom-card-width">
+      <div class="card-body">
+        <div class="text-left mb-4">
+          <p>Iniciar sesión para continuar en SmartQuail IT Cloud Business</p>
+        </div>
 
-  <div class="">
-    <div class="row g-0 m-0">
-      <div class="col-xl-6 col-lg-12">
-        <div class="login-cover-wrapper">
-          <div class="card shadow-none">
-            <div class="card-body">
-              <div class="text-left mb-4">
-
-               <img src="{% static '/img/BA-LOGOS/logo_smartquailIT.png' %}" style="width: 350px;" alt="">
-               <h4>Iniciar Sesion</h4>
-              </div> 
-              
-              
-               
-              
-              
-
-                               <form class="form-body row g-3" method="post">
-             
-
-              <div class="col-12 col-lg-12">
-               
-              {% csrf_token %}
-                <div class="position-relative border-bottom my-3">
-                  <div class="position-absolute seperator-2 "></div>
-                </div>
-              </div>
-               
-
-
-              {% if form.errors %}
-              <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                  Correo o contraseña incorrectos. Intente de nuevo.
-                </div>
-              </div>
-              {% endif %}
-
-              {% for hidden_field in form.hidden_fields %}
-              {{ hidden_field }}
-              {% endfor %}
-
-              {% if form.non_field_errors %}
-              <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                  {% for error in form.non_field_errors %}
-                    {{ error }}
-                  {% endfor %}
-                </div>
-              </div>
-              {% endif %}
-
-              <!-- Campo Email -->
-              <div class="col-12">
-                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                <div class="input-group">
-        
-                  {% if form.is_bound and form.email.errors %}
-                    {% render_field form.email class="form-control is-invalid" %}
-                  {% elif form.is_bound %}
-                    {% render_field form.email class="form-control is-valid" %}
-                  {% else %}
-                    {% render_field form.email class="form-control" %}
-                  {% endif %}
-                </div>
-                {% for error in form.email.errors %}
-                <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
-              </div>
-
-              <!-- Campo Contraseña -->
-              <div class="col-12">
-                <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-                <div class="input-group">
-                  {% if form.is_bound and form.password.errors %}
-                    {% render_field form.password class="form-control is-invalid" id="passwordInput" %}
-                  {% elif form.is_bound %}
-                    {% render_field form.password class="form-control is-valid" id="passwordInput" %}
-                  {% else %}
-                    {% render_field form.password class="form-control" id="passwordInput" %}
-                  {% endif %}
-                  <button class="btn btn-outline-primary" type="button" id="togglePassword">
-                   <i class="bi bi-eye"></i>
-                  </button>
-                </div>
-                {% for error in form.password.errors %}
-                <div class="invalid-feedback d-block">{{ error }}</div>
-                {% endfor %}
-              </div>
-
-              <div class="col-12 d-grid">
-                <button type="submit" class="btn btn-outline-primary" value="Log in">Ingresar</button>
-              </div>
-                   <p style="margin-top: 5px; margin-bottom: 0rem;" class="text-muted">
-                  Inicia sesión y únete a nuestra comunidad de negocios tecnológicos en la nube nativa de Ecuador. Accede a herramientas inteligentes que optimizan tu productividad, mejoran tus decisiones y disfruta de demostraciones en vivo de nuestras tecnologías.
-                </p>
-
-      
-               <div class="col-12 col-lg-12 text-center">
-                  <div class="position-absolute seperator-2 "></div>
-  <p class="mb-0 text-muted">¿Aún no eres parte de nuestra comunidad? <a href="authentication-sign-up-cover.html">Regístrate gratis</a> y aprovecha todos los beneficios que tenemos para ti</p>
-</div>
-
-
-            </form>
+        <form class="form-body row g-3" method="post">
+          {% csrf_token %}
+          <!-- Separador -->
+          <div class="col-12">
+            <div class="position-relative border-bottom my-3">
+              <div class="position-absolute seperator-2"></div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-xl-6 col-lg-12">
-        <div class="position-fixed top-0 h-100 d-xl-block d-none login-cover-img">
-          <!-- Aquí puedes añadir un texto o imagen si deseas mostrar beneficios visualmente -->
-        </div>
+
+          <!-- Errores -->
+          {% if form.errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              Correo o contraseña incorrectos. Intente de nuevo.
+            </div>
+          </div>
+          {% endif %}
+
+          {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
+          {% endfor %}
+
+          {% if form.non_field_errors %}
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Email -->
+          <div class="col-12">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <div class="input-group">
+              {% if form.is_bound and form.email.errors %}
+                {% render_field form.email class="form-control is-invalid" %}
+              {% elif form.is_bound %}
+                {% render_field form.email class="form-control is-valid" %}
+              {% else %}
+                {% render_field form.email class="form-control" %}
+              {% endif %}
+            </div>
+            {% for error in form.email.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Password -->
+          <div class="col-12">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            <div class="input-group">
+              {% if form.is_bound and form.password.errors %}
+                {% render_field form.password class="form-control is-invalid" id="passwordInput" %}
+              {% elif form.is_bound %}
+                {% render_field form.password class="form-control is-valid" id="passwordInput" %}
+              {% else %}
+                {% render_field form.password class="form-control" id="passwordInput" %}
+              {% endif %}
+              <button class="btn btn-outline-primary" type="button" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            {% for error in form.password.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Botón -->
+          <div class="col-12 d-grid">
+            <button type="submit" class="btn btn-primary" value="Log in">Continuar</button>
+          </div>
+
+<div class="col-12 d-flex justify-content-between">
+  <p class="mb-0">
+    <a href="{% url 'usuarios:register' %}">¿No tienes cuenta?</a>
+  </p>
+  <p class="mb-0">
+    <a href="">¿Olvidaste tu contraseña?</a>
+  </p>
+</div>
+        </form>
       </div>
     </div>
-    <!--end row-->
   </div>
+</div>
+
 
 <!--end wrapper-->
 

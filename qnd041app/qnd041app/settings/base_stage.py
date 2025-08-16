@@ -82,8 +82,9 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-     "webapp",
+     
      "core",
+     "webapp",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',

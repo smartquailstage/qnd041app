@@ -109,8 +109,9 @@ INSTALLED_APPS = [
          # Apps propias del proyecto
     "cloudcalc",
     "usuarios",
+    
+    
     "core",
-    "webapp",
     "serviceapp",
     #"citas_regulares",
 
@@ -139,6 +140,7 @@ INSTALLED_APPS = [
     "wagtailgmaps",
     "wagtailmenus",
     # "wagtail_modeltranslation",  # Descomentar si se usa
+    "webapp",
 
     # Terceros / externos
     "rest_framework",

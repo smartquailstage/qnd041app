@@ -2680,7 +2680,7 @@ textarea.form-control-lg {
 }
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #9b0a0a;
+  --bs-btn-bg: #FF050D;
   --bs-btn-border-color: #0d6efd00;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #282424;
@@ -3930,7 +3930,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 	--bs-card-color: #ffff;
-	--bs-card-bg:#282424;
+	--bs-card-bg:#b5181a;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
@@ -7127,9 +7127,9 @@ textarea.form-control-lg {
 	color: #fff;
 }
 .my-5 {
-	margin-top: 23rem!important;
-	margin-bottom: 3rem!important;
-    background-color: #282424; 
+    margin-top: 0rem!important;
+    margin-bottom: 0rem!important;
+    background-color: #28242400;
 }
 .my-auto {
 	margin-top: auto!important;
