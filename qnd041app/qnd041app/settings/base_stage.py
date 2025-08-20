@@ -140,10 +140,11 @@ INSTALLED_APPS = [
 
              # Apps propias del proyecto
     "usuarios",
+    "SQOrders",
    
    
     "serviceapp",
-    #"citas_regulares",
+#"citas_regulares",
 
     # E-commerce apps
     "cloudcalc",
@@ -463,7 +464,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 
-
+AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 
 

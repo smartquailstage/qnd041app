@@ -208,6 +208,12 @@ def user_logout(request):
     logout(request)
     return redirect('usuarios:login')
 
+
+from django.contrib.auth import authenticate, login, get_user_model
+
+
+User = get_user_model()
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -220,9 +226,12 @@ def user_login(request):
             user_qs = User.objects.filter(email=email)
 
             if not user_qs.exists():
-                return render(request, 'registration/editorial_literario/login_fail.html', {'form': form, 'error': 'Email no registrado'})
+                return render(request, 'registration/editorial_literario/login_fail.html', {
+                    'form': form,
+                    'error': 'Email no registrado'
+                })
 
-            # Autenticar al primer usuario válido
+            # Intentar autenticar cada usuario con ese email
             for user_obj in user_qs:
                 user = authenticate(request, username=user_obj.username, password=password)
                 if user is not None and user.is_active:
@@ -230,12 +239,14 @@ def user_login(request):
                     return redirect('usuarios:perfil')
 
             # Si ninguno coincidió con la contraseña
-            return render(request, 'registration/editorial_literario/login_fail.html', {'form': form, 'error': 'Contraseña incorrecta'})
+            return render(request, 'registration/editorial_literario/login_fail.html', {
+                'form': form,
+                'error': 'Contraseña incorrecta'
+            })
     else:
         form = LoginForm()
 
     return render(request, 'registration/editorial_literario/login.html', {'form': form})
-
 
 @login_required
 def dashboard(request):

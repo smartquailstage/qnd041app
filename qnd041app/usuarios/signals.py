@@ -11,6 +11,11 @@ from .models import Cita
 from datetime import timedelta
 
 
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def crear_perfil_usuario(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=Cita)
 def crear_citas_recurrentes(sender, instance, created, **kwargs):

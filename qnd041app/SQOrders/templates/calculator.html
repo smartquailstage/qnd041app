@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Productos SmartBusiness</title>
+</head>
+<body>
+    <h1>🧮 Calculadora de Costos</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Calcular</button>
+    </form>
+
+    {% if saved %}
+        <p style="color:green;">✔ Estimación guardada correctamente.</p>
+    {% endif %}
+
+    {% if total_cost %}
+        <h2>Costo estimado: ${{ total_cost }}</h2>
+    {% endif %}
+</body>
+</html>

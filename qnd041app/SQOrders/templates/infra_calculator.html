@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Infraestructura - SmartBusinessTechnologies</title>
+</head>
+<body>
+    <h1>🔧 Calculadora de Infraestructura Cloud</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Calcular</button>
+    </form>
+
+    {% if saved %}
+        <p style="color:green;">✔ Cotización guardada.</p>
+    {% endif %}
+
+    {% if total %}
+        <h2>Costo Estimado: ${{ total }}</h2>
+    {% endif %}
+</body>
+</html>

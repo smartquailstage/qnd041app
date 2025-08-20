@@ -2279,11 +2279,7 @@ class ProfileComponentInformes(BaseComponent):
         ]
 
         row = [
-            p.certificado_inicio,
-            p.informe_inicial,
-            p.informe_segimiento ,
-            p.informe_segimiento_2,
-            p.certificado_final,
+
         ]
 
         context.update({
@@ -2455,11 +2451,7 @@ class ProfileAdmin(ModelAdmin):
             'fecha_pausa',
             'fecha_re_inicio',            
             'fecha_alta',
-            'certificado_inicio',
-            'informe_inicial',
-            'informe_segimiento',
-            'informe_segimiento_2',
-            'certificado_final',
+
 
             # Campos booleanos de estados terapéuticos
             'es_en_terapia',
