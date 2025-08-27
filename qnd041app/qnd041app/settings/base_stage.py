@@ -82,6 +82,7 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    'multiselectfield',
      
      "core",
      "webapp",
@@ -137,10 +138,12 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
+   
 
              # Apps propias del proyecto
     "usuarios",
     "SQOrders",
+    "SQShop",
    
    
     "serviceapp",
