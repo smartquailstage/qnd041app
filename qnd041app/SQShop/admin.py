@@ -75,8 +75,8 @@ class CategoryAdminClass(ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ['id', 'name', 'numero_procesos', 'price', 'available', 'created', 'updated']
-    list_filter = ['available', 'created', 'updated']
+    list_display = ['id', 'name', 'numero_procesos', 'price', 'available',]
+    list_filter = ['available', 'category']
     search_fields = ['name', 'description', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
@@ -86,15 +86,22 @@ class ProductAdmin(ModelAdmin):
         'margen_sq',
         'total',
         'total_iva',
-        'created',
-        'updated',
-        'creado',
-        'actualizado'
+        'costo_total_desarrollo_paas',
+        'costo_total_implementacion_paas',
+        'total_paas',
+        'total_paas_iva',
+        'costo_total_nube',
+        'total_nube',
+        'total_nube_iva',
+        'total_arch',
+        'total_arch_iva',
     ]
 
     fieldsets = (
         ('Información General', {
-            'fields': ('name', 'slug', 'description', 'price', 'category', 'available','iva')
+            'fields': (
+                'name', 'slug', 'description', 'price', 'category', 'available', 'iva'
+            )
         }),
         ('Items relacionados', {
             'fields': ('item1', 'item2', 'item3')
@@ -116,14 +123,21 @@ class ProductAdmin(ModelAdmin):
                 'total_iva',
             )
         }),
+        ('Servicios PaaS (UI/UX)', {
+            'fields': (
+                'horas_desarrollo_paas',
+                'costo_hora_desarrollo_paas',
+                'costo_total_desarrollo_paas',
+                'horas_implementacion_paas',
+                'costo_hora_implementacion_paas',
+                'costo_total_implementacion_paas',
+                'margen_sq_paas',
+                'total_paas',
+                'total_paas_iva',
+            )
+        }),
         ('Servicios en la Nube', {
             'fields': (
-                'cloud_service_shared',
-                'latencia',
-                'disponibilidad',
-                'vcpu',
-                'memoria_gb',
-                'almacenamiento_gb',
                 'costo_cpu_mes',
                 'costo_bucket_mes',
                 'costo_balanceador_mes',
@@ -135,7 +149,6 @@ class ProductAdmin(ModelAdmin):
         }),
         ('Arquitectura y SRE', {
             'fields': (
-                'tipo_arquitectura',
                 'tiempo_arquitectura',
                 'costo_hora_arquitectura',
                 'costo_sre',
@@ -144,7 +157,15 @@ class ProductAdmin(ModelAdmin):
                 'total_arch_iva',
             )
         }),
+        ('Características Técnicas', {
+            'fields': (
+                'software',
+                'plataforma',
+                'automatizacion',
+                'inteligencia_artificial',
+                'latencia_aproximada',
+                'usuarios_simultaneos',
+            )
+        }),
+
     )
-
-
-    

@@ -6,6 +6,8 @@ from .tasks import enviar_correo_async, enviar_whatsapp_async, enviar_correo_val
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.html import strip_tags
+from .models import Profile
+
 
 from .models import Cita
 from datetime import timedelta
