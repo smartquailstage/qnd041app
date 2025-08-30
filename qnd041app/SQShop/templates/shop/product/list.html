@@ -7,104 +7,63 @@
 
 
 
-
-
-{% block content %}
-
 {% block title %}
   {% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 
-{% include 'shop/list_header.html' %}
 
-<div id="wrapper">
-  <!-- content -->	
-  <div class="content">
-    
-      <!-- column-image  -->	
-      <div class="column-image">
-          <div class="bg"  data-bg="{% static 'img/1.jpg' %}"></div>
-          <div class="overlay"></div>
-          <div class="column-title">
-            <img src="{% static '/img/logo_flor.png'%}" width="350px">
-            
-              <h2>{% trans "Expeditions" %}</h2>
-              <p>{% trans "GET THE MOST OUT OF FLOREANA" %}</p>
-              <div class="overlay"></div>
-          </div>
-      
-          <div class="fixed-column-dec"></div>
-      </div>
-      <!-- column-image end  -->	
-      <!-- column-wrapper -->	
-      <div class="column-wrapper  single-content-section">
-    
-          <!-- fixed-bottom-content-->	
-       
-          <!-- fixed-bottom-content end -->	
-          <!--section  -->	
+{% block content %}
+
+
+
+        <!-- start page content wrapper-->
+        <div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+ 
+
    
-          <section class="single-content-section">
-              <div class="container small-container">
-               
-                  <!-- post -->
-                  {% for c in categories %}
-                      {% if category.slug == c.slug %}{% endif %}
-                      {% for product in products %}
-                  <div class="post fl-wrap fw-post">   
-                            
-                    <a href="{{ c.get_absolute_url }}"><h2><span>{{ c.name }}</span></h2></a>
-                    <h2>
-                      {{ c.desde }}  
-                 </h2> 
-                      <!-- blog media -->
-                      <div class="blog-media fl-wrap">
-                        <img src="{% if c.image %}{{ c.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" width="400px">
-                      </div>
-                      
-                      <!-- blog media end -->
-                      <div class="blog-text fl-wrap">
-                          <div class="pr-tags fl-wrap"> 
-                            <p>{{c.description}}</p>
-                            <a href="{{ c.detail.url }}" >  <span>{% trans "Download here the description" %}    <i class="fal fa-solid fa-file"></i></span></a>
-                          </div>
-                         
-                         
-                          <a href="{{ product.get_absolute_url }}" class="btn float-btn flat-btn">Read more </a>
-                          
-                      </div>
-                  </div>
-                  {% endfor %}
-                          {% endfor %}
-                 
+            <div class="demo-seprater">
+              <h6 class="mb-0 text-uppercase">Cards With Images</h6>
+              <div class="my-3 border-bottom"></div>
+            </div>
 
-              </div>
-              <a href="#" class="to-top-btn to-top">Back to top <i class="fal fa-long-arrow-up"></i></a>
-          </section>
-         
-          <!--section end  -->	
-          <!--footer -->			
-          <footer class="min-footer fl-wrap content-animvisible">
-              <div class="container small-container">
-                  <div class="footer-inner fl-wrap">
-                      <!-- policy-box-->
-                      <div class="policy-box">
-                        2022, <span> Design by Edward Cooper&#169; / Powered by <img src="{% static 'img/logo_smartquailWW.png' %}" width="130px">&#169; </span>
-                      </div>
-                      <!-- policy-box end-->
-                     
+
+            {% for c in categories %}
+            {% if category.slug == c.slug %}{% endif %}
+            {% for product in products %}
+
+            <div class="row row-cols-1 row-cols-lg-3">
+              <div class="col">
+               <div class="card radius-10">
+                 <div class="card-body">
+                  <img src="{% if c.image %}{{ c.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"  class="img-fluid radius-10" alt="...">
+                  <div class="text-center mt-4">
+                    <h5 class="card-title">{{ c.name }}</h5>
+                    <p class="card-text">{{c.description}}</p>
+                    <a href="{{ c.get_absolute_url }}" class="btn btn-dark px-4 radius-10">{% trans 'Leer más' %}</a>
                   </div>
+                 </div>
+               </div>
               </div>
-          </footer>
-          <!--footer end  -->	
-      </div>
-      <!-- column-wrapper -->	
-  </div>
-  <!--content end-->	
-  <!--share-wrapper-->
-  <div class="share-wrapper">
-      <div class="share-container fl-wrap  isShare"></div>
-  </div>
-  <!--share-wrapper end-->
-</div>
+
+           </div>
+            {% endfor %}
+            {% endfor %}
+           
+
+         
+
+
+
+
+
+          </div>
+          <!-- end page content-->
+         </div>
+         <!--end page content wrapper-->
+
+
+
 {% endblock %}

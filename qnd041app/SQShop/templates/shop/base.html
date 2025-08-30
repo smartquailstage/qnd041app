@@ -1,45 +1,142 @@
-{% load i18n %}
-{% load wagtailcore_tags %}
-{% load wagtailimages_tags %}
 {% load widget_tweaks %}
-{% load static  %}
+{% load static %}
+{% load bootstrap4 %}
 
-<!DOCTYPE HTML>
+<!doctype html>
 <html lang="en">
 
-    <head>
-        <!--=============== basic  ===============-->
-        <meta charset="UTF-8">
-        <title>CENTRO COMUNITARIO-ISLA FLOREANA</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="robots" content="index, follow"/>
-        <meta name="keywords" content=""/>
-        <meta name="description" content=""/>
-        <!--=============== css  ===============-->	
-        <link type="text/css" rel="stylesheet" href="{% static 'css/reset.css' %}">
-        <link type="text/css" rel="stylesheet" href="{% static 'css/plugins.css' %}">
-        <link type="text/css" rel="stylesheet" href="{% static 'css/style_3.css' %}">
-     
-        <!--=============== favicons ===============-->
-        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
-    </head>
-    <body>
-        <div class="loader-wrap">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
-        </div>
-       
-        <div id="main">
-          
-            {% block content %}
-            
-            {% endblock %}
-        </div>
-        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/plugins.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
-      
-    </body>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- loader-->
+  <link href="{% static 'assets/css/pace.min.css' %}" rel="stylesheet" />
+  <script src="{% static 'assets/js/pace.min.js' %}"></script>
+
+  <!--plugins-->
+  <link href="{% static 'assets/plugins/simplebar/css/simplebar.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/metismenu/css/metisMenu.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/bs-stepper/css/bs-stepper.css' %}" rel="stylesheet" />
+
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.time.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.date.css' %}" rel="stylesheet" />
+
+
+  <!-- CSS Files -->
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/bootstrap-extended.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!--Theme Styles-->
+  <link href="{% static 'assets/css/dark-theme.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/semi-dark.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/header-colors.css' %}" rel="stylesheet" />
+
+  
+
+  <title>Plataforma de Gestión de pacientes</title>
+
+</head>
+
+<body >
+
+   
+  <!--start wrapper-->
+  <div class="wrapper">
+    {% include 'usuarios/header.html' %} 
+
+    {% include 'usuarios/sidebar.html' %} 
+    
+
+
+{% block content %}
+{% endblock %}
+
+
+    <!--start footer-->
+
+
+    
+    <!--Start Back To Top Button-->
+    <a href="javaScript:;" class="back-to-top">
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
+    <!--End Back To Top Button-->
+
+    <!--start switcher-->
+   
+    <!--end switcher-->
+
+
+    <!--start overlay-->
+    <div class="overlay nav-toggle-icon"></div>
+    <!--end overlay-->
+  
+    
+  </div>
+
+   {% include 'footer.html' %} 
+  <!--end wrapper-->
+  {% bootstrap_javascript jquery='full' %}
+  <script src="{% static 'assets/plugins/datetimepicker/js/legacy.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.time.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.date.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js' %}"></script>
+  <script src="{% static 'assets/js/form-date-time-pickes.js' %}"></script>
+
+
+  <!-- JS Files-->
+  <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/simplebar/js/simplebar.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/metismenu/js/metisMenu.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <!--plugins-->
+  <script src="{% static 'assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
+  <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/easyPieChart/jquery.easypiechart.js' %}"></script>
+  <script src="{% static 'assets/plugins/chartjs/chart.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bs-stepper/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/index.js' %}"></script>
+  <!-- Main JS-->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+
+
+
+
+</body>
+
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById('hiddenVideo');
+    const img = document.getElementById('thumbnailPreview');
+
+    // Espera a que los metadatos se carguen para poder buscar el primer frame
+    video.addEventListener('loadeddata', function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = 160;
+        canvas.height = 160;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const imageUrl = canvas.toDataURL('image/png');
+        img.src = imageUrl;
+    });
+
+    // Asegura que solo cargue hasta el primer frame
+    video.currentTime = 0.1;
+});
+</script>

@@ -1,109 +1,88 @@
-from django.shortcuts import render
-from .forms import CostCalculatorForm
-from .models import ProductCalculation
+from django.urls import reverse
+from django.shortcuts import render, redirect
+from .models import OrderItem
+from .forms import OrderCreateForm
+from cart.cart import Cart
+from .tasks import order_created
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import get_object_or_404
+from .models import Order
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+from SQShop.models import Category, Product
 
-from .forms import InfrastructureForm
-from .models import InfrastructureQuote
 
-def calculate_infra_cost(infra_type, cpu, ram, storage, bandwidth):
-    base = {
-        'onprem': 500,     # Costo base por servidor físico
-        'public': 100,     # Costo base mensual
-        'hybrid': 300      # Coste intermedio
-    }.get(infra_type, 100)
-
-    cost = base
-    cost += cpu * 25
-    cost += ram * 15
-    cost += storage * 0.5
-    cost += bandwidth * 1.2
-
-    return round(cost, 2)
-
-def infra_calculator_view(request):
-    total = None
+def order_create(request):
+    cart = Cart(request)
+    fields = ['arrival_date_time', 'firts_name']
     if request.method == 'POST':
-        form = InfrastructureForm(request.POST)
+        form = OrderCreateForm(request.POST)
+        form.fields['arrival_date_time'].widget = DateTimePickerInput()
         if form.is_valid():
-            infra_type = form.cleaned_data['infra_type']
-            cpu = form.cleaned_data['cpu_cores']
-            ram = form.cleaned_data['ram_gb']
-            storage = form.cleaned_data['storage_gb']
-            bandwidth = form.cleaned_data['bandwidth_mbps']
-
-            total = calculate_infra_cost(infra_type, cpu, ram, storage, bandwidth)
-
-            # Guardar en DB
-            InfrastructureQuote.objects.create(
-                infra_type=infra_type,
-                cpu_cores=cpu,
-                ram_gb=ram,
-                storage_gb=storage,
-                bandwidth_mbps=bandwidth,
-                estimated_cost=total
-            )
-
-            return render(request, 'infra_calculator.html', {
-                'form': form,
-                'total': total,
-                'saved': True,
-            })
+            order = form.save(commit=False)
+            if cart.coupon:
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
+            order.save()
+            for item in cart:
+                OrderItem.objects.create(order=order,
+                                         product=item['product'],
+                                         price=item['price'],
+                                         quantity=item['quantity'])
+            # clear the cart
+            cart.clear()
+            # launch asynchronous task
+            order_created.delay(order.id)
+            # set the order in the session
+            request.session['order_id'] = order.id
+            # redirect for payment
+            return redirect(reverse('payment:process'))
     else:
-        form = InfrastructureForm()
-    return render(request, 'infra_calculator.html', {'form': form})
-    
+        form = OrderCreateForm()
+    return render(request,
+                  'orders/order/create.html',
+                  {'cart': cart, 'form': form})
 
-def calculate_total(product, rd, auto, ai, processes, data, complexity):
-    base_costs = {
-        'SBA': 100,
-        'SBM': 80,
-        'SBL': 90,
-        'SBT': 120,
-    }
+def order_term(request, category_slug=None):
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        language = request.LANGUAGE_CODE
+        category = get_object_or_404(Category,
+                                     translations__language_code=language,
+                                     translations__slug=category_slug)
+        products = products.filter(category=category)
+    return render(request,
+                  'orders/order/term.html',
+                  {'category': category,
+                   'categories': categories,
+                   'products': products})
 
-    cost = base_costs.get(product, 100)
 
-    if rd:
-        cost += 25 * processes * complexity
-    if auto:
-        cost += 35 * processes
-    if ai:
-        cost += 150 + (data * 0.5) + (complexity * 40)
+@staff_member_required
+def admin_order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request,
+                  'admin/orders/order/detail.html',
+                  {'order': order})
 
-    return round(cost, 2)
 
-def calculator_view(request):
-    total_cost = None
-    if request.method == 'POST':
-        form = CostCalculatorForm(request.POST)
-        if form.is_valid():
-            product = form.cleaned_data['product']
-            rd = form.cleaned_data['include_rd']
-            auto = form.cleaned_data['include_automation']
-            ai = form.cleaned_data['include_ai']
-            processes = form.cleaned_data['num_processes']
-            data = form.cleaned_data['data_volume']
-            complexity = form.cleaned_data['complexity']
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('orders/order/pdf.html',
+                            {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=order_{}.pdf"'.format(order.id)
+    weasyprint.HTML(string=html,  base_url=request.build_absolute_uri() ).write_pdf(response,stylesheets=[weasyprint.CSS('staticfiles/css/pdf.css')], presentational_hints=True)
+    return response
 
-            total_cost = calculate_total(product, rd, auto, ai, processes, data, complexity)
-
-            ProductCalculation.objects.create(
-                product=product,
-                include_rd=rd,
-                include_automation=auto,
-                include_ai=ai,
-                num_processes=processes,
-                data_volume=data,
-                complexity=complexity,
-                result_cost=total_cost
-            )
-
-            return render(request, 'calculator.html', {
-                'form': form,
-                'total_cost': total_cost,
-                'saved': True,
-            })
-    else:
-        form = CostCalculatorForm()
-
-    return render(request, 'calculator.html', {'form': form, 'total_cost': total_cost})
+@staff_member_required
+def admin_order_phone(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    response['Content-Disposition'] = '{}'.format(order.phone)
+    return response

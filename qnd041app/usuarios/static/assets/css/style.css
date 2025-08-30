@@ -1404,19 +1404,19 @@ ul.categories-list li {
 }
 
 .au-sign-up-basic {
-    background-image: url("../images/login_bg/fondo4.png");
+    background-image: url("../images/login_bg/fondoG.png");
     background-position: center;
     background-size: cover;
 }
 
 .au-sign-in-basic {
-    background-image: url("../images/login_bg/fondo4.png");
+    background-image: url("../images/login_bg/fondoG.png");
     background-position: center;
     background-size: cover;
 }
 
 .au-reset-password-basic {
-    background-image: url("../images/login_bg/login_bg.jpg");
+    background-image: url("../images/login_bg/fondoG.jpg");
     background-position: center;
     background-size: cover;
 }

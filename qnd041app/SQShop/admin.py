@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Category, Product
-from orders.models import Order
+from SQOrders.models import Order
 from coupons.models import Coupon
 
 from django.contrib import admin
@@ -75,7 +75,8 @@ class CategoryAdminClass(ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ['id', 'name', 'numero_procesos', 'price', 'available',]
+    list_display = ['id', 'name','software','plataforma', 'numero_procesos','latencia_aproximada','usuarios_simultaneos', 'price', 'available',]
+    list_editable = ['available',]
     list_filter = ['available', 'category']
     search_fields = ['name', 'description', 'slug']
     prepopulated_fields = {'slug': ('name',)}

@@ -4,6 +4,10 @@ from django.db import models
 from django.db import models
 from django.urls import reverse
 from multiselectfield import MultiSelectField
+from decimal import Decimal, InvalidOperation
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+
 
 class Category(models.Model):
     
@@ -107,17 +111,12 @@ class Category(models.Model):
         return self.name or str(self.id)
 
     def get_absolute_url(self):
-        return reverse('shop:product_list_by_category', args=[self.slug])
+        return reverse('SQShop:product_list_by_category', args=[self.slug])
 
 
 
 
 
-from decimal import Decimal, InvalidOperation
-from django.db import models
-from djmoney.models.fields import MoneyField
-from djmoney.money import Money
-from multiselectfield import MultiSelectField
 
 class Product(models.Model):
     # Opciones
@@ -309,7 +308,7 @@ class Product(models.Model):
         )
         self.costo_total_nube = Money(costo_nube, 'USD')
 
-        self.margen_sq_nube = round(costo_nube * Decimal('0.10'), 2)
+        self.margen_sq_nube = round(costo_nube * Decimal('0.20'), 2)
         total_nube_val = costo_nube + Decimal(self.margen_sq_nube or 0)
         self.total_nube = Money(total_nube_val, 'USD')
 

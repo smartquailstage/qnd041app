@@ -84,8 +84,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'multiselectfield',
      
-     "core",
-     "webapp",
+    "core",
+    "webapp",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -147,7 +147,7 @@ INSTALLED_APPS = [
    
    
     "serviceapp",
-#"citas_regulares",
+    #"citas_regulares",
 
     # E-commerce apps
     "cloudcalc",

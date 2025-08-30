@@ -38,6 +38,7 @@ urlpatterns = [
 # Rutas traducibles (contenido Wagtail y tus apps de frontend)
 urlpatterns += i18n_patterns(
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
+    path('sqshop/', include('SQShop.urls', namespace='sqshop')),
     path('sqorders/', include('SQOrders.urls', namespace='sqorders')),
     path('webapp/', include('usuarios.urls', namespace='usuarios')),
     path('sbmshop/', include('sbmshop.urls', namespace='sbmshop')),

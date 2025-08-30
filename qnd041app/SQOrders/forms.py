@@ -1,20 +1,35 @@
 from django import forms
-from .models import PRODUCT_CHOICES
-from .models import INFRA_CHOICES
+from .models import Order
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+from .widget import DatePickerInput, TimePickerInput, DateTimePickerInput
+from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput, MonthPickerInput, YearPickerInput
 
-class InfrastructureForm(forms.Form):
-    infra_type = forms.ChoiceField(choices=INFRA_CHOICES, label="Tipo de Infraestructura")
-    cpu_cores = forms.IntegerField(label="Cores de CPU", min_value=1)
-    ram_gb = forms.IntegerField(label="Memoria RAM (GB)", min_value=1)
-    storage_gb = forms.IntegerField(label="Almacenamiento (GB)", min_value=10)
-    bandwidth_mbps = forms.IntegerField(label="Ancho de Banda (Mbps)", min_value=10)
+
+class MyDatePickerInput(DatePickerInput):
+    template_name = 'orders/order/date-picker.html'
+
+
+class OrderCreateForm(forms.ModelForm):
+    agree_term = forms.BooleanField(required=True, help_text="I accept the terms and conditions of this services.")
     
+    # Phone number field with default region (for CA in this case, but you can change it)
+    phone = PhoneNumberField(
+        region="CA",  # 'CA' for Canada, you can change it based on the default country you prefer
+        widget=PhoneNumberPrefixWidget(
+            widgets={
+                'phone': forms.TextInput(attrs={'class': 'phone-input'}),
+                'prefix': forms.Select(attrs={'class': 'prefix-select'})
+            }
+        ),
+        help_text="Choice your local country extension number"
+    )
 
-class CostCalculatorForm(forms.Form):
-    product = forms.ChoiceField(choices=PRODUCT_CHOICES, label="Producto")
-    include_rd = forms.BooleanField(label="I+D", required=False)
-    include_automation = forms.BooleanField(label="Automatización", required=False)
-    include_ai = forms.BooleanField(label="Inteligencia Artificial", required=False)
-    num_processes = forms.IntegerField(label="N° de procesos", min_value=1, initial=1)
-    data_volume = forms.IntegerField(label="Volumen de datos (MB)", min_value=0, initial=0)
-    complexity = forms.IntegerField(label="Complejidad (1-5)", min_value=1, max_value=5, initial=1)
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'email', 'phone', 'arrival_date_time', 'departure_date_time', 'agree_term']
+        
+        widgets = {
+            'arrival_date_time': DateTimePickerInput(format='%m/%d/%Y %H:%M'),
+            'departure_date_time': DateTimePickerInput(format='%m/%d/%Y %H:%M'),
+        }

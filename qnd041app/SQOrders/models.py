@@ -1,45 +1,84 @@
 from django.db import models
+from SQShop.models import Product
+from decimal import Decimal
+from django.contrib import admin
+from phone_field import PhoneField
+from django.core.validators import MinValueValidator, \
+                                   MaxValueValidator
+from coupons.models import Coupon
+from django.utils.translation import gettext_lazy as _
 
-PRODUCT_CHOICES = [
-    ('SBA', 'SmartBusinessAnalytics'),
-    ('SBM', 'SmartBusinessMedia'),
-    ('SBL', 'SmartBusinessLaw'),
-    ('SBT', 'SmartBusinessTechnologies'),
-]
 
-class ProductCalculation(models.Model):
-    product = models.CharField(max_length=3, choices=PRODUCT_CHOICES)
-    include_rd = models.BooleanField(default=False)
-    include_automation = models.BooleanField(default=False)
-    include_ai = models.BooleanField(default=False)
-    num_processes = models.PositiveIntegerField(default=1)
-    data_volume = models.PositiveIntegerField(default=0, help_text="En MB")
-    complexity = models.IntegerField(default=1, help_text="1-5")
-    result_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
+class Order(models.Model):
+    first_name = models.CharField(_('First name'), max_length=50)
+    last_name = models.CharField(_('Last name'), max_length=50)
+    email = models.EmailField(_('E-mail'))
+    phone = models.CharField(blank=True, help_text=_('Contact phone number'),max_length=16)
+    #address = models.CharField(_('address'), max_length=250)
+    #postal_code = models.CharField(_('postal code'), max_length=20)
+    #city = models.CharField(_('city'), max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False)
+    braintree_id = models.CharField(max_length=150, blank=True)
+    coupon = models.ForeignKey(Coupon,
+                               related_name='sqorders',
+                               null=True,
+                               blank=True,
+                               on_delete=models.SET_NULL)
+    arrival_date_time = models.DateTimeField(_('Date & time for Arrival to CC-floreana'),null=True)
+    departure_date_time = models.DateTimeField(_('Date & time for Departure to CC-floreana'),null=True)
+    #start_arrival_time = models.DateTimeField(_('Time for Arrival to CC-floreana'),null=True)
+    #end_departure_time = models.DateTimeField(_('Time for Arrival to CC-floreana'),null=True)
+    #departure = models.DateTimeField(_('Date for departure from CC-floreana'),null=True)
+    agree_term = models.BooleanField(_('I accept the terms and conditions of this services.'),default=False,null=False,blank=False)
+    total =  models.DecimalField(max_digits=1000, decimal_places=2,null=True,blank=True)
+    discount = models.IntegerField(default=0,
+                                   validators=[MinValueValidator(0),
+                                               MaxValueValidator(100)])
 
-    def __str__(self):
-        return f"{self.get_product_display()} - ${self.result_cost} - {self.created_at.date()}"
     class Meta:
-        verbose_name = "Product Calculation"
-        verbose_name_plural = "Product Calculations"
-        ordering = ['-created_at']
-
-
-INFRA_CHOICES = [
-    ('onprem', 'Nube Privada / On-Premises'),
-    ('public', 'Nube Pública'),
-    ('hybrid', 'Arquitectura Híbrida'),
-]
-
-class InfrastructureQuote(models.Model):
-    infra_type = models.CharField(max_length=10, choices=INFRA_CHOICES)
-    cpu_cores = models.PositiveIntegerField()
-    ram_gb = models.PositiveIntegerField()
-    storage_gb = models.PositiveIntegerField()
-    bandwidth_mbps = models.PositiveIntegerField()
-    estimated_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
+        ordering = ('-created',)
+        verbose_name = 'Reserva Online'
+        verbose_name_plural = 'Reservas Online'
 
     def __str__(self):
-        return f"{self.get_infra_type_display()} - ${self.estimated_cost} ({self.created_at.date()})"
+        return 'Reserve to {}'.format(self.first_name +' '+ self.last_name)
+
+    @property
+    @admin.display(
+        ordering='last_name',
+        description='Full name',
+    )
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
+
+
+
+    def get_total_cost(self):
+        total_cost = sum(item.get_cost() for item in self.items.all())
+        total_price = total_cost - total_cost * (self.discount / Decimal('100'))
+        return  total_price
+
+    def save(self):
+        self.total = self.get_total_cost()
+        super (Order, self).save()
+
+ 
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order,
+                              related_name='items',
+                              on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,
+                                related_name='order_items',
+                                on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return '{}'.format(self.id)
+
+    def get_cost(self):
+        return self.price * self.quantity
