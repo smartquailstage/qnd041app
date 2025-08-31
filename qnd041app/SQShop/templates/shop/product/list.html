@@ -30,27 +30,25 @@
             </div>
 
 
-            {% for c in categories %}
-            {% if category.slug == c.slug %}{% endif %}
-            {% for product in products %}
 
-            <div class="row row-cols-1 row-cols-lg-3">
-              <div class="col">
-               <div class="card radius-10">
-                 <div class="card-body">
-                  <img src="{% if c.image %}{{ c.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"  class="img-fluid radius-10" alt="...">
-                  <div class="text-center mt-4">
-                    <h5 class="card-title">{{ c.name }}</h5>
-                    <p class="card-text">{{c.description}}</p>
-                    <a href="{{ c.get_absolute_url }}" class="btn btn-dark px-4 radius-10">{% trans 'Leer más' %}</a>
-                  </div>
-                 </div>
-               </div>
-              </div>
+<div class="row row-cols-1 row-cols-lg-3">
+  {% for c in categories %}
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body">
+          <img src="{% if c.image %}{{ c.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="img-fluid radius-10" alt="{{ c.name }}">
+          <div class="text-center mt-4">
+            <h5 class="card-title">{{ c.name }}</h5>
+            <p class="card-text">{{ c.description }}</p>
+            <a href="{{ c.get_absolute_url }}" class="btn btn-dark px-4 radius-10">{% trans 'Leer más' %}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 
-           </div>
-            {% endfor %}
-            {% endfor %}
+         
            
 
          
