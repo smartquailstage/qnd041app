@@ -65,6 +65,7 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
+    "parler",
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -116,7 +117,7 @@ INSTALLED_APPS = [
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-    "parler",
+   
     "djmoney",
     "localflavor",
     "boto3",
@@ -784,6 +785,21 @@ LANGUAGES = [
     ('es', _('Español')),
     ('en', _('Inglés')),
 ]
+
+
+
+
+PARLER_LANGUAJES = {
+    None: (
+        {'code': 'es',},
+        {'code': 'en',},
+    ),
+    'default': {
+        'fallbacks': ['es'],  # defaults to PARLER_DEFAULT_LANGUAGE_CODE
+        'hide_untranslated': False,  # the default; let .active_translations()
+                                    # return fallbacks too.
+    }
+}
 
 ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
 SITE_ID = 1
