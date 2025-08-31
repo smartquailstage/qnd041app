@@ -39,28 +39,6 @@ class CategoryAdminClass(ModelAdmin):
         # ArrayField: {"widget": ArrayWidget},  # Si usas ArrayField
     }
 
-    fieldsets = (
-        ('General', {
-            'fields': ('image',),
-            'classes': ('tab-general',),
-        }),
-        ('Español', {
-            'fields': (
-                'nombre_es', 'slug_es', 'software_es', 'plataforma_es',
-                'numero_procesos_es', 'automatizacion_es',
-                'inteligencia_artificial_es', 'latencia_aproximada_es', 'usuarios_simultaneos_es',
-            ),
-            'classes': ('tab-spanish',),
-        }),
-        ('Inglés', {
-            'fields': (
-                'nombre_en', 'slug_en', 'software_en', 'plataforma_en',
-                'numero_procesos_en', 'automatizacion_en',
-                'inteligencia_artificial_en', 'latencia_aproximada_en', 'usuarios_simultaneos_en',
-            ),
-            'classes': ('tab-english',),
-        }),
-    )
 
 
 
