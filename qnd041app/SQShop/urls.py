@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.conf.urls.i18n import i18n_patterns
 
-app_name = 'sqshop'
+app_name = 'SQShop'
 
 urlpatterns = [
     path('', views.product_list, name='product_list'),

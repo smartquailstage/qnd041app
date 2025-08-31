@@ -9,28 +9,10 @@ from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
 
+
 class Category(models.Model):
-    
     image = models.ImageField(upload_to='categories/%Y/%m/%d', blank=True, null=True)
-    salidas = models.DateTimeField(null=True)
-    desde = models.CharField(max_length=200, null=True)
-    description = models.TextField(blank=True, null=True)
-    detail = models.FileField(upload_to='tours/%Y/%m/%d', null=True)
-    terms = models.TextField(blank=True, null=True)
 
-        # Opciones de categoría
-    CATEGORIA_CHOICES = [
-        ('SaaS', 'Software como Servicio'),
-        ('PaaS', 'Plataforma como Servicio'),
-        ('IaaS', 'Infraestructura como Servicio'),
-    ]
-
-    SOFTWARE_CHOICES = [
-        ('crm', 'SmartBusinessMedia - CRM'),
-        ('erp', 'SmartBusinessAnalytics - ERP'),
-    ]
-
-    # Rangos de latencia
     LATENCIA_CHOICES = [
         ('500-800', 'Alta latencia (500–800 ms)'),
         ('300-500', 'Latencia elevada (300–500 ms)'),
@@ -40,7 +22,6 @@ class Category(models.Model):
         ('10-20',   'Latencia óptima (10–20 ms)'),
     ]
 
-    # Rangos de usuarios simultáneos — alineados con latencia
     USUARIOS_SIMULTANEOS_CHOICES = [
         ('10-50', 'Baja concurrencia (10–50 usuarios)'),
         ('50-150', 'Carga ligera (50–150 usuarios)'),
@@ -50,7 +31,6 @@ class Category(models.Model):
         ('5000+', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
     ]
 
-    # Número de procesos
     NUMERO_PROCESOS_CHOICES = [
         ('5', '5 procesos'),
         ('10', '10 procesos'),
@@ -74,44 +54,52 @@ class Category(models.Model):
         ('chatbots', 'Automatización mediante Chatbots'),
         ('email_marketing', 'Envío Automático de Correos Electrónicos'),
         ('facturacion', 'Facturación Electrónica Automatizada'),
-        ('crm_automatizado', 'Automatización de CRM (Gestión de Clientes)'),
-        ('reserva_online', 'Gestión Automatizada de Reservas o Citas'),
-        ('notificaciones', 'Notificaciones Automatizadas en Tiempo Real'),
-        ('reportes', 'Generación Automática de Reportes'),
-        ('seguimiento_clientes', 'Seguimiento Automático de Clientes'),
-        ('procesamiento_pedidos', 'Automatización del Procesamiento de Pedidos'),
-        ('sistemas_alertas', 'Sistemas de Alertas Automatizadas'),
+        ('crm_automatizado', 'Automatización de CRM'),
+        ('reserva_online', 'Gestión de Reservas o Citas'),
+        ('notificaciones', 'Notificaciones en Tiempo Real'),
+        ('reportes', 'Generación de Reportes'),
+        ('seguimiento_clientes', 'Seguimiento de Clientes'),
+        ('procesamiento_pedidos', 'Procesamiento de Pedidos'),
+        ('sistemas_alertas', 'Sistemas de Alertas'),
     ]
 
     IA_CHOICES = [
-        ('prediccion', 'Agente de IA de predicción'),
-        ('segmentacion', 'Agente de IA de segmentación'),
-        ('recomendacion', 'Agente de IA de recomendación'),
+        ('prediccion', 'IA de predicción'),
+        ('segmentacion', 'IA de segmentación'),
+        ('recomendacion', 'IA de recomendación'),
     ]
 
-    nombre = models.CharField(max_length=4,null=True,blank=True, choices=CATEGORIA_CHOICES)
-    slug = models.SlugField(max_length=200,null=True,blank=True, unique=True)
-    software = MultiSelectField(choices=SOFTWARE_CHOICES, blank=True, null=True)
-    plataforma = MultiSelectField(choices=PLATAFORMA_CHOICES, blank=True, null=True)
-    numero_procesos = models.CharField(max_length=5, choices=NUMERO_PROCESOS_CHOICES,null=True,blank=True, default='5')
-    automatizacion = MultiSelectField(choices=AUTOMATIZACION_CHOICES, blank=True, null=True)
-    
-    inteligencia_artificial = MultiSelectField(choices=IA_CHOICES, blank=True,null=True)
-    latencia_aproximada = models.CharField(max_length=7,null=True,blank=True,choices=LATENCIA_CHOICES)
-    usuarios_simultaneos = models.CharField(max_length=10,null=True,blank=True, choices=USUARIOS_SIMULTANEOS_CHOICES)
+    CATEGORIA_CHOICES = [
+        ('SaaS', 'Software como Servicio'),
+        ('PaaS', 'Plataforma como Servicio'),
+        ('IaaS', 'Infraestructura como Servicio'),
+    ]
 
-    def __str__(self):
-        return f"{self.get_nombre_categoria_display()} - {self.numero_procesos} procesos"
+    SOFTWARE_CHOICES = [
+        ('crm', 'SmartBusinessMedia - CRM'),
+        ('erp', 'SmartBusinessAnalytics - ERP'),
+    ]
+
+    nombre = models.CharField(max_length=100, choices=CATEGORIA_CHOICES, blank=True, null=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
+    software = models.CharField(max_length=50, choices=SOFTWARE_CHOICES, blank=True, null=True)
+    plataforma = models.CharField(max_length=50, choices=PLATAFORMA_CHOICES, blank=True, null=True)
+    numero_procesos = models.CharField(max_length=10, choices=NUMERO_PROCESOS_CHOICES, blank=True, null=True)
+    automatizacion = models.CharField(max_length=50, choices=AUTOMATIZACION_CHOICES, blank=True, null=True)
+    inteligencia_artificial = models.CharField(max_length=50, choices=IA_CHOICES, blank=True, null=True)
+    latencia_aproximada = models.CharField(max_length=10, choices=LATENCIA_CHOICES, blank=True, null=True)
+    usuarios_simultaneos = models.CharField(max_length=20, choices=USUARIOS_SIMULTANEOS_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Categoria de Producto'
         verbose_name_plural = 'Categorias de Productos'
 
     def __str__(self):
-        return self.name or str(self.id)
+        return f"{self.get_nombre_display() or 'Sin categoría'} - {self.numero_procesos or 'Sin procesos'}"
 
     def get_absolute_url(self):
         return reverse('SQShop:product_list_by_category', args=[self.slug])
+
 
 
 

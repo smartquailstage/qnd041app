@@ -10,64 +10,72 @@ from django.db import models
 #from wagtail_modeladmin.options import ModelAdmin, modeladmin_register,ModelAdminGroup
 from unfold.admin import ModelAdmin
 from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
+from modeltranslation.translator import translator, TranslationOptions
+from tabbed_admin import TabbedModelAdmin  # <- Esto faltaba
+from modeltranslation.admin import TranslationAdmin
 from decimal import Decimal
+from modeltranslation.admin import TranslationAdmin
 
+
+from django.contrib import admin
+from modeltranslation.admin import TranslationAdmin
+from django.db import models
+from unfold.admin import ModelAdmin
+from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
 
 
 @admin.register(Category)
-class CategoryAdminClass(ModelAdmin):
-    # Display fields in changeform in compressed mode
-    compressed_fields = True  # Default: False
-
-    # Warn before leaving unsaved changes in changeform
-    warn_unsaved_form = True  # Default: False
-
-    # Preprocess content of readonly fields before render
+class CategoryAdminClass(TranslationAdmin, ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
     readonly_preprocess_fields = {
         "model_field_name": "html.unescape",
         "other_field_name": lambda content: content.strip(),
     }
-
-    # Display submit button in filters
     list_filter_submit = False
-
-    # Display changelist in fullwidth
     list_fullwidth = False
-
-    # Set to False, to enable filter as "sidebar"
     list_filter_sheet = True
-
-    # Position horizontal scrollbar in changelist at the top
     list_horizontal_scrollbar_top = False
-
-    # Dsable select all action in changelist
     list_disable_select_all = False
-
-    # Custom actions
-    actions_list = []  # Displayed above the results list
-    actions_row = []  # Displayed in a table row in results list
-    actions_detail = []  # Displayed at the top of for in object detail
-    actions_submit_line = []  # Displayed near save in object detail
-
-    # Changeform templates (located inside the form)
-    #change_form_before_template = "some/template.html"
-    #change_form_after_template = "some/template.html"
-
-    # Located outside of the form
-    #change_form_outer_before_template = "some/template.html"
-    #change_form_outer_after_template = "some/template.html"
-
-    # Display cancel button in submit line in changeform
-    change_form_show_cancel_button = True # show/hide cancel button in changeform, default: False
+    actions_list = []
+    actions_row = []
+    actions_detail = []
+    actions_submit_line = []
+    change_form_show_cancel_button = True
 
     formfield_overrides = {
-        models.TextField: {
-            "widget": WysiwygWidget,
-        },
-        ArrayField: {
-            "widget": ArrayWidget,
+        models.TextField: {"widget": WysiwygWidget},
+        # ArrayField: {"widget": ArrayWidget},  # Si usas ArrayField
+    }
+
+    fieldsets = (
+        ('General', {
+            'fields': ('image',),
+            'classes': ('tab-general',),
+        }),
+        ('Español', {
+            'fields': (
+                'nombre_es', 'slug_es', 'software_es', 'plataforma_es',
+                'numero_procesos_es', 'automatizacion_es',
+                'inteligencia_artificial_es', 'latencia_aproximada_es', 'usuarios_simultaneos_es',
+            ),
+            'classes': ('tab-spanish',),
+        }),
+        ('Inglés', {
+            'fields': (
+                'nombre_en', 'slug_en', 'software_en', 'plataforma_en',
+                'numero_procesos_en', 'automatizacion_en',
+                'inteligencia_artificial_en', 'latencia_aproximada_en', 'usuarios_simultaneos_en',
+            ),
+            'classes': ('tab-english',),
+        }),
+    )
+
+    class Media:
+        css = {
+            'all': ('admin/css/custom-tabs.css',)  # Archivo CSS que crearás
         }
-    } 
+        js = ('admin/js/custom-tabs.js',)  # Archivo JS que crearás para controlar las pestañas
 
 
 

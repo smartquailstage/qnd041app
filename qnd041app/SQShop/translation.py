@@ -1,5 +1,5 @@
 from .models import Product, Category
-from modeltranslation.translator import TranslationOptions
+from modeltranslation.translator import translator, TranslationOptions
 from modeltranslation.decorators import register
 
 
@@ -9,7 +9,16 @@ class Products(TranslationOptions):
 
 
 @register(Category)
-class Category(TranslationOptions):
-    fields = ('name','slug','salidas','image','desde','description','detail','terms')
-
+class CategoryTranslationOptions(TranslationOptions):
+    fields = (
+        'nombre',
+        'slug',
+        'software',
+        'plataforma',
+        'numero_procesos',
+        'automatizacion',
+        'inteligencia_artificial',
+        'latencia_aproximada',
+        'usuarios_simultaneos',
+    )
 
