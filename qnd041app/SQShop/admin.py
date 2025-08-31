@@ -10,22 +10,13 @@ from django.db import models
 #from wagtail_modeladmin.options import ModelAdmin, modeladmin_register,ModelAdminGroup
 from unfold.admin import ModelAdmin
 from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
-from modeltranslation.translator import translator, TranslationOptions
-from tabbed_admin import TabbedModelAdmin  # <- Esto faltaba
-from modeltranslation.admin import TranslationAdmin
 from decimal import Decimal
-from modeltranslation.admin import TranslationAdmin
 
 
-from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
-from django.db import models
-from unfold.admin import ModelAdmin
-from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
 
 
 @admin.register(Category)
-class CategoryAdminClass(TranslationAdmin, ModelAdmin):
+class CategoryAdminClass(ModelAdmin):
     compressed_fields = True
     warn_unsaved_form = True
     readonly_preprocess_fields = {
@@ -71,11 +62,7 @@ class CategoryAdminClass(TranslationAdmin, ModelAdmin):
         }),
     )
 
-    class Media:
-        css = {
-            'all': ('admin/css/custom-tabs.css',)  # Archivo CSS que crearás
-        }
-        js = ('admin/js/custom-tabs.js',)  # Archivo JS que crearás para controlar las pestañas
+
 
 
 
