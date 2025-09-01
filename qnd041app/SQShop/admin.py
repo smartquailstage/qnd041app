@@ -13,23 +13,9 @@ from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
 from decimal import Decimal
 from parler.admin import TranslatableAdmin
 
-class CustomTranslatableUnfoldAdmin(TranslatableAdmin, ModelAdmin):
-    """
-    Admin que mezcla django-parler y Unfold admin, asegurando que se llamen
-    correctamente los métodos de ambos.
-    """
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(TranslatableAdmin, self).get_form(request, obj, **kwargs)
-        return form
-
-    def get_queryset(self, request):
-        queryset = super(TranslatableAdmin, self).get_queryset(request)
-        return queryset
-
 
 @admin.register(Category)
-class CategoryAdminClass(CustomTranslatableUnfoldAdmin):
+class CategoryAdminClass(ModelAdmin):
     compressed_fields = True
     warn_unsaved_form = True
     readonly_preprocess_fields = {

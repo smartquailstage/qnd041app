@@ -5,8 +5,9 @@ from django.http import HttpResponse
 from .models import Order, OrderItem
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-from django.db.models import Count
-from django.views.generic import ListView
+from unfold.admin import ModelAdmin
+from unfold.components import BaseComponent, register_component
+from unfold.sections import TableSection, TemplateSection
 
 def order_detail(obj):
     return mark_safe('<a href="{}">View</a>'.format(
@@ -39,7 +40,6 @@ export_to_csv.short_description = 'Export to CSV'
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ['product']
-    readonly_fields = ['price','quantity','order','product']
 
 
 def order_pdf(obj):
@@ -47,36 +47,157 @@ def order_pdf(obj):
         reverse('orders:admin_order_pdf', args=[obj.id])))
 order_pdf.short_description = 'Invoice'
 
-def whatsapp(obj):
-     return mark_safe('<a href="https://api.whatsapp.com/send?phone={}"><i><i class="fa fa-phone"></i></a>'.format(obj.phone))
-whatsapp.short_description = 'Send Mail'
-
-def email(obj):
-     return mark_safe('<a href="mailto:{}" target="_blank" ><i class="fa fa-envelope"></i></a>'.format(obj.email))
-whatsapp.short_description = 'Whatsapp'
 
 
-class OrderListView(ListView):
-    paginate_by = 2
-    model = Order
+from unfold.components import BaseComponent, register_component
+from django.template.loader import render_to_string
+from .models import Order
+import io
+import base64
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Usa backend no-GUI seguro
+import matplotlib.pyplot as plt
+from django.core.cache import cache
+import hashlib
+
+
+# orders/admin_components.py (o donde lo estés organizando)
+import base64
+import io
+from django.core.cache import cache
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+from orders.models import Order
+
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Evita uso de GUI
+import matplotlib.pyplot as plt
+
+
+@register_component
+class DistribucionOrdenesComponent(BaseComponent):
+    name = "Distribución de Órdenes"
+    template_name = "admin/order_frecuencia_chart.html"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        cache_key = "grafico_frecuencia_ordenes"
+
+        # Intenta recuperar imagen desde caché
+        imagen_base64 = cache.get(cache_key)
+        if imagen_base64:
+            return {
+                "title": self.name,
+                "grafico_base64": imagen_base64,
+                "from_cache": True
+            }
+
+        # Obtener fechas de creación de las órdenes
+        fechas = list(Order.objects.values_list("created", flat=True).order_by("created"))
+        if not fechas:
+            return {
+                "title": self.name,
+                "grafico_base64": None,
+                "mensaje": "No hay órdenes registradas aún.",
+            }
+
+        # Calcular días desde la primera orden
+        dias = [(f.date() - fechas[0].date()).days for f in fechas]
+        max_dia = max(dias) if dias else 0
+        bins = np.arange(0, max_dia + 2)
+
+        frecuencia, _ = np.histogram(dias, bins=bins)
+
+        # Crear gráfico
+        fig, ax = plt.subplots()
+        ax.bar(bins[:-1], frecuencia, width=1, color='cornflowerblue', edgecolor='black')
+        ax.set_xlabel("Días desde la primera orden")
+        ax.set_ylabel("Cantidad de órdenes")
+        ax.set_title("Distribución temporal de órdenes")
+
+        # Convertir a imagen base64
+        buffer = io.BytesIO()
+        plt.tight_layout()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        imagen_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+        plt.close()
+
+        # Guardar en caché por 10 minutos
+        cache.set(cache_key, imagen_base64, timeout=600)
+
+        return {
+            "title": self.name,
+            "grafico_base64": imagen_base64,
+            "from_cache": False
+        }
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class OrderDetailComponent(BaseComponent):
+    template_name = "admin/order_summary_card.html"
+    name = "Detalles de la Orden"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance  # instancia del modelo Order
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = self.instance
+
+        if not order:
+            context.update({
+                "title": "Detalle de la Orden",
+                "table": {
+                    "headers": ["Sin datos disponibles"],
+                    "rows": [["No se encontró la orden."]],
+                }
+            })
+            return context
+
+        headers = ["Campo", "Valor"]
+        rows = [
+            ["ID", order.id],
+            ["Fecha", order.created.strftime("%d/%m/%Y %H:%M") if order.created else "N/A"],
+            ["Cliente", order.first_name + " " + order.last_name if order.first_name else "N/A"],
+            ["Email", order.email],
+            ["Dirección", order.address or "N/A"],
+            ["Estado de Pago", "Pagado" if order.paid else "Pendiente"],
+            ["Total", f"${order.get_total_cost():.2f}"],
+            # añade más campos según tu modelo
+        ]
+
+        context.update({
+            "title": f"Detalles de la Orden #{order.id}",
+            "table": {
+                "headers": headers,
+                "rows": rows,
+            }
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
 
 
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = [ 'full_name', 
-                    'arrival_date_time','departure_date_time', 'paid','total_cost',
-                   email,whatsapp ]
-    list_filter = ['arrival_date_time','departure_date_time','paid', 'created', 'updated']
-    date_hierarchy = 'arrival_date_time'
-    readonly_fields = ['first_name','last_name','arrival_date_time','departure_date_time','paid','email','total','discount','agree_term','coupon','braintree_id']
-    list_per_page = 10
+class OrderAdmin(ModelAdmin):
+    list_sections = [OrderDetailComponent,DistribucionOrdenesComponent]
+    list_display = ['id', 'first_name', 'last_name', 'email',
+                    'address', 'postal_code', 'city', 'paid',
+                    'created', 'updated', order_detail, order_pdf]
+    list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
-
-    def total_cost(self, obj):
-        return obj.total
-
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        queryset = queryset.annotate(total_cost=Count("total"))
-        return queryset

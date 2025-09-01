@@ -65,7 +65,7 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
-    "parler",
+ 
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -97,6 +97,10 @@ INSTALLED_APPS = [
     'wagtail.admin',
      
     'wagtail',
+    'cart',
+    'orders',
+    'shop',
+    
 
   #  "wagtail.search",
   #  "wagtail.sites",
@@ -153,9 +157,7 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     "coupons",
-    "shop",
-    "orders",
-    "cart",
+
     #SmartBusinessANALYTICS
     "sbacart",
     "sbashop",
@@ -179,7 +181,7 @@ INSTALLED_APPS = [
     #"sbashop",
     #"sbaorders",
     "rosetta",
-    "taggit",
+    "taggit"
 ]
 
 
@@ -191,7 +193,7 @@ LOGOUT_URL = 'usuarios:logout'
 
 
 
-
+CART_SESSION_ID = 'cart'
 
 from usuarios.utils import  permission_callback,permission_callback_prospecion
 

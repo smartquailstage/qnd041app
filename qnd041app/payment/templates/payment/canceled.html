@@ -1,65 +1,6 @@
 {% extends "shop/base.html" %}
-{% load i18n %}
-{% load widget_tweaks %}
-{% load static %}
-
-{% block title %}Pay by credit card{% endblock %}
 
 {% block content %}
-{% include 'cart/detail_header.html' %}
-
-<div id="wrapper">
-  <!-- content -->	
-  <div class="content">
-      <!-- column-image  -->	
-      <div class="column-image">
-          <div class="bg"  data-bg="images/bg/1.jpg"></div>
-          <div class="overlay"></div>
-          <div class="column-title">
-              <h2>{% trans "Payment Cancel" %}</h2>
-          </div>
-        
-          <div class="fixed-column-dec"></div>
-      </div>
-      <!-- column-image end  -->	
-      <!-- column-wrapper -->	
-      <div class="column-wrapper ">
-<!--scroll-nav-wrap -->	
-    		
-          <section id="sec3">
-              <div class="container small-container">
-                  <div class="section-title fl-wrap">
-                    <h1>{ trans "Your payment has not been processed" %}</h1>
-                    <p>There was a problem processing your payment. Verify the CVV number its correct or contct with you bank.</p>
-                      
-                 
-              </div>
-          </section>
-          <!--section end  -->	
-          <!--footer -->			
-          <footer class="min-footer fl-wrap content-animvisible">
-              <div class="container small-container">
-                  <div class="footer-inner fl-wrap">
-                      <!-- policy-box-->
-                      <div class="policy-box">
-                        <span>&#169; Powered by SmartQuail, Inc / Design by Edward Cooper  </span>
-                      </div>
-                      <!-- policy-box end-->
-                      <a href="#" class="to-top-btn to-top">Back to top <i class="fal fa-long-arrow-up"></i></a>
-                  </div>
-              </div>
-          </footer>
-          <!--footer end  -->	
-      </div>
-      <!-- column-wrapper -->	
-  </div>
-  <!--content end-->	
-  <!--share-wrapper-->
-  <div class="share-wrapper">
-      <div class="share-container fl-wrap  isShare"></div>
-  </div>
-  <!--share-wrapper end-->
-</div>
-
-
+  <h1>Your payment has not been processed</h1>
+  <p>There was a problem processing your payment.</p>
 {% endblock %}

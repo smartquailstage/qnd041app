@@ -11,7 +11,7 @@ from parler.models import TranslatableModel, TranslatedFields
 
 
 
-class Category(TranslatableModel):
+class Category(models.Model):
 
     LATENCIA_CHOICES = [
         ('500-800', 'Alta latencia (500–800 ms)'),
@@ -81,20 +81,18 @@ class Category(TranslatableModel):
     ]
 
 
-    translations = TranslatedFields(
-    image = models.ImageField(upload_to='categories/%Y/%m/%d', blank=True, null=True),
+    image = models.ImageField(upload_to='categories/%Y/%m/%d', blank=True, null=True)
 
 
-    nombre = models.CharField(max_length=100, choices=CATEGORIA_CHOICES, blank=True, null=True),
-    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True),
-    software = models.CharField(max_length=50, choices=SOFTWARE_CHOICES, blank=True, null=True),
-    plataforma = models.CharField(max_length=50, choices=PLATAFORMA_CHOICES, blank=True, null=True),
-    numero_procesos = models.CharField(max_length=10, choices=NUMERO_PROCESOS_CHOICES, blank=True, null=True),
-    automatizacion = models.CharField(max_length=50, choices=AUTOMATIZACION_CHOICES, blank=True, null=True),
-    inteligencia_artificial = models.CharField(max_length=50, choices=IA_CHOICES, blank=True, null=True),
-    latencia_aproximada = models.CharField(max_length=10, choices=LATENCIA_CHOICES, blank=True, null=True),
-    usuarios_simultaneos = models.CharField(max_length=20, choices=USUARIOS_SIMULTANEOS_CHOICES, blank=True, null=True),
-    )
+    nombre = models.CharField(max_length=100, choices=CATEGORIA_CHOICES, blank=True, null=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
+    software = models.CharField(max_length=50, choices=SOFTWARE_CHOICES, blank=True, null=True)
+    plataforma = models.CharField(max_length=50, choices=PLATAFORMA_CHOICES, blank=True, null=True)
+    numero_procesos = models.CharField(max_length=10, choices=NUMERO_PROCESOS_CHOICES, blank=True, null=True)
+    automatizacion = models.CharField(max_length=50, choices=AUTOMATIZACION_CHOICES, blank=True, null=True)
+    inteligencia_artificial = models.CharField(max_length=50, choices=IA_CHOICES, blank=True, null=True)
+    latencia_aproximada = models.CharField(max_length=10, choices=LATENCIA_CHOICES, blank=True, null=True)
+    usuarios_simultaneos = models.CharField(max_length=20, choices=USUARIOS_SIMULTANEOS_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Categoria de Producto'

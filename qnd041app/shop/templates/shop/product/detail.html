@@ -1,8 +1,5 @@
-
 {% extends "shop/base.html" %}
 {% load i18n %}
-{% load wagtailcore_tags wagtailimages_tags %}
-{% load widget_tweaks %}
 {% load static %}
 
 {% block title %}
@@ -10,165 +7,29 @@
 {% endblock %}
 
 {% block content %}
-
-{% include 'shop/list_header.html' %}
-
-<div id="wrapper">
-    <!-- content -->	
-    <div class="content">
-        <!-- column-image  -->	
-        <div class="column-image">
-            <div class="bg"  data-bg="{% static "img/2.jpg" %}" ></div>       
-            <div class="overlay"></div>
-            
-            <div class="column-title">
-              <img src="{% static 'img/logo_flor.png' %}" width="350px">
-              
-                <h2>{{ product.category }}</h2>
-                <div class="overlay"></div>
-            </div>
-        
-            <div class="fixed-column-dec"></div>
-        </div>
-
-        <!-- column-image end  -->	
-        <!-- column-wrapper -->	
-        <div class="column-wrapper single-content-section">
-          <!--fixed-bottom-content -->	
-        
-          <!--fixed-bottom-content end  -->	
-          <!--section  -->	
-           <section class="single-content-section">
-              <div class="container small-container">
-                  <!-- post -->
-                  <div class="post fl-wrap fw-post single-post ">
-                    {% for p in products %}
-                    {% if product.slug == p.slug %}{% endif %}
-                      <h2><span>{{ p.name }}</span></h2>
-                    {% endfor %}
-                    
-                      <!-- blog media -->
-                      <div class="blog-media fl-wrap">
-                          <div class="single-slider-wrap">
-                              <div class="single-slider fl-wrap">
-                                  <div class="swiper-container">
-                                      <div class="swiper-wrapper lightgallery">
-                                          <div class="swiper-slide hov_zoom"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"><a href="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="box-media-zoom   popup-image"><i class="fal fa-search"></i></a></div>
-                                          <div class="swiper-slide hov_zoom"><img src="{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"><a href="{% if product.image %}{{ product.image_2.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="box-media-zoom   popup-image"><i class="fal fa-search"></i></a></div>
-                                          <div class="swiper-slide hov_zoom"><img src="{% if product.image_3 %}{{ product.image_3.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"><a href="{% if product.image %}{{ product.image_3.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="box-media-zoom   popup-image"><i class="fal fa-search"></i></a></div>
-                                         
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="ss-slider-pagination_wrap">
-                                  <div class="ss-slider-pagination"></div>
-                              </div>
-                              <div class="ss-slider-cont ss-slider-cont-prev color-bg"><i class="fal fa-long-arrow-left"></i></div>
-                              <div class="ss-slider-cont ss-slider-cont-next color-bg"><i class="fal fa-long-arrow-right"></i></div>
-                          </div>
-                      </div>
-                      <!-- blog media end -->
-                      <div class="blog-text fl-wrap">
-                          <div class="pr-tags fl-wrap">
-                              <span>Details : </span>
-                              <ul>
-                                  <li><a href="#">{{ product.item1 }}</a></li>
-                                  <li><a href="#">{{ product.item2 }}</a></li>
-                                  <li><a href="#">{{ product.item3 }}</a></li>
-                              </ul>
-                          </div>
-                          <p>{{ product.description|linebreaks }}
-                          </p>
-                        
-                      </div>
-                      <!-- post-author-->                                   
-                      
-                      <!--post-author end-->
-                      <div id="comments" class="single-post-comm fl-wrap">
-                          <!--title-->
-                      
-                        
-                              <h2 id="reply-title">{% trans "Make you reservation now" %}
-                              
-                              </h2>
-                             
-                              <form class="custom-form" name="commentform"  action="{% url "cart:cart_add" product.id %}" method="post">
-                                <fieldset>
-                                    <label for="{{ form.quantity }}"><h2>{% trans "Number of persons on Tour" %} :</h2></label>  
-                                {% csrf_token %}
-                                      {% for hidden_field in cart_product_form.hidden_fields %}
-                                        {{ hidden_field }}
-                                      {% endfor %}
-                                      
-                                      {% if cart_product_form.non_field_errors %}
-                                        <div class="alert alert-danger" role="alert">
-                                        {% for error in cart_product_form.non_field_errors %}
-                                          {{ error }}
-                                        {% endfor %}
-                                        </div>
-                                      {% endif %}
-                                      
-                                      {% for field in cart_product_form.visible_fields %}
-                                        <div class="custom-form">
-                                        {{ field.label_tag }}
-                                      
-                                        {% if cart_product_form.is_bound %}
-                                          {% if field.errors %}
-                                          {% render_field field class="form-control is-invalid" %}
-                                          {% for error in field.errors %}
-                                            <div class="invalid-feedback">
-                                            {{ error }}
-                                            </div>
-                                          {% endfor %}
-                                          {% else %}
-                                          {% render_field field class="form-control is-valid" %}
-                                          {% endif %}
-                                        {% else %}
-                                          {% render_field field class="form-control" %}
-                                        {% endif %}
-                                      
-                                        {% if field.help_text %}
-                                          <small class="form-text text-muted">{{ field.help_text }}</small>
-                                          
-                                        {% endif %}
-                                        </div>
-                                      {% endfor %} 
-                                <button class="btn float-btn" type="submit">{% trans "Add a cart" %}  <i class="fal fa-shopping-cart"></i> </button>
-                              </fieldset>
-                              </form>
-                          </div>
-                          <!--end respond-->
-                      </div>
-                      <!--comments end -->
-                  </div>
-                  <!-- post end-->
-
-                  
-              
-            </section>
-            <footer class="min-footer fl-wrap content-animvisible">
-                <div class="container small-container">
-                    <div class="footer-inner fl-wrap">
-                        <!-- policy-box-->
-                        <div class="policy-box">
-                          <span> Design by Edward Cooper /&#169; Powered by <img src="{% static 'img/logo_smartquailWW.png' %}" width="130px">   </span>
-                        </div>
-                        <!-- policy-box end-->
-                        <a href="#" class="to-top-btn to-top">Back to top <i class="fal fa-long-arrow-up"></i></a>
-                    </div>
-                </div>
-            </footer>
-            </div>
-            
-        
-        <!-- column-wrapper -->	
-    </div>
-    
-    <!--content end-->	
-    <!--share-wrapper-->
-    <div class="share-wrapper">
-        <div class="share-container fl-wrap  isShare"></div>
-    </div>
-    <!--share-wrapper end-->
-</div>
+  <div class="product-detail">
+    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+    <h1>{{ product.name }}</h1>
+    <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+    <p class="price">${{ product.price }}</p>
+    <form action="{% url "cart:cart_add" product.id %}" method="post">
+      {{ cart_product_form }}
+      {% csrf_token %}
+      <input type="submit" value="{% trans "Add to cart" %}">
+    </form>
+    {{ product.description|linebreaks }}
+    {% if recommended_products %}
+      <div class="recommendations">
+        <h3>{% trans "People who bought this also bought" %}</h3>
+        {% for p in recommended_products %}
+          <div class="item">
+            <a href="{{ p.get_absolute_url }}">
+              <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+            </a>
+            <p><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

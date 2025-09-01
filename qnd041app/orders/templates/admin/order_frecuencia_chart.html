@@ -1,0 +1,11 @@
+{% load i18n %}
+{% if grafico_base64 %}
+    <div class="p-4">
+        <h3 class="font-semibold mb-2 text-sm text-font-important-light dark:text-font-important-dark">
+            {{ title }}
+        </h3>
+        <img src="data:image/png;base64,{{ grafico_base64 }}" alt="Distribución de Frecuencia">
+    </div>
+{% else %}
+    <p>{{ mensaje }}</p>
+{% endif %}
