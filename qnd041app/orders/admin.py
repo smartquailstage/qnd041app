@@ -75,10 +75,21 @@ import matplotlib
 matplotlib.use('Agg')  # Evita uso de GUI
 import matplotlib.pyplot as plt
 
+# orders/admin_components.py
+import base64
+import io
+from django.core.cache import cache
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+from orders.models import Order
+
+from collections import defaultdict
+from datetime import datetime
+
 
 @register_component
-class DistribucionOrdenesComponent(BaseComponent):
-    name = "Distribución de Órdenes"
+class DistribucionSemanalOrdenesComponent(BaseComponent):
+    name = "Distribución semanal de órdenes"
     template_name = "admin/order_frecuencia_chart.html"
 
     def __init__(self, request, instance=None):
@@ -86,9 +97,8 @@ class DistribucionOrdenesComponent(BaseComponent):
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        cache_key = "grafico_frecuencia_ordenes"
+        cache_key = "grafico_frecuencia_ordenes_semanal"
 
-        # Intenta recuperar imagen desde caché
         imagen_base64 = cache.get(cache_key)
         if imagen_base64:
             return {
@@ -97,7 +107,7 @@ class DistribucionOrdenesComponent(BaseComponent):
                 "from_cache": True
             }
 
-        # Obtener fechas de creación de las órdenes
+        # Obtener fechas
         fechas = list(Order.objects.values_list("created", flat=True).order_by("created"))
         if not fechas:
             return {
@@ -106,21 +116,25 @@ class DistribucionOrdenesComponent(BaseComponent):
                 "mensaje": "No hay órdenes registradas aún.",
             }
 
-        # Calcular días desde la primera orden
-        dias = [(f.date() - fechas[0].date()).days for f in fechas]
-        max_dia = max(dias) if dias else 0
-        bins = np.arange(0, max_dia + 2)
+        # Agrupar por año-semana
+        frecuencias = defaultdict(int)
+        for fecha in fechas:
+            iso_year, iso_week, _ = fecha.isocalendar()
+            key = f"{iso_year}-W{iso_week:02d}"
+            frecuencias[key] += 1
 
-        frecuencia, _ = np.histogram(dias, bins=bins)
+        # Ordenar por semana
+        semanas = sorted(frecuencias.keys())
+        cantidades = [frecuencias[s] for s in semanas]
 
-        # Crear gráfico
-        fig, ax = plt.subplots()
-        ax.bar(bins[:-1], frecuencia, width=1, color='cornflowerblue', edgecolor='black')
-        ax.set_xlabel("Días desde la primera orden")
+        # Gráfico
+        fig, ax = plt.subplots(figsize=(10, 4))
+        ax.bar(semanas, cantidades, color='mediumseagreen', edgecolor='black')
+        ax.set_xlabel("Semana del año")
         ax.set_ylabel("Cantidad de órdenes")
-        ax.set_title("Distribución temporal de órdenes")
+        ax.set_title("Órdenes por semana")
+        ax.tick_params(axis='x', rotation=45)
 
-        # Convertir a imagen base64
         buffer = io.BytesIO()
         plt.tight_layout()
         plt.savefig(buffer, format='png')
@@ -128,7 +142,6 @@ class DistribucionOrdenesComponent(BaseComponent):
         imagen_base64 = base64.b64encode(buffer.read()).decode('utf-8')
         plt.close()
 
-        # Guardar en caché por 10 minutos
         cache.set(cache_key, imagen_base64, timeout=600)
 
         return {
@@ -139,6 +152,7 @@ class DistribucionOrdenesComponent(BaseComponent):
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
+
 
 
 @register_component
@@ -194,7 +208,7 @@ class OrderDetailComponent(BaseComponent):
 
 @admin.register(Order)
 class OrderAdmin(ModelAdmin):
-    list_sections = [OrderDetailComponent,DistribucionOrdenesComponent]
+    list_sections = [OrderDetailComponent,DistribucionSemanalOrdenesComponent]
     list_display = ['id', 'first_name', 'last_name', 'email',
                     'address', 'postal_code', 'city', 'paid',
                     'created', 'updated', order_detail, order_pdf]
