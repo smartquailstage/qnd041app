@@ -65,9 +65,11 @@ class SaaSOrder(models.Model):
 
     class Meta:
         ordering = ('-created',)
+        verbose_name = 'Software As Service Order'
+        verbose_name_plural = 'SaaS Orders'
 
     def __str__(self):
-        return 'Order {}'.format(self.id)
+        return 'SaaS Order {}'.format(self.id)
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
@@ -83,6 +85,11 @@ class SaaSOrderItem(models.Model):
                                 on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
+
+
+    class Meta:
+        verbose_name = 'Software As Service Order'
+        verbose_name_plural = 'SaaS Orders'
 
     def __str__(self):
         return '{}'.format(self.id)
