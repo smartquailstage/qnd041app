@@ -121,9 +121,9 @@ def payment_process(request):
             # Enviar correos electrónicos con los PDFs
             send_payment_emails(order, request)
 
-            return redirect('sbmpayments:done')
+            return redirect('saas_payments:done')
         else:
-            return redirect('sbmpayments:canceled')
+            return redirect('saas_payments:canceled')
     else:
         client_token = braintree.ClientToken.generate()
         return render(request, 'payment/process.html', {'order': order, 'client_token': client_token})

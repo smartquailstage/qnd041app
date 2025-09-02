@@ -74,17 +74,12 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')  # Evita uso de GUI
 import matplotlib.pyplot as plt
+from django.utils.timezone import localtime
 
-# orders/admin_components.py
-import base64
-import io
-from django.core.cache import cache
-from django.template.loader import render_to_string
-from unfold.components import BaseComponent, register_component
-from orders.models import Order
+
 
 from collections import defaultdict
-from datetime import datetime
+import itertools
 
 
 @register_component
@@ -97,7 +92,7 @@ class DistribucionSemanalOrdenesComponent(BaseComponent):
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        cache_key = "grafico_frecuencia_ordenes_semanal"
+        cache_key = "grafico_frecuencia_ordenes_semanal_v2"
 
         imagen_base64 = cache.get(cache_key)
         if imagen_base64:
@@ -116,25 +111,64 @@ class DistribucionSemanalOrdenesComponent(BaseComponent):
                 "mensaje": "No hay órdenes registradas aún.",
             }
 
-        # Agrupar por año-semana
-        frecuencias = defaultdict(int)
+        # Convertir a localtime si es necesario (recomendado)
+        fechas = [localtime(f) for f in fechas]
+
+        # ----------- 1. Órdenes por semana -----------
+        frecuencias_semanales = defaultdict(int)
         for fecha in fechas:
             iso_year, iso_week, _ = fecha.isocalendar()
             key = f"{iso_year}-W{iso_week:02d}"
-            frecuencias[key] += 1
+            frecuencias_semanales[key] += 1
 
-        # Ordenar por semana
-        semanas = sorted(frecuencias.keys())
-        cantidades = [frecuencias[s] for s in semanas]
+        semanas = sorted(frecuencias_semanales.keys())
+        cantidades = [frecuencias_semanales[s] for s in semanas]
 
-        # Gráfico
-        fig, ax = plt.subplots(figsize=(10, 4))
-        ax.bar(semanas, cantidades, color='mediumseagreen', edgecolor='black')
-        ax.set_xlabel("Semana del año")
-        ax.set_ylabel("Cantidad de órdenes")
-        ax.set_title("Órdenes por semana")
-        ax.tick_params(axis='x', rotation=45)
+        # ----------- 2. Acumulado semanal -----------
+        acumulado = list(itertools.accumulate(cantidades))
 
+        # ----------- 3. Órdenes por día de la semana -----------
+        dias_semana = defaultdict(int)
+        for fecha in fechas:
+            nombre_dia = fecha.strftime('%A')  # e.g., 'Monday'
+            dias_semana[nombre_dia] += 1
+
+        dias_orden = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        cantidades_dia = [dias_semana[d] for d in dias_orden]
+
+        # ----------- 4. Órdenes por hora del día -----------
+        horas = defaultdict(int)
+        for fecha in fechas:
+            horas[fecha.hour] += 1
+        horas_ordenadas = sorted(horas.keys())
+        cantidades_hora = [horas[h] for h in horas_ordenadas]
+
+        # ----------- Crear gráfico con subplots -----------
+        fig, axs = plt.subplots(2, 2, figsize=(16, 8))
+        plt.subplots_adjust(hspace=0.4, wspace=0.3)
+
+        # Subplot 1: Órdenes por semana
+        axs[0, 0].bar(semanas, cantidades, color='mediumseagreen', edgecolor='black')
+        axs[0, 0].set_title("Órdenes por semana")
+        axs[0, 0].tick_params(axis='x', rotation=45)
+
+        # Subplot 2: Acumulado semanal
+        axs[0, 1].plot(semanas, acumulado, marker='o', color='cornflowerblue')
+        axs[0, 1].set_title("Órdenes acumuladas")
+        axs[0, 1].tick_params(axis='x', rotation=45)
+
+        # Subplot 3: Órdenes por día de la semana
+        axs[1, 0].bar(dias_orden, cantidades_dia, color='darkorange')
+        axs[1, 0].set_title("Órdenes por día de la semana")
+        axs[1, 0].tick_params(axis='x', rotation=45)
+
+        # Subplot 4: Órdenes por hora del día
+        axs[1, 1].bar(horas_ordenadas, cantidades_hora, color='slateblue')
+        axs[1, 1].set_title("Órdenes por hora del día")
+        axs[1, 1].set_xticks(range(0, 24))
+        axs[1, 1].set_xlim(-0.5, 23.5)
+
+        # Guardar imagen
         buffer = io.BytesIO()
         plt.tight_layout()
         plt.savefig(buffer, format='png')
@@ -152,6 +186,7 @@ class DistribucionSemanalOrdenesComponent(BaseComponent):
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
+
 
 
 

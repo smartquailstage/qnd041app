@@ -38,11 +38,19 @@ urlpatterns = [
 # Rutas traducibles (contenido Wagtail y tus apps de frontend)
 urlpatterns += i18n_patterns(
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
-    path('cart/', include('cart.urls', namespace='cart')),
-    path('shop/', include('shop.urls', namespace='shop')),
-    path('orders/', include('orders.urls', namespace='orders')),
-    path('coupons/', include('coupons.urls', namespace='coupons')),
-    path('payment/', include('payment.urls', namespace='payment')),
+
+    path('saas_cart/', include('saas_cart.urls', namespace='saas_cart')),
+    path('saas_shop/', include('saas_shop.urls', namespace='saas_shop')),
+    path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
+    path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
+    path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+
+
+    #path('cart/', include('cart.urls', namespace='cart')),
+    #path('shop/', include('shop.urls', namespace='shop')),
+    #path('orders/', include('orders.urls', namespace='orders')),
+    #path('coupons/', include('coupons.urls', namespace='coupons')),
+    #path('payment/', include('payment.urls', namespace='payment')),
     path('sqorders/', include('SQOrders.urls', namespace='sqorders')),
     path('webapp/', include('usuarios.urls', namespace='usuarios')),
     path('sbmshop/', include('sbmshop.urls', namespace='sbmshop')),

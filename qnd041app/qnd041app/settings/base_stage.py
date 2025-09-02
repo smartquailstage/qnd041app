@@ -157,6 +157,12 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     "coupons",
+    #SAAS
+    'saas_shop',
+    'saas_orders',
+    'saas_cart',
+    'saas_coupons',
+    'saas_payment',
 
     #SmartBusinessANALYTICS
     "sbacart",
@@ -194,6 +200,8 @@ LOGOUT_URL = 'usuarios:logout'
 
 
 CART_SESSION_ID = 'cart'
+
+SAAS_CART_SESSION_ID = 'saas_cart'
 
 from usuarios.utils import  permission_callback,permission_callback_prospecion
 
@@ -828,6 +836,20 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
+BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_M_ID')
+BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_KEY')
+BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
+
+from braintree import Configuration, Environment
+# para desplegar cambiar sandbox con Production
+Configuration.configure(
+    Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
+
+
 
 
 
@@ -849,6 +871,7 @@ TEMPLATES = [
                 'usuarios.context_processors.citas_context',
                 'usuarios.context_processors.tareas_context',
                 'usuarios.context_processors.pagos_context', 
+                'saas_cart.context_processors.cart',
                 
             ],
         },
