@@ -221,7 +221,8 @@ class OrderSaaSDetailComponent(BaseComponent):
             ["Email", order.email],
             ["Razon Solcail", order.razon_social or "N/A"],
             ["Estado de Pago", "Pagado" if order.paid else "Pendiente"],
-            ["Total", f"${order.get_total_cost():.2f}"],
+            ["Total", f"${order.get_total_cost().amount:,.2f} {order.get_total_cost().currency}"],
+
             # añade más campos según tu modelo
         ]
 
@@ -245,7 +246,22 @@ class OrderSaaSDetailComponent(BaseComponent):
 class SaaSOrderAdmin(ModelAdmin):
     list_sections = [OrderSaaSDetailComponent,DistribucionSemanalSaaSOrdenesComponent]
     list_display = ['id', 'first_name', 'last_name', 'email',
-                    'ruc', 'razon_social','telefono','paid', order_pdf]
+            'ruc', 'razon_social','telefono','paid', order_pdf]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
+
+    def utilidad_bruta_total_display(self, obj):
+        return f"${obj.utilidad_bruta_total():,.2f}"
+    utilidad_bruta_total_display.short_description = "Utilidad Bruta"
+
+    def valor_deducible_iva_total_display(self, obj):
+        return f"${obj.valor_deducible_iva_total():,.2f}"
+    valor_deducible_iva_total_display.short_description = "Deducible IVA"
+
+    def utilidad_liquida_total_display(self, obj):
+        return f"${obj.utilidad_liquida_total():,.2f}"
+    utilidad_liquida_total_display.short_description = "Utilidad Líquida"
+
+
+

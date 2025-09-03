@@ -61,11 +61,26 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 
+    
+
     def __str__(self):
         return '{}'.format(self.id)
 
     def get_cost(self):
         return self.price * self.quantity
+
+    @property
+    def utilidad_bruta(self):
+        return self.product.utilidad_bruta
+
+    @property
+    def valor_deducible_iva(self):
+        return self.product.valor_deducible_iva
+
+    @property
+    def utilidad_liquida(self):
+        return self.product.utilidad_liquida
+
     
 
 

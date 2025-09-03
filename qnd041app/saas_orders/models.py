@@ -9,6 +9,9 @@ from django.contrib.auth.models import User, Group
 from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.validators import RegexValidator
+from decimal import Decimal
+from djmoney.money import Money  # Asegúrate de importar si usas MoneyField
+from djmoney.models.fields import MoneyField
 
 class SaaSOrder(models.Model):
     SECTORES = [
@@ -76,6 +79,9 @@ class SaaSOrder(models.Model):
         return total_cost - total_cost * (self.discount / Decimal('100'))
 
 
+
+
+
 class SaaSOrderItem(models.Model):
     order = models.ForeignKey(SaaSOrder,
                               related_name='items',
@@ -83,19 +89,33 @@ class SaaSOrderItem(models.Model):
     product = models.ForeignKey(Product,
                                 related_name='saas_order_items',
                                 on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
     quantity = models.PositiveIntegerField(default=1)
-
 
     class Meta:
         verbose_name = 'Software As Service Order'
         verbose_name_plural = 'SaaS Orders'
 
     def __str__(self):
-        return '{}'.format(self.id)
+        return f'{self.id}'
 
     def get_cost(self):
         return self.price * self.quantity
+
+    # Rentabilidad por ítem
+    @property
+    def utilidad_bruta(self):
+        return Decimal(self.product.utilidad_bruta.amount) if self.product.utilidad_bruta else Decimal('0.00')
+
+    @property
+    def valor_deducible_iva(self):
+        return Decimal(self.product.valor_deducible_iva.amount) if self.product.valor_deducible_iva else Decimal('0.00')
+
+    @property
+    def utilidad_liquida(self):
+        return Decimal(self.product.utilidad_liquida.amount) if self.product.utilidad_liquida else Decimal('0.00')
+
+
 
 
 class Invoice(models.Model):
