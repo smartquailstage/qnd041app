@@ -17,30 +17,17 @@
     <div class="row">
         <div class="col-12 col-lg-8 col-xl-9">
 
-            <div class="card overflow-hidden radius-10">
-<div class="profile-cover bg-dark position-relative mb-4">
+
   
-  <!-- Logo arriba a la derecha -->
-  <div class="position-absolute top-0 end-0 m-3">
-    <img src="{% static 'img/BA-LOGOS/logo_smartquailred.png' %}" alt="Logo" style="height: 60px;">
-      <h5 style="color: rgb(52, 132, 72);"><i class="bx bx-plus-medical"></i> Servicios Terapéuticos</h5>
-  </div>
 
-  <!-- Avatar centrado -->
-<div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
-  {% if profile.photo and profile.photo.url %}
-    <img src="{{ profile.photo.url }}" alt="User Photo">
-  {% else %}
-    <img src="{% static 'img/BA-LOGOS/user.png' %}" style="width:150px;" alt="Default Photo">
-  {% endif %}
 
-</div>
-</div>
+
+
             <div class="card-body">
               <div class="mt-5 d-flex align-items-start justify-content-between">
                 <div class="">
-                  <h3 class="mb-2">{{ profile.nombre_paciente }}</h3>
-                  <p class="mb-2" style ="margin-top:-15px;">{{ profile.apellidos_paciente }}, {{ profile.edad_detallada }}</p>  
+                  <h3 class="mb-2">Bienvenido {{ profile.user.first_name }} {{ profile.user.last_name }} a SmartQuail,Tech</h3>
+                  <p class="mb-2" style ="margin-top:-15px;">Somos tu Industria tecnologica</p>  
                    <p class="mb-2" style ="margin-top:-5px;">Paciente - MEDDES®</p>   
                    <p class="mb-1"><strong>{{ profile.institucion|default:"Particular" }}</strong></p>  
                   <p class="mb-0"><strong>{{ profile.tipos|join:" + " }}</strong></p>            

@@ -32,7 +32,7 @@ body {
     color: #fff;
     font-size: 14px;
     letter-spacing: .5px;
-    background-color: #282424;
+    background-color:#f8fafb;
     overflow-x: hidden;
     font-family: Roboto, sans-serif;
 }
@@ -105,19 +105,19 @@ ion-icon {
 
 
 .sidebar-wrapper .sidebar-header {
-    width: 260px;
-    height: 65px;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    padding: 0 15px;
-    z-index: 5;
-    background-color: #282424;
-    border-right: 0px solid #e2e3e4;
-    border-bottom: 3px solid #282424;
-    transition: all .2s;
+width: 260px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  padding: 0 15px;
+  z-index: 5;
+  background-color: #b5181a;
+  border-right: 0px solid #e2e3e4;
+  border-bottom: 1px solid #f8fafb;
+  transition: all .2s;
 }
 
 .sidebar-wrapper .sidebar-header .logo-icon {
@@ -344,7 +344,7 @@ ion-icon {
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
     /* Gradiente en escala de verde con tres colores */
-    background: #282424;
+    background: #f8fafb;
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
@@ -419,7 +419,7 @@ ion-icon {
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color:#ffffff;
+    color:#b5181a;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;
