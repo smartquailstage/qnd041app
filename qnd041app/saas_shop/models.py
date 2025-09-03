@@ -129,6 +129,13 @@ class Product(models.Model):
     total_arch = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_arch_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
+    # Nuevos campos
+    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True) 
+    valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    inversion_marketing = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+
     def _safe_money(self, val):
         try:
             return val if val else Money(0, 'USD')
@@ -182,6 +189,18 @@ class Product(models.Model):
             self._safe_money(self.total_arch_iva).amount,
         ], Decimal('0'))
         self.price = Money(total_price_val, 'USD')
+
+        # 5) Utilidad Bruta (suma de márgenes)
+        total_margen = Decimal(self.margen_sq or 0) + Decimal(self.margen_sq_nube or 0) + Decimal(self.margen_sq_arch or 0)
+        self.utilidad_bruta = total_margen
+
+        # 6) Valor deducible de impuestos (total_iva - 15%)
+        iva_deducible = self._safe_money(self.total_iva).amount * Decimal('0.85')
+        self.valor_deducible_iva = Money(iva_deducible, 'USD')
+
+        # 7) Utilidad líquida = utilidad_bruta - inversion_marketing
+        utilidad_liquida_val = total_margen - self._safe_money(self.inversion_marketing).amount
+        self.utilidad_liquida = Money(utilidad_liquida_val, 'USD')
 
         super().save(*args, **kwargs)
 

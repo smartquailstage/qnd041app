@@ -9,16 +9,11 @@ class CategoryAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-from django.contrib import admin
-from .models import Product
-
-
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
     list_display = ('name', 'category', 'price', 'available')
     prepopulated_fields = {"slug": ("name",)}
 
-    
     readonly_fields = [
         'created', 'updated',
         'price',
@@ -34,22 +29,27 @@ class ProductAdmin(ModelAdmin):
         'margen_sq_arch',
         'total_arch',
         'total_arch_iva',
+        'utilidad_bruta',
+        'valor_deducible_iva',
+        'utilidad_liquida',
     ]
 
-
     fieldsets = (
-
         ('Información básica', {
-            'fields': ('name', 'slug', 'description', 'category', 'available')
+            'fields': ('name', 'slug', 'description', 'category', 'available'),
+            'classes': ('collapse',),
         }),
         ('Items', {
             'fields': ('item1', 'item2', 'item3'),
+            'classes': ('collapse',),
         }),
         ('Imágenes', {
             'fields': ('image', 'image_2', 'image_3'),
+            'classes': ('collapse',),
         }),
         ('Tiempos', {
             'fields': ('created', 'updated'),
+            'classes': ('collapse',),
         }),
         ('Características técnicas', {
             'fields': (
@@ -59,7 +59,8 @@ class ProductAdmin(ModelAdmin):
                 'inteligencia_artificial',
                 'latencia_aproximada',
                 'usuarios_simultaneos',
-            )
+            ),
+            'classes': ('collapse',),
         }),
         ('Costos de desarrollo e implementación', {
             'fields': (
@@ -73,7 +74,8 @@ class ProductAdmin(ModelAdmin):
                 'total',
                 'iva',
                 'total_iva',
-            )
+            ),
+            'classes': ('collapse',),
         }),
         ('Costos de nube', {
             'fields': (
@@ -84,7 +86,8 @@ class ProductAdmin(ModelAdmin):
                 'margen_sq_nube',
                 'total_nube',
                 'total_nube_iva',
-            )
+            ),
+            'classes': ('collapse',),
         }),
         ('Costos de arquitectura', {
             'fields': (
@@ -94,10 +97,20 @@ class ProductAdmin(ModelAdmin):
                 'margen_sq_arch',
                 'total_arch',
                 'total_arch_iva',
-            )
+            ),
+            'classes': ('collapse',),
+        }),
+        ('Rentabilidad', {
+            'fields': (
+                'utilidad_bruta',
+                'valor_deducible_iva',
+                'inversion_marketing',
+                'utilidad_liquida',
+            ),
+            'classes': ('collapse',),
         }),
         ('Resumen de precios', {
             'fields': ('price',),
+            'classes': ('collapse',),
         }),
     )
-
