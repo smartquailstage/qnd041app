@@ -3,6 +3,8 @@ from django.conf import settings
 from djmoney.money import Money
 from saas_shop.models import Product
 from saas_coupons.models import Coupon
+from .forms import CartAddProductForm
+
 
 class Cart(object):
     def __init__(self, request):
@@ -21,22 +23,36 @@ class Cart(object):
                 self.coupon = None
 
     def __iter__(self):
-        product_ids = list(self.cart.keys())
+        product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
-        cart_copy = self.cart.copy()
 
+        cart = self.cart.copy()
         for product in products:
-            cart_copy[str(product.id)]['product'] = product
+            cart[str(product.id)]['product'] = product
 
-        for item in cart_copy.values():
-            amount_str = item.get('price', '0.00')
-            currency = item.get('currency', 'USD')
+        for item in cart.values():
             try:
-                price_amount = Decimal(amount_str)
-            except (InvalidOperation, TypeError, ValueError):
-                price_amount = Decimal('0.00')
-            item['price'] = Money(price_amount, currency)
+                price = item.get('price')
+                currency = item.get('currency', 'USD')
+
+                # Aseguramos que `price` sea un Decimal válido
+                if not isinstance(price, Decimal):
+                    price = Decimal(str(price))  # en caso esté como string
+
+                # Convertimos a objeto Money
+                item['price'] = Money(price, currency)
+
+            except (InvalidOperation, TypeError, ValueError) as e:
+                print(f"[ERROR] Invalid price in cart: {e}")
+                item['price'] = Money(Decimal('0.00'), 'USD')  # Fallback
+
             item['total_price'] = item['price'] * item['quantity']
+
+            item['update_quantity_form'] = CartAddProductForm(initial={
+                'quantity': item['quantity'],
+                'update': True
+            })
+
             yield item
 
     def __len__(self):
@@ -44,18 +60,16 @@ class Cart(object):
 
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id)
-        # DEBUG: para verificar
-        print(f"[DEBUG] Adding product: {product}, product.price: {product.price}")
 
         # Aseguramos obtener un Money válido con valor y moneda
         price_money = product.price or Money(Decimal('0.00'), 'USD')
-        amount = price_money.amount if price_money and price_money.amount is not None else Decimal('0.00')
-        currency = price_money.currency.code if price_money and price_money.currency else 'USD'
+        amount = price_money.amount if price_money.amount is not None else Decimal('0.00')
+        currency = price_money.currency.code if price_money.currency else 'USD'
 
         if product_id not in self.cart:
             self.cart[product_id] = {
                 'quantity': 0,
-                'price': str(amount),
+                'price': str(amount),  # Guardamos como string porque el session no soporta Decimal/Money directamente
                 'currency': currency,
             }
 
@@ -83,12 +97,8 @@ class Cart(object):
 
     def get_total_price(self):
         total = Money(Decimal('0.00'), 'USD')
-        for item in self.cart.values():
-            try:
-                price = Money(Decimal(item.get('price', '0.00')), item.get('currency', 'USD'))
-            except (InvalidOperation, TypeError, ValueError):
-                price = Money(Decimal('0.00'), 'USD')
-            total += price * item['quantity']
+        for item in self:
+            total += item['price'] * item['quantity']
         return total
 
     def get_discount(self):

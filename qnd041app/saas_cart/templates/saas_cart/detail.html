@@ -37,18 +37,28 @@
               </form>
             </td>
             <td><a href="{% url "saas_cart:cart_remove" product.id %}">Remove</a></td>
-            <td class="num">${{ item.price }}</td>
-            <td class="num">${{ item.total_price }}</td>
+            
+            {# ✅ Mostrar solo el monto y la moneda por separado #}
+            <td class="num">
+              {{ item.price.amount|floatformat:2 }} {{ item.price.currency }}
+            </td>
+            <td class="num">
+              {{ item.total_price.amount|floatformat:2 }} {{ item.total_price.currency }}
+            </td>
           </tr>
         {% endwith %}
       {% endfor %}
+
       <tr class="total">
         <td>Total</td>
         <td colspan="4"></td>
-        <td class="num">${{ cart.get_total_price }}</td>
+        <td class="num">
+          {{ cart.get_total_price.amount|floatformat:2 }} {{ cart.get_total_price.currency }}
+        </td>
       </tr>
     </tbody>
   </table>
+
   <p class="text-right">
     <a href="{% url "saas_shop:product_list" %}" class="button light">Continue shopping</a>
     <a href="{% url "saas_orders:order_create" %}" class="button">

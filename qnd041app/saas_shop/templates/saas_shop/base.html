@@ -26,23 +26,27 @@
       </ul>
     </div>
   </div>
-  <div id="subheader">
-    <div class="cart">
-      {% with total_items=cart|length %}
-          {% if cart|length > 0 %}
+<div id="subheader">
+  <div class="cart">
+    {% with total_items=cart|length %}
+      {% if total_items > 0 %}
+        {% with total_price_obj=cart.get_total_price %}
+          {% with amount=total_price_obj.amount currency=total_price_obj.currency %}
             {% trans "Your cart" %}:
             <a href="{% url "saas_cart:cart_detail" %}">
-              {% blocktrans with total_items_plural=total_items|pluralize  total_price=cart.get_total_price %}
-                {{ total_items }} item{{ total_items_plural }},
-                ${{ total_price }}
+              {% blocktrans with total_items_plural=total_items|pluralize amount=amount currency=currency %}
+                {{ total_items }} item{{ total_items_plural }}, {{ amount }} {{ currency }}
               {% endblocktrans %}
             </a>
-          {% else %}
-            {% trans "Your cart is empty." %}
-          {% endif %}
+          {% endwith %}
         {% endwith %}
-    </div>
+      {% else %}
+        {% trans "Your cart is empty." %}
+      {% endif %}
+    {% endwith %}
   </div>
+</div>
+
   <div id="content">
     {% block content %}
     {% endblock %}
