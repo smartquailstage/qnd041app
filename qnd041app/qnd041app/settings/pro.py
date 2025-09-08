@@ -183,7 +183,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 # Configuración de almacenamiento
 # Carpetas de static y media dentro del bucket
-AWS_LOCATION = os.environ.get("AWS_LOCATION", "qnd041app")  # default = qn041app
+AWS_LOCATION = os.environ.get("AWS_LOCATION")  # default = qn041app
 
 # Asegúrate de que la URL de los archivos estáticos esté correcta
 STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
