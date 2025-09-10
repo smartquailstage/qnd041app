@@ -5,12 +5,12 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{% static 'assets/images/login_bg/sello1_white.png' %}" class="logo-icon"  width="50px" alt="logo icon">
+            <img src="{% static 'assets/images/estampasq.png' %}" class="logo-icon"  width="50px" alt="logo icon">
         </div>
         <div>
             <h4 class="logo-text">
                 <div>
-                    <img src="{% static 'assets/images/login_bg/SQW.png' %}"  width="195px" alt="logo icon">
+                    <img src="{% static 'assets/images/logosqF.png' %}"  width="195px" alt="logo icon">
                 </div>
             </h4>
         </div>
@@ -20,7 +20,7 @@
 
                     
         
-        <li class="menu-label">SOFTWARE AS SERVICE (SaaS) </li>
+      <a href="{% url 'saas_shop:product_list'  %}"><li class="menu-label">SOFTWARE AS SERVICE (SaaS) </li></a>
 
 {% for c in categories %}
    {% if c.slug == "smartbusinessanalytics" %}
@@ -28,6 +28,54 @@
       <a href="javascript:;" class="has-arrow" aria-expanded="false">
         <div class="parent-icon">
           <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinessmedia" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="brush-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinesslaw" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="finger-print-outline"></ion-icon>
         </div>
         <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
       </a>

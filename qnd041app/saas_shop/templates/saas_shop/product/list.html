@@ -7,6 +7,213 @@
 {% endblock %}
 
 {% block content %}
+
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+          <!--start breadcrumb-->
+          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Software As Services</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                 Computación en la nube, Big Data, Inteligencia Artifical al alcance de tu organización
+                </ol>
+              </nav>
+            </div>
+            <div class="ms-auto">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary">Settings</button>
+                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end breadcrumb-->
+
+          <div class="demo-seprater">
+            <p class="mb-0" style="color: black;">Transforma tus procesos financieros y contables con SmartBusinessAnalytics.
+Expertos en TIC aplicadas para impulsar la eficiencia y precisión de tu negocio.</p>
+            <div class="my-3 border-bottom"></div>
+          </div>
+
+ 
+<div class="card">
+  <div class="card-body p-0">
+    <h5 class="mb-4 ps-3 pt-3">
+      Smart Business Analytics
+    </h5>
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessanalytics" %}
+        {% if c.products.all %}
+        <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <!-- Imagen de fondo -->
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <!-- Overlay de información -->
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">
+                    {% trans "View Details" %}
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+
+          <!-- Botones del carrusel -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+
+          <div class="demo-seprater">
+            <h6 class="mb-0 text-uppercase">SmartBusinessMedia</h6>
+            <div class="my-3 border-bottom"></div>
+          </div>
+
+    <div class="card">
+  <div class="card-body p-0">
+    <h5 class="mb-4 ps-3 pt-3">
+      Smart Business Media
+    </h5>
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessmedia" %}
+        {% if c.products.all %}
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <!-- Imagen de fondo -->
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <!-- Overlay de información -->
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">
+                    {% trans "View Details" %}
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+
+          <!-- Botones del carrusel -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+                <div class="demo-seprater">
+            <h6 class="mb-0 text-uppercase">SmartBusinessLaw</h6>
+            <div class="my-3 border-bottom"></div>
+          </div>
+
+    <div class="card">
+  <div class="card-body p-0">
+    <h5 class="mb-4 ps-3 pt-3">
+      Smart Business Law
+    </h5>
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinesslaw" %}
+        {% if c.products.all %}
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <!-- Imagen de fondo -->
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <!-- Overlay de información -->
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">
+                    {% trans "View Details" %}
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+
+          <!-- Botones del carrusel -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>  
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+          </div>
+          <!-- end page content-->
+</div>
+
+{% endblock %}
+
+
+
   <div id="sidebar">
     <h3>{% trans "Categories" %}</h3>
     <ul>
@@ -32,4 +239,5 @@
       </div>
     {% endfor %}
   </div>
-{% endblock %}
+
+

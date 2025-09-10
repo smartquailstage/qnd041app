@@ -90,22 +90,22 @@ ion-icon {
 /* Sidebar */
 
 .sidebar-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100%;
-    background-color: #b5181a;
-    background-clip: padding-box;
-    border-right: 1px solid #b5181a;
-    transition: all .2s;
-    z-index: 16;
-    box-shadow: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background-color: #f8fafb;
+  background-clip: padding-box;
+  border-right: 1px solid #f8fafb;
+  transition: all .2s;
+  z-index: 16;
+  box-shadow: none;
 }
 
 
 .sidebar-wrapper .sidebar-header {
-width: 260px;
+  width: 260px;
   height: 42px;
   display: flex;
   align-items: center;
@@ -114,7 +114,7 @@ width: 260px;
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color: #b5181a;
+  background-color: #f2f2f2;
   border-right: 0px solid #e2e3e4;
   border-bottom: 1px solid #f8fafb;
   transition: all .2s;
@@ -143,11 +143,11 @@ width: 260px;
     border-radius: 50%;
     font-size: 22px;
     cursor: pointer;
-    color: #fff;
+    color: #df0b0b;
 }
 
 .toggle-icon:hover {
-    background-color: #df0b0b;
+    background-color: #b9b7b7;
 }
 
 .sidebar-wrapper ul {
@@ -200,7 +200,7 @@ width: 260px;
 	justify-content: left;
 	padding: 6px 10px;
 	font-size: 16px;
-	color: #f9eaea;
+	color: #2b2929;
 	outline-width: 0;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -232,9 +232,9 @@ width: 260px;
 }
 
 .sidebar-wrapper .metismenu ul {
-	background: rgb(152 7 7);
-    border: 0px solid #f4ebf8;
-    border-radius: 3%;
+  background: rgb(223, 216, 216);
+  border: 0px solid #f8fafb;
+  border-radius: 3%;
 }
 
 .sidebar-wrapper .metismenu ul ul a {
@@ -251,7 +251,7 @@ width: 260px;
 .sidebar-wrapper .metismenu a:hover {
     color: #fdfafa;
     text-decoration: none;
-    background-color: rgb(181 24 26);
+    background-color: rgb(136, 133, 133);
 ;
 }
 
@@ -415,7 +415,7 @@ width: 260px;
 }
 
 .top-header .navbar .top-navbar-right .nav-item:hover {
-    background-color: #e40707;
+    background-color: #939393;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
@@ -709,10 +709,9 @@ width: 260px;
 
 
 .breadcrumb-title {
-    font-size: 20px;
-    border-right: 1.5px solid #ced3da;
-    color: #303f86;
-	
+  font-size: 20px;
+  border-right: 1.5px solid #ced3da;
+  color: #474748;
 }
 
 .page-breadcrumb .breadcrumb li.breadcrumb-item {

@@ -60,7 +60,7 @@ def register(request):
             new_user.save()
 
             # Crear perfil
-            Profile.objects.create(user=new_user)
+           # Profile.objects.create(user=new_user)
 
             # Generar token y UID
             token = default_token_generator.make_token(new_user)

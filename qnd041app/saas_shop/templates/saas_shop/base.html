@@ -1,55 +1,125 @@
-{% load i18n %}
+{% load widget_tweaks %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>{% block title %}{% trans "My shop" %}{% endblock %}</title>
-  <link href="{% static "css/base.css" %}" rel="stylesheet">
-</head>
-<body>
-  <div id="header">
-    <a href="/" class="logo">{% trans "My shop" %}</a>
-    {% get_current_language as LANGUAGE_CODE %}
-    {% get_available_languages as LANGUAGES %}
-    {% get_language_info_list for LANGUAGES as languages %}
-    <div class="languages">
-      <p>{% trans "Language" %}:</p>
-      <ul class="languages">
-        {% for language in languages %}
-          <li>
-            <a href="/{{ language.code }}/" {% if language.code == LANGUAGE_CODE %} class="selected"{% endif %}>
-              {{ language.name_local }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-<div id="subheader">
-  <div class="cart">
-    {% with total_items=cart|length %}
-      {% if total_items > 0 %}
-        {% with total_price_obj=cart.get_total_price %}
-          {% with amount=total_price_obj.amount currency=total_price_obj.currency %}
-            {% trans "Your cart" %}:
-            <a href="{% url "saas_cart:cart_detail" %}">
-              {% blocktrans with total_items_plural=total_items|pluralize amount=amount currency=currency %}
-                {{ total_items }} item{{ total_items_plural }}, {{ amount }} {{ currency }}
-              {% endblocktrans %}
-            </a>
-          {% endwith %}
-        {% endwith %}
-      {% else %}
-        {% trans "Your cart is empty." %}
-      {% endif %}
-    {% endwith %}
-  </div>
-</div>
+{% load bootstrap4 %}
 
-  <div id="content">
-    {% block content %}
-    {% endblock %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- loader-->
+  <link href="{% static 'assets/css/pace.min.css' %}" rel="stylesheet" />
+  <script src="{% static 'assets/js/pace.min.js' %}"></script>
+
+  <!--plugins-->
+  <link href="{% static 'assets/plugins/simplebar/css/simplebar.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/metismenu/css/metisMenu.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/bs-stepper/css/bs-stepper.css' %}" rel="stylesheet" />
+
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.time.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/plugins/datetimepicker/css/classic.date.css' %}" rel="stylesheet" />
+
+
+  <!-- CSS Files -->
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/bootstrap-extended.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!--Theme Styles-->
+  <link href="{% static 'assets/css/dark-theme.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/semi-dark.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/header-colors.css' %}" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+
+  <title>Smartquail - Login </title>
+
+</head>
+
+<body>
+
+   
+  <!--start wrapper-->
+  <div class="wrapper">
+
+
+    {% include 'saas_shop/sidebar.html' %} 
+    {% include 'usuarios/header.html' %} 
+
+  
+    
+
+
+{% block content %}
+{% endblock %}
+
+
+    <!--start footer-->
+
+
+    
+    <!--Start Back To Top Button-->
+    <a href="javaScript:;" class="back-to-top">
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </a>
+    <!--End Back To Top Button-->
+
+    <!--start switcher-->
+   
+    <!--end switcher-->
+
+
+    <!--start overlay-->
+    <div class="overlay nav-toggle-icon"></div>
+    <!--end overlay-->
+
   </div>
+
+  
+  <!--end wrapper-->
+  {% bootstrap_javascript jquery='full' %}
+  <script src="{% static 'assets/plugins/datetimepicker/js/legacy.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.time.js' %}"></script>
+  <script src="{% static 'assets/plugins/datetimepicker/js/picker.date.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js' %}"></script>
+  <script src="{% static 'assets/js/form-date-time-pickes.js' %}"></script>
+
+
+  <!-- JS Files-->
+  <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/simplebar/js/simplebar.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/metismenu/js/metisMenu.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <!--plugins-->
+  <script src="{% static 'assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
+  <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/easyPieChart/jquery.easypiechart.js' %}"></script>
+  <script src="{% static 'assets/plugins/chartjs/chart.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bs-stepper/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/index.js' %}"></script>
+  <!-- Main JS-->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+
+
+
+
+
+
+
 </body>
+
 </html>

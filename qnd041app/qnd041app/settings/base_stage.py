@@ -97,9 +97,9 @@ INSTALLED_APPS = [
     'wagtail.admin',
      
     'wagtail',
-    'cart',
-    'orders',
-    'shop',
+   # 'cart',
+   # 'orders',
+   # 'shop',
     
 
   #  "wagtail.search",
@@ -147,8 +147,8 @@ INSTALLED_APPS = [
 
              # Apps propias del proyecto
     "usuarios",
-    "SQOrders",
-    "SQShop",
+    #"SQOrders",
+    #"SQShop",
    
    
     "serviceapp",
@@ -156,7 +156,7 @@ INSTALLED_APPS = [
 
     # E-commerce apps
     "cloudcalc",
-    "coupons",
+    #"coupons",
     #SAAS
     'saas_shop',
     'saas_orders',

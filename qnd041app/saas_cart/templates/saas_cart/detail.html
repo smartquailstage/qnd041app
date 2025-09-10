@@ -7,6 +7,9 @@
 
 {% block content %}
   <h1>Your shopping cart</h1>
+
+ 
+  
   <table class="cart">
     <thead>
       <tr>
@@ -24,7 +27,7 @@
           <tr>
             <td>
               <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.name }}">
               </a>
             </td>
             <td>{{ product.name }}</td>
@@ -36,9 +39,9 @@
                 {% csrf_token %}
               </form>
             </td>
-            <td><a href="{% url "saas_cart:cart_remove" product.id %}">Remove</a></td>
-            
-            {# ✅ Mostrar solo el monto y la moneda por separado #}
+            <td>
+              <a href="{% url "saas_cart:cart_remove" product.id %}">Remove</a>
+            </td>
             <td class="num">
               {{ item.price.amount|floatformat:2 }} {{ item.price.currency }}
             </td>
@@ -50,19 +53,36 @@
       {% endfor %}
 
       <tr class="total">
-        <td>Total</td>
+        <td><strong>Total:</strong></td>
         <td colspan="4"></td>
         <td class="num">
-          {{ cart.get_total_price.amount|floatformat:2 }} {{ cart.get_total_price.currency }}
+          {{ total.amount|floatformat:2 }} {{ total.currency }}
         </td>
       </tr>
+
+      {% if discount.amount > 0 %}
+        <tr class="discount">
+          <td><strong>Discount:</strong></td>
+          <td colspan="4"></td>
+          <td class="num">
+            -{{ discount.amount|floatformat:2 }} {{ discount.currency }}
+          </td>
+        </tr>
+        <tr class="total_after_discount">
+          <td><strong>Total after discount:</strong></td>
+          <td colspan="4"></td>
+          <td class="num">
+            {{ total_after_discount.amount|floatformat:2 }} {{ total_after_discount.currency }}
+          </td>
+        </tr>
+      {% endif %}
     </tbody>
   </table>
 
   <p class="text-right">
     <a href="{% url "saas_shop:product_list" %}" class="button light">Continue shopping</a>
-    <a href="{% url "saas_orders:order_create" %}" class="button">
-      Checkout
-    </a>
+    <a href="{% url "saas_orders:order_create" %}" class="button">Checkout</a>
   </p>
+
+ 
 {% endblock %}

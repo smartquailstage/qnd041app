@@ -3,7 +3,7 @@ from saas_shop.models import Product
 from decimal import Decimal
 from django.core.validators import MinValueValidator, \
                                    MaxValueValidator
-from coupons.models import Coupon
+from saas_coupons.models import Coupon
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User, Group
 from django.conf import settings

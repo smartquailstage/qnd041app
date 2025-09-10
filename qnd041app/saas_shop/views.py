@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from saas_shop.models import Category, Product
+from .models import Category, Product
 from saas_cart.forms import CartAddProductForm
 from .recommender import Recommender
 from django.contrib.auth.decorators import login_required
