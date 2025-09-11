@@ -7,6 +7,570 @@
 {% endblock %}
 
 {% block content %}
+
+        <!-- start page content wrapper-->
+        <div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+          <!--start breadcrumb-->
+          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Software As Products </div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item"><a href="javascript:;"></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ product.category }}</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="ms-auto">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary">Settings</button>
+                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end breadcrumb-->
+             
+
+          <!--start product detail-->
+          <section class="shop-page">
+            <div class="shop-container">
+
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                   
+                  <div class="product-detail-card">
+                    <div class="product-detail-body">
+                      <div class="row g-0">
+                        <div class="col-12 col-lg-5">
+                          <div class="image-zoom-section">
+<div class="product-gallery owl-carousel owl-theme border rounded mb-3 p-3" data-slider-id="1">
+  {% if product.image %}
+    <div class="item">
+      <img src="{{ product.image.url }}" class="img-fluid" alt="Imagen 1 del producto">
+    </div>
+  {% endif %}
+  {% if product.image_2 %}
+    <div class="item">
+      <img src="{{ product.image_2.url }}" class="img-fluid" alt="Imagen 2 del producto">
+    </div>
+  {% endif %}
+  {% if product.image_3 %}
+    <div class="item">
+      <img src="{{ product.image_3.url }}" class="img-fluid" alt="Imagen 3 del producto">
+    </div>
+  {% endif %}
+  {% if not product.image and not product.image_2 and not product.image_3 %}
+    <div class="item">
+      <img src="{% static 'img/no_image.png' %}" class="img-fluid" alt="Imagen no disponible">
+    </div>
+  {% endif %}
+</div>
+
+<div class="owl-thumbs d-flex justify-content-center" data-slider-id="1">
+  {% if product.image %}
+    <button class="owl-thumb-item">
+      <img src="{{ product.image.url }}" class="img-thumbnail" alt="Miniatura 1 del producto">
+    </button>
+  {% endif %}
+  {% if product.image_2 %}
+    <button class="owl-thumb-item">
+      <img src="{{ product.image_2.url }}" class="img-thumbnail" alt="Miniatura 2 del producto">
+    </button>
+  {% endif %}
+  {% if product.image_3 %}
+    <button class="owl-thumb-item">
+      <img src="{{ product.image_3.url }}" class="img-thumbnail" alt="Miniatura 3 del producto">
+    </button>
+  {% endif %}
+  {% if not product.image and not product.image_2 and not product.image_3 %}
+    <button class="owl-thumb-item">
+      <img src="{% static 'img/no_image.png' %}" class="img-thumbnail" alt="Miniatura no disponible">
+    </button>
+  {% endif %}
+</div>
+
+                          </div>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                          <div class="product-info-section p-3">
+                            <h3 class="mt-3 mt-lg-0 mb-0">{{ product.name }}</h3>
+       
+                            <div class="d-flex align-items-center mt-3 gap-2">
+                              <h4 class="mb-0">${{ product.price }}</h4>
+                            </div>
+                            <div class="mt-3">
+                              <h6>Descripción:</h6>
+                              <p class="mb-0">{{ product.description|linebreaks }}</p>
+                            </div>
+                            <dl class="row mt-3">	
+                              <dt class="col-sm-3">Velocidad de Respuesta(Latencia)</dt> <dd class="col-sm-9">{{ product.latencia_aproximada}}</dd>	
+                              <dt class="col-sm-3">Número max de usuarios simultáneos</dt> <dd class="col-sm-9">{{ product.usuarios_simultaneos }}</dd>
+                            </dl>
+                            <div class="row row-cols-auto align-items-center mt-3">
+
+      <form action="{% url "saas_cart:cart_add" product.id %}" method="post">
+      {{ cart_product_form }}
+      {% csrf_token %}
+      <input type="submit" class="btn btn-primary btn-ecomm" value="{% trans "Add to cart" %}">
+    </form>
+                  
+                            </div>
+                            <!--end row-->
+                              <div class="d-flex gap-2 mt-3">
+                              <a href="{% url 'admin:index' %}"  class="btn btn-light btn-ecomm"><ion-icon name="browsers-outline"></ion-icon>Explorar Demo</a>
+                              </div>
+                            <hr/>
+                            <div class="product-sharing">
+                              <ul class="list-inline">
+                                <li class="list-inline-item "> <a href="javascript:;" class="bg-facebook"><i class='bx bxl-facebook'></i></a>
+                                </li>
+                                <li class="list-inline-item">	<a href="javascript:;" class="bg-linkedin"><i class='bx bxl-linkedin'></i></a>
+                                </li>
+                                <li class="list-inline-item">	<a href="javascript:;" class="bg-twitter"><i class='bx bxl-twitter'></i></a>
+                                </li>
+                                <li class="list-inline-item">	<a href="javascript:;" class="bg-gradient-purple"><i class='bx bxl-instagram'></i></a>
+                                </li>
+                                <li class="list-inline-item">	<a href="javascript:;" class="bg-google"><i class='bx bxl-google'></i></a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--end row-->
+                    </div>
+                  </div>
+
+
+                  <!--start product more info-->
+                  <div class="product-more-info mt-4">
+                    <ul class="nav nav-tabs mb-0" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="ecommerce-product-details.html#discription" role="tab" aria-selected="true">
+                          <div class="d-flex align-items-center">
+                            <div class="tab-title text-uppercase fw-500">Description</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="ecommerce-product-details.html#more-info" role="tab" aria-selected="false">
+                          <div class="d-flex align-items-center">
+                            <div class="tab-title text-uppercase fw-500">More Info</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="ecommerce-product-details.html#tags" role="tab" aria-selected="false">
+                          <div class="d-flex align-items-center">
+                            <div class="tab-title text-uppercase fw-500">Tags</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="ecommerce-product-details.html#reviews" role="tab" aria-selected="false">
+                          <div class="d-flex align-items-center">
+                            <div class="tab-title text-uppercase fw-500">(3) Reviews</div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                      <div class="tab-pane fade" id="discription" role="tabpanel">
+                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi.</p>
+                        <ul>
+                          <li>Not just for commute</li>
+                          <li>Branded tongue and cuff</li>
+                          <li>Super fast and amazing</li>
+                          <li>Lorem sed do eiusmod tempor</li>
+                        </ul>
+                        <p class="mb-1">Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone.</p>
+                        <p class="mb-1">Seitan aliquip quis cardigan american apparel, butcher voluptate nisi.</p>
+                      </div>
+                      <div class="tab-pane fade" id="more-info" role="tabpanel">
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+                      </div>
+                      <div class="tab-pane fade" id="tags" role="tabpanel">
+                        <div class="tags-box w-50">	<a href="javascript:;" class="tag-link">Cloths</a>
+                          <a href="javascript:;" class="tag-link">Electronis</a>
+                          <a href="javascript:;" class="tag-link">Furniture</a>
+                          <a href="javascript:;" class="tag-link">Sports</a>
+                          <a href="javascript:;" class="tag-link">Men Wear</a>
+                          <a href="javascript:;" class="tag-link">Women Wear</a>
+                          <a href="javascript:;" class="tag-link">Laptops</a>
+                          <a href="javascript:;" class="tag-link">Formal Shirts</a>
+                          <a href="javascript:;" class="tag-link">Topwear</a>
+                          <a href="javascript:;" class="tag-link">Headphones</a>
+                          <a href="javascript:;" class="tag-link">Bottom Wear</a>
+                          <a href="javascript:;" class="tag-link">Bags</a>
+                          <a href="javascript:;" class="tag-link">Sofa</a>
+                          <a href="javascript:;" class="tag-link">Shoes</a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade show active" id="reviews" role="tabpanel">
+                        <div class="row">
+                          <div class="col col-lg-8">
+                            <div class="product-review">
+                              <h5 class="mb-4">3 Reviews For The Product</h5>
+                              <div class="review-list">
+                                <div class="d-flex align-items-start">
+                                  <div class="review-user">
+                                    <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="" />
+                                  </div>
+                                  <div class="review-content ms-3">
+                                    <div class="rates cursor-pointer fs-6">	<i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <h6 class="mb-0">James Caviness</h6>
+                                      <p class="mb-0 ms-auto">February 16, 2021</p>
+                                    </div>
+                                    <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan</p>
+                                  </div>
+                                </div>
+                                <hr/>
+                                <div class="d-flex align-items-start">
+                                  <div class="review-user">
+                                    <img src="assets/images/avatars/02.png" width="65" height="65" class="rounded-circle" alt="" />
+                                  </div>
+                                  <div class="review-content ms-3">
+                                    <div class="rates cursor-pointer fs-6">	<i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <h6 class="mb-0">David Buckley</h6>
+                                      <p class="mb-0 ms-auto">February 22, 2021</p>
+                                    </div>
+                                    <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan</p>
+                                  </div>
+                                </div>
+                                <hr/>
+                                <div class="d-flex align-items-start">
+                                  <div class="review-user">
+                                    <img src="assets/images/avatars/03.png" width="65" height="65" class="rounded-circle" alt="" />
+                                  </div>
+                                  <div class="review-content ms-3">
+                                    <div class="rates cursor-pointer fs-6">	<i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <h6 class="mb-0">Peter Costanzo</h6>
+                                      <p class="mb-0 ms-auto">February 26, 2021</p>
+                                    </div>
+                                    <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid.</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col col-lg-4">
+                            <div class="add-review">
+                              <div class="form-body p-3 rounded border bg-light">
+                                <h5 class="mb-4">Write a Review</h5>
+                                <div class="mb-3">
+                                  <label class="form-label">Your Name</label>
+                                  <input type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">Your Email</label>
+                                  <input type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">Rating</label>
+                                  <select class="form-select">
+                                    <option selected>Choose Rating</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">Example textarea</label>
+                                  <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="d-grid">
+                                  <button type="button" class="btn btn-primary btn-ecomm">Submit a Review</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--end row-->
+                      </div>
+                    </div>
+                  </div>
+              <!--end product more info-->
+
+              <!--start similar products-->
+                      <div class="d-flex align-items-center mt-3">
+                        <h5 class="mb-0">Similar Products</h5>
+                        <div class="d-flex align-items-center gap-0 ms-auto">	<a href="javascript:;" class="owl_prev_item fs-2"><i class='bx bx-chevron-left'></i></a>
+                          <a href="javascript:;" class="owl_next_item fs-2"><i class='bx bx-chevron-right'></i></a>
+                        </div>
+                      </div>
+                      <hr/>
+                      <div class="product-grid">
+                        <div class="similar-products owl-carousel owl-theme">
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/01.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>5.0</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/02.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>5.0</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/03.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>4.9</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/04.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>5.0</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/05.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>3.9</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/06.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>5.0</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="item">
+                            <div class="card product-card">
+                              <a href="javascript:;" class="position-absolute end-0 top-0 m-3">
+									<div class="product-wishlist"> <i class="bx bx-heart"></i>
+									</div>
+								</a>
+                              <img src="assets/images/similar-products/07.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <div class="product-info">
+                                  <a href="javascript:;">
+                                    <p class="product-catergory font-13 mb-1">Catergory Name</p>
+                                  </a>
+                                  <a href="ecommerce-product-details.html">
+                                    <h6 class="product-name mb-2">Product Short Name</h6>
+                                  </a>
+                                  <div class="d-flex align-items-center">
+                                    <div class="mb-1 product-price"> <span class="me-1 text-decoration-line-through">$99.00</span>
+                                      <span class="fs-5">$49.00</span>
+                                    </div>
+                                    <div class="cursor-pointer ms-auto">	<span>5.0</span>  <i class="bx bxs-star text-warning"></i>
+                                    </div>
+                                  </div>
+                                  <div class="product-action mt-2">
+                                    <div class="d-grid gap-2">
+                                      <a href="javascript:;" class="btn btn-primary btn-ecomm"> <i class='bx bxs-cart-add'></i>Add to Cart</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                   
+                  <!--end similar products-->
+                  
+                </div>
+              </div>
+						
+					</div>
+				</section>
+				<!--end product detail-->
+
+
+
+          </div>
+          <!-- end page content-->
+         </div>
+         
+
+{% endblock %}
+
+
+        
   <div class="product-detail">
     <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
     <h1>{{ product.name }}</h1>
@@ -32,4 +596,3 @@
       </div>
     {% endif %}
   </div>
-{% endblock %}
