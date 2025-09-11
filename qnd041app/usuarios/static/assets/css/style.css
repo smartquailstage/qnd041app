@@ -1238,7 +1238,7 @@ ul.categories-list li {
 }
 .steps-light .step-item.active .step-count, .steps-light .step-item.active .step-progress {
 	color: #ffffff;
-    background-color: #923eb9;
+    background-color: #b50f15;
 }
 .step-item:first-child .step-progress {
 	border-radius: .125rem;

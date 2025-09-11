@@ -39,59 +39,108 @@
           <!--end breadcrumb-->
 
 
-          <div class="card radius-10">
-            <div class="card-body">
-                <h4>Where does it come from?</h4>
-                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur.</p>
-                <h4>Where can I get some?</h4>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
-                <h4>Why do we use it?</h4>
-                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
-            </div>
+          <!-- BLOQUE 1: Introducción SaaP -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionSaaP">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSaaP1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaaP1" aria-expanded="true" aria-controls="collapseSaaP1">
+            <ion-icon name="earth-outline"></ion-icon>   Software como Producto (SaaP)
+          </button>
+        </h2>
+        <div id="collapseSaaP1" class="accordion-collapse collapse show" aria-labelledby="headingSaaP1" data-bs-parent="#accordionSaaP">
+          <div class="accordion-body" style="text-align: justify;">
+            En un mundo digital cada vez más impulsado por suscripciones y servicios temporales, el modelo SaaP (Software como Producto) es la alternativa que necesitas para tomar el control total de tus soluciones tecnológicas...
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div class="demo-seprater">
-            <p class="mb-0" style="color: black;">Transforma tus procesos financieros y contables con SmartBusinessAnalytics.
-Expertos en TIC aplicadas para impulsar la eficiencia y precisión de tu negocio.</p>
-            <div class="my-3 border-bottom"></div>
+<!-- BLOQUE 2: Tokenización y Validación -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionToken">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingToken1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseToken1" aria-expanded="true" aria-controls="collapseToken1">
+           <ion-icon name="bulb-outline"></ion-icon>  Una idea es un activo tecnológico
+          </button>
+        </h2>
+        <div id="collapseToken1" class="accordion-collapse collapse show" aria-labelledby="headingToken1" data-bs-parent="#accordionToken">
+          <div class="accordion-body" style="text-align: justify;">
+            En SmartQuail, convertimos tus ideas en activos tecnológicos reales...
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
- 
+<!-- BLOQUE 3: Productos de SmartQuail -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionProductos">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingProd1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProd1" aria-expanded="true" aria-controls="collapseProd1">
+           <ion-icon name="construct-outline"></ion-icon>   I+D, +A y +AI - Innovación tecnológica para tu negocio
+          </button>
+        </h2>
+        <div id="collapseProd1" class="accordion-collapse collapse show" aria-labelledby="headingProd1" data-bs-parent="#accordionProductos">
+          <div class="accordion-body" style="text-align: justify;">
+            Con I+D transformamos tus procesos personalizados en soluciones tecnológicas desarrolladas bajo planificación estratégica...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 4: ERP SmartBusinessAnalytics -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionAnalytics">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingAnalytics">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnalytics" aria-expanded="true" aria-controls="collapseAnalytics">
+            SmartBusinessAnalytics – ERP para datos, métricas y Big Data
+          </button>
+        </h2>
+        <div id="collapseAnalytics" class="accordion-collapse collapse show" aria-labelledby="headingAnalytics" data-bs-parent="#accordionAnalytics">
+          <div class="accordion-body" style="text-align: justify;">
+            Nuestro ERP <strong>SmartBusinessAnalytics</strong> está desarrollado en código abierto...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Carrusel SmartBusinessAnalytics -->
 <div class="card">
   <div class="card-body p-0">
-    <h5 class="mb-4 ps-3 pt-3">
-      Smart Business Analytics
-    </h5>
+    <h5 class="mb-4 ps-3 pt-3">Smart Business Analytics</h5>
 
     {% for c in categories %}
       {% if c.slug == "smartbusinessanalytics" %}
         {% if c.products.all %}
         <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
-
           <div class="carousel-inner">
-
             {% for product in c.products.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <!-- Imagen de fondo -->
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                
-                <!-- Overlay de información -->
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
                   <h2>{{ product.name }}</h2>
                   <p class="mb-1">${{ product.price }}</p>
-                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm" style="position: relative; z-index: 10;">
-                    {% trans "View Details" %}
-                  </a>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
                 </div>
               </div>
             </div>
             {% endfor %}
-
           </div>
-
-          <!-- Botones del carrusel -->
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Previous" %}</span>
@@ -109,50 +158,53 @@ Expertos en TIC aplicadas para impulsar la eficiencia y precisión de tu negocio
   </div>
 </div>
 
-
-
-          <div class="demo-seprater">
-            <h6 class="mb-0 text-uppercase">SmartBusinessMedia</h6>
-            <div class="my-3 border-bottom"></div>
+<!-- BLOQUE 5: CRM SmartBusinessMedia -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionMedia">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingMedia">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedia" aria-expanded="true" aria-controls="collapseMedia">
+            SmartBusinessMedia – CRM para marketing digital y contenidos
+          </button>
+        </h2>
+        <div id="collapseMedia" class="accordion-collapse collapse show" aria-labelledby="headingMedia" data-bs-parent="#accordionMedia">
+          <div class="accordion-body" style="text-align: justify;">
+            <strong>SmartBusinessMedia</strong> es el CRM ideal para gestionar campañas, contenidos y estrategia digital...
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <div class="card">
+<!-- Carrusel SmartBusinessMedia -->
+<div class="card">
   <div class="card-body p-0">
-    <h5 class="mb-4 ps-3 pt-3">
-      Smart Business Media
-    </h5>
+    <h5 class="mb-4 ps-3 pt-3">Smart Business Media</h5>
 
     {% for c in categories %}
       {% if c.slug == "smartbusinessmedia" %}
         {% if c.products.all %}
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-
             {% for product in c.products.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <!-- Imagen de fondo -->
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                
-                <!-- Overlay de información -->
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
                   <h2>{{ product.name }}</h2>
                   <p class="mb-1">${{ product.price }}</p>
-                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">
-                    {% trans "View Details" %}
-                  </a>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
                 </div>
               </div>
             </div>
             {% endfor %}
-
           </div>
-
-          <!-- Botones del carrusel -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Previous" %}</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Next" %}</span>
           </button>
@@ -165,52 +217,57 @@ Expertos en TIC aplicadas para impulsar la eficiencia y precisión de tu negocio
   </div>
 </div>
 
-                <div class="demo-seprater">
-            <h6 class="mb-0 text-uppercase">SmartBusinessLaw</h6>
-            <div class="my-3 border-bottom"></div>
+<!-- BLOQUE 6: ERP SmartBusinessLaw -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionLaw">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingLaw">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLaw" aria-expanded="true" aria-controls="collapseLaw">
+            SmartBusinessLaw – Gestión Legal Inteligente
+          </button>
+        </h2>
+        <div id="collapseLaw" class="accordion-collapse collapse show" aria-labelledby="headingLaw" data-bs-parent="#accordionLaw">
+          <div class="accordion-body" style="text-align: justify;">
+            <strong>SmartBusinessLaw</strong> es nuestro ERP especializado en procesos legales...
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <div class="card">
+<!-- Carrusel SmartBusinessLaw -->
+<div class="card">
   <div class="card-body p-0">
-    <h5 class="mb-4 ps-3 pt-3">
-      Smart Business Law
-    </h5>
+    <h5 class="mb-4 ps-3 pt-3">Smart Business Law</h5>
 
     {% for c in categories %}
       {% if c.slug == "smartbusinesslaw" %}
         {% if c.products.all %}
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-
             {% for product in c.products.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <!-- Imagen de fondo -->
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                
-                <!-- Overlay de información -->
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
                   <h2>{{ product.name }}</h2>
                   <p class="mb-1">${{ product.price }}</p>
-                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">
-                    {% trans "View Details" %}
-                  </a>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
                 </div>
               </div>
             </div>
             {% endfor %}
-
           </div>
-
-          <!-- Botones del carrusel -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Previous" %}</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Next" %}</span>
           </button>
-        </div>  
+        </div>
         {% else %}
           <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
         {% endif %}
@@ -219,10 +276,6 @@ Expertos en TIC aplicadas para impulsar la eficiencia y precisión de tu negocio
   </div>
 </div>
 
-
-          </div>
-          <!-- end page content-->
-</div>
 
 {% endblock %}
 

@@ -1,8 +1,342 @@
-{% extends "shop/base.html" %}
+{% extends "saas_shop/base.html" %}
 
 {% block title %}Pay by credit card{% endblock %}
 
 {% block content %}
+
+
+
+        <!-- start page content wrapper-->
+        <div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+          <!--start breadcrumb-->
+          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">eCommerce</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item"><a href="javascript:;"><ion-icon name="home-outline"></ion-icon></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="ms-auto">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary">Settings</button>
+                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end breadcrumb-->
+
+
+          <!--start shop cart-->
+          <section class="shop-page">
+            <div class="shop-container">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+						<div class="shop-cart">
+							<div class="row">
+								<div class="col-12 col-xl-8">
+									<div class="checkout-details">
+										<div class="card border-0">
+											<div class="card-body">
+												<div class="steps steps-light">
+													<a class="step-item active" href="ecommerce-shop-cart.html">
+														<div class="step-progress"><span class="step-count">1</span>
+														</div>
+														<div class="step-label"><i class='bx bx-cart'></i>Cart</div>
+													</a>
+													<a class="step-item active current" href="ecommerce-checkout-details.html">
+														<div class="step-progress"><span class="step-count">2</span>
+														</div>
+														<div class="step-label"><i class='bx bx-user-circle'></i>Details</div>
+													</a>
+													<a class="step-item active" href="ecommerce-checkout-shipping.html">
+														<div class="step-progress"><span class="step-count">3</span>
+														</div>
+														<div class="step-label"><i class='bx bx-cube'></i>Shipping</div>
+													</a>
+													<a class="step-item active" href="ecommerce-checkout-payment.html">
+														<div class="step-progress"><span class="step-count">4</span>
+														</div>
+														<div class="step-label"><i class='bx bx-credit-card'></i>Payment</div>
+													</a>
+													<a class="step-item" href="ecommerce-checkout-review.html">
+														<div class="step-progress"><span class="step-count">5</span>
+														</div>
+														<div class="step-label"><i class='bx bx-check-circle'></i>Review</div>
+													</a>
+												</div>
+											</div>
+										</div>
+                    <div class="card">
+											<div class="card-header border-bottom">
+												<h2 class="h5">Choose Payment Method</h2>
+											</div>
+											<div class="card-body">
+												<ul class="nav nav-pills mb-3" role="tablist">
+													<li class="nav-item" role="presentation">
+														<a class="nav-link active" data-bs-toggle="pill" href="ecommerce-checkout-payment.html#credit-card" role="tab" aria-selected="true">
+															<div class="d-flex align-items-center">
+																<div class="tab-icon"><i class='bx bx-credit-card font-18 me-1'></i>
+																</div>
+																<div class="tab-title">Credit Card</div>
+															</div>
+														</a>
+													</li>
+													<li class="nav-item" role="presentation">
+														<a class="nav-link" data-bs-toggle="pill" href="ecommerce-checkout-payment.html#paypal-payment" role="tab" aria-selected="false">
+															<div class="d-flex align-items-center">
+																<div class="tab-icon"><i class='bx bxl-paypal font-18 me-1'></i>
+																</div>
+																<div class="tab-title">Paypal</div>
+															</div>
+														</a>
+													</li>
+													<li class="nav-item" role="presentation">
+														<a class="nav-link" data-bs-toggle="pill" href="ecommerce-checkout-payment.html#net-banking" role="tab" aria-selected="false">
+															<div class="d-flex align-items-center">
+																<div class="tab-icon"><i class='bx bx-mobile font-18 me-1'></i>
+																</div>
+																<div class="tab-title">Net Banking</div>
+															</div>
+														</a>
+													</li>
+												</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="credit-card" role="tabpanel">
+    <div class="p-3 border rounded">
+      <form id="payment-form" action="{% url 'saas_payment:process' %}" method="POST">
+        {% csrf_token %}
+        
+        <!-- Propietario de la tarjeta -->
+        <div class="mb-3">
+          <label class="form-label">Card Owner</label>
+          <input type="text" class="form-control" id="card-owner" placeholder="Card Owner name">
+        </div>
+
+        <!-- Número de tarjeta -->
+        <div class="mb-3">
+          <label class="form-label">Card number</label>
+          <div class="input-group payment-img">
+            <input type="text" class="form-control" id="card-number" placeholder="Valid Card number">
+            <span class="input-group-text"><img src="assets/images/icons/mastercard.png" width="35" alt=""></span>
+            <span class="input-group-text"><img src="assets/images/icons/visa.png" width="35" alt=""></span>
+            <span class="input-group-text"><img src="assets/images/icons/american-express.png" width="35" alt=""></span>
+          </div>
+        </div>
+
+        <!-- Fecha de expiración y CVV -->
+        <div class="row">
+          <div class="col-12 col-lg-8">
+            <div class="mb-3">
+              <label class="form-label">Expiration Date</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="exp-month" placeholder="MM">
+                <input type="text" class="form-control" id="exp-year" placeholder="YY">
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="mb-3">
+              <label class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cvv" placeholder="Three digit CVV number">
+            </div>
+          </div>
+        </div>
+
+        <!-- Token oculto -->
+        <input type="hidden" name="token" id="token">
+
+        <!-- Botón de confirmación -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="d-grid">
+              <input type="submit" value="Confirm Payment" class="btn btn-primary btn-ecomm">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+											</div>
+										</div>
+                    <div class="card">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="d-grid"><a href="javascript:;" class="btn btn-light btn-ecomm"><i class="bx bx-chevron-left"></i>Back to Shipping</a>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="d-grid"><a href="javascript:;" class="btn btn-white btn-ecomm">Review Your Order<i class="bx bx-chevron-right"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-xl-4">
+									<div class="order-summary">
+										<div class="card">
+											<div class="card-body">
+												<div class="card">
+													<div class="card-body">
+														<p class="fs-5">Apply Discount Code</p>
+														<div class="input-group">
+															<input type="text" class="form-control" placeholder="Enter discount code">
+															<button class="btn btn-primary btn-ecomm" type="button">Apply</button>
+														</div>
+													</div>
+												</div>
+												<div class="card">
+													<div class="card-body">
+														<p class="fs-5">Order summary</p>
+														<div class="my-3 border-top"></div>
+														<div class="d-flex align-items-center">
+															<a class="d-block flex-shrink-0" href="javascript:;">
+																<img src="assets/images/products/01.png" class="rounded" width="75" alt="Product">
+															</a>
+															<div class="ps-3">
+																<h6 class="mb-1">White Polo T-Shirt</h6>
+																<div class="widget-product-meta"><span class="me-2">$19.<small>00</small></span><span class="">x 1</span>
+																</div>
+															</div>
+														</div>
+														<div class="my-3 border-top"></div>
+														<div class="d-flex align-items-center">
+															<a class="d-block flex-shrink-0" href="javascript:;">
+																<img src="assets/images/products/17.png" class="rounded" width="75" alt="Product">
+															</a>
+															<div class="ps-3">
+																<h6 class="mb-1">Fancy Red Sneakers</h6>
+																<div class="widget-product-meta"><span class="me-2">$16.<small>00</small></span><span class="">x 2</span>
+																</div>
+															</div>
+														</div>
+														<div class="my-3 border-top"></div>
+														<div class="d-flex align-items-center">
+															<a class="d-block flex-shrink-0" href="javascript:;">
+																<img src="assets/images/products/04.png" class="rounded" width="75" alt="Product">
+															</a>
+															<div class="ps-3">
+																<h6 class="mb-1">Yellow Shine Blazer</h6>
+																<div class="widget-product-meta"><span class="me-2">$22.<small>00</small></span><span class="">x 1</span>
+																</div>
+															</div>
+														</div>
+														<div class="my-3 border-top"></div>
+														<div class="d-flex align-items-center">
+															<a class="d-block flex-shrink-0" href="javascript:;">
+																<img src="assets/images/products/09.png" class="rounded" width="75" alt="Product">
+															</a>
+															<div class="ps-3">
+																<h6 class="mb-1">Men Black Hat Cap</h6>
+																<div class="widget-product-meta"><span class="me-2">$14.<small>00</small></span><span class="">x 1</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card mb-0">
+													<div class="card-body">
+														<p class="mb-2">Subtotal: <span class="float-end">$198.00</span>
+														</p>
+														<p class="mb-2">Shipping: <span class="float-end">--</span>
+														</p>
+														<p class="mb-2">Taxes: <span class="float-end">$14.00</span>
+														</p>
+														<p class="mb-0">Discount: <span class="float-end">--</span>
+														</p>
+														<div class="my-3 border-top"></div>
+														<h5 class="mb-0">Order Total: <span class="float-end">$212.00</span></h5>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--end row-->
+						</div>
+					</div>
+        </div>
+      </div>
+				</section>
+				<!--end shop cart-->
+             
+
+          </div>
+          <!-- end page content-->
+         </div>
+
+
+{% endblock %}
+
+{% block script%}
+
+<script type="text/javascript">
+  // Creamos el objeto Kushki con la public key
+  const kushki = new Kushki('YOUR_PUBLIC_KEY');
+
+  // Obtenemos el formulario
+  const form = document.getElementById('payment-form');
+
+  // Cuando el formulario se envíe, evitamos que se envíe por defecto
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Creamos el objeto con la información de la tarjeta
+    const cardData = {
+      card_number: document.getElementById('card-number').value,
+      card_holder: document.getElementById('card-owner').value,
+      exp_month: document.getElementById('exp-month').value,
+      exp_year: document.getElementById('exp-year').value,
+      cvv: document.getElementById('cvv').value,
+    };
+
+    // Usamos el SDK de Kushki para crear un token
+    kushki.createToken(cardData).then(function(response) {
+      if (response.status === 'OK') {
+        // Si la respuesta es exitosa, añadimos el token al formulario
+        const tokenField = document.createElement('input');
+        tokenField.type = 'hidden';
+        tokenField.name = 'token';
+        tokenField.value = response.token;
+        form.appendChild(tokenField);
+        // Ahora podemos enviar el formulario
+        form.submit();
+      } else {
+        alert('Error: ' + response.error_message);
+      }
+    }).catch(function(error) {
+      console.error('Error:', error);
+      alert('Hubo un error al procesar el pago.');
+    });
+  });
+</script>
+
+
+{% endblock %}
+
+
+
+         
   <h1>Pay by credit card</h1>
   <form action="." id="payment" method="post">
 
@@ -72,4 +406,3 @@
       });
     });
   </script>
-{% endblock %}

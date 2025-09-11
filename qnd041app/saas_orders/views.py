@@ -25,10 +25,12 @@ def order_create(request):
     user = request.user
     profile = user.profile  # O `Profile.objects.get(user=user)`
     cart = Cart(request)
+
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
 
         if form.is_valid():
+            # Si el formulario es válido, procesar la orden
             order = form.save(commit=False)
             if cart.coupon:
                 order.coupon = cart.coupon
@@ -42,22 +44,34 @@ def order_create(request):
 
             for item in cart:
                 SaaSOrderItem.objects.create(order=order,
-                                         product=item['product'],
-                                         price=item['price'],
-                                         quantity=item['quantity'])
-            # clear the cart
+                                             product=item['product'],
+                                             price=item['price'],
+                                             quantity=item['quantity'])
+            
+            # Limpiar el carrito
             cart.clear()
-            # launch asynchronous task
+            
+            # Lanzar tarea asincrónica
             order_created.delay(order.id)
-            # set the order in the session
+            
+            # Guardar la orden en la sesión
             request.session['order_id'] = order.id
-            # redirect for payment
+            
+            # Redirigir al pago
             return redirect(reverse('saas_payment:process'))
+        else:
+            # Si el formulario no es válido, agregar un mensaje de error
+            print("Formulario no válido")
+            # Puedes agregar más detalles para depurar aquí
+            print(form.errors)
     else:
         form = OrderCreateForm()
+
+    # Aquí pasamos el objeto order al contexto
     return render(request,
                   'saas_orders/order/create.html',
                   {'cart': cart, 'form': form})
+
 
 
 @staff_member_required

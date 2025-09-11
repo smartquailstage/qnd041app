@@ -1,5 +1,6 @@
 {% extends "saas_shop/base.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}
   {% trans "Checkout" %}
@@ -56,27 +57,22 @@
 													<a class="step-item active" href="ecommerce-shop-cart.html">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
-														<div class="step-label"><i class='bx bx-cart'></i>Cart</div>
+														<div class="step-label"><i class='bx bx-cart'></i></div>
 													</a>
 													<a class="step-item active current" href="ecommerce-checkout-details.html">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i>Details</div>
-													</a>
-													<a class="step-item" href="ecommerce-checkout-shipping.html">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cube'></i>Shipping</div>
+														<div class="step-label"><i class='bx bx-user-circle'></i></div>
 													</a>
 													<a class="step-item" href="ecommerce-checkout-payment.html">
 														<div class="step-progress"><span class="step-count">4</span>
 														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i>Payment</div>
+														<div class="step-label"><i class='bx bx-credit-card'></i></div>
 													</a>
 													<a class="step-item" href="ecommerce-checkout-review.html">
 														<div class="step-progress"><span class="step-count">5</span>
 														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i>Review</div>
+														<div class="step-label"><i class='bx bx-check-circle'></i></div>
 													</a>
 												</div>
 											</div>
@@ -88,10 +84,8 @@
 														<img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
 													</div>
 													<div class="ms-3">
-														<h6 class="mb-0">Jhon Michle</h6>
-														<p class="mb-0">michle@example.com</p>
-													</div>
-													<div class="ms-auto">	<a href="javascript:;" class="btn btn-light btn-ecomm"><i class='bx bx-edit'></i> Edit Profile</a>
+														<h6 class="mb-0">{{ order.first_name  }} {{order.last_name }}</h6>
+														<p class="mb-0">{{ order.email }} </p>
 													</div>
 												</div>
                         <hr>
@@ -100,6 +94,7 @@
 													<div class="my-3 border-bottom"></div>
 <div class="form-body">
   <form action="." method="post" class="order-form row g-3">
+    
     {% csrf_token %}
     
     <!-- RUC -->
@@ -126,16 +121,6 @@
       {{ form.telefono }}
     </div>
 
-    <!-- Dirección de Envío (opcional, si lo deseas) -->
-    <div class="col-md-6">
-      <label class="form-label">Address 1</label>
-      <textarea class="form-control"></textarea>
-    </div>
-
-    <div class="col-md-6">
-      <label class="form-label">Address 2</label>
-      <textarea class="form-control"></textarea>
-    </div>
 
     <!-- Dirección de Facturación -->
     <div class="col-md-12">
@@ -167,86 +152,78 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-xl-4">
-									<div class="order-summary">
-										<div class="card">
-											<div class="card-body">
-												<div class="card">
-													<div class="card-body">
-														<p class="fs-5">Apply Discount Code</p>
-														<div class="input-group">
-															<input type="text" class="form-control" placeholder="Enter discount code">
-															<button class="btn btn-primary btn-ecomm" type="button">Apply</button>
-														</div>
-													</div>
-												</div>
-												<div class="card">
-													<div class="card-body">
-														<p class="fs-5">Order summary</p>
-														<div class="my-3 border-top"></div>
-														<div class="d-flex align-items-center">
-															<a class="d-block flex-shrink-0" href="javascript:;">
-																<img src="assets/images/products/01.png" class="rounded" width="75" alt="Product">
-															</a>
-															<div class="ps-3">
-																<h6 class="mb-1">White Polo T-Shirt</h6>
-																<div class="widget-product-meta"><span class="me-2">$19.<small>00</small></span><span class="">x 1</span>
-																</div>
-															</div>
-														</div>
-														<div class="my-3 border-top"></div>
-														<div class="d-flex align-items-center">
-															<a class="d-block flex-shrink-0" href="javascript:;">
-																<img src="assets/images/products/17.png" class="rounded" width="75" alt="Product">
-															</a>
-															<div class="ps-3">
-																<h6 class="mb-1">Fancy Red Sneakers</h6>
-																<div class="widget-product-meta"><span class="me-2">$16.<small>00</small></span><span class="">x 2</span>
-																</div>
-															</div>
-														</div>
-														<div class="my-3 border-top"></div>
-														<div class="d-flex align-items-center">
-															<a class="d-block flex-shrink-0" href="javascript:;">
-																<img src="assets/images/products/04.png" class="rounded" width="75" alt="Product">
-															</a>
-															<div class="ps-3">
-																<h6 class="mb-1">Yellow Shine Blazer</h6>
-																<div class="widget-product-meta"><span class="me-2">$22.<small>00</small></span><span class="">x 1</span>
-																</div>
-															</div>
-														</div>
-														<div class="my-3 border-top"></div>
-														<div class="d-flex align-items-center">
-															<a class="d-block flex-shrink-0" href="javascript:;">
-																<img src="assets/images/products/09.png" class="rounded" width="75" alt="Product">
-															</a>
-															<div class="ps-3">
-																<h6 class="mb-1">Men Black Hat Cap</h6>
-																<div class="widget-product-meta"><span class="me-2">$14.<small>00</small></span><span class="">x 1</span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="card mb-0">
-													<div class="card-body">
-														<p class="mb-2">Subtotal: <span class="float-end">$198.00</span>
-														</p>
-														<p class="mb-2">Shipping: <span class="float-end">--</span>
-														</p>
-														<p class="mb-2">Taxes: <span class="float-end">$14.00</span>
-														</p>
-														<p class="mb-0">Discount: <span class="float-end">--</span>
-														</p>
-														<div class="my-3 border-top"></div>
-														<h5 class="mb-0">Order Total: <span class="float-end">$212.00</span></h5>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+<div class="col-12 col-xl-4">
+  <div class="order-summary">
+    <div class="card">
+      <div class="card-body">
+        <!-- Aplicar código de descuento -->
+
+        <!-- Resumen de la orden -->
+     <div class="card">
+  <div class="card-body">
+    <p class="fs-5">Order summary</p>
+    <div class="my-3 border-top"></div>
+    
+    <!-- Mostrar cada producto en el carrito -->
+    <ul class="list-unstyled">
+      {% for item in cart %}
+        <li class="d-flex align-items-center">
+
+          <div class="ps-3">
+            <h6 class="mb-1">{{ item.product.name }}</h6>
+            <div class="widget-product-meta">
+              <span class="me-2">${{ item.price.amount|floatformat:"2" }}</span>
+              <span class="">x {{ item.quantity }}</span>
+            </div>
+          </div>
+        </li>
+        <div class="my-3 border-top"></div>
+      {% endfor %}
+    </ul>
+
+    <!-- Mostrar descuento si aplica -->
+    {% if cart.coupon %}
+      <div class="d-flex justify-content-between">
+        <span>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</span>
+        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
+      </div>
+      <div class="my-3 border-top"></div>
+    {% endif %}
+    
+    <!-- Totales -->
+    <div class="d-flex justify-content-between">
+      <span>Subtotal</span>
+      <span>${{ cart.get_subtotal|floatformat:"2" }}</span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span>Shipping</span>
+      <span>--</span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span>Taxes</span>
+      <span>${{ cart.get_taxes|floatformat:"2" }}</span>
+    </div>
+    {% if cart.coupon %}
+      <div class="d-flex justify-content-between">
+        <span>Discount</span>
+        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
+      </div>
+    {% endif %}
+    <div class="my-3 border-top"></div>
+    <div class="d-flex justify-content-between">
+      <h5 class="mb-0">Order Total</h5>
+      <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
 							</div>
 							<!--end row-->
 						</div>
