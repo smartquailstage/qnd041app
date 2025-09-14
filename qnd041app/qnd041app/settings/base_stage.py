@@ -84,7 +84,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
-    'citas_regulares',
+    #'citas_regulares',
     "core",
     "webapp",
     'wagtail.embeds',

@@ -20,7 +20,8 @@ wagtailgmaps
 wagtailmenus>=1.5.1
 wagtail-modeltranslation
 wagtail_modeladmin
-
+django-multiselectfield
+django-modeltranslation
 
 fontawesome
 
