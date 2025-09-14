@@ -67,4 +67,4 @@ jobs:
     - name: Run Tests with Django
       run: |
         # Ejecutar las pruebas de Django
-        python3 manage.py test --settings=qnd041app.settings.stage
+        python3 manage.py test --settings=qnd041app.settings.pro
