@@ -26,8 +26,8 @@ from unfold.sections import TableSection, TemplateSection
 from .sites import custom_admin_site
 from django.contrib.auth.admin import UserAdmin
 from unfold.sites import UnfoldAdminSite
-from schedule.models import Calendar, Event, Rule, Occurrence
-from schedule.admin import CalendarAdmin 
+#from schedule.models import Calendar, Event, Rule, Occurrence
+#from schedule.admin import CalendarAdmin 
 from django.utils.timezone import localtime
 from django.utils.timezone import make_aware
 from django import forms
