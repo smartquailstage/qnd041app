@@ -105,6 +105,7 @@ LOGGING = {
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
+ 
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -122,10 +123,10 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    
-
-
-
+    'multiselectfield',
+     
+    "core",
+    "webapp",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -134,7 +135,12 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
+     
     'wagtail',
+   # 'cart',
+   # 'orders',
+   # 'shop',
+    
 
   #  "wagtail.search",
   #  "wagtail.sites",
@@ -155,7 +161,7 @@ INSTALLED_APPS = [
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-    "parler",
+   
     "djmoney",
     "localflavor",
     "boto3",
@@ -177,20 +183,27 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
+   
 
              # Apps propias del proyecto
     "usuarios",
-    "core",
-    "webapp",
+    #"SQOrders",
+    #"SQShop",
+   
+   
     "serviceapp",
     #"citas_regulares",
 
     # E-commerce apps
     "cloudcalc",
-    "coupons",
-    "shop",
-    "orders",
-    "cart",
+    #"coupons",
+    #SAAS
+    'saas_shop',
+    'saas_orders',
+    'saas_cart',
+    'saas_coupons',
+    'saas_payment',
+
     #SmartBusinessANALYTICS
     "sbacart",
     "sbashop",
@@ -214,7 +227,7 @@ INSTALLED_APPS = [
     #"sbashop",
     #"sbaorders",
     "rosetta",
-    "taggit",
+    "taggit"
 ]
 
 
