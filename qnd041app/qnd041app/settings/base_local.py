@@ -87,6 +87,7 @@ SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')  # Cambia e
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
+ 
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -104,17 +105,10 @@ INSTALLED_APPS = [
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    
-
-         # Apps propias del proyecto
-    "cloudcalc",
-    "usuarios",
-    
-    
+    'multiselectfield',
+    #'citas_regulares',
     "core",
-    "serviceapp",
-    #"citas_regulares",
-
+    "webapp",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -123,7 +117,12 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
+     
     'wagtail',
+   # 'cart',
+   # 'orders',
+   # 'shop',
+    
 
   #  "wagtail.search",
   #  "wagtail.sites",
@@ -140,12 +139,11 @@ INSTALLED_APPS = [
     "wagtailgmaps",
     "wagtailmenus",
     # "wagtail_modeltranslation",  # Descomentar si se usa
-    "webapp",
 
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-    "parler",
+   
     "djmoney",
     "localflavor",
     "boto3",
@@ -167,14 +165,27 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
-    "rosetta",
-    "taggit",
+   
+
+             # Apps propias del proyecto
+    "usuarios",
+    #"SQOrders",
+    #"SQShop",
+   
+   
+    "serviceapp",
+    #"citas_regulares",
 
     # E-commerce apps
-    "coupons",
-    "shop",
-    "orders",
-    "cart",
+    "cloudcalc",
+    #"coupons",
+    #SAAS
+    'saas_shop',
+    'saas_orders',
+    'saas_cart',
+    'saas_coupons',
+    'saas_payment',
+
     #SmartBusinessANALYTICS
     "sbacart",
     "sbashop",
@@ -197,9 +208,9 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+    "rosetta",
+    "taggit"
 ]
-
-
 
 #LOGINGS REDIRECT
 
@@ -209,9 +220,12 @@ LOGOUT_URL = 'usuarios:logout'
 
 
 
+CART_SESSION_ID = 'cart'
 
+SAAS_CART_SESSION_ID = 'saas_cart'
 
 from usuarios.utils import  permission_callback,permission_callback_prospecion
+
 
 
 
@@ -277,7 +291,7 @@ UNFOLD = {
         {"icon": "people", "title": _("Administrativos"), "link": reverse_lazy("admin:usuarios_administrativeprofile_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
-        {"icon": "medical_services", "title": _("Servicios"), "link": reverse_lazy("admin:serviceapp_servicioterapeutico_changelist")},
+        
         
         {"icon": "map", "title": _("Sucursales"), "link": reverse_lazy("admin:usuarios_sucursal_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
@@ -476,6 +490,16 @@ UNFOLD = {
 
 
 
+
+
+#LOGINGS REDIRECT
+
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+
+AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 
 

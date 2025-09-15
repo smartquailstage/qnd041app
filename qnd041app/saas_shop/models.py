@@ -91,10 +91,10 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
 
-    software = models.CharField(choices=SOFTWARE_CHOICES, null=True, blank=True)
+    software = models.CharField(choices=SOFTWARE_CHOICES, null=True, blank=True,max_length=200)
     numero_procesos = models.CharField(max_length=5, choices=NUMERO_PROCESOS_CHOICES, default='5', null=True, blank=True)
-    automatizacion = models.CharField(choices=AUTOMATIZACION_CHOICES, null=True, blank=True)
-    inteligencia_artificial = models.CharField(choices=IA_CHOICES, null=True, blank=True)
+    automatizacion = models.CharField(choices=AUTOMATIZACION_CHOICES, null=True, blank=True,max_length=200)
+    inteligencia_artificial = models.CharField(choices=IA_CHOICES, null=True, blank=True,max_length=200)
     latencia_aproximada = models.CharField(max_length=7, choices=LATENCIA_CHOICES, null=True, blank=True)
     usuarios_simultaneos = models.CharField(max_length=10, choices=USUARIOS_SIMULTANEOS_CHOICES, null=True, blank=True)
 

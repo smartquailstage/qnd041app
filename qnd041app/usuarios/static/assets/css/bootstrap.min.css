@@ -208,7 +208,7 @@ hr {
 	margin-bottom: .5rem;
 	font-weight: 500;
 	line-height: 1.2;
-    color: #000;
+    color: #817d7d;
 	
 }
 
@@ -1347,7 +1347,7 @@ progress {
 	}
 	.col-xl-6 {
 		flex: 0 0 auto;
-		width: 50%
+		width: 20%
 	}
 	.col-xl-7 {
 		flex: 0 0 auto;
@@ -9017,7 +9017,7 @@ textarea.form-control-lg {
 		padding-left: 1rem!important
 	}
 	.px-md-4 {
-		padding-right: 1.5rem!important;
+		padding-right: 35.5rem !important;
 		padding-left: 1.5rem!important
 	}
 	.px-md-5 {

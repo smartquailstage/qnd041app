@@ -833,6 +833,8 @@ ion-icon {
     border: 1px solid #e6e6e6;
 }
 
+
+
 .theme-icons {
   background-color: #318760;
   color: #fff;
@@ -1318,15 +1320,20 @@ ul.categories-list li {
     cursor: pointer;
 }
 
+    /* Fondo blanco por defecto (móvil) */
 .login-bg-overlay {
+    background-image: url("../images/login_bg/fondo.png");
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-
+    z-index: -1; /* Para que no bloquee el contenido */
   }
+
+
+ 
+
 
 .social-login a {
     width: 50px;
@@ -1365,15 +1372,15 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("");
+    background-image: url("../images/login_bg/fondo.png");
     background-position: center;
     background-size: cover;
     width: 100%;
-    transform: skewX(-1.5deg);
+    transform: skewX(0.0deg);
 }
 
 .register-cover-img {
-    background-image: url("");
+    background-image: url("../img/BA-LOGOS/fondo_login.jpg");
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -1409,7 +1416,7 @@ ul.categories-list li {
 }
 
 .au-sign-in-basic {
-    background-image: url("../images/login_bg/fondoG.png");
+    background-image: url("../images/login_bg/fondo.png");;
     background-position: center;
     background-size: cover;
 }
