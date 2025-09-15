@@ -19,16 +19,6 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('rosetta/', include('rosetta.urls')),
 
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
-
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
-    path('i18n/', include('django.conf.urls.i18n')),  # Selector de idioma
 
     # Wagtail admin y documentos (no traducibles)
     re_path(r'^businessmedia/', include(wagtailadmin_urls), name='wagtail'),
@@ -44,6 +34,18 @@ urlpatterns += i18n_patterns(
     path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    path('i18n/', include('django.conf.urls.i18n')),  # Selector de idioma
+
 
 
     #path('cart/', include('cart.urls', namespace='cart')),
