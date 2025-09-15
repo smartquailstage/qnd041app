@@ -143,7 +143,7 @@ ion-icon {
     border-radius: 50%;
     font-size: 22px;
     cursor: pointer;
-    color: #fff;
+    color: #b50f15;
 }
 
 .toggle-icon:hover {
@@ -384,7 +384,7 @@ ion-icon {
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
     /* Gradiente en escala de verde con tres colores */
-    background: #b50f15;
+    background: #f8fafb;
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
@@ -456,11 +456,11 @@ ion-icon {
 }
 
 .top-header .navbar .top-navbar-right .nav-item:hover {
-    background-color: #939393;
+    background-color: #aeacac;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color:#fff;
+    color:#605d5d;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;
