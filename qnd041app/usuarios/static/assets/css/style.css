@@ -334,9 +334,9 @@ ion-icon {
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
-  background-color: #9e191b;
+  background-color: #605d5d;
   border-top: 0px solid #9e191b;
-  border-bottom: 14px solid #7b0000;
+  border-bottom: 14px solid #3e3d3d;
   padding: 10px 0;
   box-sizing: border-box;
   border-bottom-left-radius: 5px;
@@ -384,7 +384,7 @@ ion-icon {
     border-bottom: 1px solid rgba(233, 236, 239, 0);
     background-clip: border-box;
     /* Gradiente en escala de verde con tres colores */
-    background: #9e191b;
+    background: #605d5d;
     z-index: 5;
     transition: 0.3s all;
     box-shadow: none;
