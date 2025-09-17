@@ -1,4 +1,4 @@
-{% extends "saas_shop/base.html" %}
+{% extends "saas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
@@ -45,26 +45,7 @@
           </div>
           <!--end breadcrumb-->
 
-  <div class="card mb-4">
-  <div class="card-body">
 
-  <div class="ticker-container">
-    <div class="ticker" id="ticker">
-      <span> <ion-icon name="radio-outline"></ion-icon>   (on live) IT Business  Results: &nbsp;&nbsp;&nbsp;</span>
-      <span> 1.000 Users&nbsp;&nbsp;&nbsp;</span>
-      <span> 400  SaaP Sold &nbsp;&nbsp;&nbsp;</span>
-      <span>400  PaaP Sold &nbsp;&nbsp;&nbsp;</span>
-      <span> 300 IaaP  Sold &nbsp;&nbsp;&nbsp;</span>
-       <span> 300 Projects None  &nbsp;&nbsp;&nbsp;</span>
-      <span>120 Active Front End Developers&nbsp;&nbsp;&nbsp;</span>
-      <span>12 Active  Backend Developers&nbsp;&nbsp;&nbsp;</span>
-      <span>10 Active Content Creators&nbsp;&nbsp;&nbsp;</span>
-       <span>/Be Smart, Be a SmartQuail®&nbsp;&nbsp;&nbsp;</span>
-      <!-- Puedes duplicar el contenido si deseas que se vea continuo -->
-    </div>
-  </div>
-    </div>
-  </div>
           <!-- BLOQUE 1: Introducción SaaP -->
 <div class="card mb-4">
   <div class="card-body">
@@ -75,7 +56,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingSaaP1">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaaP1" aria-expanded="false" aria-controls="collapseSaaP1">
-             &nbsp;  IT Cloud Business Model (B-SaaP)
+             Modelo (B-SaaP)
           </button>
         </h2>
         <div id="collapseSaaP1" class="accordion-collapse collapse " aria-labelledby="headingSaaP1" data-bs-parent="#accordionSaaP">
@@ -83,25 +64,6 @@
            En un mercado saturado de soluciones estándar bajo modelos SaaS, en Smartquail ofrecemos una alternativa estratégica: desarrollamos software como producto, en código abierto y bajo un modelo co-propietario, pensado para brindar a las organizaciones mayor autonomía tecnológica. A diferencia del SaaS, donde el usuario accede a una plataforma cerrada, con licencias limitadas y sin control real sobre su evolución, nosotros trabajamos junto a nuestros clientes en la co-producción de tecnologías personalizadas, adaptadas a los procesos específicos de cada negocio.
 
 Este enfoque no solo permite al cliente apropiarse del conocimiento y el código, sino también escalar, modificar e integrar sus soluciones con total libertad, sin depender de terceros. En Smartquail creemos que la innovación nace desde adentro, por eso diseñamos herramientas tecnológicas que no se imponen, sino que se construyen en conjunto, respetando la lógica interna de cada organización. El resultado es un software que no se alquila: se transforma en un activo estratégico, escalable y sostenible en el tiempo.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- BLOQUE 2: Tokenización y Validación -->
-<div class="card mb-4">
-  <div class="card-body">
-    <div class="accordion" id="accordionToken">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingToken1">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseToken1" aria-expanded="false" aria-controls="collapseToken1">
-           <ion-icon name="bulb-outline"></ion-icon> &nbsp;  Una idea es un activo tecnológico
-          </button>
-        </h2>
-        <div id="collapseToken1" class="accordion-collapse collapse" aria-labelledby="headingToken1" data-bs-parent="#accordionToken">
-          <div class="accordion-body" style="text-align: justify;">
             Nuestra metodología permite que el conocimiento técnico no quede encapsulado ni atado a plataformas cerradas. Al contrario, se transfiere y se integra con el saber propio de la organización, potenciando la capacidad de innovación interna. Además, garantizamos la seguridad del desarrollo, tanto en términos técnicos como contractuales, asegurando que cada producto cumpla con estándares de calidad, buenas prácticas y protección de datos.
 
 Lo más importante: la propiedad intelectual del software pertenece al cliente. Esto significa que el negocio no solo accede a una herramienta funcional, sino que adquiere un recurso tecnológico propio, sostenible en el tiempo y alineado con su crecimiento. En lugar de pagar licencias perpetuas por soluciones impersonales, nuestros clientes invierten en tecnología que les pertenece, evoluciona con ellos y se adapta a su realidad.
@@ -112,6 +74,7 @@ Lo más importante: la propiedad intelectual del software pertenece al cliente. 
   </div>
 </div>
 
+
 <!-- BLOQUE 3: Productos de SmartQuail -->
 <div class="card mb-4">
   <div class="card-body">
@@ -119,7 +82,7 @@ Lo más importante: la propiedad intelectual del software pertenece al cliente. 
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingProd1">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProd1" aria-expanded="false" aria-controls="collapseProd1">
-           &nbsp; Innovación tecnológica [(I+D), (+A) , (+AI)] 
+        Investigación y desarollo (I+D), Automatización (+A) , Inteligencia Artificial (+AI)
           </button>
         </h2>
         <div id="collapseProd1" class="accordion-collapse collapse" aria-labelledby="headingProd1" data-bs-parent="#accordionProductos">
@@ -141,7 +104,7 @@ A medida que estos sistemas escalan, incorporan de forma orgánica capacidades a
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingAnalytics">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnalytics" aria-expanded="false" aria-controls="collapseAnalytics">
-            <ion-icon name="stats-chart-outline"></ion-icon>  &nbsp; SmartBusinessAnalytics – ERP para datos, métricas y Big Data
+          SmartBusinessAnalytics – ERP para datos, métricas y Big Data
           </button>
         </h2>
         <div id="collapseAnalytics" class="accordion-collapse collapse" aria-labelledby="headingAnalytics" data-bs-parent="#accordionAnalytics">
@@ -155,6 +118,10 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
   </div>
 </div>
 
+
+ 
+
+
 <!-- Carrusel SmartBusinessAnalytics -->
 <div class="card">
   <div class="card-body p-0">
@@ -165,17 +132,15 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
             <div class="carousel-inner">
               {% for product in c.products.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                  <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                    <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
-                      <h2>{{ product.name }}</h2>
-                      <p class="mb-1">${{ product.price }}</p>
-                      {% if product.get_absolute_url %}
-                        <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
-                      {% else %}
-                        <span class="text-warning">{% trans "No detail link available" %}</span>
-                      {% endif %}
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+                        <h2 class="text-white">{{ product.name }}</h2>
+                        <p class="mb-1 text-white">${{ product.price }}</p>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               {% endfor %}
             </div>

@@ -25,8 +25,10 @@ class Category(models.Model):
 
 class Product(models.Model):
     SOFTWARE_CHOICES = [
-        ('crm', 'SmartBusinessMedia - CRM'),
-        ('erp', 'SmartBusinessAnalytics - ERP'),
+        ('Baja', 'disponibilidad Baja'),
+        ('Mediana', 'disponibilidad Mediana'),
+        ('Alta', 'disponibilidad Alta'),
+        ('Muy Alta', 'disponibilidad Muy Alta'),
     ]
     LATENCIA_CHOICES = [
         ('500-800', 'Alta latencia (500–800 ms)'),
