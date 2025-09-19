@@ -78,6 +78,8 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
+
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE, null=True, blank=True)
     available = models.BooleanField(default=True)
     iva = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="IVA (%)", null=True, blank=True)
@@ -137,6 +139,36 @@ class Product(models.Model):
     valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     inversion_marketing = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+
+    def get_totals(self):
+        """
+        Calcula el subtotal (sin IVA), el valor del IVA y el total con IVA (price).
+        Asume que `self.price` ya incluye IVA.
+        """
+        if not self.price or not self.price.amount:
+            return {
+                'subtotal': Decimal('0.00'),
+                'iva_value': Decimal('0.00'),
+                'total_with_iva': Decimal('0.00')
+            }
+
+        # Convertimos IVA a decimal (por ejemplo 16% → 0.16)
+        iva_percentage = Decimal(self.iva or 0)
+        iva_factor = iva_percentage / Decimal('100')
+
+        # Subtotal = Precio total / (1 + IVA)
+        subtotal = self.price.amount / (1 + iva_factor)
+
+        # IVA = Precio total - Subtotal
+        iva_value = self.price.amount - subtotal
+
+        return {
+            'subtotal': subtotal.quantize(Decimal('0.01')),
+            'iva_value': iva_value.quantize(Decimal('0.01')),
+            'total_with_iva': self.price.amount.quantize(Decimal('0.01'))
+        }
+
 
 
     def _safe_money(self, val):
@@ -204,6 +236,9 @@ class Product(models.Model):
         # 7) Utilidad líquida = utilidad_bruta - inversion_marketing
         utilidad_liquida_val = total_margen - self._safe_money(self.inversion_marketing).amount
         self.utilidad_liquida = Money(utilidad_liquida_val, 'USD')
+
+        self.price_amount = self.price.amount if self.price else None
+
 
         super().save(*args, **kwargs)
 

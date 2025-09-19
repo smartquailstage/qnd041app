@@ -50,7 +50,7 @@
   <div class="dropdown-menu dropdown-menu-end">
     <div class="msg-header d-flex align-items-center">
       <p class="msg-header-title mb-0">
-       <ion-icon name="file-tray-full-outline"></ion-icon> Documentos del Perfil
+       <ion-icon name="ticket-outline"></ion-icon>Documentos del Perfil
       </p>
       <p class="msg-header-clear ms-auto mb-0 text-primary" style="cursor: pointer;">
         {{ upload_fields|length }} campos
@@ -96,49 +96,57 @@
 <li class="nav-item dropdown dropdown-large">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
     <div class="position-relative">
-      {% if mensajes_nuevos > 0 %}
-        <span class="notify-badge">{{ mensajes_nuevos }}</span>
+      {% if cart|length > 0 %}
+        <span class="notify-badge">{{ cart|length }}</span>
       {% endif %}
-       <ion-icon name="ticket-outline"></ion-icon>
+      <ion-icon name="cart-outline"></ion-icon>
     </div>
   </a>
 
   <div class="dropdown-menu dropdown-menu-end">
     <div class="msg-header d-flex align-items-center">
-      <p class="msg-header-title mb-0"><ion-icon name="notifications-outline"></ion-icon> Notificaciones</p>
-      <p class="msg-header-clear ms-auto mb-0 text-primary" style="cursor: pointer;">{{ mensajes_nuevos }} Nuevas, hace </p>
+      <p class="msg-header-title mb-0">
+        <ion-icon name="cart-outline"></ion-icon> Carrito de Compras
+      </p>
+      <p class="msg-header-clear ms-auto mb-0 text-primary">
+        {{ cart|length }} productos
+      </p>
     </div>
 
     <div class="header-notifications-list">
-      {% for mensaje in mensajes_recientes %}
-        <a class="dropdown-item" href="{% url 'usuarios:ver_mensaje' mensaje.id %}">
+      {% for item in cart %}
+        <a class="dropdown-item" href="{{ item.product.get_absolute_url }}">
           <div class="d-flex align-items-center">
-            <div class="notify text-primary">
-              <ion-icon name="mail-unread-outline"></ion-icon>
+            <div class="notify text-success">
+              <ion-icon name="cube-outline"></ion-icon>
             </div>
             <div class="flex-grow-1">
-              <h6 class="msg-name">
-                {{ mensaje.emisor.get_full_name }}
-                <span class="msg-time float-end">
-                  {{ mensaje.fecha_envio|timesince }} 
-                </span>
-              </h6>
-              <p class="msg-info">Asunto: {{ mensaje.asunto |truncatechars:50 }}</p>
+              <h6 class="msg-name">{{ item.product.name }}</h6>
+              <p class="msg-info">
+                Cantidad: {{ item.quantity }} &nbsp; — &nbsp;
+                Total: ${{ item.total_price }}
+              </p>
             </div>
           </div>
         </a>
       {% empty %}
         <div class="dropdown-item text-center text-muted small">
-          No hay mensajes recientes
+          Tu carrito está vacío
         </div>
       {% endfor %}
     </div>
 
-      <a href="{% url 'usuarios:inbox' %}">
-              <div class="text-center msg-footer"><ion-icon name="archive"></ion-icon> Bandeja de entrada</div>
+    <div class="text-center msg-footer">
+      <p class="mb-1">
+        <strong>Total:</strong> ${{ cart.get_total_price }}
+      </p>
+      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-primary btn-sm mt-1">
+        <ion-icon name="eye-outline"></ion-icon> Ver Carrito
       </a>
+    </div>
   </div>
 </li>
+
 
 <li class="nav-item dropdown dropdown-user-setting">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">

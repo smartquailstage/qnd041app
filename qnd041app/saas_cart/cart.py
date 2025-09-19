@@ -1,66 +1,55 @@
-import re
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 from django.conf import settings
-from djmoney.money import Money
 from saas_shop.models import Product
-from saas_coupons.models import Coupon
-from .forms import CartAddProductForm
+from saas_coupons.models import Coupon  # Asegúrate que este modelo exista y tenga atributo discount
 
 
-class Cart(object):
+class Cart:
     def __init__(self, request):
         self.session = request.session
-        cart = self.session.get(settings.SAAS_CART_SESSION_ID)
+        cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
-            cart = self.session[settings.SAAS_CART_SESSION_ID] = {}
+            cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
         self.coupon_id = self.session.get('coupon_id')
-        self.coupon = None
-        if self.coupon_id:
+        self._coupon = None
+
+    @property
+    def coupon(self):
+        if self._coupon is None and self.coupon_id:
             try:
-                self.coupon = Coupon.objects.get(id=self.coupon_id)
+                self._coupon = Coupon.objects.get(id=self.coupon_id)
             except Coupon.DoesNotExist:
-                self.coupon = None
+                self._coupon = None
+        return self._coupon
+
+    @coupon.setter
+    def coupon(self, value):
+        self._coupon = value
+        if value:
+            self.coupon_id = value.id
+        else:
+            self.coupon_id = None
 
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
+        product_map = {str(product.id): product for product in products}
 
-        cart = self.cart.copy()
-        for product in products:
-            cart[str(product.id)]['product'] = product
+        for product_id, item in self.cart.items():
+            price = Decimal(item['price'])
+            quantity = item['quantity']
+            total_price = price * quantity
 
-        for item in cart.values():
-            try:
-                price_str = item.get('price', '0.00')
-                currency = item.get('currency', 'USD')
+            yield {
+                'product': product_map.get(product_id),
+                'price': price,
+                'quantity': quantity,
+                'total_price': total_price,
+            }
 
-                # Extraer solo números, comas o puntos
-                match = re.search(r'[\d.,]+', str(price_str))
-                if match:
-                    normalized_price_str = match.group().replace(',', '.')
-                else:
-                    normalized_price_str = '0.00'
 
-                price = Decimal(normalized_price_str)
-                item['price'] = Money(price, currency)
-            except (InvalidOperation, TypeError, ValueError) as e:
-                print(f"[ERROR] Precio inválido en carrito: {price_str} ({e})")
-                item['price'] = Money(Decimal('0.00'), 'USD')
-
-            try:
-                item['total_price'] = item['price'] * item['quantity']
-            except Exception as e:
-                print(f"[ERROR] total_price error: {e}")
-                item['total_price'] = Money(Decimal('0.00'), item['price'].currency)
-
-            item['update_quantity_form'] = CartAddProductForm(initial={
-                'quantity': item['quantity'],
-                'update': True
-            })
-
-            yield item
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
@@ -68,37 +57,33 @@ class Cart(object):
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id)
 
-        # Validamos y convertimos correctamente el precio
-        try:
-            if isinstance(product.price, Money):
-                price_money = product.price
-            else:
-                # Si es un número o string, intentamos convertir
-                price_money = Money(Decimal(str(product.price)).quantize(Decimal('0.01')), 'USD')
-        except Exception as e:
-            print(f"[ERROR] product.price no válido para el producto {product_id}: {product.price} ({e})")
-            price_money = Money(Decimal('0.00'), 'USD')
+        # Usar price_amount, que es Decimal
+        price_decimal = product.price_amount
 
-        amount = price_money.amount
-        currency = price_money.currency.code
+        if price_decimal is None:
+            price_decimal = Decimal('0.00')
+
+        price_str = str(price_decimal)
 
         if product_id not in self.cart:
             self.cart[product_id] = {
                 'quantity': 0,
-                # Guardar sólo la parte numérica como string, con punto decimal
-                'price': f"{amount:.2f}",
-                'currency': currency,
+                'price': price_str,
             }
-
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
             self.cart[product_id]['quantity'] += quantity
 
-        print(f"[DEBUG] Producto agregado al carrito: {product_id}, cantidad: {self.cart[product_id]['quantity']}, precio: {amount} {currency}")
         self.save()
 
     def save(self):
+        # Guardar coupon_id en sesión para evitar serializar objetos
+        if self.coupon_id:
+            self.session['coupon_id'] = self.coupon_id
+        else:
+            self.session.pop('coupon_id', None)
+
         self.session.modified = True
 
     def remove(self, product):
@@ -108,29 +93,21 @@ class Cart(object):
             self.save()
 
     def clear(self):
-        if settings.SAAS_CART_SESSION_ID in self.session:
-            del self.session[settings.SAAS_CART_SESSION_ID]
+        if settings.CART_SESSION_ID in self.session:
+            del self.session[settings.CART_SESSION_ID]
         self.session.pop('coupon_id', None)
         self.save()
 
     def get_total_price(self):
-        total = Money(Decimal('0.00'), 'USD')
-        for item in self:
-            try:
-                total += item['price'] * item['quantity']
-            except Exception as e:
-                print(f"[ERROR] get_total_price error: {e}")
-        return total
+        return sum(
+            Decimal(item['price']) * item['quantity']
+            for item in self.cart.values()
+        )
 
     def get_discount(self):
-        total_price = self.get_total_price()
         if self.coupon:
-            try:
-                discount_amount = total_price.amount * (self.coupon.discount / Decimal('100'))
-                return Money(discount_amount, total_price.currency)
-            except Exception as e:
-                print(f"[ERROR] Error calculando descuento: {e}")
-        return Money(Decimal('0.00'), 'USD')
+            return (self.coupon.discount / Decimal('100')) * self.get_total_price()
+        return Decimal('0')
 
     def get_total_price_after_discount(self):
         return self.get_total_price() - self.get_discount()

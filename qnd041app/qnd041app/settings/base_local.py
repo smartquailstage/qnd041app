@@ -603,6 +603,7 @@ TEMPLATES = [
                 'usuarios.context_processors.profile_uploads_context',
                 'usuarios.context_processors.ultima_cita',
                 'usuarios.context_processors.ultima_tarea',
+                'saas_cart.context_processors.cart',
                 
             ],
         },

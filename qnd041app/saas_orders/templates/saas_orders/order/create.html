@@ -16,13 +16,13 @@
 
           <!--start breadcrumb-->
           <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">eCommerce</div>
+            <div class="breadcrumb-title pe-3">Software como Producto</div>
             <div class="ps-3">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item"><a href="javascript:;"><ion-icon name="home-outline"></ion-icon></a>
+                  <li class="breadcrumb-item"><a href="javascript:;"></a>
                   </li>
-                  <li class="breadcrumb-item active" aria-current="page">Checkout Details</li>
+                  <li class="breadcrumb-item active" aria-current="page">Detalle de Orden de Compra</li>
                 </ol>
               </nav>
             </div>
@@ -54,23 +54,23 @@
 										<div class="card border-0">
 											<div class="card-body">
 												<div class="steps steps-light">
-													<a class="step-item active" href="ecommerce-shop-cart.html">
+													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
 														<div class="step-label"><i class='bx bx-cart'></i></div>
 													</a>
-													<a class="step-item active current" href="ecommerce-checkout-details.html">
+													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
 														<div class="step-label"><i class='bx bx-user-circle'></i></div>
 													</a>
-													<a class="step-item" href="ecommerce-checkout-payment.html">
-														<div class="step-progress"><span class="step-count">4</span>
+													<a class="step-item" href="#">
+														<div class="step-progress"><span class="step-count">3</span>
 														</div>
 														<div class="step-label"><i class='bx bx-credit-card'></i></div>
 													</a>
-													<a class="step-item" href="ecommerce-checkout-review.html">
-														<div class="step-progress"><span class="step-count">5</span>
+													<a class="step-item" href="#">
+														<div class="step-progress"><span class="step-count">4</span>
 														</div>
 														<div class="step-label"><i class='bx bx-check-circle'></i></div>
 													</a>
@@ -90,7 +90,7 @@
 												</div>
                         <hr>
 												<div class="">
-													<h2 class="h5 mb-0">Shipping Address</h2>
+													<h2 class="h5 mb-0">Datos de Facturación</h2>
 													<div class="my-3 border-bottom"></div>
 <div class="form-body">
   <form action="." method="post" class="order-form row g-3">
@@ -99,43 +99,43 @@
     
     <!-- RUC -->
     <div class="col-md-6">
-      <label class="form-label" for="{{ form.ruc.id_for_label }}">RUC</label>
+      <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
       {{ form.ruc }}
     </div>
 
     <!-- Razon Social -->
     <div class="col-md-6">
-      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Razon Social</label>
+      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización,Negocio o Marca</label>
       {{ form.razon_social }}
     </div>
 
     <!-- Sector -->
     <div class="col-md-6">
-      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector</label>
+      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
       {{ form.sector }}
     </div>
 
     <!-- Teléfono -->
     <div class="col-md-6">
-      <label class="form-label" for="{{ form.telefono.id_for_label }}">Phone Number</label>
+      <label class="form-label" for="{{ form.telefono.id_for_label }}">Número de Contacto</label>
       {{ form.telefono }}
     </div>
 
 
     <!-- Dirección de Facturación -->
     <div class="col-md-12">
-      <h6 class="mb-0 h5">Billing Address</h6>
+      <h6 class="mb-0 h5">Términos y Condiciones de compra</h6>
       <div class="my-3 border-bottom"></div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-        <label class="form-check-label" for="gridCheck">Same as shipping address</label>
+        <label class="form-check-label" for="gridCheck">He leido y acepto lo terminos y condiciones</label>
       </div>
     </div>
 
     <!-- Botones de acción -->
     <div class="col-md-6">
       <div class="d-grid">
-        <a href="javascript:;" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
+        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
       </div>
     </div>
 
@@ -161,7 +161,7 @@
         <!-- Resumen de la orden -->
      <div class="card">
   <div class="card-body">
-    <p class="fs-5">Order summary</p>
+    <p class="fs-5">Detalle de Compra</p>
     <div class="my-3 border-top"></div>
     
     <!-- Mostrar cada producto en el carrito -->
@@ -171,9 +171,8 @@
 
           <div class="ps-3">
             <h6 class="mb-1">{{ item.product.name }}</h6>
+            <p>{{item.product.description }}</p>
             <div class="widget-product-meta">
-              <span class="me-2">${{ item.price.amount|floatformat:"2" }}</span>
-              <span class="">x {{ item.quantity }}</span>
             </div>
           </div>
         </li>
@@ -192,17 +191,10 @@
     
     <!-- Totales -->
     <div class="d-flex justify-content-between">
-      <span>Subtotal</span>
-      <span>${{ cart.get_subtotal|floatformat:"2" }}</span>
+      <span>Total</span>
+      <span>${{ cart.get_total_price|floatformat:"2" }}</span>
     </div>
-    <div class="d-flex justify-content-between">
-      <span>Shipping</span>
-      <span>--</span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <span>Taxes</span>
-      <span>${{ cart.get_taxes|floatformat:"2" }}</span>
-    </div>
+
     {% if cart.coupon %}
       <div class="d-flex justify-content-between">
         <span>Discount</span>
@@ -211,7 +203,7 @@
     {% endif %}
     <div class="my-3 border-top"></div>
     <div class="d-flex justify-content-between">
-      <h5 class="mb-0">Order Total</h5>
+      <h5 class="mb-0">Total a pagar</h5>
       <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
     </div>
   </div>
@@ -268,6 +260,6 @@
 
   <form action="." method="post" class="order-form">
     {{ form.as_p }}
-    <p><input type="submit" value="{% trans "Place order" %}"></p>
+    <p><input type="submit" value="{% trans "Realizar Orden" %}"></p>
     {% csrf_token %}
   </form>

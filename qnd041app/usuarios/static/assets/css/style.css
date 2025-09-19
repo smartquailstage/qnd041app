@@ -504,7 +504,7 @@ ion-icon {
   position: absolute;
   top: 0px;
   right: -8px;
-  color: #011e09;
+  color: #ffffff;
   font-size: 12px;
   width: 16px;
   height: 16px;
@@ -512,7 +512,7 @@ ion-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #eedf4b;
+  background-color: #9b0a0a;
   z-index: 1;
 }
 
