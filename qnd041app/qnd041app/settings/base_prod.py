@@ -294,11 +294,11 @@ def is_all(request):
 
 
 UNFOLD = {
-    "SITE_TITLE": "Sistema de Administración Terapéutica MEDDES® (I+D)+A",
+    "SITE_TITLE": "SmartBusinessAnalytics® + AI +A +I+D     Enterprises Resource Planning",
     "SITE_HEADER": "MEDDES",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",
-    "SITE_DESCRIPTION": "Sistema de Administración Terapéutica MEDDES® (I+D)+A",
+    "SITE_DESCRIPTION": "SmartBusinessAnalytics® (I+D)+A",
     "SITE_COPYRIGHT": "Copyright © 2025 SmartQuail S.A.S Todos los derechos reservados.",
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "SITE_DROPDOWN": [
@@ -307,7 +307,7 @@ UNFOLD = {
         {"icon": "people", "title": _("Administrativos"), "link": reverse_lazy("admin:usuarios_administrativeprofile_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
-        {"icon": "medical_services", "title": _("Servicios"), "link": reverse_lazy("admin:serviceapp_servicioterapeutico_changelist")},
+        
         
         {"icon": "map", "title": _("Sucursales"), "link": reverse_lazy("admin:usuarios_sucursal_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
@@ -315,14 +315,14 @@ UNFOLD = {
     ],
     "SITE_URL": "https://www.meddes.com.ec/",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/BA-LOGOS/logoF.png"), "dark": lambda request: static("img/BA-LOGOS/logo.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"), "dark": lambda request: static("img/BA-LOGOS/logo.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
             "rel": "icon",
             "sizes": "32x28",
             "type": "image/svg+xml",
-            "href": lambda request: static("img/BA-LOGOS/loro.png"),
+            "href": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"),
         },
     ],
     "SHOW_HISTORY": True,
@@ -331,7 +331,7 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
-    "LOGIN": {  "image": lambda request: static("img/BA-BG/test.jpg"),
+    "LOGIN": {  "image": lambda request: static("img/BA-BG/test2.jpg"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
                 },
@@ -350,7 +350,7 @@ UNFOLD = {
 
         "base": {
             "50": "255 255 255",
-            "100": "123 204 121",
+            "100": "202 196 196",
             "200": "211 213 205",
             "300": "209 213 219",
             "400": "41 168 80",
@@ -383,15 +383,7 @@ UNFOLD = {
             "important-dark": "var(--color-base-100)",
         },
     },
-    "EXTENSIONS": {
-        "modeltranslation": {
-            "flags": {
-                "en": "🇬🇧",
-                "fr": "🇫🇷",
-                "nl": "🇧🇪",
-            },
-        },
-    },
+
     "TABS": [
         {
             "models": [{"name": "usuarios.prospecion_administrativa", "detail": True}],
@@ -436,7 +428,7 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_prospeccion_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_meddes",
                 "badge_color": "colors-primary-500",
-                "permission": is_comercial_o_administrativo,
+                "permission": is_administrativo_o_isuperuser,
             },
             {
                 "title": _("Instituciones"),
@@ -444,10 +436,10 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_prospecion_administrativa_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_prospeccion",
                 "badge_color": "custom-green-success",
-                "permission": is_comercial_o_administrativo,
+                "permission": is_institucional_o_administrativo,
             },
             {
-                "title": _("Historiales"),
+                "title": _("Pacientes"),
                 "icon": "book",
                 "link": reverse_lazy("admin:usuarios_profile_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_terapeutico",
@@ -460,7 +452,7 @@ UNFOLD = {
                 "link": reverse_lazy("admin:usuarios_cita_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_citas",
                 "badge_color": "font-subtle-light",
-                "permission": is_comercial_o_administrativo,
+                "permission": is_administrativo_o_isuperuser,
             },
             {
                 "title": _("Pagos"),
@@ -509,7 +501,6 @@ UNFOLD = {
         },
     ],
 }
-
 
 
 
