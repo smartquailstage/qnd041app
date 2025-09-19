@@ -27,10 +27,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.urls import reverse
+from django.contrib.auth.models import User
 from django.utils.encoding import force_str
-
-
-from django.shortcuts import redirect  # Asegúrate de importar redirect
+from django.utils.http import urlsafe_base64_decode
+from django.shortcuts import render, redirect
+# from django.contrib.auth import login  # Descomenta si vas a usar login()
 
 def activar_cuenta(request, uidb64, token):
     try:
@@ -44,11 +45,11 @@ def activar_cuenta(request, uidb64, token):
         # Activar la cuenta
         user.is_active = True
         user.save()
-        # Iniciar sesión al usuario si lo deseas (opcional)
-        # login(request, user)
-        return redirect('usuarios:perfil')  # Redirige a la vista de perfil
+        # login(request, user)  # Opcional: iniciar sesión automáticamente
+        return redirect('usuarios:perfil')  # Asegúrate de que esta URL esté bien definida
     else:
         return render(request, 'usuarios/activation_invalid.html')
+
 
 
 
