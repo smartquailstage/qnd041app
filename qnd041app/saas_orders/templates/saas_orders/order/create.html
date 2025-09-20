@@ -116,10 +116,15 @@
     </div>
 
     <!-- Teléfono -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.telefono.id_for_label }}">Número de Contacto</label>
-      {{ form.telefono }}
-    </div>
+  <div class="input-group">
+    <span class="input-group-text">+593</span>
+    {{ form.telefono }}
+  </div>
+
+  <!-- Texto explicativo -->
+  <small class="form-text text-muted">
+    Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.
+  </small>
 
 
     <!-- Dirección de Facturación -->
