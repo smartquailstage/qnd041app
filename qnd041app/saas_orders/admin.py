@@ -221,7 +221,9 @@ class OrderSaaSDetailComponent(BaseComponent):
             ["Email", order.email],
             ["Razon Solcail", order.razon_social or "N/A"],
             ["Estado de Pago", "Pagado" if order.paid else "Pendiente"],
-            ["Total", f"${order.get_total_cost().amount:,.2f} {order.get_total_cost().currency}"],
+           # ["Total", f"${order.get_total_cost().amount:,.2f} {order.get_total_cost().currency}"],
+
+
 
             # añade más campos según tu modelo
         ]

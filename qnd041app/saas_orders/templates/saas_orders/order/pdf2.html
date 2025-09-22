@@ -1,0 +1,114 @@
+{% load static %}
+{% load qr_code %}
+{% load humanize %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link href="invoice.css" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+
+    <style>
+      .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        width: 50%;
+      }
+
+      .company-info {
+        width: 65%;
+        text-align: right;
+        margin-top: 20px;
+      }
+
+      hr {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo">
+
+    </div>
+
+        <dl id="informations">
+      <dt>Invoice number</dt>
+      <dd>12345</dd>
+      <dt>Date</dt>
+      <dd>March 31, 2018</dd>
+    </dl>
+
+    <hr>
+
+
+
+
+
+    <address id="to">
+      Our awesome developers<br>
+      From all around the world<br>
+      Earth
+    </address>
+
+    <hr>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Website design</td>
+          <td>€34.20</td>
+          <td>100</td>
+          <td>€3,420.00</td>
+        </tr>
+        <tr>
+          <td>Website development</td>
+          <td>€45.50</td>
+          <td>100</td>
+          <td>€4,550.00</td>
+        </tr>
+        <tr>
+          <td>Website integration</td>
+          <td>€25.75</td>
+          <td>100</td>
+          <td>€2,575.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer>
+      <table id="total">
+        <thead>
+          <tr>
+            <th>Due by</th>
+            <th>Account number</th>
+            <th>Total due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>May 10, 2018</td>
+            <td>132 456 789 012</td>
+            <td>€10,545.00</td>
+          </tr>
+        </tbody>
+      </table>
+    </footer>
+  </body>
+</html>

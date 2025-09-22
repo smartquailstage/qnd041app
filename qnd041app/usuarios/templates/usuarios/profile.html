@@ -1,4 +1,4 @@
-{% extends "base_dash.html" %}
+{% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -27,8 +27,7 @@
               <div class="mt-5 d-flex align-items-start justify-content-between">
                 <div class="">
                   <h3 class="mb-2">Bienvenido {{ profile.user.first_name }} {{ profile.user.last_name }} a SmartQuail,Tech</h3>
-                  <p class="mb-2" style ="margin-top:-15px;">Somos tu Industria tecnologica</p>  
-                   <p class="mb-2" style ="margin-top:-5px;">Paciente - MEDDES®</p>   
+                  <p class="mb-2" style ="margin-top:-15px;">Somos tu Industria tecnologica</p>    
                    <p class="mb-1"><strong>{{ profile.institucion|default:"Particular" }}</strong></p>  
                   <p class="mb-0"><strong>{{ profile.tipos|join:" + " }}</strong></p>            
                 </div>
