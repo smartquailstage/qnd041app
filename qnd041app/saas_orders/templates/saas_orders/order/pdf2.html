@@ -5,7 +5,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link href="invoice.css" media="print" rel="stylesheet">
+    <link href="{% static 'pdf.css' %}" media="print" rel="stylesheet">
     <title>Invoice</title>
     <meta name="description" content="Invoice demo sample">
 
@@ -31,32 +31,47 @@
         margin-top: 10px;
         margin-bottom: 20px;
       }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table, th, td {
+        border: 1px solid #ffffff;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f0f0f0;
+      }
+
+      footer {
+        margin-top: 40px;
+      }
     </style>
   </head>
 
   <body>
     <div class="header">
       <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo">
-
     </div>
 
-        <dl id="informations">
+    <dl id="informations">
       <dt>Invoice number</dt>
-      <dd>12345</dd>
+      <dd>#{{ order.id }}</dd>
       <dt>Date</dt>
-      <dd>March 31, 2018</dd>
+      <dd>{{ order.created|date:"F j, Y" }}</dd>
     </dl>
 
     <hr>
 
-
-
-
-
     <address id="to">
-      Our awesome developers<br>
-      From all around the world<br>
-      Earth
+      {{ order.first_name }} {{ order.last_name }}<br>
+      {{ order.razon_social }}<br>
+      Email: {{ order.email }}<br>
+      Phone: {{ order.telefono }}<br>
+      Sector: {{ order.get_sector_display }}
     </address>
 
     <hr>
@@ -71,24 +86,14 @@
         </tr>
       </thead>
       <tbody>
+        {% for item in order.items.all %}
         <tr>
-          <td>Website design</td>
-          <td>€34.20</td>
-          <td>100</td>
-          <td>€3,420.00</td>
+          <td>{{ item.product.name }}</td>
+          <td>${{ item.price.amount|floatformat:2 }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ item.get_cost.amount|floatformat:2|intcomma }}</td>
         </tr>
-        <tr>
-          <td>Website development</td>
-          <td>€45.50</td>
-          <td>100</td>
-          <td>€4,550.00</td>
-        </tr>
-        <tr>
-          <td>Website integration</td>
-          <td>€25.75</td>
-          <td>100</td>
-          <td>€2,575.00</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
 
@@ -103,9 +108,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>May 10, 2018</td>
-            <td>132 456 789 012</td>
-            <td>€10,545.00</td>
+            <td>{{ order.created|date:"F j, Y" }}</td>
+            <td>{{ order.braintree_id|default:"-" }}</td>
+            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
           </tr>
         </tbody>
       </table>

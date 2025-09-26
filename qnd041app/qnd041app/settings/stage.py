@@ -158,12 +158,12 @@ result_serializer = 'json'  # Esto reemplaza 'CELERY_RESULT_SERIALIZER'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_HOST = 'smtp.gmail.com'  # Para Gmail
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.smartquail.io'  # Para Gmail
+EMAIL_PORT = 30587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'phys.mauricio.silva@gmail.com'  # Tu correo de Gmail
-EMAIL_HOST_PASSWORD = '1719183830'  # La contraseña de tu cuenta de Gmail
-DEFAULT_FROM_EMAIL = 'phys.mauricio.silva@gmail.com'
+EMAIL_HOST_USER = 'support@smartquail.io'  # Tu correo de Gmail
+EMAIL_HOST_PASSWORD = 'ms95355672'  # La contraseña de tu cuenta de Gmail
+DEFAULT_FROM_EMAIL = 'support@smartquail.io'
 
 
 

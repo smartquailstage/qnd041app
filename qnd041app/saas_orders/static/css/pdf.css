@@ -1,37 +1,37 @@
 @font-face {
-  font-family: Pacifico;
-  src: url(pacifico.ttf);
+  font-family: Pier;
+  src: url(PierSans-Black.otf);
 }
 @font-face {
-  font-family: Source Sans Pro;
+  font-family: Pier Sans Pro;
   font-weight: 400;
-  src: url(SourceSans3-Regular.ttf);
+  src: url(PierSans-Regular.otf);
 }
 @font-face {
-  font-family: Source Sans Pro;
+  font-family: Pier Sans Pro;
   font-weight: 700;
-  src: url(SourceSans3-Bold.ttf);
+  src: url(PierSans-Light.otf);
 }
 
 @page {
-  font-family: Pacifico;
+  font-family: Pier;
   margin: 3cm;
   @bottom-left {
-    color: #1ee494;
+    color: #d81806;
     content: '♥ Thank you!';
   }
   @bottom-right {
-    color: #a9a;
+    color: rgb(170, 153, 153);
     content: 'contact@courtbouillon.org | courtbouillon.org';
     font-size: 9pt;
   }
 }
 
 html {
-  color: #14213d;
-  font-family: 'Source Sans Pro', sans-serif;
+  color: #000000;
+  font-family: 'Pier Sans Pro', sans-serif;
   font-size: 11pt;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 body {
   margin: 0;
@@ -45,9 +45,9 @@ h1 {
 }
 
 h2, h3, h4 {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 700;
-  margin: 1em 0 0.5em;
+  font-family: 'Pier Sans Pro', sans-serif;
+  font-weight: 500;
+  margin: 1.5em 0 0.5em;
   color: #14213d;
 }
 
@@ -123,7 +123,7 @@ th:last-of-type, td:last-of-type {
 
 /* Tabla de totales */
 table#total {
-  background: #f6f6f6;
+  background: #ff0303;
   border-color: #f6f6f6;
   border-style: solid;
   border-width: 2cm 3cm;
@@ -137,11 +137,11 @@ table#total td {
   padding: 0.2cm 0;
   font-weight: 700;
   font-size: 14pt;
-  color: #14213d;
+  color: #868585;
 }
 table#total td:last-child {
   text-align: right;
-  color: #1ee494;
+  color: #d93025;
 }
 
 /* Estados de orden */
@@ -160,8 +160,8 @@ table#total td:last-child {
 }
 
 .paid {
-  color: #1bae37;
-  border-color: #1bae37;
+  color: #d93025;
+  border-color: #d93025;
   background-color: #eaf8ed;
 }
 
