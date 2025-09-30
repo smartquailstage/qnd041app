@@ -877,8 +877,8 @@
 
 .form-control:focus {
     background-color: #fff;
-    border-color: #c27be4;
-    box-shadow: 0 0 0 .25rem rgba(146, 62, 185, 0.3)
+    border-color:#d92c31;
+    box-shadow: 0 0 0 .25rem rgba(240, 28, 0, 0)
     
 }
 
