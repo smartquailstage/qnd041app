@@ -90,12 +90,12 @@ ion-icon {
 /* Sidebar */
 
 .sidebar-wrapper {
-  position: fixed;
+position: fixed;
   top: 0;
   left: 0;
   width: 260px;
   height: 100%;
-  background-color: #f8fafb;
+  background-color: #7e0004;
   background-clip: padding-box;
   border-right: 1px solid #f8fafb;
   transition: all .2s;
@@ -105,8 +105,8 @@ ion-icon {
 
 
 .sidebar-wrapper .sidebar-header {
-  width: 260px;
-  height: 42px;
+  width: 255px;
+  height: 56px;
   display: flex;
   align-items: center;
   position: fixed;
@@ -114,9 +114,9 @@ ion-icon {
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color: #f2f2f2;
+  background-color: #7e0004;
   border-right: 0px solid #e2e3e4;
-  border-bottom: 1px solid #f8fafb;
+  border-bottom: 1px solid #958e8e;
   transition: all .2s;
 }
 
@@ -147,7 +147,7 @@ ion-icon {
 }
 
 .toggle-icon:hover {
-    background-color: #b9b7b7;
+    background-color: #ffffff;
 }
 
 .sidebar-wrapper ul {
@@ -194,19 +194,19 @@ ion-icon {
 }
 
 .sidebar-wrapper .metismenu a {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: left;
-	padding: 6px 10px;
-	font-size: 16px;
-	color: #2b2929;
-	outline-width: 0;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	letter-spacing: .5px;
-	border: 1px solid rgb(146 62 185 / 0%);
-	transition: all .2s ease-out
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 6px 10px;
+  font-size: 16px;
+  color: #fff;
+  outline-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  letter-spacing: .5px;
+  border: 1px solid rgb(146 62 185 / 0%);
+  transition: all .2s ease-out;
 }
 
 .sidebar-wrapper .metismenu a .parent-icon {
@@ -232,9 +232,9 @@ ion-icon {
 }
 
 .sidebar-wrapper .metismenu ul {
-  background: rgb(223, 216, 216);
-  border: 0px solid #f8fafb;
-  border-radius: 3%;
+    background: rgb(127 0 3);
+    border: 0px solid #f8fafb;
+    border-radius: 3%;
 }
 
 .sidebar-wrapper .metismenu ul ul a {
@@ -249,15 +249,15 @@ ion-icon {
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-    color: #fdfafa;
+    color: #b50f15;
     text-decoration: none;
-    background-color: rgb(136, 133, 133);
+    background-color: rgb(255, 249, 243);
 ;
 }
 
 .menu-label {
 	padding: 20px 15px 5px 5px;
-	color: #b0afaf;
+	color: #ffffff;
 	text-transform: uppercase;
 	font-size: 12px;
 	letter-spacing: .5px
