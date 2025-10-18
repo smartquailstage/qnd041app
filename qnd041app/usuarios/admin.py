@@ -2,7 +2,7 @@ import csv
 import xlsxwriter
 from django.contrib import admin
 from django.http import HttpResponse
-from .models import TicketSoporte, Cliente, ProblemaFrecuente, PreguntaFrecuente, Profile,InformesTerapeuticos, BitacoraDesarrollo, PerfilInstitucional ,Perfil_Terapeuta, Mensaje, Sucursal , ValoracionTerapia ,DocenteCapacitado, Cita,ComentarioCita, TareaComentario ,AsistenciaTerapeuta,prospecion_administrativa,Prospeccion, tareas, pagos
+from .models import TicketSoporte, Cliente, SmartQuailCrew, ProblemaFrecuente, PreguntaFrecuente, Profile,InformesTerapeuticos, BitacoraDesarrollo, PerfilInstitucional ,Perfil_Terapeuta, Mensaje, Sucursal , ValoracionTerapia ,DocenteCapacitado, Cita,ComentarioCita, TareaComentario ,AsistenciaTerapeuta,prospecion_administrativa,Prospeccion, tareas, pagos
 from django.contrib.postgres.fields import ArrayField
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -141,6 +141,98 @@ def dashboard_callback(request, context):
     })
     return context
 
+
+@admin.register(SmartQuailCrew)
+class SmartQuailCrewAdmin(ModelAdmin):
+    autocomplete_fields = ['user']
+    compressed_fields = True
+    search_fields = ['full_name', 'user__username', 'email', 'national_id']
+    list_display = ['full_name', 'role', 'contract_type', 'total_hours_worked', 'hourly_rate', 'total_cost', 'payment_method', 'is_active']
+    list_filter = ['role', 'contract_type', 'payment_method', 'is_active']
+    list_fullwidth = True
+    list_filter_sheet = True
+    change_form_show_cancel_button = True
+    warn_unsaved_form = True
+
+    formfield_overrides = {
+        models.DateField: {
+            "widget": CustomDatePickerWidget(),
+        },
+    }
+
+    readonly_fields = ['total_cost', 'created_at', 'updated_at']
+
+    def get_fieldsets(self, request, obj=None):
+        """Personaliza fieldsets según el método de pago."""
+        base_fields = [
+            ('📄 Información Personal', {
+                'fields': (
+                    'user',
+                    'full_name',
+                    'date_of_birth',
+                    'gender',
+                    'national_id',
+                    'phone',
+                    'email',
+                    'address',
+                ),
+                'classes': ('collapse',),
+            }),
+            ('🧠 Rol y Especialización', {
+                'fields': (
+                    'role',
+                    'contract_type',
+                    'is_active',
+                ),
+                'classes': ('collapse',),
+            }),
+            ('🕒 Trabajo y Pagos', {
+                'fields': (
+                    'total_hours_worked',
+                    'hourly_rate',
+                    'total_cost',
+                    'payment_method',
+                ),
+                'classes': ('collapse',),
+            }),
+        ]
+
+        # Campos según método de pago
+        if obj:
+            if obj.payment_method == 'transfer':
+                base_fields.append(
+                    ('🏦 Transferencia Bancaria', {
+                        'fields': ('bank_transaction_number', 'bank_info'),
+                        'classes': ('collapse',),
+                    })
+                )
+            elif obj.payment_method == 'platform':
+                base_fields.append(
+                    ('💳 Plataforma de Pagos', {
+                        'fields': ('payment_platform_info',),
+                        'classes': ('collapse',),
+                    })
+                )
+
+        base_fields += [
+            ('📎 Documentos Subidos', {
+                'fields': (
+                    'resume',
+                    'portfolio',
+                    'work_contract',
+                    'nda_contract',
+                ),
+                'classes': ('collapse',),
+            }),
+            ('🕓 Timestamps (solo lectura)', {
+                'fields': (
+                    'created_at',
+                    'updated_at',
+                ),
+                'classes': ('collapse',),
+            }),
+        ]
+        return base_fields
 
 
 

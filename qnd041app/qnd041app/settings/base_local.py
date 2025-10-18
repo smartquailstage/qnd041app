@@ -165,10 +165,12 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
+    "business_customer_projects",
    
 
              # Apps propias del proyecto
     "usuarios",
+    #'businees_customers_projects',
     #"SQOrders",
     #"SQShop",
    

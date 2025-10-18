@@ -75,6 +75,133 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 
+from django.db import models
+from django.conf import settings
+from djmoney.models.fields import MoneyField
+from phonenumber_field.modelfields import PhoneNumberField
+from decimal import Decimal
+from datetime import date
+
+class SmartQuailCrew(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    # Información personal
+    full_name = models.CharField("Nombre completo", max_length=100)
+    date_of_birth = models.DateField("Fecha de nacimiento")
+
+    gender_choices = [
+        ('M', 'Masculino'),
+        ('F', 'Femenino'),
+        ('O', 'Otro'),
+    ]
+    gender = models.CharField("Género", max_length=1, choices=gender_choices)
+
+    national_id = models.CharField("Identificación nacional", max_length=20, unique=True)
+
+    phone = PhoneNumberField("Teléfono", default='+593')
+    email = models.EmailField("Correo electrónico", unique=True)
+    address = models.CharField("Dirección", max_length=255)
+
+    # Rol en el equipo
+    ROLE_CHOICES = [
+        ('developer', 'Desarrollador'),
+        ('engineer', 'Ingeniero'),
+        ('content_creator', 'Creador de Contenido'),
+        ('architect', 'Arquitecto de Software'),
+        ('project_manager', 'Project Manager'),
+        ('product_manager', 'Product Manager'),
+        ('qa_engineer', 'QA Engineer'),
+        ('ux_ui', 'Diseñador UX/UI'),
+        ('data_scientist', 'Científico de Datos'),
+    ]
+    role = models.CharField("Rol", max_length=30, choices=ROLE_CHOICES)
+
+    # Horas y pagos
+    total_hours_worked = models.DecimalField("Horas trabajadas", max_digits=6, decimal_places=2, default=0.0)
+    hourly_rate = MoneyField("Costo por hora", max_digits=10, decimal_places=2, default_currency='USD')
+    total_cost = MoneyField("Costo total a pagar", max_digits=12, decimal_places=2, default_currency='USD', editable=False)
+
+    # Contrato
+    contract_type_choices = [
+        ('FT', 'Tiempo completo'),
+        ('PT', 'Medio tiempo'),
+        ('CT', 'Contrato temporal'),
+        ('FREELANCE', 'Freelancer'),
+    ]
+    contract_type = models.CharField("Tipo de contrato", max_length=10, choices=contract_type_choices)
+
+    # Documentos personales y laborales
+    resume = models.FileField("Hoja de vida", upload_to='crew/resumes/', blank=True, null=True)
+    portfolio = models.FileField("Portafolio", upload_to='crew/portfolios/', blank=True, null=True)
+    work_contract = models.FileField("Contrato laboral", upload_to='crew/contracts/', blank=True, null=True)
+    nda_contract = models.FileField("Contrato de confidencialidad (NDA)", upload_to='crew/nda/', blank=True, null=True)
+
+    # Estado
+    is_active = models.BooleanField("Activo", default=True)
+
+    PAYMENT_METHOD_CHOICES = [
+        ('transfer', 'Transferencia bancaria'),
+        ('platform', 'Plataforma de pagos'),
+        ('cash', 'Efectivo'),
+    ]
+    payment_method = models.CharField("Método de pago", max_length=20, choices=PAYMENT_METHOD_CHOICES,blank=True,null=True)
+
+    # Solo si es transferencia
+    bank_transaction_number = models.CharField(
+        "Número de transacción bancaria",
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    bank_info = models.CharField(
+        "Información bancaria (Banco, cuenta, etc.)",
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    # Solo si es plataforma
+    payment_platform_info = models.CharField(
+        "Plataforma de pago (nombre, ID)",
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    # Timestamps
+    created_at = models.DateTimeField("Creado", auto_now_add=True)
+    updated_at = models.DateTimeField("Actualizado", auto_now=True)
+
+    # Métodos de pago
+
+
+    # ... [resto del modelo] ...
+ 
+
+    class Meta:
+        verbose_name = "Miembro del equipo SmartQuail"
+        verbose_name_plural = "SmartQuail Crew"
+
+    def __str__(self):
+        return f"{self.full_name} - {self.get_role_display()}"
+
+    def save(self, *args, **kwargs):
+        if self.total_hours_worked and self.hourly_rate:
+            self.total_cost = Decimal(self.total_hours_worked) * self.hourly_rate.amount
+        else:
+            self.total_cost = Decimal('0.00')
+        super().save(*args, **kwargs)
+
+    @property
+    def age(self):
+        today = date.today()
+        return today.year - self.date_of_birth.year - (
+            (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+        )
+
+
+
+
 class AdministrativeProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_of_birth = models.DateField("Fecha de nacimiento")
