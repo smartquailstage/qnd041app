@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from usuarios.models  import SmartQuailCrew
+
 
 class BusinessSystemProject(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -8,8 +10,13 @@ class BusinessSystemProject(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    # ✅ Relación con el equipo de SmartQuail
+    crew_members = models.ManyToManyField(
+        'usuarios.SmartQuailCrew',
+        related_name='projects',
+        blank=True,
+        verbose_name='Equipo asignado'
+    )
 
 
 class BusinessProcess(models.Model):

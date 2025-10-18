@@ -89,6 +89,14 @@ class SmartQuailCrew(models.Model):
     full_name = models.CharField("Nombre completo", max_length=100)
     date_of_birth = models.DateField("Fecha de nacimiento")
 
+    # ✅ Foto de perfil
+    profile_picture = models.ImageField(
+    "Foto de perfil",
+    upload_to="crew/profile_pictures/",
+    blank=True,
+    null=True
+    )
+
     gender_choices = [
         ('M', 'Masculino'),
         ('F', 'Femenino'),

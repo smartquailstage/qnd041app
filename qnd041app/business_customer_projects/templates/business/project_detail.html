@@ -22,8 +22,8 @@
   <li class="nav-item" role="presentation">
     <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
-        <div class="tab-icon"><i class="bx bx-cog font-18 me-1"></i></div>
-        <div class="tab-title">Desarrollo e Investigación</div>
+        <div class="tab-icon"><ion-icon name="code-slash-outline"></ion-icon></div>
+        <div class="tab-title">(I+D)</div>
       </div>
     </a>
   </li>
@@ -33,7 +33,7 @@
     <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
         <div class="tab-icon"><i class="bx bx-bot font-18 me-1"></i></div>
-        <div class="tab-title">Automatización</div>
+        <div class="tab-title">(+A)</div>
       </div>
     </a>
   </li>
@@ -44,7 +44,7 @@
     <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
         <div class="tab-icon"><i class="bx bx-brain font-18 me-1"></i></div>
-        <div class="tab-title">Inteligencia Artificial</div>
+        <div class="tab-title">(+AI)</div>
       </div>
     </a>
   </li>
@@ -53,8 +53,8 @@
   <li class="nav-item" role="presentation">
     <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
-        <div class="tab-icon"><i class="bx bx-bar-chart font-18 me-1"></i></div>
-        <div class="tab-title">Recursos y Facturación</div>
+        <div class="tab-icon"><ion-icon name="hardware-chip-outline"></ion-icon></div>
+        <div class="tab-title"></div>
       </div>
     </a>
   </li>
@@ -75,89 +75,40 @@
 
             <h4>Personal a Cargo</h4>
 
-             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-3 row-cols-xxl-3">
-                <div class="col">
-                  <div class="card radius-10">
-                    <div class="card-body text-center">
-                      <div class="profile-img">
-                         <img src="assets/images/avatars/01.png" class="rounded-circle" width="120" height="120" alt="">
-                      </div>
-                      <div class="mt-4">
-                          <h5 class="mb-1">Ryan Septimus</h5>
-                          <p class="mb-0">@ryna_septimus</p>
-                      </div>
-                      <div class="d-flex align-items-center justify-content-around mt-4">
-                        <div class="">
-                          <h4 class="mb-0">289</h4>
-                          <p class="mb-0">Posts</p>
-                        </div>
-                        <div class="">
-                          <h4 class="mb-0">42K</h4>
-                          <p class="mb-0">Followers</p>
-                        </div>
-                        <div class="">
-                          <h4 class="mb-0">8K</h4>
-                          <p class="mb-0">Following</p>
-                        </div>
-                     </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card radius-10">
-                    <div class="card-body text-center">
-                      <div class="profile-img">
-                         <img src="assets/images/avatars/02.png" class="rounded-circle" width="120" height="120" alt="">
-                      </div>
-                      <div class="mt-4">
-                          <h5 class="mb-1">Ryan Septimus</h5>
-                          <p class="mb-0">@ryna_septimus</p>
-                      </div>
-                      <div class="d-flex align-items-center justify-content-around mt-4">
-                        <div class="">
-                          <h4 class="mb-0">289</h4>
-                          <p class="mb-0">Posts</p>
-                        </div>
-                        <div class="">
-                          <h4 class="mb-0">42K</h4>
-                          <p class="mb-0">Followers</p>
-                        </div>
-                        <div class="">
-                          <h4 class="mb-0">8K</h4>
-                          <p class="mb-0">Following</p>
-                        </div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card radius-10">
-                    <div class="card-body text-center">
-                      <div class="profile-img">
-                         <img src="assets/images/avatars/03.png" class="rounded-circle" width="120" height="120" alt="">
-                      </div>
-                      <div class="mt-4">
-                          <h5 class="mb-1">Ryan Septimus</h5>
-                          <p class="mb-0">@ryna_septimus</p>
-                      </div>
-                      <div class="d-flex align-items-center justify-content-around mt-4">
-                          <div class="">
-                            <h4 class="mb-0">289</h4>
-                            <p class="mb-0">Posts</p>
-                          </div>
-                          <div class="">
-                            <h4 class="mb-0">42K</h4>
-                            <p class="mb-0">Followers</p>
-                          </div>
-                          <div class="">
-                            <h4 class="mb-0">8K</h4>
-                            <p class="mb-0">Following</p>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-3 row-cols-xxl-3">
+  {% for member in staff %}
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body text-center">
+          <div class="profile-img">
+            {% if member.profile_picture %}
+              <img src="{{ member.profile_picture.url }}" class="rounded-circle" width="120" height="120" alt="{{ member.full_name }}">
+            {% else %}
+              <img src="{% static 'images/default-profile.png' %}" class="rounded-circle" width="120" height="120" alt="Sin foto">
+            {% endif %}
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-1">{{ member.full_name }}</h5>
+            <p class="mb-0">{{ member.get_role_display }}</p>
+          </div>
+          <div class="d-flex align-items-center justify-content-around mt-4">
+            <div class="">
+              <h6 class="mb-0">{{ member.email }}</h6>
+              <p class="mb-0 text-muted">Correo</p>
+            </div>
+            <div class="">
+              <h6 class="mb-0">{{ member.phone }}</h6>
+              <p class="mb-0 text-muted">Teléfono</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">No hay miembros asignados al proyecto.</p>
+  {% endfor %}
+</div>
+
 
             {% if staff %}
               <ul class="list-group">
@@ -179,7 +130,7 @@
       <div class="tab-pane fade" id="tab-desarrollo" role="tabpanel">
         <div class="card radius-10">
           <div class="card-body">
-            <h4 class="mb-3">Procesos del Proyecto</h4>
+            <h4 class="mb-3"><ion-icon name="code-slash-outline"></ion-icon>Investigación y Desarollo (I+D)</h4>
             {% for process in processes %}
             <div class="card mb-3 border">
               <div class="card-body">
@@ -229,7 +180,7 @@
       <div class="tab-pane fade" id="tab-recursos" role="tabpanel">
         <div class="card radius-10">
           <div class="card-body">
-            <h4 class="mb-3">Recursos Cloud</h4>
+            <h4 class="mb-3"><ion-icon name="hardware-chip-outline"></ion-icon> Recursos Cloud</h4>
             {% for resource in cloud_resources %}
             <div class="card mb-3 border">
               <div class="card-body">
@@ -261,7 +212,7 @@
 <div class="tab-pane fade" id="tab-automatizacion" role="tabpanel">
   <div class="card radius-10">
     <div class="card-body">
-      <h4>Procesos con Automatización</h4>
+      <h4><i class="bx bx-bot font-18 me-1"></i> Automatización (+A) </h4>
       {% for process in processes %}
         {% if process.has_automation %}
         <div class="card mb-3 border">
@@ -282,7 +233,7 @@
 <div class="tab-pane fade" id="tab-ia" role="tabpanel">
   <div class="card radius-10">
     <div class="card-body">
-      <h4>Procesos con Inteligencia Artificial</h4>
+      <h4><i class="bx bx-brain font-18 me-1"></i>Inteligencia Artificial (+AI)</h4>
       {% for process in processes %}
         {% if process.has_ai %}
         <div class="card mb-3 border">

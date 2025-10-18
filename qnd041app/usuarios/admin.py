@@ -169,6 +169,7 @@ class SmartQuailCrewAdmin(ModelAdmin):
                 'fields': (
                     'user',
                     'full_name',
+                    'profile_picture',
                     'date_of_birth',
                     'gender',
                     'national_id',

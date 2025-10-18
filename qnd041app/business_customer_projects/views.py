@@ -10,18 +10,19 @@ class BusinessSystemProjectDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
 
-        # Obtener los procesos relacionados
+        # Obtener procesos
         processes = project.processes.all()
         context["processes"] = processes
 
-        # Obtener recursos cloud
+        # Recursos cloud
         context["cloud_resources"] = project.cloud_resources.all()
 
-        # Agregar lógica para pestañas condicionales
+        # Pestañas condicionales
         context["has_automation"] = processes.filter(has_automation=True).exists()
         context["has_ai"] = processes.filter(has_ai=True).exists()
 
-        # (Opcional) si necesitas personal a cargo, agregar aquí:
-        context["staff"] = project.assigned_personnel.all() if hasattr(project, 'assigned_personnel') else []
+        # ✅ Personal a cargo (SmartQuailCrew)
+        context["staff"] = project.crew_members.all()  # Usa el nombre real del campo
 
         return context
+

@@ -26,7 +26,7 @@ class BusinessSystemProjectAdmin(ModelAdmin):
 
     fieldsets = (
         ('Información del Proyecto', {
-            'fields': ('name', 'description', 'user'),
+            'fields': ('name', 'description', 'user','crew_members'),
             'classes': ('collapse',),
         }),
     )
