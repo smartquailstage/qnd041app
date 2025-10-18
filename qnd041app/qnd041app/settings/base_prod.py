@@ -23,6 +23,8 @@ load_dotenv(dotenv_path=ENV_FILE_PATH)
 # Retrieve the Django secret key from environment variables.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
+SITE_ID = 1
+domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io')
 SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
@@ -120,6 +122,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'django.contrib.sites', 
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",

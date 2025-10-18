@@ -1,0 +1,154 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+<aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{% static 'assets/images/login_bg/Sello2.png' %}" class="logo-icon"  width="60px" alt="logo icon">
+        </div>
+
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+
+                    
+        
+      <a href="{% url 'saas_shop:product_list'  %}"><li class="menu-label">SOFTWARE AS PRODUCTS </li></a>
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinessanalytics" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinessmedia" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="brush-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinesslaw" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="finger-print-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+
+
+
+
+        <li class="menu-label">Implemetación Dev-Sec-Ops</li>
+
+
+<li class="">
+  <a href="javascript:;" class="has-arrow" aria-expanded="false">
+    <div class="parent-icon">
+      <i class="bx bx-folder font-18 me-1"></i>
+    </div>
+    <div style="font-size: 10pt;" class="menu-title">Business Projects</div>
+  </a>
+  <ul class="mm-collapse" style="height: auto;">
+    {% for project in all_projects %}
+      <li>
+        <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
+          <ion-icon name="ellipse-outline"></ion-icon> {{ project.name }}
+        </a>
+      </li>
+    {% empty %}
+      <li>
+        <span class="text-muted px-3">No hay proyectos</span>
+      </li>
+    {% endfor %}
+  </ul>
+</li>
+
+
+
+        <li class="menu-label">Private Cloud Server </li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="apps-outline"></ion-icon>
+            <div class="menu-title">On-Premise</div>
+          </a>
+        </li>
+
+
+      <li class="menu-label">Consulting</li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="ticket-outline"></ion-icon>
+            <div class="menu-title">Take a Ticket</div>
+          </a>
+        </li>
+
+    </ul>
+
+
+
+
+  
+    <!--end navigation-->
+
+
+</aside>
+
+

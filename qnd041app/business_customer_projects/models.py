@@ -19,6 +19,9 @@ class BusinessSystemProject(models.Model):
     )
 
 
+    def get_absolute_url(self):
+        return reverse("business:project_detail", kwargs={"pk": self.pk})
+
 class BusinessProcess(models.Model):
     project = models.ForeignKey(BusinessSystemProject, on_delete=models.CASCADE, related_name='processes')
     name = models.CharField(max_length=200)

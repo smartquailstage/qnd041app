@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'django.contrib.sites', 
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
@@ -220,7 +221,10 @@ LOGIN_REDIRECT_URL = 'usuarios:perfil'
 LOGIN_URL = 'usuarios:login'
 LOGOUT_URL = 'usuarios:logout'
 
+SITE_ID = 1
 
+
+domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 
 CART_SESSION_ID = 'cart'
 
@@ -606,7 +610,7 @@ TEMPLATES = [
                 'usuarios.context_processors.ultima_cita',
                 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
-                
+                'business_customer_projects.context_processors.all_business_projects',
             ],
         },
     },
