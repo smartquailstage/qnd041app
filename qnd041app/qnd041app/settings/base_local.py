@@ -177,6 +177,7 @@ INSTALLED_APPS = [
    
    
     "serviceapp",
+    'billing',
     #"citas_regulares",
 
     # E-commerce apps
@@ -611,6 +612,7 @@ TEMPLATES = [
                 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
                 'business_customer_projects.context_processors.all_business_projects',
+                'billing.context_processors.all_business_billing',
             ],
         },
     },

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="card radius-10">
+  <div class="card-body">
+    <h4><i class="bx bx-file me-1"></i> Detalle de Factura</h4>
+    <div class="card mb-4 border radius-10">
+      <div class="card-header py-2">
+        <div class="row row-cols-1 row-cols-lg-3">
+          <div class="col">
+            <small>Información</small>
+            <address class="m-t-5 m-b-5">
+              <strong class="text-inverse">Factura #{{ factura.invoice_number }}</strong><br>
+              <small>{{ factura.detail }}</small><br>
+              <strong>Proyecto:</strong> {{ factura.project.name }}<br>
+              <strong>Fecha:</strong> {{ factura.created_at|date:"d/m/Y" }}
+            </address>
+          </div>
+          <div class="col">
+            <small>Conceptos</small>
+            <ul class="list-unstyled small mb-0">
+              {% for concept in factura.concept.all %}
+              <li><i class="bx bx-check-circle text-success"></i> {{ concept.name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="col">
+            <small>Valores</small>
+            <address class="m-t-5 m-b-5">
+              <strong>Sin IVA:</strong> ${{ factura.amount_without_tax|floatformat:2 }}<br>
+              <strong>Con IVA:</strong> ${{ factura.amount_with_tax|floatformat:2 }}<br>
+              {% if factura.invoice_file %}
+              <a href="{{ factura.invoice_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                Ver archivo PDF
+              </a>
+              {% else %}
+              <span class="text-warning"><em>No hay archivo</em></span>
+              {% endif %}
+            </address>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="{% url 'billing:facturation_list' %}" class="btn btn-secondary">← Volver a la lista</a>
+  </div>
+</div>
+{% endblock %}

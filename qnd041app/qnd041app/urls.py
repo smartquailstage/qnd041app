@@ -30,6 +30,7 @@ urlpatterns += i18n_patterns(
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
 
     path('business_customer_projects/', include('business_customer_projects.urls', namespace='business_customer_projects')),
+    path('billing/', include('billing.urls', namespace='billing')),
 
     path('saas_cart/', include('saas_cart.urls', namespace='saas_cart')),
     path('saas_shop/', include('saas_shop.urls', namespace='saas_shop')),

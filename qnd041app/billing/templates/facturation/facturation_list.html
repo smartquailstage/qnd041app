@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="card radius-10">
+  <div class="card-body">
+    <h4><i class="bx bx-list-ul me-1"></i> Facturación</h4>
+    {% for factura in facturas %}
+    <div class="card mb-3 border radius-10">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-9">
+            <h5 class="mb-1">Factura #{{ factura.invoice_number }}</h5>
+            <p class="mb-0"><strong>Proyecto:</strong> {{ factura.project.name }}</p>
+            <p class="mb-0"><strong>Fecha:</strong> {{ factura.created_at|date:"d/m/Y" }}</p>
+            <p class="mb-0"><strong>Con IVA:</strong> ${{ factura.amount_with_tax }}</p>
+          </div>
+          <div class="col-md-3 text-end">
+            <a href="{% url 'billing:facturation_detail' factura.pk %}" class="btn btn-sm btn-outline-primary mt-2">Ver Detalle</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No hay facturas registradas.</p>
+    {% endfor %}
+
+    {% if is_paginated %}
+    <div class="pagination mt-3">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+      {% endif %}
+      <span class="mx-2">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
