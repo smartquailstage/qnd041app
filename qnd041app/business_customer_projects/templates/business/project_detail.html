@@ -298,47 +298,266 @@
           </div>
         </div>
       </div>
+
+
 {% if has_automation %}
 <div class="tab-pane fade" id="tab-automatizacion" role="tabpanel">
-  <div class="card radius-10">
-    <div class="card-body">
-      <h4><i class="bx bx-bot font-18 me-1"></i> Automatización (+A) </h4>
-      {% for process in processes %}
-        {% if process.has_automation %}
-        <div class="card mb-3 border">
-          <div class="card-body">
-            <h5>{{ process.name }}</h5>
-            <p ><strong>Descripción:</strong> {{ process.description }}</p>
-            <p><strong>Automatización:</strong> {{ process.automation_description }}</p>
+  {% for process in processes %}
+    {% if process.has_automation %}
+    <div class="card mb-4 radius-10">
+      <div class="card-header py-2">
+        <div class="row row-cols-1 row-cols-lg-3">
+          <div class="col">
+            <small>Información de Automatización</small>
+            <address class="m-t-5 m-b-5">
+              <strong class="text-inverse">{{ process.name }}</strong><br>
+              <small>{{ process.description }}</small><br>
+              <strong>Automatización:</strong> {{ process.automation_description }}
+            </address>
+          </div>
+          <div class="col">
+            <small>Fechas</small>
+            <address class="m-t-5 m-b-5">
+              <strong>Inicio:</strong> {{ process.start_date|date:"d/m/Y" }}<br>
+              <strong>Entrega:</strong> {{ process.delivery_date|date:"d/m/Y" }}<br>
+              <strong>Días desarrollo:</strong> {{ process.total_development_days }} días<br>
+              <strong>Aprobado:</strong> {{ process.approved_by_client|yesno:"Sí,No" }}
+            </address>
+          </div>
+          <div class="col">
+            <small>Desarrollador</small>
+            <address class="m-t-5 m-b-5 text-center">
+              {% if process.assigned_developer %}
+                <img src="{% if process.assigned_developer.profile_picture %}{{ process.assigned_developer.profile_picture.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                     class="rounded-circle mb-1" width="50" height="50" alt="Foto perfil">
+                <br>
+                <strong>{{ process.assigned_developer.full_name }}</strong><br>
+                <small>{{ process.assigned_developer.get_role_display }}</small>
+              {% else %}
+                <small class="text-muted"><em>No asignado</em></small>
+              {% endif %}
+            </address>
           </div>
         </div>
+      </div>
+
+      <div class="card-body">
+        {% if process.progress == 100 %}
+          {% if process.final_url %}
+            <div class="text-center my-5">
+              <a href="{{ process.final_url }}" target="_blank" class="btn btn-primary btn-lg">
+                Visualizar Resultado Final
+              </a>
+            </div>
+          {% else %}
+            <p class="text-center text-warning my-5">No hay URL final disponible.</p>
+          {% endif %}
+        {% else %}
+          <div class="table-responsive">
+            <table class="table table-invoice">
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th class="text-center" width="25%">Tecnología</th>
+                  <th class="text-center" width="20%">Desarrollador</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="text-inverse">Detalles</span><br>
+                    <small>{{ process.description }}</small>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-info">{{ process.technology_type }}</span>
+                  </td>
+                  <td class="text-center">
+                    {% if process.assigned_developer %}
+                    <div class="d-flex flex-column align-items-center">
+                      <img src="{% if process.assigned_developer.profile_picture %}{{ process.assigned_developer.profile_picture.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                           class="rounded-circle mb-1" width="40" height="40" alt="Foto perfil">
+                      <small><strong>{{ process.assigned_developer.full_name }}</strong></small>
+                      <small>{{ process.assigned_developer.get_role_display }}</small>
+                    </div>
+                    {% else %}
+                    <small class="text-muted"><em>No asignado</em></small>
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row bg-light align-items-center m-0">
+            <div class="col col-auto p-3">
+              <p class="mb-0" style="color:#fff;">Progreso</p>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-gradient-purple" role="progressbar" style="width: {{ process.progress }}%;"></div>
+              </div>
+              <p class="mb-0" style="color:#fff;">{{ process.progress }}%</p>
+            </div>
+            <div class="col col-auto me-auto p-3">
+              <p class="mb-0" style="color:#fff;">Días totales</p>
+              <h5 class="mb-0">{{ process.total_development_days }} días</h5>
+            </div>
+            <div class="col bg-primary col-auto p-3">
+              <p class="mb-0 text-white">Aprobado</p>
+              <h5 class="mb-0 text-white">{{ process.approved_by_client|yesno:"Sí,No" }}</h5>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="my-3 small text-muted">
+            * Información sujeta a cambios según el avance del proyecto.<br>
+            * Contactar con el administrador para más detalles.
+          </div>
         {% endif %}
-      {% endfor %}
+      </div>
     </div>
-  </div>
+    {% endif %}
+  {% empty %}
+  <p>No hay procesos con automatización.</p>
+  {% endfor %}
 </div>
 {% endif %}
 
+
+
 {% if has_ai %}
 <div class="tab-pane fade" id="tab-ia" role="tabpanel">
-  <div class="card radius-10">
+  {% for ai in intelligents %}
+  <div class="card mb-4 radius-10">
+    <div class="card-header py-2">
+      <div class="row row-cols-1 row-cols-lg-3">
+        <div class="col">
+          <small>Información del Modelo</small>
+          <address class="m-t-5 m-b-5">
+            <strong class="text-inverse">{{ ai.name }}</strong><br>
+            <small>{{ ai.description }}</small><br>
+            <strong>Tipo IA:</strong> {{ ai.get_ai_type_display }}<br>
+            <strong>GPU:</strong> {{ ai.requires_gpu|yesno:"Sí,No" }}<br>
+            {% if ai.model_accuracy %}
+              <strong>Precisión:</strong> {{ ai.model_accuracy }}%
+            {% endif %}
+          </address>
+        </div>
+        <div class="col">
+          <small>Fechas</small>
+          <address class="m-t-5 m-b-5">
+            <strong>Inicio:</strong> {{ ai.start_date|date:"d/m/Y" }}<br>
+            <strong>Entrega:</strong> {{ ai.delivery_date|date:"d/m/Y" }}<br>
+            <strong>Días desarrollo:</strong> {{ ai.total_development_days }} días<br>
+            <strong>Aprobado:</strong> {{ ai.approved_by_client|yesno:"Sí,No" }}
+          </address>
+        </div>
+        <div class="col">
+          <small>Desarrollador</small>
+          <address class="m-t-5 m-b-5 text-center">
+            {% if ai.assigned_developer %}
+              <img src="{% if ai.assigned_developer.profile_picture %}{{ ai.assigned_developer.profile_picture.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                   class="rounded-circle mb-1" width="50" height="50" alt="Foto perfil">
+              <br>
+              <strong>{{ ai.assigned_developer.full_name }}</strong><br>
+              <small>{{ ai.assigned_developer.get_role_display }}</small>
+            {% else %}
+              <small class="text-muted"><em>No asignado</em></small>
+            {% endif %}
+          </address>
+        </div>
+      </div>
+    </div>
+
     <div class="card-body">
-      <h4><i class="bx bx-brain font-18 me-1"></i>Inteligencia Artificial (+AI)</h4>
-      {% for process in processes %}
-        {% if process.has_ai %}
-        <div class="card mb-3 border">
-          <div class="card-body">
-            <h5>{{ process.name }}</h5>
-            <p><strong>Descripción:</strong> {{ process.description }}</p>
-            <p><strong>Modelo IA:</strong> {{ process.ai_model_description }}</p>
+      {% if ai.progress == 100 %}
+        {% if ai.final_url %}
+          <div class="text-center my-5">
+            <a href="{{ ai.final_url }}" target="_blank" class="btn btn-primary btn-lg">
+              Visualizar Resultado Final
+            </a>
+          </div>
+        {% else %}
+          <p class="text-center text-warning my-5">No hay URL final disponible.</p>
+        {% endif %}
+      {% else %}
+        <div class="table-responsive">
+          <table class="table table-invoice">
+            <thead>
+              <tr>
+                <th>Notas Técnicas</th>
+                <th class="text-center" width="25%">Mapas de Decisión</th>
+                <th class="text-center" width="20%">Desarrollador</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {% if ai.technical_notes %}
+                  <span class="text-inverse">Notas Técnicas</span><br>
+                  <small>{{ ai.technical_notes|linebreaksbr }}</small>
+                  {% else %}
+                  <small class="text-muted">No disponible.</small>
+                  {% endif %}
+                </td>
+                <td class="text-center">
+                  {% if ai.decision_maps %}
+                  <span class="text-inverse">Mapas de Decisión</span><br>
+                  <small>{{ ai.decision_maps|linebreaksbr }}</small>
+                  {% else %}
+                  <small class="text-muted">No disponible.</small>
+                  {% endif %}
+                </td>
+                <td class="text-center">
+                  {% if ai.assigned_developer %}
+                  <div class="d-flex flex-column align-items-center">
+                    <img src="{% if ai.assigned_developer.profile_picture %}{{ ai.assigned_developer.profile_picture.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                         class="rounded-circle mb-1" width="40" height="40" alt="Foto perfil">
+                    <small><strong>{{ ai.assigned_developer.full_name }}</strong></small>
+                    <small>{{ ai.assigned_developer.get_role_display }}</small>
+                  </div>
+                  {% else %}
+                  <small class="text-muted"><em>No asignado</em></small>
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row bg-light align-items-center m-0">
+          <div class="col col-auto p-3">
+            <p class="mb-0" style="color:#fff;">Progreso</p>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-gradient-purple" role="progressbar" style="width: {{ ai.progress }}%;"></div>
+            </div>
+            <p class="mb-0" style="color:#fff;">{{ ai.progress }}%</p>
+          </div>
+          <div class="col col-auto me-auto p-3">
+            <p class="mb-0" style="color:#fff;">Días totales</p>
+            <h5 class="mb-0">{{ ai.total_development_days }} días</h5>
+          </div>
+          <div class="col bg-primary col-auto p-3">
+            <p class="mb-0 text-white">Aprobado</p>
+            <h5 class="mb-0 text-white">{{ ai.approved_by_client|yesno:"Sí,No" }}</h5>
           </div>
         </div>
-        {% endif %}
-      {% endfor %}
+
+        <hr>
+
+        <div class="my-3 small text-muted">
+          * Información sujeta a cambios según el avance del proyecto.<br>
+          * Contactar con el administrador para más detalles.
+        </div>
+      {% endif %}
     </div>
   </div>
+  {% empty %}
+  <p>No hay inteligencias artificiales registradas para este proyecto.</p>
+  {% endfor %}
 </div>
 {% endif %}
+
+
 
 
 

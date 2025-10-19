@@ -1,5 +1,5 @@
 from django.views.generic.detail import DetailView
-from .models import BusinessSystemProject
+from .models import BusinessSystemProject, BusinessAutomation, BusinessIntelligent
 
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
@@ -11,18 +11,24 @@ class BusinessSystemProjectDetailView(DetailView):
         project = self.get_object()
 
         # Obtener procesos
-        processes = project.processes.all()
-        context["processes"] = processes
+        context["processes"] = project.processes.all()
+
+        # ✅ Obtener automatizaciones e IA usando related_name
+        context["automations"] = project.automations.all()
+        context["intelligents"] = project.intelligents.all()
 
         # Recursos cloud
         context["cloud_resources"] = project.cloud_resources.all()
 
         # Pestañas condicionales
-        context["has_automation"] = processes.filter(has_automation=True).exists()
-        context["has_ai"] = processes.filter(has_ai=True).exists()
+        context["has_automation"] = context["processes"].filter(has_automation=True).exists() or context["automations"].exists()
+        context["has_ai"] = context["processes"].filter(has_ai=True).exists() or context["intelligents"].exists()
 
-        # ✅ Personal a cargo (SmartQuailCrew)
-        context["staff"] = project.crew_members.all()  # Usa el nombre real del campo
+        # Personal a cargo
+        context["staff"] = project.crew_members.all()
 
         return context
+
+
+
 

@@ -127,6 +127,170 @@ class BusinessProcess(models.Model):
 
 
 
+
+class BusinessAutomation(models.Model):
+    project = models.ForeignKey(
+        'BusinessSystemProject',
+        on_delete=models.CASCADE,
+        related_name='automations'
+    )
+    
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+
+    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
+
+    # Tipos de automatización
+    AUTOMATION_TYPE_CHOICES = [
+        ('email', 'Email'),
+        ('auto_auth', 'Autoidentificación'),
+        ('report_gen', 'Generación de reportes'),
+        ('chatbot', 'Chatbot para negocios'),
+        ('data_sync', 'Sincronización de datos'),
+        ('notification', 'Notificaciones automáticas'),
+        ('workflow', 'Automatización de flujos de trabajo'),
+    ]
+    automation_type = models.CharField(
+        "Tipo de automatización",
+        max_length=20,
+        choices=AUTOMATION_TYPE_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    # 👤 Desarrollador asignado
+    assigned_developer = models.ForeignKey(
+        SmartQuailCrew,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_automations',
+        verbose_name="Desarrollador asignado"
+    )
+
+    # 📅 Fechas
+    start_date = models.DateField("Fecha de inicio", null=True, blank=True)
+    delivery_date = models.DateField("Fecha de entrega", null=True, blank=True)
+
+    approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
+
+    final_url = models.URLField("URL final", blank=True, null=True)
+
+    # 🕓 Cálculo de duración
+    total_development_days = models.PositiveIntegerField(
+        "Días de desarrollo", null=True, blank=True, editable=False
+    )
+
+    def save(self, *args, **kwargs):
+        if self.start_date and self.delivery_date:
+            delta = self.delivery_date - self.start_date
+            self.total_development_days = delta.days if delta.days >= 0 else 0
+        else:
+            self.total_development_days = None
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} - {self.project.name}"
+
+
+
+from datetime import date
+
+class BusinessIntelligent(models.Model):
+    project = models.ForeignKey(
+        'BusinessSystemProject',
+        on_delete=models.CASCADE,
+        related_name='intelligents'
+    )
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+
+    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
+
+    # Tipos de inteligencia artificial
+    AI_TYPE_CHOICES = [
+        ('binary_classification', 'Predicción por clasificación binaria'),
+        ('regression', 'Predicción por regresión'),
+        ('clustering', 'Clustering'),
+        ('nlp', 'Procesamiento de Lenguaje Natural (NLP)'),
+        ('image_recognition', 'Reconocimiento de imágenes'),
+        ('recommendation', 'Sistemas de recomendación'),
+        ('reinforcement_learning', 'Aprendizaje por refuerzo'),
+        ('deep_learning', 'Deep Learning'),
+        ('time_series', 'Series temporales'),
+    ]
+    ai_type = models.CharField(
+        "Tipo de Inteligencia Artificial",
+        max_length=30,
+        choices=AI_TYPE_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    requires_gpu = models.BooleanField(
+        "¿Requiere GPU?",
+        default=False,
+        help_text="Indica si el proyecto necesita procesamiento con GPU"
+    )
+
+    # Datos técnicos del modelo
+    model_accuracy = models.DecimalField(
+        "Precisión del modelo (%)",
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Precisión o métrica relevante del modelo"
+    )
+    decision_maps = models.TextField(
+        "Mapas de decisión / diagramas",
+        blank=True,
+        null=True,
+        help_text="Descripción o links a mapas de decisión, diagramas de árbol, u otras visualizaciones"
+    )
+    technical_notes = models.TextField(
+        "Notas técnicas adicionales",
+        blank=True,
+        null=True,
+        help_text="Información técnica para garantizar la escalabilidad y confiabilidad del modelo"
+    )
+
+    # 👤 Desarrollador asignado
+    assigned_developer = models.ForeignKey(
+        SmartQuailCrew,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='assigned_intelligences',
+        verbose_name="Desarrollador asignado"
+    )
+
+    # 📅 Fechas
+    start_date = models.DateField("Fecha de inicio", null=True, blank=True)
+    delivery_date = models.DateField("Fecha de entrega", null=True, blank=True)
+
+    approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
+
+    final_url = models.URLField("URL final", blank=True, null=True)
+
+    # 🕓 Cálculo de duración
+    total_development_days = models.PositiveIntegerField(
+        "Días de desarrollo", null=True, blank=True, editable=False
+    )
+
+    def save(self, *args, **kwargs):
+        if self.start_date and self.delivery_date:
+            delta = self.delivery_date - self.start_date
+            self.total_development_days = delta.days if delta.days >= 0 else 0
+        else:
+            self.total_development_days = None
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name} - {self.project.name}"
+
+
+
 class QATest(models.Model):
     process = models.ForeignKey(BusinessProcess, on_delete=models.CASCADE, related_name='qa_tests')
     test_case = models.CharField(max_length=255)

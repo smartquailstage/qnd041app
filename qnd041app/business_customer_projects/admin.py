@@ -1,35 +1,17 @@
 from django.contrib import admin
-from django.db import models
 from unfold.admin import ModelAdmin
-from .models import BusinessSystemProject, BusinessProcess, QATest, CloudResource
-from usuarios.widgets import CustomDatePickerWidget  # si lo tienes
-  # si usas filtros de fecha como en tu ejemplo
+from .models import BusinessProcess,BusinessSystemProject,BusinessAutomation,BusinessIntelligent,QATest,CloudResource
 
-# 👤 Admin para Proyectos
+
 @admin.register(BusinessSystemProject)
 class BusinessSystemProjectAdmin(ModelAdmin):
-    autocomplete_fields = ['user']
-    compressed_fields = True
-    search_fields = ['name', 'user__username']
     list_display = ['name', 'user', 'created_at']
+    readonly_fields = ['created_at']
     list_filter = ['created_at']
-    list_fullwidth = True
-    list_filter_sheet = True
-    change_form_show_cancel_button = True
-    warn_unsaved_form = True
+    search_fields = ['name', 'description', 'user__username']
 
-    formfield_overrides = {
-        models.DateField: {
-            "widget": CustomDatePickerWidget(),
-        },
-    }
 
-    fieldsets = (
-        ('Información del Proyecto', {
-            'fields': ('name', 'description', 'user','crew_members'),
-            'classes': ('collapse',),
-        }),
-    )
+
 
 
 # ⚙️ Admin para Procesos de Negocio
@@ -69,6 +51,99 @@ class BusinessProcessAdmin(ModelAdmin):
         }),
     )
 
+
+
+@admin.register(BusinessAutomation)
+class BusinessAutomationAdmin(ModelAdmin):
+    autocomplete_fields = ['project', 'assigned_developer']
+    search_fields = ['name', 'project__name']
+    list_display = [
+        'name',
+        'project',
+        'assigned_developer',
+        'automation_type',
+        'progress',
+        'start_date',
+        'delivery_date',
+        'approved_by_client',
+        'total_development_days',
+        'final_url'
+    ]
+    list_filter = [
+        'automation_type',
+        'approved_by_client',
+        'start_date',
+        'delivery_date'
+    ]
+    readonly_fields = ['total_development_days']
+    change_form_show_cancel_button = True
+    warn_unsaved_form = True
+    list_fullwidth = True
+    list_filter_sheet = True
+
+    fieldsets = (
+        ('📄 Información General', {
+            'fields': (
+                'project',
+                'name',
+                'description',
+                'automation_type',
+                'progress',
+            ),
+            'classes': ('collapse',),
+        }),
+        ('👤 Asignación Técnica', {
+            'fields': (
+                'assigned_developer',
+            ),
+            'classes': ('collapse',),
+        }),
+        ('📅 Fechas y Estado', {
+            'fields': (
+                'start_date',
+                'delivery_date',
+                'total_development_days',
+                'approved_by_client',
+            ),
+            'classes': ('collapse',),
+        }),
+        ('🔗 Detalles Técnicos', {
+            'fields': (
+                'final_url',
+            ),
+            'classes': ('collapse',),
+        }),
+    )
+
+
+# ⚙️ Admin para Inteligencia de Negocio
+@admin.register(BusinessIntelligent)
+class BusinessIntelligentAdmin(ModelAdmin):
+    autocomplete_fields = ['project', 'assigned_developer']
+    compressed_fields = True
+    search_fields = ['name', 'project__name']
+    list_display = ['name', 'project', 'assigned_developer', 'ai_type', 'progress', 'requires_gpu', 'approved_by_client']
+    list_filter = ['ai_type', 'requires_gpu', 'approved_by_client']
+    list_fullwidth = True
+    list_filter_sheet = True
+    change_form_show_cancel_button = True
+    warn_unsaved_form = True
+    readonly_fields = ['total_development_days']
+
+    fieldsets = (
+        ('Información de Inteligencia Artificial', {
+            'fields': ('project', 'name', 'assigned_developer', 'description', 'ai_type', 'requires_gpu', 'progress'),
+            'classes': ('collapse',),
+        }),
+        ('Fechas y Aprobación', {
+            'fields': ('start_date', 'delivery_date', 'total_development_days', 'approved_by_client', 'final_url'),
+            'classes': ('collapse',),
+        }),
+        ('Detalles Técnicos del Modelo', {
+            'fields': ('model_accuracy', 'decision_maps', 'technical_notes'),
+            'classes': ('collapse',),
+        }),
+    )
 
 
 # 🧪 Admin para QA
