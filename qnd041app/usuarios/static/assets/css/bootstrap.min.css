@@ -1610,14 +1610,14 @@ progress {
 	--bs-table-bg-state: initial;
 	--bs-table-color: #fff;
 	--bs-table-bg: #3c9aae;
-	--bs-table-border-color: rgb(23 187 107);
+	--bs-table-border-color:#fff;
 	--bs-table-accent-bg: transparent;
 	--bs-table-striped-color: var(--bs-body-color);
 	--bs-table-striped-bg: rgba(0, 0, 0, 0.05);
 	--bs-table-active-color: var(--bs-body-color);
 	--bs-table-active-bg: rgba(0, 0, 0, 0.1);
     --bs-table-hover-color: #ffffff;
-    --bs-table-hover-bg: rgb(23 187 107);
+    --bs-table-hover-bg: #fff;
 	width: 100%;
 	margin-bottom: 1rem;
 	vertical-align: top;
@@ -1626,7 +1626,7 @@ progress {
 .table>:not(caption)>*>* {
 	padding: .5rem .5rem;
 	color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
-	background-color: #3ba779;
+	background-color: #827f7f;
 	border-bottom-width: var(--bs-border-width);
 	box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)))
 }
@@ -3992,7 +3992,7 @@ textarea.form-control-lg {
 .card-header {
 	padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
 	margin-bottom: 0;
-	color: #ffff;;
+	color:#000;
 	background-color: var(--bs-card-cap-bg);
 	border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color)
 }
@@ -7565,7 +7565,7 @@ textarea.form-control-lg {
 }
 .text-muted {
   --bs-text-opacity: 1;
-  color: rgb(255, 255, 255) !important;
+  color: rgb(0, 0, 0) !important;
 }
 .text-black-50 {
 	--bs-text-opacity: 1;
@@ -7782,7 +7782,7 @@ textarea.form-control-lg {
 }
 .bg-light {
 	--bs-bg-opacity: 1;
-	background-color: rgb(39, 121, 202) 
+	background-color: rgb(130, 127, 127)
 }
 .bg-dark {
 	--bs-bg-opacity: 1;

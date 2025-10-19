@@ -73,7 +73,7 @@
 
             <hr class="my-4">
 
-            <h4>Personal a Cargo</h4>
+            <h4>SmartQuail Crew  Asignado</h4>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-3 row-cols-xxl-3">
   {% for member in staff %}
@@ -127,54 +127,144 @@
       </div>
 
       <!-- TAB 2: Desarrollo e Investigación -->
-      <div class="tab-pane fade" id="tab-desarrollo" role="tabpanel">
-        <div class="card radius-10">
-          <div class="card-body">
-            <h4 class="mb-3"><ion-icon name="code-slash-outline"></ion-icon>Investigación y Desarollo (I+D)</h4>
-            {% for process in processes %}
-            <div class="card mb-3 border">
-              <div class="card-body">
-                <h5>{{ process.name }}</h5>
-                <p>{{ process.description }}</p>
-                <p><strong>Progreso:</strong> {{ process.progress }}%</p>
-                <p><strong>Automatización:</strong> {{ process.has_automation|yesno:"Sí,No" }}</p>
-                {% if process.has_automation %}
-                <p><strong>Descripción de Automatización:</strong> {{ process.automation_description }}</p>
-                {% endif %}
-                <p><strong>¿Usa IA?:</strong> {{ process.has_ai|yesno:"Sí,No" }}</p>
-                {% if process.has_ai %}
-                <p><strong>Modelo IA:</strong> {{ process.ai_model_description }}</p>
-                {% endif %}
-
-                <hr>
-                <h6>Tests QA</h6>
-                {% if process.qa_tests.exists %}
-                <ul class="list-group list-group-flush">
-                  {% for test in process.qa_tests.all %}
-                  <li class="list-group-item">
-                    <strong>{{ test.test_case }}</strong> - <span class="badge 
-                      {% if test.result == 'passed' %} bg-success 
-                      {% elif test.result == 'failed' %} bg-danger 
-                      {% else %} bg-warning text-dark 
-                      {% endif %}">
-                      {{ test.get_result_display }}
-                    </span><br>
-                    <small>{{ test.description }}</small><br>
-                    <small>Ejecutado por {{ test.executed_by }} el {{ test.executed_at|date:"d/m/Y H:i" }}</small>
-                  </li>
-                  {% endfor %}
-                </ul>
-                {% else %}
-                <p class="text-muted">No hay pruebas QA registradas.</p>
-                {% endif %}
-              </div>
-            </div>
-            {% empty %}
-            <p>No hay procesos definidos para este proyecto.</p>
-            {% endfor %}
+<div class="tab-pane fade" id="tab-desarrollo" role="tabpanel">
+  {% for process in processes %}
+  <div class="card mb-4 radius-10">
+    <div class="card-header py-2">
+      <div class="row row-cols-1 row-cols-lg-3">
+        <div class="col">
+          <small>Información del Proceso</small>
+          <address class="m-t-5 m-b-5">
+            <strong class="text-inverse">{{ process.name }}</strong><br>
+            <small>{{ process.description }}</small><br>
+            <strong>Progreso:</strong> {{ process.progress }}%<br>
+            <strong>Tipo:</strong> {{ process.get_process_type_display }}<br>
+            <strong>Clase:</strong> {{ process.get_process_class_display }}
+          </address>
+        </div>
+        <div class="col">
+          <small>Fechas</small>
+          <address class="m-t-5 m-b-5">
+            <strong>Inicio:</strong> {{ process.start_date|date:"d/m/Y" }}<br>
+            <strong>Entrega:</strong> {{ process.delivery_date|date:"d/m/Y" }}<br>
+            <strong>Días desarrollo:</strong> {{ process.total_development_days }} días<br>
+            <strong>Aprobado:</strong> {{ process.approved_by_client|yesno:"Sí,No" }}
+          </address>
+        </div>
+        <div class="col">
+          <small>Automatización e IA</small>
+          <div class="m-t-5 m-b-5">
+            <strong>Automatización:</strong> {{ process.has_automation|yesno:"Sí,No" }}{% if process.has_automation %} - {{ process.automation_description }}{% endif %}<br>
+            <strong>¿Usa IA?:</strong> {{ process.has_ai|yesno:"Sí,No" }}{% if process.has_ai %} - {{ process.ai_model_description }}{% endif %}
           </div>
         </div>
       </div>
+    </div>
+
+<div class="card-body">
+
+  {% if process.progress == 100 %}
+    <!-- Solo botón para visualizar -->
+    {% if process.final_url %}
+      <div class="text-center my-5">
+        <a href="{{ process.final_url }}" target="_blank" class="btn btn-primary btn-lg">
+          Visualizar Resultado Final
+        </a>
+      </div>
+    {% else %}
+      <p class="text-center text-warning my-5">No hay URL final disponible.</p>
+    {% endif %}
+  {% else %}
+    <!-- Mostrar tabla con todos los detalles -->
+    <div class="table-responsive">
+      <table class="table table-invoice">
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th class="text-center" width="15%">Tecnología</th>
+            <th class="text-center" width="20%">Desarrollador</th>
+            <th class="text-center" width="15%">QA Tests</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="text-inverse">Detalles</span><br>
+              <small>{{ process.description }}</small>
+            </td>
+            <td class="text-center">
+              <span class="badge bg-info">{{ process.technology_type }}</span>
+            </td>
+            <td class="text-center">
+              {% if process.assigned_developer %}
+              <div class="d-flex flex-column align-items-center">
+                <img src="{% if process.assigned_developer.profile_picture %}{{ process.assigned_developer.profile_picture.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                     class="rounded-circle mb-1" width="40" height="40" alt="Foto perfil">
+                <small><strong>{{ process.assigned_developer.full_name }}</strong></small>
+                <small>{{ process.assigned_developer.get_role_display }}</small>
+              </div>
+              {% else %}
+              <small class="text-muted"><em>No asignado</em></small>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if process.qa_tests.exists %}
+                <ul class="list-unstyled small mb-0">
+                  {% for test in process.qa_tests.all %}
+                  <li>
+                    <span class="badge {% if test.result == 'passed' %}bg-success{% elif test.result == 'failed' %}bg-danger{% else %}bg-warning text-dark{% endif %} mb-1">
+                      {{ test.get_result_display }}
+                    </span><br>
+                    <small>{{ test.test_case }}</small>
+                  </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <small class="text-muted">Sin pruebas QA</small>
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ejemplo de resumen -->
+    <div class="row bg-light align-items-center m-0">
+      <div class="col col-auto p-3">
+        <p class="mb-0" style="color:#fff;">Progreso</p>
+        <div class="progress" style="height: 6px;">
+          <div class="progress-bar bg-gradient-purple" role="progressbar" style="width: {{ process.progress }}%;"></div>
+        </div>
+        <p class="mb-0" style="color:#fff;">{{ process.progress }}%</p>
+      </div>
+      <div class="col col-auto me-auto p-3">
+        <p class="mb-0" style="color:#fff;">Días totales</p>
+        <h5 class="mb-0">{{ process.total_development_days }} días</h5>
+      </div>
+      <div class="col bg-primary col-auto p-3">
+        <p class="mb-0 text-white">Aprobado</p>
+        <h5 class="mb-0 text-white">{{ process.approved_by_client|yesno:"Sí,No" }}</h5>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="my-3 small text-muted">
+      * Información sujeta a cambios según el avance del proyecto.<br>
+      * Contactar con el administrador para más detalles.
+    </div>
+  {% endif %}
+</div>
+
+  </div>
+  {% empty %}
+  <p>No hay procesos definidos para este proyecto.</p>
+  {% endfor %}
+</div>
+
+
+
+
 
       <!-- TAB 3: Recursos y Facturación -->
       <div class="tab-pane fade" id="tab-recursos" role="tabpanel">
@@ -218,7 +308,7 @@
         <div class="card mb-3 border">
           <div class="card-body">
             <h5>{{ process.name }}</h5>
-            <p><strong>Descripción:</strong> {{ process.description }}</p>
+            <p ><strong>Descripción:</strong> {{ process.description }}</p>
             <p><strong>Automatización:</strong> {{ process.automation_description }}</p>
           </div>
         </div>

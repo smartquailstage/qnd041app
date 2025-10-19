@@ -35,19 +35,28 @@ class BusinessSystemProjectAdmin(ModelAdmin):
 # ⚙️ Admin para Procesos de Negocio
 @admin.register(BusinessProcess)
 class BusinessProcessAdmin(ModelAdmin):
-    autocomplete_fields = ['project']
+    autocomplete_fields = ['project', 'assigned_developer']
     compressed_fields = True
     search_fields = ['name', 'project__name']
-    list_display = ['name', 'project', 'progress', 'has_automation', 'has_ai']
-    list_filter = ['has_automation', 'has_ai']
+    list_display = ['name', 'project', 'assigned_developer', 'progress', 'has_automation', 'has_ai', 'approved_by_client']
+    list_filter = ['has_automation', 'has_ai', 'approved_by_client', 'process_type', 'process_class']
     list_fullwidth = True
     list_filter_sheet = True
     change_form_show_cancel_button = True
     warn_unsaved_form = True
+    readonly_fields = ['total_development_days']
 
     fieldsets = (
         ('Información del Proceso de Negocio', {
-            'fields': ('project', 'name', 'description', 'progress'),
+            'fields': ('project', 'name', 'assigned_developer','technology_type', 'description', 'progress'),
+            'classes': ('collapse',),
+        }),
+        ('Fechas y Aprobación', {
+            'fields': ('start_date', 'delivery_date', 'total_development_days', 'approved_by_client','final_url'),
+            'classes': ('collapse',),
+        }),
+        ('Clasificación', {
+            'fields': ('process_type', 'process_class'),
             'classes': ('collapse',),
         }),
         ('Automatización', {
@@ -59,6 +68,7 @@ class BusinessProcessAdmin(ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
 
 
 # 🧪 Admin para QA
