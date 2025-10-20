@@ -2,12 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from usuarios.models  import SmartQuailCrew
+from saas_shop.models import Product
+
 
 
 class BusinessSystemProject(models.Model):
+    # Campo para el usuario logueado (asociado con el modelo de usuario)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='business_projects',
+        verbose_name='Producto asociado'
+    )
+
+    # Nombre y descripción del proyecto
     name = models.CharField(max_length=200)
     description = models.TextField()
+
+    # Fecha de creación
     created_at = models.DateTimeField(auto_now_add=True)
 
     # ✅ Relación con el equipo de SmartQuail
@@ -17,6 +33,36 @@ class BusinessSystemProject(models.Model):
         blank=True,
         verbose_name='Equipo asignado'
     )
+
+    # Nuevo campo: Sector de negocio (con opciones predefinidas)
+    SECTOR_CHOICES = [
+        ('gastronomico', 'Gastronómico'),
+        ('servicios', 'Servicios'),
+        ('administrativo', 'Administrativo'),
+        ('finanzas', 'Finanzas'),
+        ('banca', 'Banca'),
+        ('gubernamental', 'Organización Gubernamental'),
+        ('no_gubernamental', 'No Gubernamental'),
+        ('comercio_electronico', 'Comercio Electrónico'),
+        ('marketing_publicidad', 'Marketing y Publicidad'),
+        ('educativo', 'Educativo'),
+        ('medico_salud', 'Médico y Salud'),
+        ('transporte', 'Transporte'),
+        ('cadena_suministros', 'Cadena de Suministros'),
+        ('agricultura', 'Agricultura'),
+    ]
+
+    business_sector = models.CharField(
+        max_length=50,
+        choices=SECTOR_CHOICES,
+        default='gastronomico',  # O puedes dejarlo en blanco
+        verbose_name='Sector de Negocio'
+    )
+
+
+    def __str__(self):
+        return self.name
+
 
 
     def get_absolute_url(self):

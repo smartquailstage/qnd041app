@@ -73,6 +73,8 @@ class Product(models.Model):
         ('recomendacion', 'Agente de IA de recomendación'),
     ]
 
+ 
+
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -81,7 +83,11 @@ class Product(models.Model):
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
 
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE, null=True, blank=True)
-    available = models.BooleanField(default=True)
+    available = models.BooleanField(default=True, verbose_name="Disponible")
+    is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
+    is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
+    is_intelligent = models.BooleanField(default=True, verbose_name="Tiene inteligencia artificial")
+
     iva = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="IVA (%)", null=True, blank=True)
 
     item1 = models.CharField(max_length=200, null=True, blank=True)
@@ -243,7 +249,9 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name or f"Product #{self.id}"
+        return f"Name: {self.name}, Usuarios: {self.usuarios_simultaneos}, Price: {self.price}"
+
+
 
     def get_absolute_url(self):
         return reverse('saas_shop:product_detail', args=[self.id, self.slug])
