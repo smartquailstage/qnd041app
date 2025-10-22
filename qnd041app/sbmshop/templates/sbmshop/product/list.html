@@ -93,9 +93,9 @@ h3 {
     <div class="row">
       <div class="col-md-6">
         <h1>{% trans "Let’s Start" %}</h1>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Join us and discover which startup marketing model best fits your business strategy!.'%}</p>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Descubre SmartBusinessMedia, el CRM diseñado especialmente para agencias de marketing digital que quieren llevar su gestión al siguiente nivel. Regístrate y forma parte de una comunidad de profesionales que comparten ideas, estrategias y herramientas para crecer juntos. Simplifica tu trabajo, automatiza tus procesos y conecta con otras agencias que, como tú, buscan innovar y maximizar sus resultados. '%}</p>
       
-        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Marketing Business Models Scale' %}</h3>
+        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Con SmartBusinessMedia, no solo gestionas tu negocio, ¡lo transformas!' %}</h3>
         
        
         <div class="panel-group accordion-color mt-50" id="accordion-color">
@@ -338,7 +338,7 @@ h3 {
     <div class="row">
       <div class="col-md-5">
         <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Tell us, Which is your Marketing Business Model.' %}</p>
+          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'SmartBusinessMedia® Content Resources Manager CRM' %}</p>
        
         </div>
       </div>
@@ -350,7 +350,13 @@ h3 {
     <div class="row">
       <div class="col-md-12">
         <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans "At Smartquail, Inc., we believe that a business model is primarily defined by its reach and impact on the community. It's essential to choose the product you want to obtain based on your business model. With SmartBusinessTechnologies, we automatically calculate the cloud resources your business model requires. This allows us to optimize the cloud resources you use, ultimately reducing costs. In this way, we develop technologies that are both user-friendly and environmentally sustainable." %}</p>
+          <p class="mt-20 content-text">{% trans 'SmartBusinessMedia® es un proyecto tecnológico desarrollado por SmartQuail, Inc., diseñado para optimizar la gestión integral de los procesos en el ámbito del marketing digital. Su interfaz moderna, intuitiva y altamente funcional permite a los usuarios centralizar y administrar de forma eficiente todos sus sistemas de información desde una única plataforma.'%}</p>
+
+<p class="mt-20 content-text">{% trans 'La solución integra herramientas avanzadas para la automatización de tareas programadas en redes sociales, facilitando la planificación, publicación y análisis de campañas digitales. Además, incorpora módulos de inteligencia artificial que permiten implementar chatbots inteligentes en WhatsApp, potenciando la comunicación, la atención al cliente y la conversión en tiempo real.'%}</p>
+
+<p class="mt-20 content-text">{% trans 'Uno de sus componentes más innovadores es su sistema inteligente de algoritmos de recomendación, diseñado para analizar datos de comportamiento, optimizar estrategias y ofrecer sugerencias personalizadas que impulsan la eficiencia y el crecimiento de cada agencia o negocio.'%}</p>
+
+<p class="mt-20 content-text">{% trans 'Todas las plataformas desarrolladas por SmartQuail, Inc. son soluciones de computación en la nube de última generación, construidas sobre infraestructuras seguras, escalables y de alto rendimiento. Estas herramientas integran las tecnologías más innovadoras del mercado, garantizando a las agencias de marketing digital una experiencia confiable, eficiente y adaptable a las exigencias del entorno digital moderno.' %}</p>
         </div>
         <hr>
       
@@ -465,14 +471,20 @@ h3 {
   <div class="container">
     <div class="row">
       <div id="client-slider" class="owl-carousel">
-        {% for tech_items in products_tech %}
-        <div class="client-logo"> <img class="img-responsive" src="{{ tech_items.logo_img.url }}" alt="01"/> </div>
+        {% for tech in products_tech %}
+          {% if tech.logo_img %}
+            <div class="client-logo">
+              <img class="img-responsive" src="{{ tech.logo_img.url }}" alt="{{ tech.Node_name|default:'Technology' }}">
+            </div>
+          {% endif %}
+        {% empty %}
+          <p class="text-white">No hay tecnologías disponibles en este momento.</p>
         {% endfor %}
-  
       </div>
     </div>
   </div>
 </section>
+
 
 
 

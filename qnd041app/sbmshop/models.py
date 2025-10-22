@@ -12,6 +12,16 @@ class Category(models.Model):
                               blank=True,null=True)
     title = models.CharField(max_length=250, null=True, blank=True)
 
+    TECH_TYPE = (
+    ("Investigación y Desarollo", "(I+D)"),
+    ("Automatizacion", "(+A)+(I+D)"),
+    ("Inteligencia Artificial", "(+AI)+(I+D)"),
+    ("Automatizacion y Inteligencia Artificial", "(+A)+(+AI)+(I+D)"),
+
+    )
+
+    tech_type= models.CharField(choices=TECH_TYPE, max_length=200, db_index=True,null=True, blank= True)
+
     sbmmodels_p1 = RichTextField(blank=True)
     sbmmodels_p2 = RichTextField(blank=True)
     sbmmodels_p3 = RichTextField(blank=True)
@@ -151,6 +161,8 @@ class SBMTechnologiesItem(models.Model):
         ("High", "High"),
 
     )
+    logo_img = models.ImageField(upload_to='products/smartbusinessmedia/sbmtechnologies/%Y/%m/%d',
+                              blank=True,null=True)
     sbmproductstechno = models.ForeignKey(SBMProduct,
                                  related_name='technologies_products',
                                  on_delete=models.CASCADE)
