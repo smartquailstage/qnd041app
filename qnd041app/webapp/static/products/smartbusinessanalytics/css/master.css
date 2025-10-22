@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#250500;
+	background:#da0404;
 }
 
 .section-heading {
@@ -405,7 +405,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 .fixed-bg{background-attachment: fixed!important;}
 
 .overlay-bg {
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -441,7 +441,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 }
 
 .overlay-bg-light {
-    background: rgba(255,255,255,0.3);
+    background: rgba(0, 0, 0, 0);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -449,7 +449,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 }
 
 .parallax-overlay {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgb(0, 0, 0);
     width: 100%;
     height: 100%;
     position: absolute;
