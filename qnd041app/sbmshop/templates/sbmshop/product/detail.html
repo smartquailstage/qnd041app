@@ -127,7 +127,7 @@ strong {
 
       </div>
       <div class="col-md-6">
-        <h2 class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{{ product.name }} {{product.category }} Environment.</h2>
+        <h2 class="subtitle" style ="line-height: 31px ; color:#f1f1f1;">{{ product.name }} {{product.category }} Environment.</h2>
        
 
         <div class="panel-group accordion-color mt-50" id="accordion-color">
@@ -206,44 +206,11 @@ strong {
         <p ><strong>{% trans 'Delivery Software time since subscription becomes effective: 120 minutes.' %}</strong></p>
         <p><strong>{% trans 'Minimum subscription period: 3 months' %}</strong></p>
 
-      {% if product.available == True %}
-          <form action="{% url 'sbmcart:cart_add' product.id %}" method="post">
-            {% csrf_token %}
-            {% for field in cart_product_form.visible_fields %}
-            
-          
-                {% if field.name == 'quantity' %}
-                    <label for="{{ field.id }}" class="form-label"><strong>{% trans 'Select the number of suscriptions ,you prefered to pay for this product:' %}</strong></label>
-                    {% if field.errors %}
-                        {% render_field field class="form-select is-invalid" required="required" %}
-                        {% for error in field.errors %}
-                            <div class="invalid-feedback">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% render_field field class="form-select" required="required" %}
-                    {% endif %}
-                    {% if field.help_text %}
-                        <small class="form-text text-muted"></small>
-                    {% endif %}
-            {% endif %}
-    
-            {% endfor %}
-           
-            <br>
-            <br>
-            <a class="btn btn-outline-white  btn-default" href="{% url 'sbmshop:product_list' %}#SBM"  >Keep Looking</a>
-            <input type="submit" value="{% trans 'Suscribe Now' %}" class="btn btn-outline-blue btn-default">
-            
-        
-             
-          </form>
-      {% else %}
+
 
        <a class="btn btn-outline-white  btn-default" href="{% url 'sbmshop:product_list' %}#SBM"  >Keep Looking</a>
-       <a class="btn btn-outline-blue btn-default" href="#"  > {% trans 'Demand on it' %} </a>
-      {% endif %}
+       <a class="btn btn-outline-blue btn-default" href="{% url 'usuarios:register' %}"  > {% trans 'View Demo' %} </a>
+  
          
       
 

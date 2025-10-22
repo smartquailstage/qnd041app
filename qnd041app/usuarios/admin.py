@@ -1223,25 +1223,6 @@ class tareasAdmin(ModelAdmin):
         }),
     )
 
-    conditional_fields = {
-        # Mostrar estos campos solo si asistió'
-        "cita_terapeutica_asignada": "asistire == true",
-        "fecha_envio": "asistire == true",
-        "hora_fin": "asistire == true",
-        "hora": "asistire == true",
-        "titulo": "asistire == true",
-        "descripcion_actividad": "asistire == true",
-        "media_terapia": "asistire == true",
-        "envio_tarea": "asistire == true",
-        "tarea_realizada":  "asistire == true",
-
-        # Mostrar estos campos solo si asistió Y también marcó que se envía tarea
-        
-        "fecha_entrega": "asistire == true && envio_tarea == true",
-        "descripcion_tarea": "asistire == true && envio_tarea == true",
-        "actividad_realizada": "asistire == true && envio_tarea == true",
-        "material_adjunto": "asistire == true && envio_tarea == true",
-    }
 
     actions_list = []
     actions_row = []
@@ -2461,6 +2442,8 @@ class ProfileAdmin(ModelAdmin):
     models.DateField: {
         "widget": CustomDatePickerWidget(),  # ← Paréntesis: instancia
     },
+
+
 }
 
     list_display = ['get_full_name','fecha_inicio','fecha_alta','es_retirado','es_en_terapia','es_pausa', 'es_alta']

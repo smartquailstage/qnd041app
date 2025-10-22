@@ -119,7 +119,7 @@ h1, h2, h3, h5, h6 {
 
 
 h4 {
-    color: #ffffff;
+    color: #4d4848;
     margin: 10px 0;
     font-style: normal;
     font-family: 'Jost', sans-serif;
@@ -5463,7 +5463,7 @@ font-family: 'Jost', sans-serif;
 }
 .accordion-color .panel-default>.panel-heading+.panel-collapse>.panel-body {
     border: 1px solid #fff;
-	background: #fff;
+	background: #1d96c6;
 }
 .accordion-color .panel .panel-heading a:after {
     font-family: 'IcoFont';
