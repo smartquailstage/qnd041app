@@ -104,7 +104,6 @@ LOGGING = {
     },
 }
 
-
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
  
@@ -127,7 +126,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
-     
+    #'citas_regulares',
     "core",
     "webapp",
     'wagtail.embeds',
@@ -186,15 +185,18 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
+    "business_customer_projects",
    
 
              # Apps propias del proyecto
     "usuarios",
+    #'businees_customers_projects',
     #"SQOrders",
     #"SQShop",
    
    
     "serviceapp",
+    'billing',
     #"citas_regulares",
 
     # E-commerce apps
@@ -233,7 +235,20 @@ INSTALLED_APPS = [
     "taggit"
 ]
 
+#LOGINGS REDIRECT
 
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
+LOGIN_URL = 'usuarios:login'
+LOGOUT_URL = 'usuarios:logout'
+
+SITE_ID = 1
+
+
+domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
+
+CART_SESSION_ID = 'cart'
+
+SAAS_CART_SESSION_ID = 'saas_cart'
 
 
 from usuarios.utils import permission_callback 
@@ -648,21 +663,22 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-             #   'usuarios.context_processors.mensajes_nuevos_processor',
-             #   'usuarios.context_processors.datos_panel_usuario', 
-             #   'usuarios.context_processors.user_profile_data',
-             #   'usuarios.context_processors.citas_context',
-             #   'usuarios.context_processors.tareas_context',
-             #   'usuarios.context_processors.pagos_context',  
-             #   'usuarios.context_processors.profile_uploads_context',
-             #   'usuarios.context_processors.ultima_cita',
-             #   'usuarios.context_processors.ultima_tarea',
-                
+                'usuarios.context_processors.mensajes_nuevos_processor',
+                'usuarios.context_processors.datos_panel_usuario', 
+                'usuarios.context_processors.user_profile_data',
+                'usuarios.context_processors.citas_context',
+                'usuarios.context_processors.tareas_context',
+                'usuarios.context_processors.pagos_context',  
+                'usuarios.context_processors.profile_uploads_context',
+                'usuarios.context_processors.ultima_cita',
+                'usuarios.context_processors.ultima_tarea',
+                'saas_cart.context_processors.cart',
+                'business_customer_projects.context_processors.all_business_projects',
+                'billing.context_processors.all_business_billing',
             ],
         },
     },
 ]
-
 
 WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
