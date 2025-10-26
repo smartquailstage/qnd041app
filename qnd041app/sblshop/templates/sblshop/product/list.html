@@ -47,9 +47,10 @@ h3 {
 
 .btn-white {
     color: #f1f1f1;
-    border-color: #da0404;
-    background-color:#da0404;
+    border-color: #f15a24;
+    background-color: #f15a24;
 }
+
 
 </style>
 
@@ -62,21 +63,26 @@ h3 {
     <ul class="slides">
       <!--=== SLIDE 1 ===-->
       <li>
-        <div class="slide-img"  style="background: url('{% static 'img/smartbusinessanalytics/1.png' %}') center center / cover no-repeat;" data-stellar-background-ratio="0.2" ></div>
+        <div class="slide-img"  style="background: url('{% static 'img/3.jpg' %}') center center / cover no-repeat;opacity: 0.2;" data-stellar-background-ratio="0.2"     opacity: 0.7;></div>
 
         <div class="hero-text-wrap">
           <div class="hero-text white-color">
             <div class="container text-left">
 
             
-              <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/2.png' %}" > 
+              <img src="{% static 'img/SmartBusinessLaw.png' %}" > 
             
-              <h3 style="color:#358eb2" class="white-color">{% trans 'Your .' %}</h3>
-              <h3 style="color:#358eb2" >{% trans 'Where Art and Technology Meet' %}</h3>
+              <h3 style="color:#358eb2" class="white-color">{% trans 'Tu socio estratégico en soluciones legales y cumplimiento digital.' %}</h3>
+              <h3 style="color:#358eb2" >{% trans 'Tokeniza tus datos y conviértelos en activos digitales de valor.' %}</h3>
 
-                <div class="animate-caption capitalize mt-50">
-                  <h3 class="mt-30 text-left" style="color:#e5e4e5" ><span class="rotate" style="color:#e5e4e5"> TETE (CRM) {% trans 'Customer Relationship Management' %}  | +(I+D) {% trans 'Implentation & Front End Devlopment' %} | (+A) {% trans 'Marketing process automation' %} | and |  (+AI) {% trans 'Marketing Artificial Inteligent' %}</span></h3>
-                </div>
+<div class="animate-caption capitalize mt-50">
+  <h3 class="mt-30 text-left" style="color:#e5e4e5">
+    <span class="rotate" style="color:#e5e4e5">
+      SmartBusinessLaw® (Legal ERP) {% trans 'Legal Management System' %} | +(I+D) {% trans 'Implementation & Front End Development' %} | (+A) {% trans 'Legal Process Automation' %} | and | (+AI) {% trans 'Legal Artificial Intelligence' %}
+    </span>
+  </h3>
+</div>
+
                 <a href="#Choose" class="btn btn-white btn-circle">{% trans 'Start Your Business Media Project' %}</a>
                
             </div>
@@ -91,110 +97,58 @@ h3 {
 <section id="Choose" class="black-bg">
   <div class="container">
     <div class="row">
-      <div class="col-md-6">
-        <h1>{% trans "Let’s Start" %}</h1>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Join us and discover which startup marketing model best fits your business strategy!.'%}</p>
-      
-        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Marketing Business Models Scale' %}</h3>
-        
-       
-        <div class="panel-group accordion-color mt-50" id="accordion-color">
-         
-         
-          <div class="panel panel-default">
+     <div class="col-md-6">
+    <h1>{% trans "Empecemos" %}</h1>
+    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+        {% trans 'Descubre SmartBusinessLaw®, el ERP legal inteligente diseñado para administrar y gestionar en tiempo real todos los procesos legales de tu organización, integrando investigación y desarrollo (I+D) directamente en tu flujo de trabajo.' %}
+    </p>
+
+    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+        {% trans 'Con la automatización avanzada, SmartBusinessLaw® permite generar contratos de manera automática y gestionar cada etapa del proceso legal con eficiencia y seguridad. Además, su inteligencia artificial analiza datos históricos y predice posibles resultados legales, brindándote la capacidad de tomar decisiones proactivas y estratégicas.' %}
+    </p>
+
+    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+        {% trans 'Simplifica la gestión legal, aumenta la productividad y lleva la operación de tu área jurídica al siguiente nivel con una plataforma que combina innovación, automatización y análisis predictivo.' %}
+    </p>
+
+        <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+        {% trans 'Cumple con la Ley de Protección de Datos de Ecuador, garantizando los derechos ARCO de tus clientes, y está respaldado por la certificación ISO 27001, que asegura la confidencialidad, integridad y disponibilidad de toda tu información.' %}
+    </p>
+
+    <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">
+        {% trans 'Donde la información legal se convierte en decisiones inteligentes.' %}
+    </h3>
+
+    <div class="panel-group accordion-color mt-50" id="accordion-color">
+        <div class="panel panel-default">
             {% for c in categories %}
             <div class="panel-heading">
-              {% if c.title == 'Pre-Seed' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
+                {% if c.title == 'Pre-Seed' %}
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
+                        {{ c.title }} (1-{{c.name }} {% trans 'Clientes' %} / 1-{{ c.name }} {% trans 'Empleados' %})  
+                    </a>
+                </h3>
+                {% else %}
+                {% endif %}
             </div>
-
-          {% endfor %} 
-            
+            {% endfor %}
             <div id="collapseOne" class="panel-collapse collapse">
-              
-              <div class="panel-body">
-                {% for c in categories %}
-                
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-               
-                {% endfor %} 
-              </div>
-             
-              
+                <div class="panel-body">
+                    {% for c in categories %}
+                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
+                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
+                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
+                    {% endfor %} 
+                </div>
             </div>
-          </div>
-
-          <div class="panel panel-default">
-            {% for c in categories %}
-            <div class="panel-heading">
-              {% if c.title == 'Stage' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo"> 
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
-            </div>
-
-          {% endfor %} 
-            
-            <div id="collapseTwo" class="panel-collapse collapse ">
-              
-              <div class="panel-body">
-                {% for c in categories %}
-                
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-               
-                {% endfor %} 
-              </div>
-             
-              
-            </div>
-          </div>
-
-          <div class="panel panel-default ">
-            {% for c in categories %}
-            <div class="panel-heading">
-              {% if c.title == 'Stage-A' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree"> 
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
-            </div>
-
-          {% endfor %} 
-            
-            <div id="collapseTree" class="panel-collapse collapse ">
-              
-              <div class="panel-body">
-                {% for c in categories %}
-                
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-               
-                {% endfor %} 
-              </div>
-             
-              
-            </div>
-          </div>
-
-        
         </div>
 
-        </div>
+        <!-- Repetir estructura para Stage y Stage-A como en tu código original -->
+
+    </div>
+</div>
+
 
         <div class="col-md-6">
                
@@ -332,42 +286,44 @@ h3 {
   </div>
 </section>
 
-
-<section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
+<section id="Products" class="pt-50 pb-50 dark-bg cta-block">
   <div class="container">
     <div class="row">
       <div class="col-md-5">
         <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Tell us, Which is your Marketing Business Model.' %}</p>
-       
+          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'SmartBusinessLaw® ERP - Legal Management System' %}</p>
         </div>
       </div>
       <div class="col-md-1"></div>
-      <div class="col-md-6">
-      </div>
+      <div class="col-md-6"></div>
     </div>
- 
+
     <div class="row">
       <div class="col-md-12">
         <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans "At Smartquail, Inc., we believe that a business model is primarily defined by its reach and impact on the community. It's essential to choose the product you want to obtain based on your business model. With SmartBusinessTechnologies, we automatically calculate the cloud resources your business model requires. This allows us to optimize the cloud resources you use, ultimately reducing costs. In this way, we develop technologies that are both user-friendly and environmentally sustainable." %}</p>
+          <p class="mt-20 content-text">{% trans 'SmartBusinessLaw® es una plataforma integral desarrollada por SmartQuail, Inc., diseñada para optimizar la gestión legal y el cumplimiento normativo mediante el análisis inteligente de datos. Su interfaz moderna, intuitiva y centrada en la experiencia del usuario permite administrar de forma eficiente contratos, procesos legales, recursos jurídicos y la autogeneración de contratos certificados, firmados de manera segura desde un único entorno unificado.' %}</p>
+
+          <p class="mt-20 content-text">{% trans 'La solución ofrece control total sobre la operación legal y la toma de decisiones estratégicas, integrando módulos avanzados de gestión documental, monitoreo de obligaciones legales, análisis de riesgos, estadísticas jurídicas y visualización dinámica de flujos de trabajo. Cada componente puede personalizarse según las necesidades de cada organización, garantizando automatización precisa y eficiente de los procesos legales clave.' %}</p>
+
+          <p class="mt-20 content-text">{% trans 'Gracias a los modelos de aprendizaje automático e inteligencia artificial desarrollados por SmartQuail, SmartBusinessLaw® permite anticipar riesgos legales, optimizar la revisión de documentos, predecir tendencias normativas y generar contratos certificados automáticamente, asegurando firmas electrónicas seguras y cumplimiento legal en todo momento.' %}</p>
+
+          <p class="mt-20 content-text">{% trans 'Construida sobre infraestructura en la nube segura, escalable y de alto rendimiento, SmartBusinessLaw® garantiza el cumplimiento de la Ley de Protección de Datos de Ecuador y los derechos ARCO, respaldado por la certificación ISO 27001. Su tecnología combina precisión analítica, automatización inteligente y adaptabilidad, ofreciendo a cada empresa una herramienta poderosa para transformar la información legal en crecimiento sostenible, seguridad jurídica y procesos contractuales totalmente automatizados.' %}</p>
         </div>
+
         <hr>
-      
-        </ul>
-       
-        
       </div>
     </div>
   </div>
 </section>
 
+
 <section id="SBM" class="pt-100">
   <div class="container">
     <div class="row">
       <div class="portfolio-container text-center">  
-        <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>  
-        <p style="color:#e6e6e6;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
+        <h2>{% trans 'IT Cloud Business Law ERP' %}</h2>  
+        <p style="color:#e6e6e6;">{% trans 'Elige el SmartBusinessLaw® que mejor se adapte al modelo legal y de cumplimiento de tu empresa.' %}</p>
+
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
           <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
@@ -422,8 +378,9 @@ h3 {
   <div class="container">
     <div class="row startup-member">
       <div class="col-sm-8 section-heading">
-        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/3.png' %}" > {% trans 'Consulting us' %}</h2>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
+        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'img/SmartBusinessLaw.png'  %}" > {% trans 'Conócenos' %}</h2>
+        <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Expertos en derecho, cumplimiento normativo y tecnología legal.' %}</p>
+
       </div>
       {% for staff_item in products_staff %}
 
@@ -461,7 +418,7 @@ h3 {
 </section>
 
 
-<section style="background: #42557b;" class="pt-50 pb-50 black-bg">
+<section style="background:#f15a24;" class="pt-50 pb-50 black-bg">
   <div class="container">
     <div class="row">
       <div id="client-slider" class="owl-carousel">

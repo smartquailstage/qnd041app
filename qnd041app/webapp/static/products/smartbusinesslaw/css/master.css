@@ -111,7 +111,7 @@ body {
 .josefin-font{font-family: 'Josefin Sans', sans-serif;}
 
 h1, h2, h3, h4, h5, h6 {
-    color: #212121;
+    color: #b6b6b7;
     margin: 10px 0;
     font-style: normal;
     font-family: 'Jost', sans-serif;
@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#100c1a;
+	background:#f15a24;
 }
 
 .section-heading {
@@ -1310,9 +1310,10 @@ button:focus {
 
 .btn-white {
     color: #212121;
-    border-color: #fff;
-    background-color: #fff;
+    border-color: #f15a24;
+    background-color: #f15a24;
 }
+
 
 .btn-white:hover, .btn-white:active, .btn-white:focus {
     color: #fff;
@@ -3681,7 +3682,7 @@ ul.footer-gallery li img {
     height: 35px;
     text-align: center;
     line-height: 35px;
-    background: #d42e22;
+    background: #f15a24;
     color: #fff;
     cursor: pointer;
     border: 0;
@@ -3836,7 +3837,7 @@ ul.footer-gallery li img {
     width: 100%;
     z-index: 10;
     color: #fff;
-    top:530px;
+    top:224px;
 }
 .slider-bg .hero-text P{
 	line-height: 50px;
