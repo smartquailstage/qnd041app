@@ -1223,15 +1223,30 @@ button:focus {
 
 .btn-color {
     color: #fff;
-    border-color: #d42e22;
-    background-color: #d42e22;
+    border-color: #2e3192;
+    background-color: #2e3192;
 }
 
 .btn-color:hover, .btn-color:active, .btn-color:focus {
-    background-color: #ce1500;
-    border-color: #ce1500;
+    background-color: #2e3192;
+    border-color: #2e3192;
     color: #fff;
 }
+
+
+
+.btn-blue {
+    color: #fff;
+    border-color: #f44336;
+    background-color: #f44336;
+}
+
+.btn-blue:hover, .btn-blue:active, .btn-blue:focus {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+    color: #fff;
+}
+
 
 .btn-red {
     color: #fff;
@@ -1271,13 +1286,12 @@ button:focus {
 
 .btn-brown {
     color: #fff;
-    border-color: #D09E88;
-    background-color: #D09E88;
+    border-color: #f15a24;
+    background-color: #f15a24;
 }
-
 .btn-brown:hover, .btn-brown:active, .btn-brown:focus {
-    background-color: #b1775d;
-    border-color: #b1775d;
+    background-color: #ed6c3d;
+    border-color: #ed6c3d;
     color: #fff;
 }
 
