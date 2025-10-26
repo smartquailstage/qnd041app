@@ -1237,8 +1237,8 @@ button:focus {
 
 .btn-blue {
     color: #fff;
-    border-color: #f44336;
-    background-color: #f44336;
+    border-color: #6ba5f9;
+    background-color: #6ba5f9;
 }
 
 .btn-blue:hover, .btn-blue:active, .btn-blue:focus {
