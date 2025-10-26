@@ -1223,13 +1223,13 @@ button:focus {
 
 .btn-color {
     color: #fff;
-    border-color: #2e3192;
-    background-color: #2e3192;
+    border-color: #d32f2f;
+    background-color: #d32f2f;
 }
 
 .btn-color:hover, .btn-color:active, .btn-color:focus {
-    background-color: #2e3192;
-    border-color: #2e3192;
+    background-color: #d32f2f;
+    border-color: #d32f2f;
     color: #fff;
 }
 
@@ -1242,8 +1242,8 @@ button:focus {
 }
 
 .btn-blue:hover, .btn-blue:active, .btn-blue:focus {
-    background-color: #d32f2f;
-    border-color: #d32f2f;
+    background-color: #6ba5f9;
+    border-color: #6ba5f9;
     color: #fff;
 }
 
