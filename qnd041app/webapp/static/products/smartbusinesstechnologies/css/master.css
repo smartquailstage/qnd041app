@@ -111,7 +111,7 @@ body {
 .josefin-font{font-family: 'Josefin Sans', sans-serif;}
 
 h1, h2, h3, h4, h5, h6 {
-    color: #212121;
+    color:#fff3f3;
     margin: 10px 0;
     font-style: normal;
     font-family: 'Jost', sans-serif;
@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#162d44;
+	background:#6ba5f9;
 }
 
 .section-heading {
@@ -3681,7 +3681,7 @@ ul.footer-gallery li img {
     height: 35px;
     text-align: center;
     line-height: 35px;
-    background: #d42e22;
+    background: #6ba5f9;
     color: #fff;
     cursor: pointer;
     border: 0;
@@ -3836,7 +3836,7 @@ ul.footer-gallery li img {
     width: 100%;
     z-index: 10;
     color: #fff;
-    top: 530px;
+    top: 250px;
 }
 .slider-bg .hero-text P{
 	line-height: 50px;
