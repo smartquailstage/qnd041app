@@ -374,7 +374,7 @@ h3 {
     <div class="row">
       <div class="portfolio-container text-center">  
         <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>  
-        <p style="color:#e6e6e6;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
+        <p style="color:#fff;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
           <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
@@ -429,8 +429,8 @@ h3 {
   <div class="container">
     <div class="row startup-member">
       <div class="col-sm-8 section-heading">
-        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" > {% trans 'Consulting us' %}</h2>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
+        <h2 class="wow fadeTop josefin-font" style ="line-height: 18px ; color:#fff;" data-wow-delay="0.1s">  <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" > {% trans 'Consulting us' %}</h2>
+        <p class="subtitle" style ="line-height: 18px ; color:#fff;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
       </div>
       {% for staff_item in products_staff %}
 
