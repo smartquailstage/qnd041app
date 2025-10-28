@@ -217,6 +217,7 @@ INSTALLED_APPS = [
     "sblcart",
     "sblshop",
     "sblorders",
+    'sbpshop',
 
     #SmartBusinessTechonologies 
     "sbtcart",
