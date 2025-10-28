@@ -89,8 +89,56 @@
   position: relative; /* Necesario para que los elementos internos puedan ser posicionados de forma relativa */
 }
 
+
+
+
+
 </style>
 
+
+{% if product.category == smartbusinessanalytics %}
+<style>
+  .profile-cover {
+    background-image: url("{% static 'img/smartbusinessanalytics/1.png' %}");
+    background-size: cover;
+    height: 10rem;
+    background-position: center;
+  }
+</style>
+{% endif %}
+
+{% if product.category == 'SmartBusinessMedia' %}
+<style>
+  .profile-cover {
+    background-image: url("{% static 'img/smartbusinessmedia/1.png' %}");
+    background-size: cover;
+    height: 10rem;
+    background-position: center;
+  }
+</style>
+{% endif %}
+
+{% if product.category == 'SmartBusinessPlatforms' %}
+<style>
+  .profile-cover {
+    background-image: url("{% static 'img/smartbusinessplatforms/1.png' %}");
+    background-size: cover;
+    height: 10rem;
+    background-position: center;
+  }
+</style>
+{% endif %}
+
+{% if product.category == 'SmartBusinessTechnologies' %}
+<style>
+  .profile-cover {
+    background-image: url("{% static 'img/smartbusinesstechnologies/1.png' %}");
+    background-size: cover;
+    height: 10rem;
+    background-position: center;
+  }
+</style>
+{% endif %}
 
         <!-- start page content wrapper-->
         <div class="page-content-wrapper">
@@ -123,7 +171,9 @@
             </div>
           </div>
           <!--end breadcrumb-->
-             
+
+
+         
 
           <!--start product detail-->
           <section class="shop-page">
@@ -131,6 +181,22 @@
 
               <div class="card shadow-sm border-0">
                 <div class="card-body">
+
+<div class="profile-cover bg-dark position-relative mb-4"
+  {% if product.category == 'smartbusinessnalytics' %}
+    style="background-image: url('{% static 'img/smartbusinessanalytics/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
+  {% elif product.category == 'SmartBusinessMedia' %}
+    style="background-image: url('{% static 'img/smartbusinessmedia/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
+  {% elif product.category == 'SmartBusinessPlatforms' %}
+    style="background-image: url('{% static 'img/smartbusinessplatforms/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
+  {% elif product.category == 'SmartBusinessTechnologies' %}
+    style="background-image: url('{% static 'img/smartbusinesstechnologies/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
+  {% else %}
+    style="background-color: url('{% static 'img/smartbusinessanalytics/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
+  {% endif %}
+>
+</div>
+
                    
                   <div class="product-detail-card">
                     <div class="product-detail-body">

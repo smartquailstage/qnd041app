@@ -336,86 +336,53 @@ h3 {
 </section>
 
 
-<section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
+
+<section id="SmartBusinessTechnologies" class="pt-50 pb-50 dark-bg cta-block">
   <div class="container">
     <div class="row">
       <div class="col-md-5">
         <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Tell us, Which is your Marketing Business Model.' %}</p>
-       
+          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+            {% trans 'SmartBusinessTechnologies® – Innovación y Tecnología Inteligente' %}
+          </p>
         </div>
       </div>
       <div class="col-md-1"></div>
-      <div class="col-md-6">
-      </div>
+      <div class="col-md-6"></div>
     </div>
- 
+
     <div class="row">
       <div class="col-md-12">
         <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans "At Smartquail, Inc., we believe that a business model is primarily defined by its reach and impact on the community. It's essential to choose the product you want to obtain based on your business model. With SmartBusinessTechnologies, we automatically calculate the cloud resources your business model requires. This allows us to optimize the cloud resources you use, ultimately reducing costs. In this way, we develop technologies that are both user-friendly and environmentally sustainable." %}</p>
+
+          <p class="mt-20 content-text">
+            {% trans 'SmartBusinessTechnologies® es un proyecto liderado por SmartQuail, Inc. que reúne el mejor talento nacional e internacional para garantizar el cumplimiento de las normativas y regulaciones locales e internacionales en materia de calidad de productos tecnológicos.' %}
+          </p>
+
+          <p class="mt-20 content-text">
+            {% trans 'Nuestro equipo multidisciplinario está conformado por científicos de datos, administradores de empresas, financieros y artistas digitales, quienes trabajan en conjunto para acompañar a las empresas como su aliado estratégico en innovación tecnológica.' %}
+          </p>
+
+          <p class="mt-20 content-text">
+            {% trans 'Contamos con laboratorios de desarrollo donde analizamos y comprendemos a fondo los procesos naturales de negocio, para luego implementarlos en sistemas de información en la nube con coherencia, eficiencia y responsabilidad.' %}
+          </p>
+
+          <p class="mt-20 content-text">
+            {% trans 'Estamos comprometidos con la investigación y el desarrollo de soluciones tecnológicas innovadoras, enfocadas en la automatización, la inteligencia artificial y la transformación digital, para impulsar el crecimiento de los negocios inteligentes del futuro.' %}
+          </p>
+
+          <p class="mt-20 content-text">
+            {% trans 'Además, te invitamos a conocer nuestras soluciones On-Premise, donde implementamos nuestras arquitecturas en servidores privados. Con esta modalidad, podrás ofrecer a tus usuarios finales y clientes total autonomía, independencia y protección de datos personales, contando con tu propio centro de datos dentro de tu organización.' %}
+          </p>
+
         </div>
         <hr>
-      
-        </ul>
-       
-        
       </div>
     </div>
   </div>
 </section>
 
-<section id="SBM" class="pt-100">
-  <div class="container">
-    <div class="row">
-      <div class="portfolio-container text-center">  
-        <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>  
-        <p style="color:#e6e6e6;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
-        <ul id="portfolio-filter" class="list-inline filter-transparent">
-          {% for c in categories %}
-          <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
-            {{ c.title }} 
-          
-          </li>
-     
-          {% endfor %}
-        </ul>
-        <hr>
-        
-        <!-- Portfolio of products -->
-        <ul id="portfolio-grid" class="four-column hover-two">
-          {% for product in products %}
-            <li class="portfolio-item" data-groups='[ "{{ product.category }}" ]'>
-              <div class="portfolio">
-                <div class="dark-overlay"></div>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <div class="portfolio-wrap">
-                  <div class="portfolio-description">
-                    <h3 class="portfolio-title">{{ product.name }}</h3>
-                    {% if product.available == 'True' %}
-                      <p class="portfolio-title">{% trans 'Available' %}</p>
-                    {% else %}
-                      <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
-                    {% endif %}
-                    <p class="portfolio-title">{% trans 'Marketing Business Model:' %} {{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
-                  </div>
-                  <ul class="portfolio-details">
-                    {% if product.available == 'True' %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Subscribe Now</a></li>
-                    {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Learn more</a></li>
-                    {% endif %}
-                  </ul>
-                </div>
-              </div>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 
 

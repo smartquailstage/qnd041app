@@ -1025,12 +1025,6 @@ position: fixed;
     border-radius: 50%;
 }
 
-.profile-cover {
-    background-image: url("../images/login_bg/1.png");
-    background-size: cover;
-    height: 10rem;
-    background-position: center;
-}
 
 .user-change-photo {
 	background-color: #ffffff;
