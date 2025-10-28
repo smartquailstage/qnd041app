@@ -72,8 +72,8 @@ h3 {
             
               <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" > 
             
-              <h3 style="color:#358eb2" class="white-color">{% trans 'Your smartest IT Cloud Growth partner for  Business Plataforms.' %}</h3>
-              <h3 style="color:#358eb2" >{% trans 'La suite completa para construir, escalar y optimizar tu plataforma en la nube nativa.' %}</h3>
+              <h3 style="color:#358eb2" class="white-color">{% trans 'Somos tu aliado estratégico en el desarrollo de soluciones y plataformas empresariales nativas en la nube.' %}</h3>
+              <h3 style="color:#358eb2" >{% trans 'La suite completa para construir, escalar y optimizar tu plataforma en la nube.' %}</h3>
 
                 <div class="animate-caption capitalize mt-50">
                   <h3 class="mt-30 text-left" style="color:rgb(255, 255, 0)" ><span class="rotate" style="color:rgb(255, 255, 0)"> Suite : (CRM) {% trans 'SmartBusinessMedia' %},
@@ -345,47 +345,55 @@ h3 {
 </section>
 
 
-<section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
+<section id="Products" class="pt-50 pb-50 dark-bg cta-block">
   <div class="container">
     <div class="row">
       <div class="col-md-5">
         <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'SmartBusinessMedia® CRM – Content Resources Manager' %}</p>
-       
+          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+            {% trans 'SmartBusinessPlatforms® – IT Cloud Business Platforms' %}
+          </p>
         </div>
       </div>
       <div class="col-md-1"></div>
-      <div class="col-md-6">
-      </div>
+      <div class="col-md-6"></div>
     </div>
- 
+
     <div class="row">
       <div class="col-md-12">
         <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans 'SmartBusinessMedia® es un proyecto tecnológico desarrollado por SmartQuail, Inc., diseñado para optimizar la gestión integral de los procesos en el ámbito del marketing digital. Su interfaz moderna, intuitiva y altamente funcional permite a los usuarios centralizar y administrar de forma eficiente todos sus sistemas de información desde una única plataforma.'%}</p>
 
-<p class="mt-20 content-text">{% trans 'La solución integra herramientas avanzadas para la automatización de tareas programadas en redes sociales, facilitando la planificación, publicación y análisis de campañas digitales. Además, incorpora módulos de inteligencia artificial que permiten implementar chatbots inteligentes en WhatsApp, potenciando la comunicación, la atención al cliente y la conversión en tiempo real.'%}</p>
+          <p class="mt-20 content-text">
+            {% trans 'SmartBusinessPlatforms® es un ecosistema digital desarrollado por SmartQuail, Inc. que integra las soluciones SmartBusinessAnalytics® ERP y SmartBusinessMedia® CRM para transformar la manera en que las empresas gestionan, comunican y automatizan sus procesos.' %}
+          </p>
 
-<p class="mt-20 content-text">{% trans 'Uno de sus componentes más innovadores es su sistema inteligente de algoritmos de recomendación, diseñado para analizar datos de comportamiento, optimizar estrategias y ofrecer sugerencias personalizadas que impulsan la eficiencia y el crecimiento de cada agencia o negocio.'%}</p>
+          <p class="mt-20 content-text">
+            {% trans 'Conectamos la lógica de negocio con la experiencia del cliente, logrando que los procesos se ejecuten e interactúen en tiempo real con los usuarios finales. Esto te permite tomar el control total de tus operaciones y alinear tus estrategias con acciones de marketing digital efectivas.' %}
+          </p>
 
-<p class="mt-20 content-text">{% trans 'Todas las plataformas desarrolladas por SmartQuail, Inc. son soluciones de computación en la nube de última generación, construidas sobre infraestructuras seguras, escalables y de alto rendimiento. Estas herramientas integran las tecnologías más innovadoras del mercado, garantizando a las agencias de marketing digital una experiencia confiable, eficiente y adaptable a las exigencias del entorno digital moderno.' %}</p>
+          <p class="mt-20 content-text">
+            {% trans 'Nuestra plataforma te ayuda a ampliar tu alcance, fortalecer tu marca y construir tu propia comunidad dentro de tu ecosistema digital. Con SmartBusinessPlatforms®, tu negocio crece de forma más inteligente, ágil y conectada.' %}
+          </p>
+
+          <p class="mt-20 content-text">
+            {% trans 'Todas nuestras soluciones están desarrolladas sobre infraestructura cloud de última generación, garantizando seguridad, escalabilidad y alto rendimiento, para ofrecerte una experiencia confiable y adaptable a las exigencias del entorno digital moderno.' %}
+          </p>
+
         </div>
+
         <hr>
-      
-        </ul>
-       
-        
       </div>
     </div>
   </div>
 </section>
 
+
 <section id="SBM" class="pt-100">
   <div class="container">
     <div class="row">
       <div class="portfolio-container text-center">  
-        <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>  
-        <p style="color:#fff;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
+        <h2>{% trans 'IT Cloud Business Platforms Solutions' %}</h2>  
+        <p style="color:#3a3a3a;">{% trans 'Select the business platform that best aligns with your marketing business model.' %} </p>
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
           <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
