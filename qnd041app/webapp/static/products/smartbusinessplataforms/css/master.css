@@ -111,7 +111,7 @@ body {
 .josefin-font{font-family: 'Josefin Sans', sans-serif;}
 
 h1, h2, h3, h4, h5, h6 {
-    color:#fff3f3;
+    color:#474545;
     margin: 10px 0;
     font-style: normal;
     font-family: 'Jost', sans-serif;
@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#6ba5f9;
+	background:#ff0;
 }
 
 .section-heading {

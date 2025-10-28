@@ -62,6 +62,7 @@ urlpatterns += i18n_patterns(
     path('sbashop/', include('sbashop.urls', namespace='sbashop')),
     path('sblshop/', include('sblshop.urls', namespace='sblshop')),
     path('sbtshop/', include('sbtshop.urls', namespace='sbtshop')),
+    path('sbpshop/', include('sbpshop.urls', namespace='sbpshop')),
 
     # Wagtail frontend (las páginas creadas en el CMS)
     path("", include(wagtail_urls)),

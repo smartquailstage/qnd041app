@@ -116,6 +116,10 @@ class Home(Page):
     TS_info6 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Subtítulo-6 info')
     info6 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Info-6')
 
+    banner_title10 = RichTextField(blank=True, verbose_name='Título de galería-7')
+    TS_info7 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Subtítulo-7 info')
+    info7 = models.CharField(max_length=250, null=True, blank=True, verbose_name='Info-7')
+
     # Callout
     banner_title10 = RichTextField(blank=True, verbose_name='Mejoramos')
     info7 = models.CharField(max_length=280, null=True, blank=True, verbose_name='IT Business Analytics')
@@ -171,6 +175,10 @@ class Home(Page):
         FieldPanel("banner_title9"),
         FieldPanel("TS_info6"),
         FieldPanel("info6"),
+
+        FieldPanel("banner_title10"),
+        FieldPanel("TS_info7"),
+        FieldPanel("info7"),
 
         # Callout
         FieldPanel("banner_title10"),
@@ -251,6 +259,7 @@ class GaleriaHome(Orderable):
     image_7 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 7')
     image_8 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 8')
     image_9 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 9')
+    image_9_10 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 100')
     image_10 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 10')
     image_11 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 11')
     image_12 = models.ForeignKey(Image, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Imagen Slide Banner 12')
@@ -281,6 +290,7 @@ class GaleriaHome(Orderable):
         FieldPanel('image_7'),
         FieldPanel('image_8'),
         FieldPanel('image_9'),
+        FieldPanel('image_9_10'),
         FieldPanel('image_10'),
         FieldPanel('image_11'),
         FieldPanel('image_12'),

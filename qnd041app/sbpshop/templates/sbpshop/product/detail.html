@@ -1,0 +1,231 @@
+{% extends "sbmshop/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+
+{% block content %}
+{% include 'sbmshop/header.html' %}
+
+<style>
+
+body {
+  color: #e23185;
+  font-size: 15px;
+  font-family: 'Hind', sans-serif;
+  text-align: justify;
+  background-color: #0d0d0d;
+}
+ 
+  section {
+   padding-top: 120px;
+   padding-bottom: 120px;
+   position: relative;
+   z-index: 10;
+   background: {{product.color}};
+ }
+
+ .dark-bg {
+  background-color: {{product.color}};
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #f8c44d;
+  margin: 10px 0;
+  font-style: normal;
+  font-family: 'Jost', sans-serif;
+}
+
+
+.grey {
+  color: #1f8db0 !important;
+}
+
+.btn-color {
+  color: #fff;
+  border-color: #e23285;
+  background-color: #e23185;
+}
+
+strong {
+  color: #e23185;
+}
+
+.blog-cover-bg {
+  background-image: url('{{ product.background.url }}');
+}
+
+.white-bg {
+  background-color: #0d0d0d;
+}
+
+.panel-default > .panel-heading {
+  color: #fbec15;
+  background-color: #0d0d0d;
+  border-color: #de2f82;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel {
+  margin-bottom: 20px;
+  background-color: #0d0d0d;
+  border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.accordion-color .panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border: 1px solid #d42275;
+  background: #fff
+}
+ 
+  </style>
+
+
+
+<section class="blog-cover-bg" data-stellar-background-ratio="0.1">
+  <div class="container">
+   
+    <h3> <i class="icofont font-50px default-icon"></i> {% trans 'Where the Art & Technologies Meet' %}.</h3>
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="product-slider flexslider">
+          <ul class="slides">
+            <li data-thumb="{{ product.image.url }}"> <img src="{{ product.image.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image1.url }}"> <img src="{{ product.image1.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image2.url }}"> <img src="{{ product.image2.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image3.url }}"> <img src="{{ product.image3.url }}" class="img-responsive" alt="single-product" /> </li>
+          </ul>
+
+          
+        </div>
+        <h5>{% trans 'OpenSource Licence' %}</h5>
+        <p>
+          {% trans 'Este proyecto está licenciado bajo los términos de la Licencia Open Source correspondiente. Esto significa que puedes usar, modificar y distribuir este software de forma libre, siempre y cuando cumplas con los términos establecidos en la licencia MIT.' %}
+        </p>
+
+        
+
+       
+
+
+      </div>
+      <div class="col-md-6">
+        <h2 class="subtitle" style ="line-height: 31px ; color:#f1f1f1;">{{ product.name }} {{product.category }} Environment.</h2>
+       
+
+        <div class="panel-group accordion-color mt-50" id="accordion-color">
+
+          <div class="panel panel-default ">
+        
+            <div class="panel-heading">
+             
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
+                  {{ product.name }} {{ product.category }} Environ {% trans 'Description' %}  </a>
+                 </h3>
+                
+            </div>
+  
+            
+            <div id="collapseOne" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+                <p style="line-height: 16px;color: #333;">{{ product.description|richtext }}</p> 
+              </div> 
+            </div>
+          </div>
+
+          <div class="panel panel-default ">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo"> 
+                  {% trans 'Cloud Computing Software Requirements' %} </a>
+                 </h3> 
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse ">
+              <div class="panel-body">
+                <p style="line-height: 10px;color: #333;">{{ product.cloud_technologies|richtext }}</p>
+              </div>
+             
+              
+            </div>
+          </div>
+
+          <div class="panel panel-default ">
+        
+            <div class="panel-heading">
+             
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree"> 
+                  {% trans 'Cloud Computing Hadware Resources Requirements' %} </a>
+                 </h3>
+                
+            </div>
+  
+            
+            <div id="collapseTree" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+              
+                
+                <p style="line-height: 10px;color: #333;">{{ product.cloud_requirements|richtext }}</p>                 
+              </div>
+             
+              
+            </div>
+          </div>
+
+        </div>
+        <p>{% trans 'Buy now you CRM Software and scale your Marketing business projects to the cloud in minutes with' %} {{product.name }} by SmartQuail,Inc®</p>
+        <h3 class="grey">{% trans 'Suscription'  %} {% trans 'Price' %}: $ {{ product.price }} {% trans 'monthly' %}</h3>
+        
+    
+        {% if product.coupon %}
+        <p>{% trans "This product subscription includes a promotional discount—don't miss out on this opportunity!" %}</p>
+        <h5>{% trans "Promotional Expire at" %}: {{ product.coupon.valid_from }} </h5>
+       {% endif %}
+
+      
+        <p ><strong>{% trans 'Delivery Software time since subscription becomes effective: 120 minutes.' %}</strong></p>
+
+
+
+
+       <a class="btn btn-outline-white  btn-default" href="{% url 'sbmshop:product_list' %}#SBM"  >{% trans 'Keep Looking' %}</a>
+       <a class="btn btn-outline-blue btn-default" href="{% url 'usuarios:register' %}"  > {% trans 'View Demo' %} </a>
+  
+         
+      
+
+      
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+{% include 'webapp/home/footer_section.html' %}
+
+
+
+
+{% endblock %}
