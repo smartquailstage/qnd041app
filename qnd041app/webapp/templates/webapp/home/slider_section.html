@@ -82,6 +82,26 @@
             </div>
           </div>
         </li>
+
+        <li>
+          {% for item in page.galleria.all %}
+          {% image item.image_4 scale-100 as s4 %}
+          <div class="slide-img" style="background:url('{{s4.url}}') center center / cover scroll no-repeat;opacity: 0.4"></div>
+          {% endfor %}
+          <div class="hero-text-wrap-sbl gradient-overlay-bg-sbl">
+            <div class="hero-text">
+              <div class="container text-center">
+                <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}">{{page.banner_title7|richtext}}</h2>
+                <h5 class="white-color text-uppercase font-200">{{page.TS_info4}}<br></h5>
+                <h5 class="white-color text-uppercase font-200"> {{page.info4}}</h5>
+                {% include 'sblshop/product/sbl_list.html' %} 
+                  <a  href="{% url 'sblshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+
         <li>
           {% for item in page.galleria.all %}
           {% image item.image_5 scale-100 as s5 %}
