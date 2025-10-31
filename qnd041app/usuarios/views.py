@@ -225,6 +225,23 @@ def password_reset_request(request):
     return render(request, 'usuarios/password_reset_request.html', {'form': form})
 
 
+# usuarios/views.py
+from django.shortcuts import render
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def preview_password_reset_email(request):
+    """Vista temporal para previsualizar el correo de restablecimiento."""
+    user = User(email="usuario.ejemplo@smartquail.com")
+    reset_url = "https://ec.smartquail.io/es/reset/ABC123XYZ"
+
+    return render(request, "emails/password_reset/password_reset_email.html", {
+        "user": user,
+        "reset_url": reset_url
+    })
+
+
 
 
 

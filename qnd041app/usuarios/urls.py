@@ -6,8 +6,6 @@ from . import views
 
 
 
-
-
 app_name = 'usuarios'
 
 urlpatterns = [
@@ -24,8 +22,11 @@ urlpatterns = [
         name='politicas_terminos'
     ),
 
+
+
     path('recuperar/', views.password_reset_request, name='password_reset_request'),
     path('restablecer/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
+     path("preview/email/password-reset/", views.preview_password_reset_email, name="preview_password_reset_email"),
   
     path('perfil_de_usuario/', views.profile_view , name='perfil'),
 
