@@ -47,10 +47,24 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name="Correo Electrónico")
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Nombres")
     last_name = models.CharField(max_length=150, blank=True, verbose_name="Apellidos") 
+
+    phone_regex = RegexValidator(
+        regex=r'^\+?593?\d{9,15}$',
+        message="El número de teléfono debe estar en formato internacional. Ejemplo: +593XXXXXXXXX."
+    )
+    telefono = PhoneNumberField(
+        verbose_name="Teléfono convencional de contacto",
+        validators=[phone_regex],
+        default='+593',
+        unique=True  # quitar la restricción
+    )
+
+
     is_active = models.BooleanField(default=True, verbose_name="Es activo")
     is_staff = models.BooleanField(default=False, verbose_name="Es Staff")
 
@@ -61,7 +75,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     suscripcion_noticias = models.BooleanField(
         default=False,
-        verbose_name="Desea suscribirse al canal de noticias"
+        verbose_name="Desea recibir notificaciones, alertas y noticias de SmartQuail, Inc. a su correo electrónico"
     )
 
     objects = CustomUserManager()
@@ -81,7 +95,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
-
 
 
 

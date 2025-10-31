@@ -12,12 +12,33 @@
     width: 100%;
     max-width: 500px; /* Igual que el login */
   }
-  .logo-container {
-text-align: center;
-  margin-bottom: 0px;
-  margin-top: 31px;
+.logo-container {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 0;
 }
-  
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .logo-container {
+    margin-top: 437px;
+  }
+}
+
+/* Móviles grandes */
+@media (max-width: 768px) {
+  .logo-container {
+    margin-top: 200px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .logo-container {
+    margin-top: 437px;
+  }
+}
+
 </style>
 
 <!--start wrapper-->
@@ -52,38 +73,37 @@ text-align: center;
     </div>
   {% endif %}
 
-  <!-- ========================== -->
-  <!-- 🧍 Sección: Información Personal -->
-  <!-- ========================== -->
-  <div class="col-12">
-    <p>Para obtener su <strong>Cuenta de Negocios Inteligentes</strong>, complete el siguiente formulario de registro. </p>
-    <hr>
-  </div>
+<!-- ========================== -->
+<!-- 🧍 Sección: Información Personal -->
+<!-- ========================== -->
+<div class="col-12">
+  <p>Para obtener su <strong>Cuenta de Negocios Inteligentes</strong>, complete el siguiente formulario de registro. </p>
+  <hr>
+</div>
 
-  {% for field in user_form.visible_fields %}
-    {% if field.name in "email first_name last_name" %}
-      <div class="col-12">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {% if user_form.is_bound %}
-          {% if field.errors %}
-            {% render_field field class="form-control is-invalid" %}
-          {% else %}
-            {% render_field field class="form-control is-valid" %}
-          {% endif %}
+{% for field in user_form.visible_fields %}
+  {% if field.name in "email first_name last_name telefono" %}
+    <div class="col-12">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {% if user_form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
         {% else %}
-          {% render_field field class="form-control" %}
+          {% render_field field class="form-control is-valid" %}
         {% endif %}
-        {% for error in field.errors %}
-          <div class="invalid-feedback d-block">{{ error }}</div>
-        {% endfor %}
-        {% if field.help_text %}
-          <small class="form-text text-muted">{{ field.help_text }}</small>
-        {% endif %}
-      </div>
-    {% endif %}
-  {% endfor %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+      {% for error in field.errors %}
+        <div class="invalid-feedback d-block">{{ error }}</div>
+      {% endfor %}
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endfor %}
 
-  <!-- ========================== -->
 
 
   {% for field in user_form.visible_fields %}

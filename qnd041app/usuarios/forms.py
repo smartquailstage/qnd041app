@@ -20,7 +20,7 @@ from .models import CustomUser
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django import forms
 from .models import CustomUser
-
+from phonenumber_field.formfields import PhoneNumberField
 
 
 class PasswordResetRequestForm(forms.Form):
@@ -29,11 +29,14 @@ class PasswordResetRequestForm(forms.Form):
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
         help_text="Ingrese el correo electrónico asociado a su cuenta."
     )
-    telefono = forms.CharField(
-        label="Teléfono",
+    telefono = PhoneNumberField(
+        label='Teléfono de contacto',
+        help_text='Ingrese su número en formato internacional. Ejemplo: +593XXXXXXXXX',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
-        help_text="Ingrese su número telefónico registrado."
+        required=True,
+        initial='+593'  # Valor por defecto
     )
+
 
 
 
@@ -42,6 +45,14 @@ class UserRegistrationForm(forms.ModelForm):
         label='Escriba su correo electrónico',
         help_text='Ingrese un correo corporativo válido. Este será su usuario de acceso.',
         widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
+    telefono = PhoneNumberField(
+        label='Teléfono de contacto',
+        help_text='Ingrese su número en formato internacional. Ejemplo: +593XXXXXXXXX',
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True,
+        initial='+593'  # Valor por defecto
     )
 
     password = forms.CharField(
@@ -86,6 +97,7 @@ class UserRegistrationForm(forms.ModelForm):
         model = CustomUser
         fields = (
             'email',
+            'telefono',            # Campo agregado
             'acepta_terminos',
             'suscripcion_noticias',
         )
@@ -99,14 +111,13 @@ class UserRegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
-
         user.acepta_terminos = self.cleaned_data.get('acepta_terminos', False)
         user.suscripcion_noticias = self.cleaned_data.get('suscripcion_noticias', False)
+        user.telefono = self.cleaned_data.get('telefono')  # Guardar teléfono
 
         if commit:
             user.save()
         return user
-
 
 
 class CustomUserCreationForm(forms.ModelForm):
