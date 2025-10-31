@@ -606,10 +606,12 @@
 	color: #923eb9;
 	background-color: transparent
 }
+
 .btn-outline-secondary {
-	color: #6c757d;
-	border-color: #6c757d
+  color: #fff;
+  border-color: #fff;
 }
+
 .btn-outline-secondary:hover {
 	color: #fff;
 	background-color: #6c757d;

@@ -164,9 +164,31 @@ class AdministrativeProfileForm(forms.ModelForm):
         }
 
 
+from django import forms
+
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="Correo electrónico")
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    email = forms.EmailField(
+        label="Correo electrónico registrado *",
+        help_text="Ingrese el correo con el que registró su cuenta SmartQuail.",
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Ejemplo: usuario@empresa.com'
+            }
+        )
+    )
+
+    password = forms.CharField(
+        label="Contraseña *",
+        help_text="Escriba la contraseña asociada a su cuenta.",
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Ingrese su contraseña'
+            }
+        )
+    )
+
 
     
 

@@ -348,8 +348,12 @@ def user_logout(request):
     return redirect('usuarios:login')
 
 
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
-
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.utils import timezone
+from django.conf import settings
 
 User = get_user_model()
 
@@ -357,35 +361,70 @@ def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            email = cd['email']
-            password = cd['password']
-            
-            # Buscar todos los usuarios con ese email
-            user_qs = User.objects.filter(email=email)
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
 
-            if not user_qs.exists():
-                return render(request, 'registration/editorial_literario/login_fail.html', {
-                    'form': form,
-                    'error': 'Email no registrado'
-                })
+            # 1️⃣ Verificar si el usuario existe
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                messages.error(request, "No existe ningún usuario registrado con ese correo electrónico.")
+                return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # Intentar autenticar cada usuario con ese email
-            for user_obj in user_qs:
-                user = authenticate(request, username=user_obj.username, password=password)
-                if user is not None and user.is_active:
-                    login(request, user)
-                    return redirect('usuarios:perfil')
+            # 2️⃣ Verificar la contraseña
+            user_auth = authenticate(request, username=user.email, password=password)
 
-            # Si ninguno coincidió con la contraseña
-            return render(request, 'registration/editorial_literario/login_fail.html', {
-                'form': form,
-                'error': 'Contraseña incorrecta'
-            })
+            if user_auth is None:
+                messages.error(request, "⚠️ La contraseña no corresponde al usuario registrado.")
+                return render(request, 'registration/editorial_literario/login.html', {'form': form})
+
+            # 3️⃣ Verificar si la cuenta está activa
+            if not user_auth.is_active:
+                messages.warning(
+                    request,
+                    "⚠️ Su cuenta todavía no ha sido activada. "
+                    "Por favor revise su correo o contacte al administrador del sistema."
+                )
+                return render(request, 'registration/editorial_literario/login.html', {'form': form})
+
+            # 4️⃣ Si todo está correcto, iniciar sesión
+            login(request, user_auth)
+
+            # ===========================
+            # ✉️ Enviar correo de notificación de inicio de sesión
+            # ===========================
+            fecha_hora = timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M:%S")
+            user_ip = request.META.get('REMOTE_ADDR', 'IP no disponible')
+
+            subject = "Nuevo inicio de sesión detectado - SmartQuail, Inc."
+            message = (
+                f"Hola {user_auth.first_name or user_auth.email},\n\n"
+                "Se ha detectado un nuevo inicio de sesión en su cuenta de SmartQuail, Inc.\n\n"
+                f"📅 Fecha y hora: {fecha_hora}\n"
+                f"🌐 Dirección IP: {user_ip}\n\n"
+                "Si usted ha iniciado sesión recientemente, no necesita realizar ninguna acción.\n"
+                "Si no reconoce este acceso, le recomendamos reestablecer su contraseña de inmediato.\n\n"
+                "Atentamente,\n"
+                "El equipo de seguridad de SmartQuail, Inc."
+            )
+
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [user_auth.email],
+                fail_silently=True,
+            )
+
+            # 5️⃣ Redirigir al perfil
+            messages.success(request, f"✅ Bienvenido, {user_auth.first_name or user_auth.email}")
+            return redirect('usuarios:perfil')
+
     else:
         form = LoginForm()
 
     return render(request, 'registration/editorial_literario/login.html', {'form': form})
+
 
 @login_required
 def dashboard(request):
