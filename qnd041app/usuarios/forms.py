@@ -22,26 +22,29 @@ from django import forms
 from .models import CustomUser
 
 
-
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         label='Escriba su correo electrónico',
+        help_text='Ingrese un correo corporativo válido. Este será su usuario de acceso.',
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
     password = forms.CharField(
         label='Escriba una contraseña segura',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
-    password2 = forms.CharField(
-        label='Repita la contraseña que escribió arriba',
+        help_text='Utilice al menos 8 caracteres, combinando letras, números y símbolos.',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
-    # 👇 Campos booleanos con widgets tipo switch
+    password2 = forms.CharField(
+        label='Repita la contraseña que escribió arriba',
+        help_text='Debe coincidir exactamente con la contraseña anterior.',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+
     acepta_terminos = forms.BooleanField(
-        label='Acepto los términos y condiciones',
+        label='He leído y acepto los términos y condiciones de SmartQuail, Inc.',
         required=True,
+        help_text='Debe aceptar los términos de uso y políticas de privacidad para continuar con el registro.',
         widget=forms.CheckboxInput(
             attrs={
                 'class': 'form-check-input',
@@ -54,6 +57,7 @@ class UserRegistrationForm(forms.ModelForm):
     suscripcion_noticias = forms.BooleanField(
         label='Deseo recibir en mi correo electrónico notificaciones, alertas y noticias de SmartQuail, Inc.',
         required=False,
+        help_text='Opcional: active esta opción para recibir actualizaciones y promociones exclusivas.',
         widget=forms.CheckboxInput(
             attrs={
                 'class': 'form-check-input',
@@ -81,14 +85,12 @@ class UserRegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
 
-        # Asignar los valores de los checkbox al modelo
         user.acepta_terminos = self.cleaned_data.get('acepta_terminos', False)
         user.suscripcion_noticias = self.cleaned_data.get('suscripcion_noticias', False)
 
         if commit:
             user.save()
         return user
-
 
 
 
