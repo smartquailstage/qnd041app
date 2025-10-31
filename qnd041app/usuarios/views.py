@@ -128,12 +128,12 @@ Activa tu cuenta haciendo clic en el siguiente enlace:
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.template.loader import render_to_string
 from twilio.rest import Client
 from django.conf import settings
 
@@ -148,77 +148,82 @@ def password_reset_request(request):
             email = form.cleaned_data['email']
             telefono = form.cleaned_data['telefono']
 
-            # Buscar usuario por email
+            # Buscar usuario por correo
             try:
                 user = CustomUser.objects.get(email=email)
             except CustomUser.DoesNotExist:
-                user = None
+                messages.error(request, 'No existe ninguna cuenta registrada con ese correo electrónico.')
+                return render(request, 'usuarios/password_reset_request.html', {'form': form})
 
-            # Validar existencia y teléfono asociado
-            if user and getattr(user, 'telefono', None) == telefono:
-                # Generar token y UID
-                token = default_token_generator.make_token(user)
-                uid = urlsafe_base64_encode(force_bytes(user.pk))
+            # Validar número de teléfono
+            if not getattr(user, 'telefono', None):
+                messages.error(request, 'El usuario no tiene un número de teléfono registrado en el sistema.')
+                return render(request, 'usuarios/password_reset_request.html', {'form': form})
 
-                # URL de restablecimiento
-                reset_url = request.build_absolute_uri(
-                    reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
-                )
+            if str(user.telefono) != str(telefono):
+                messages.error(request, 'El número de teléfono ingresado no coincide con el registrado para esta cuenta.')
+                return render(request, 'usuarios/password_reset_request.html', {'form': form})
 
-                # =======================
-                # ✉️ Enviar correo con plantilla
-                # =======================
-                subject = 'Restablezca su contraseña - SmartQuail, Inc.'
-                from_email = settings.DEFAULT_FROM_EMAIL
-                to_email = user.email
+            # Si pasa todas las validaciones, generar token
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-                # Cuerpo de texto (por compatibilidad)
-                text_content = render_to_string(
-                    'emails/password_reset_email.txt',
+            # Construir URL de restablecimiento
+            reset_url = request.build_absolute_uri(
+                reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+            )
+
+            # =========================
+            # ✉️ Enviar correo con plantilla
+            # =========================
+            subject = 'Restablezca su contraseña - SmartQuail, Inc.'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = user.email
+
+            text_content = render_to_string(
+                'emails/password_reset_email.txt',
+                {'user': user, 'reset_url': reset_url}
+            )
+
+            html_content = render_to_string(
+                'emails/password_reset_email.html',
+                {'user': user, 'reset_url': reset_url}
+            )
+
+            email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+            # =========================
+            # 📱 Enviar SMS (plantilla personalizada)
+            # =========================
+            try:
+                sms_body = render_to_string(
+                    'sms/password_reset.txt',
                     {'user': user, 'reset_url': reset_url}
                 )
 
-                # Cuerpo HTML (plantilla de correo principal)
-                html_content = render_to_string(
-                    'emails/password_reset_email.html',
-                    {'user': user, 'reset_url': reset_url}
+                client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+                client.messages.create(
+                    to=str(user.telefono),  # formato E.164 (+593XXXXXXXXX)
+                    from_=settings.TWILIO_FROM_NUMBER,
+                    body=sms_body
                 )
+            except Exception as e:
+                print(f"⚠️ Error al enviar SMS: {e}")
 
-                email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
-                email.attach_alternative(html_content, "text/html")
-                email.send()
+            # Mensaje de éxito
+            messages.success(
+                request,
+                'Se ha enviado un enlace de restablecimiento a su correo electrónico y un SMS a su número registrado.'
+            )
+            return redirect('usuarios:login')
 
-                # =======================
-                # 📱 Enviar SMS con plantilla (Twilio)
-                # =======================
-                try:
-                    sms_body = render_to_string(
-                        'sms/password_reset.txt',
-                        {'user': user, 'reset_url': reset_url}
-                    )
-
-                    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-                    client.messages.create(
-                        to=user.telefono,  # debe estar en formato E.164 (+123456789)
-                        from_=settings.TWILIO_FROM_NUMBER,
-                        body=sms_body
-                    )
-                except Exception as e:
-                    print(f"⚠️ Error al enviar SMS: {e}")
-
-                # Mensaje de éxito
-                messages.success(
-                    request,
-                    'Se ha enviado un enlace de restablecimiento a su correo electrónico y un SMS a su número registrado.'
-                )
-                return redirect('usuarios:login')
-
-            else:
-                messages.error(request, 'Los datos ingresados no coinciden con ninguna cuenta registrada.')
     else:
         form = PasswordResetRequestForm()
 
     return render(request, 'usuarios/password_reset_request.html', {'form': form})
+
 
 
 

@@ -4411,11 +4411,12 @@ textarea.form-control-lg {
 	--bs-alert-border-color: var(--bs-warning-border-subtle);
 	--bs-alert-link-color: var(--bs-warning-text-emphasis)
 }
-.alert-danger {
-	--bs-alert-color: var(--bs-danger-text-emphasis);
-	--bs-alert-bg: var(--bs-danger-bg-subtle);
-	--bs-alert-border-color: var(--bs-danger-border-subtle);
-	--bs-alert-link-color: var(--bs-danger-text-emphasis)
+.alert-danger
+ {
+    --bs-alert-color: #ffffff;
+    --bs-alert-bg: #716b6b;
+    --bs-alert-border-color: #fefefe;
+    --bs-alert-link-color: #ff021c;
 }
 .alert-light {
 	--bs-alert-color: var(--bs-light-text-emphasis);
@@ -7181,7 +7182,7 @@ textarea.form-control-lg {
 	margin-bottom: 1rem!important
 }
 .mb-4 {
-	margin-bottom: 1.5rem!important;
+	margin-bottom: 0.5rem!important;
     text-align: justify;
 }
 
