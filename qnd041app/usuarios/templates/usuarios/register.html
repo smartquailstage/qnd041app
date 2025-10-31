@@ -13,9 +13,11 @@
     max-width: 500px; /* Igual que el login */
   }
   .logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+text-align: center;
+  margin-bottom: 0px;
+  margin-top: 31px;
+}
+  
 </style>
 
 <!--start wrapper-->
@@ -23,93 +25,140 @@
   <div>
     <div class="logo-container">
       <a href="{% slugurl 'home' %}">
-        <img src="{% static 'assets/images/SQLOGORED2.png' %}"  style="width: 350px;" alt="Logo">
+        <img src="{% static 'assets/images/sqwhite.png' %}" style="width: 100%; max-width: 250px;" alt="Logo">
       </a>
     </div>
 
     <div class="card shadow custom-card-width">
       <div class="card-body">
         <div class="text-left mb-4">
-          <h4>¡Regístrate en SmartQuail!</h4>
-<p>Accede a demos de nuestros productos de software, revisa tus pagos por servicios en la nube, consulta recursos de desarrollo y realiza compras en línea del catálogo de productos de software. </p>
-<p>¡Transforma tu negocio hoy mismo!</p>
+          <p>Descubre el poder de la transformación digital con nuestras <strong>demostraciones en tiempo real</strong> de productos de software. Supervisa tus pagos por servicios en la nube, accede a recursos de desarrollo empresarial y adquiere soluciones tecnológicas avanzadas desde nuestro catálogo en línea.</p> <p>Crea tu <strong>Cuenta de Negocios Inteligentes ahora</strong> y accede a ventajas exclusivas, promociones personalizadas y herramientas diseñadas para optimizar la productividad y la eficiencia de tu empresa.</p> <p><strong>Potencia tu organización con tecnología inteligente y lleva tu negocio al siguiente nivel de inovación.</strong></p>
         </div>
 
-        <form class="form-body row g-3" method="post">
-          {% csrf_token %}
+<form class="form-body row g-3" method="post">
+  {% csrf_token %}
 
-          {% for hidden_field in user_form.hidden_fields %}
-            {{ hidden_field }}
-          {% endfor %}
+  {% for hidden_field in user_form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
 
-          {% if user_form.non_field_errors %}
-            <div class="col-12">
-              <div class="alert alert-danger" role="alert">
-                {% for error in user_form.non_field_errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            </div>
+  {% if user_form.non_field_errors %}
+    <div class="col-12">
+      <div class="alert alert-danger" role="alert">
+        {% for error in user_form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- ========================== -->
+  <!-- 🧍 Sección: Información Personal -->
+  <!-- ========================== -->
+  <div class="col-12">
+    <p>Para obtener su <strong>Cuenta de Negocios Inteligentes</strong>, complete el siguiente formulario de registro. </p>
+    <hr>
+  </div>
+
+  {% for field in user_form.visible_fields %}
+    {% if field.name in "email first_name last_name" %}
+      <div class="col-12">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% if user_form.is_bound %}
+          {% if field.errors %}
+            {% render_field field class="form-control is-invalid" %}
+          {% else %}
+            {% render_field field class="form-control is-valid" %}
           {% endif %}
+        {% else %}
+          {% render_field field class="form-control" %}
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="invalid-feedback d-block">{{ error }}</div>
+        {% endfor %}
+        {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
 
-          <!-- Campos de user_form -->
-          {% for field in user_form.visible_fields %}
-          <div class="col-12">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {% if user_form.is_bound %}
-              {% if field.errors %}
-                {% render_field field class="form-control is-invalid" %}
-              {% else %}
-                {% render_field field class="form-control is-valid" %}
-              {% endif %}
-            {% else %}
-              {% render_field field class="form-control" %}
-            {% endif %}
-            {% for error in field.errors %}
-              <div class="invalid-feedback d-block">{{ error }}</div>
-            {% endfor %}
-            {% if field.help_text %}
-              <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-          </div>
-          {% endfor %}
+  <!-- ========================== -->
 
-          <!-- Campos de group_form -->
-          {% for field in group_form.visible_fields %}
-          <div class="col-12">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {% if group_form.is_bound %}
-              {% if field.errors %}
-                {% render_field field class="form-control is-invalid" %}
-              {% else %}
-                {% render_field field class="form-control is-valid" %}
-              {% endif %}
-            {% else %}
-              {% render_field field class="form-control" %}
-            {% endif %}
-            {% for error in field.errors %}
-              <div class="invalid-feedback d-block">{{ error }}</div>
-            {% endfor %}
-            {% if field.help_text %}
-              <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-          </div>
-          {% endfor %}
 
-          <!-- Botón -->
-          <div class="col-12 d-grid">
-            <button type="submit" class="btn btn-primary">Registrarse</button>
-          </div>
+  {% for field in user_form.visible_fields %}
+    {% if field.name in "password password2" %}
+      <div class="col-12">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% if user_form.is_bound %}
+          {% if field.errors %}
+            {% render_field field class="form-control is-invalid" %}
+          {% else %}
+            {% render_field field class="form-control is-valid" %}
+          {% endif %}
+        {% else %}
+          {% render_field field class="form-control" %}
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="invalid-feedback d-block">{{ error }}</div>
+        {% endfor %}
+        {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endfor %}
 
-          <div class="col-12 d-flex justify-content-between">
-            <p class="mb-0">
-              <a href="{% url 'usuarios:login' %}">¿Ya tienes cuenta?</a>
-            </p>
-            <p class="mb-0">
-              <a href="#">¿Necesitas ayuda?</a>
-            </p>
-          </div>
-        </form>
+  <!-- ========================== -->
+  <!-- 📜 Sección: Términos y Suscripción -->
+  <!-- ========================== -->
+  <div class="col-12 mt-4">
+<a href="#"><p>Terminos y condiciones de uso</p></a>
+    <hr>
+  </div>
+
+  <div class="col-12">
+    <div class="form-check form-switch">
+      {% render_field user_form.acepta_terminos class="form-check-input" id="flexSwitchCheckTerminos" %}
+      <label class="form-check-label" for="flexSwitchCheckTerminos">
+        {{ user_form.acepta_terminos.label }}
+      </label>
+      {% for error in user_form.acepta_terminos.errors %}
+        <div class="invalid-feedback d-block">{{ error }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="form-check form-switch">
+      {% render_field user_form.suscripcion_noticias class="form-check-input" id="flexSwitchCheckNoticias" %}
+      <label class="form-check-label" for="flexSwitchCheckNoticias">
+        {{ user_form.suscripcion_noticias.label }}
+      </label>
+      {% for error in user_form.suscripcion_noticias.errors %}
+        <div class="invalid-feedback d-block">{{ error }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ========================== -->
+  <!-- 🖊️ Botón -->
+  <!-- ========================== -->
+  <div class="col-12 d-grid mt-4">
+    <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+  </div>
+
+    <div class="col-12 d-grid mt-4">
+      <p> Si dispone de una cuenta activa en SmartQuail,Inc. <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
+  
+  </div>
+
+
+
+
+</form>
+
+
       </div>
     </div>
   </div>

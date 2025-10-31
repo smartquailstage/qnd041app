@@ -250,7 +250,7 @@ hr {
 }
 p {
 	margin-top: 0;
-	margin-bottom: 1rem
+	margin-bottom: 0rem
 }
 abbr[title] {
 	-webkit-text-decoration: underline dotted;
@@ -2531,7 +2531,7 @@ textarea.form-control-lg {
 	width: 100%;
 	margin-top: .25rem;
 	font-size: .875em;
-	color: var(--bs-form-invalid-color)
+	color: #dfd1d2;
 }
 .invalid-tooltip {
 	position: absolute;
@@ -3912,7 +3912,7 @@ textarea.form-control-lg {
 	--bs-card-title-spacer-y: 0.5rem;
 	--bs-card-title-color: ;
 	--bs-card-subtitle-color: ;
-	--bs-card-border-width: var(--bs-border-width);
+	--bs-card-border-width: 0px;
 	--bs-card-border-color: rgba(0, 0, 0, 0);
 	--bs-card-border-radius: var(--bs-border-radius);
 	--bs-card-box-shadow: ;
@@ -3922,8 +3922,8 @@ textarea.form-control-lg {
 	--bs-card-cap-bg: rgba(var(--bs-body-color-rgb), 0.03);
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
-	--bs-card-color: ;
-	--bs-card-bg: #e4eff3;
+	--bs-card-color: #fff;
+	--bs-card-bg: #9b0a0a;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
@@ -7181,8 +7181,10 @@ textarea.form-control-lg {
 	margin-bottom: 1rem!important
 }
 .mb-4 {
-	margin-bottom: 1.5rem!important
+	margin-bottom: 1.5rem!important;
+    text-align: justify;
 }
+
 .mb-5 {
 	margin-bottom: 3rem!important
 }

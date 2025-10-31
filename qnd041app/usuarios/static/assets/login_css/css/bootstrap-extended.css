@@ -2,7 +2,7 @@
 /* Components */
 
 .card {
-    border: 1px solid #e2e3e4;
+    border:1px solid #9b0a0a;
     margin-bottom: 1.5rem;
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
@@ -313,20 +313,20 @@
 
 
 .btn-primary {
-	--bs-btn-color: #fff;
-	--bs-btn-bg: #923eb9;
-	--bs-btn-border-color: #923eb9;
-	--bs-btn-hover-color: #fff;
-	--bs-btn-hover-bg: #8436a8;
-	--bs-btn-hover-border-color: #8436a8;
-	--bs-btn-focus-shadow-rgb: 49, 132, 253;
-	--bs-btn-active-color: #fff;
-	--bs-btn-active-bg: #8436a8;
-	--bs-btn-active-border-color: #8436a8;
-	--bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	--bs-btn-disabled-color: #fff;
-	--bs-btn-disabled-bg: #923eb9;
-	--bs-btn-disabled-border-color: #923eb9
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #423f3f;
+  --bs-btn-border-color: #423f3f;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #9b0a0a;
+  --bs-btn-hover-border-color: #fff;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #423f3f;
+  --bs-btn-active-border-color: #423f3f;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #423f3f;
+  --bs-btn-disabled-border-color: #423f3f;
 }
 
 .btn-outline-primary {
@@ -381,13 +381,13 @@
 
 .btn-secondary {
 	color: #fff;
-	background-color: #6c757d;
-	border-color: #6c757d
+	background-color: #9b0a0a;
+	border-color: #9b0a0a
 }
 .btn-secondary:hover {
 	color: #fff;
-	background-color: #5c636a;
-	border-color: #565e64
+	background-color: #9b0a0a;
+	border-color: #9b0a0a
 }
 .btn-check:focus+.btn-secondary, .btn-secondary:focus {
 	color: #fff;
@@ -583,8 +583,8 @@
 	border-color: #212529
 }
 .btn-outline-primary {
-	color: #923eb9;
-	border-color: #923eb9
+	color: #423f3f;
+    border-color: #fff;
 }
 .btn-outline-primary:hover {
 	color: #fff;
@@ -891,17 +891,17 @@
 
 
 .form-check-input:focus {
-	border-color: #b962e1;
+	border-color: #4e4e4e;
 	outline: 0;
 	background-color:rgba(146, 62, 185, 0.25);
 	box-shadow: 0 0 0 .25rem rgba(146, 62, 185, 0.25);
 }
 .form-check-input:checked {
-	background-color: #923eb9;
-	border-color: #923eb9;
+	background-color: #423f3f;
+    border-color: #423f3f;
 }
 
 .form-check-input[type=checkbox]:indeterminate {
-	background-color: #923eb9;
-	border-color: #923eb9;
+	background-color: #423f3f;
+    border-color: #423f3f;
 }

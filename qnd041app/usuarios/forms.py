@@ -18,14 +18,58 @@ from .widgets import CustomTimePickerWidget, CustomDateTimePickerWidget
 from django.utils.timezone import localtime, is_naive, make_aware
 from .models import CustomUser
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django import forms
+from .models import CustomUser
+
+
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repite la contraseña', widget=forms.PasswordInput)
+    email = forms.EmailField(
+        label='Escriba su correo electrónico',
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
+    password = forms.CharField(
+        label='Escriba una contraseña segura',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    password2 = forms.CharField(
+        label='Repita la contraseña que escribió arriba',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+
+    # 👇 Campos booleanos con widgets tipo switch
+    acepta_terminos = forms.BooleanField(
+        label='Acepto los términos y condiciones',
+        required=True,
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'form-check-input',
+                'type': 'checkbox',
+                'id': 'flexSwitchCheckTerminos'
+            }
+        )
+    )
+
+    suscripcion_noticias = forms.BooleanField(
+        label='Deseo recibir en mi correo electrónico notificaciones, alertas y noticias de SmartQuail, Inc.',
+        required=False,
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'form-check-input',
+                'type': 'checkbox',
+                'id': 'flexSwitchCheckNoticias'
+            }
+        )
+    )
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name','last_name')  # No username
+        fields = (
+            'email',
+            'acepta_terminos',
+            'suscripcion_noticias',
+        )
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -36,9 +80,15 @@ class UserRegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
+
+        # Asignar los valores de los checkbox al modelo
+        user.acepta_terminos = self.cleaned_data.get('acepta_terminos', False)
+        user.suscripcion_noticias = self.cleaned_data.get('suscripcion_noticias', False)
+
         if commit:
             user.save()
         return user
+
 
 
 

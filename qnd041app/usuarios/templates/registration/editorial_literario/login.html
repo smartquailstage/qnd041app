@@ -33,11 +33,13 @@
 
     <div class="logo-container mb-3 text-center">
       <a href="{% slugurl 'home' %}">
-        <img src="{% static 'assets/images/SQLOGORED2.png' %}" style="width: 100%; max-width: 350px;" alt="Logo">
+        <img src="{% static 'assets/images/sqwhite.png' %}" style="width: 100%; max-width: 350px;" alt="Logo">
       </a>
     </div>
 
-    <div class="card shadow custom-card-width">
+
+
+    <div class="card  custom-card-width">
       <div class="card-body">
 
 
@@ -109,7 +111,7 @@
 
           <!-- Botón -->
           <div class="col-12 d-grid">
-            <button type="submit" class="btn btn-primary" value="Log in">Continuar</button>
+            <button type="submit" class="btn btn-primary" value="Log in">{% trans 'Iniciar Sesion' %}</button>
           </div>
 
           <div class="col-12 d-flex justify-content-between">
@@ -123,9 +125,11 @@
         </form>
       </div>
     </div>
+
+    
   </div>
-<div class="col-xl-6 col-lg-12">
-          <div class="position-fixed top-0 h-100 d-xl-block d-none login-cover-img">
+        <div class="col-xl-6 col-lg-12">
+          <div class="position-fixed top-0 h-100 d-xl-block d-none login-cover-img ">
           </div>
         </div>
 
