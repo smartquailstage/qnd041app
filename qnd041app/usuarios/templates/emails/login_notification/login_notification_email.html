@@ -1,0 +1,40 @@
+{% extends "emails/base_mail.html" %}
+{% load widget_tweaks %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+
+{% block content %}
+      <div class="email-body">
+        <h2>🔐 Nuevo inicio de sesión detectado</h2>
+
+        <p>
+          Hola <strong>{{ user.first_name|default:user.email }}</strong>,
+        </p>
+
+        <p>
+          Soy el agente de inteligencia artificial de <strong>SmartQuail, Inc.</strong>.
+          He detectado un nuevo inicio de sesión en su cuenta de usuario.
+        </p>
+
+        <p>
+          A continuación, los detalles del acceso registrado:
+        </p>
+
+        <ul>
+          <li><strong>📅 Fecha y hora:</strong> {{ fecha_hora }}</li>
+        </ul>
+
+        <p>
+          Si usted ha iniciado sesión recientemente, no necesita realizar ninguna acción.
+          Si no reconoce este acceso, le recomendamos <strong>restablecer su contraseña inmediatamente</strong> desde el panel de seguridad.
+        </p>
+
+
+        <p>
+          Todo el proceso se realiza con los más altos estándares de seguridad,
+          utilizando arquitectura <strong>Blockchain</strong> para proteger su identidad digital.
+        </p>
+      </div>
+
+
+{% endblock %}

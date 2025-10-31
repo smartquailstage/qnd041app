@@ -52,76 +52,95 @@ def activar_cuenta(request, uidb64, token):
 
 
 
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from usuarios.forms import UserRegistrationForm
+
+User = get_user_model()
+
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # Crear el nuevo usuario sin guardarlo aún
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.is_active = False  # El usuario debe activar su cuenta por correo
+            new_user.is_active = False  # Se activa por correo
 
-            # Asignar los nuevos campos booleanos desde el formulario
+            # Campos adicionales
             new_user.acepta_terminos = user_form.cleaned_data.get('acepta_terminos', False)
             new_user.suscripcion_noticias = user_form.cleaned_data.get('suscripcion_noticias', False)
-
             new_user.save()
 
             # Generar token y UID
             token = default_token_generator.make_token(new_user)
             uid = urlsafe_base64_encode(force_bytes(new_user.pk))
 
-            # URL de activación
+            # Construir URL de activación
             activation_url = request.build_absolute_uri(
                 reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid, 'token': token})
             )
 
-            # Asunto y contenido
-            subject = 'Activa tu cuenta'
+            # Crear enlace de WhatsApp (solo informativo)
+            whatsapp_link = f"https://wa.me/593963521262?text=Hola%20SmartQuail,%20quiero%20asistencia%20para%20activar%20mi%20cuenta%20({new_user.email})"
+
+            # ✉️ Renderizar plantilla HTML y texto plano
+            subject = "🔐 Activa tu cuenta en SmartQuail, Inc."
             from_email = settings.DEFAULT_FROM_EMAIL
             to_email = new_user.email
 
-            # Texto plano (por compatibilidad)
-            text_content = f'''
-Hola {new_user.email},
+            text_content = render_to_string('emails/account_activation_email.txt', {
+                'user': new_user,
+                'activation_url': activation_url,
+                'whatsapp_link': whatsapp_link,
+            })
 
-Gracias por registrarte.
+            html_content = render_to_string('emails/activation/account_activation_email.html', {
+                'user': new_user,
+                'activation_url': activation_url,
+                'whatsapp_link': whatsapp_link,
+            })
 
-Activa tu cuenta haciendo clic en el siguiente enlace:
-
-{activation_url}
-'''
-
-            # HTML con estilo
-            html_content = f'''
-<html>
-  <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 30px;">
-    <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-      <h2 style="color: #333;">Hola {new_user.email},</h2>
-      <p style="font-size: 16px; color: #555;">
-        Gracias por registrarte en nuestro sitio. Para activar tu cuenta, por favor haz clic en el siguiente botón:
-      </p>
-      <p style="text-align: center; margin: 30px 0;">
-        <a href="{activation_url}" style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Activar cuenta</a>
-      </p>
-      <p style="font-size: 14px; color: #999;">
-        Si tú no realizaste este registro, puedes ignorar este mensaje.
-      </p>
-    </div>
-  </body>
-</html>
-'''
-
-            # Enviar correo
             email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
             email.attach_alternative(html_content, "text/html")
-            email.send()
+            email.send(fail_silently=True)
 
             return render(request, 'usuarios/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
 
     return render(request, 'usuarios/register.html', {'user_form': user_form})
+
+
+
+User = get_user_model()
+
+def preview_account_activation_email(request):
+    """Vista temporal para previsualizar el correo de activación de cuenta."""
+    
+    # Creamos un usuario ficticio para la vista
+    user = User(email="usuario.ejemplo@smartquail.com", first_name="Usuario")
+
+    # URL de activación de ejemplo
+    activation_url = "http://localhost:8000/es/activar/UID123TOKEN456"
+
+    # Link de WhatsApp de ejemplo
+    whatsapp_link = "https://wa.me/593963521262?text=Hola%20SmartQuail,%20quiero%20asistencia%20para%20activar%20mi%20cuenta%20(usuario.ejemplo@smartquail.com)"
+
+    return render(request, "emails/activation/account_activation_email.html", {
+        "user": user,
+        "activation_url": activation_url,
+        "whatsapp_link": whatsapp_link
+    })
+
 
 
 
@@ -365,11 +384,12 @@ def user_logout(request):
     return redirect('usuarios:login')
 
 
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
-from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.conf import settings
 
 User = get_user_model()
@@ -385,17 +405,16 @@ def user_login(request):
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                messages.error(request, "No existe ningún usuario registrado con ese correo electrónico.")
+                messages.error(request, "❌ No existe ningún usuario registrado con ese correo electrónico.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 2️⃣ Verificar la contraseña
+            # 2️⃣ Verificar contraseña
             user_auth = authenticate(request, username=user.email, password=password)
-
             if user_auth is None:
                 messages.error(request, "⚠️ La contraseña no corresponde al usuario registrado.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 3️⃣ Verificar si la cuenta está activa
+            # 3️⃣ Verificar si está activo
             if not user_auth.is_active:
                 messages.warning(
                     request,
@@ -404,34 +423,36 @@ def user_login(request):
                 )
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 4️⃣ Si todo está correcto, iniciar sesión
+            # 4️⃣ Si todo es correcto, iniciar sesión
             login(request, user_auth)
 
-            # ===========================
-            # ✉️ Enviar correo de notificación de inicio de sesión
-            # ===========================
+            # ===============================
+            # ✉️ Enviar correo de notificación
+            # ===============================
             fecha_hora = timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M:%S")
             user_ip = request.META.get('REMOTE_ADDR', 'IP no disponible')
 
-            subject = "Nuevo inicio de sesión detectado - SmartQuail, Inc."
-            message = (
-                f"Hola {user_auth.first_name or user_auth.email},\n\n"
-                "Se ha detectado un nuevo inicio de sesión en su cuenta de SmartQuail, Inc.\n\n"
-                f"📅 Fecha y hora: {fecha_hora}\n"
-                f"🌐 Dirección IP: {user_ip}\n\n"
-                "Si usted ha iniciado sesión recientemente, no necesita realizar ninguna acción.\n"
-                "Si no reconoce este acceso, le recomendamos reestablecer su contraseña de inmediato.\n\n"
-                "Atentamente,\n"
-                "El equipo de seguridad de SmartQuail, Inc."
-            )
+            subject = "🔐 Nuevo inicio de sesión detectado - SmartQuail, Inc."
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = user_auth.email
 
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user_auth.email],
-                fail_silently=True,
-            )
+            # Cuerpo de texto (por compatibilidad)
+            text_content = render_to_string('emails/login_notification_email.txt', {
+                'user': user_auth,
+                'fecha_hora': fecha_hora,
+                'user_ip': user_ip,
+            })
+
+            # Cuerpo HTML (versión bonita)
+            html_content = render_to_string('emails/login_notification_email.html', {
+                'user': user_auth,
+                'fecha_hora': fecha_hora,
+                'user_ip': user_ip,
+            })
+
+            email_message = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+            email_message.attach_alternative(html_content, "text/html")
+            email_message.send(fail_silently=True)
 
             # 5️⃣ Redirigir al perfil
             messages.success(request, f"✅ Bienvenido, {user_auth.first_name or user_auth.email}")
@@ -441,6 +462,32 @@ def user_login(request):
         form = LoginForm()
 
     return render(request, 'registration/editorial_literario/login.html', {'form': form})
+
+
+from django.shortcuts import render
+from django.utils import timezone
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def preview_login_notification_email(request):
+    """Vista temporal para previsualizar la plantilla del correo de notificación de inicio de sesión."""
+    # Usuario simulado
+    user = User(
+        first_name="Juan",
+        email="juan.perez@smartquail.com"
+    )
+
+    # Datos simulados
+    fecha_hora = timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M:%S")
+    user_ip = "192.168.1.45"
+
+    return render(request, "emails/login_notification/login_notification_email.html", {
+        "user": user,
+        "fecha_hora": fecha_hora,
+        "user_ip": user_ip
+    })
+
 
 
 @login_required

@@ -3,6 +3,13 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # otras rutas...
+    
+]
 
 
 
@@ -15,6 +22,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('activar/<uidb64>/<token>/', views.activar_cuenta, name='activar_cuenta'),
+    
     path('dashboard', views.dashboard, name='dashboard'),
     path(
         'politicas-terminos/',
@@ -22,11 +30,15 @@ urlpatterns = [
         name='politicas_terminos'
     ),
 
+    path("preview/login-email/", views.preview_login_notification_email, name="preview_login_email"),
+    path("preview/email/password-reset/", views.preview_password_reset_email, name="preview_password_reset_email"),
+    path('preview/activation-email/', views.preview_account_activation_email, name='preview_activation_email'),
+
 
 
     path('recuperar/', views.password_reset_request, name='password_reset_request'),
     path('restablecer/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
-     path("preview/email/password-reset/", views.preview_password_reset_email, name="preview_password_reset_email"),
+     
   
     path('perfil_de_usuario/', views.profile_view , name='perfil'),
 
