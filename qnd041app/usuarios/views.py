@@ -126,6 +126,133 @@ Activa tu cuenta haciendo clic en el siguiente enlace:
 
 
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from twilio.rest import Client
+from django.conf import settings
+
+from .forms import PasswordResetRequestForm
+from .models import CustomUser
+
+
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            telefono = form.cleaned_data['telefono']
+
+            # Buscar usuario por email
+            try:
+                user = CustomUser.objects.get(email=email)
+            except CustomUser.DoesNotExist:
+                user = None
+
+            # Validar existencia y teléfono asociado
+            if user and getattr(user, 'telefono', None) == telefono:
+                # Generar token y UID
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+                # URL de restablecimiento
+                reset_url = request.build_absolute_uri(
+                    reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+                )
+
+                # =======================
+                # ✉️ Enviar correo con plantilla
+                # =======================
+                subject = 'Restablezca su contraseña - SmartQuail, Inc.'
+                from_email = settings.DEFAULT_FROM_EMAIL
+                to_email = user.email
+
+                # Cuerpo de texto (por compatibilidad)
+                text_content = render_to_string(
+                    'emails/password_reset_email.txt',
+                    {'user': user, 'reset_url': reset_url}
+                )
+
+                # Cuerpo HTML (plantilla de correo principal)
+                html_content = render_to_string(
+                    'emails/password_reset_email.html',
+                    {'user': user, 'reset_url': reset_url}
+                )
+
+                email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+                email.attach_alternative(html_content, "text/html")
+                email.send()
+
+                # =======================
+                # 📱 Enviar SMS con plantilla (Twilio)
+                # =======================
+                try:
+                    sms_body = render_to_string(
+                        'sms/password_reset.txt',
+                        {'user': user, 'reset_url': reset_url}
+                    )
+
+                    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+                    client.messages.create(
+                        to=user.telefono,  # debe estar en formato E.164 (+123456789)
+                        from_=settings.TWILIO_FROM_NUMBER,
+                        body=sms_body
+                    )
+                except Exception as e:
+                    print(f"⚠️ Error al enviar SMS: {e}")
+
+                # Mensaje de éxito
+                messages.success(
+                    request,
+                    'Se ha enviado un enlace de restablecimiento a su correo electrónico y un SMS a su número registrado.'
+                )
+                return redirect('usuarios:login')
+
+            else:
+                messages.error(request, 'Los datos ingresados no coinciden con ninguna cuenta registrada.')
+    else:
+        form = PasswordResetRequestForm()
+
+    return render(request, 'usuarios/password_reset_request.html', {'form': form})
+
+
+
+
+# views.py (continuación)
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            if password1 and password1 == password2:
+                user.set_password(password1)
+                user.save()
+                messages.success(request, 'Su contraseña ha sido restablecida correctamente.')
+                return redirect('usuarios:login')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+        return render(request, 'usuarios/password_reset_confirm.html')
+    else:
+        messages.error(request, 'El enlace de restablecimiento no es válido o ha expirado.')
+        return redirect('usuarios:password_reset_request')
+
+
 
 @login_required
 def ultima_cita(request):

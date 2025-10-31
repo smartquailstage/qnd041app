@@ -22,6 +22,21 @@ from django import forms
 from .models import CustomUser
 
 
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        help_text="Ingrese el correo electrónico asociado a su cuenta."
+    )
+    telefono = forms.CharField(
+        label="Teléfono",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        help_text="Ingrese su número telefónico registrado."
+    )
+
+
+
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         label='Escriba su correo electrónico',

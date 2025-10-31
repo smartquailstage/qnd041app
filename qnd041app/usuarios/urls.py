@@ -3,6 +3,11 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 
+
+
+
+
+
 app_name = 'usuarios'
 
 urlpatterns = [
@@ -18,6 +23,9 @@ urlpatterns = [
         views.politicas_terminos,
         name='politicas_terminos'
     ),
+
+    path('recuperar/', views.password_reset_request, name='password_reset_request'),
+    path('restablecer/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
   
     path('perfil_de_usuario/', views.profile_view , name='perfil'),
 
