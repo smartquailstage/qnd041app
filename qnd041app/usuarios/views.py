@@ -437,14 +437,14 @@ def user_login(request):
             to_email = user_auth.email
 
             # Cuerpo de texto (por compatibilidad)
-            text_content = render_to_string('emails/login_notification_email.txt', {
+            text_content = render_to_string('emails/login_notification/login_notification_email.txt', {
                 'user': user_auth,
                 'fecha_hora': fecha_hora,
                 'user_ip': user_ip,
             })
 
             # Cuerpo HTML (versión bonita)
-            html_content = render_to_string('emails/login_notification_email.html', {
+            html_content = render_to_string('emails/login_notification/login_notification_email.html', {
                 'user': user_auth,
                 'fecha_hora': fecha_hora,
                 'user_ip': user_ip,

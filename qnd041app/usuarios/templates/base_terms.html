@@ -1,0 +1,83 @@
+
+    {% load wagtailimages_tags wagtailcore_tags %}
+    {% load wagtailcore_tags %}
+    {% load wagtailimages_tags %}
+    {% load widget_tweaks %}
+    {% load static %}
+    {% load menu_tags %}
+    <!doctype html>
+    <html lang="en" class="light-theme">
+
+
+
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- loader-->
+    <link href="{% static 'assets/terms_css/css/pace.min.css' %}" rel="stylesheet" />
+    <script src="{% static 'assets/js/pace.min.js' %}"></script>
+
+    <!--plugins-->
+    <link href="{% static 'assets/terms_css/plugins/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet" />
+
+    <!-- CSS Files -->
+    <link href="{% static 'assets/terms_css/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/terms_css/css/bootstrap-extended.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/terms_css/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/terms_css/css/icons.css' %}" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+    <title>SmartQuail - Terminos y condiciones de uso</title>
+    </head>
+
+    <body>
+
+
+
+        <!--start wrapper-->
+
+    <!--end wrapper-->
+
+    <!--start wrapper-->
+    <div class="wrapper">
+    
+        {% include 'usuarios/sidebar_terms.html' %} 
+        
+        {% block content %}
+        {% endblock %}
+
+        
+    </div>
+
+
+
+    <!--end wrapper-->
+
+    {% block script %}{% endblock %}
+
+   <!-- Scripts requeridos -->
+<script src="{% static 'assets/terms_css/plugins/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'assets/terms_css/plugins/perfect-scrollbar/js/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+  // Inicializa MetisMenu
+  $(function() {
+    $('#menu').metisMenu();
+  });
+</script>
+
+
+
+    </body>
+
+    </html>

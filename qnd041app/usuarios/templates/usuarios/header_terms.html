@@ -1,0 +1,185 @@
+
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+<header class="top-header">
+  <nav class="navbar navbar-expand gap-3">
+    <div class="toggle-icon">
+      <ion-icon name="menu-outline"></ion-icon>
+
+
+
+
+    </div>
+
+
+  
+    <div class="top-navbar-right ms-auto">
+
+      <ul class="navbar-nav align-items-center">
+
+ 
+
+<li class="nav-item dropdown dropdown-large">
+  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    <div class="position-relative">
+      {% if upload_fields %}
+        <span class="notify-badge">{{ upload_fields|length }}</span>
+      {% endif %}
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </div>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-end">
+    <div class="msg-header d-flex align-items-center">
+      <p class="msg-header-title mb-0">
+       <ion-icon name="ticket-outline"></ion-icon>Documentos del Perfil
+      </p>
+      <p class="msg-header-clear ms-auto mb-0 text-primary" style="cursor: pointer;">
+        {{ upload_fields|length }} campos
+      </p>
+    </div>
+
+    <div class="header-notifications-list">
+      {% for nombre_campo, url in upload_fields.items %}
+        <a class="dropdown-item" href="{{ url|default:'#' }}" {% if url %}target="_blank"{% endif %}>
+          <div class="d-flex align-items-center">
+            <div class="notify {% if url %}text-success{% else %}text-danger{% endif %}">
+              <ion-icon name="{% if url %}cloud-done{% else %}cloud-upload{% endif %}-outline"></ion-icon>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="msg-name">
+                {{ nombre_campo }}
+                <span class="msg-time float-end">
+                  {% if url %}Subido{% else %}Pendiente{% endif %}
+                </span>
+              </h6>
+              <p class="msg-info">
+                {% if url %}Ver archivo{% else %}No hay archivo cargado{% endif %}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        <div class="dropdown-item text-center text-muted small">
+          No hay archivos en el perfil
+        </div>
+      {% endfor %}
+    </div>
+    <div class="text-center msg-footer">
+       <a href="{% url 'usuarios:vista_certificados' %}"> <ion-icon name="folder-open-outline"></ion-icon> Documentos del perfil</a>
+     
+    </div>
+  </div>
+</li>
+
+
+
+
+<li class="nav-item dropdown dropdown-large">
+  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    <div class="position-relative">
+      {% if cart|length > 0 %}
+        <span class="notify-badge">{{ cart|length }}</span>
+      {% endif %}
+      <ion-icon name="cart-outline"></ion-icon>
+    </div>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-end">
+    <div class="msg-header d-flex align-items-center">
+      <p class="msg-header-title mb-0">
+        <ion-icon name="cart-outline"></ion-icon> Carrito de Compras
+      </p>
+      <p class="msg-header-clear ms-auto mb-0 text-primary">
+        {{ cart|length }} productos
+      </p>
+    </div>
+
+    <div class="header-notifications-list">
+      {% for item in cart %}
+        <a class="dropdown-item" href="{{ item.product.get_absolute_url }}">
+          <div class="d-flex align-items-center">
+            <div class="notify text-success">
+              <ion-icon name="cube-outline"></ion-icon>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="msg-name">{{ item.product.name }}</h6>
+              <p class="msg-info">
+                Cantidad: {{ item.quantity }} &nbsp; — &nbsp;
+                Total: ${{ item.total_price }}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        <div class="dropdown-item text-center text-muted small">
+          Tu carrito está vacío
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center msg-footer">
+      <p class="mb-1">
+        <strong>Total:</strong> ${{ cart.get_total_price }}
+      </p>
+      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-primary btn-sm mt-1">
+        <ion-icon name="eye-outline"></ion-icon> Ver Carrito
+      </a>
+    </div>
+  </div>
+</li>
+
+
+<li class="nav-item dropdown dropdown-user-setting">
+  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    <div class="user-setting ">
+      {% if profile_photo %}
+        <img src="{{ profile_photo }}" class="user-img" alt="Foto de perfil">
+          {% else %}
+       <img src="{% static 'assets/images/login_bg/Sello2.png' %}" style="width:30px;" alt="Default Photo">
+      {% endif %}
+    
+
+  
+
+    </div>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li>
+      <a class="dropdown-item" href="{% url 'usuarios:perfil' %}">
+        <div class="d-flex  flex-row  align-items-center gap-2">
+    
+            <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto de perfil" class="rounded-circle" width="44" height="44">
+     
+          <div class="">
+            <h6 class="mb-0 dropdown-user-name">{{ name }} {{ last_name }}</h6>
+            <small class="mb-0 dropdown-user-designation text-secondary">Paciente MEDDES®</small>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <a class="dropdown-item" href="{% url 'usuarios:logout' %}">
+        <div class="d-flex align-items-center">
+          <div><ion-icon name="log-out-outline"></ion-icon></div>
+          <div class="ms-3"><span>Salir</span></div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+   
+      <!--end top header-->

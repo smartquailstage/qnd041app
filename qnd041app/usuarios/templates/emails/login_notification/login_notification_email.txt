@@ -1,0 +1,18 @@
+🔐 Notificación de inicio de sesión - SmartQuail, Inc.
+
+Hola {{ user.first_name|default:user.email }},
+
+Soy el agente de inteligencia artificial de SmartQuail, Inc.
+
+He detectado un nuevo inicio de sesión en tu cuenta de usuario.  
+A continuación te presento los detalles de acceso registrados:
+
+📅 Fecha y hora: {{ fecha_hora }}  
+🌐 Dirección IP: {{ user_ip }}
+
+Si fuiste tú quien inició sesión recientemente, no es necesario realizar ninguna acción.  
+Sin embargo, si no reconoces este acceso, te recomendamos restablecer tu contraseña de inmediato desde el panel de seguridad de tu cuenta.
+
+Todo el proceso de registro, autenticación y monitoreo de acceso se realiza bajo los más altos estándares de seguridad digital,  
+utilizando tecnología basada en arquitectura Blockchain para proteger tu identidad y tus datos.
+
