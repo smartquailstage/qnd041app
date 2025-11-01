@@ -97,7 +97,7 @@ def register(request):
             from_email = settings.DEFAULT_FROM_EMAIL
             to_email = new_user.email
 
-            text_content = render_to_string('emails/account_activation_email.txt', {
+            text_content = render_to_string('sms/activation/account_activation_email.txt', {
                 'user': new_user,
                 'activation_url': activation_url,
                 'whatsapp_link': whatsapp_link,

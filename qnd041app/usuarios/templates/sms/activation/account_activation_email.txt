@@ -1,0 +1,18 @@
+
+🔑 Activación de cuenta - SmartQuail, Inc.
+
+Hola {{ user.first_name|default:user.email }},
+
+Soy el agente de inteligencia artificial de SmartQuail, Inc.
+Hemos recibido tu solicitud de registro y necesitamos que actives tu cuenta para poder acceder a nuestros servicios.
+
+Por favor, haz clic en el siguiente enlace para activar tu cuenta:
+{{ activation_url }}
+
+Este enlace es único, está tokenizado y tiene un tiempo de expiración por motivos de seguridad.
+
+Todo el proceso se realiza bajo los más altos estándares de protección digital,
+utilizando arquitectura Blockchain para garantizar la integridad de tu información.
+
+Si tú no realizaste este registro, puedes ignorar este mensaje.
+
