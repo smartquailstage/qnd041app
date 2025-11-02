@@ -10,6 +10,9 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from email.header import Header
 from email.utils import formataddr
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
 
 
 from django.utils.html import strip_tags
@@ -17,6 +20,173 @@ from django.utils.html import strip_tags
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+from twilio.rest import Client
+
+
+@shared_task
+def enviar_correo_recuperacion(user_id, domain):
+    """
+    Envía un correo de restablecimiento de contraseña en segundo plano.
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return "Usuario no encontrado"
+
+    # Generar token y URL
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    reset_url = f"{domain}{reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})}"
+
+    # Construir correo
+    subject = 'Restablezca su contraseña - SmartQuail, Inc.'
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = user.email
+
+    text_content = render_to_string('emails/password_reset_email.txt', {
+        'user': user,
+        'reset_url': reset_url
+    })
+    html_content = render_to_string('emails/password_reset_email.html', {
+        'user': user,
+        'reset_url': reset_url
+    })
+
+    email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+    email.attach_alternative(html_content, "text/html")
+    email.send(fail_silently=True)
+
+    return f"Correo de restablecimiento enviado a {user.email}"
+
+
+@shared_task
+def enviar_sms_recuperacion(user_id, domain):
+    """
+    Envía un SMS con el enlace de restablecimiento de contraseña usando Twilio.
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return "Usuario no encontrado"
+
+    # Generar token y URL
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    reset_url = f"{domain}{reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})}"
+
+    # Renderizar plantilla SMS
+    sms_body = render_to_string('sms/password_reset.txt', {
+        'user': user,
+        'reset_url': reset_url
+    }).strip()
+
+    try:
+        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+        client.messages.create(
+            to=str(user.telefono),
+            from_=settings.TWILIO_FROM_NUMBER,
+            body=sms_body
+        )
+    except Exception as e:
+        return f"⚠️ Error al enviar SMS: {e}"
+
+    return f"SMS enviado a {user.telefono}"
+
+
+
+@shared_task
+def enviar_correo_activacion(user_id, domain):
+    """
+    Envía un correo de activación de cuenta en segundo plano.
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return "Usuario no encontrado"
+
+    # 🔑 Generar token y UID
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+    # 🌐 Construir URL de activación completa
+    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid, 'token': token})}"
+
+    # 💬 Enlace de WhatsApp (opcional)
+    whatsapp_link = f"https://wa.me/593963521262?text=Hola%20SmartQuail,%20quiero%20asistencia%20para%20activar%20mi%20cuenta%20({user.email})"
+
+    # 📧 Contenido del correo
+    subject = "🔐 Activa tu cuenta en SmartQuail, Inc."
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = user.email
+
+    text_content = render_to_string('sms/activation/account_activation_email.txt', {
+        'user': user,
+        'activation_url': activation_url,
+        'whatsapp_link': whatsapp_link,
+    })
+
+    html_content = render_to_string('emails/activation/account_activation_email.html', {
+        'user': user,
+        'activation_url': activation_url,
+        'whatsapp_link': whatsapp_link,
+    })
+
+    # ✉️ Enviar
+    email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+    email.attach_alternative(html_content, "text/html")
+    email.send(fail_silently=True)
+
+    return f"Correo de activación enviado a {user.email}"
+
+
+
+
+
+@shared_task
+def enviar_correo_login(user_id, fecha_hora, user_ip):
+    """
+    Envía un correo electrónico de notificación cuando el usuario inicia sesión.
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return "Usuario no encontrado"
+
+    subject = "🔐 Nuevo inicio de sesión detectado - SmartQuail, Inc."
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = user.email
+
+    text_content = render_to_string('emails/login_notification/login_notification_email.txt', {
+        'user': user,
+        'fecha_hora': fecha_hora,
+        'user_ip': user_ip,
+    })
+
+    html_content = render_to_string('emails/login_notification/login_notification_email.html', {
+        'user': user,
+        'fecha_hora': fecha_hora,
+        'user_ip': user_ip,
+    })
+
+    email_message = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+    email_message.attach_alternative(html_content, "text/html")
+    email_message.send(fail_silently=True)
+
+    return f"Correo enviado a {user.email}"
 
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)  # 3 intentos, 60s entre cada uno

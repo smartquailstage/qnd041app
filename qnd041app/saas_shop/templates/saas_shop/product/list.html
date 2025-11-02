@@ -8,8 +8,113 @@
 
 {% block content %}
 
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
 
 
+<div class="product-more-info mt-4">
+  <ul class="nav nav-tabs mb-0" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SmartBusinessAnalytics®</div>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SmartBusinessMedia®</div>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SmartBusinessLaw®</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content pt-3">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+
+      <!-- Carrusel SmartBusinessAnalytics -->
+<div class="card">
+  <div class="card-body p-0">
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessanalytics" %}
+        {% if c.products.all %}
+          <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+                        <h2 class="text-white">{{ product.name }}</h2>
+                        <p class="mb-1 text-white">${{ product.price }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Previous" %}</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Next" %}</span>
+            </button>
+          </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+    </div>
+
+    <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
+      <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid...</p>
+    </div>
+
+    <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="tags-box w-50">
+        <a href="javascript:;" class="tag-link">Clothes</a>
+        <a href="javascript:;" class="tag-link">Electronics</a>
+        <a href="javascript:;" class="tag-link">Furniture</a>
+        <a href="javascript:;" class="tag-link">Sports</a>
+        <a href="javascript:;" class="tag-link">Men Wear</a>
+        <a href="javascript:;" class="tag-link">Women Wear</a>
+        <a href="javascript:;" class="tag-link">Laptops</a>
+        <a href="javascript:;" class="tag-link">Formal Shirts</a>
+        <a href="javascript:;" class="tag-link">Topwear</a>
+        <a href="javascript:;" class="tag-link">Headphones</a>
+        <a href="javascript:;" class="tag-link">Bottom Wear</a>
+        <a href="javascript:;" class="tag-link">Bags</a>
+        <a href="javascript:;" class="tag-link">Sofa</a>
+        <a href="javascript:;" class="tag-link">Shoes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      </div>
+  </div>
+
+
+{% endblock %}
 
 
 <div class="page-content-wrapper">
@@ -282,36 +387,5 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
     {% endfor %}
   </div>
 </div>
-
-
-{% endblock %}
-
-
-
-  <div id="sidebar">
-    <h3>{% trans "Categories" %}</h3>
-    <ul>
-      <li {% if not category %}class="selected"{% endif %}>
-        <a href="{% url "saas_shop:product_list" %}">{% trans "All" %}</a>
-      </li>
-      {% for c in categories %}
-        <li {% if category.slug == c.slug %}class="selected"{% endif %}>
-          <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div id="main" class="product-list">
-    <h1>{% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}</h1>
-    {% for product in products %}
-      <div class="item">
-        <a href="{{ product.get_absolute_url }}">
-          <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-        </a>
-        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
-        ${{ product.price }}
-      </div>
-    {% endfor %}
-  </div>
 
 

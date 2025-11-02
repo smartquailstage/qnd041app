@@ -95,7 +95,7 @@ position: fixed;
   left: 0;
   width: 260px;
   height: 100%;
-  background-color:#9e191b;
+  background-color:#7e0004;
   background-clip: padding-box;
   border-right: 0px solid #f8fafb;
   transition: all .2s;
@@ -106,7 +106,7 @@ position: fixed;
 
 .sidebar-wrapper .sidebar-header {
   width: 255px;
-  height: 72px;
+  height: 43px;
   display: flex;
   align-items: center;
   position: fixed;
@@ -116,12 +116,12 @@ position: fixed;
   z-index: 5;
   background-color: #7e0004;
   border-right: 0px solid #e2e3e4;
-  border-bottom: 1px solid #958e8e;
+  border-bottom: 1px solid #7e0004;
   transition: all .2s;
 }
 
 .sidebar-wrapper .sidebar-header .logo-icon {
-  width: 61px;
+  width: 200px;
 }
 
 .sidebar-wrapper .sidebar-header .logo-text {
@@ -143,7 +143,7 @@ position: fixed;
     border-radius: 50%;
     font-size: 22px;
     cursor: pointer;
-    color: #b50f15;
+    color: #ffffff;
 }
 
 .toggle-icon:hover {
@@ -334,7 +334,7 @@ position: fixed;
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
-  background-color: #f8fafb;
+  background-color: #9e191b;
   border-top: 0px solid #9e191b;
   border-bottom: 0px solid #3e3d3d;
   padding: 1px 0;
@@ -344,8 +344,9 @@ position: fixed;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-bottom: 12px;
-  color: #777272;
+  color: #ffffff;
 }
+
 
 .ticker {
   display: inline-block;
@@ -372,22 +373,21 @@ position: fixed;
 /* Top Header */
 
 .top-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 260px;
-    right: 0;
-    height: 41px;
-    padding: 0 1.5rem;
-    border-bottom: 1px solid rgba(233, 236, 239, 0);
-    background-clip: border-box;
-    /* Gradiente en escala de verde con tres colores */
-    background: #f8fafb;
-    z-index: 5;
-    transition: 0.3s all;
-    box-shadow: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 260px;
+  right: 0;
+  height: 41px;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid rgba(233, 236, 239, 0);
+  background-clip: border-box;
+  background: #9e191b;
+  z-index: 5;
+  transition: 0.3s all;
+  box-shadow: none;
 
 }
 
@@ -460,7 +460,7 @@ position: fixed;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color:#605d5d;
+    color:#fff;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;

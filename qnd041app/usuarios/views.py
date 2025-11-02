@@ -66,6 +66,15 @@ from usuarios.forms import UserRegistrationForm
 
 User = get_user_model()
 
+# usuarios/views.py
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from .tasks import enviar_correo_activacion  # 👈 Importar tarea
+
 
 def register(request):
     if request.method == 'POST':
@@ -80,39 +89,13 @@ def register(request):
             new_user.suscripcion_noticias = user_form.cleaned_data.get('suscripcion_noticias', False)
             new_user.save()
 
-            # Generar token y UID
-            token = default_token_generator.make_token(new_user)
-            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
+            # 🌐 Dominio base (para construir URL dentro de la tarea)
+            domain = request.build_absolute_uri('/')[:-1]  # Quita la última barra
 
-            # Construir URL de activación
-            activation_url = request.build_absolute_uri(
-                reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid, 'token': token})
-            )
+            # 🚀 Enviar correo de activación de forma asíncrona
+            enviar_correo_activacion.delay(new_user.id, domain)
 
-            # Crear enlace de WhatsApp (solo informativo)
-            whatsapp_link = f"https://wa.me/593963521262?text=Hola%20SmartQuail,%20quiero%20asistencia%20para%20activar%20mi%20cuenta%20({new_user.email})"
-
-            # ✉️ Renderizar plantilla HTML y texto plano
-            subject = "🔐 Activa tu cuenta en SmartQuail, Inc."
-            from_email = settings.DEFAULT_FROM_EMAIL
-            to_email = new_user.email
-
-            text_content = render_to_string('sms/activation/account_activation_email.txt', {
-                'user': new_user,
-                'activation_url': activation_url,
-                'whatsapp_link': whatsapp_link,
-            })
-
-            html_content = render_to_string('emails/activation/account_activation_email.html', {
-                'user': new_user,
-                'activation_url': activation_url,
-                'whatsapp_link': whatsapp_link,
-            })
-
-            email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
-            email.attach_alternative(html_content, "text/html")
-            email.send(fail_silently=True)
-
+            # ✅ Mostrar mensaje final
             return render(request, 'usuarios/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
@@ -145,19 +128,17 @@ def preview_account_activation_email(request):
 
 
 
-from django.shortcuts import render, redirect
+# usuarios/views.py
 from django.contrib import messages
-from django.urls import reverse
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import render, redirect
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from twilio.rest import Client
+from django.urls import reverse
 from django.conf import settings
-
-from .forms import PasswordResetRequestForm
 from .models import CustomUser
+from .forms import PasswordResetRequestForm
+from .tasks import enviar_correo_recuperacion, enviar_sms_recuperacion  # 👈 Importar tareas
 
 
 def password_reset_request(request):
@@ -167,7 +148,7 @@ def password_reset_request(request):
             email = form.cleaned_data['email']
             telefono = form.cleaned_data['telefono']
 
-            # Buscar usuario por correo
+            # Buscar usuario
             try:
                 user = CustomUser.objects.get(email=email)
             except CustomUser.DoesNotExist:
@@ -183,55 +164,14 @@ def password_reset_request(request):
                 messages.error(request, 'El número de teléfono ingresado no coincide con el registrado para esta cuenta.')
                 return render(request, 'usuarios/password_reset_request.html', {'form': form})
 
-            # Si pasa todas las validaciones, generar token
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            # 🌐 Obtener dominio base
+            domain = request.build_absolute_uri('/')[:-1]
 
-            # Construir URL de restablecimiento
-            reset_url = request.build_absolute_uri(
-                reverse('usuarios:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
-            )
+            # 🚀 Enviar correo y SMS en segundo plano
+            enviar_correo_recuperacion.delay(user.id, domain)
+            enviar_sms_recuperacion.delay(user.id, domain)
 
-            # =========================
-            # ✉️ Enviar correo con plantilla
-            # =========================
-            subject = 'Restablezca su contraseña - SmartQuail, Inc.'
-            from_email = settings.DEFAULT_FROM_EMAIL
-            to_email = user.email
-
-            text_content = render_to_string(
-                'emails/password_reset_email.txt',
-                {'user': user, 'reset_url': reset_url}
-            )
-
-            html_content = render_to_string(
-                'emails/password_reset_email.html',
-                {'user': user, 'reset_url': reset_url}
-            )
-
-            email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
-            email.attach_alternative(html_content, "text/html")
-            email.send()
-
-            # =========================
-            # 📱 Enviar SMS (plantilla personalizada)
-            # =========================
-            try:
-                sms_body = render_to_string(
-                    'sms/password_reset.txt',
-                    {'user': user, 'reset_url': reset_url}
-                )
-
-                client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-                client.messages.create(
-                    to=str(user.telefono),  # formato E.164 (+593XXXXXXXXX)
-                    from_=settings.TWILIO_FROM_NUMBER,
-                    body=sms_body
-                )
-            except Exception as e:
-                print(f"⚠️ Error al enviar SMS: {e}")
-
-            # Mensaje de éxito
+            # ✅ Mensaje de éxito inmediato
             messages.success(
                 request,
                 'Se ha enviado un enlace de restablecimiento a su correo electrónico y un SMS a su número registrado.'
@@ -394,6 +334,9 @@ from django.conf import settings
 
 User = get_user_model()
 
+
+from .tasks import enviar_correo_login  # 👈 importa la tarea
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -401,20 +344,17 @@ def user_login(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
 
-            # 1️⃣ Verificar si el usuario existe
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 messages.error(request, "❌ No existe ningún usuario registrado con ese correo electrónico.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 2️⃣ Verificar contraseña
             user_auth = authenticate(request, username=user.email, password=password)
             if user_auth is None:
                 messages.error(request, "⚠️ La contraseña no corresponde al usuario registrado.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 3️⃣ Verificar si está activo
             if not user_auth.is_active:
                 messages.warning(
                     request,
@@ -423,38 +363,17 @@ def user_login(request):
                 )
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # 4️⃣ Si todo es correcto, iniciar sesión
+            # ✅ Iniciar sesión
             login(request, user_auth)
 
-            # ===============================
-            # ✉️ Enviar correo de notificación
-            # ===============================
+            # ✅ Obtener datos del entorno
             fecha_hora = timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M:%S")
             user_ip = request.META.get('REMOTE_ADDR', 'IP no disponible')
 
-            subject = "🔐 Nuevo inicio de sesión detectado - SmartQuail, Inc."
-            from_email = settings.DEFAULT_FROM_EMAIL
-            to_email = user_auth.email
+            # ✅ Enviar correo asíncronamente
+            enviar_correo_login.delay(user_auth.id, fecha_hora, user_ip)
 
-            # Cuerpo de texto (por compatibilidad)
-            text_content = render_to_string('emails/login_notification/login_notification_email.txt', {
-                'user': user_auth,
-                'fecha_hora': fecha_hora,
-                'user_ip': user_ip,
-            })
-
-            # Cuerpo HTML (versión bonita)
-            html_content = render_to_string('emails/login_notification/login_notification_email.html', {
-                'user': user_auth,
-                'fecha_hora': fecha_hora,
-                'user_ip': user_ip,
-            })
-
-            email_message = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
-            email_message.attach_alternative(html_content, "text/html")
-            email_message.send(fail_silently=True)
-
-            # 5️⃣ Redirigir al perfil
+            # ✅ Mensaje y redirección
             messages.success(request, f"✅ Bienvenido, {user_auth.first_name or user_auth.email}")
             return redirect('usuarios:perfil')
 
