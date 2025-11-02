@@ -174,6 +174,7 @@ INSTALLED_APPS = [
     #'businees_customers_projects',
     #"SQOrders",
     #"SQShop",
+    'chatbot_ai',
    
    
     "serviceapp",
