@@ -50,11 +50,11 @@ def enviar_correo_recuperacion(user_id, domain):
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = user.email
 
-    text_content = render_to_string('emails/password_reset_email.txt', {
+    text_content = render_to_string('emails/password_reset/password_reset_email.txt', {
         'user': user,
         'reset_url': reset_url
     })
-    html_content = render_to_string('emails/password_reset_email.html', {
+    html_content = render_to_string('emails/password_reset/password_reset_email.html', {
         'user': user,
         'reset_url': reset_url
     })
