@@ -59,7 +59,7 @@ def enviar_correo_recuperacion(user_id, domain):
 
     email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
     email.attach_alternative(html_content, "text/html")
-    email.send(fail_silently=True)
+    email.send(fail_silently=False)
 
     return f"Correo de restablecimiento enviado a {user.email}"
 
@@ -145,7 +145,7 @@ def enviar_correo_activacion(user_id, domain):
     # ✉️ Enviar
     email = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
     email.attach_alternative(html_content, "text/html")
-    email.send(fail_silently=True)
+    email.send(fail_silently=False)
 
     return f"Correo de activación enviado a {user.email}"
 
