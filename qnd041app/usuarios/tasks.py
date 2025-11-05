@@ -104,12 +104,22 @@ def enviar_sms_recuperacion(user_id, domain):
 
 
 
+from celery import shared_task
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import get_user_model
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.urls import reverse
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.template.loader import render_to_string
+from urllib.parse import quote
+
 @shared_task
 def enviar_correo_activacion(user_id, domain):
     """
     Envía un correo de activación de cuenta en segundo plano.
     """
-    from django.contrib.auth import get_user_model
     User = get_user_model()
 
     try:
@@ -121,8 +131,12 @@ def enviar_correo_activacion(user_id, domain):
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
 
+    # 🌐 Codificar UID y token para URL segura
+    uid_encoded = quote(uid)
+    token_encoded = quote(token)
+
     # 🌐 Construir URL de activación completa
-    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid, 'token': token})}"
+    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
 
     # 💬 Enlace de WhatsApp (opcional)
     whatsapp_link = f"https://wa.me/593963521262?text=Hola%20SmartQuail,%20quiero%20asistencia%20para%20activar%20mi%20cuenta%20({user.email})"
@@ -150,6 +164,7 @@ def enviar_correo_activacion(user_id, domain):
     email.send(fail_silently=False)
 
     return f"Correo de activación enviado a {user.email}"
+
 
 
 
