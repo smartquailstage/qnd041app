@@ -46,7 +46,7 @@ def activar_cuenta(request, uidb64, token):
         user.is_active = True
         user.save()
         # login(request, user)  # Opcional: iniciar sesión automáticamente
-        return redirect('usuarios:perfil')  # Asegúrate de que esta URL esté bien definida
+        return redirect('usuarios:login')  # Asegúrate de que esta URL esté bien definida
     else:
         return render(request, 'usuarios/activation_invalid.html')
 
