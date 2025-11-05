@@ -33,21 +33,40 @@ from django.utils.http import urlsafe_base64_decode
 from django.shortcuts import render, redirect
 # from django.contrib.auth import login  # Descomenta si vas a usar login()
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+from urllib.parse import unquote
+import logging
+
+logger = logging.getLogger(__name__)
+User = get_user_model()
+
 def activar_cuenta(request, uidb64, token):
     try:
-        # Decodificar el UID del enlace
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        # Decodificar UID y limpiar token de caracteres especiales
+        uid = force_str(urlsafe_base64_decode(unquote(uidb64)))
+        token = unquote(token)
+
+        # Obtener el usuario
         user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+        logger.warning("Error al decodificar UID o buscar usuario: %s", e)
         user = None
 
+    # Validar token y usuario
     if user is not None and default_token_generator.check_token(user, token):
-        # Activar la cuenta
-        user.is_active = True
-        user.save()
-        # login(request, user)  # Opcional: iniciar sesión automáticamente
-        return redirect('usuarios:login')  # Asegúrate de que esta URL esté bien definida
+        if not user.is_active:
+            user.is_active = True
+            user.save()
+            logger.info("Usuario %s activado correctamente.", user.email)
+        else:
+            logger.info("Usuario %s ya estaba activo.", user.email)
+        return redirect('usuarios:login')
     else:
+        logger.warning("Token inválido o usuario no encontrado. uid=%s token=%s", uidb64, token)
         return render(request, 'usuarios/activation_invalid.html')
 
 
