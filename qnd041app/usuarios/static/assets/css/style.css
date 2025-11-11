@@ -114,14 +114,14 @@ position: fixed;
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color: #7e0004;
+  background-color: #444040;
   border-right: 0px solid #e2e3e4;
-  border-bottom: 1px solid #7e0004;
+  border-bottom: 1px solid #444040;
   transition: all .2s;
 }
 
 .sidebar-wrapper .sidebar-header .logo-icon {
-  width: 200px;
+  width: 40px;
 }
 
 .sidebar-wrapper .sidebar-header .logo-text {
@@ -143,11 +143,11 @@ position: fixed;
     border-radius: 50%;
     font-size: 22px;
     cursor: pointer;
-    color: #ffffff;
+    color: #717a7b;
 }
 
 .toggle-icon:hover {
-    background-color: #ffffff;
+    background-color: #e8e7e7;
 }
 
 .sidebar-wrapper ul {
@@ -334,8 +334,8 @@ position: fixed;
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
-  background-color: #9e191b;
-  border-top: 0px solid #9e191b;
+  background-color: #444040;
+  border-top: 0px solid #444040;
   border-bottom: 0px solid #3e3d3d;
   padding: 1px 0;
   box-sizing: border-box;
@@ -384,7 +384,7 @@ position: fixed;
   padding: 0 1.5rem;
   border-bottom: 1px solid rgba(233, 236, 239, 0);
   background-clip: border-box;
-  background: #9e191b;
+  background: #444040;
   z-index: 5;
   transition: 0.3s all;
   box-shadow: none;
@@ -456,11 +456,11 @@ position: fixed;
 }
 
 .top-header .navbar .top-navbar-right .nav-item:hover {
-    background-color: #aeacac;
+    background-color: #e8e7e7;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color:#fff;
+    color:#717a7b;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;

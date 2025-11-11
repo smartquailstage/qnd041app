@@ -5,7 +5,7 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{% static 'assets/images/logosmartquailWHITEGRAY.png' %}" class="logo-icon"  width="200px" alt="logo icon">
+            <img src="{% static 'assets/images/REDQUAIL.png' %}" class="logo-icon"  width="39px" alt="logo icon">
         </div>
 
     </div>
@@ -14,10 +14,10 @@
 
                     
         
-      <a href="{% url 'saas_shop:product_list'  %}"><li class="menu-label">SOFTWARE AS PRODUCTS </li></a>
+      <a href="{% url 'saas_shop:product_list'  %}"><li class="menu-label">BUSINESS SOFTWARE  </li></a>
 
 {% for c in categories %}
-   {% if c.slug == "smartbusinessanalytics" %}
+   {% if c.slug == "businessanalytics" %}
     <li class="">
       <a href="javascript:;" class="has-arrow" aria-expanded="false">
         <div class="parent-icon">
@@ -41,7 +41,7 @@
 {% endfor %}
 
 {% for c in categories %}
-   {% if c.slug == "smartbusinessmedia" %}
+   {% if c.slug == "businessmedia" %}
     <li class="">
       <a href="javascript:;" class="has-arrow" aria-expanded="false">
         <div class="parent-icon">
@@ -65,7 +65,7 @@
 {% endfor %}
 
 {% for c in categories %}
-   {% if c.slug == "smartbusinesslaw" %}
+   {% if c.slug == "businesslaw" %}
     <li class="">
       <a href="javascript:;" class="has-arrow" aria-expanded="false">
         <div class="parent-icon">

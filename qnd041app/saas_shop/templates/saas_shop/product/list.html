@@ -85,26 +85,79 @@
     </div>
 
     <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
-      <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid...</p>
+       <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessmedia" %}
+        {% if c.products.all %}
+        <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
     </div>
 
     <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="tab-tags">
-      <div class="tags-box w-50">
-        <a href="javascript:;" class="tag-link">Clothes</a>
-        <a href="javascript:;" class="tag-link">Electronics</a>
-        <a href="javascript:;" class="tag-link">Furniture</a>
-        <a href="javascript:;" class="tag-link">Sports</a>
-        <a href="javascript:;" class="tag-link">Men Wear</a>
-        <a href="javascript:;" class="tag-link">Women Wear</a>
-        <a href="javascript:;" class="tag-link">Laptops</a>
-        <a href="javascript:;" class="tag-link">Formal Shirts</a>
-        <a href="javascript:;" class="tag-link">Topwear</a>
-        <a href="javascript:;" class="tag-link">Headphones</a>
-        <a href="javascript:;" class="tag-link">Bottom Wear</a>
-        <a href="javascript:;" class="tag-link">Bags</a>
-        <a href="javascript:;" class="tag-link">Sofa</a>
-        <a href="javascript:;" class="tag-link">Shoes</a>
-      </div>
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinesslaw" %}
+        {% if c.products.all %}
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
     </div>
   </div>
 </div>
