@@ -3445,9 +3445,9 @@ textarea.form-control-lg {
 	border-color: transparent
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-  color: #fff;
+  color:#717a7b;
   background-color: #444040;
-  border-color: #fff;
+  border-color: #888585;
   border-radius: 25px;
 }
 
@@ -3977,7 +3977,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 --bs-card-color: #860606;
-  --bs-card-bg: #f8fafb;
+  --bs-card-bg: #444040;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
@@ -5593,10 +5593,18 @@ textarea.form-control-lg {
 	background-size: 100% 100%
 }
 .carousel-control-prev-icon {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e")
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+	background-color: #797575;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
 }
 .carousel-control-next-icon {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+	background-color:#797575;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
 }
 .carousel-indicators {
 	position: absolute;
@@ -7836,6 +7844,10 @@ textarea.form-control-lg {
 .bg-dark {
 	--bs-bg-opacity: 1;
 	background-color: rgb(68, 64, 64) !important
+}
+.bg-red {
+	--bs-bg-opacity: 1;
+	background-color: rgb(181, 24, 26) !important 
 }
 .bg-black {
 	--bs-bg-opacity: 1;

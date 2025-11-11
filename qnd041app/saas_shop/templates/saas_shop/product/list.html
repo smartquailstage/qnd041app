@@ -54,9 +54,9 @@
                   <!-- Enlace envuelve todo el contenido de la imagen -->
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red  bg-opacity-50">
                         <h2 class="text-white">{{ product.name }}</h2>
-                        <p class="mb-1 text-white">${{ product.price }}</p>
+                        <p class="mb-1 text-white">${{ product.description }}</p>
                       </div>
                     </div>
                   </a>
@@ -78,6 +78,30 @@
         {% endif %}
       {% endif %}
     {% endfor %}
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-body p-4" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #403c3c;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
+    </p>
+    <p>
+      Gracias a su ecosistema modular y altamente personalizable, los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y desarrollar sus propios flujos de información, adaptándolos a las necesidades específicas de su negocio o institución. SmartBusinessAnalytics® integra tecnologías de última generación como inteligencia artificial, analítica predictiva, automatización de procesos (RPA) y big data, ofreciendo una visión completa y dinámica del rendimiento organizacional.
+    </p>
+    <p>
+      Esta solución inteligente está pensada para escalar de manera flexible en función del crecimiento y las estrategias comerciales u operacionales de cada organización. Su infraestructura en la nube permite incrementar recursos de procesamiento y almacenamiento sin interrupciones, garantizando la continuidad operativa, la seguridad de los datos y el cumplimiento de los más altos estándares tecnológicos del mercado.
+    </p>
+    <p>
+      En un entorno cada vez más competitivo y digitalizado, <strong>SmartBusinessAnalytics®</strong> se consolida como una herramienta estratégica para impulsar la eficiencia, la innovación y la sostenibilidad de las empresas y organizaciones sociales, transformando los datos en conocimiento y el conocimiento en acción.
+    </p>
   </div>
 </div>
 
