@@ -251,20 +251,57 @@ const logs = [
   "[BOOT] System integrity verified. All modules signed and trusted.",
   "[NETWORK] Establishing secure VPN tunnel to cloud node us-east-1...",
   "[VPN] AES-256 tunnel established with SmartQuail CloudHub (latency: 28ms)",
+
+  // --- NMAP / NETWORK SCAN ---
   "root@smartquail:~# nmap -A -T4 10.0.0.0/24",
   "[SCANNER] Enumerating hosts... 18 nodes found active.",
   "10.0.0.15 - open ports: 22(SSH), 8080(API), 443(HTTPS)",
   "10.0.0.19 - open ports: 21(FTP), 1433(MSSQL), 8000(NodeJS)",
   "[INFO] Performing banner grab for host 10.0.0.19:8080",
   "[RESULT] Server: nginx/1.24.2 | Framework: ExpressJS v4.19",
+
+  // --- NGINX LOGS ---
+  "[NGINX] 2025/11/10 15:12:43 [notice] 1423#1423: start worker processes",
+  "[NGINX] 2025/11/10 15:13:10 [info] 1423#1423: 200 GET /api/v1/status (127.0.0.1) 0.003s",
+  "[NGINX] 2025/11/10 15:13:14 [warn] 1423#1423: 499 POST /api/v1/upload client closed connection prematurely",
+  "[NGINX] 2025/11/10 15:14:02 [info] 1423#1423: 302 GET /login redirected to /dashboard",
+
+  // --- SSH SESSION ---
   "root@smartquail:~# ssh devops@10.0.0.15",
   "Authentication successful. Session key: SHA256:e3a7f...8a1c",
   "[SYSTEM] Ubuntu 24.04 LTS | Kernel 6.10.0 | Node v22.1.0",
   "[PROCESS] Docker containers detected: 14 active | 3 paused",
-  "root@10.0.0.15:/# docker ps --format 'table {{.Names}}\t{{.Status}}'",
-  "api-gateway          Up 12 hours",
-  "auth-service         Up 12 hours",
-  "ml-defense-engine    Up 2 hours (auto-restart)",
+
+  // --- RABBITMQ LOGS ---
+  "[RABBITMQ] 2025-11-10 15:15:33 connection <0.453.0> (10.0.0.15:5672 -> 10.0.0.19:54218): user 'smartquail' authenticated successfully",
+  "[RABBITMQ] 2025-11-10 15:16:01 queue 'events_queue' reached 12000 messages (warning threshold 10000)",
+  "[RABBITMQ] 2025-11-10 15:16:22 consumer 'ml-defense-engine' ACKed 1000 messages in 3.2s",
+  "[RABBITMQ] 2025-11-10 15:16:59 queue 'alerts_queue' purged | 42 messages removed",
+
+  // --- KAFKA LOGS ---
+  "[KAFKA] [Broker-1] Leader election for topic 'ai_alerts' partition=2 completed. New leader: broker-3",
+  "[KAFKA] [ConsumerGroup:smartquail-ml] Offset commit success topic='telemetry' partition=1 offset=42391",
+  "[KAFKA] [Producer] Sent batch (size=128KB) to topic 'security_events' latency=22ms",
+  "[KAFKA] [Controller] Cluster id=skq-cluster-001 | ISR state healthy",
+
+  // --- POSTFIX LOGS ---
+  "[POSTFIX] 2025-11-10 15:18:03 status=sent (250 OK) from=<alerts@smartquail.com> to=<admin@smartquail.com> relay=mail.smartquail.com[10.0.0.10]:25",
+  "[POSTFIX] 2025-11-10 15:18:44 status=deferred (Connection timed out) to=<external@partner.net>",
+  "[POSTFIX] 2025-11-10 15:19:12 cleanup[8932]: message-id=<20251110-mlalert@smartquail.com>",
+
+  // --- REDIS LOGS ---
+  "[REDIS] 15:19:33.145 * DB loaded from disk: 0.002 seconds",
+  "[REDIS] 15:19:34.202 # WARNING Memory usage > 80% (maxmemory policy: allkeys-lru)",
+  "[REDIS] 15:19:35.511 * Background saving started by pid 4721",
+  "[REDIS] 15:19:36.822 * Background saving terminated with success",
+
+  // --- POSTGRES LOGS ---
+  "[POSTGRES] 2025-11-10 15:20:11 [INFO] connection authorized: user=mlops db=smartquail",
+  "[POSTGRES] 2025-11-10 15:20:14 [LOG] automatic vacuum of table 'public.telemetry': pages: 1500 removed: 321",
+  "[POSTGRES] 2025-11-10 15:20:17 [ERROR] duplicate key value violates unique constraint 'users_pkey'",
+  "[POSTGRES] 2025-11-10 15:20:20 [INFO] query completed in 28.4ms | SELECT COUNT(*) FROM alerts WHERE severity='HIGH'",
+
+  // --- SMARTQUAIL OPS ---
   "root@10.0.0.15:/# ./deploy_scaler.sh --region=us-west-2 --nodes=30",
   "[CLOUD] Auto-scaling SmartQuail cluster... Target nodes: 30",
   "[INFO] QND0210239 SmartQuail Node provisioning in progress...",
@@ -282,48 +319,39 @@ const logs = [
   "[FIREWALL] Rule added. IP permanently blacklisted.",
   "root@10.0.0.15:/# systemctl restart smartquail-defense",
   "[INFO] SmartQuail Defense restarted and operational",
+
+  // --- CLOUD & METRICS ---
   "root@10.0.0.15:/# ./audit_cloud.sh --region=all",
   "[CLOUD AUDIT] Verifying IAM roles, policies, and bucket access...",
   "[RESULT] No misconfigurations found. All S3 buckets encrypted.",
-  "root@10.0.0.15:/# tail -f /var/log/cloud/metrics.log",
   "[METRICS] CPU Load: 0.42 | RAM: 58% | Net TX/RX: 122MB / 109MB",
   "[METRICS] AI Defense Latency: 8.3ms | Detection Accuracy: 99.1%",
   "[SUCCESS] All systems operational — SmartQuail CloudSec stable 🛰️",
-  "root@smartquail:~# exit",
-  "[SESSION] Secure connection closed. Logs archived to /var/log/cyberops_2025_11_10.log",
+
+  // --- TRAINING PIPELINE ---
   "root@smartquail:~# python train_model.py --dataset=imagenet --epochs=5",
   "[TENSORFLOW] Initializing GPU devices...",
   "[TENSORFLOW] Loaded dataset: 1.2M images | Classes: 1000",
   "[TENSORFLOW] Epoch 1/5 - Loss: 2.45 - Accuracy: 15.3%",
-  "[TENSORFLOW] Epoch 2/5 - Loss: 1.98 - Accuracy: 36.7%",
-  "[TENSORFLOW] Epoch 3/5 - Loss: 1.72 - Accuracy: 49.5%",
-  "[TENSORFLOW] Epoch 4/5 - Loss: 1.50 - Accuracy: 58.2%",
   "[TENSORFLOW] Epoch 5/5 - Loss: 1.31 - Accuracy: 65.4%",
   "[TENSORFLOW] Model training completed ✅ | Saved: /models/resnet50_v2.h5",
-  "root@smartquail:~# python eval_model.py --model=/models/resnet50_v2.h5",
-  "[TENSORFLOW] Evaluating model on test dataset...",
   "[RESULT] Test Accuracy: 64.8% | F1 Score: 0.63 | Precision: 0.65",
-  "root@smartquail:~# elasticsearch --cluster-name smartquail-cluster",
+
+  // --- ELASTICSEARCH & CLOUD GPU OPS ---
   "[ELASTICSEARCH] Cluster health: GREEN | Nodes: 5 | Shards: 15",
-  "[ELASTICSEARCH] Index 'logs-2025-11' created successfully",
-  "[ELASTICSEARCH] Bulk importing logs from /data/logs/2025-11/",
   "[ELASTICSEARCH] 100000 documents indexed | Took: 12.3s",
-  "[ELASTICSEARCH] Searching: GET logs-2025-11/_search { 'query': { 'match_all': {} } }",
-  "[ELASTICSEARCH] Returned 10000 hits | Max score: 1.0",
-  "[CLOUD] Auto-scaling TensorFlow GPU nodes... Target: 4 nodes",
   "[CLOUD] GPU Node 3 launched (Tesla T4) | Status: Ready",
-  "[CLOUD] GPU Node 4 launched (Tesla T4) | Status: Ready",
-  "[AI-SEC] Monitoring TensorFlow processes for anomalous behavior...",
   "[AI-SEC] No anomalies detected | All processes stable",
-  "[METRICS] GPU Utilization: 78% | Memory Usage: 12.4GB / 16GB",
-  "[METRICS] ElasticSearch Queries/sec: 320 | Avg Latency: 12ms",
-  "root@smartquail:~# python deploy_model.py --model=/models/resnet50_v2.h5 --target=cloud",
+
+  // --- DEPLOYMENT ---
   "[DEPLOY] Uploading model to cloud storage...",
   "[DEPLOY] Model available at: https://cloud.smartquail.com/models/resnet50_v2.h5",
   "[DEPLOY] Model deployed to TensorFlow Serving | Status: RUNNING ✅",
-  "root@smartquail:~# exit",
+
+  // --- SESSION CLOSE ---
   "[SESSION] Secure session closed. Logs archived to /var/log/cyberops_2025_11_10.log"
 ];
+
 
 const container = document.getElementById('ticker');
 const typingSpeed = 15; // velocidad de escritura (ms por letra)

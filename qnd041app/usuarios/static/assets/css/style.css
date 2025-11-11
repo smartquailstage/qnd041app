@@ -232,9 +232,9 @@ position: fixed;
 }
 
 .sidebar-wrapper .metismenu ul {
-    background: rgb(127 0 3);
-    border: 0px solid #f8fafb;
-    border-radius: 3%;
+  background: rgb(64, 57, 57);
+  border: 0px solid #f8fafb;
+  border-radius: 3%;
 }
 
 .sidebar-wrapper .metismenu ul ul a {
@@ -249,10 +249,9 @@ position: fixed;
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-    color: #b50f15;
-    text-decoration: none;
-    background-color: rgb(255, 249, 243);
-;
+  color: #717a7b;
+  text-decoration: none;
+  background-color: rgba(57, 45, 45, 0.32);
 }
 
 .menu-label {
