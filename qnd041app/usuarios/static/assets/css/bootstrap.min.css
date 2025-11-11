@@ -3456,6 +3456,48 @@ textarea.form-control-lg {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0
 }
+
+
+
+
+/* 📱 Adaptación para dispositivos móviles */
+@media (max-width: 768px) {
+  .nav-tabs {
+    display: flex;
+    flex-wrap: nowrap;              /* No saltar de línea */
+    overflow-x: auto;               /* Permite scroll horizontal si no caben */
+    overflow-y: hidden;
+    white-space: nowrap;            /* Mantiene los tabs en una sola línea */
+    -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
+    border-bottom: 1px solid var(--bs-nav-tabs-border-color);
+    padding-bottom: 4px;
+  }
+
+  .nav-tabs::-webkit-scrollbar {
+    display: none; /* Oculta la barra de scroll para mejor estética */
+  }
+
+  .nav-tabs .nav-item {
+    flex: 0 0 auto; /* Evita que se estiren */
+    margin-right: 4px;
+  }
+
+  .nav-tabs .nav-link {
+    font-size: 7px !important;      /* Tamaño de fuente reducido */
+    padding: 4px 8px;               /* Ajusta padding para pantallas pequeñas */
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #444040;
+    border-color: #fff;
+  }
+}
+
+
+
 .nav-pills {
 	--bs-nav-pills-border-radius: var(--bs-border-radius);
 	--bs-nav-pills-link-active-color: #fff;
@@ -5445,16 +5487,21 @@ textarea.form-control-lg {
 	color: var(--bs-popover-body-color)
 }
 .carousel {
-	position: relative
+	position: relative;
+	border-radius: 25%;
 }
+
 .carousel.pointer-event {
 	touch-action: pan-y
 }
 .carousel-inner {
-	position: relative;
-	width: 100%;
-	overflow: hidden
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+  background-color: #444040;
 }
+
 .carousel-inner::after {
 	display: block;
 	clear: both;
@@ -7154,7 +7201,7 @@ textarea.form-control-lg {
 	margin-top: 1rem!important
 }
 .mt-4 {
-	margin-top: 1.5rem!important
+	margin-top: 0.0rem!important
 }
 .mt-5 {
 	margin-top: 4rem!important

@@ -43,9 +43,9 @@
 
       <!-- Carrusel SmartBusinessAnalytics -->
 <div class="card">
-  <div class="card-body p-0">
+  <div class="card-body p-0" style="background-color: #444040;">
     {% for c in categories %}
-      {% if c.slug == "smartbusinessanalytics" %}
+      {% if c.slug == "businessanalytics" %}
         {% if c.products.all %}
           <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">

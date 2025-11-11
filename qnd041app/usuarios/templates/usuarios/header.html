@@ -9,55 +9,80 @@
 
 
 .ticker-container {
-  background: #444040;
+background: #444040;
   border-radius: 8px;
-  padding: 20px;
-  width: 900px;
-  height: 46px;
+  padding: 12px;
+  width: 100%;
+  max-width: 900px;
+  height: 48px;
   overflow-y: scroll;
   scroll-behavior: smooth;
-  margin-bottom: -24px;
-  }
+  margin-bottom: 11px;
+  box-sizing: border-box;
+}
 
-    /* 🔒 Ocultar scrollbar (compatible cross-browser) */
-  .ticker-container::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
+
+/* 🔒 Ocultar scrollbar (compatible cross-browser) */
+.ticker-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.ticker-container {
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.line {
+  opacity: 0;
+  white-space: pre-line;
+  margin: 4px 0;
+  font-size: 14px;          /* tamaño de letra más cómodo en móvil */
+  line-height: 1.4;
+  transform: translateX(80px); /* empieza desplazada a la derecha */
+  transition: all 0.4s ease-out;
+}
+
+.line.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background-color: #fff;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Colores según tipo de log */
+.info  { color: #717a7b; }
+.warn  { color: #ffcc00; }
+.error { color: #ff4444; }
+
+/* 🔹 Media queries para móvil */
+@media (max-width: 600px) {
   .ticker-container {
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;     /* Firefox */
+    padding: 8px;
+    height: 46px;
+  }          /* ajustar para pantallas pequeñas */
   }
-
+  
   .line {
-    opacity: 0;
-    white-space: pre-line;
-    margin: 4px 0;
-    transform: translateX(80px); /* empieza desplazada a la derecha */
-    transition: all 0.4s ease-out;
-  }
-
-  .line.visible {
-    opacity: 1;
-    transform: translateX(0);
+    font-size: 13px;
+    line-height: 1.3;
+    transform: translateX(40px); /* menos desplazamiento lateral en móvil */
   }
 
   .cursor {
-    display: inline-block;
-    width: 8px;
-    background-color: #fff;
-    animation: blink 0.8s infinite;
+    width: 6px;              /* cursor más pequeño */
   }
 
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
 
-  /* Colores según tipo de log */
-  .info  { color: #717a7b; }
-  .warn  { color: #ffcc00; }
-  .error { color: #ff4444; }
 </style>
 
 
