@@ -3445,9 +3445,9 @@ textarea.form-control-lg {
 	border-color: transparent
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-  color:#717a7b;
-  background-color: #444040;
-  border-color: #888585;
+  color: #f3f3f3;
+  background-color: #b5181a;
+  border-color: #b5181a;
   border-radius: 25px;
 }
 
