@@ -36,7 +36,7 @@ class ProductAdmin(ModelAdmin):
 
     fieldsets = (
         ('Información básica', {
-            'fields': ('name', 'slug', 'description', 'category', 'available'),
+            'fields': ('name', 'slug', 'description', 'category', 'available', 'is_reaserch', 'is_automatitation', 'is_intelligent'),
             'classes': ('collapse',),
         }),
         ('Items', {
