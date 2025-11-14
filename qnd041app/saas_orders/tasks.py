@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.models import Site
 from .models import SaaSOrder
 from .utils.pdf import generate_order_pdf
+from django.conf import settings  # Importar configuraciones
 
 @shared_task
 def order_created(order_id):
@@ -19,7 +20,9 @@ def order_created(order_id):
         {'order': order, 'domain': domain}
     )
     subject = f'Order #{order.id} confirmation'
-    from_email = 'admin@myshop.com'
+
+    # Obtener el correo de origen desde la configuración
+    from_email = settings.DEFAULT_FROM_EMAIL  # Usando la variable de entorno
     to_email = [order.email]
 
     # Crear correo Multipart (texto plano + HTML)
