@@ -15,7 +15,7 @@ def order_created(order_id):
 
     # Renderizar plantilla HTML del correo
     html_message = render_to_string(
-        'saas_orders/mails/order_created.html',
+        'saas_orders/mails/invoices/order_created.html',
         {'order': order, 'domain': domain}
     )
     subject = f'Order #{order.id} confirmation'

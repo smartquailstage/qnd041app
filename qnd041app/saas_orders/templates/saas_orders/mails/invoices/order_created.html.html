@@ -7,21 +7,21 @@
     <h2>🧾 Orden de compra realizada con éxito</h2>
 
     <p>
-        Hola <strong>{{ order.first_name }}</strong>,
+        Hola <strong>{{ order.first_name }} {{ order.last_name }}</strong>,
     </p>
 
     <p>
         Gracias por realizar un pedido con <strong>SmartQuail</strong>.
     </p>
 
-    <p>A continuación los detalles de su orden:</p>
+    <p>A continuación, los detalles de su orden:</p>
 
     <ul>
-        <li><strong>ID de la orden:</strong> {{ order.id }}</li>
+        <li><strong>ID de la orden:</strong> 00000{{ order.id }}</li>
         <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
         <li><strong>Email:</strong> {{ order.email }}</li>
-        <li><strong>Fecha:</strong> {{ order.created }}</li>
-        <li><strong>Total a pagar:</strong> ${{ order.get_total_cost }}</li>
+        <li><strong>Fecha:</strong> {{ order.created|date:"M d, Y" }}</li>
+        <li><strong>Total a pagar:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
     </ul>
 
     <p>
@@ -32,5 +32,43 @@
         Si necesita asistencia adicional, nuestro equipo está disponible para ayudarle.
     </p>
 
+    <h3>Detalles adicionales de la orden:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price|floatformat:2 }}</td>
+                <td>${{ item.get_cost|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Resumen de la cotización:</h3>
+    <ul>
+        <li><strong>Subtotal:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
+        <li><strong>I.V.A ({{ order.iva }}%) :</strong> ${{ order.tax_subtotal|floatformat:2 }}</li>
+        <li><strong>Total:</strong> ${{ order.total|floatformat:2 }}</li>
+        <li><strong>Descuento (Anticipo):</strong> ${{ order.Anticipo|floatformat:2 }}</li>
+        <li><strong>Valor a cancelar:</strong> ${{ order.total|floatformat:2 }} / Mes</li>
+    </ul>
+
+    <p>
+        Esta es una copia de su orden realizada. Si tiene alguna pregunta, no dude en contactarnos.
+    </p>
+
 </div>
+
 {% endblock %}
