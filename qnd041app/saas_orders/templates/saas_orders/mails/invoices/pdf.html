@@ -1,0 +1,36 @@
+{% extends "mails/base_mail.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block content %}
+<div class="email-body">
+
+    <h2>🧾 Orden de compra realizada con éxito</h2>
+
+    <p>
+        Hola <strong>{{ order.first_name }}</strong>,
+    </p>
+
+    <p>
+        Gracias por realizar un pedido con <strong>SmartQuail</strong>.
+    </p>
+
+    <p>A continuación los detalles de su orden:</p>
+
+    <ul>
+        <li><strong>ID de la orden:</strong> {{ order.id }}</li>
+        <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
+        <li><strong>Email:</strong> {{ order.email }}</li>
+        <li><strong>Fecha:</strong> {{ order.created }}</li>
+        <li><strong>Total a pagar:</strong> ${{ order.get_total_cost }}</li>
+    </ul>
+
+    <p>
+        Hemos adjuntado un archivo PDF con el comprobante oficial de su pedido.
+    </p>
+
+    <p>
+        Si necesita asistencia adicional, nuestro equipo está disponible para ayudarle.
+    </p>
+
+</div>
+{% endblock %}

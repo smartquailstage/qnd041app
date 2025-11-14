@@ -1,5 +1,6 @@
-{% extends "saas_shop/base.html" %}
+{% extends "saas_shop/base3.html" %}
 {% load static %}
+{% load i18n %}
 {% load custom_filters %}
 
 
@@ -8,6 +9,262 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+<div class="product-more-info mt-4">
+
+
+
+<div class="card">
+  <div class="card-body p-4" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #403c3c;
+  border-radius: 25px;">
+
+      <div class="shop-cart">
+                    										
+                    <div class="row">
+
+                        <div class="col-12 col-xl-8">
+
+                            										<div class="card border-0">
+											<div class="card-body" style="color:#fff">
+												<div class="steps steps-light">
+													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+														<div class="step-progress"><span class="step-count">1</span>
+														</div>
+														
+													</a>
+													<a class="step-item  current" href="#">
+														<div class="step-progress"><span class="step-count">2</span>
+														</div>
+													
+													</a>
+													<a class="step-item" href="#">
+														<div class="step-progress"><span class="step-count">3</span>
+														</div>
+													
+													</a>
+													<a class="step-item" href="#">
+														<div class="step-progress"><span class="step-count">4</span>
+														</div>
+														
+													</a>
+												</div>
+											</div>
+										</div>
+                            <div class="shop-cart-list">
+
+                                {% for item in cart %}
+                                {% with product=item.product %}
+                                <div class="card mb-3">
+                                    <div class="card-body" style="color:#fff">
+                                        <div class="row align-items-center g-3">
+                                            <!-- Imagen y detalles del producto -->
+                                            <div class="col-12 col-lg-6">
+                                                <div class="d-lg-flex align-items-start gap-3">
+                                                    <div class="cart-img text-center text-lg-start">
+                                                        <a href="{{ product.get_absolute_url }}">
+                                                            <img src="{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="rounded" width="130" alt="{{ product.name }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="cart-detail text-center text-lg-start">
+                                                        <h6 class="mb-2">{{ product.name }}</h6>
+
+                                                        <h5 class="mb-0">
+                                                            ${{ item.price|floatformat:2 }}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Formulario para actualizar cantidad -->
+                                            <div class="col-12 col-lg-3">
+                                                <div class="cart-action text-center">
+                                                    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
+                                                        {% csrf_token %}
+                                                        {{ item.update_quantity_form.quantity }}
+                                                        {{ item.update_quantity_form.update }}
+                                                        <input type="submit" value="Update" class="btn btn-sm btn-outline-secondary ms-2">
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- Acciones: eliminar, favorito -->
+                                            <div class="col-12 col-lg-3">
+                                                <div class="text-center">
+                                                    <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
+                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-primary btn-ecomm">
+                                                            <i class='bx bx-x-circle'></i>Remove
+                                                        </a>
+                                                        <a href="javascript:;" class="btn btn-outline-primary btn-ecomm">
+                                                            <i class='bx bx-heart mx-0'></i>
+                                                        </a>
+                                                    </div>
+                                                    <!-- Total por producto -->
+                                                    <p class="mt-2 mb-0 fw-bold">
+                                                        Total: ${{ item.total_price|floatformat:2 }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endwith %}
+                                {% endfor %}
+
+                                <!-- Acciones globales del carrito -->
+                                <div class="card">
+                                    <div class="card-body" style="color:#fff">
+                                        <div class="d-lg-flex align-items-center gap-3">
+                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
+                                                <i class='bx bx-shopping-bag'></i> Continue Shopping
+                                            </a>
+                                            <a href="#" class="btn btn-light btn-ecomm ms-auto">
+                                                <i class='bx bx-x-circle'></i> Clear Cart
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-4">
+                            <div class="card">
+                                <div class="card-body" style="color:#fff">
+                                    <div class="card">
+                                        <div class="card-body" style="color:#fff">
+                                            <p class="fs-5">Apply Discount Code</p>
+                                            <form method="POST" action=".">
+                                                {% csrf_token %}
+                                                <div class="input-group">
+                                                    <input type="text" name="code" class="form-control" placeholder="Código de descuento" required>
+                                                    <button type="submit" class="btn btn-primary">Aplicar Cupón</button>
+                                                </div>
+                                            </form>
+                                            {% if message %}
+                                            <div class="mt-2">
+                                                <p>{{ message }}</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Muestra el estado del cupón -->
+                                    {% if coupon %}
+                                    <div class="my-3">
+                                        <p><strong>Cupón Aplicado:</strong> {{ coupon.code }}</p>
+                                        <p><strong>Descuento:</strong> -${{ discount|floatformat:2 }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                          
+                            <div class="card mb-0">
+                                <div class="card-body" style="color:#fff">
+                                    <!-- Mostrar Subtotal, IVA, y Totales -->
+{% for item in cart %}
+    {% with product=item.product %}
+        {% with totals=product.get_totals %}
+            <div class="product-pricing mb-4">
+                <p class="mb-2">
+                    <strong>{{ product.name }}</strong>
+                </p>
+
+                <p class="mb-2">
+                    Subtotal:
+                    <span class="float-end">
+                        ${{ totals.subtotal|floatformat:2 }}
+                    </span>
+                </p>
+
+                <p class="mb-2">
+                    IVA ({{ product.iva|floatformat:2 }}%):
+                    <span class="float-end">
+                        ${{ totals.iva_value|floatformat:2 }}
+                    </span>
+                </p>
+
+                <p class="mb-2">
+                    Total con IVA:
+                    <span class="float-end">
+                        ${{ totals.total_with_iva|floatformat:2 }}
+                    </span>
+                </p>
+            </div>
+        {% endwith %}
+    {% endwith %}
+{% endfor %}
+
+
+                                    {% if discount > 0 %}
+                                    <p class="mb-2 text-success">
+                                        Discount: 
+                                        <span class="float-end">
+                                            -${{ discount|floatformat:2 }}
+                                        </span>
+                                    </p>
+                                    <div class="my-3 border-top"></div>
+                                    <h5 class="mb-0">
+                                        Order Total: 
+                                        <span class="float-end">
+                                            ${{ total_after_discount|floatformat:2 }}
+                                        </span>
+                                    </h5>
+                                    {% else %}
+                                    <!-- Si no hay descuento -->
+                                    <p class="mb-2">
+                                        Discount: <span class="float-end">--</span>
+                                    </p>
+                                    <div class="my-3 border-top"></div>
+                                    <h5 class="mb-0">
+                                        Order Total: 
+                                        <span class="float-end">
+                                            ${{ total|floatformat:2 }}
+                                        </span>
+                                    </h5>
+                                    {% endif %}
+
+                                    <div class="my-4"></div>
+
+                                    <!-- Botón para ir al checkout -->
+                                    <div class="d-grid">
+                                        <a href="{% url 'saas_orders:order_create' %}" class="btn btn-primary btn-ecomm">
+                                            Proceed to Checkout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--end row-->
+                </div>
+
+
+  </div>
+</div>
+
+
+    </div>
+
+
+      </div>
+  </div>
+
+
+{% endblock %}
+
+
 <div class="page-content-wrapper">
     <!-- start page content-->
     <div class="page-content">
@@ -280,84 +537,3 @@
     </div>
     <!-- end page content-->
 </div>
-{% endblock %}
-
-
-
-<h1>Your shopping cart</h1>
-
- 
-  
-  <table class="cart">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Remove</th>
-        <th>Unit price</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
-        {% with product=item.product %}
-          <tr>
-            <td>
-              <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.name }}">
-              </a>
-            </td>
-            <td>{{ product.name }}</td>
-            <td>
-              <form action="{% url "saas_cart:cart_add" product.id %}" method="post">
-                {{ item.update_quantity_form.quantity }}
-                {{ item.update_quantity_form.update }}
-                <input type="submit" value="Update">
-                {% csrf_token %}
-              </form>
-            </td>
-            <td>
-              <a href="{% url "saas_cart:cart_remove" product.id %}">Remove</a>
-            </td>
-            <td class="num">
-              {{ item.price.amount|floatformat:2 }} {{ item.price.currency }}
-            </td>
-            <td class="num">
-              {{ item.total_price.amount|floatformat:2 }} {{ item.total_price.currency }}
-            </td>
-          </tr>
-        {% endwith %}
-      {% endfor %}
-
-      <tr class="total">
-        <td><strong>Total:</strong></td>
-        <td colspan="4"></td>
-        <td class="num">
-          {{ total.amount|floatformat:2 }} {{ total.currency }}
-        </td>
-      </tr>
-
-      {% if discount.amount > 0 %}
-        <tr class="discount">
-          <td><strong>Discount:</strong></td>
-          <td colspan="4"></td>
-          <td class="num">
-            -{{ discount.amount|floatformat:2 }} {{ discount.currency }}
-          </td>
-        </tr>
-        <tr class="total_after_discount">
-          <td><strong>Total after discount:</strong></td>
-          <td colspan="4"></td>
-          <td class="num">
-            {{ total_after_discount.amount|floatformat:2 }} {{ total_after_discount.currency }}
-          </td>
-        </tr>
-      {% endif %}
-    </tbody>
-  </table>
-
-  <p class="text-right">
-    <a href="{% url "saas_shop:product_list" %}" class="button light">Continue shopping</a>
-    <a href="{% url "saas_orders:order_create" %}" class="button">Checkout</a>
-  </p>

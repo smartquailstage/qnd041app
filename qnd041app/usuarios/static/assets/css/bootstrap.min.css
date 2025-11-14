@@ -4016,7 +4016,7 @@ textarea.form-control-lg {
 .card-body {
 	flex: 1 1 auto;
 	padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
-	color: #000
+	color: #fff;
 }
 .card-title {
 	margin-bottom: var(--bs-card-title-spacer-y);
@@ -7622,7 +7622,7 @@ textarea.form-control-lg {
 }
 .text-muted {
   --bs-text-opacity: 1;
-  color: rgb(0, 0, 0) !important;
+  color: rgb(255, 255, 255) !important
 }
 .text-black-50 {
 	--bs-text-opacity: 1;
