@@ -28,7 +28,7 @@ def order_created(order_id):
     # Crear correo Multipart (texto plano + HTML)
     email = EmailMultiAlternatives(
         subject,
-        "Your order has been created!",  # fallback texto plano
+        "Su Orden de Software ERP Business Analytics fue creado!",  # fallback texto plano
         from_email,
         to_email
     )
