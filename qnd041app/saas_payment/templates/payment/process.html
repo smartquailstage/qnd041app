@@ -1,154 +1,172 @@
-{% extends "saas_shop/base.html" %}
+{% extends "saas_shop/base3.html" %}
 
 {% block title %}Selecciona método de pago{% endblock %}
 
 {% block content %}
+
+
+<style>
+  .step-count-circle {
+  background-color: #b50f15; /* o el color corporativo que uses */
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+</style>
+
 <div class="page-content-wrapper">
-	<div class="page-content">
-
-		<!-- Breadcrumb -->
-		<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-			<div class="breadcrumb-title pe-3">Software como Producto</div>
-			<div class="ps-3">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb mb-0 p-0 align-items-center">
-						<li class="breadcrumb-item active" aria-current="page">Pasarela de Pagos</li>
-					</ol>
-				</nav>
-			</div>
-		</div>
-		<!-- End Breadcrumb -->
-
-		<!-- Checkout Section -->
-		<section class="shop-page">
-			<div class="shop-container">
-				<div class="card shadow-sm border-0">
-					<div class="card-body">
-						<div class="shop-cart">
-							<div class="row">
-								<div class="col-12 col-xl-8">
-									<div class="checkout-details">
-
-										<div class="card">
-											<div class="card-header border-bottom">
-												<h2 class="h5">Escoja el método de pago</h2>
-											</div>
-
-											<div class="card-body">
-
-												<!-- Tabs -->
-												<ul class="nav nav-tabs" id="paymentTabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="card-tab" data-bs-toggle="tab" href="#card" role="tab">Tarjeta</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="paypal-tab" data-bs-toggle="tab" href="#paypal" role="tab">PayPal</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="bank-tab" data-bs-toggle="tab" href="#bank" role="tab">Transferencia</a>
-  </li>
-</ul>
+          <!-- start page content-->
+         <div class="page-content">
 
 
-                        
+<div class="product-more-info mt-4">
 
-												<div class="tab-content pt-3" id="paymentTabsContent">
-													<!-- Tarjeta -->
-													<div class="tab-pane fade show active" id="card" role="tabpanel">
-														<form id="payment" action="." method="post">
-															{% csrf_token %}
-															<div class="mb-3">
-																<label class="form-label">Número de Tarjeta</label>
-																<div id="card-number" class="form-control"></div>
-															</div>
-															<div class="mb-3">
-																<label class="form-label">CVV</label>
-																<div id="cvv" class="form-control"></div>
-															</div>
-															<div class="mb-3">
-																<label class="form-label">Fecha de Expiración</label>
-																<div id="expiration-date" class="form-control"></div>
-															</div>
-															<input type="hidden" name="payment_method_nonce" id="nonce">
-															<div class="d-grid">
-																<input type="submit" value="Confirmar Pago" class="btn btn-primary btn-ecomm">
-															</div>
-														</form>
-													</div>
 
-													<!-- PayPal -->
-													<div class="tab-pane fade" id="paypal" role="tabpanel">
-														<form action='.' method="post">
-															{% csrf_token %}
-															<p>Serás redirigido a PayPal para completar el pago.</p>
-															<div class="d-grid">
-																<button type="submit" class="btn btn-warning btn-ecomm">Pagar con PayPal</button>
-															</div>
-														</form>
-													</div>
 
-													<!-- Transferencia Bancaria -->
-													<div class="tab-pane fade" id="bank" role="tabpanel">
-														<form action='.' method="post">
-															{% csrf_token %}
-															<div class="mb-3">
-																<label for="token" class="form-label">Token de Transacción</label>
-																<input type="text" name="token" id="token" class="form-control" placeholder="Token generado por Kushki">
-															</div>
-															<div class="d-grid">
-																<button type="submit" class="btn btn-success btn-ecomm">Pagar por Transferencia</button>
-															</div>
-														</form>
-													</div>
-												</div>
-												<!-- End Tabs -->
+<div class="card">
+  <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.2; background-color: #403c3c; border-radius: 25px;">
 
-											</div>
-										</div>
+    <!-- Progreso de pasos -->
+    <div class="card border-0 bg-transparent">
+      <div class="card-body">
+        <div class="steps steps-light">
+          <a class="step-item active" href="#">
+            <div class="step-progress"><span class="step-count">1</span></div>
+          </a>
+          <a class="step-item active " href="{% url 'saas_orders:order_detail' order_id=order.id %}" >
+            <div class="step-progress"><span class="step-count">2</span></div>
+          </a>
+          <a class="step-item active current"  href="#" ><div class="step-progress"><span class="step-count">3</span></div></a>
+          <a class="step-item"><div class="step-progress"><span class="step-count">4</span></div></a>
+        </div>
+      </div>
+    </div>
 
-										<div class="card mt-3">
-											<div class="card-body">
-												<div class="row">
-													<div class="col-md-6">
-														<div class="d-grid"><a href="javascript:;" class="btn btn-light btn-ecomm"><i class="bx bx-chevron-left"></i>Volver</a></div>
-													</div>
-													<div class="col-md-6">
-														<div class="d-grid"><a href="javascript:;" class="btn btn-white btn-ecomm">Revisar Pedido<i class="bx bx-chevron-right"></i></a></div>
-													</div>
-												</div>
-											</div>
-										</div>
+    <!-- Checkout Section -->
+    <section class="shop-page">
+      <div class="shop-container">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="shop-cart">
+              <div class="row">
+                <div class="col-12 col-xl-8">
+                  <div class="checkout-details">
+                    <div class="card">
+                      <div class="card-header border-bottom" style="color:#fff">
+                        <h2 class="h5 mb-0">
+                          <span class="step-count-circle">3</span> Método de Pago
+                        </h2>
+                        <p class="mt-2">
+                          Por favor, seleccione el método de pago que considere más adecuado para realizar el abono correspondiente a los servicios de software y recursos contratados. Una vez confirmado el pago, se enviará a su correo electrónico los siguientes documentos:
+                        </p>
+                        <ul>
+                          <li><strong>Contrato de Propiedad Intelectual</strong></li>
+                          <li><strong>Contrato de Servicios de Desarrollo y Consultoría</strong></li>
+                          <li><strong>Contrato de Alquiler de Servicios en la Nube</strong></li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="paymentTabs" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="card-tab" data-bs-toggle="tab" href="#card" role="tab">Tarjeta</a>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="paypal-tab" data-bs-toggle="tab" href="#paypal" role="tab">PayPal</a>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="bank-tab" data-bs-toggle="tab" href="#bank" role="tab">Transferencia</a>
+                          </li>
+                        </ul>
 
-									</div>
-								</div>
+                        <div class="tab-content pt-3" id="paymentTabsContent">
+                          <!-- Tarjeta -->
+                          <div class="tab-pane fade show active" id="card" role="tabpanel">
+                            <form id="payment" action="." method="post">
+                              {% csrf_token %}
+                              <div class="mb-3">
+                                <label class="form-label">Número de Tarjeta</label>
+                                <div id="card-number" class="form-control"></div>
+                              </div>
+                              <div class="mb-3">
+                                <label class="form-label">CVV</label>
+                                <div id="cvv" class="form-control"></div>
+                              </div>
+                              <div class="mb-3">
+                                <label class="form-label">Fecha de Expiración</label>
+                                <div id="expiration-date" class="form-control"></div>
+                              </div>
+                              <input type="hidden" name="payment_method_nonce" id="nonce">
+                              <div class="d-grid">
+								    <h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
+                                <input type="submit" value="Confirmar Pago" class="btn btn-primary btn-ecomm">
+                              </div>
+                            </form>
+                          </div>
 
-								<!-- Order Summary -->
-								<div class="col-12 col-xl-4">
-									<div class="order-summary">
-										<div class="card">
-											<div class="card-body">
-												<p class="mb-2">Subtotal: <span class="float-end">${{ order.get_total_cost }}</span></p>
-												<p class="mb-2">Envío: <span class="float-end">--</span></p>
-												<p class="mb-2">Impuestos: <span class="float-end">--</span></p>
-												<p class="mb-0">Descuento: <span class="float-end">--</span></p>
-												<div class="my-3 border-top"></div>
-												<h5 class="mb-0">Total: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- End Order Summary -->
+                          <!-- PayPal -->
+                          <div class="tab-pane fade" id="paypal" role="tabpanel">
+                            <form action='.' method="post">
+                              {% csrf_token %}
+                              <p>Serás redirigido a PayPal para completar el pago.</p>
+                              <div class="d-grid">
+								<h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
+                                <button type="submit" class="btn btn-warning btn-ecomm">Pagar con PayPal</button>
+                              </div>
+                            </form>
+                          </div>
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Checkout Section -->
+                          <!-- Transferencia Bancaria -->
+                          <div class="tab-pane fade" id="bank" role="tabpanel">
+                            <form action='.' method="post">
+                              {% csrf_token %}
+                              <div class="mb-3">
+                                <label for="token" class="form-label">Token de Transacción</label>
+                                <input type="text" name="token" id="token" class="form-control" placeholder="Token generado por Kushki">
+                              </div>
+                              <div class="d-grid">
+								    <h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
+                                <button type="submit" class="btn btn-success btn-ecomm">Pagar por Transferencia</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <!-- End Tabs -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-	</div>
+                <!-- Order Summary -->
+
+                <!-- End Order Summary -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </div>
+
+
+
+    </div>
+
+
+      </div>
+  </div>
+
+
 {% endblock %}
 
 {% block script %}
@@ -229,3 +247,5 @@
 
 
 {% endblock %}
+
+

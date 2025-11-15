@@ -22,12 +22,13 @@ def payment_process(request):
         nonce = request.POST.get('payment_method_nonce', None)
         # create and submit transaction
         result = braintree.Transaction.sale({
-            'amount': '{:.2f}'.format(order.get_total_cost()),
+            'amount': f"{order.get_total_cost().amount:.2f}",  # <-- f-string con .amount
             'payment_method_nonce': nonce,
             'options': {
-                'submit_for_settlement': True
+            'submit_for_settlement': True
             }
         })
+
         if result.is_success:
             # mark the order as paid
             order.paid = True

@@ -15,62 +15,66 @@ from django.contrib.auth.decorators import login_required
 from usuarios.models import Profile  
 
 
-
-
-
-
-
 @login_required
 def order_create(request):
     user = request.user
-    profile = user.profile  # O `Profile.objects.get(user=user)`
+    profile = user.profile
     cart = Cart(request)
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
 
         if form.is_valid():
-            # Si el formulario es válido, procesar la orden
             order = form.save(commit=False)
+
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
+
             order.user = user
             order.first_name = user.first_name
             order.last_name = user.last_name
             order.email = user.email
-
             order.save()
 
             for item in cart:
-                SaaSOrderItem.objects.create(order=order,
-                                             product=item['product'],
-                                             price=item['price'],
-                                             quantity=item['quantity'])
-            
-            # Limpiar el carrito
+                SaaSOrderItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    price=item['price'],
+                    quantity=item['quantity']
+                )
+
             cart.clear()
-            
-            # Lanzar tarea asincrónica
+
             order_created.delay(order.id)
-            
-            # Guardar la orden en la sesión
+
             request.session['order_id'] = order.id
-            
-            # Redirigir al pago
-            return redirect(reverse('saas_payment:process'))
+
+            # 👉 Redirige al detalle de la orden
+            return redirect('saas_orders:order_detail', order_id=order.id)
+
         else:
-            # Si el formulario no es válido, agregar un mensaje de error
             print("Formulario no válido")
-            # Puedes agregar más detalles para depurar aquí
             print(form.errors)
     else:
         form = OrderCreateForm()
 
-    # Aquí pasamos el objeto order al contexto
-    return render(request,
-                  'saas_orders/order/create.html',
-                  {'cart': cart, 'form': form})
+    return render(request, 'saas_orders/order/create.html', {
+        'cart': cart, 'form': form
+    })
+
+
+
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id, user=request.user)
+
+    return render(request, 'saas_orders/order/detail.html', {
+        'order': order
+    })
+
 
 
 

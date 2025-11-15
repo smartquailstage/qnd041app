@@ -1,6 +1,84 @@
-{% extends "saas_shop/base.html" %}
+{% extends "saas_shop/base3.html" %}
 
 {% block content %}
-  <h1>Your payment has not been processed</h1>
-  <p>There was a problem processing your payment.</p>
+<style>
+  .step-count-circle {
+  background-color: #b50f15; /* o el color corporativo que uses */
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+</style>
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+
+
+
+
+
+
+    <!-- Checkout Section -->
+    <section class="shop-page">
+      <div class="shop-container">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="shop-cart">
+              <div class="row">
+                <div class="col-12 col-xl-8">
+                  <div class="checkout-details">
+                    <div class="card">
+                      <div class="card-header border-bottom" style="color:#fff">
+<h2 class="h5 mb-0">
+  <span class="step-count-circle">4</span> Pago Cancelado
+</h2>
+<p class="text-muted mt-2">
+  El procesamiento de su pago ha sido cancelado. Por favor, verifique que los datos proporcionados en su método de pago sean correctos, incluyendo el número de tarjeta, fecha de vencimiento y código de seguridad (CVV).  
+  Si el problema persiste, comuníquese con su entidad bancaria para obtener asistencia adicional.
+</p>
+
+<div class="mt-4">
+  <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
+    ver más productos
+  </a>
+</div>
+
+
+     
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Order Summary -->
+
+                <!-- End Order Summary -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+
+
+
+
+    
+  </div>
+
 {% endblock %}
