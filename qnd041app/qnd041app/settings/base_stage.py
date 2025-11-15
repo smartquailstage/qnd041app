@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'django.contrib.sites', 
  
     "django.contrib.staticfiles",
     "django.contrib.humanize",
@@ -143,15 +144,19 @@ INSTALLED_APPS = [
     "phone_field",
     "phonenumber_field",
     "django_social_share",
+    "business_customer_projects",
    
 
              # Apps propias del proyecto
     "usuarios",
+    #'businees_customers_projects',
     #"SQOrders",
     #"SQShop",
+    'chatbot_ai',
    
    
     "serviceapp",
+    'billing',
     #"citas_regulares",
 
     # E-commerce apps
@@ -172,6 +177,7 @@ INSTALLED_APPS = [
     "sblcart",
     "sblshop",
     "sblorders",
+    'sbpshop',
 
     #SmartBusinessTechonologies 
     "sbtcart",
