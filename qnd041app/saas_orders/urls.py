@@ -6,8 +6,11 @@ from django.utils.translation import gettext_lazy as _
 app_name = 'saas_orders'
 
 urlpatterns = [
+    path('accept-terms/', views.accept_terms, name='accept_terms'),
     path(_('create/'), views.order_create, name='order_create'),
     path('detalle/<int:order_id>/', views.order_detail, name='order_detail'),
     path('admin/order/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
     path('admin/order/<int:order_id>/pdf/', views.admin_order_pdf, name='admin_order_pdf'),
 ]
+
+

@@ -15,18 +15,47 @@ from django.contrib.auth.decorators import login_required
 from usuarios.models import Profile  
 
 
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import OrderCreateForm, AcceptTermsForm
+from .models import SaaSOrder
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django import forms
+
+
+
+# views.py
+@login_required
+def accept_terms(request):
+    if request.method == 'POST':
+        form = AcceptTermsForm(request.POST)
+        if form.is_valid():
+            # Guardamos en sesión que aceptó los términos
+            request.session['terms_accepted'] = True
+            # Redirige a order_create
+            return redirect('saas_orders:order_create')
+    else:
+        form = AcceptTermsForm()
+
+    return render(request, 'saas_orders/accept_terms.html', {'form': form})
+
+
 @login_required
 def order_create(request):
     user = request.user
-    profile = user.profile
     cart = Cart(request)
+
+    # Verificamos si aceptó los términos
+    if not request.session.get('terms_accepted'):
+        return redirect('saas_orders:accept_terms')
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
-
         if form.is_valid():
             order = form.save(commit=False)
-
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
@@ -46,23 +75,20 @@ def order_create(request):
                 )
 
             cart.clear()
-
             order_created.delay(order.id)
-
             request.session['order_id'] = order.id
 
-            # 👉 Redirige al detalle de la orden
-            return redirect('saas_orders:order_detail', order_id=order.id)
+            # Limpiamos la sesión de términos aceptados
+            del request.session['terms_accepted']
 
+            return redirect('saas_orders:order_detail', order_id=order.id)
         else:
             print("Formulario no válido")
             print(form.errors)
     else:
         form = OrderCreateForm()
 
-    return render(request, 'saas_orders/order/create.html', {
-        'cart': cart, 'form': form
-    })
+    return render(request, 'saas_orders/order/create.html', {'cart': cart, 'form': form})
 
 
 
