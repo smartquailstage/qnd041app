@@ -29,8 +29,8 @@ echo "Recolectando archivos estáticos..."
 python3 manage.py collectstatic --settings=$NODE_NAME.settings.pro --noinput
 
 # 🚀 Arrancar Celery en segundo plano
-echo "Iniciando Celery worker..."
-celery -A $NODE_NAME worker -l info &  # el & lo ejecuta en segundo plano
+#echo "Iniciando Celery worker..."
+#celery -A $NODE_NAME worker -l info &  # el & lo ejecuta en segundo plano
 
 # ⬇️ Arrancar uWSGI (bloqueante)
 echo "Iniciando uWSGI..."
