@@ -14,23 +14,39 @@ from django.conf import settings
 import weasyprint
 from io import BytesIO
 
+from io import BytesIO
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from celery import shared_task
+import weasyprint
+from .models import SaaSOrder
+
 @shared_task
 def order_created(order_id):
     order = SaaSOrder.objects.get(id=order_id)
     domain = "ec.smartquail.io"
 
+    # Obtener los nombres de todos los productos de la orden
+    product_names = ", ".join([item.product.name for item in order.items.all()])
+    if not product_names:
+        product_names = "su software"
+
     # Render HTML correo
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
-        {'order': order, 'domain': domain}
+        {'order': order, 'domain': domain, 'products': order.items.all()}
     )
-    subject = f'Su orden de compra del software {order.product.name} se ha completado con éxito 🎉'
+
+    # Asunto del correo
+    subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
+
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [order.email]
 
     email = EmailMultiAlternatives(
         subject,
-        "Su Orden de Software ERP Business Analytics fue creado!",
+        "Su Orden de Software ERP Business Analytics fue creada!",
         from_email,
         to_email
     )
@@ -46,8 +62,15 @@ def order_created(order_id):
     )
     email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
 
+    # Enviar correo
     email.send()
+
+    # Marcar el email como enviado
+    order.email_sent = True
+    order.save()
+
     return True
+
 
 
 
