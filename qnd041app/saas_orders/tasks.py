@@ -6,45 +6,49 @@ from .models import SaaSOrder
 from .utils.pdf import generate_order_pdf
 from django.conf import settings  # Importar configuraciones
 
+from celery import shared_task
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from .models import SaaSOrder
+from django.conf import settings
+import weasyprint
+from io import BytesIO
+
 @shared_task
 def order_created(order_id):
     order = SaaSOrder.objects.get(id=order_id)
-
-    # Tener dominio para generar URLs en templates
     domain = "ec.smartquail.io"
 
-    # Renderizar plantilla HTML del correo
+    # Render HTML correo
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
         {'order': order, 'domain': domain}
     )
     subject = f'Order #{order.id} confirmation'
-
-    # Obtener el correo de origen desde la configuración
-    from_email = settings.DEFAULT_FROM_EMAIL  # Usando la variable de entorno
+    from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [order.email]
 
-    # Crear correo Multipart (texto plano + HTML)
     email = EmailMultiAlternatives(
         subject,
-        "Su Orden de Software ERP Business Analytics fue creado!",  # fallback texto plano
+        "Su Orden de Software ERP Business Analytics fue creado!",
         from_email,
         to_email
     )
     email.attach_alternative(html_message, "text/html")
 
-    # ------- Adjuntar PDF -------
-    # Necesitas pasar un request simulado si tu PDF usa URLs absolutas
-    from django.test import RequestFactory
-    fake_request = RequestFactory().get('/')
-    fake_request.META['HTTP_HOST'] = domain
-
-    pdf_bytes = generate_order_pdf(order, fake_request)
-    email.attach(f"order_{order.id}.pdf", pdf_bytes, 'application/pdf')
+    # Generar PDF igual que en la vista
+    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
+    out = BytesIO()
+    weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
+        out,
+        stylesheets=[weasyprint.CSS('saas_orders/static/css/pdf.css')],
+        presentational_hints=True
+    )
+    email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
 
     email.send()
-
     return True
+
 
 
     # saas_orders/tasks.py
