@@ -105,6 +105,13 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60 
 
+CELERY_BEAT_SCHEDULE = {
+    'deactivate_old_orders': {
+        'task': 'saas_orders.tasks.deactivate_old_orders',
+        'schedule': 86400.0,  # se ejecuta cada 24 horas
+    },
+}
+
 
 # social auth settings
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY')
