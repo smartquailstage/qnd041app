@@ -6,61 +6,83 @@ from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+from decouple import config, Csv
+
+
+
+
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Load environment variables from the .env_local file.
-ENV_FILE_PATH = BASE_DIR / ".env_stage"
+ENV_FILE_PATH = BASE_DIR / ".env_local"
 load_dotenv(dotenv_path=ENV_FILE_PATH)
 
 
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io')
+SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
+
+
+ADMINS = [
+    ("Soporte Meddes", "info@meddes.com.ec"),
+    # ("Otro Nombre", "otro@correo.com"),  # Puedes agregar más si deseas
+]
 
 # Retrieve the Django secret key from environment variables.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000') 
+ALLOWED_HOSTS = ['tusitio.com', '127.0.0.1'] 
+
+# Configura DEBUG usando variable de entorno o por defecto False
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+if DEBUG:
+    ADMINS = []
+else:
+    # En producción, define tus administradores correctamente:
+    ADMINS = [
+        ("Soporte SmartQuail", "support@smartquail.io"),
+    ]
+
+    
+
+
+# Variable que define si estás en entorno local
+ENVIRONMENT = config("ENVIRONMENT", default="local")  # local, staging, production
+
+if ENVIRONMENT == "local":
+    EMAIL_BACKEND = config("EMAIL_BACKEND")
+    EMAIL_HOST = config("EMAIL_HOST")
+    EMAIL_PORT = config("EMAIL_PORT", cast=int)
+    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+    EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+else:
+    # Configuración de producción u otros entornos
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_USER = "phys.mauiricio.silva@gmail.com"
+    EMAIL_HOST_PASSWORD = "secreto_produccion"
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
 # Optionally, you can add a default value or raise an exception if SECRET_KEY is not set
 if SECRET_KEY is None:
     raise ValueError("DJANGO_SECRET_KEY is not set in the environment variables.")
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'json',
-        },
-    },
-
-    'formatters': {
-        'json': {
-            'format': (
-                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", '
-                '"logger": "%(name)s", "message": "%(message)s", '
-                '"module": "%(module)s", "process": %(process)d, "thread": %(thread)d}'
-            ),
-        },
-    },
-
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
+# Obtener variable de entorno (lanzar error si no existe)
 
 
-AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+
+SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')  # Cambia esto según tu configuración
+
 
 
 INSTALLED_APPS = [
@@ -196,14 +218,16 @@ INSTALLED_APPS = [
     "taggit"
 ]
 
-
 #LOGINGS REDIRECT
 
 LOGIN_REDIRECT_URL = 'usuarios:perfil'
 LOGIN_URL = 'usuarios:login'
 LOGOUT_URL = 'usuarios:logout'
 
+SITE_ID = 1
 
+
+domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 
 CART_SESSION_ID = 'cart'
 
@@ -263,7 +287,7 @@ def is_all(request):
 
 
 UNFOLD = {
-    "SITE_TITLE": "SmartBusinessAnalytics® + AI +A +I+D     Enterprises Resource Planning",
+    "SITE_TITLE": "SmartBusinessAnalytics® (I+D), (+A) ,(AI)     Planificador de Recursos Empresariales.",
     "SITE_HEADER": "MEDDES",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",
@@ -300,7 +324,7 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
-    "LOGIN": {  "image": lambda request: static("img/BA-BG/test2.jpg"),
+    "LOGIN": {  "image": lambda request: static("img/login_analytics2.png"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
                 },
@@ -490,19 +514,6 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 
 
-WAGTAIL_VERSION_UPDATE_NOTIFICATION = False
-
-
-
-
-SITE_ID = 1
-
-
-def badge_callback(request):
-    return 3
-
-
-
 
 
 PARLER_DEFAULT_LANGUAGE_CODE = 'es'
@@ -519,14 +530,15 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
    
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
    # 'shop.middleware.LocaleRedirectMiddleware', 
@@ -535,8 +547,13 @@ MIDDLEWARE = [
 
 LANGUAGE_CODE = 'es'
 
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+TIME_ZONE = 'America/Guayaquil'  # O 'America/Mexico_City', 'America/Argentina/Buenos_Aires', etc.
+
 USE_I18N = True
 USE_L10N = True
+USE_TZ = True
 
 
 from django.utils.translation import gettext_lazy as _
@@ -546,23 +563,8 @@ LANGUAGES = [
     ('en', _('Inglés')),
 ]
 
-
-
-
-PARLER_LANGUAJES = {
-    None: (
-        {'code': 'es',},
-        {'code': 'en',},
-    ),
-    'default': {
-        'fallbacks': ['es'],  # defaults to PARLER_DEFAULT_LANGUAGE_CODE
-        'hide_untranslated': False,  # the default; let .active_translations()
-                                    # return fallbacks too.
-    }
-}
-
 ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
-SITE_ID = 1
+#SITE_ID = 1
 #WagtailAnalitycs
 
 
@@ -586,20 +588,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_M_ID')
-BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_KEY')
-BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
-
-from braintree import Configuration, Environment
-# para desplegar cambiar sandbox con Production
-Configuration.configure(
-    Environment.Sandbox,
-    BRAINTREE_MERCHANT_ID,
-    BRAINTREE_PUBLIC_KEY,
-    BRAINTREE_PRIVATE_KEY
-)
-
-
 
 
 
@@ -615,14 +603,18 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-                #'usuarios.context_processors.mensajes_nuevos_processor',
-                #'usuarios.context_processors.datos_panel_usuario', 
-                #'usuarios.context_processors.user_profile_data',
-                #'usuarios.context_processors.citas_context',
-                #'usuarios.context_processors.tareas_context',
-                #'usuarios.context_processors.pagos_context', 
+                'usuarios.context_processors.mensajes_nuevos_processor',
+                'usuarios.context_processors.datos_panel_usuario', 
+                'usuarios.context_processors.user_profile_data',
+                'usuarios.context_processors.citas_context',
+                'usuarios.context_processors.tareas_context',
+                'usuarios.context_processors.pagos_context',  
+                'usuarios.context_processors.profile_uploads_context',
+                'usuarios.context_processors.ultima_cita',
+                'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
-                
+                'business_customer_projects.context_processors.all_business_projects',
+                'billing.context_processors.all_business_billing',
             ],
         },
     },
@@ -649,12 +641,17 @@ WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
 
 
-# Configuración de sesiones usando Redis
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-REDIS_HOST = os.environ.get('REDIS_HOST')  # Cambia esto según tu configuración
-REDIS_PORT  = os.environ.get('REDIS_PORT')        # Puerto por defecto de Redis
-REDIS_DB  = os.environ.get('REDIS_DB')
+REDIS_HOST=os.environ.get('REDIS_HOST')
+REDIS_PORT=os.environ.get('REDIS_PORT')
+REDIS_DB =os.environ.get('REDIS_DB')  
+
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60 
 
 
 
