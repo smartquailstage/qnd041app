@@ -65,12 +65,12 @@
         Para proceder con la activación de su software y comenzar a administrar sus procesos empresariales personalizados, haga clic en el siguiente enlace:
     </p>
 
-    <p style="text-align: center;">
-        <a href="{% url 'saas_orders:order_detail' order_id=order.id %}" 
-           style="background-color: #b5181a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-           Activar mi software en la nube
-        </a>
-    </p>
+<p style="text-align: center;">
+    <a href="https://{{ domain }}{% url 'saas_orders:order_detail' order_id=order.id %}" 
+       style="background-color: #b5181a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+       Activar mi software en la nube
+    </a>
+</p>
 
     <p style="margin-top: 10px; font-style: italic;">
         <strong>Nota:</strong> Este enlace es válido por 15 días a partir de la fecha de emisión. Pasado este período, deberá realizar una nueva compra para acceder a la plataforma.
