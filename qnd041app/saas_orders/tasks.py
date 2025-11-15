@@ -22,10 +22,26 @@ from celery import shared_task
 import weasyprint
 from .models import SaaSOrder
 
+import os
+from io import BytesIO
+from decimal import Decimal
+from celery import shared_task
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+import weasyprint
+
+from .models import SaaSOrder
+
 @shared_task
 def order_created(order_id):
     order = SaaSOrder.objects.get(id=order_id)
     domain = "ec.smartquail.io"
+
+    # Evitar errores de Fontconfig
+    os.environ['FONTCONFIG_PATH'] = '/tmp/fontconfig'
+    os.environ['FONTCONFIG_CACHE'] = '/tmp/fontconfig_cache'
+    os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
 
     # Obtener los nombres de todos los productos de la orden
     product_names = ", ".join([item.product.name for item in order.items.all()])
@@ -40,7 +56,6 @@ def order_created(order_id):
 
     # Asunto del correo
     subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
-
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [order.email]
 
@@ -52,12 +67,13 @@ def order_created(order_id):
     )
     email.attach_alternative(html_message, "text/html")
 
-    # Generar PDF igual que en la vista
+    # Generar PDF con ruta local al CSS
     html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
     out = BytesIO()
+    css_path = os.path.join(settings.BASE_DIR, 'saas_orders', 'static', 'css', 'pdf.css')
     weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/pdf.css')],
+        stylesheets=[weasyprint.CSS(css_path)],
         presentational_hints=True
     )
     email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
