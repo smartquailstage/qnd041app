@@ -70,7 +70,12 @@ def order_created(order_id):
     # Generar PDF con ruta local al CSS
     html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
     out = BytesIO()
-    css_path = os.path.join(settings.BASE_DIR, 'saas_orders', 'static', 'css', 'pdf.css')
+    # Ruta correcta al CSS
+    css_path = os.path.join(
+        settings.BASE_DIR, 
+        'saas_orders', 'static', 'saas_orders', 'css', 'pdf.css'
+        )
+
     weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
         stylesheets=[weasyprint.CSS(css_path)],
