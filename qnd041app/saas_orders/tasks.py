@@ -11,8 +11,7 @@ def order_created(order_id):
     order = SaaSOrder.objects.get(id=order_id)
 
     # Tener dominio para generar URLs en templates
-    current_site = Site.objects.get_current()
-    domain = current_site.domain
+    domain = "smartquail.io"
 
     # Renderizar plantilla HTML del correo
     html_message = render_to_string(

@@ -654,6 +654,22 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60 
 
 
+BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_M_ID')
+BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_KEY')
+BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
+
+
+
+from braintree import Configuration, Environment
+# para desplegar cambiar sandbox con Production
+Configuration.configure(
+    Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
