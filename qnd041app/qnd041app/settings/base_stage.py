@@ -16,7 +16,7 @@ from decouple import config, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Load environment variables from the .env_local file.
-ENV_FILE_PATH = BASE_DIR / ".env_local"
+ENV_FILE_PATH = BASE_DIR / ".env_stage"
 load_dotenv(dotenv_path=ENV_FILE_PATH)
 
 

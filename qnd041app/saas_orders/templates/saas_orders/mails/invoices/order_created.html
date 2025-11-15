@@ -69,6 +69,11 @@
         Esta es una copia de su orden realizada. Si tiene alguna pregunta, no dude en contactarnos.
     </p>
 
+    <p>
+        Para ver los detalles completos de su orden, haga clic en el siguiente enlace: 
+        <a href="{% url 'saas_orders:order_detail' order_id=order.id %}" style="background-color: #b5181a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">Ver detalle de la orden</a>
+    </p>
+
 </div>
 
 {% endblock %}

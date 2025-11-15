@@ -24,7 +24,7 @@ def order_created(order_id):
         'saas_orders/mails/invoices/order_created.html',
         {'order': order, 'domain': domain}
     )
-    subject = f'Order #{order.id} confirmation'
+    subject = f'Su orden de compra del software {order.product.name} se ha completado con éxito 🎉'
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [order.email]
 
