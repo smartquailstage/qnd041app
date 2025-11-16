@@ -2,265 +2,163 @@
 {% load qr_code %}
 {% load humanize %}
 
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
-    <link href="{% static 'css/ebook.css' %}" rel="stylesheet">
-    <title>{{ order.product.name }}</title>
-    <meta name="description" content="Report example">
+    <link href="{% static 'css/report.css' %}" rel="stylesheet">
+    <title>Pedido {{ order.id }}</title>
+    <meta name="description" content="Detalle del pedido SaaS SmartQuail">
   </head>
 
   <body>
+    <!-- Portada -->
     <article id="cover">
-      <h1>{{ order.product.name }}</h1>
+      <h1>Guía de Soluciones ERP - SmartQuail, Inc.</h1>
       <address>
-        WeasyPrint
-        26 rue Emile Decorps
-        69100 Villeurbanne France
+        SmartQuail, Inc.<br>
+        Quito, Ecuador
       </address>
       <address>
-        contact@courtbouillon.org
-        https://courtbouillon.org
+        contacto@smartquail.com<br>
+        https://smartquail.com
       </address>
+      
     </article>
 
+    
+
+    <!-- Tabla de contenidos -->
     <article id="contents">
-      <h2>Table of contents</h2>
-      <h3>Part one</h3>
+      <h2>Contenido</h2>
       <ul>
-        <li><a href="#columns-title"></a></li>
-        <li><a href="#skills-title"></a></li>
-      </ul>
-
-      <h3>Part two</h3>
-      <ul>
-        <li><a href="#offers-title"></a></li>
-        <li><a href="#chapter-title"></a></li>
-        <li><a href="#typography-title"></a></li>
+        <li><a href="#cliente-title">1. Información del Cliente</a></li>
+        <li><a href="#productos-title">2. Productos del Pedido</a></li>
+        <li><a href="#totales-title">3. Totales y Descuentos</a></li>
+        <li><a href="#terms-title">4. Términos y Condiciones</a></li>
+        <li><a href="#sre-title">5. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</a></li>
       </ul>
     </article>
 
-    <article id="columns">
-      <h2 id="columns-title">Big title on left page, with text on columns</h2>
 
-      <h3>This is a little subtitle, here to explain what we are talking about</h3>
 
+    <!-- Sección 1: Información del Cliente -->
+    <article id="cliente">
+      <h2 id="cliente-title">1. Información del Cliente</h2>
       <section>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat faucibus vestibulum.
-          Mauris varius orci quam. Nam dui mauris, dictum at elementum at, mollis pulvinar est.
-          Nunc lobortis pharetra erat, id rutrum lorem malesuada in.
-        </p>
-        <p>
-          Phasellus id nisl nec arcu tempor ultricies non id tortor. Mauris ex nibh, viverra vitae nisi eget, placerat pharetra est.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id maximus diam. Cras molestie nisl vitae iaculis convallis.
-          Vivamus molestie vitae nisl sed interdum. Nunc aliquam massa rhoncus finibus convallis.
-          Vivamus sed vulputate risus. Nunc dignissim magna velit, quis lobortis ex volutpat eget.
-          Proin dictum mauris condimentum consequat faucibus.
-        </p>
-        <p>
-          Duis maximus mauris ac purus eleifend, sit amet blandit nulla lacinia.
-          Maecenas massa dolor, suscipit at erat eget, maximus dignissim dolor. Praesent consectetur maximus libero, eu facilisis ligula finibus et.
-          Cras rhoncus eros sit amet lorem auctor, a efficitur leo tincidunt. Sed viverra interdum odio, eget pulvinar tortor blandit lacinia.
-          Praesent consequat congue commodo. Phasellus eu massa feugiat, imperdiet nisi a, sagittis ipsum.
-        </p>
-        <p>
-          Suspendisse et gravida nunc. Quisque at felis nisl. Nam eget efficitur nunc.
-          Vivamus fermentum imperdiet massa, porttitor elementum mauris faucibus scelerisque.
-          Pellentesque ut metus tortor. Fusce vulputate ex at turpis consectetur, in vestibulum odio placerat.
-          Suspendisse tempor sapien rutrum, cursus sem a, tincidunt odio. Sed in consequat augue.
-          Proin finibus felis neque, ac hendrerit lorem consequat nec.
-        </p>
-        <p>
-          Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce quam mi, dapibus et augue sit amet, porttitor volutpat orci.
-          Vestibulum ac ligula at justo placerat pulvinar vel non velit. Duis vel iaculis nibh, non tristique lectus.
-          Phasellus vel ex bibendum, accumsan tellus a, commodo nisi.
-        </p>
-        <p>
-          Mauris tincidunt dolor ligula, et egestas lectus rutrum consectetur. Donec ac ex mollis, vestibulum libero in, convallis risus.
-        </p>
+        <p><strong>Nombre:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Teléfono:</strong> {{ order.telefono }}</p>
+        <p><strong>R.U.C/C.I:</strong> {{ order.ruc }}</p>
+        <p><strong>Razón Social:</strong> {{ order.razon_social }}</p>
+        <p><strong>Sector de Negocios:</strong> {{ order.get_sector_display }}</p>
+        <p><strong>Fecha de creación:</strong> {{ order.created|date:"d/m/Y H:i" }}</p>
+        <p><strong>Estado de pago:</strong> {% if order.paid %}Pagado{% else %}Pendiente{% endif %}</p>
+        <p><strong>Acepta términos:</strong> {% if order.terms_accepted %}Sí{% else %}No{% endif %}</p>
+        <p><strong>Activo:</strong> {% if order.is_active %}Sí{% else %}No{% endif %}</p>
       </section>
     </article>
 
-    <article id="skills">
-      <h2 id="skills-title">This is another big title, on a page full of work presentation</h2>
-
-      <h3>We present you some of WeasyPrint's features.</h3>
-
-      <section id="table-content">
-        <h4>Table of contents</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
-          sed, vehicula sed augue. Cras eget ante turpis.
-        </p>
-      </section>
-
-      <section id="heading">
-        <h4>Heading titles and page counters</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
-          sed, vehicula sed augue. Cras eget ante turpis.
-        </p>
-      </section>
-
-      <section id="multi-columns">
-        <h4>Multi-column text</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
-          sed, vehicula sed augue. Cras eget ante turpis.
-        </p>
-      </section>
-
-      <section id="internal-links">
-        <h4>Internal links</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
-          sed, vehicula sed augue. Cras eget ante turpis.
-        </p>
-      </section>
-
-      <section id="style">
-        <h4>Different page types</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
-          sed, vehicula sed augue. Cras eget ante turpis.
-        </p>
+    <!-- Sección 2: Productos del pedido -->
+    <article id="productos">
+      <h2 id="productos-title">2. Productos del Pedido</h2>
+      <section>
+        {% if order.items.all %}
+          <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio unitario (USD)</th>
+                <th>Cantidad</th>
+                <th>Subtotal (USD)</th>
+                <th>Utilidad bruta (USD)</th>
+                <th>Valor deducible IVA (USD)</th>
+                <th>Utilidad líquida (USD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order.items.all %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.price|floatformat:2 }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.get_cost|floatformat:2 }}</td>
+                <td>{{ item.get_gross_profit|floatformat:2 }}</td>
+                <td>{{ item.get_iva_deductible|floatformat:2 }}</td>
+                <td>{{ item.get_net_profit|floatformat:2 }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No hay productos registrados en este pedido.</p>
+        {% endif %}
       </section>
     </article>
 
-    <article id="offers">
-      <h2 id="offers-title">Big title on the first right page</h2>
-
-      <h3>Display offers using flex layout</h3>
-
+    <!-- Sección 3: Totales y descuentos -->
+    <article id="totales">
+      <h2 id="totales-title">3. Totales y Descuentos</h2>
       <section>
-        <h4>Offer #1</h4>
-        <p>€135</p>
+        <p><strong>Total sin descuento:</strong> {{ order.get_total_cost|add:order.discount|floatformat:2 }} USD</p>
+        <p><strong>Descuento aplicado:</strong> {{ order.discount }}%</p>
+        <p><strong>Total con descuento:</strong> {{ order.get_total_cost|floatformat:2 }} USD</p>
+        {% if order.coupon %}
+          <p><strong>Cupón aplicado:</strong> {{ order.coupon.code }}</p>
+        {% endif %}
+      </section>
+    </article>
+
+    <!-- Sección 4: Términos y Condiciones -->
+    <article id="terms">
+      <h2 id="terms-title">4. Términos y Condiciones de Compra</h2>
+      <section>
+        <p>Los presentes <strong>Términos y Condiciones</strong> regulan la adquisición, desarrollo, implementación y uso de soluciones tecnológicas, software, servicios en la nube y consultoría especializada de <strong>SmartQuail, Inc.</strong> en Ecuador.</p>
+
+        <h3>4.1 Proceso de compra</h3>
+        <p>La compra se considera finalizada tras iniciar la fase de Investigación y Desarrollo (I+D). Antes de esto, el cliente puede solicitar la devolución total.</p>
+
+        <h3>4.2 Servicios en la nube</h3>
+        <p>El primer mes de uso es gratuito; luego, se aplican tarifas según plan contratado.</p>
+
+        <h3>4.3 Desarrollo Open Source</h3>
+        <p>El desarrollo se realiza sobre código abierto. Los proyectos se ejecutan según horas pactadas; si se requiere tiempo adicional, se generan costos adicionales acordados.</p>
+
+        <h3>4.4 Protección de datos</h3>
+        <p>SmartQuail cumple la Ley Orgánica de Protección de Datos Personales y los principios de privacidad y seguridad de la información.</p>
+        <p>No se almacenan ni se tiene acceso directo a información sensible como tarjetas de crédito o contraseñas financieras.</p>
+
+        <h3>4.5 Legislación aplicable</h3>
+        <p>Estos términos se rigen por las leyes de Ecuador. Las controversias se resolverán en los tribunales del Distrito Metropolitano de Quito.</p>
+      </section>
+    </article>
+
+    <!-- Sección 5: Descripción Técnica del SRE -->
+    <article id="sre">
+      <h2 id="sre-title">5. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</h2>
+      <section>
+        <p>El Sistema de Respaldo de Empresas (SRE) es una solución integral que asegura la continuidad de los procesos empresariales críticos a través de la creación y gestión de copias de seguridad (backups) de los datos más relevantes de la empresa. Este sistema permite prevenir pérdidas de datos por fallas tecnológicas, desastres naturales o incidentes de seguridad.</p>
+
+        <h3>Componentes Clave del SRE</h3>
         <ul>
-          <li>Lorem ipsum dolor sit amet.</li>
-          <li>Nullam at diam eget urna consequat.</li>
-          <li>Sed fringilla quam at augue semper aliquam.</li>
-          <li>Cras nec lacus eu turpis finibus vulputate.</li>
+          <li><strong>Almacenamiento Seguro:</strong> El SRE emplea almacenamiento redundante en la nube para garantizar la disponibilidad continua de las copias de seguridad. Utiliza tecnologías avanzadas como encriptación de extremo a extremo para proteger la información.</li>
+          <li><strong>Automatización de Backups:</strong> El sistema permite la programación automática de copias de seguridad periódicas según las necesidades de la empresa, sin intervención manual.</li>
+          <li><strong>Recuperación Rápida:</strong> El SRE optimiza la recuperación de datos para minimizar tiempos de inactividad en situaciones de pérdida de información.</li>
+          <li><strong>Monitoreo y Notificaciones:</strong> A través de paneles de control y alertas automáticas, los administradores del sistema pueden recibir notificaciones sobre el estado de los backups, evitando riesgos de fallas en el proceso.</li>
+          <li><strong>Escalabilidad:</strong> El SRE se adapta al crecimiento de la empresa, permitiendo aumentar la capacidad de almacenamiento sin complicaciones.</li>
         </ul>
-      </section>
 
-      <section>
-        <h4>Offer #2</h4>
-        <p>€175</p>
+        <h3>Beneficios del SRE</h3>
         <ul>
-          <li>Lorem ipsum dolor sit amet.</li>
-          <li>Nullam at diam eget urna consequat.</li>
-          <li>Sed fringilla quam at augue semper aliquam.</li>
-          <li>Mauris viverra nulla vel semper mollis.</li>
-          <li>Nulla quis massa eu urna suscipit vehicula.</li>
-          <li>Curabitur a odio id risus pharetra iaculis.</li>
+          <li><strong>Seguridad:</strong> Protección de datos sensibles mediante cifrado de alta calidad.</li>
+          <li><strong>Reducción de Riesgos:</strong> Prevención de pérdida de datos críticos debido a desastres o fallas del sistema.</li>
+          <li><strong>Rendimiento:</strong> Minimización de la interrupción de las operaciones comerciales, permitiendo una rápida recuperación de información.</li>
+          <li><strong>Conformidad:</strong> Cumplimiento de normativas de protección de datos, asegurando que las empresas puedan operar con confianza.</li>
         </ul>
-      </section>
 
-      <section>
-        <h4>Offer #3</h4>
-        <p>€200</p>
-        <ul>
-          <li>Lorem ipsum dolor sit amet.</li>
-          <li>Nullam at diam eget urna consequat.</li>
-          <li>Sed fringilla quam at augue semper aliquam.</li>
-          <li>Mauris viverra nulla vel semper mollis.</li>
-          <li>Cras nec lacus eu turpis finibus vulputate.</li>
-          <li>Nulla quis massa eu urna suscipit vehicula.</li>
-          <li>Curabitur a odio id risus pharetra iaculis.</li>
-          <li>Mauris viverra nulla vel semper mollis.</li>
-          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-        </ul>
+        <p>El SRE es una herramienta esencial para empresas que buscan mantener la integridad de sus datos y la continuidad operativa, especialmente en sectores que dependen de la información para sus procesos de negocio.</p>
       </section>
     </article>
 
-    <article id="chapter">
-      <h2 id="chapter-title">This is a chapter of a new section</h2>
-    </article>
 
-    <article id="typography">
-      <h2 id="typography-title">About some typography features</h2>
-
-      <h3>Here is a showcase of several typography features</h3>
-
-      <section>
-        <h4>Italic and Bold Text</h4>
-        <p>
-          Lorem ipsum dolor <em>sit amet, consectetur adipiscing elit.</em> Ut
-          pulvinar dolor <strong>ac orci finibus elementum. Praesent</strong>
-          sit amet ligula turpis.
-        </p>
-      </section>
-
-      <section id="small-caps">
-        <h4>Small Caps Text</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pulvinar
-          dolor ac orci finibus elementum.
-        </p>
-      </section>
-
-      <section id="ligatures">
-        <h4>Ligatures</h4>
-        <dl>
-          <dt>Classical</dt>
-          <dd><span class="none">Offer</span> → <span class="common">Offer</span></dd>
-          <dt>Discretionary</dt>
-          <dd><span class="none">Often</span> → <span class="discretionary">Often</span></dd>
-          <dt>Contextual</dt>
-          <dd><span class="none">#&amp;</span> → <span class="contextual">#&amp;</span></dd>
-        </dl>
-      </section>
-
-      <section id="numbers">
-        <h4>Numbers</h4>
-        <dl>
-          <dt>Fractions</dt>
-          <dd>421/42 → <span id="fractions">421/42</span></dd>
-          <dt>Ordinals</dt>
-          <dd>2a 3o → <span id="ordinals">2a 3o</span></dd>
-          <dt>Slashed zero</dt>
-          <dd>1000 → <span id="slashed">1000</span></dd>
-          <dt>Superscript</dt>
-          <dd>a2 → <span id="super">a2</span></dd>
-          <dt>Subscript</dt>
-          <dd>C8H10N4O2 → <span id="sub">C8H10N4O2</span></dd>
-        </dl>
-      </section>
-
-      <section id="figures">
-        <h4>Figures</h4>
-        <dl>
-          <dt>Lining</dt>
-          <dd>
-            <ul>
-              <li>409,280</li>
-              <li>367,112</li>
-            </ul>
-          </dd>
-          <dt>Old-Style</dt>
-          <dd>
-            <ul id="oldstyle">
-              <li>409,280</li>
-              <li>367,112</li>
-            </ul>
-          </dd>
-          <dt>Tabular</dt>
-          <dd>
-            <ul id="tabular">
-              <li>409,280</li>
-              <li>367,112</li>
-            </ul>
-          </dd>
-          <dt>Old &amp; Tab.</dt>
-          <dd>
-            <ul id="old-tabular">
-              <li>409,280</li>
-              <li>367,112</li>
-            </ul>
-          </dd>
-        </dl>
-      </section>
-    </article>
   </body>
 </html>
