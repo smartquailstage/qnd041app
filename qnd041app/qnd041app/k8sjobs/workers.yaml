@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qnd041app-worker
+  namespace: www-apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qnd041app-worker
+  template:
+    metadata:
+      labels:
+        app: qnd041app-worker
+    spec:
+      containers:
+        - name: celery
+          image: smartquail/qnd041app:latest
+          command: ["celery", "-A", "qnd041app", "worker", "--loglevel=info"]
+          envFrom:
+            - secretRef:
+                name: qnd041app-app-secrets

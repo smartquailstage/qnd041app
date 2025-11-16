@@ -29,7 +29,15 @@
 
 <div class="product-more-info mt-4">
 
-
+    <ul class="nav nav-tabs mb-3" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
+          <div class="d-flex align-items-center">
+            <div class="tab-title text-uppercase fw-500"><ion-icon name="card-outline"></ion-icon></div>
+          </div>
+        </a>
+      </li>
+    </ul>
 
 <div class="card">
   <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.2; background-color: #403c3c; border-radius: 25px;">
@@ -119,7 +127,7 @@
                               <p>Serás redirigido a PayPal para completar el pago.</p>
                               <div class="d-grid">
 								<h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-                                <button type="submit" class="btn btn-warning btn-ecomm">Pagar con PayPal</button>
+                                <button type="submit" class="btn btn-warning btn-ecomm"> <ion-icon name="card-outline"></ion-icon> Pagar con PayPal</button>
                               </div>
                             </form>
                           </div>
@@ -134,7 +142,7 @@
                               </div>
                               <div class="d-grid">
 								    <h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-                                <button type="submit" class="btn btn-success btn-ecomm">Pagar por Transferencia</button>
+                                <button type="submit" class="btn btn-success btn-ecomm"><ion-icon name="card-outline"></ion-icon> Pagar por Transferencia</button>
                               </div>
                             </form>
                           </div>

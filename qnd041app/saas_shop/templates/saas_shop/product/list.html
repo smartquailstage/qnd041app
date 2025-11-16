@@ -18,21 +18,21 @@
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">SmartBusinessAnalytics®</div>
+          <div class="tab-title text-uppercase fw-500"><ion-icon name="bar-chart-outline"></ion-icon></div>
         </div>
       </a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">SmartBusinessMedia®</div>
+          <div class="tab-title text-uppercase fw-500"><ion-icon name="play-outline"></ion-icon></div>
         </div>
       </a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">SmartBusinessLaw®</div>
+          <div class="tab-title text-uppercase fw-500"><ion-icon name="albums-outline"></ion-icon></div>
         </div>
       </a>
     </li>
@@ -55,7 +55,7 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red  bg-opacity-50">
-                        <h2 class="text-white">{{ product.name }}</h2>
+                        <h2 class="text-white"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}</h2>
                         <p class="mb-1 text-white">${{ product.description }}</p>
                       </div>
                     </div>
@@ -122,7 +122,7 @@
                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red bg-opacity-50 text-white">
-                  <h2 style="color:#ffff">{{ product.name }}</h2>
+                  <h2 style="color:#ffff"><ion-icon name="play-outline"></ion-icon> {{ product.name }}</h2>
                   <p class="mb-1">${{ product.description }}</p>
             
                 </div>
@@ -190,7 +190,7 @@
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                 
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red bg-opacity-50 text-white">
-                  <h2 style="color:#ffff">{{ product.name }}</h2>
+                  <h2 style="color:#ffff"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}</h2>
                   <p class="mb-1">${{ product.description }}</p>
                 
                 </div>

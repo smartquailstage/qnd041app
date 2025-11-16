@@ -29,6 +29,16 @@
   border-radius: 25px;">
 
       <div class="shop-cart">
+
+            <ul class="nav nav-tabs mb-3" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
+          <div class="d-flex align-items-center">
+            <div class="tab-title text-uppercase fw-500"><ion-icon name="cart-outline"></ion-icon></div>
+          </div>
+        </a>
+      </li>
+    </ul>
                     										
                     <div class="row">
 
@@ -517,7 +527,7 @@
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
                                         <a href="{% url 'saas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
-                                            Proceed to Checkout
+                                           <ion-icon name="cart-outline"></ion-icon> Proceed to Checkout
                                         </a>
                                     </div>
                                 </div>

@@ -44,9 +44,7 @@ def order_created(order_id):
     os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
 
     # Obtener los nombres de todos los productos de la orden
-    product_names = ", ".join([item.product.name for item in order.items.all()])
-    if not product_names:
-        product_names = "su software"
+    product_names = ", ".join([item.product.name for item in order.items.all()]) or "su software"
 
     # Render HTML correo
     html_message = render_to_string(
@@ -67,28 +65,53 @@ def order_created(order_id):
     )
     email.attach_alternative(html_message, "text/html")
 
-    # Generar PDF con ruta local al CSS
+    # ------------------------------
+    # 📄 1) Generar PDF de la orden
+    # ------------------------------
     html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
     out = BytesIO()
-    # Ruta correcta al CSS
-    css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
 
+    css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
 
     weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
         stylesheets=[weasyprint.CSS(css_path)],
         presentational_hints=True
     )
+
     email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
 
+    # ------------------------------
+    # 📘 2) Generar eBook adicional
+    # ------------------------------
+    ebook_html = render_to_string(
+        'saas_orders/ebook/ebook_template.html',
+        {'order': order, 'domain': domain}
+    )
+
+    ebook_out = BytesIO()
+    ebook_css = '/qnd041app/qnd041app/saas_orders/static/css/ebook.css'
+
+    weasyprint.HTML(string=ebook_html, base_url=f"https://{domain}/").write_pdf(
+        ebook_out,
+        stylesheets=[weasyprint.CSS(ebook_css)],
+        presentational_hints=True
+    )
+
+    # Puedes llamarlo como quieras:
+    email.attach(f"ebook_{order.id}.pdf", ebook_out.getvalue(), 'application/pdf')
+
+    # ------------------------------
     # Enviar correo
+    # ------------------------------
     email.send()
 
-    # Marcar el email como enviado
+    # Marcar email como enviado
     order.email_sent = True
     order.save()
 
     return True
+
 
 
 

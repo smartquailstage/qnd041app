@@ -11,6 +11,7 @@ urlpatterns = [
     path('detalle/<int:order_id>/', views.order_detail, name='order_detail'),
     path('admin/order/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
     path('admin/order/<int:order_id>/pdf/', views.admin_order_pdf, name='admin_order_pdf'),
+    path('admin/order/<int:order_id>/ebook/', views.admin_ebook_pdf, name='admin_ebook_pdf'),
 ]
 
 

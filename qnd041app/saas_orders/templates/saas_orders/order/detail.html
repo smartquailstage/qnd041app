@@ -36,6 +36,16 @@
     <section class="shop-page">
       <div class="shop-container">
         <div class="card shadow-sm border-0">
+              <ul class="nav nav-tabs mb-3" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
+          <div class="d-flex align-items-center">
+            <div class="tab-title text-uppercase fw-500"><ion-icon name="pricetags-outline"></ion-icon></div>
+          </div>
+        </a>
+      </li>
+    </ul>
+    
           <div class="card-body">
             <div class="shop-cart">
               <div class="row">
@@ -71,119 +81,97 @@
                     </div>
 
                     <!-- Card principal -->
-                    <div class="card">
-                      <div class="card-body">
-
-                        <!-- Usuario -->
-                        <div class="d-flex align-items-center mb-3">
-                          <div>
-                            <img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-                          </div>
-                          <div class="ms-3">
-                            <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
-                            <p class="mb-0">{{ order.email }}</p>
-                          </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- Título -->
-                        <h2 class="h5 mb-0">
-                          <span class="step-count-circle">2</span> Detalle de Orden de Software
-                        </h2>
-                        <p class="mt-2">
-                           Detalle completo de la orden generada. 
-                          Verifique la información antes de proceder al pago.
-                        </p>
-
-             
-
-                        <div class="my-3 border-bottom"></div>
-
-                        <!-- Información de la orden -->
-                        <h5 class="mb-3">Información de la Orden</h5>
-                        <p><strong>ID de orden:</strong> #{{ order.id }}</p>
-                        <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-
-                        <hr>
-
-                        <!-- Productos adquiridos -->
-                        <h5 class="mb-3">Productos Solicitados</h5>
-
-                        <ul class="list-group bg-transparent">
-                          {% for item in order.items.all %}
-                          <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
-                            <div>
-                              <strong>{{ item.product.name }}</strong><br>
-                              <small>{{ item.product.description }}</small>
-                            </div>
-                            <span>${{ item.price }}</span>
-                          </li>
-                          {% endfor %}
-                        </ul>
-
-                        <hr>
-
-                        <!-- Total -->
-                        <h4 class="d-flex justify-content-between">
-                          <span>Total a pagar:</span>
-                          <span>${{ order.get_total_cost }}</span>
-                        </h4>
-
-                        <div class="my-4"></div>
-
-                        <!-- Botones -->
-                        <div class="row">
+{% if order.is_active %}
 
 
-                          <div class="col-md-6">
-                            <a href="{% url 'saas_payment:process' %}?order={{ order.id }}" class="btn btn-primary btn-ecomm w-100">
-                              Proceder al Pago
-                            </a>
-                          </div>
-                        </div>
+  <!-- Orden Activa -->
+  <div class="card">
+    <div class="card-body">
 
-                      </div>
-                    </div>
+      <!-- Usuario -->
+      <div class="d-flex align-items-center mb-3">
+        <div>
+          <img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
+        </div>
+        <div class="ms-3">
+          <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
+          <p class="mb-0">{{ order.email }}</p>
+        </div>
+      </div>
 
-                  </div>
-                </div>
+      <hr>
 
-                <!-- ============================= -->
-                <!--  COLUMNA DERECHA - RESUMEN    -->
-                <!-- ============================= -->
-                <div class="col-12 col-xl-4">
-                  <div class="order-summary">
-                    <div class="card">
-                      <div class="card-body">
+      <!-- Título -->
+      <h2 class="h5 mb-0">
+        <span class="step-count-circle">2</span> Detalle de Orden de Software
+      </h2>
+      <p class="mt-2">
+         Detalle completo de la orden generada. 
+        Verifique la información antes de proceder al pago.
+      </p>
 
-                        <p class="fs-5">Resumen de Compra</p>
-                        <div class="my-3 border-top"></div>
+      <div class="my-3 border-bottom"></div>
 
-                        <ul class="list-unstyled">
-                          {% for item in order.items.all %}
-                          <li class="mb-3">
-                            <h6 class="mb-1">{{ item.product.name }}</h6>
-                            <p class="small">{{ item.product.description }}</p>
-                            <div class="d-flex justify-content-between">
-                              <span>{{ item.quantity }} ×</span>
-                              <span>${{ item.price }}</span>
-                            </div>
-                            <div class="my-3 border-top"></div>
-                          </li>
-                          {% endfor %}
-                        </ul>
+      <!-- Información de la orden -->
+      <h5 class="mb-3">Información de la Orden</h5>
+      <p><strong>ID de orden:</strong> #{{ order.id }}</p>
+      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
 
-                        <!-- Total -->
-                        <div class="d-flex justify-content-between">
-                          <h5 class="mb-0">Total</h5>
-                          <span>${{ order.get_total_cost }}</span>
-                        </div>
+      <hr>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <!-- Productos adquiridos -->
+      <h5 class="mb-3">Productos Solicitados</h5>
+      <ul class="list-group bg-transparent">
+        {% for item in order.items.all %}
+        <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
+          <div>
+            <strong>{{ item.product.name }}</strong><br>
+            <small>{{ item.product.description }}</small>
+          </div>
+          <span>${{ item.price }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <hr>
+
+      <!-- Total -->
+      <h4 class="d-flex justify-content-between">
+        <span>Total a pagar:</span>
+        <span>${{ order.get_total_cost }}</span>
+      </h4>
+
+      <div class="my-4"></div>
+
+      <!-- Botón de pago -->
+      <div class="row">
+        <div class="col-md-6">
+          <a href="{% url 'saas_payment:process' %}?order={{ order.id }}" class="btn btn-primary btn-ecomm w-100">
+            Proceder al Pago
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% else %}
+  <!-- Orden Expirada -->
+  <div class="card">
+    <div class="card-body text-center">
+
+      <p class="fs-5">Su orden ha expirado.</p>
+      <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
+
+      <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
+        Ver Catálogo de Productos
+      </a>
+
+    </div>
+  </div>
+{% endif %}
+
+
 
               </div>
               <!--end row-->

@@ -48,6 +48,16 @@ def order_pdf(obj):
 order_pdf.short_description = 'Invoice'
 
 
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+
+def order_ebook(obj):
+    return mark_safe('<a href="{}" target="_blank">eBook PDF</a>'.format(
+        reverse('saas_orders:admin_ebook_pdf', args=[obj.id])
+    ))
+order_ebook.short_description = 'eBook'
+
+
 
 from unfold.components import BaseComponent, register_component
 from django.template.loader import render_to_string
@@ -248,7 +258,7 @@ class OrderSaaSDetailComponent(BaseComponent):
 class SaaSOrderAdmin(ModelAdmin):
     list_sections = [OrderSaaSDetailComponent,DistribucionSemanalSaaSOrdenesComponent]
     list_display = ['id', 'first_name', 'last_name', 'email',
-            'ruc', 'razon_social','telefono','paid', order_pdf]
+            'ruc', 'razon_social','telefono','paid', order_pdf,order_ebook]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
