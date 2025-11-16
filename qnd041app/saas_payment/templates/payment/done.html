@@ -1,6 +1,81 @@
 {% extends "shop/base.html" %}
 
 {% block content %}
-  <h1>Your payment was successful</h1>
-  <p>Your payment has been processed successfully.</p>
+<style>
+  .step-count-circle {
+  background-color: #b50f15; /* o el color corporativo que uses */
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+</style>
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+
+
+
+
+
+
+    <!-- Checkout Section -->
+    <section class="shop-page">
+      <div class="shop-container">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="shop-cart">
+              <div class="row">
+                <div class="col-12 col-xl-8">
+                  <div class="checkout-details">
+                    <div class="card">
+                      <div class="card-header border-bottom" style="color:#fff">
+<h2 class="h5 mb-0">
+  <span class="step-count-circle">4</span> El Pago de su orden de software ha sido realizado exitosamente
+</h2>
+<p class="text-muted mt-2">
+  ¡Gracias por elegir nuestras soluciones  IT Cloud Business! Con esta compra, está apoyando directamente a desarrolladores, científicos, artistas e ingenieros organizados, todos trabajando juntos para crear un mundo tecnológico más responsable y sostenible. 
+  🌱💡 Nuestro sistema de información está diseñado para ser amigable con el medio ambiente 🌍♻️
+  haz clic en "Crear proyecto IT Cloud Business" a continuación para iniciar tu viaje con nosotros.
+</p>
+
+
+<div class="mt-4">
+  <a href="{% url 'business_customer_projects:create_project' %}" class="btn btn-primary btn-ecomm">
+   <ion-icon name="add-outline"></ion-icon> Crear proyecto IT Cloud Business
+  </a>
+</div>
+
+
+     
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Order Summary -->
+
+                <!-- End Order Summary -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+
+
 {% endblock %}

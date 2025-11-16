@@ -12,6 +12,15 @@ from django.contrib.auth.decorators import login_required
 import requests
 
 
+from django.shortcuts import get_object_or_404, redirect
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from io import BytesIO
+import weasyprint
+from saas_orders.models import SaaSOrder
+from celery.result import AsyncResult
+from .tasks import send_contracts  # Importa la tarea
+
 @login_required
 def payment_process(request):
     order_id = request.session.get('order_id')
@@ -25,7 +34,7 @@ def payment_process(request):
             'amount': f"{order.get_total_cost().amount:.2f}",  # <-- f-string con .amount
             'payment_method_nonce': nonce,
             'options': {
-            'submit_for_settlement': True
+                'submit_for_settlement': True
             }
         })
 
@@ -36,37 +45,41 @@ def payment_process(request):
             order.braintree_id = result.transaction.id
             order.save()
 
-            # create invoice e-mail
-            subject = 'My Shop - Invoice no. {}'.format(order.id)
+            # Enviar factura por correo
+            subject = f'My Shop - Invoice no. {order.id}'
             message = 'Please, find attached the invoice for your recent purchase.'
             email = EmailMessage(subject,
                                  message,
                                  'admin@myshop.com',
                                  [order.email])
 
-            # generate PDF
+            # Generar PDF
             html = render_to_string('saas_orders/order/pdf.html', {'order': order})
             out = BytesIO()
-            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')]
+            stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')]
             weasyprint.HTML(string=html).write_pdf(out,
                                                    stylesheets=stylesheets)
-            # attach PDF file
-            email.attach('order_{}.pdf'.format(order.id),
+            # Adjuntar PDF
+            email.attach(f'order_{order.id}.pdf',
                          out.getvalue(),
                          'application/pdf')
-            # send e-mail
+            # Enviar el correo
             email.send()
+
+            # Llamar a la tarea de Celery para enviar los contratos
+            send_contracts.delay(order.id)
 
             return redirect('saas_payment:done')
         else:
             return redirect('saas_payment:canceled')
     else:
-        # generate token 
+        # generar token
         client_token = braintree.ClientToken.generate()
         return render(request, 
                       'payment/process.html', 
                       {'order': order,
                        'client_token': client_token})
+
 
 
 

@@ -91,9 +91,8 @@ h1 {
   width: 100%;
 }
 h2, h3, h4 {
-  color: rgb(252, 251, 251);
+  color: black;
   font-weight: 400;
-   margin: 2cm 2cm 0 2cm;
 }
 h2 {
   break-before: always;
@@ -108,9 +107,9 @@ h4 {
   font-size: 13pt;
 }
 
-p {
-  color: #d4d3d0;
-  font-size: 18pt;
+h1 {
+  color: #fbc847;
+  font-size: 28pt;
   margin: 5cm 2cm 0 2cm;
   page: no-chapter;
   width: 100%;
