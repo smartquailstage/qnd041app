@@ -1,3 +1,6 @@
+{% load i18n %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,16 +17,21 @@
 
 
   
-<div>
+      <img src="{% static 'img/logo_smartquailred.png' %}" alt="Logo de SmartQuail" style="width:200px; margin-bottom:20px;">
 
-<div style="line-height: 1;">
-    <p>
-        <strong>CONTRATO DE PRESTACIÓN DE SERVICIOS DE DESAROLLO TECNOLÓGICO.(I+D)</strong>
-    </p>
-    <p style="margin-top: 0.5px;">
-        <strong>ENTRE {{ order.first_name }} {{ order.last_name }} ENTRE & SMARTQUAIL S.A.S.</strong>
-    </p>
+
+
+
+
+  
+
+
+<div class="titulos">
+    <h1><strong>CONTRATO DE PRESTACIÓN DE SERVICIOS EN DESAROLLO DE SOFTWARE (I+D)</strong></h1>
+    <p>ENTRE {{ order.first_name }} {{ order.last_name }} Y SMARTQUAIL S.A.S.</p>
+    <p>CID18783{{ order.id }}</p>
 </div>
+
 
 
     <!-- === AQUI INICIA EL CONTRATO COMPLETO DINÁMICO === -->

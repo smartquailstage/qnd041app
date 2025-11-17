@@ -13,6 +13,27 @@
   margin: 2cm 0.5cm 2cm 0.5cm; /* márgenes simétricos */
 }
 
+
+/* ============================= */
+/*     SECCIÓN DE TÍTULOS        */
+/* ============================= */
+.titulos {
+    line-height: 1;      /* interlineado simple */
+    font-weight: bold;    /* todo en negrita */
+    margin-bottom: 10px;  /* espacio inferior entre títulos */
+}
+
+.titulos h1, 
+.titulos h2, 
+.titulos h3, 
+.titulos p {
+    line-height: 1;       /* asegura interlineado simple */
+    font-weight: bold;    /* negrita */
+    margin: 2px 0;        /* margen vertical reducido */
+    font-size: 12pt;    /* tamaño de fuente uniforme */
+}
+
+
 /* ============================= */
 /*          BODY GENERAL          */
 /* ============================= */
@@ -23,15 +44,15 @@ body {
   padding: 0;
 }
 
-/* ============================= */
-/*        HEADER PRIMERA PÁG     */
-/* ============================= */
-header {
+
+
+/* HEADER VISUAL — SOLO PRIMERA PÁGINA */
+.header-first-page {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 1.2cm;             /* header muy pequeño */
+  height: 0.5cm;
   padding: 1mm 12mm;
   background: #f3f3f3;
   border-bottom: 1px solid #ccc;
@@ -40,24 +61,31 @@ header {
   line-height: 1.2;
 }
 
-header .info strong {
-  font-size: 8pt;
+/* HEADER INVISIBLE PARA EVITAR QUE EL CONTENIDO SUBA EN LAS DEMÁS */
+.header-other-pages {
+  visibility: hidden;   /* no se ve */
+  height: 0.5cm;        /* pero ocupa espacio */
 }
 
-header .social {
-  margin-top: 0.5mm;
-  font-size: 6.5pt;
-}
-
-/* Solo mostrar header en la primera página */
+/* IMPRESIÓN */
 @media print {
-  header {
+
+  /* Ocultar el header visual después de la primera página */
+  .header-first-page {
     display: block;
   }
-  header ~ * {
-    margin-top: 1.5cm; /* evita que el contenido choque con el header */
+
+  /* El truco: Chrome solo muestra el primero */
+  .header-first-page + * {
+    margin-top: 1.4cm !important;
+  }
+
+  @page {
+    margin-top: 2cm;
   }
 }
+
+
 
 /* ============================= */
 /*        FOOTER DELGADO         */
