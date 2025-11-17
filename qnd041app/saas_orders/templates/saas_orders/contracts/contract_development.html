@@ -1,52 +1,156 @@
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="es">
+
+
 
 <head>
-  <meta charset="utf-8">
-  <title>Bon de commande</title>
-  <link href="style.css" rel="stylesheet">
-  <meta name="description" content="Letter demo sample">
+    <meta charset="utf-8">
+    <title>Contrato de Servicios Tecnológicos</title>
+    <link href="/static/css/contracts.css" rel="stylesheet">
+    <meta name="description" content="Contrato de Prestación de Servicios Tecnológicos">
 </head>
 
 <body>
-  <header>
-    <div>
-      <img src="img/logo-couleurs.png" alt="Logo de Des Couleurs Dans l’Assiette">
+
+
+  
+<div>
+
+<div style="line-height: 1;">
+    <p>
+        <strong>CONTRATO DE PRESTACIÓN DE SERVICIOS DE DESAROLLO TECNOLÓGICO.(I+D)</strong>
+    </p>
+    <p style="margin-top: 0.5px;">
+        <strong>ENTRE {{ order.first_name }} {{ order.last_name }} ENTRE & SMARTQUAIL S.A.S.</strong>
+    </p>
+</div>
+
+
+    <!-- === AQUI INICIA EL CONTRATO COMPLETO DINÁMICO === -->
+
+    <div class="preambulo">
+    <h2>PREÁMBULO</h2>
+   <p>
+        En la ciudad del Distrito Metropolitano de Quito, a {{ order.created|date:"d" }} días del mes de 
+        {{ order.created|date:"F" }} del {{ order.created|date:"Y" }}, comparecen por una parte
+        <strong>{{ order.razon_social }}</strong>, sociedad constituida conforme a las leyes ecuatorianas,
+        con RUC <strong>{{ order.ruc }}</strong>, perteneciente al sector económico
+        <strong>{{ order.get_sector_display }}</strong>, con número telefónico <strong>{{ order.telefono }}</strong>
+        y correo electrónico <strong>{{ order.email }}</strong>, representada legalmente por
+        <strong>{{ order.first_name }} {{ order.last_name }}</strong>, quien en adelante se denominará
+        <strong>“EL CONTRATANTE”</strong>;
+        y por otra parte, <strong>SMARTQUAIL S.A.S.</strong>, sociedad de tecnología de información
+        y comunicación en la nube, con RUC <strong>1793206532001</strong>, representada por
+        <strong>Santiago Mauricio Silva Domínguez</strong>, quien en adelante se denominará
+        <strong>“SMARTQUAIL”</strong>.
+    </p>
+
+    <p>
+        Ambas partes acuerdan celebrar el presente Contrato de Prestación de Servicios Tecnológicos,
+        conforme a los siguientes términos y condiciones:
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>PRIMERA: OBJETO DEL CONTRATO</h3>
+    <p>
+       El objeto del presente contrato es la prestación de servicios  tecnológicos y técnicos por parte de SMARTQUAIL para el desarrollo, implementación y mantenimiento del aplicativo Web 3.0 en la nube para la gestión de los procesos terapéuticos de MEDDES, que incluye los siguientes procesos y funcionalidades:
+    </p>
+
+    <h3>SEGUNDA: OBLIGACIONES DE LAS PARTES</h3>
+    <p>
+       SMARTQUAIL se compromete a: a) Desarrollar, implementar y poner en producción el sistema Web 3.0 en la nube conforme a los requisitos descritos en la cláusula primera. b) Garantizar que el sistema sea capaz de soportar 500 usuarios simultáneos con alta disponibilidad y carga. c) Brindar soporte técnico durante el periodo de garantía del sistema, según lo acordado entre las partes. d) Realizar las actualizaciones necesarias para mantener el sistema funcional conforme a   las necesidades de MEDDES.
+MEDDES se compromete a: a) Proporcionar a SMARTQUAIL los manuales de procedimiento y cualquier otra información necesaria para el desarrollo y configuración del sistema. b) Facilitar el acceso a los recursos de nube pública que sean necesarios para el funcionamiento y prueba del sistema. c) Realizar los pagos según lo estipulado en el presente contrato por la prestación de los servicios, cumpliendo con los plazos y condiciones acordados.
+    </p>
+
+        <h3>TERCERA: PLAZOS</h3>
+    <p>
+       Desarrollo del sistema: SMARTQUAIL se compromete a entregar el sistema completamente operativo en un plazo de QUINCE DÍAS HÁBILES a partir de la firma del presente contrato y la realización de pago por parte de MEDDES de acuerdo a la clausura CUARTA del presente contrato.
+Mantenimiento y soporte: Durante el periodo de duración en el proceso de desarrollo e implementación del sistema de información, SMARTQUAIL brindará soporte técnico, capacitación y mantenimiento a MEDDES.
+    </p>
+
+            <h3>CUARTA: COMPENSACIÓN ECONÓMICA Y PAGOS</h3>
+    <p>
+      Valor del servicio: MEDDES se compromete a pagar a SMARTQUAIL la cantidad de SEIS MIL SETECIENTOS TRECE CON 70/100 DOLARES AMERICANOS por el desarrollo e implementación del sistema, conforme a las cuotas de pagos mensuales de QUINIENTOS CINCUENTA Y NUEVE CON 48/100 DOLARES AMERICANOS en DOCE MESES a partir de la firma del presente contrato. Y se realizará en la siguiente manera: a) Primer cuota: a partir de  la firma del presente contrato se dará inicio del proceso de  desarrollo. c) Última cuota: Duodécimo mes. 
+El pago se efectuará de la siguiente manera: el 50% del monto mensual será abonado mediante transferencia bancaria, y el 50% restante se pagará mediante la emisión de cheque. Ambas transacciones deberán ser realizadas en su totalidad el mismo día del pago, a nombre de la cuenta de SMARTQUAIL suministre, dentro de los CINCO días naturales posteriores a la fecha de emisión de la factura correspondiente.
+Condición adicional: MEDDES se compromete a realizar dos recomendaciones efectivas boca a boca durante el periodo anual del contrato. La falta de cumplimiento de esta condición por parte de MEDDES podrá resultar en una revisión del acuerdo de pago al NOVENO MES.
+    </p>
+
+                <h3>QUINTA: RESPONSABILIDAD</h3>
+    <p>
+   SMARTQUAIL no será responsable de los daños derivados de un mal uso del sistema por parte de los usuarios finales de MEDDES.
+MEDDES se compromete a indemnizar a SMARTQUAIL por cualquier reclamo, demanda, costo o gasto derivado de la violación de derechos de terceros debido a la información proporcionada por MEDDES al sistema.
+    </p>
+
+                    <h3>SEXTA: GARANTÍAS</h3>
+    <p>
+  SMARTQUAIL garantiza que el sistema WEB3.0 será entregado conforme a las especificaciones establecidas en el presente contrato y en los documentos anexos, asegurando su funcionamiento adecuado en una arquitectura en la nube de alta disponibilidad y carga. En particular, SMARTQUAIL se compromete a:
+Disponibilidad y Rendimiento: Garantizar un nivel de disponibilidad del sistema del 99.9% anual, exceptuando los períodos de mantenimiento previamente programados o casos de fuerza mayor. En caso de que la disponibilidad del sistema caiga por debajo de este nivel, SMARTQUAIL se compromete a reparar y restaurar el sistema a la brevedad posible sin coste adicional para MEDDES.
+Mantenimiento y Soporte: Ofrecer soporte técnico continuo y mantenimiento para asegurar que el sistema opere de acuerdo a las especificaciones durante la vigencia del contrato. Este soporte incluirá la resolución de problemas técnicos, actualizaciones de software y parches necesarios, sin costo adicional durante el primer año de funcionamiento.
+Actualizaciones y Mejoras: Durante la vigencia del contrato, SMARTQUAIL proporcionará actualizaciones y mejoras periódicas del sistema, con el objetivo de optimizar su rendimiento, garantizar su compatibilidad con nuevas tecnologías.
+Seguridad y Protección de Datos: Garantizar la implementación de medidas de seguridad de acuerdo con las mejores prácticas en protección de datos e información, así como cumplir con la normativa aplicable en materia de protección de datos personales, asegurando que los datos almacenados en el sistema estén protegidos contra accesos no autorizados, pérdidas o daños.
+Devolución por Inconformidad: En caso de que el sistema no cumpla con los estándares de calidad y funcionalidad acordados en el presente contrato y en la propuesta inicial, SMARTQUAIL se compromete a devolver el 50% del valor de la primera cuota efectiva pagada por MEDDES si la inconformidad persiste tras un proceso de revisión y ajuste por parte de SMARTQUAIL.
+Responsabilidad por Fallas Técnicas: SMARTQUAIL será responsable por cualquier fallo técnico en el sistema que afecte su operatividad, debiendo realizar las reparaciones necesarias sin coste adicional para MEDDES, siempre que el fallo sea atribuible a defectos de diseño, implementación o gestión por parte de SMARTQUAIL.
+    </p>
+    
+
+                    <h3>SEPTIMA: CONTROVERSIAS, MORA Y TERMINACIÓN DEL CONTRATO</h3>
+    <p>
+a) Este contrato podrá ser resuelto por cualquiera de las partes en caso de incumplimiento de las obligaciones estipuladas, previa notificación escrita con una antelación de 10 días, sin perjuicio de las indemnizaciones que pudieran corresponder. 
+b) En caso de mora por el pago de DOS (2) cuotas mensuales consecutivas, SMARTQUAIL se reserva el derecho de proceder con la inhabilitación del sistema de información, sin perjuicio de los daños, perjuicios y costos adicionales que pudieran derivarse de dicha inhabilitación. El servicio tecnológico será restablecido una vez que MEDDES se regularice en el pago de las cuotas pendientes, incluyendo cualquier cargo adicional que pudiera corresponder por el retraso. 
+
+La inhabilitación del sistema no exime a MEDDES de su obligación de cumplir con los pagos conforme lo establecido en el presente contrato.
+c) En caso de inconformidad por parte de MEDDES respecto al sistema de información contratado, SMARTQUAIL se compromete a realizar la devolución del 50% del valor de la primera cuota efectiva pagada, siempre y cuando dicha inconformidad sea notificada por escrito a SMARTQUAIL dentro de los 15 días posteriores a la activación del sistema. La devolución se realizará dentro de los 30 días hábiles posteriores a la aceptación de la inconformidad por parte de SMARTQUAIL.
+d) En caso de que surjan diferencias en la interpretación o ejecución del presente contrato, las Partes se comprometen a resolverlas mediante negociación directa. Si no se llega a un acuerdo, las diferencias serán sometidas a la jurisdicción de los tribunales competentes en la ciudad de Quito.
+    </p>
+
+
+                    <h3>OCTAVA:  JURISDICCIÓN Y LEGISLACIÓN APLICABLE</h3>
+    <p>
+Este contrato se regirá por las leyes de la República del Ecuador. Para la resolución de cualquier conflicto relacionado con este contrato, las partes se someten a la jurisdicción de los tribunales de la ciudad de Quito, en las cámaras de lo civil y penal, renunciando a cualquier otro fuero que pudiera corresponderles.
+    </p>
+
+                       <h3>NOVENA:  VIGENCIA</h3>
+    <p>
+El presente contrato tendrá una vigencia de doce meses, a partir de la fecha de firma del mismo. Las partes podrán prorrogarlo por mutuo acuerdo, con base en las necesidades de cada una.
+    </p>
+
+
+                       <h3>DECIMA: FIRMAS</h3>
+    <p>
+En señal de conformidad y acuerdo con los términos establecidos en el presente contrato, las partes firman el presente documento en dos ejemplares del mismo tenor.
+    </p>
+
+
+    <!-- y así... -->
+</div>
+
+
+    <!-- Aquí pegamos el texto largo del contrato -->
+    {{ contract_text|safe }}
+
+</div>
+
+<hr>
+
+<div class="signature-block" style="margin-top:50px;">
+    <div style="width:45%; display:inline-block; text-align:center;">
+        <hr>
+        <strong>{{ order.razon_social }}</strong><br>
+        Representante: {{ order.first_name }} {{ order.last_name }}<br>
+        RUC: {{ order.ruc }}
     </div>
-  </header>
 
-  <div>
-    <p>Cher Aurélien Leno,</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-      irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Estelle Carotte</p>
-  </div>
+    <div style="width:45%; display:inline-block; text-align:center; margin-left:5%;">
+        <hr>
+        <strong>SMARTQUAIL S.A.S.</strong><br>
+        Representante: Santiago Mauricio Silva Domínguez<br>
+        RUC: 1793206532001
+    </div>
+</div>
 
-  <hr>
 
-  <div>
-    <form method="post">
-      <fieldset>
-        <legend>Bon de commande</legend>
-        <label for="name">Nom :</label>
-        <input type="text" name="name" id="name">
-
-        <label for="firstname">Prénom :</label>
-        <input type="text" name="firstname" id="firstname">
-
-        <label for="address">Adresse :</label>
-        <textarea name="address" id="address" rows="2" cols="40"></textarea>
-
-        <label for="products">Produits souhaités :</label>
-        <textarea name="products" id="products" rows="4" cols="40"></textarea>
-      </fieldset>
-      <input type="submit" name="submit" value="Envoyer">
-    </form>
-  </div>
-
-  <footer>
-    <p>AMAP - Des couleurs dans l'assiette - 53 Avenue du Panier Rouge - 69005 Lyon</p>
-  </footer>
 
 </body>
-
 </html>
+

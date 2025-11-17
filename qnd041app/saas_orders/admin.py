@@ -251,6 +251,27 @@ class OrderSaaSDetailComponent(BaseComponent):
         return render_to_string(self.template_name, self.get_context_data())
 
 
+def contract_ip(obj):
+    return mark_safe('<a href="{}">Contrato PI</a>'.format(
+        reverse('saas_orders:admin_contract_ip_pdf', args=[obj.id])
+    ))
+contract_ip.short_description = "Propiedad Intelectual"
+
+
+def contract_development(obj):
+    return mark_safe('<a href="{}">Contrato Desarrollo</a>'.format(
+        reverse('saas_orders:admin_contract_development_pdf', args=[obj.id])
+    ))
+contract_development.short_description = "Desarrollo"
+
+
+def contract_cloud(obj):
+    return mark_safe('<a href="{}">Contrato Cloud</a>'.format(
+        reverse('saas_orders:admin_contract_cloud_pdf', args=[obj.id])
+    ))
+contract_cloud.short_description = "Alquiler Cloud"
+
+
 
 
 
@@ -258,7 +279,7 @@ class OrderSaaSDetailComponent(BaseComponent):
 class SaaSOrderAdmin(ModelAdmin):
     list_sections = [OrderSaaSDetailComponent,DistribucionSemanalSaaSOrdenesComponent]
     list_display = ['id', 'first_name', 'last_name', 'email',
-            'ruc', 'razon_social','telefono','paid', order_pdf,order_ebook]
+            'ruc', 'razon_social','telefono','paid', order_pdf,order_ebook,contract_ip,contract_development,contract_cloud]
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]

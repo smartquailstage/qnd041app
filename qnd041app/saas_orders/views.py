@@ -161,3 +161,75 @@ def admin_ebook_pdf(request, order_id):
     )
 
     return response
+
+
+@staff_member_required
+def admin_contract_ip_pdf(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id)
+
+    html = render_to_string(
+        'saas_orders/contracts/contract_ip.html',
+        {'order': order, 'domain': 'ec.smartquail.io'}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=contract_ip_{order.id}.pdf'
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_ip.css')],
+        presentational_hints=True
+    )
+
+    return response
+
+
+@staff_member_required
+def admin_contract_development_pdf(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id)
+
+    html = render_to_string(
+        'saas_orders/contracts/contract_development.html',
+        {'order': order, 'domain': 'ec.smartquail.io'}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=contract_development_{order.id}.pdf'
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_dev.css')],
+        presentational_hints=True
+    )
+
+    return response
+
+@staff_member_required
+def admin_contract_cloud_pdf(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id)
+
+    html = render_to_string(
+        'saas_orders/contracts/contract_cloud_rent.html',
+        {'order': order, 'domain': 'ec.smartquail.io'}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=contract_cloud_{order.id}.pdf'
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_resources.css')],
+        presentational_hints=True
+    )
+
+    return response
+

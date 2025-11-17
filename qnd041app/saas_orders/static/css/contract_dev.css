@@ -1,74 +1,151 @@
 @font-face {
   font-family: "pacifico";
-  src: url("fonts/Pacifico-Regular.ttf") format('truetype');
+  src: url("PierSans-Regular") format('truetype');
 }
 
 @font-face {
   font-family: "soon";
-  src: url("fonts/ComingSoon-Regular.ttf") format('truetype');
+  src: url("PierSans-Regular") format('truetype');
 }
 
 @page {
-  margin: 0;
   size: A4;
+  margin: 2cm 0.5cm 2cm 0.5cm; /* márgenes simétricos */
 }
 
+/* ============================= */
+/*          BODY GENERAL          */
+/* ============================= */
 body {
   font-family: "soon";
+  font-size: 10pt;
   margin: 0;
+  padding: 0;
 }
 
+/* ============================= */
+/*        HEADER PRIMERA PÁG     */
+/* ============================= */
 header {
-  background: no-repeat top left / 125% url('img/image-couleurs.png');
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.2cm;             /* header muy pequeño */
+  padding: 1mm 12mm;
+  background: #f3f3f3;
+  border-bottom: 1px solid #ccc;
+  font-family: "soon";
+  font-size: 7.5pt;
+  line-height: 1.2;
 }
 
-header div {
-  height: 3cm;
-  padding: 5mm 5mm 12mm 5mm;
+header .info strong {
+  font-size: 8pt;
 }
 
-header img {
-  width: 5cm;
+header .social {
+  margin-top: 0.5mm;
+  font-size: 6.5pt;
 }
 
+/* Solo mostrar header en la primera página */
+@media print {
+  header {
+    display: block;
+  }
+  header ~ * {
+    margin-top: 1.5cm; /* evita que el contenido choque con el header */
+  }
+}
+
+/* ============================= */
+/*        FOOTER DELGADO         */
+/* ============================= */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1cm;               /* footer súper delgado */
+  padding: 1mm 12mm;
+  background: #f3f3f3;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  font-size: 7.5pt;
+  line-height: 1.2;
+  color: #333;
+}
+
+/* ============================= */
+/*      CONTENIDO PRINCIPAL      */
+/* ============================= */
+body > div {
+  margin: 0 auto;
+  padding: 1.5cm 12mm 1.5cm 12mm; 
+}
+
+/* ----------------------------- */
 hr {
-  border-top: 3px dashed gray;
+  border-top: 2px dashed gray;
   border-bottom: none;
-  margin: 5mm 0;
+  margin: 4mm 0;
 }
 
 p {
   font-family: serif;
-  line-height: 18pt;
-  margin-top: 5mm;
+  font-size: 9pt;
+  line-height: 10pt;
+  margin-top: 2mm;
 }
 
-body > div {
-  margin: 0 auto;
-  padding: 0 12mm;
+/* PREÁMBULO */
+.preambulo {
+  text-align: justify;
+  font-size: 10pt;
+  line-height: 12pt;
+  margin: 3mm 0;
+  padding: 0 3mm;
 }
 
-body > div:first-of-type, body > div:last-of-type {
-  margin: 2cm 0 1cm 0;
+.preambulo h2 {
+  font-size: 10pt;
+  font-weight: bold;
+  margin-bottom: 3mm;
+  text-align: left;
 }
 
+/* BLOQUE DE CLÁUSULAS */
+.clausulas {
+  text-align: justify;
+  font-size: 10pt;
+  line-height: 10pt;
+  margin: 5mm 0;
+  padding: 0 3mm;
+}
+
+.clausulas h3 {
+  font-size: 10pt;
+  font-weight: bold;
+  margin-top: 3mm;
+  margin-bottom: 3mm;
+}
+
+.clausulas p {
+  text-indent: 5mm;
+}
+
+/* FORMULARIOS */
 label {
   display: block;
   margin-bottom: 2mm;
+  font-size: 10pt;
 }
 
 legend {
   font-family: "pacifico", serif;
-  font-size: 18pt;
+  font-size: 14pt;
   margin-bottom: 5mm;
-}
-
-input {
-  height: 1.5em;
-}
-
-textarea {
-  height: 4em;
 }
 
 input, textarea {
@@ -84,10 +161,49 @@ input::before, textarea::before, textarea::after {
 
 footer p {
   text-align: center;
+  font-size: 7.5pt; /* más pequeño */
+  line-height: 10pt;
 }
 
+/* ============================= */
+/*       IMPRESIÓN / PRINT       */
+/* ============================= */
 @media print {
   input[type="submit"] {
     display: none;
+  }
+
+  /* Header solo en la primera página */
+  header {
+    display: block;
+  }
+
+  /* Evita que el contenido choque con header y footer */
+  body > div {
+    padding-top: 1.5cm;  /* espacio para header */
+    padding-bottom: 1.2cm; /* espacio para footer */
+  }
+}
+
+
+/* ============================= */
+/*     NUMERACIÓN DE PÁGINA      */
+/* ============================= */
+@page {
+  counter-increment: page;
+}
+
+.page-number {
+  position: fixed;
+  top: 2mm;           /* margen superior */
+  right: 2mm;         /* margen derecho */
+  font-size: 8pt;
+  font-family: "soon";
+}
+
+/* Mostrar número de página en impresión */
+@media print {
+  .page-number::after {
+    content: "Página " counter(page);
   }
 }
