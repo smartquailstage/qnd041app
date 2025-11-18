@@ -4490,21 +4490,22 @@ textarea.form-control-lg {
 	}
 }
 .progress, .progress-stacked {
-	--bs-progress-height: 1rem;
-	--bs-progress-font-size: 0.75rem;
-	--bs-progress-bg: var(--bs-secondary-bg);
-	--bs-progress-border-radius: var(--bs-border-radius);
-	--bs-progress-box-shadow: var(--bs-box-shadow-inset);
-	--bs-progress-bar-color: #7e0004;
-	--bs-progress-bar-bg: #cec3c3;
-	--bs-progress-bar-transition: width 0.6s ease;
-	display: flex;
-	height: var(--bs-progress-height);
-	overflow: hidden;
-	font-size: var(--bs-progress-font-size);
-	background-color: var(--bs-progress-bg);
-	border-radius: var(--bs-progress-border-radius)
+  --bs-progress-height: 1rem;
+  --bs-progress-font-size: 0.75rem;
+  --bs-progress-bg: var(--bs-secondary-bg);
+  --bs-progress-border-radius: var(--bs-border-radius);
+  --bs-progress-box-shadow: var(--bs-box-shadow-inset);
+  --bs-progress-bar-color: #e9ecef;
+  --bs-progress-bar-bg: #9b0a0a;
+  --bs-progress-bar-transition: width 0.6s ease;
+  display: flex;
+  height: var(--bs-progress-height);
+  overflow: hidden;
+  font-size: var(--bs-progress-font-size);
+  background-color: var(--bs-progress-bg);
+  border-radius: var(--bs-progress-border-radius);
 }
+
 .progress-bar {
 	display: flex;
 	flex-direction: column;

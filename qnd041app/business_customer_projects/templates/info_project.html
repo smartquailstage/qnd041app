@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+<!-- Navbar para tabs -->
+<!-- Navbar para tabs -->
+
+
+<ul class="nav nav-pills" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true">Información General</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="tab-desarrollo-tab" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-controls="tab-desarrollo" aria-selected="false">Desarrollo e Investigación</a>
+  </li>
+  {% if has_automation %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="tab-automatizacion-tab" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-controls="tab-automatizacion" aria-selected="false">Automatización</a>
+  </li>
+  {% endif %}
+  {% if has_ai %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="tab-ia-tab" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-controls="tab-ia" aria-selected="false">Inteligencia Artificial</a>
+  </li>
+  {% endif %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="tab-recursos-tab" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-controls="tab-recursos" aria-selected="false">Recursos en la Nube</a>
+  </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content mt-3">
+    <!-- TAB 1: Información General del Proyecto -->
+    <div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
+        <div class="card radius-10">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="border p-3 rounded">
+                                <h6 class="mb-0 text-uppercase">Información General del Proyecto</h6>
+                                <hr>
+                                
+                                <!-- Nombre del Proyecto -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="{{ form.name.id_for_label }}">Escriba el nombre del Proyecto IT Cloud</label>
+                                    {{ form.name|add_class:"form-control" }}
+                                </div>
+                                
+                                <!-- Descripción del Proyecto -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="{{ form.description.id_for_label }}">Describa su propuesta de proyecto IT Cloud</label>
+                                    {{ form.description|add_class:"form-control" }}
+                                </div>
+
+                                <!-- Miembros del Equipo -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="{{ form.business_sector.id_for_label }}">Seleccion el sector de negocio al que pertenece</label>
+                                    {{ form.business_sector|add_class:"form-control" }}
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="{{ form.product.id_for_label }}">Seleccione producto tecnologico con el que desea empezar.</label>
+                                    {{ form.product|add_class:"form-control" }}
+                                </div>
+                                
+                                <!-- Botón de Guardar -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Otras pestañas de contenido pueden ir aquí -->
+</div>
+
+
+</div>
+
+
+
+  </div> <!-- end page content -->
+</div>
+
+{% endblock %}

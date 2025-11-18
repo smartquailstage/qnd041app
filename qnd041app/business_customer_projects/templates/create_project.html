@@ -14,23 +14,7 @@
 
 <ul class="nav nav-pills" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true">Información General</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tab-desarrollo-tab" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-controls="tab-desarrollo" aria-selected="false">Desarrollo e Investigación</a>
-  </li>
-  {% if has_automation %}
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tab-automatizacion-tab" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-controls="tab-automatizacion" aria-selected="false">Automatización</a>
-  </li>
-  {% endif %}
-  {% if has_ai %}
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tab-ia-tab" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-controls="tab-ia" aria-selected="false">Inteligencia Artificial</a>
-  </li>
-  {% endif %}
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tab-recursos-tab" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-controls="tab-recursos" aria-selected="false">Recursos en la Nube</a>
+    <a class="nav-link active" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true"><ion-icon name="folder-open-outline"></ion-icon></a>
   </li>
 </ul>
 
@@ -40,42 +24,50 @@
     <div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
         <div class="card radius-10">
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-12">
                             <div class="border p-3 rounded">
-                                <h6 class="mb-0 text-uppercase">Información General del Proyecto</h6>
+                                <h6 class="mb-0 text-uppercase">
+                                 <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                                </h6>
+                                <p id="typewriter">
+                                 
+                                </p>
+
                                 <hr>
                                 
                                 <!-- Nombre del Proyecto -->
-                                <div class="mb-3">
-                                    <label class="form-label" for="{{ form.name.id_for_label }}">Escriba el nombre del Proyecto IT Cloud</label>
-                                    {{ form.name|add_class:"form-control" }}
-                                </div>
-                                
-                                <!-- Descripción del Proyecto -->
-                                <div class="mb-3">
-                                    <label class="form-label" for="{{ form.description.id_for_label }}">Describa su propuesta de proyecto IT Cloud</label>
-                                    {{ form.description|add_class:"form-control" }}
-                                </div>
+<div class="mb-3">
+    {{ form.name|add_class:"form-control" }}
+    {% if form.name.help_text %}
+        <small class="form-text text-muted">{{ form.name.help_text }}</small>
+    {% endif %}
+</div>
 
-                                <!-- Miembros del Equipo -->
-                                <div class="mb-3">
-                                    <label class="form-label" for="{{ form.business_sector.id_for_label }}">Seleccion el sector de negocio al que pertenece</label>
-                                    {{ form.business_sector|add_class:"form-control" }}
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="{{ form.product.id_for_label }}">Seleccione producto tecnologico con el que desea empezar.</label>
-                                    {{ form.product|add_class:"form-control" }}
-                                </div>
-                                
+<div class="mb-3">
+    {{ form.logo_rectangular }}
+    {% if form.logo_rectangular.help_text %}
+        <small class="form-text text-muted">{{ form.logo_rectangular.help_text }}</small>
+    {% endif %}
+</div>
+
+<div class="mb-3">
+    {{ form.logo_cuadrado }}
+    {% if form.logo_cuadrado.help_text %}
+        <small class="form-text text-muted">{{ form.logo_cuadrado.help_text }}</small>
+    {% endif %}
+</div>
+
+
                                 <!-- Botón de Guardar -->
                                 <div class="col-12 mt-4">
                                     <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+                                        <button type="submit" class="btn btn-primary">Continuar <ion-icon name="chevron-forward-outline"></ion-icon></button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -94,5 +86,30 @@
 
   </div> <!-- end page content -->
 </div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const text = `Hola {{ order.first_name }}, soy el Agente de Inteligencia Artificial de SmartQuail, Inc. Iniciaremos el proceso de creación de tu proyecto IT Cloud Business. Para avanzar, necesitamos algunos datos adicionales sobre tu iniciativa. Por favor, asigna un nombre a tu proyecto e incorpora los logotipos correspondientes en los campos indicados. En pocos minutos tendrás acceso a tu sistema de información en la nube, completamente escalable, autónomo, disponible y seguro.`;
+
+    const speed = 35; // Velocidad en milisegundos por letra
+    let index = 0;
+
+    function typeWriter() {
+        if (index < text.length) {
+            document.getElementById("typewriter").innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
+    typeWriter();
+});
+</script>
+
+
+
 
 {% endblock %}

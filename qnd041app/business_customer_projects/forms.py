@@ -7,13 +7,33 @@ from usuarios.models import SmartQuailCrew
 from django.forms import modelformset_factory, inlineformset_factory
 
 
+from django import forms
+from .models import BusinessSystemProject
+
 class BusinessSystemProjectForm(forms.ModelForm):
     class Meta:
         model = BusinessSystemProject
-        fields = ['name', 'description', 'business_sector','product']
+        fields = ['name', 'logo_rectangular', 'logo_cuadrado']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'logo_rectangular': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*',
+            }),
+            'logo_cuadrado': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'accept': 'image/*',
+            }),
         }
+        help_texts = {
+            'name': 'Asigne un nombre representativo a su proyecto IT Cloud.',
+            'logo_rectangular': 'Suba el logotipo horizontal/rectangular de su proyecto. Formato recomendado: PNG o JPG.',
+            'logo_cuadrado': 'Suba el logotipo cuadrado de su proyecto. Formato recomendado: PNG o JPG.',
+        }
+
+
 
 
 class BusinessProcessForm(forms.ModelForm):

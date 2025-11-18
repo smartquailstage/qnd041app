@@ -6,6 +6,10 @@ from saas_shop.models import Product
 
 
 
+from django.db import models
+from django.conf import settings
+from django.urls import reverse
+
 class BusinessSystemProject(models.Model):
     # Campo para el usuario logueado (asociado con el modelo de usuario)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -20,13 +24,13 @@ class BusinessSystemProject(models.Model):
     )
 
     # Nombre y descripción del proyecto
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial")
     description = models.TextField()
 
     # Fecha de creación
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # ✅ Relación con el equipo de SmartQuail
+    # Equipo SmartQuail
     crew_members = models.ManyToManyField(
         'usuarios.SmartQuailCrew',
         related_name='projects',
@@ -34,7 +38,9 @@ class BusinessSystemProject(models.Model):
         verbose_name='Equipo asignado'
     )
 
-    # Nuevo campo: Sector de negocio (con opciones predefinidas)
+    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)", default=0)
+
+    # Sector de negocio
     SECTOR_CHOICES = [
         ('gastronomico', 'Gastronómico'),
         ('servicios', 'Servicios'),
@@ -55,15 +61,29 @@ class BusinessSystemProject(models.Model):
     business_sector = models.CharField(
         max_length=50,
         choices=SECTOR_CHOICES,
-        default='gastronomico',  # O puedes dejarlo en blanco
+        default='gastronomico',
         verbose_name='Sector de Negocio'
     )
 
+    # ✅ NUEVOS CAMPOS DE LOGOTIPOS
+    logo_rectangular = models.ImageField(
+        upload_to="business/logos/rectangular/",
+        null=True,
+        blank=True,
+        verbose_name="Logotipo rectangular",
+        help_text="Formato recomendado: 4:1 (ancho:alto)"
+    )
+
+    logo_cuadrado = models.ImageField(
+        upload_to="business/logos/cuadrado/",
+        null=True,
+        blank=True,
+        verbose_name="Logotipo cuadrado",
+        help_text="Formato recomendado: 1:1 (ancho:alto)"
+    )
 
     def __str__(self):
         return self.name
-
-
 
     def get_absolute_url(self):
         return reverse("business:project_detail", kwargs={"pk": self.pk})
