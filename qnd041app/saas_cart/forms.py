@@ -6,7 +6,8 @@ class CartAddProductForm(forms.Form):
     quantity = forms.TypedChoiceField(
         choices=PRODUCT_QUANTITY_CHOICES,
         coerce=int,
-         # 👈 ocultamos el campo
+        initial=1,
+        widget=forms.HiddenInput  # 👈 oculta el campo
     )
     update = forms.BooleanField(
         required=False,

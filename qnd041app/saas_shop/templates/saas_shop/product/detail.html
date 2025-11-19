@@ -294,7 +294,7 @@
                   <div class="image-container position-relative mb-3">
                     <img src="{{ product.image.url }}" class="d-block w-100 img-fluid" alt="Imagen principal del producto">
                     <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                      <ion-icon name="play-circle-outline" style="font-size:48px;color:white;"></ion-icon>
+                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#c71a1d;"></ion-icon>
                     </a>
                   </div>
                 </div>
@@ -304,6 +304,9 @@
                 <div class="carousel-item">
                   <div class="image-container position-relative mb-3">
                     <img src="{{ product.image_2.url }}" class="d-block w-100 img-fluid" alt="Imagen secundaria del producto">
+                     <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#c71a1d;"></ion-icon>
+                    </a>
                   </div>
                 </div>
                 {% endif %}
@@ -312,6 +315,9 @@
                 <div class="carousel-item">
                   <div class="image-container position-relative mb-3">
                     <img src="{{ product.image_3.url }}" class="d-block w-100 img-fluid" alt="Imagen terciaria del producto">
+                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#c71a1d;"></ion-icon>
+                    </a>
                   </div>
                 </div>
                 {% endif %}
@@ -321,7 +327,7 @@
                   <div class="image-container position-relative mb-3">
                     <img src="{% static 'img/no_image.png' %}" class="d-block w-100 img-fluid" alt="Imagen no disponible">
                     <button class="play-button position-absolute top-50 start-50 translate-middle">
-                      <ion-icon name="play-circle-outline" style="font-size:48px;color:white;"></ion-icon>
+                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#c71a1d;"></ion-icon>
                     </button>
                   </div>
                 </div>
@@ -330,14 +336,7 @@
               </div>
 
               <!-- CONTROLES DEL CAROUSEL -->
-              <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-              </button>
+ 
 
               <!-- INDICADORES -->
 <div class="carousel-indicators mt-3 indicators-circle">
@@ -488,13 +487,32 @@
           
 
 
+<div class="d-flex gap-2">
 
-       
-          <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
-            {{ cart_product_form }}
-            {% csrf_token %}
-            <input type="submit" class="btn btn-primary btn-ecomm" value="{% trans 'Add to cart' %}">
-          </form>
+      <!-- Botón para ver demo -->
+    <a href="{{ product.demo_url }}" 
+       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
+       target="_blank">
+        <ion-icon name="play-circle-outline"></ion-icon>
+        Ver Demo
+    </a>
+
+    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        {{ cart_product_form.quantity }}   <!-- Campo oculto -->
+        {{ cart_product_form.update }}     <!-- Campo oculto -->
+
+        <button type="submit" class="btn btn-primary btn-ecomm d-flex align-items-center gap-2">
+            <ion-icon name="cart-outline"></ion-icon>
+            {% trans 'ir a Carrito' %}
+        </button>
+    </form>
+
+
+
+</div>
+
+
 
         </div>
       </div>
