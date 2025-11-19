@@ -84,6 +84,13 @@ class Product(models.Model):
 
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE, null=True, blank=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
+    os = models.CharField(max_length=100, null=True, blank=True, verbose_name="Sistema Operativo")
+    gpu = models.CharField(max_length=100, null=True, blank=True, verbose_name="GPU")
+    cpu = models.IntegerField(verbose_name="vCPU", null=True, blank=True)
+    almacenamiento = models.IntegerField(verbose_name="Almacenamiento (GB)", null=True, blank=True)
+    ancho_banda = models.IntegerField(verbose_name="Ancho de Banda (Mbps)", null=True, blank=True)
+    memoria = models.IntegerField(verbose_name="Memoria (GB)", null=True, blank=True)
+
     is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
     is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
     is_intelligent = models.BooleanField(default=True, verbose_name="Tiene inteligencia artificial")
@@ -121,7 +128,36 @@ class Product(models.Model):
     total = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
+    # Costos Automatizacion
+    costo_nodos = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_orquestacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_conectores_terceros = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # Total costos
+    costo_total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # Margen y totales
+    margen_sq_n8n = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_n8n_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+
+    # Costos Agente AI
+    costo_entrenamiento = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_inferencia = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_mantenimiento_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # Total costos
+    costo_total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # Margen y totales
+    margen_sq_ml = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_ml_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+
     # Nube
+
     costo_cpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_bucket_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_balanceador_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
@@ -222,14 +258,16 @@ class Product(models.Model):
         total_arch_val = costo_arch_total + Decimal(self.margen_sq_arch or 0)
         self.total_arch = Money(total_arch_val, 'USD')
         self.total_arch_iva = Money(total_arch_val * (1 + iva_factor), 'USD')
-
-        # 4) Precio final
+        
         total_price_val = sum([
-            self._safe_money(self.total_iva).amount,
-            self._safe_money(self.total_nube_iva).amount,
-            self._safe_money(self.total_arch_iva).amount,
-        ], Decimal('0'))
-        self.price = Money(total_price_val, 'USD')
+            self._safe_money(self.total_iva).amount,          # Desarrollo + Implementación
+            #self._safe_money(self.total_nube_iva).amount,     # Nube
+            #self._safe_money(self.total_arch_iva).amount,     # Arquitectura
+            self._safe_money(self.total_n8n_iva).amount,      # Automatizaciones n8n
+            self._safe_money(self.total_ml_iva).amount,       # IA / ML / Deep Learning
+            
+            ], Decimal('0'))
+            
 
         # 5) Utilidad Bruta (suma de márgenes)
         total_margen = Decimal(self.margen_sq or 0) + Decimal(self.margen_sq_nube or 0) + Decimal(self.margen_sq_arch or 0)

@@ -412,14 +412,38 @@
           <img src="{{ product.image_2.url }}" class="img-fluid mb-3 d-none" alt="Vista adicional">
           {% endif %}
 
-          <div class="d-flex align-items-center mt-3 gap-2">
-            <h4 class="mb-0" style="color:#cb0404"><strong>{{ product.price }}</strong></h4>
-            <h6>Incluido 15 % I.V.A</h6>
-          </div>
+
+    <!-- Precio -->
+    <div class="d-flex align-items-center gap-2">
+        <h4 class="mb-0" style="color:#fff"><strong>{{ product.price }}</strong></h4>
+        <h6 class="mb-0">Incluido 15 % I.V.A</h6>
+    </div>
+
+    <!-- Logo a la derecha -->
+     {% if product.category.slug == 'business analytics' %}
+    <img src="{% static 'img/smartbusinessanalytics.png' %}" 
+         alt="Logo del proveedor" 
+         style="width:290px;">
+      {% endif %}
+      {% if product.category.slug == 'business-media' %}
+      <img src="{% static 'img/smartbusinessmedia.png' %}" 
+         alt="Logo del proveedor" 
+         style="width:290px;">
+       {% endif %}
+       {% if product.category.slug == 'business-law' %}
+      <img src="{% static 'img/SmartBusinessLaw.png' %}" 
+         alt="Logo del proveedor" 
+         style="width:290px;">
+
+       {% endif %}
+
+
+
+
 
           <div class="mt-3">
-            <p><strong>{{ product.name }}</strong></p>
-            <h6>Descripción:</h6>
+            <p style="color:#d4d0d0"><strong>{{ product.name }}</strong></p>
+            <h6>Descripción</h6>
             <p class="mb-0">{{ product.description|linebreaks }}</p>
           </div>
 
@@ -431,10 +455,10 @@
 <dl style="
   display: grid;
   grid-template-columns: 46% 65%;
-  row-gap: 4px;
+  row-gap: 0px;
   column-gap: 6px;
   font-family: 'Segoe UI', sans-serif;
-  font-size: 13px;
+  font-size: 10px;
   margin: 0;
 ">
 
@@ -444,32 +468,43 @@
   
 
 
-  <dt>Latencia</dt>
+  <dt><ion-icon name="rocket-outline"></ion-icon> Latencia</dt>
   <dd>{{ product.latencia_aproximada }} ms</dd>
 
-  <dt>Capacidad Máx</dt>
-  <dd>{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
+  <dt><ion-icon name="people-outline"></ion-icon> Máx-Usuarios</dt>
+  <dd>{{ product.usuarios_simultaneos }} Simultáneos</dd>
 
-  <dt>Balanceo de Carga</dt>
+  <dt><ion-icon name="shuffle-outline"></ion-icon> Balanceo de Carga</dt>
   <dd><ion-icon name="checkmark-outline"></ion-icon></dd>
 
-  <dt>Disponibilidad</dt>
+  <dt><ion-icon name="git-branch-outline"></ion-icon> Disponibilidad</dt>
   <dd>{{ product.software }}</dd>
 
-  <dt>Max-Procesos (I+D)</dt>
-  <dd>{{ product.software }}</dd>
+  <dt><ion-icon name="git-compare-outline"></ion-icon> Max-Procesos(I+D)</dt>
+  <dd>{{ product.numero_procesos }}</dd>
 
+  <dt><ion-icon name="logo-tux"></ion-icon> Sistema Operativo</dt>
+  <dd>{{ product.os }}</dd>
 
-
-  <dt><ion-icon name="hardware-chip-outline"></ion-icon>CPU</dt>
-  <dd>{{ product.latencia_aproximada }} Core</dd>
+  <dt><ion-icon name="hardware-chip-outline"></ion-icon> vCPU(AMD/INTEL)</dt>
+  <dd>{{ product.cpu }} Core</dd>
+{% if product.gpu  %}
+   <dt><ion-icon name="hardware-chip-outline"></ion-icon> GPU(NVIDIA)</dt>
+  <dd>{{ product.gpu }} Core</dd>
+{% else %}
+{% endif %}
 
   <dt><ion-icon name="layers-outline"></ion-icon> Memoria RAM</dt>
-  <dd>{{ product.usuarios_simultaneos }}  MB</dd>
+  <dd>{{ product.memoria  }}  MB</dd>
 
   <dt> <ion-icon name="server-outline"></ion-icon> Almacenamiento</dt>
-  <dd>{{ product.usuarios_simultaneos }} GB</dd>
+  <dd>{{ product.almacenamiento }} GB</dd>
 
+   <dt> <ion-icon name="timer-outline"></ion-icon> Ancho de banda</dt>
+  <dd>{{ product.ancho_banda }} Mbps </dd>
+
+
+ 
 
 
 
@@ -481,11 +516,24 @@
   <dt><ion-icon name="code-slash-outline"></ion-icon> Desarrollo (I+D)</dt>
   <dd>{{ product.total_nube_iva }} </dd>
 
+  {% if product.is_automatitation %}
+  <dt><ion-icon name="terminal-outline"></ion-icon> Automatización(+A)</dt>
+  <dd>{{ product.total_nube_iva }} </dd>
+  {% else %}
+  {% endif %}
+
+  {% if product.is_intelligent %}
+   <dt><ion-icon name="chatbox-ellipses-outline"></ion-icon> Agente (+IA)</dt>
+  <dd>{{ product.total_nube_iva }} </dd>
+  {% else %}
+  {% endif %}
+
+
   <dt><ion-icon name="cube-outline"></ion-icon> Infraestructura</dt>
   <dd>{{ product.total_nube_iva }} Mensuales</dd>
 
   <dt><ion-icon name="headset-outline"></ion-icon> Soporte</dt>
-  <dd>{{ product.total_nube_iva }} Mensuales</dd>
+  <dd>{{ product.total_arch_iva }} Mensuales</dd>
 
 </dl>
 
@@ -499,6 +547,13 @@
 <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Garantias</h4>
 <p> ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR , NIST SP 800-53, OWASP Top 10,ISO/IEC 20000.</p>
 
+
+  <a href="https://ec.smartquail.io" class="text-blue-600 hover:underline">
+    <img src="{% static 'assets/images/powered.png' %}" alt="Logo del proveedor" style="width: 250px;" />
+  </a>
+<p style="font-size: 10px; line-height: 0.8; margin-top: 0; margin-bottom: 0;">
+  <strong> 2026 ® Todos los Derechos Reservados, Ecuador</strong>
+</p>
 
 
 
@@ -533,136 +588,179 @@
     <!-- TAB: Infraestructura -->
     <div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="tab-infraestructura">
       <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-          <h5 class="mt-3"><ion-icon name="hardware-chip-outline"></ion-icon> Infraestructura en la Nube, Seguridad y Rendimiento</h5>
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3">
+    <ion-icon name="hardware-chip-outline"></ion-icon> 
+    Infraestructura en la Nube, Seguridad y Rendimiento
+  </h5>
+
   <p>
-    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para todos nuestros clientes. Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización.
+    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para 
+    <strong>{{ product.name }}</strong>.  
+    Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización, con disponibilidad:
+    <strong>{{ product.get_software_display }}</strong>.
   </p>
+
   <ul>
+
     <li>
       <strong>DNS privado:</strong>
       Proporcionamos un sistema de nombres de dominio privado para cada cliente, asegurando una identificación única y segura de los entornos de operación.
     </li>
+
     <li>
       <strong>Certificación SSL con autogeneración:</strong>
       Todos los entornos se entregan bajo una conexión segura (HTTPS), con certificados SSL generados automáticamente y actualizados periódicamente para garantizar la protección de los datos transmitidos.
     </li>
+
     <li>
       <strong>Subdominio personalizado incluido:</strong>
-      Asignamos una URL con el siguiente formato: <code>[NombreDeOrganizacion].smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
+      Asignamos una URL con el siguiente formato:  
+      <code>{{ product.slug }}.smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
     </li>
+
     <li>
       <strong>Redirección a dominio privado:</strong>
       Si el cliente prefiere utilizar su propio dominio (por ejemplo, <code>midominio.com</code>), ofrecemos la posibilidad de redirección desde nuestra infraestructura hacia el dominio deseado. Este servicio conlleva un costo adicional, determinado según el nombre del dominio y la configuración requerida.
     </li>
+
     <li>
       <strong>Almacenamiento:</strong>
-      Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio. El almacenamiento inicial para cada cliente incluye:
+      Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio.  
+      El almacenamiento asignado para este producto es:
+      <strong>{{ product.almacenamiento }} GB</strong>.
       <ul>
-        <li>Almacenamiento SSD de alta velocidad de hasta 500GB por defecto.</li>
-        <li>Opciones de expansión de almacenamiento hasta 5TB según la carga de datos.</li>
+        <li>Almacenamiento SSD de alta velocidad configurado: {{ product.almacenamiento }} GB.</li>
+        <li>Opciones de expansión disponibles hasta 5TB según la carga de datos.</li>
       </ul>
     </li>
+
     <li>
       <strong>Memoria (RAM):</strong>
-      La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones. Los parámetros incluyen:
+      La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones.  
+      RAM asignada al cliente:
+      <strong>{{ product.memoria }} GB</strong>.
       <ul>
-        <li>4GB de RAM por instancia básica.</li>
-        <li>Hasta 32GB de RAM escalable según los requerimientos del cliente y los módulos activados en el ERP.</li>
+        <li>RAM base: {{ product.memoria }} GB.</li>
+        <li>Escalable según requerimientos del cliente y módulos activos.</li>
       </ul>
     </li>
+
     <li>
       <strong>vCPU (Unidad Central de Procesamiento Virtual):</strong>
-      Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas, brindando una infraestructura confiable y eficiente:
+      Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas.  
+      Configuración asignada:
+      <strong>{{ product.cpu }} vCPU</strong>.
       <ul>
-        <li>2 vCPU para la configuración básica.</li>
-        <li>Escalabilidad hasta 16 vCPU dependiendo de la carga de trabajo y el número de usuarios concurrentes.</li>
+        <li>Configuración actual: {{ product.cpu }} vCPU.</li>
+        <li>Escalabilidad según carga de trabajo y usuarios concurrentes.</li>
       </ul>
     </li>
+
     <li>
       <strong>Nivel de latencia y rendimiento garantizado:</strong>
-      Nuestra infraestructura está diseñada para asegurar una latencia mínima, garantizando una experiencia de usuario fluida y sin interrupciones. Con este fin, usamos los siguientes componentes:
+      Nivel de latencia contratado:
+      <strong>{{ product.get_latencia_aproximada_display }}</strong>.
       <ul>
-        <li>Conexiones dedicadas de alta velocidad entre nuestros servidores y el cliente final.</li>
-        <li>Balanceo de carga inteligente para distribuir las solicitudes de manera eficiente.</li>
-        <li>Redundancia en múltiples centros de datos para garantizar alta disponibilidad.</li>
+        <li>Usuarios simultáneos estimados: {{ product.get_usuarios_simultaneos_display }}</li>
+        <li>Conexiones dedicadas de alta velocidad.</li>
+        <li>Balanceo de carga inteligente.</li>
+        <li>Redundancia en múltiples centros de datos.</li>
       </ul>
       Además, los clientes pueden contratar niveles de latencia personalizados según sus necesidades, asegurando tiempos de respuesta optimizados para aplicaciones críticas.
     </li>
+
     <li>
-      <strong>Costos de Infraestructura:</strong>
-      Durante el primer mes de implementación y desarrollo, los **costos de infraestructura** (almacenamiento, vCPU, memoria, etc.) están **cubiertos** sin costo adicional. Este período inicial cubre la configuración del entorno, pruebas iniciales y la integración con el sistema.
-    </li>
-    <li>
-      A partir del **segundo mes**, el cliente deberá abonar una cantidad mensual específica que corresponde al uso de la infraestructura basada en los recursos consumidos. Esta tarifa mensual se calcula teniendo en cuenta factores como:
+      <strong>Costos de Infraestructura:</strong>  
+      Durante el primer mes de implementación y desarrollo, los <strong>costos de infraestructura</strong> (almacenamiento, vCPU, memoria, etc.) están <strong>cubiertos</strong> sin costo adicional.
+      <br><br>
+      <strong>A partir del segundo mes:</strong>
       <ul>
-        <li>La cantidad de almacenamiento utilizado.</li>
-        <li>El número de vCPU y memoria asignada a la infraestructura.</li>
-        <li>El tráfico generado por el uso del ERP.</li>
-        <li>Los niveles de latencia contratados.</li>
+        <li>CPU mensual: {{ product.costo_cpu_mes }}</li>
+        <li>Almacenamiento mensual: {{ product.costo_bucket_mes }}</li>
+        <li>Balanceador: {{ product.costo_balanceador_mes }}</li>
+        <li><strong>Total infraestructura:</strong> {{ product.costo_total_nube }}</li>
+        <li><strong>Total con IVA:</strong> {{ product.total_nube_iva }}</li>
       </ul>
-      Los costos de infraestructura serán revisados y ajustados según el uso real del sistema y los requisitos del cliente. Este modelo flexible permite a las organizaciones pagar solo por lo que utilizan, con la opción de escalar según sea necesario.
     </li>
+
   </ul>
+
   <p class="mb-1">
-    Esta arquitectura de infraestructura garantiza que cada instancia del ERP esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
+    Esta arquitectura de infraestructura garantiza que cada instancia del ERP, incluyendo 
+    <strong>{{ product.name }}</strong>, esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
   </p>
 
-        </div>
+</div>
+
       </div>
     </div>
 {% if product.is_reaserch %}
     <!-- TAB: Investigación -->
     <div class="tab-pane fade" id="investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
       <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-              <h5 class="mt-3"> (I+D) Investigación & Desarollo</h5>
-    <p>
-      Lo que distingue a <strong>SmartBusinessAnalytics®</strong> es su enfoque centrado en la <strong>investigación y desarrollo (I+D)</strong> aplicado directamente a los procesos empresariales, permitiendo una evolución constante en tiempo real.
-    </p>
-    <p>
-      Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
-    </p>
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3"> (I+D) Investigación & Desarrollo</h5>
+  
+  <p>
+    Lo que distingue a <strong>{{ product.name }}</strong> es su enfoque centrado en la <strong>investigación y desarrollo (I+D)</strong> aplicado directamente a los procesos empresariales, permitiendo una evolución constante en tiempo real.
+  </p>
+  
+  <p>
+    Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
+  </p>
 
-    <h5 class="mt-4">Metodología de implementación con I+D:</h5>
-    <ul>
-      <li>
-        <strong>1. Entrevistas presenciales o virtuales con Project Managers:</strong>
-        Iniciamos con sesiones de levantamiento de información donde identificamos los procesos clave de la organización y sus puntos críticos.
-      </li>
-      <li>
-        <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
-        Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.
-      </li>
-      <li>
-        <strong>3. Feedback inicial del cliente:</strong>
-        El cliente valida la funcionalidad desarrollada en un entorno controlado, brindando retroalimentación directa sobre el cumplimiento de requerimientos.
-      </li>
-      <li>
-        <strong>4. Adaptación y mejora del desarrollo:</strong>
-        Realizamos ajustes ágiles sobre los módulos para afinar su comportamiento en base a los comentarios recibidos.
-      </li>
-      <li>
-        <strong>5. Segundo feedback de validación final:</strong>
-        Confirmamos que todos los procesos se ajustan a las expectativas del cliente y se encuentran listos para pruebas avanzadas.
-      </li>
-      <li>
-        <strong>6. Entrega al departamento de QA (Quality Assurance):</strong>
-        El sistema es evaluado por nuestros especialistas en pruebas de calidad, seguridad y rendimiento.
-      </li>
-      <li>
-        <strong>7. Feedback final del cliente sobre desempeño:</strong>
-        Validamos junto al cliente el rendimiento del aplicativo, el sistema de backups y la resiliencia ante fallos críticos.
-      </li>
-      <li>
-        <strong>8. Entrega de métricas de recursos contratados:</strong>
-        Presentamos un informe detallado del uso de recursos en la nube (CPU, almacenamiento, memoria, etc.).
-      </li>
-      <li>
-        <strong>9. Despliegue final en entorno de producción:</strong>
-        El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.
-      </li>
-        </div>
+  <h5 class="mt-4">Metodología de implementación con I+D:</h5>
+  <ul>
+    <li>
+      <strong>1. Entrevistas presenciales o virtuales con Project Managers:</strong>
+      Iniciamos con sesiones de levantamiento de información donde identificamos los procesos clave de la organización y sus puntos críticos.
+    </li>
+    <li>
+      <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
+      Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.  
+      <br>
+      Tiempo estimado de desarrollo: <strong>{{ product.tiempo_desarrollo }} horas</strong>, con costo por hora: <strong>{{ product.costo_hora_desarrollo }}</strong>.
+    </li>
+    <li>
+      <strong>3. Feedback inicial del cliente:</strong>
+      El cliente valida la funcionalidad desarrollada en un entorno controlado, brindando retroalimentación directa sobre el cumplimiento de requerimientos.
+    </li>
+    <li>
+      <strong>4. Adaptación y mejora del desarrollo:</strong>
+      Realizamos ajustes ágiles sobre los módulos para afinar su comportamiento en base a los comentarios recibidos.
+    </li>
+    <li>
+      <strong>5. Segundo feedback de validación final:</strong>
+      Confirmamos que todos los procesos se ajustan a las expectativas del cliente y se encuentran listos para pruebas avanzadas.
+    </li>
+    <li>
+      <strong>6. Entrega al departamento de QA (Quality Assurance):</strong>
+      El sistema es evaluado por nuestros especialistas en pruebas de calidad, seguridad y rendimiento.
+    </li>
+    <li>
+      <strong>7. Feedback final del cliente sobre desempeño:</strong>
+      Validamos junto al cliente el rendimiento del aplicativo, el sistema de backups y la resiliencia ante fallos críticos.
+    </li>
+    <li>
+      <strong>8. Entrega de métricas de recursos contratados:</strong>
+      Presentamos un informe detallado del uso de recursos en la nube:
+      <ul>
+        <li>CPU: <strong>{{ product.cpu }} vCPU</strong></li>
+        <li>Memoria: <strong>{{ product.memoria }} GB</strong></li>
+        <li>Almacenamiento: <strong>{{ product.almacenamiento }} GB</strong></li>
+        <li>Usuarios simultáneos: <strong>{{ product.get_usuarios_simultaneos_display }}</strong></li>
+        <li>Latencia aproximada: <strong>{{ product.get_latencia_aproximada_display }}</strong></li>
+      </ul>
+    </li>
+    <li>
+      <strong>9. Despliegue final en entorno de producción:</strong>
+      El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.  
+      Total estimado de desarrollo + implementación: <strong>{{ product.total }}</strong>, Total con IVA: <strong>{{ product.total_iva }}</strong>.
+    </li>
+  </ul>
+</div>
+
       </div>
     </div>
 {% else %}
@@ -672,8 +770,9 @@
     <!-- TAB: Automatización -->
     <div class="tab-pane fade" id="automatizacion" role="tabpanel" aria-labelledby="tab-automatizacion">
       <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-            <h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
+  
   <p>
     En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
   </p>
@@ -685,12 +784,29 @@
     </li>
     <li>
       <strong>Automatización de procesos internos:</strong>
-      Integramos automatismos dentro del ERP para que ciertas acciones se ejecuten automáticamente cuando ocurren eventos específicos. Por ejemplo:
+      Integramos automatismos dentro del ERP para que ciertas acciones se ejecuten automáticamente según los módulos contratados. Por ejemplo:
       <ul>
-        <li>Actualización automática de inventarios tras una venta.</li>
-        <li>Notificaciones automáticas ante fechas de vencimiento o pagos.</li>
-        <li>Generación automática de reportes periódicos.</li>
+        {% if product.automatizacion %}
+        <li>{{ product.get_automatizacion_display }}</li>
+        {% else %}
+        <li>No hay módulos de automatización activos.</li>
+        {% endif %}
       </ul>
+      <br>
+      <!-- Aquí se explica que la automatización se realiza mediante una arquitectura n8n -->
+      <p>
+        Además, nuestro sistema cuenta con una <strong>arquitectura de automatización e integración mediante terceros (n8n)</strong>, que permite:
+        <ul>
+          <li>Conectar aplicaciones y servicios externos de forma automatizada.</li>
+          <li>Crear flujos de trabajo sin intervención manual, basados en eventos y triggers.</li>
+          <li>Reducir errores humanos y mejorar la eficiencia operativa.</li>
+          <li>Escalar la automatización según el crecimiento de la empresa.</li>
+        </ul>
+      </p>
+      <p>
+        Costo total de automatización: <strong>{{ product.total_n8n }}</strong><br>
+        Total con IVA: <strong>{{ product.total_n8n_iva }}</strong>.
+      </p>
     </li>
     <li>
       <strong>Integración con APIs externas:</strong>
@@ -713,7 +829,10 @@
   <p class="mb-1">
     Nuestro objetivo es que cada empresa que implemente SmartBusinessMedia® obtenga no solo un sistema de gestión, sino una plataforma inteligente que trabaje en segundo plano, automatizando decisiones, respuestas y tareas clave de manera confiable y transparente.
   </p>
-        </div>
+</div>
+
+
+
       </div>
     </div>
 {% else %}
