@@ -10,43 +10,84 @@
 
 @page {
   size: A4;
-  margin: 2cm 0.5cm 2cm 0.5cm; /* márgenes simétricos */
+  margin: 2cm 0.5cm 2cm 0.5cm;
 }
-
-
-/* ============================= */
-/*     SECCIÓN DE TÍTULOS        */
-/* ============================= */
-.titulos {
-    line-height: 1;      /* interlineado simple */
-    font-weight: bold;    /* todo en negrita */
-    margin-bottom: 10px;  /* espacio inferior entre títulos */
-}
-
-.titulos h1, 
-.titulos h2, 
-.titulos h3, 
-.titulos p {
-    line-height: 1;       /* asegura interlineado simple */
-    font-weight: bold;    /* negrita */
-    margin: 2px 0;        /* margen vertical reducido */
-    font-size: 12pt;    /* tamaño de fuente uniforme */
-}
-
 
 /* ============================= */
 /*          BODY GENERAL          */
 /* ============================= */
 body {
-  font-family: "soon";
-  font-size: 10pt;
-  margin: 0;
-  padding: 0;
+    font-family: "soon";
+    font-size: 8pt; /* reducido para compactar */
+    margin: 0;
+    padding: 0;
 }
 
+body > div {
+    margin: 0 auto;
+    padding: 0.5cm 10mm 0.5cm 10mm;
+}
 
+/* ============================= */
+/*     TÍTULOS Y LOGO            */
+/* ============================= */
+img {
+    display: block;
+    margin-bottom: 1px; /* espacio mínimo entre logo y título */
+}
 
-/* HEADER VISUAL — SOLO PRIMERA PÁGINA */
+.titulos h1,
+.titulos h2,
+.titulos h3,
+.titulos p {
+    line-height: 0.95; /* interlineado compacto */
+    font-weight: bold;
+    margin: 1px 0;
+    font-size: 10.5pt; /* ligeramente reducido */
+}
+
+/* ============================= */
+/* PREÁMBULO Y CLÁUSULAS          */
+/* ============================= */
+.preambulo {
+    text-align: justify;
+    font-size: 8.5pt; /* reducido */
+    line-height: 4pt; /* compacto */
+    margin: 1mm 0 1mm 0;
+    padding: 0 2mm;
+}
+
+.preambulo h2 {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 0.5mm;
+    text-align: left;
+}
+
+.clausulas {
+    text-align: justify;
+    font-size: 8.5pt;
+    line-height: 9pt; /* compacto */
+    margin: 1mm 0;
+    padding: 0 1mm;
+}
+
+.clausulas h3 {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 1mm;
+    margin-bottom: 1mm;
+}
+
+.clausulas p {
+    text-indent: 4mm;
+    margin-top: 1mm;
+    margin-bottom: 1mm;
+}
+
+/* ============================= */
+/* HEADER / FOOTER               */
+/* ============================= */
 .header-first-page {
   position: fixed;
   top: 0;
@@ -57,181 +98,70 @@ body {
   background: #f3f3f3;
   border-bottom: 1px solid #ccc;
   font-family: "soon";
-  font-size: 7.5pt;
-  line-height: 1.2;
+  font-size: 7pt;
+  line-height: 1.1;
 }
 
-/* HEADER INVISIBLE PARA EVITAR QUE EL CONTENIDO SUBA EN LAS DEMÁS */
 .header-other-pages {
-  visibility: hidden;   /* no se ve */
-  height: 0.5cm;        /* pero ocupa espacio */
+  visibility: hidden;
+  height: 0.5cm;
 }
 
-/* IMPRESIÓN */
-@media print {
-
-  /* Ocultar el header visual después de la primera página */
-  .header-first-page {
-    display: block;
-  }
-
-  /* El truco: Chrome solo muestra el primero */
-  .header-first-page + * {
-    margin-top: 1.4cm !important;
-  }
-
-  @page {
-    margin-top: 2cm;
-  }
-}
-
-
-
-/* ============================= */
-/*        FOOTER DELGADO         */
-/* ============================= */
 footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 1cm;               /* footer súper delgado */
+  height: 0.8cm;
   padding: 1mm 12mm;
   background: #f3f3f3;
   border-top: 1px solid #ccc;
   text-align: center;
-  font-size: 7.5pt;
-  line-height: 1.2;
+  font-size: 7pt;
+  line-height: 1;
   color: #333;
-}
-
-/* ============================= */
-/*      CONTENIDO PRINCIPAL      */
-/* ============================= */
-body > div {
-  margin: 0 auto;
-  padding: 1.5cm 12mm 1.5cm 12mm; 
 }
 
 /* ----------------------------- */
 hr {
-  border-top: 2px dashed gray;
+  border-top: 1px dashed gray;
   border-bottom: none;
-  margin: 4mm 0;
+  margin: 3mm 0;
 }
 
 p {
   font-family: serif;
-  font-size: 9pt;
-  line-height: 10pt;
-  margin-top: 2mm;
-}
-
-/* PREÁMBULO */
-.preambulo {
-  text-align: justify;
-  font-size: 10pt;
-  line-height: 12pt;
-  margin: 3mm 0;
-  padding: 0 3mm;
-}
-
-.preambulo h2 {
-  font-size: 10pt;
-  font-weight: bold;
-  margin-bottom: 3mm;
-  text-align: left;
-}
-
-/* BLOQUE DE CLÁUSULAS */
-.clausulas {
-  text-align: justify;
-  font-size: 10pt;
-  line-height: 10pt;
-  margin: 5mm 0;
-  padding: 0 3mm;
-}
-
-.clausulas h3 {
-  font-size: 10pt;
-  font-weight: bold;
-  margin-top: 3mm;
-  margin-bottom: 3mm;
-}
-
-.clausulas p {
-  text-indent: 5mm;
-}
-
-/* FORMULARIOS */
-label {
-  display: block;
-  margin-bottom: 2mm;
-  font-size: 10pt;
-}
-
-legend {
-  font-family: "pacifico", serif;
-  font-size: 14pt;
-  margin-bottom: 5mm;
-}
-
-input, textarea {
-  border: none;
-  display: block;
-  width: 100%;
-}
-
-input::before, textarea::before, textarea::after {
-  content: leader(dotted);
-  display: block;
-}
-
-footer p {
-  text-align: center;
-  font-size: 7.5pt; /* más pequeño */
-  line-height: 10pt;
+  font-size: 8.5pt;
+  line-height: 9pt;
+  margin-top: 1mm;
+  margin-bottom: 1mm;
 }
 
 /* ============================= */
-/*       IMPRESIÓN / PRINT       */
+/* IMPRESIÓN / PRINT              */
 /* ============================= */
 @media print {
-  input[type="submit"] {
-    display: none;
-  }
+  input[type="submit"] { display: none; }
 
-  /* Header solo en la primera página */
-  header {
-    display: block;
-  }
-
-  /* Evita que el contenido choque con header y footer */
   body > div {
-    padding-top: 1.5cm;  /* espacio para header */
-    padding-bottom: 1.2cm; /* espacio para footer */
+    padding-top: 0.5cm;
+    padding-bottom: 1cm;
   }
 }
 
-
 /* ============================= */
-/*     NUMERACIÓN DE PÁGINA      */
+/* NUMERACIÓN DE PÁGINA          */
 /* ============================= */
-@page {
-  counter-increment: page;
-}
+@page { counter-increment: page; }
 
 .page-number {
   position: fixed;
-  top: 2mm;           /* margen superior */
-  right: 2mm;         /* margen derecho */
-  font-size: 8pt;
+  top: 1.5mm;
+  right: 0.5mm;
+  font-size: 7.5pt;
   font-family: "soon";
 }
 
-/* Mostrar número de página en impresión */
 @media print {
-  .page-number::after {
-    content: "Página " counter(page);
-  }
+  .page-number::after { content: "Página " counter(page); }
 }

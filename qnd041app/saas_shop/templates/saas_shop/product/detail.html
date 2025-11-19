@@ -842,8 +842,9 @@
     <!-- TAB: Inteligencia Artificial -->
     <div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel" aria-labelledby="tab-inteligencia">
       <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-          <h5 class="mt-3">(+AI)Inteligencia Artificial Aplicada al ERP</h5>
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada al ERP</h5>
+
   <p>
     SmartBusinessMedia® incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
   </p>
@@ -851,16 +852,19 @@
   <ul>
     <li>
       <strong>Modelos de ML aplicados a los procesos:</strong>
-      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
+      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).  
+      <p>
+        Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
+      </p>
     </li>
     <li>
       <strong>Predicción en tiempo real:</strong>
       Gracias al análisis constante de datos en vivo, el sistema puede anticiparse a eventos como:
       <ul>
-        <li>Ruptura de stock</li>
-        <li>Variaciones de demanda</li>
-        <li>Riesgos financieros</li>
-        <li>Alertas de comportamiento inusual</li>
+        {% if product.prediccion_stock %}<li>Ruptura de stock</li>{% endif %}
+        {% if product.prediccion_demanda %}<li>Variaciones de demanda</li>{% endif %}
+        {% if product.prediccion_financiera %}<li>Riesgos financieros</li>{% endif %}
+        {% if product.alertas_comportamiento %}<li>Alertas de comportamiento inusual</li>{% endif %}
       </ul>
     </li>
     <li>
@@ -879,14 +883,28 @@
     </li>
     <li>
       <strong>Análisis predictivo + toma de decisiones:</strong>
-      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
+      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.  
+      <p>
+        Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del ERP. Esto garantiza:
+        <ul>
+          <li>Automatización de tareas basadas en análisis de IA.</li>
+          <li>Integración fluida con APIs internas y externas.</li>
+          <li>Escalabilidad y personalización según las necesidades del cliente.</li>
+        </ul>
+      </p>
+    </li>
+    <li>
+      <strong>Costos de IA:</strong>  
+      Costo del módulo IA: <strong>{{ product.total_ml }}</strong><br>
+      Total con IVA: <strong>{{ product.total_ml_iva }}</strong>.
     </li>
   </ul>
 
   <p class="mb-1">
     El objetivo de nuestra IA es que las organizaciones pasen de una gestión reactiva a una <strong>gestión proactiva basada en datos reales</strong>, facilitando decisiones inteligentes en tiempo real con un nivel de precisión sin precedentes.
   </p>
-        </div>
+</div>
+
       </div>
     </div>
 {% else %}
@@ -895,8 +913,9 @@
     <!-- TAB: Monitoreo -->
     <div class="tab-pane fade" id="monitoreo" role="tabpanel" aria-labelledby="tab-monitoreo">
       <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-         <h5 class="mt-3">  <ion-icon name="bar-chart-outline"></ion-icon> Monitoreo en Tiempo Real del Sistema ERP</h5>
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3"> <ion-icon name="bar-chart-outline"></ion-icon> Monitoreo en Tiempo Real del Sistema ERP</h5>
+
   <p>
     SmartBusinessMedia® cuenta con un módulo avanzado de <strong>monitoreo en tiempo real</strong> que permite supervisar cada evento crítico, tanto a nivel de infraestructura como de operaciones dentro del sistema de información.
   </p>
@@ -904,36 +923,52 @@
   <ul>
     <li>
       <strong>Monitoreo de Infraestructura:</strong> 
-      Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.
+      Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.  
+      <p>
+        Recursos monitoreados: CPU {{ product.vcpu }}, RAM {{ product.ram }} GB, Almacenamiento {{ product.almacenamiento }} GB.
+      </p>
     </li>
     <li>
       <strong>Monitoreo de eventos transaccionales:</strong> 
-      Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.
+      Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.  
+      <p>
+        Logs activados: {% if product.monitoring_logs %}Sí{% else %}No{% endif %}
+      </p>
     </li>
     <li>
       <strong>Alertas automatizadas:</strong> 
-      El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.
+      El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.  
+      <p>
+        Tipos de alertas activas: {% for alerta in product.alertas %}{{ alerta }}{% if not forloop.last %}, {% endif %}{% empty %}No hay alertas configuradas{% endfor %}.
+      </p>
     </li>
     <li>
       <strong>Analítica operacional profunda:</strong> 
       Se generan dashboards e informes automáticos con <strong>métricas clave de desempeño</strong>, como:
       <ul>
-        <li>Frecuencia de uso por módulo</li>
-        <li>Volumen de transacciones por usuario o departamento</li>
-        <li>Tiempos de respuesta y eficiencia del sistema</li>
-        <li>Eventos críticos o fallas detectadas</li>
+        {% if product.metricas %}
+          {% for metrica in product.metricas %}
+            <li>{{ metrica }}</li>
+          {% endfor %}
+        {% else %}
+          <li>No hay métricas activas configuradas.</li>
+        {% endif %}
       </ul>
     </li>
     <li>
       <strong>Auditoría y cumplimiento:</strong> 
-      Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.
+      Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.  
+      <p>
+        Nivel de auditoría activado: {{ product.audit_level|default:"Básico" }}.
+      </p>
     </li>
   </ul>
 
   <p class="mb-1">
     Gracias a este sistema de monitoreo, las empresas pueden actuar de forma proactiva ante riesgos operativos, validar el cumplimiento de sus políticas internas y garantizar un control total del flujo de información en su ERP.
   </p>
-        </div>
+</div>
+
       </div>
     </div>
 
