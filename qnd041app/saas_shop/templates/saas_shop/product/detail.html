@@ -90,6 +90,23 @@
 }
 
 
+/* Indicadores circulares Bootstrap */
+.indicators-circle button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #bbb;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.indicators-circle button.active {
+  background-color: #cb0404;
+  border-color:#cb0404 ;
+  transform: scale(0.5);
+}
+
 
 
 
@@ -323,20 +340,23 @@
               </button>
 
               <!-- INDICADORES -->
-              <div class="carousel-indicators mt-3">
-                {% if product.image %}
-                  <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Imagen 1"></button>
-                {% endif %}
-                {% if product.image_2 %}
-                  <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Imagen 2"></button>
-                {% endif %}
-                {% if product.image_3 %}
-                  <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Imagen 3"></button>
-                {% endif %}
-                {% if not product.image and not product.image_2 and not product.image_3 %}
-                  <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-label="Sin imagen"></button>
-                {% endif %}
-              </div>
+<div class="carousel-indicators mt-3 indicators-circle">
+  {% if product.image %}
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Imagen 1"></button>
+  {% endif %}
+  {% if product.image_2 %}
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Imagen 2"></button>
+  {% endif %}
+  {% if product.image_3 %}
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Imagen 3"></button>
+  {% endif %}
+  {% if not product.image and not product.image_2 and not product.image_3 %}
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-label="Sin imagen"></button>
+  {% endif %}
+</div>
+
+
+
             </div>
             <!-- FIN DEL CAROUSEL -->
 
@@ -368,37 +388,65 @@
 
   <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
   <div class="col-md-6" style="flex: 1; background-color: #444040; color: #ffffff; border-radius: 8px; padding: 20px;">
-    <dl style="display: grid; grid-template-columns: 35% 65%; row-gap: 6px; column-gap: 8px; font-family: 'Segoe UI', sans-serif; font-size: 11px; margin: 0;">
-      <dt>Latencia</dt>
-      <dd>{{ product.latencia_aproximada }} Transacciones/ms</dd>
+<dl style="
+  display: grid;
+  grid-template-columns: 46% 65%;
+  row-gap: 4px;
+  column-gap: 6px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  margin: 0;
+">
 
-      <dt>Capacidad Máx</dt>
-      <dd>{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
+  <!-- ============================= -->
+  <!--     CARACTERÍSTICAS DEL SISTEMA -->
+  <!-- ============================= -->
+  
 
-      <dt>Balanceo de Carga</dt>
-      <dd><ion-icon name="checkmark-outline"></ion-icon></dd>
 
-      <dt>Disponibilidad</dt>
-      <dd>{{ product.software }}</dd>
+  <dt>Latencia</dt>
+  <dd>{{ product.latencia_aproximada }} ms</dd>
 
-      <dt>Infraestructura</dt>
-      <dd>{{ product.total_nube_iva }} Mensuales</dd>
+  <dt>Capacidad Máx</dt>
+  <dd>{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
 
-      <dt>Latencia</dt>
-      <dd>{{ product.latencia_aproximada }} Transacciones/ms</dd>
+  <dt>Balanceo de Carga</dt>
+  <dd><ion-icon name="checkmark-outline"></ion-icon></dd>
 
-      <dt>Capacidad Máx</dt>
-      <dd>{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
+  <dt>Disponibilidad</dt>
+  <dd>{{ product.software }}</dd>
 
-      <dt>Balanceo de Carga</dt>
-      <dd><ion-icon name="checkmark-outline"></ion-icon></dd>
+  <dt>Max-Procesos (I+D)</dt>
+  <dd>{{ product.software }}</dd>
 
-      <dt>Disponibilidad</dt>
-      <dd>{{ product.software }}</dd>
+  <dt>CPU</dt>
+  <dd>{{ product.latencia_aproximada }} Core</dd>
 
-      <dt>Infraestructura</dt>
-      <dd>{{ product.total_nube_iva }} Mensuales</dd>
-    </dl>
+  <dt>Memoria RAM</dt>
+  <dd>{{ product.usuarios_simultaneos }}  MB</dd>
+
+  <dt>Almacenamiento SSD</dt>
+  <dd>{{ product.usuarios_simultaneos }} GB</dd>
+
+
+
+
+
+  <!-- ============================= -->
+  <!--          COSTOS -->
+  <!-- ============================= -->
+
+  <dt>Desarrollo (I+D)</dt>
+  <dd>{{ product.total_nube_iva }} </dd>
+
+  <dt>Infraestructura</dt>
+  <dd>{{ product.total_nube_iva }} Mensuales</dd>
+
+  <dt>Soporte</dt>
+  <dd>{{ product.total_nube_iva }} Mensuales</dd>
+
+</dl>
+
   </div>
 
   <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
