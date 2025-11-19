@@ -109,6 +109,22 @@
 
 
 
+@media (max-width: 992px) {
+  .row.mt-4 {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .col-md-6 {
+    flex: 1 1 100%;
+  }
+  dl {
+    grid-template-columns: 40% 60% !important;
+    font-size: 13px;
+  }
+}
+
+
+
 
 </style>
 
@@ -357,6 +373,31 @@
 
 
             </div>
+
+            <div class="d-flex gap-2">
+
+      <!-- Botón para ver demo -->
+    <a href="{{ product.demo_url }}" 
+       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
+       target="_blank">
+        <ion-icon name="play-circle-outline"></ion-icon>
+        Ver Demo
+    </a>
+
+    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        {{ cart_product_form.quantity }}   <!-- Campo oculto -->
+        {{ cart_product_form.update }}     <!-- Campo oculto -->
+
+        <button type="submit" class="btn btn-primary btn-ecomm d-flex align-items-center gap-2">
+            <ion-icon name="cart-outline"></ion-icon>
+            {% trans 'ir a Carrito' %}
+        </button>
+    </form>
+
+
+
+</div>
             <!-- FIN DEL CAROUSEL -->
 
           </div>
@@ -418,13 +459,15 @@
   <dt>Max-Procesos (I+D)</dt>
   <dd>{{ product.software }}</dd>
 
-  <dt>CPU</dt>
+
+
+  <dt><ion-icon name="hardware-chip-outline"></ion-icon>CPU</dt>
   <dd>{{ product.latencia_aproximada }} Core</dd>
 
-  <dt>Memoria RAM</dt>
+  <dt><ion-icon name="layers-outline"></ion-icon> Memoria RAM</dt>
   <dd>{{ product.usuarios_simultaneos }}  MB</dd>
 
-  <dt>Almacenamiento SSD</dt>
+  <dt> <ion-icon name="server-outline"></ion-icon> Almacenamiento</dt>
   <dd>{{ product.usuarios_simultaneos }} GB</dd>
 
 
@@ -435,82 +478,44 @@
   <!--          COSTOS -->
   <!-- ============================= -->
 
-  <dt>Desarrollo (I+D)</dt>
+  <dt><ion-icon name="code-slash-outline"></ion-icon> Desarrollo (I+D)</dt>
   <dd>{{ product.total_nube_iva }} </dd>
 
-  <dt>Infraestructura</dt>
+  <dt><ion-icon name="cube-outline"></ion-icon> Infraestructura</dt>
   <dd>{{ product.total_nube_iva }} Mensuales</dd>
 
-  <dt>Soporte</dt>
+  <dt><ion-icon name="headset-outline"></ion-icon> Soporte</dt>
   <dd>{{ product.total_nube_iva }} Mensuales</dd>
 
 </dl>
 
   </div>
 
+  
+
   <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
   <div class="col-md-6" style="flex: 1;">
-    <div class="card h-100" style="background-color: #444040; color: #ffffff; border: 1px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: justify;">
+    <div class="card h-50" style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: left;">
+<h4><ion-icon name="shield-checkmark-outline"></ion-icon> Garantias</h4>
+<p> ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR , NIST SP 800-53, OWASP Top 10,ISO/IEC 20000.</p>
 
-      <ul style="list-style: none; padding-left: 0; font-size: 11px; line-height: 1.7; margin: 0;">
-        <li><ion-icon name="shield-checkmark-outline"></ion-icon> ISO/IEC 27001 — Gestión de Seguridad.</li>
-        <li><ion-icon name="lock-closed-outline"></ion-icon> ISO/IEC 27017 — Seguridad en Servicios Cloud.</li>
-        <li><ion-icon name="globe-outline"></ion-icon> LOPD / GDPR — Protección de Datos.</li>
-        <li><ion-icon name="server-outline"></ion-icon> NIST SP 800-53 — Controles de Seguridad TIC.</li>
-        <li><ion-icon name="code-working-outline"></ion-icon> OWASP Top 10 — Desarrollo Seguro.</li>
-        <li><ion-icon name="analytics-outline"></ion-icon> ISO/IEC 20000 — Gestión de Servicios de TI.</li>
-      </ul>
+
+
+
     </div>
+
+
   </div>
 
 </div>
 
-<!-- 🔸 ESTILOS RESPONSIVOS -->
-<style>
-@media (max-width: 992px) {
-  .row.mt-4 {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .col-md-6 {
-    flex: 1 1 100%;
-  }
-  dl {
-    grid-template-columns: 40% 60% !important;
-    font-size: 13px;
-  }
-}
-</style>
+
 
 
 
           
 
 
-<div class="d-flex gap-2">
-
-      <!-- Botón para ver demo -->
-    <a href="{{ product.demo_url }}" 
-       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
-       target="_blank">
-        <ion-icon name="play-circle-outline"></ion-icon>
-        Ver Demo
-    </a>
-
-    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
-        {% csrf_token %}
-        {{ cart_product_form.quantity }}   <!-- Campo oculto -->
-        {{ cart_product_form.update }}     <!-- Campo oculto -->
-
-        <button type="submit" class="btn btn-primary btn-ecomm d-flex align-items-center gap-2">
-            <ion-icon name="cart-outline"></ion-icon>
-            {% trans 'ir a Carrito' %}
-        </button>
-    </form>
-
-
-
-</div>
 
 
 
