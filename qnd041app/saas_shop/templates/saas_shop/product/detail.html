@@ -406,6 +406,7 @@
 
       <!-- Información del producto -->
       <div class="col-12 col-lg-7">
+        
         <div class="product-info-section p-3">
 
           {% if product.image_2 %}
@@ -437,6 +438,7 @@
 
        {% endif %}
 
+       
 
 
 
@@ -529,11 +531,7 @@
   {% endif %}
 
 
-  <dt><ion-icon name="cube-outline"></ion-icon> Infraestructura</dt>
-  <dd>{{ product.total_nube_iva }} Mensuales</dd>
 
-  <dt><ion-icon name="headset-outline"></ion-icon> Soporte</dt>
-  <dd>{{ product.total_arch_iva }} Mensuales</dd>
 
 </dl>
 
@@ -542,25 +540,53 @@
   
 
   <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
-  <div class="col-md-6" style="flex: 1;">
-    <div class="card h-50" style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: left;">
-<h4><ion-icon name="shield-checkmark-outline"></ion-icon> Garantias</h4>
-<p> ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR , NIST SP 800-53, OWASP Top 10,ISO/IEC 20000.</p>
+ <div class="col-md-6" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
 
 
-  <a href="https://ec.smartquail.io" class="text-blue-600 hover:underline">
-    <img src="{% static 'assets/images/powered.png' %}" alt="Logo del proveedor" style="width: 250px;" />
-  </a>
-<p style="font-size: 10px; line-height: 0.8; margin-top: 0; margin-bottom: 0;">
-  <strong> 2026 ® Todos los Derechos Reservados, Ecuador</strong>
-</p>
+      <!-- RECUADRO DE GARANTÍAS -->
+  <div class="card" 
+       style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; 
+              border-radius: 8px; padding: 20px; text-align: left;">
 
+    <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Garantías</h4>
 
+    <p>
+      ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.
+    </p>
 
-    </div>
+    <a href="https://ec.smartquail.io" class="text-blue-600 hover:underline">
+      <img src="{% static 'assets/images/powered.png' %}" 
+           alt="Logo del proveedor" 
+           style="width: 250px;" />
+    </a>
 
-
+    <p style="font-size: 10px; line-height: 0.8; margin-top: 0; margin-bottom: 0;">
+      <strong>2026 ® Todos los Derechos Reservados, Ecuador</strong>
+    </p>
   </div>
+
+
+
+
+  <!-- RECUADRO DE INFORMACIÓN DEL SERVICIO -->
+<div class="card" 
+     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; 
+            border-radius: 8px; padding: 20px; text-align: left;">
+    <h4><ion-icon name="card-outline"></ion-icon> Costos Mensuales</h4>
+
+  <p>
+  
+    Infraestructura en la nube: <strong>{{ product.total_nube_iva }}</strong><br>
+    Soporte técnico: <strong>{{ product.total_arch_iva }}</strong>
+  </p>
+
+</div>
+
+
+
+
+</div>
+
 
 </div>
 
