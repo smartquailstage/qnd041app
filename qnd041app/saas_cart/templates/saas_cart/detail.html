@@ -413,10 +413,7 @@
                                     <div class="card-body">
                                         <div class="d-lg-flex align-items-center gap-3">
                                             <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
-                                                <i class='bx bx-shopping-bag'></i> Continue Shopping
-                                            </a>
-                                            <a href="#" class="btn btn-light btn-ecomm ms-auto">
-                                                <i class='bx bx-x-circle'></i> Clear Cart
+                                                <i class='bx bx-shopping-bag'></i> Ver más productos
                                             </a>
                                         </div>
                                     </div>
@@ -430,7 +427,7 @@
                                 <div class="card-body">
                                     <div class="card">
                                         <div class="card-body">
-                                            <p class="fs-5">Apply Discount Code</p>
+                                        
                                             <form method="POST" action=".">
                                                 {% csrf_token %}
                                                 <div class="input-group">
@@ -527,7 +524,7 @@
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
                                         <a href="{% url 'saas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
-                                           <ion-icon name="cart-outline"></ion-icon> Proceed to Checkout
+                                           <ion-icon name="cart-outline"></ion-icon> Realizar Orden 
                                         </a>
                                     </div>
                                 </div>
