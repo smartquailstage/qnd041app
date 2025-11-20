@@ -1,52 +1,98 @@
-<html lang="fr">
+<div class="page-number"></div>
 
-<head>
-  <meta charset="utf-8">
-  <title>Bon de commande</title>
-  <link href="style.css" rel="stylesheet">
-  <meta name="description" content="Letter demo sample">
-</head>
+<div class="titulos">
+    <h2>CONTRATO DE PROPIEDAD INTELECTUAL DEL SISTEMA DE INFORMACIÓN</h2>
+    <p>ENTRE {{ order.first_name }} {{ order.last_name }} Y SMARTQUAIL S.A.S.</p>
+</div>
 
-<body>
-  <header>
-    <div>
-      <img src="img/logo-couleurs.png" alt="Logo de Des Couleurs Dans l’Assiette">
-    </div>
-  </header>
+<div class="preambulo">
+    <p>
+        En la ciudad del Distrito Metropolitano de Quito, a {{ order.created|date:"d" }} de 
+        {{ order.created|date:"F" }} del año {{ order.created|date:"Y" }}, comparecen por una parte 
+        <strong>{{ order.first_name }} {{ order.last_name }}</strong>, en adelante denominado 
+        “EL CONTRATANTE”; y por otra parte <strong>SMARTQUAIL S.A.S.</strong>, representada por 
+        <strong>Santiago Mauricio Silva Domínguez</strong>, en adelante denominada “SMARTQUAIL”.  
+        Ambas partes expresan su voluntad de celebrar el presente Contrato de Propiedad Intelectual 
+        respecto del sistema de información denominado <strong>{{ product.name }}</strong>, cuyas 
+        características técnicas generales se describen en los documentos adjuntos y cuyo propósito 
+        funcional corresponde a: {{ product.description }}.
+    </p>
+</div>
 
-  <div>
-    <p>Cher Aurélien Leno,</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-      irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Estelle Carotte</p>
-  </div>
+<div class="clausulas">
 
-  <hr>
+    <h3>Propiedad Intelectual y Titularidad del Sistema</h3>
+    <p>
+        Las partes declaran que el sistema de información objeto del presente contrato ha sido 
+        desarrollado mediante la participación conjunta de EL CONTRATANTE y SMARTQUAIL, ya sea por 
+        aportes económicos, conceptuales, funcionales, técnicos o de infraestructura. En virtud de ello, 
+        ambas partes acuerdan reconocer la titularidad compartida del sistema en partes iguales, 
+        correspondiendo un cincuenta por ciento (50%) a EL CONTRATANTE y un cincuenta por ciento (50%) 
+        a SMARTQUAIL. La copropiedad incluye la estructura de la base de datos, arquitectura lógica, 
+        flujos de automatización, interfaces, recursos de nube, componentes de inteligencia artificial, 
+        modelos de operación y cualquier elemento digital inherente al producto contratado.
+    </p>
 
-  <div>
-    <form method="post">
-      <fieldset>
-        <legend>Bon de commande</legend>
-        <label for="name">Nom :</label>
-        <input type="text" name="name" id="name">
+    <h3>Derechos de Uso, Explotación y Desarrollo</h3>
+    <p>
+        Al ser propietarios conjuntos, ambas partes tienen derecho a utilizar el sistema para fines 
+        operativos, comerciales o internos sin necesidad de autorización previa de la otra. Sin embargo, 
+        cualquier explotación económica que implique sublicenciamiento, reproducción comercial, venta, 
+        distribución pública o cesión parcial o total deberá ser acordada por escrito por ambas partes, 
+        dado que dichas acciones afectan directamente la propiedad conjunta. SMARTQUAIL podrá continuar 
+        desarrollando y mejorando el sistema siempre que dichas mejoras no alteren la proporción de 
+        propiedad acordada, y EL CONTRATANTE podrá solicitar evoluciones funcionales sin que ello afecte 
+        la distribución del derecho intelectual establecido.
+    </p>
 
-        <label for="firstname">Prénom :</label>
-        <input type="text" name="firstname" id="firstname">
+    <h3>Protección, Custodia y Conservación del Código Fuente</h3>
+    <p>
+        SMARTQUAIL conservará la custodia operativa del código fuente, infraestructura técnica y 
+        documentación interna, garantizando medidas adecuadas para su protección y mantenimiento. 
+        EL CONTRATANTE podrá solicitar acceso controlado al código únicamente con fines de auditoría, 
+        revisión técnica o verificación del cumplimiento del contrato, manteniendo la obligación de no 
+        divulgar, copiar o reproducir contenidos sin autorización previa de la otra parte. Cualquier 
+        alteración no autorizada del código, arquitectura o automatizaciones será considerada una 
+        vulneración de la propiedad intelectual conjunta.
+    </p>
 
-        <label for="address">Adresse :</label>
-        <textarea name="address" id="address" rows="2" cols="40"></textarea>
+    <h3>Confidencialidad y Restricciones de Divulgación</h3>
+    <p>
+        Ambas partes se comprometen a preservar la absoluta confidencialidad de todo el contenido técnico, 
+        operativo, conceptual y estratégico del sistema de información. Ninguna de las partes podrá revelar 
+        a terceros información del sistema, de su arquitectura o de sus componentes sin consentimiento 
+        expreso y escrito de la otra. Esta obligación se mantiene incluso después de la terminación del 
+        contrato, sin límite de vigencia, debido a la naturaleza compartida de la propiedad intelectual.
+    </p>
 
-        <label for="products">Produits souhaités :</label>
-        <textarea name="products" id="products" rows="4" cols="40"></textarea>
-      </fieldset>
-      <input type="submit" name="submit" value="Envoyer">
-    </form>
-  </div>
+    <h3>Responsabilidad sobre la Integridad del Sistema</h3>
+    <p>
+        SMARTQUAIL se compromete a velar por la estabilidad técnica y el correcto funcionamiento de la 
+        infraestructura, automatizaciones y herramientas necesarias para la operatividad del sistema. 
+        EL CONTRATANTE reconoce que las configuraciones, modificaciones o integraciones realizadas sin 
+        supervisión técnica pueden afectar la integridad del sistema y exime a SMARTQUAIL de cualquier 
+        responsabilidad derivada de dichas acciones. En caso de modificaciones críticas, ambas partes 
+        deberán consensuar los procedimientos y el alcance de los cambios para preservar la propiedad 
+        compartida.
+    </p>
 
-  <footer>
-    <p>AMAP - Des couleurs dans l'assiette - 53 Avenue du Panier Rouge - 69005 Lyon</p>
-  </footer>
+    <h3>Terminación y Efectos sobre la Propiedad Intelectual</h3>
+    <p>
+        La terminación del presente contrato, por cualquier causa, no modifica la titularidad conjunta 
+        del sistema, que continuará siendo propiedad de ambas partes en proporción igualitaria. Ninguna 
+        de las partes podrá destruir, deshabilitar, inutilizar o restringir el acceso al sistema con el 
+        propósito de afectar los derechos de la otra. En caso de disolución definitiva o imposibilidad de 
+        operación conjunta, las partes deberán acordar un mecanismo de separación técnica, bifurcación del 
+        código o división operativa, manteniendo siempre la proporcionalidad del derecho intelectual 
+        establecido.
+    </p>
 
-</body>
+</div>
 
-</html>
+<footer>
+  <p>
+    SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+    Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+    © 2025 SmartQuail, Inc. Todos los derechos reservados.
+  </p>
+</footer>
