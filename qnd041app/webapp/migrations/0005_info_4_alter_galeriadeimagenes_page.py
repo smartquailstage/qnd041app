@@ -9,7 +9,6 @@ import wagtail.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0095_formsubmission'),
         ('webapp', '0004_info_3_alter_galeriadeimagenes_page'),
     ]
 
