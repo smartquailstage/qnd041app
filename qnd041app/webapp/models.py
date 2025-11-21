@@ -337,7 +337,7 @@ class SocialMediaSettings(BaseSiteSetting):
 
 class info(Page):
     # Empieza Barner de Inicio
-    template = "webapp/info.html"
+    template = "webapp/info/introduccion.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
     
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
@@ -820,7 +820,7 @@ class GaleriadeImagenes(Orderable):
 
 class info_4(Page):
     # Empieza Barner de Inicio
-    template = "webapp/info/historia.html"
+    template = "webapp/info/manifiesto.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
     
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
@@ -974,7 +974,7 @@ class GaleriadeImagenes(Orderable):
 
 class info_5(Page):
     # Empieza Barner de Inicio
-    template = "webapp/info/historia.html"
+    template = "webapp/info/products.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
     
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
