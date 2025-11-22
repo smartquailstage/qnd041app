@@ -337,7 +337,7 @@ class SocialMediaSettings(BaseSiteSetting):
 
 class info(Page):
     # Empieza Barner de Inicio
-    template = "webapp/info.html"
+    template = "webapp/info/introducion.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
     
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
