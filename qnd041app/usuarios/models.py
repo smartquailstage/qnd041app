@@ -860,53 +860,115 @@ class InformesTerapeuticos(models.Model):
 
 
 class Profile(models.Model):
-    #Informacion personal
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Nombre de Usuario")
-    contrasena = models.CharField(max_length=255, blank=True, null=True, verbose_name="Actual contraseña de usuario")
-    sucursales = models.ForeignKey(Sucursal,on_delete=models.CASCADE,related_name="sucursal33",null=True, blank=True)
-    photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True, verbose_name="Foto Perfil")
-    ruc = models.CharField(max_length=13, verbose_name="C.I Paciente", help_text="Ingrese C.I del Paciente",blank=True, null=True)
-    nombre_paciente = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nombres")
-    apellidos_paciente = models.CharField(max_length=255, blank=True, null=True, verbose_name="Apellidos")
-    nacionalidad = models.CharField(blank=True, null=True, max_length=100, verbose_name="Nacionalidad")
-    sexo = models.CharField(blank=True, null=True, max_length=120, choices=[("MASCULINO", "Masculino"), ("FEMENINO", "Femenino")], verbose_name="Sexo del Paciente")
-    fecha_nacimiento = models.DateField(null=True, blank=True)
-   # edad =  models.CharField(max_length=255, blank=True, null=True, verbose_name="Edad")
-    institucion =  models.ForeignKey(
-        Prospeccion,
+    # -------------------------------
+    # Información del Usuario
+    # -------------------------------
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="instituciones2",null=True, blank=True
+        verbose_name="Usuario"
     )
-    #Informacion de representante y contacto
-    nombres_representante_legal = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nombres")
-    apellidos_representante_legal = models.CharField(max_length=255, blank=True, null=True, verbose_name="Apellidos")
-    relacion_del_representante = models.CharField(
+
+    photo = models.ImageField(
+        upload_to='users/%Y/%m/%d/',
+        blank=True,
+        verbose_name="Foto de Perfil"
+    )
+
+    nombre_completo = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        choices=[
-            ('Padre', 'Padre'),
-            ('Madre', 'Madre'),
-            ('Hermano/a', 'Hermano/a'),
-            ('Tío/a', 'Tío/a'),
-            ('Abuelo/a', 'Abuelo/a'),
-            ('Ñeto/a', 'Ñeto/a'),
-            ('Tutor/a', 'Tutor/a'),
-            ('Otro', 'Otro'),
-        ],
-        verbose_name="Relación del representante con el paciente"
+        verbose_name="Nombre Completo del Usuario"
     )
 
-    adjunto_autorizacion = models.FileField(upload_to='documentos/pacientes/autorizacion/', blank=True, null=True)
-    nacionalidad_representante = models.CharField(blank=True, null=True, max_length=100, verbose_name="Nacionalidad")
-    ruc_representante = models.CharField(max_length=13, verbose_name="RUC / C.I", help_text="R.U.C o C.I del Representante",blank=True, null=True)
-    email = models.EmailField(blank=True, null=True, verbose_name="Correo Electrónico")
+    ruc_usuario = models.CharField(
+        max_length=13,
+        blank=True,
+        null=True,
+        verbose_name="Cédula / RUC del Usuario"
+    )
+
+    cargo_usuario = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Cargo en la Empresa"
+    )
+
+    email_corporativo = models.EmailField(
+        blank=True,
+        null=True,
+        verbose_name="Correo Corporativo"
+    )
+
     phone_regex = RegexValidator(
         regex=r'^\+?593?\d{9,15}$',
-        message="El número de teléfono debe estar en formato internacional. Ejemplo: +593XXXXXXXXX."
+        message="El número debe estar en formato internacional. Ejemplo: +593XXXXXXXXX."
     )
-    telefono = PhoneNumberField(verbose_name="Teléfono convencional de contacto",validators=[phone_regex],default='+593')
-    celular = PhoneNumberField(verbose_name="Teléfono celular de contacto",validators=[phone_regex],default='+593')
+
+    telefono = PhoneNumberField(
+        verbose_name="Teléfono de Contacto",
+        validators=[phone_regex],
+        default='+593'
+    )
+
+    # -------------------------------
+    # Información Empresarial
+    # -------------------------------
+    nombre_empresa = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Nombre de la Empresa u Organización"
+    )
+
+    ruc_empresa = models.CharField(
+        max_length=13,
+        blank=True,
+        null=True,
+        verbose_name="RUC de la Empresa"
+    )
+
+    sector_negocio = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Sector de Negocio",
+        choices=[
+            ("Tecnología", "Tecnología"),
+            ("Comercio", "Comercio"),
+            ("Salud", "Salud"),
+            ("Educación", "Educación"),
+            ("Manufactura", "Manufactura"),
+            ("Servicios Profesionales", "Servicios Profesionales"),
+            ("Finanzas", "Finanzas"),
+            ("Gobierno", "Gobierno"),
+            ("ONG", "ONG"),
+            ("Otro", "Otro"),
+        ]
+    )
+
+    tamano_empresa = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Tamaño de la Empresa",
+        choices=[
+            ("1-10 empleados", "1-10 empleados"),
+            ("11-50 empleados", "11-50 empleados"),
+            ("51-200 empleados", "51-200 empleados"),
+            ("200+ empleados", "Más de 200 empleados"),
+        ]
+    )
+
+    direccion_empresa = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Dirección de la Empresa"
+    )
+
     provincia = models.CharField(
         max_length=255,
         blank=True,
@@ -937,120 +999,55 @@ class Profile(models.Model):
             ('Tungurahua', 'Tungurahua'),
             ('Zamora Chinchipe', 'Zamora Chinchipe'),
         ],
-        verbose_name="Localidad",
+        verbose_name="Provincia",
         default='Pichincha'
     )
-    direccion = models.CharField(max_length=255, blank=True, null=True, verbose_name="Dirección")
-    actividad_economica =  models.CharField(max_length=255, blank=True, null=True, verbose_name="Actividad económica del representante")
-    
-    #Informacion de Terapeutica
-    
-    MOTIVOS_RETIRO = [
-        ('economico', 'Económico'),
-        ('insatisfecho', 'Insatisfecho'),
-        ('otro', 'Otro'),
-    ]
 
-    es_en_terapia = models.BooleanField(default=False, verbose_name="En terapia")
-    es_retirado = models.BooleanField(default=False, verbose_name="Retirado")
-    es_pausa = models.BooleanField(default=False, verbose_name="En Pausa")
-    es_alta = models.BooleanField(default=False, verbose_name="En Alta")
-    
-
-    valorizacion_terapeutica = models.ForeignKey(
-        ValoracionTerapia,
-        on_delete=models.CASCADE,
-        related_name="valoraciones_terapeuticas",
-        verbose_name="Valoración Terapéutica", blank=True, null=True,
-    )
-
-    instirucional = models.ForeignKey(
-        'PerfilInstitucional',
-        on_delete=models.CASCADE,
-        related_name="instituciones3",
-        null=True,
+    # -------------------------------
+    # Interés y Necesidades Cloud
+    # -------------------------------
+    nivel_experiencia_cloud = models.CharField(
+        max_length=50,
         blank=True,
-        verbose_name="Responsable Institucional"
+        null=True,
+        verbose_name="Nivel de experiencia en la nube",
+        choices=[
+            ("Principiante", "Principiante"),
+            ("Intermedio", "Intermedio"),
+            ("Avanzado", "Avanzado"),
+        ]
     )
 
-    user_terapeutas = models.ManyToManyField(
-        'Perfil_Terapeuta',  # Asegúrate de que este modelo esté bien importado
-        verbose_name="Elegir Terapéutas Asignados",
-        related_name='asignaciones',  # Este nombre puede ser cualquiera y se usa para acceder desde el otro lado
-        blank=True  # Permite que el campo sea opcional
-        )
-    TIPO_SERVICIO = [
-        ('TERAPIA DE LENGUAJE', 'Terapia de Lenguaje'),
-        ('ESTIMULACIÓN COGNITIVA', 'Estimulación Cognitiva'),
-        ('PSICOLOGÍA', 'Psicología'),
-        ('ESTIMULACIÓN TEMPRANA', 'Estimulación Temprana'),
-        ('VALORACIÓN', 'Valoración'),
-        ('TERAPIA OCUPACIONAL', 'Terápia Ocupacional'),
-    ]
-        
-    tipos = models.JSONField(
+    servicios_cloud_interes = models.JSONField(
         default=list,
-        verbose_name="servicios contratados",
-        help_text="Selecciona uno o más tipos"
+        verbose_name="Servicios Cloud de Interés",
+        help_text="Ejemplo: Infraestructura, Backup, Ciberseguridad, Migraciones..."
     )
 
-    certificado_inicio = models.FileField(
-        upload_to='certificados/inicio/',
+    presupuesto_estimado = models.CharField(
+        max_length=255,
         blank=True,
         null=True,
-        verbose_name="Autorización inicio Terapéutico",
+        verbose_name="Presupuesto Estimado para Soluciones Cloud"
     )
 
+    descripcion_necesidades = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Descripción del Proyecto o Necesidades Cloud"
+    )
 
-    fecha_inicio = models.DateField(blank=True, null=True, verbose_name="Fecha de inicio")
-
-    # Campos opcionales según estado
-    fecha_retiro = models.DateField(null=True, blank=True)
-    motivo_retiro = models.CharField(max_length=50, choices=MOTIVOS_RETIRO, null=True, blank=True)
-    motivo_otro = models.CharField(max_length=255, null=True, blank=True, help_text="Especifique otro motivo (si aplica)")
-
-    
-
-    fecha_alta = models.DateField(null=True, blank=True,verbose_name="Fecha de Alta")
-    fecha_pausa = models.DateField(null=True, blank=True)
-    fecha_re_inicio = models.DateField(blank=True, null=True, verbose_name="Fecha de re inicio de tratamiento")
-
-
-    #Informacion de la cuenta
-
+    documento_empresa = models.FileField(
+        upload_to='documentos/empresa/',
+        blank=True,
+        null=True,
+        verbose_name="Documento Legal de la Empresa (opcional)"
+    )
 
     class Meta:
         ordering = ['user']
-        verbose_name = "Registro Administrativo / Historial de Paciente"
-        verbose_name_plural = "Registro Administrativo / Historiales de Pacientes"   
-
-    @property
-    def edad_detallada(self):
-        if not self.fecha_nacimiento:
-            return None
-
-        today = date.today()
-        years = today.year - self.fecha_nacimiento.year
-        months = today.month - self.fecha_nacimiento.month
-        days = today.day - self.fecha_nacimiento.day
-
-        if days < 0:
-            months -= 1
-        if months < 0:
-            years -= 1
-            months += 12
-
-        return f"{years} año{'s' if years != 1 else ''} y {months} mes{'es' if months != 1 else ''}"
-
-
-
-    @property
-    def nombre_completo(self):
-        return f" {self.institucion} / {self.nombre_paciente} {self.apellidos_paciente}  ".strip()
-
-    def __str__(self):
-        return self.nombre_completo
-
+        verbose_name = "Perfil de Cliente"
+        verbose_name_plural = "Perfiles de Clientes"
 
 class pagos(models.Model):
     #cliente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Nombre de Usuario")

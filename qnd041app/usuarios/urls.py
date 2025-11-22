@@ -40,7 +40,7 @@ urlpatterns = [
     path('restablecer/<uidb64>/<token>/', views.password_reset_confirm, name='password_reset_confirm'),
      
   
-    path('perfil_de_usuario/', views.profile_view , name='perfil'),
+    path('perfil_de_usuario/', views.profile_edit_view , name='perfil'),
 
     path('Citas/', views.gestionar_citas_view, name='citas'),
     path('citas/<int:cita_id>/cancelar/', views.cancelar_cita_view, name='cancelar_cita'),

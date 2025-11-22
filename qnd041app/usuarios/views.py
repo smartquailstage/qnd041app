@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm, AutorizacionForm                 
+from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm               
 from .models import Profile, Cita
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -465,33 +465,47 @@ def admin_cita_detail(request, cita_id):
 def profile_view(request):
     profile = Profile.objects.get(user=request.user)
 
-    cantidad_mensajes_recibidos = Mensaje.objects.filter(receptor=profile).count()
-    cantidad_mensajes_enviados = Mensaje.objects.filter(emisor__user=request.user).count()
-    cantidad_terapias_realizadas = tareas.objects.filter(profile__user=request.user, actividad_realizada=True).count()
-    citas_realizadas = Cita.objects.filter(profile=profile).count()
-
-    # Obtener estado de pago desde el modelo `pagos`
-    try:
-        pago = pagos.objects.filter(profile__user=request.user).latest('created_at')
-        if pago.al_dia:
-            estado_de_pago = "Al día"
-        elif pago.pendiente:
-            estado_de_pago = "Pendiente"
-        elif pago.vencido:
-            estado_de_pago = "Vencido"
-        else:
-            estado_de_pago = "Sin estado"
-    except pagos.DoesNotExist:
-        estado_de_pago = "No registrado"
 
     return render(request, 'usuarios/profile.html', {
         'profile': profile,
-        'cantidad_mensajes_recibidos': cantidad_mensajes_recibidos,
-        'cantidad_mensajes_enviados': cantidad_mensajes_enviados,
-        'cantidad_terapias_realizadas': cantidad_terapias_realizadas,
-        'citas_realizadas': citas_realizadas,
-        'estado_de_pago': estado_de_pago,
     })
+
+
+
+# views.py
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .models import Profile
+from .forms import ProfileForm
+
+@login_required
+def profile_edit_view(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        # Pre-cargar JSONField para edición correcta
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.save()
+            return redirect('profile_view')  # Cambia al nombre real de tu URL
+    else:
+        form = ProfileForm(
+            instance=profile,
+            initial={
+                "servicios_cloud_interes": ", ".join(profile.servicios_cloud_interes)
+            }
+        )
+
+    return render(request, 'usuarios/profile.html', {
+        'form': form,
+        'profile': profile,
+    })
+
+
+
 
 @login_required
 def header(request):

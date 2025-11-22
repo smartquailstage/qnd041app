@@ -2202,449 +2202,181 @@ class DatosTerapiaSection(TableSection):
 @register_component
 class ProfileComponent(BaseComponent):
     template_name = "admin/profile_card.html"
-    name = "Perfil de Paciente"
+    name = "Perfil del Usuario"
 
     def __init__(self, request, instance=None):
-        super().__init__(request)  # Corrección importante
+        super().__init__(request)
         self.request = request
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        context = {}  # No dependemos de super()
-
-        p = self.instance  # Instancia del perfil
+        p = self.instance
 
         headers = [
-            "Foto", "Nombre Completo", "Edad", "Sexo", "Institución", "Teléfono",
+            "Foto", "Nombre Completo", "RUC Usuario",
+            "Cargo", "Email", "Teléfono"
         ]
 
         row = [
-            format_html('<img src="{}" style="width:80px; border-radius:50%;" />', p.photo.url) if p.photo else "Sin foto",
-            f"{p.user.first_name} {p.user.last_name}" if p.user else "Sin usuario",
-            p.edad_detallada if hasattr(p, "edad_detallada") else p.edad or "Desconocida",
-            p.sexo or "No especificado",
-            str(p.institucion) if p.institucion else "N/A",
-            str(p.telefono) if p.telefono else "N/A",
+            format_html('<img src="{}" style="width:80px; border-radius:50%;">', p.photo.url)
+            if p.photo else "Sin foto",
+            p.nombre_completo or (p.user.get_full_name() if p.user else "No definido"),
+            p.ruc_usuario or "N/A",
+            p.cargo_usuario or "N/A",
+            p.email_corporativo or "No registrado",
+            str(p.telefono) if p.telefono else "No registrado",
         ]
 
-        context.update({
-            "title": "Información personal del paciente",
-            "table": {
-                "headers": headers,
-                "rows": [row],
-            }
-        })
-        return context
+        return {
+            "title": "Información del Usuario",
+            "table": {"headers": headers, "rows": [row]},
+        }
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data(), request=self.request)
 
 
 @register_component
-class ProfileComponentRepresentante(BaseComponent):
+class ProfileEmpresaComponent(BaseComponent):
     template_name = "admin/profile_card.html"
-    name = "Perfil de Representante Legal"
+    name = "Perfil Empresarial"
 
     def __init__(self, request, instance=None):
         self.request = request
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        p = self.instance  # Solo la instancia actual
+        p = self.instance
 
         headers = [
-            "Representante","Correo Electrónico",
-            "Teléfono", "Celular", "Dirección", "Relación",
+            "Nombre Empresa", "RUC Empresa", "Sector",
+            "Tamaño", "Dirección", "Provincia"
         ]
 
         row = [
-            f"{p.nombres_representante_legal} {p.apellidos_representante_legal}",
-            p.email,
-            p.telefono,
-            p.celular,
-            p.direccion,
-            p.relacion_del_representante,    
+            p.nombre_empresa or "No registra",
+            p.ruc_empresa or "N/A",
+            p.sector_negocio or "No especificado",
+            p.tamano_empresa or "No especificado",
+            p.direccion_empresa or "No registrada",
+            p.provincia or "No registrada",
         ]
 
-        context.update({
-            "title": f"Información del Representante",
-            "table": {
-                "headers": headers,
-                "rows": [row],  # Solo una fila con la instancia actual
-            }
-        })
-        return context
+        return {
+            "title": "Información Empresarial",
+            "table": {"headers": headers, "rows": [row]},
+        }
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
 
 
 @register_component
-class ProfileComponentTerapeutico(BaseComponent):
+class ProfileCloudComponent(BaseComponent):
     template_name = "admin/profile_card.html"
-    name = "Perfil de Representante Legal"
+    name = "Interés en Soluciones Cloud"
 
     def __init__(self, request, instance=None):
         self.request = request
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        p = self.instance  # Instancia actual
-
-        # Renderizar los terapeutas como una lista de nombres
-        terapeutas = ", ".join([
-            str(t.user.get_full_name()) if t.user else "Sin usuario"
-            for t in p.user_terapeutas.all()
-        ]) or "Sin terapeutas asignados"
+        p = self.instance
 
         headers = [
-            "Terapeuta Asignado", "Valorización Terapéutica",
-            "Tipo de Servicio", "Certificado de Inicio",
-            "Fecha de Retiro", "Fecha de Pausa",
+            "Nivel de Experiencia",
+            "Servicios de Interés",
+            "Presupuesto",
+            "Descripción del Proyecto",
+            "Documento Empresa"
         ]
 
         row = [
-            terapeutas,
-            p.valorizacion_terapeutica,
-            ", ".join(p.tipos or []) if p.tipos else "Sin tipos",
-            format_html('<a href="{}" target="_blank">Ver certificado</a>', p.certificado_inicio.url)
-                if p.certificado_inicio else "Sin aprobación",
-            p.fecha_retiro or "—",
-            p.fecha_pausa or "—",
+            p.nivel_experiencia_cloud or "Sin especificar",
+            ", ".join(p.servicios_cloud_interes) if p.servicios_cloud_interes else "Sin datos",
+            p.presupuesto_estimado or "No definido",
+            p.descripcion_necesidades or "Sin descripción",
+            format_html('<a href="{}" target="_blank">Ver documento</a>', p.documento_empresa.url)
+            if p.documento_empresa else "No adjuntado",
         ]
 
-        context.update({
-            "title": "Información Terapéutica",
-            "table": {
-                "headers": headers,
-                "rows": [row],
+        return {
+            "title": "Interés y Requerimientos Cloud",
+            "table": {"headers": headers, "rows": [row],
             }
-        })
-        return context
+        }
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
-
-
-
-
-@register_component
-class ProfileComponentInformes(BaseComponent):
-    template_name = "admin/profile_card.html"
-    name = "Perfil de Representante Legal"
-
-    def __init__(self, request, instance=None):
-        self.request = request
-        self.instance = instance
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        p = self.instance  # Solo la instancia actual
-
-        headers = [
-            "Autorización de inicio","Informe inicial",
-            "Informe de seguimiento 3 meses", "Informe de seguimiento 6 meses",
-            "Certificado de Alta"
-        ]
-
-        row = [
-
-        ]
-
-        context.update({
-            "title": f"Informes Terapéuticos",
-            "table": {
-                "headers": headers,
-                "rows": [row],  # Solo una fila con la instancia actual
-            }
-        })
-        return context
-
-    def render(self):
-        return render_to_string(self.template_name, self.get_context_data())
-
-
-class ProfileCardSection(TemplateSection):
-    model = Profile
-    template_name = "admin/profile_card.html"
-    verbose_name = "Perfil"
-
-
-class InformesTerapeuticosInline(TabularInline):
-    model = InformesTerapeuticos
-    extra = 1
-    fields = ('titulo', 'archivo', 'fecha_creado')
-    readonly_fields = ('fecha_creado',)
-
-class ValoracionsInline(TabularInline):
-    model = ValoracionTerapia
-    extra = 1
-    fields = ('diagnostico','fecha_valoracion','Insitucional_a_cargo')
-    readonly_fields = ('diagnostico',)
-
 
 @admin.register(Profile)
 class ProfileAdmin(ModelAdmin):
-    autocomplete_fields = ['user','sucursales']
-            # Display fields in changeform in compressed mode
-    compressed_fields = True  # Default: False
-    inlines = [TareaItemInline,CitaItemInline,PagosItemInline,InformesTerapeuticosInline]
-    search_fields = ['user__username', 'user__first_name', 'user__last_name']
-    list_sections = [ProfileComponent,ProfileComponentRepresentante,ProfileComponentTerapeutico,ProfileComponentInformes]  # Agregar sección personalizada
-    form = ProfileAdminForm
-    # Warn before leaving unsaved changes in changeform
-    warn_unsaved_form = True  # Default: False
+    autocomplete_fields = ['user']
+    compressed_fields = True
 
-    # Preprocess content of readonly fields before render
-    readonly_preprocess_fields = {
-        "model_field_name": "html.unescape",
-        "other_field_name": lambda content: content.strip(),
-    }
-
-    # Display submit button in filters
-    list_filter_submit = False
-
-    # Display changelist in fullwidth
-    list_fullwidth = True
-
-    # Set to False, to enable filter as "sidebar"
-    list_filter_sheet = True
-
-    # Position horizontal scrollbar in changelist at the top
-    list_horizontal_scrollbar_top = False
-
-    # Dsable select all action in changelist
-    list_disable_select_all = False
-
-    # Custom actions
-    actions_list = []  # Displayed above the results list
-    actions_row = []  # Displayed in a table row in results list
-    actions_detail = []  # Displayed at the top of for in object detail
-    actions_submit_line = []  # Displayed near save in object detail
-
-    # Changeform templates (located inside the form)
-    #change_form_before_template = "some/template.html"
-    #change_form_after_template = "some/template.html"
-
-    # Located outside of the form
-    #change_form_outer_before_template = "some/template.html"
-    #change_form_outer_after_template = "some/template.html"
-
-    # Display cancel button in submit line in changeform
-    change_form_show_cancel_button = True # show/hide cancel button in changeform, default: False
-
-    formfield_overrides = {
-    models.DateField: {
-        "widget": CustomDatePickerWidget(),  # ← Paréntesis: instancia
-    },
-
-
-}
-
-    list_display = ['get_full_name','fecha_inicio','fecha_alta','es_retirado','es_en_terapia','es_pausa', 'es_alta']
-
-
-    @admin.display(description='Paciente')
-    def get_full_name(self, obj):
-        return obj.user.get_full_name() if obj.user else "Sin usuario"
-
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        user = request.user
-
-        # 👑 Superusuarios ven todo
-        if user.is_superuser:
-            return qs
-
-        # 👥 Coordinadores ven todo
-        if user.groups.filter(name='administrativo').exists():
-            return qs
-
-        # 🏫 Usuarios institucionales ven solo lo suyo
-        try:
-            perfil_institucional = PerfilInstitucional.objects.get(usuario=user)
-            return qs.filter(instirucional=perfil_institucional)
-        except PerfilInstitucional.DoesNotExist:
-            return qs.none()  # 🔒 Sin perfil institucional → sin acceso
-
-
-
-    list_editable  = ['es_retirado','es_en_terapia','es_pausa', 'es_alta']
-    list_filter= ['sucursales','es_retirado','es_en_terapia', 'es_alta',
-     ('fecha_inicio', RangeDateFilter), 
-     ('fecha_alta', RangeDateFilter), 
+    list_sections = [
+        ProfileComponent,
+        ProfileEmpresaComponent,
+        ProfileCloudComponent
     ]
-    actions = [ export_to_csv, export_to_excel]
-    verbose_name = "Registro Administrativo / Ingreso de Paciente"
-    verbose_name_plural = "Registro Administrativo / Ingreso de Paciente"    
-   #inlines = [MensajesEnviadosInline, MensajesRecibidosInline]
+
+    search_fields = [
+        'user__username',
+        'nombre_completo',
+        'nombre_empresa',
+        'ruc_empresa',
+        'ruc_usuario',
+    ]
+
+    list_display = [
+        'nombre_completo',
+        'nombre_empresa',
+        'sector_negocio',
+        'telefono',
+        'email_corporativo'
+    ]
+
+    list_filter = [
+        'sector_negocio',
+        'tamano_empresa',
+        'provincia',
+    ]
 
     fieldsets = (
-    ('Ingresar Información Personal del Paciente', {
-        'fields': (
-            'user',
-            'contrasena',
-            'sucursales',
-            'photo',
-            'ruc',
-            'nombre_paciente',
-            'apellidos_paciente',
-            'nacionalidad',
-            'sexo',
-            'fecha_nacimiento',
-            'institucion',
-        ),
-        'classes': ('collapse',),
-    }),
-    ('Ingresar Información del Representante Legal', {
-        'fields': (
-            'nombres_representante_legal',
-            'apellidos_representante_legal',
-            'relacion_del_representante',
-            'nacionalidad_representante',
-            'ruc_representante',
-            'actividad_economica',
-            'email',
-            'telefono',
-            'celular',
-            'provincia',
-            'direccion',
-        ),
-        'classes': ('collapse',),
-    }),
-    ('Ingresar Información Terapéutica', {
-        'fields': (
-            'instirucional',
-            'valorizacion_terapeutica',
-            'user_terapeutas',            
-            'tipos',
-            'fecha_inicio',
-            'fecha_pausa',
-            'fecha_re_inicio',            
-            'fecha_alta',
-
-
-            # Campos booleanos de estados terapéuticos
-            'es_en_terapia',
-            'es_retirado',
-            'es_alta',
-            'es_pausa',
-        ),
-        'classes': ('collapse',),
-    }),
-)
-
-
-
-
-@register_component
-class PerfilAdministrativoComponent(BaseComponent):
-    template_name = "admin/profile_card.html"
-    name = "Perfil Administrativo"
-
-    def __init__(self, request, instance=None):
-        self.request = request
-        self.instance = instance
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        p = self.instance  # instancia actual de AdministrativeProfile
-
-        headers = [
-            "Nombre", "Edad (años)",
-            "Fecha de ingreso", "Contrato",
-            "Pacientes captados", "Valor por paciente",
-            "Comisión calculada",
-        ]
-
-        row = [
-            f"{p.user.first_name} {p.user.last_name}" if p.user else "Sin usuario",
-            p.age if p.age is not None else "Sin información",
-            p.date_joined.strftime('%d/%m/%Y') if p.date_joined else "Sin fecha",
-            dict(p.contract_type_choices).get(p.contract_type, "Desconocido") if p.contract_type else "Sin contrato",
-            p.num_pacientes_captados if p.num_pacientes_captados is not None else "No registrado",
-            f"{p.valor_por_paciente} USD" if p.valor_por_paciente is not None else "No registrado",
-            f"{p.comision_total_calculada} USD" if p.comision_total_calculada is not None else "No registrado",
-        ]
-
-        context.update({
-            "title": "Resumen del Perfil Administrativo",
-            "table": {
-                "headers": headers,
-                "rows": [row],  # solo una fila
-            }
-        })
-        return context
-
-    def render(self):
-        return render_to_string(self.template_name, self.get_context_data())
-    
-
-
-@register_component
-class ContactoAdministrativoComponent(BaseComponent):
-    template_name = "admin/profile_card.html"
-    name = "Información de Contacto"
-
-    def __init__(self, request, instance=None):
-        self.request = request
-        self.instance = instance
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        p = self.instance
-
-        headers = ["Teléfono", "Correo electrónico", "Dirección", "Hoja de vida"]
-
-        row = [
-            p.telefono.as_national if p.telefono else "Sin número",
-            p.email or "Sin correo",
-            p.address or "Sin dirección",
-            f'<a href="{p.resume.url}" target="_blank">Ver archivo</a>' if p.resume else "No disponible",
-        ]
-
-        context.update({
-            "title": "Información de Contacto",
-            "table": {
-                "headers": headers,
-                "rows": [row],
-                "safe_html": True  # permite renderizar el <a> como HTML
-            }
-        })
-        return context
-
-    def render(self):
-        return render_to_string(self.template_name, self.get_context_data())
-
-@admin.register(AdministrativeProfile)
-class AdministrativeProfileAdmin(ModelAdmin):
-    form = AdministrativeProfileForm
-    list_display = ('full_name', 'get_job_title_display', 'get_department_display','salary', 'is_active')
-    list_filter = ('job_title', 'department', 'is_active')
-    list_sections = [PerfilAdministrativoComponent,ContactoAdministrativoComponent ]  # Agregar sección personalizada
-    search_fields = ('first_name', 'last_name', 'email')
-    list_editable = ('is_active',)
-    list_per_page = 20
-
-    def full_name(self, obj):
-        return f"{obj.user.first_name} {obj.user.last_name}"
-    full_name.short_description = 'Nombre completo'
-
-    def get_job_title_display(self, obj):
-        return obj.get_job_title_display()
-    get_job_title_display.short_description = 'Cargo'
-
-    def get_department_display(self, obj):
-        return obj.get_department_display()
-    get_department_display.short_description = 'Departamento'
-
-
+        ('Información del Usuario', {
+            'fields': (
+                'user',
+                'photo',
+                'nombre_completo',
+                'ruc_usuario',
+                'cargo_usuario',
+                'email_corporativo',
+                'telefono',
+            ),
+            'classes': ('collapse',),
+        }),
+        ('Información de la Empresa', {
+            'fields': (
+                'nombre_empresa',
+                'ruc_empresa',
+                'sector_negocio',
+                'tamano_empresa',
+                'provincia',
+                'direccion_empresa',
+            ),
+            'classes': ('collapse',),
+        }),
+        ('Interés en Soluciones Cloud', {
+            'fields': (
+                'nivel_experiencia_cloud',
+                'servicios_cloud_interes',
+                'presupuesto_estimado',
+                'descripcion_necesidades',
+                'documento_empresa',
+            ),
+            'classes': ('collapse',),
+        }),
+    )
 
 
 

@@ -154,6 +154,129 @@ class CustomUserChangeForm(forms.ModelForm):
 
 
 
+
+
+# forms.py
+
+from django import forms
+from .models import Profile
+
+class ProfileForm(forms.ModelForm):
+
+    # Manejo del JSONField como texto separado por comas
+    servicios_cloud_interes = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
+            'rows': 2,
+            'class': 'form-control',
+            'placeholder': 'Infraestructura, Backup, Migraciones, Ciberseguridad...'
+        }),
+        help_text="Ingrese una lista separada por comas."
+    )
+
+    class Meta:
+        model = Profile
+        fields = [
+            "photo",
+            "nombre_completo",
+            "ruc_usuario",
+            "cargo_usuario",
+            "email_corporativo",
+            "telefono",
+
+            "nombre_empresa",
+            "ruc_empresa",
+            "sector_negocio",
+            "tamano_empresa",
+            "direccion_empresa",
+            "provincia",
+
+            "nivel_experiencia_cloud",
+            "servicios_cloud_interes",
+            "presupuesto_estimado",
+            "descripcion_necesidades",
+            "documento_empresa",
+        ]
+
+        widgets = {
+
+            # -------- DATOS PERSONALES ----------
+            "photo": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+            }),
+            "nombre_completo": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Nombre completo"
+            }),
+            "ruc_usuario": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Cédula o RUC"
+            }),
+            "cargo_usuario": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Cargo en la empresa"
+            }),
+            "email_corporativo": forms.EmailInput(attrs={
+                "class": "form-control",
+                "placeholder": "email@empresa.com"
+            }),
+            "telefono": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "+593..."
+            }),
+
+            # -------- INFORMACIÓN EMPRESARIAL ----------
+            "nombre_empresa": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Ej: SmartQuail S.A."
+            }),
+            "ruc_empresa": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "RUC Empresa"
+            }),
+            "sector_negocio": forms.Select(attrs={
+                "class": "form-select",
+            }),
+            "tamano_empresa": forms.Select(attrs={
+                "class": "form-select",
+            }),
+            "direccion_empresa": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Av. Ejemplo 123, Quito"
+            }),
+            "provincia": forms.Select(attrs={
+                "class": "form-select",
+            }),
+
+            # -------- NECESIDADES CLOUD ----------
+            "nivel_experiencia_cloud": forms.Select(attrs={
+                "class": "form-select",
+            }),
+            "presupuesto_estimado": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Ej: $500 - $2000"
+            }),
+            "descripcion_necesidades": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 4,
+                "placeholder": "Describa su proyecto o necesidades cloud..."
+            }),
+
+            "documento_empresa": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+            }),
+        }
+
+    def clean_servicios_cloud_interes(self):
+        """
+        Convierte la cadena separada por comas en lista.
+        """
+        data = self.cleaned_data.get("servicios_cloud_interes", "")
+        if data:
+            return [item.strip() for item in data.split(",")]
+        return []
+
+
 class AdministrativeProfileForm(forms.ModelForm):
     class Meta:
         model = AdministrativeProfile
@@ -476,48 +599,57 @@ class CitaAdminForm(forms.ModelForm):
         self.instance.fecha = self.cleaned_data.get('fecha')
         return super().save(commit)
 
-
 class ProfileAdminForm(forms.ModelForm):
-    TIPO_SERVICIO = [
-        ('TERAPIA DE LENGUAJE', 'Terapia de Lenguaje'),
-        ('ESTIMULACIÓN COGNITIVA', 'Estimulación Cognitiva'),
-        ('PSICOLOGÍA', 'Psicología'),
-        ('ESTIMULACIÓN TEMPRANA', 'Estimulación Temprana'),
-        ('VALORACIÓN', 'Valoración'),
-        ('TERAPIA OCUPACIONAL', 'Terápia Ocupacional'),
+
+    SERVICIOS_CLOUD = [
+        ('IaaS', 'Infraestructura en la nube (IaaS)'),
+        ('PaaS', 'Plataformas (PaaS)'),
+        ('SaaS', 'Software como Servicio (SaaS)'),
+        ('Backup', 'Backup y recuperación'),
+        ('Seguridad', 'Ciberseguridad Cloud'),
+        ('Migraciones', 'Migración a la nube'),
+        ('Monitoreo', 'Monitoreo y observabilidad'),
+        ('DevOps', 'Servicios DevOps'),
+        ('Automatización', 'Automatización Cloud'),
+        ('Consultoría', 'Consultoría y Arquitectura Cloud'),
     ]
 
-    tipos = forms.MultipleChoiceField(
-        choices=TIPO_SERVICIO,
+    servicios_cloud_interes = forms.MultipleChoiceField(
+        choices=SERVICIOS_CLOUD,
         widget=forms.CheckboxSelectMultiple,
         required=False,
-        label="Servicios Terapéuticos",
-        help_text="Seleccionar uno o más servicios"
+        label="Servicios Cloud de Interés",
+        help_text="Seleccione uno o varios servicios"
     )
 
     class Meta:
         model = Profile
         fields = '__all__'
         widgets = {
-            'fecha_nacimiento': CustomDatePickerWidget(attrs={'class': 'form-control'}),
+            # Puedes agregar widgets para campo fecha o mejorar UI
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            self.initial['tipos'] = self.instance.tipos or []
 
-    def clean_tipos(self):
-        return self.cleaned_data['tipos']
+        # Cargar valores iniciales desde el JSON del modelo
+        if self.instance and self.instance.pk:
+            self.initial['servicios_cloud_interes'] = self.instance.servicios_cloud_interes or []
+
+    def clean_servicios_cloud_interes(self):
+        return self.cleaned_data['servicios_cloud_interes']
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        instance.tipos = self.cleaned_data.get('tipos', [])
+
+        # Guardar los servicios seleccionados en el JSONField
+        instance.servicios_cloud_interes = self.cleaned_data.get('servicios_cloud_interes', [])
+
         if commit:
             instance.save()
             self.save_m2m()
-        return instance
 
+        return instance
 
 
 class AsistenciaTerapeutaAdminForm(forms.ModelForm):
@@ -529,10 +661,3 @@ class AsistenciaTerapeutaAdminForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'HH:MM'}
             ),
         }
-
-
-class AutorizacionForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['adjunto_autorizacion']
-        labels = {'adjunto_autorizacion': 'Archivo de autorización'}
