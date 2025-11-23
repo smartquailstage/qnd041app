@@ -482,19 +482,31 @@ from .forms import ProfileForm
 @login_required
 def profile_edit_view(request):
     profile = Profile.objects.get(user=request.user)
+    user = request.user  # CustomUser
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-
-        # Pre-cargar JSONField para edición correcta
         if form.is_valid():
+            # Guardar cambios en Profile
             profile = form.save(commit=False)
             profile.save()
+
+            # Sincronizar con CustomUser
+            user.first_name = form.cleaned_data.get("nombre_completo", "").split(' ')[0] if form.cleaned_data.get("nombre_completo") else user.first_name
+            user.last_name = ' '.join(form.cleaned_data.get("nombre_completo", "").split(' ')[1:]) if form.cleaned_data.get("nombre_completo") else user.last_name
+            user.email = form.cleaned_data.get("email_corporativo", user.email)
+            user.telefono = form.cleaned_data.get("telefono", user.telefono)
+            user.save()
+
             return redirect('profile_view')  # Cambia al nombre real de tu URL
     else:
+        # Precargar datos desde CustomUser y Profile
         form = ProfileForm(
             instance=profile,
             initial={
+                "nombre_completo": f"{user.first_name} {user.last_name}".strip(),
+                "email_corporativo": user.email,
+                "telefono": user.telefono,
                 "servicios_cloud_interes": ", ".join(profile.servicios_cloud_interes)
             }
         )
@@ -503,6 +515,7 @@ def profile_edit_view(request):
         'form': form,
         'profile': profile,
     })
+
 
 
 
