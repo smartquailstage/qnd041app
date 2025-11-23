@@ -23,64 +23,52 @@
 
 
 
-<div class="tab-content" id="custom-tabs-content">
-
-  <!-- TAB 1: Bienvenida -->
-  <div class="tab-pane fade show active" id="tab-bienvenida" role="tabpanel">
-    <div class="row">
-      <div class="col-12 col-lg-12 mx-auto">
-        <div class="card radius-10">
-          <div class="card-body text-center">
-
-                  
-            <h2 class="display-4 mt-5">AI Agent SmartQuail,Inc</h2>
-             
-            <p id="typewriter" style="color:#fff"><ion-icon name="chatbox-ellipses-outline"></ion-icon></p>
-
-          </div>
-        </div>
-
-
-
-
-      </div>
-    </div>
-
-
 <div class="row">
   <div class="col-lg-8 mx-auto">
 
     <div class="card radius-10">
       <div class="card-body">
 
+                   
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
 
-          <!-- FOTO DE PERFIL -->
-          <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
+     <div class="row mb-4 align-items-start">
+  
+  <!-- Columna izquierda: Foto y botón -->
+  <div class="col-md-4 d-flex flex-column align-items-center">
+    <div class="user-change-photo shadow mb-3">
+      {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" alt="Foto de Perfil"
+             class="img-fluid rounded-circle"
+             style="width: 155px; height: 155px; object-fit: cover;">
+      {% else %}
+        <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto por defecto"
+             class="img-fluid rounded-circle"
+             style="width: 155px; height: 129px; object-fit: cover;">
+      {% endif %}
+    </div>
 
-            <div class="user-change-photo shadow">
-              {% if profile.photo %}
-                <img src="{{ profile.photo.url }}" alt="..." class="img-fluid rounded-circle"
-                     style="width:120px; height:120px; object-fit:cover;">
-              {% else %}
-                <img src="https://via.placeholder.com/120x120.png?text=Foto"
-                     class="img-fluid rounded-circle"
-                     style="width:120px; height:120px; object-fit:cover;">
-              {% endif %}
-            </div>
+    <!-- Campo oculto -->
+    <div>
+      {{ form.photo|add_class:"d-none"|attr:"id:id_photo" }}
+    </div>
 
-            <div>
-              {{ form.photo|add_class:"d-none"|attr:"id:id_photo" }}
-            </div>
+    <button type="button" id="btnCambiarFoto" class="btn btn-outline-primary btn-sm radius-30 px-4">
+      <ion-icon name="image-sharp"></ion-icon> Cambiar Foto
+    </button>
+  </div>
 
-            <button type="button" id="btnCambiarFoto" class="btn btn-outline-primary btn-sm radius-30 px-4">
-  <ion-icon name="image-sharp"></ion-icon> Cambiar Foto
-</button>
+  <!-- Columna derecha: AI Agent -->
+  <div class="col-md-8">
+    <h4 class="display-4 mt-3">AI Agent SmartQuail, Inc</h4>
+    <p id="typewriter" style="color:#fff;">
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+    </p>
 
+  </div>
 
-
-          </div>
+</div>
 
           <!-- ======================= -->
           <!--   DATOS PERSONALES      -->
@@ -90,47 +78,19 @@
           <div class="row g-3">
 
             <div class="col-12">
-              <label class="form-label">Nombre Completo</label>
+              <label class="form-label">Escriba su nombre completo</label>
               {{ form.nombre_completo }}
             </div>
 
-            <div class="col-6">
-              <label class="form-label">Cédula / RUC</label>
-              {{ form.ruc_usuario }}
-            </div>
 
             <div class="col-6">
-              <label class="form-label">Cargo en la Empresa</label>
-              {{ form.cargo_usuario }}
-            </div>
-
-            <div class="col-6">
-              <label class="form-label">Correo Corporativo</label>
-              {{ form.email_corporativo }}
-            </div>
-
-            <div class="col-6">
-              <label class="form-label">Teléfono</label>
-              {{ form.telefono }}
-            </div>
-          </div>
-
-          <!-- ========================= -->
-          <!--   INFORMACIÓN EMPRESARIAL -->
-          <!-- ========================= -->
-
-          <hr>
-
-          <div class="row g-3">
-
-            <div class="col-12">
-              <label class="form-label">Nombre de la Empresa</label>
+              <label class="form-label">Nombre del Proyecto</label>
               {{ form.nombre_empresa }}
             </div>
 
             <div class="col-6">
-              <label class="form-label">RUC Empresa</label>
-              {{ form.ruc_empresa }}
+              <label class="form-label">Cargo en la Proyecto</label>
+              {{ form.cargo_usuario }}
             </div>
 
             <div class="col-6">
@@ -138,36 +98,17 @@
               {{ form.sector_negocio }}
             </div>
 
-            <div class="col-6">
+                        <div class="col-6">
               <label class="form-label">Tamaño de la Empresa</label>
               {{ form.tamano_empresa }}
             </div>
 
-            <div class="col-6">
-              <label class="form-label">Provincia</label>
-              {{ form.provincia }}
-            </div>
-
-            <div class="col-12">
-              <label class="form-label">Dirección de la Empresa</label>
-              {{ form.direccion_empresa }}
-            </div>
-          </div>
-
-          <!-- ========================= -->
-          <!--  NECESIDADES CLOUD       -->
-          <!-- ========================= -->
-          <h5 class="mb-0 mt-4">Necesidades Cloud</h5>
-          <hr>
-
-          <div class="row g-3">
-
-            <div class="col-6">
+             <div class="col-6">
               <label class="form-label">Nivel de Experiencia</label>
               {{ form.nivel_experiencia_cloud }}
             </div>
 
-            <div class="col-6">
+             <div class="col-6">
               <label class="form-label">Presupuesto Estimado</label>
               {{ form.presupuesto_estimado }}
             </div>
@@ -179,16 +120,20 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label">Descripción del Proyecto</label>
+              <label class="form-label">Descripción del Proyecto(opcional)</label>
               {{ form.descripcion_necesidades }}
             </div>
 
-            <div class="col-12">
-              <label class="form-label">Documento Legal (opcional)</label>
-              {{ form.documento_empresa }}
-            </div>
-
           </div>
+
+          <!-- ========================= -->
+          <!--   INFORMACIÓN EMPRESARIAL -->
+          <!-- ========================= -->
+
+          <hr>
+
+
+
 
           <!-- BOTÓN GUARDAR -->
           <div class="text-start mt-3">
@@ -214,11 +159,6 @@
 
 
              
-
-          </div>
-          <!-- end page content-->
-</div>
-
 
 
 <script>
