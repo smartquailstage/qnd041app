@@ -126,11 +126,16 @@
 
 
           <!-- BOTÓN GUARDAR -->
-          <div class="text-start mt-3">
-            <button type="submit" class="btn btn-outline-primary px-4">
-              Continuar <ion-icon name="arrow-forward-outline"></ion-icon>
-            </button>
-          </div>
+<div class="text-start mt-3 d-flex gap-3">
+  <a href="{% url 'usuarios:logout' %}" class="btn btn-outline-primary px-4">
+    <ion-icon name="log-out-outline"></ion-icon> Cerrar Sesión
+  </a>
+
+  <button type="submit" class="btn btn-outline-primary px-4">
+    Continuar <ion-icon name="arrow-forward-outline"></ion-icon>
+  </button>
+</div>
+
 
         </form>
       </div>
