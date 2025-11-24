@@ -24,7 +24,7 @@
                    <div class="service-box bg-white text-success">
                     <ion-icon name="umbrella-sharp" role="img" class="md hydrated" aria-label="umbrella sharp"></ion-icon>
                    </div>
-                   <h5>IT cloud Business Software</h5>
+                   <h5>Business Software</h5>
                    <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
                 </div>
               </div>
@@ -35,7 +35,7 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="bag-handle-sharp" role="img" class="md hydrated" aria-label="bag handle sharp"></ion-icon>
                    </div>
-                   <h5>IT Cloud Business Plataformas  </h5>
+                   <h5>Business Plataforms  </h5>
                    <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
                 </div>
               </div>
@@ -46,7 +46,7 @@
                    <div class="service-box bg-white text-tiffany">
                     <ion-icon name="chatbubbles-sharp" role="img" class="md hydrated" aria-label="chatbubbles sharp"></ion-icon>
                    </div>
-                   <h5>IT Cloud Business Infraestructura</h5>
+                   <h5>Business Infrastructure</h5>
                    <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
                 </div>
               </div>
@@ -54,7 +54,7 @@
          </div>
 
            <div class="col-md-8">
-    <h2 class="display-4 mt-3">Business Inteligente News c</h2>
+    <h2 class="display-4 mt-3">Business Inteligente News </h2>
     <p id="typewriter" style="color:#fff;">
   </div>
 
@@ -107,8 +107,51 @@
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function typeWriterEffect(elementId, text, speed) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+   
+    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    typeWriterEffect("typewriter", text_start, 35);
 
 
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
+    const inputPhoto = document.getElementById("id_photo");
+    const previewImg = document.querySelector(".user-change-photo img");
+
+    btnCambiarFoto.addEventListener("click", function () {
+        inputPhoto.click();
+    });
+
+    inputPhoto.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
 
  
 {% endblock %}
