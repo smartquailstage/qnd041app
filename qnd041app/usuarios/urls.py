@@ -24,6 +24,11 @@ urlpatterns = [
     path('activar/<uidb64>/<token>/', views.activar_cuenta, name='activar_cuenta'),
     
     path('dashboard', views.dashboard, name='dashboard'),
+    path("dashboard/micro/", views.dashboard_micro, name="dashboard_micro"),
+    path("dashboard/pequena/", views.dashboard_pequena, name="dashboard_pequena"),
+    path("dashboard/mediana/", views.dashboard_mediana, name="dashboard_mediana"),
+    path("dashboard/enterprise/", views.dashboard_enterprise, name="dashboard_enterprise"),
+
     path(
         'politicas-terminos/',
         views.politicas_terminos,

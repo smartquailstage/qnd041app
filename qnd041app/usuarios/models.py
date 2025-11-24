@@ -889,6 +889,14 @@ class Profile(models.Model):
         verbose_name="Cédula / RUC del Usuario"
     )
 
+    CARGO_CHOICES = [
+        ("Administrativo", "Administrativo"),
+        ("Operativo", "Operativo"),
+        ("Gerencial", "Gerencial"),
+        ("Founder", "Founder"),
+        ("Técnico", "Técnico"),
+    ]
+
     cargo_usuario = models.CharField(
         max_length=255,
         blank=True,
@@ -910,7 +918,9 @@ class Profile(models.Model):
     telefono = PhoneNumberField(
         verbose_name="Teléfono de Contacto",
         validators=[phone_regex],
-        default='+593'
+        default='+593',
+        blank=True,
+        null=True
     )
 
     # -------------------------------
@@ -955,10 +965,10 @@ class Profile(models.Model):
         null=True,
         verbose_name="Tamaño de la Empresa",
         choices=[
-            ("1-10 empleados", "1-10 empleados"),
-            ("11-50 empleados", "11-50 empleados"),
-            ("51-200 empleados", "51-200 empleados"),
-            ("200+ empleados", "Más de 200 empleados"),
+            ("1-10 usuarios", "1-10 usuarios"),
+            ("11-50 usuarios", "11-50 usuarios"),
+            ("51-200 usuarios", "51-200 usuarios"),
+            ("200+ usuarios", "Más de 200 usuarios"),
         ]
     )
 
@@ -1024,25 +1034,22 @@ class Profile(models.Model):
         help_text="Ejemplo: Infraestructura, Backup, Ciberseguridad, Migraciones..."
     )
 
+    PRESUPUESTO_CHOICES = [
+    ("500-2000", "500 - 2,000 USD"),
+    ("2000-10000", "2,000 - 10,000 USD"),
+    ("10000-35000", "10,000 - 35,000 USD"),
+    ("50000+", "+50,000 USD"),
+    ]
+
     presupuesto_estimado = models.CharField(
-        max_length=255,
+        max_length=20,
+        choices=PRESUPUESTO_CHOICES,
         blank=True,
         null=True,
         verbose_name="Presupuesto Estimado para Soluciones Cloud"
     )
 
-    descripcion_necesidades = models.TextField(
-        blank=True,
-        null=True,
-        verbose_name="Descripción del Proyecto o Necesidades Cloud"
-    )
 
-    documento_empresa = models.FileField(
-        upload_to='documentos/empresa/',
-        blank=True,
-        null=True,
-        verbose_name="Documento Legal de la Empresa (opcional)"
-    )
 
     class Meta:
         ordering = ['user']

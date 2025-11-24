@@ -363,17 +363,20 @@ def user_login(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
 
+            # Buscar el usuario por email
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 messages.error(request, "❌ No existe ningún usuario registrado con ese correo electrónico.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
+            # Autenticar
             user_auth = authenticate(request, username=user.email, password=password)
             if user_auth is None:
                 messages.error(request, "⚠️ La contraseña no corresponde al usuario registrado.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
+            # Validar si está activo
             if not user_auth.is_active:
                 messages.warning(
                     request,
@@ -382,19 +385,47 @@ def user_login(request):
                 )
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
-            # ✅ Iniciar sesión
+            # ================================
+            # 🔥 Iniciar sesión
+            # ================================
             login(request, user_auth)
 
-            # ✅ Obtener datos del entorno
+            # ================================
+            # 🔥 Enviar correo login (SE MANTIENE)
+            # ================================
             fecha_hora = timezone.localtime(timezone.now()).strftime("%d/%m/%Y %H:%M:%S")
             user_ip = request.META.get('REMOTE_ADDR', 'IP no disponible')
-
-            # ✅ Enviar correo asíncronamente
             enviar_correo_login.delay(user_auth.id, fecha_hora, user_ip)
 
-            # ✅ Mensaje y redirección
             messages.success(request, f"✅ Bienvenido, {user_auth.first_name or user_auth.email}")
-            return redirect('usuarios:perfil')
+
+            # ================================
+            # 🔥 Redirección inteligente
+            # ================================
+            # Si NO tiene perfil → crear perfil
+            if not hasattr(user_auth, "profile"):
+                return redirect('usuarios:perfil')
+
+            # Si tiene perfil, evaluamos
+            profile = user_auth.profile
+
+            # ================================
+            # 🔥 Redirección según tamaño de empresa
+            # ================================
+            if profile.tamano_empresa == "1-10 usuarios":
+                return redirect("usuarios:dashboard_micro")
+
+            elif profile.tamano_empresa == "11-50 usuarios":
+                return redirect("usuarios:dashboard_pequena")
+
+            elif profile.tamano_empresa == "51-200 usuarios":
+                return redirect("usuarios:dashboard_mediana")
+
+            elif profile.tamano_empresa == "200+ usuarios":
+                return redirect("usuarios:dashboard_enterprise")
+
+            # Si no tiene tamaño registrado → dashboard general
+            return redirect("usuarios:perfil")
 
     else:
         form = LoginForm()
@@ -428,12 +459,6 @@ def preview_login_notification_email(request):
 
 
 
-@login_required
-def dashboard(request):
-    profile = Profile.objects.get(user=request.user)    
-    return render(request, 'usuarios/dashboard.html', {
-        'section': 'dashboard',
-    })
 
 
 @login_required
@@ -479,9 +504,69 @@ from django.shortcuts import render, redirect
 from .models import Profile
 from .forms import ProfileForm
 
+
+@login_required
+def dashboard(request):
+    profile = Profile.objects.get(user=request.user)    
+    return render(request, 'usuarios/dashboard.html', {
+        'section': 'dashboard',
+    })
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+
+@login_required
+def dashboard_micro(request):
+    """
+    Dashboard para empresas pequeñas (1-10 usuarios)
+    """
+    profile = request.user.profile
+    return render(request, "usuarios/dashboards/dashboard_micro.html", {
+        "profile": profile,
+    })
+
+
+@login_required
+def dashboard_pequena(request):
+    """
+    Dashboard para empresas pequeñas (11-50 usuarios)
+    """
+    profile = request.user.profile
+    return render(request, "usuarios/dashboards/dashboard_pequena.html", {
+        "profile": profile,
+    })
+
+
+@login_required
+def dashboard_mediana(request):
+    """
+    Dashboard para empresas medianas (51-200 usuarios)
+    """
+    profile = request.user.profile
+    return render(request, "usuarios/dashboards/dashboard_mediana.html", {
+        "profile": profile,
+    })
+
+
+@login_required
+def dashboard_enterprise(request):
+    """
+    Dashboard para empresas grandes (200+ usuarios)
+    """
+    profile = request.user.profile
+    return render(request, "usuarios/dashboards/dashboard_enterprise.html", {
+        "profile": profile,
+    })
+
+
+
+
+
 @login_required
 def profile_edit_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
     user = request.user  # CustomUser
 
     if request.method == 'POST':
@@ -498,7 +583,7 @@ def profile_edit_view(request):
             user.telefono = form.cleaned_data.get("telefono", user.telefono)
             user.save()
 
-            return redirect('profile_view')  # Cambia al nombre real de tu URL
+            return redirect('usuarios:dashboard')  # Cambia al nombre real de tu URL
     else:
         # Precargar datos desde CustomUser y Profile
         form = ProfileForm(
@@ -506,8 +591,7 @@ def profile_edit_view(request):
             initial={
                 "nombre_completo": f"{user.first_name} {user.last_name}".strip(),
                 "email_corporativo": user.email,
-                "telefono": user.telefono,
-                "servicios_cloud_interes": ", ".join(profile.servicios_cloud_interes)
+                "telefono": user.telefono
             }
         )
 

@@ -10,6 +10,20 @@ class Category(models.Model):
     
     slug = models.SlugField(max_length=200, db_index=True, unique=True, null=True, blank=True)
 
+    tamano_empresa = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Tamaño de la Empresa",
+        choices=[
+            ("1-10 usuarios", "1-10 usuarios"),
+            ("11-50 usuarios", "11-50 usuarios"),
+            ("51-200 usuarios", "51-200 usuarios"),
+            ("200+ usuarios", "Más de 200 usuarios"),
+        ]
+    )
+
+
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'

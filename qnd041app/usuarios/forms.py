@@ -163,6 +163,21 @@ from .models import Profile
 
 class ProfileForm(forms.ModelForm):
 
+    PRESUPUESTO_CHOICES = [
+        ("500-2000", "500 - 2,000 USD"),
+        ("2000-10000", "2,000 - 10,000 USD"),
+        ("10000-35000", "10,000 - 35,000 USD"),
+        ("50000+", "+50,000 USD"),
+    ]
+
+    presupuesto_estimado = forms.ChoiceField(
+        choices=PRESUPUESTO_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={
+            "class": "form-select",
+        })
+    )
+
     # Manejo del JSONField como texto separado por comas
     servicios_cloud_interes = forms.CharField(
         required=False,
@@ -174,28 +189,35 @@ class ProfileForm(forms.ModelForm):
         help_text="Ingrese una lista separada por comas."
     )
 
+    CARGO_CHOICES = [
+        ("Administrativo", "Administrativo"),
+        ("Operativo", "Operativo"),
+        ("Gerencial", "Gerencial"),
+        ("Founder", "Founder"),
+        ("Técnico", "Técnico"),
+    ]
+
+    cargo_usuario = forms.ChoiceField(
+    choices=CARGO_CHOICES,
+    required=False,
+    widget=forms.Select(attrs={"class": "form-select"})
+    )
+
+
+
     class Meta:
         model = Profile
         fields = [
             "photo",
             "nombre_completo",
-            "ruc_usuario",
             "cargo_usuario",
-            "email_corporativo",
-            "telefono",
 
             "nombre_empresa",
-            "ruc_empresa",
             "sector_negocio",
             "tamano_empresa",
-            "direccion_empresa",
-            "provincia",
 
             "nivel_experiencia_cloud",
-            "servicios_cloud_interes",
             "presupuesto_estimado",
-            "descripcion_necesidades",
-            "documento_empresa",
         ]
 
         widgets = {
@@ -208,21 +230,10 @@ class ProfileForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Nombre completo"
             }),
-            "ruc_usuario": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Cédula o RUC"
-            }),
+
             "cargo_usuario": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Cargo en la empresa"
-            }),
-            "email_corporativo": forms.EmailInput(attrs={
-                "class": "form-control",
-                "placeholder": "email@empresa.com"
-            }),
-            "telefono": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "+593..."
             }),
 
             # -------- INFORMACIÓN EMPRESARIAL ----------
@@ -230,23 +241,13 @@ class ProfileForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Ej: SmartQuail S.A."
             }),
-            "ruc_empresa": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "RUC Empresa"
-            }),
             "sector_negocio": forms.Select(attrs={
                 "class": "form-select",
             }),
             "tamano_empresa": forms.Select(attrs={
                 "class": "form-select",
             }),
-            "direccion_empresa": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Av. Ejemplo 123, Quito"
-            }),
-            "provincia": forms.Select(attrs={
-                "class": "form-select",
-            }),
+
 
             # -------- NECESIDADES CLOUD ----------
             "nivel_experiencia_cloud": forms.Select(attrs={
@@ -256,15 +257,7 @@ class ProfileForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Ej: $500 - $2000"
             }),
-            "descripcion_necesidades": forms.Textarea(attrs={
-                "class": "form-control",
-                "rows": 4,
-                "placeholder": "Describa su proyecto o necesidades cloud..."
-            }),
 
-            "documento_empresa": forms.ClearableFileInput(attrs={
-                "class": "form-control",
-            }),
         }
 
     def clean_servicios_cloud_interes(self):

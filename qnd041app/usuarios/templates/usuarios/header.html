@@ -223,28 +223,26 @@ background: #444040;
 
 <li class="nav-item dropdown dropdown-user-setting">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-    <div class="user-setting ">
-      {% if profile_photo %}
-        <img src="{{ profile_photo }}" class="user-img" alt="Foto de perfil">
-          {% else %}
-       <img src="{% static 'assets/images/login_bg/Sello2.png' %}" style="width:30px;" alt="Default Photo">
+    <div class="user-setting">
+      {% if request.user.profile.photo %}
+        <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="{{ request.user.get_full_name }}">
+      {% else %}
+        <img src="{% static 'assets/images/login_bg/Sello2.png' %}" class="user-img" style="width:30px;" alt="Foto por defecto">
       {% endif %}
-    
-
-  
-
     </div>
   </a>
   <ul class="dropdown-menu dropdown-menu-end">
     <li>
       <a class="dropdown-item" href="{% url 'usuarios:perfil' %}">
-        <div class="d-flex  flex-row  align-items-center gap-2">
-    
-            <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto de perfil" class="rounded-circle" width="44" height="44">
-     
-          <div class="">
-            <h6 class="mb-0 dropdown-user-name">{{ name }} {{ last_name }}</h6>
-            <small class="mb-0 dropdown-user-designation text-secondary">Paciente MEDDES®</small>
+        <div class="d-flex flex-row align-items-center gap-2">
+          {% if request.user.profile.photo %}
+              <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.get_full_name }}" class="rounded-circle" width="44" height="44">
+          {% else %}
+              <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto por defecto" class="rounded-circle" width="44" height="44">
+          {% endif %}
+          <div>
+              <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
+              <small class="mb-0 dropdown-user-designation text-secondary">{{ request.user.profile.nombre_empresa }}</small>
           </div>
         </div>
       </a>
@@ -261,6 +259,7 @@ background: #444040;
     </li>
   </ul>
 </li>
+
 
 
       </ul>

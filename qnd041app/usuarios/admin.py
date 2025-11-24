@@ -2295,9 +2295,6 @@ class ProfileCloudComponent(BaseComponent):
             p.nivel_experiencia_cloud or "Sin especificar",
             ", ".join(p.servicios_cloud_interes) if p.servicios_cloud_interes else "Sin datos",
             p.presupuesto_estimado or "No definido",
-            p.descripcion_necesidades or "Sin descripción",
-            format_html('<a href="{}" target="_blank">Ver documento</a>', p.documento_empresa.url)
-            if p.documento_empresa else "No adjuntado",
         ]
 
         return {
@@ -2361,18 +2358,13 @@ class ProfileAdmin(ModelAdmin):
                 'ruc_empresa',
                 'sector_negocio',
                 'tamano_empresa',
-                'provincia',
-                'direccion_empresa',
             ),
             'classes': ('collapse',),
         }),
         ('Interés en Soluciones Cloud', {
             'fields': (
                 'nivel_experiencia_cloud',
-                'servicios_cloud_interes',
                 'presupuesto_estimado',
-                'descripcion_necesidades',
-                'documento_empresa',
             ),
             'classes': ('collapse',),
         }),
