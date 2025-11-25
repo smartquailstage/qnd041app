@@ -1,0 +1,69 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+<aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{% static 'assets/images/REDQUAIL.png' %}" class="logo-icon"  width="39px" alt="logo icon">
+        </div>
+
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+
+      <li>
+          <a href="{% url 'saas_shop:product_list' %}">
+            <div class="parent-icon">
+             <ion-icon name="browsers-outline"></ion-icon>
+            </div>
+            <div class="menu-title" style="font-size: 12px;">BUSINESS SOFTWARE </div>
+          </a>
+        </li>
+
+              <li>
+          <a href="{% url 'saas_shop:product_list' %}">
+            <div class="parent-icon">
+              <ion-icon name="grid-outline"></ion-icon>
+            </div>
+            <div class="menu-title" style="font-size: 12px;">BUSINESS PLATFORMS </div>
+          </a>
+        </li>
+
+              <li>
+          <a href="{% url 'saas_shop:product_list' %}">
+            <div class="parent-icon">
+               <ion-icon name="cube-outline"></ion-icon>
+            </div>
+            <div class="menu-title" style="font-size: 12px;">BUSINESS INFRASTRUCTURE </div>
+          </a>
+        </li>
+                    
+       
+
+
+
+
+
+      <li class="menu-label">Consulting</li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="ticket-outline"></ion-icon>
+            <div class="menu-title">Take a Ticket</div>
+          </a>
+        </li>
+
+    </ul>
+
+
+
+
+  
+    <!--end navigation-->
+
+
+</aside>
+
+

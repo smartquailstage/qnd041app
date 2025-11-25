@@ -10,40 +10,111 @@
   <!-- start page content-->
   <div class="page-content">
 
-    <!--start breadcrumb-->
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-      <div class="breadcrumb-title pe-3">Inicio</div>
-      <div class="ps-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-0 p-0 align-items-center">
-            <li class="breadcrumb-item"><a href="javascript:;">
-                <ion-icon name="home-outline"></ion-icon>
-               
-              </a>
-              
-            </li>
-            
-            <li class="breadcrumb-item active" aria-current="page"></li>
-            Aplicativo para la administración de gestión de información cultural
-          </ol>
-          
-        </nav>
-      </div>
-
-    </div>
-    {% for manual in manuales %}
+  <div class="col-md-8">
+    <h2 class="display-4 mt-3">Bienvenido SmartQuail, Inc</h2>
+    <p id="typewriter" style="color:#fff;">
+  </div>
+  
     <div class="card radius-10">
       <div class="card-body">
-          <h4>{{ manual.titulo }}</h4>
-          <p>{{ manual.informacion_basica}}</p>
-          <p>{{ manual.bloque_1 }}</p>
-          <p>{{ manual.bloque_2 }}</p>
-          <p>{{ manual.bloque_3 }}</p>
-          <p>{{ manual.bloque_4 }}</p>
-          <p>{{ manual.bloque_5 }}</p>
+<div class="row row-cols-1 row-cols-lg-3">
+
+<a href="{% url 'saas_shop:product_list' %}">
+            <div class="col">
+              <div class="card radius-10 bg-primary">
+                <div class="card-body text-white">
+                   <div class="service-box bg-white text-primary">
+                    <ion-icon name="browsers-outline"></ion-icon>
+                   </div>
+                   <h5>Business Software</h5>
+                   <p class="mb-0">
+                   Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
+                   Relaciones con Clientes (CRM).
+                   </p>
+                </div>
+              </div>
+            </div>
+</a>
+
+<a href="{% url 'saas_shop:product_list' %}">
+
+            <div class="col">
+              <div class="card radius-10 bg-primary">
+                <div class="card-body text-white">
+                   <div class="service-box bg-white text-primary">
+                   <ion-icon name="grid-outline"></ion-icon>
+                   </div>
+                   <h5>Business Plataforms  </h5>
+                   <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
+                </div>
+              </div>
+            </div>
+</a>
+
+<a href="{% url 'saas_shop:product_list' %}">
+            <div class="col">
+              <div class="card radius-10 bg-primary">
+                <div class="card-body text-white">
+                   <div class="service-box bg-white text-primary">
+                    <ion-icon name="cube-outline"></ion-icon>
+                   </div>
+                   <h5>Business Infrastructure</h5>
+                   <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
+                </div>
+              </div>
+            </div>
+</a>
+
+
+         </div>
+
+           <div class="col-md-8">
+    <h2 class="display-4 mt-3">Business Inteligente News </h2>
+    <p id="typewriter" style="color:#fff;">
+  </div>
+
+
+         <div class="row row-cols-1 row-cols-lg-3">
+              <div class="col">
+               <div class="card radius-10">
+                 <div class="card-body">
+                  <img src="assets/images/cards/15.png" class="img-fluid radius-10" alt="...">
+                  <div class="text-center mt-4">
+                    <h5 class="card-title">Fire Up Your Motivation</h5>
+                    <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                    <a href="component-cards.html#" class="btn btn-dark px-4 radius-10">Read More</a>
+                  </div>
+                 </div>
+               </div>
+              </div>
+              <div class="col">
+                <div class="card radius-10">
+                  <div class="card-body">
+                   <img src="assets/images/cards/16.png" class="img-fluid radius-10" alt="...">
+                   <div class="text-center mt-4">
+                     <h5 class="card-title">Fire Up Your Motivation</h5>
+                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                     <a href="component-cards.html#" class="btn btn-warning px-4 radius-10">Read More</a>
+                   </div>
+                  </div>
+                </div>
+               </div>
+               <div class="col">
+                <div class="card radius-10">
+                  <div class="card-body">
+                   <img src="assets/images/cards/17.png" class="img-fluid radius-10" alt="...">
+                   <div class="text-center mt-4">
+                     <h5 class="card-title">Fire Up Your Motivation</h5>
+                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                     <a href="component-cards.html#" class="btn btn-info px-4 radius-10">Read More</a>
+                   </div>
+                  </div>
+                </div>
+               </div>
+           </div>
       </div>
     </div>
-    {% endfor %}
+
 
   </div>
   <!-- end page content-->
@@ -51,8 +122,51 @@
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function typeWriterEffect(elementId, text, speed) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+   
+    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    typeWriterEffect("typewriter", text_start, 35);
 
 
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
+    const inputPhoto = document.getElementById("id_photo");
+    const previewImg = document.querySelector(".user-change-photo img");
+
+    btnCambiarFoto.addEventListener("click", function () {
+        inputPhoto.click();
+    });
+
+    inputPhoto.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
 
  
 {% endblock %}
