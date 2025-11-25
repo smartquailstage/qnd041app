@@ -30,7 +30,7 @@
         <li>
           <a href="{% url 'business_customer_projects:processes' project.pk %}">
             <ion-icon name="sync-outline"></ion-icon>
-            {{ project.name }} <span class="text-warning">({{ project.progress }}% en progreso)</span>
+            {{ project.name }} <span class="text-warning">({{ project.progress }}%)</span>
           </a>
         </li>
       {% endfor %}

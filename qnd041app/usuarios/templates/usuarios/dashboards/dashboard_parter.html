@@ -16,6 +16,220 @@
   </div>
 
 
+  <div class="col-md-8">
+    <h2 class="display-4 mt-3">ITC Business Projects </h2>
+  </div>
+  
+    <div class="card radius-10">
+      <div class="card-body">
+
+{% if all_projects or projects_in_progress %}
+
+    {% for project in all_projects %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+        <!-- 🔵 1 — Estado del Proyecto -->
+        <div class="col">
+            <div class="card radius-10 bg-success">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">{{ project.name }}</p>
+                            <h4 class="mb-0 text-white">Completado</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="shield-checkmark-sharp"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟣 2 — Uso de Recursos Cloud -->
+        <div class="col">
+            <div class="card radius-10 bg-primary">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Cloud</p>
+                            <h4 class="mb-0 text-white">N/D</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="cloud-upload-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Uso:</strong> Información no disponible</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟢 3 — Seguridad y Monitoreo -->
+        <div class="col">
+            <div class="card radius-10 bg-success">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Seguridad</p>
+                            <h4 class="mb-0 text-white">Sin Alertas</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="shield-checkmark-sharp"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Monitoreo:</strong> OK</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⚫ 4 — Estado de Pago -->
+        <div class="col">
+            <div class="card radius-10 bg-dark">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Estado de Pago</p>
+                            <h4 class="mb-0 text-white">
+                                {% if project.product and project.product.price %}
+                                    Pagado
+                                {% else %}
+                                    No pagado
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="card-sharp"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Producto:</strong> 
+                            {% if project.product %}
+        {{ project.product.name }}
+    {% else %}
+        N/A
+    {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+    {% for project in projects_in_progress %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+        <!-- 🔵 1 — Estado del Proyecto -->
+        <div class="col">
+            <div class="card radius-10 bg-primary">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">{{ project.name }}</p>
+                            <h4 class="mb-0 text-white">En Progreso</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="leaf-sharp"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟣 2 — Cloud -->
+        <div class="col">
+            <div class="card radius-10 bg-primary">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Cloud</p>
+                            <h4 class="mb-0 text-white">N/D</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="cloud-upload-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Uso:</strong> Información no disponible</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟢 3 — Seguridad -->
+        <div class="col">
+            <div class="card radius-10 bg-success">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Seguridad</p>
+                            <h4 class="mb-0 text-white">Sin Alertas</h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="shield-checkmark-sharp"></ion-icon>
+                        </div>
+                    </div>
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Monitoreo:</strong> OK</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⚫ 4 — Estado de Pago -->
+        <div class="col">
+            <div class="card radius-10 bg-dark">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-1 text-white">Estado de Pago</p>
+                            <h4 class="mb-0 text-white">
+                                {% if project.product %}
+                                    Pagado
+                                {% else %}
+                                    No pagado
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="ms-auto text-white fs-2">
+                            <ion-icon name="card-sharp"></ion-icon>
+                        </div>
+                    </div>
+<p class="mb-0 text-white"><strong>Producto:</strong>
+    {% if project.product %}
+        {{ project.product.name }}
+    {% else %}
+        N/A
+    {% endif %}
+</p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+{% else %}
+
+    <!-- SIN PROYECTOS -->
+    <div class="alert alert-warning text-center">
+        No tienes proyectos creados.
+        <br>
+        <a href="{% url 'business_customer_projects:create_project' %}" class="btn btn-primary mt-2">
+            Crear Proyecto
+        </a>
+    </div>
+
+{% endif %}
+
+
+      </div>
+    </div>
+
     <div class="col-md-8">
     <h2 class="display-4 mt-3">ITC Business Products </h2>
   </div>
