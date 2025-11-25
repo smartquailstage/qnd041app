@@ -506,6 +506,43 @@ def settings(request):
 
 # views.py
 
+
+# views.py
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Profile
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = "usuarios/profile_detail.html"
+    context_object_name = "profile"
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
+
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Profile
+from .forms import ProfileForm
+
+@login_required
+def editar_perfil(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("mi_perfil")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, "usuarios/profile_edit.html", {"form": form, "profile": profile})
+
+
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Profile

@@ -5,6 +5,7 @@ from . import views
 
 from django.urls import path
 from . import views
+from .views import ProfileDetailView
 
 urlpatterns = [
     # otras rutas...
@@ -35,6 +36,9 @@ urlpatterns = [
         views.politicas_terminos,
         name='politicas_terminos'
     ),
+
+    path("configuraciones/perfil_usuario", ProfileDetailView.as_view(), name="profile_view"),
+    path("configuraciones/perfil_usuario_editar/", views.editar_perfil, name="editar_perfil"),
 
     path("preview/login-email/", views.preview_login_notification_email, name="preview_login_email"),
     path("preview/email/password-reset/", views.preview_password_reset_email, name="preview_password_reset_email"),

@@ -155,6 +155,31 @@ class CustomUserChangeForm(forms.ModelForm):
 
 
 
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            "photo",
+            "nombre_completo",
+            "ruc_usuario",
+            "cargo_usuario",
+            "email_corporativo",
+            "telefono",
+            "nombre_empresa",
+            "ruc_empresa",
+            "sector_negocio",
+            "tamano_empresa",
+            "direccion_empresa",
+            "provincia",
+            "nivel_experiencia_cloud",
+            "servicios_cloud_interes",
+            "presupuesto_estimado"
+        ]
+        widgets = {
+            "servicios_cloud_interes": forms.Textarea(attrs={"rows": 3}),
+        }
+
+
 
 # forms.py
 

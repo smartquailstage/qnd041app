@@ -125,7 +125,7 @@ background: #444040;
   </a>
   <ul class="dropdown-menu dropdown-menu-end">
     <li>
-      <a class="dropdown-item" href="{% url 'usuarios:perfil' %}">
+      <a class="dropdown-item" href="{% url 'usuarios:dashboard' %}">
         <div class="d-flex flex-row align-items-center gap-2">
           {% if request.user.profile.photo %}
               <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.get_full_name }}" class="rounded-circle" width="44" height="44">

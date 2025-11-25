@@ -1,0 +1,201 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card radius-10">
+      <div class="card-body">
+        
+        <h5 class="mb-3"> <ion-icon name="person-circle-outline"></ion-icon> Perfil de Usuario</h5>
+
+        <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
+          <div class="user-change-photo shadow">
+
+            {% if profile.photo %}
+              <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
+            {% else %}
+              <img src="/static/img/default-user.png" alt="Foto de perfil" width="120" class="rounded-circle">
+            {% endif %}
+
+          </div>
+
+          <a href="#" class="btn btn-outline-primary btn-sm radius-30 px-4">
+            <ion-icon name="image-sharp"></ion-icon>
+            Cambiar Foto
+          </a>
+        </div>
+
+        <h5 class="mb-0 mt-4">Información del Usuario</h5>
+        <hr>
+
+        <div class="row g-3">
+
+          <div class="col-6">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" value="{{ profile.user.username }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Email Corporativo</label>
+            <input type="text" class="form-control" value="{{ profile.email_corporativo }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" value="{{ profile.nombre_completo }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Cédula / RUC</label>
+            <input type="text" class="form-control" value="{{ profile.ruc_usuario }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Cargo</label>
+            <input type="text" class="form-control" value="{{ profile.cargo_usuario }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Teléfono</label>
+            <input type="text" class="form-control" value="{{ profile.telefono }}" disabled>
+          </div>
+
+        </div>
+
+
+        <h5 class="mb-0 mt-4">Información Empresarial</h5>
+        <hr>
+
+        <div class="row g-3">
+
+          <div class="col-12">
+            <label class="form-label">Empresa</label>
+            <input type="text" class="form-control" value="{{ profile.nombre_empresa }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">RUC Empresa</label>
+            <input type="text" class="form-control" value="{{ profile.ruc_empresa }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Sector</label>
+            <input type="text" class="form-control" value="{{ profile.sector_negocio }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Tamaño Empresa</label>
+            <input type="text" class="form-control" value="{{ profile.tamano_empresa }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Provincia</label>
+            <input type="text" class="form-control" value="{{ profile.provincia }}" disabled>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Dirección Empresa</label>
+            <input type="text" class="form-control" value="{{ profile.direccion_empresa }}" disabled>
+          </div>
+
+        </div>
+
+
+        <h5 class="mb-0 mt-4">Información Cloud</h5>
+        <hr>
+
+        <div class="row g-3">
+
+          <div class="col-6">
+            <label class="form-label">Nivel de Experiencia</label>
+            <input type="text" class="form-control" value="{{ profile.nivel_experiencia_cloud }}" disabled>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">Presupuesto Estimado</label>
+            <input type="text" class="form-control" value="{{ profile.presupuesto_estimado }}" disabled>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Servicios de Interés</label>
+            <textarea class="form-control" rows="3" disabled>
+{{ profile.servicios_cloud_interes|join:", " }}
+            </textarea>
+          </div>
+
+        </div>
+
+        <div class="text-start mt-3">
+          <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-primary px-4">Editar Perfil</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+  <!-- end page content-->
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function typeWriterEffect(elementId, text, speed) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+   
+    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    typeWriterEffect("typewriter", text_start, 35);
+
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
+    const inputPhoto = document.getElementById("id_photo");
+    const previewImg = document.querySelector(".user-change-photo img");
+
+    btnCambiarFoto.addEventListener("click", function () {
+        inputPhoto.click();
+    });
+
+    inputPhoto.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+
+ 
+{% endblock %}

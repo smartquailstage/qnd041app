@@ -1,0 +1,196 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card radius-10">
+      <div class="card-body">
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <h5 class="mb-3">Editar Perfil</h5>
+
+          <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
+            <div class="user-change-photo shadow">
+
+              {% if profile.photo %}
+                <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
+              {% else %}
+                <img src="/static/img/default-user.png" alt="Foto de perfil" width="120" class="rounded-circle">
+              {% endif %}
+
+            </div>
+
+            <div>
+              {{ form.photo }}
+            </div>
+          </div>
+
+          <h5 class="mb-0 mt-4">Información del Usuario</h5>
+          <hr>
+
+          <div class="row g-3">
+
+            <div class="col-6">
+              <label class="form-label">Nombre Completo</label>
+              {{ form.nombre_completo }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Cédula / RUC</label>
+              {{ form.ruc_usuario }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Cargo</label>
+              {{ form.cargo_usuario }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Correo Corporativo</label>
+              {{ form.email_corporativo }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Teléfono</label>
+              {{ form.telefono }}
+            </div>
+
+          </div>
+
+
+          <h5 class="mb-0 mt-4">Información Empresarial</h5>
+          <hr>
+
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label">Nombre Empresa</label>
+              {{ form.nombre_empresa }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">RUC Empresa</label>
+              {{ form.ruc_empresa }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Sector</label>
+              {{ form.sector_negocio }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Tamaño Empresa</label>
+              {{ form.tamano_empresa }}
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Dirección Empresa</label>
+              {{ form.direccion_empresa }}
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Provincia</label>
+              {{ form.provincia }}
+            </div>
+          </div>
+
+
+          <h5 class="mb-0 mt-4">Información Cloud</h5>
+          <hr>
+
+          <div class="row g-3">
+
+            <div class="col-6">
+              <label class="form-label">Nivel de Experiencia</label>
+              {{ form.nivel_experiencia_cloud }}
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Presupuesto Estimado</label>
+              {{ form.presupuesto_estimado }}
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Servicios de Interés</label>
+              {{ form.servicios_cloud_interes }}
+            </div>
+
+          </div>
+
+          <div class="text-start mt-3">
+            <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+  <!-- end page content-->
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function typeWriterEffect(elementId, text, speed) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+   
+    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    typeWriterEffect("typewriter", text_start, 35);
+
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
+    const inputPhoto = document.getElementById("id_photo");
+    const previewImg = document.querySelector(".user-change-photo img");
+
+    btnCambiarFoto.addEventListener("click", function () {
+        inputPhoto.click();
+    });
+
+    inputPhoto.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+
+ 
+{% endblock %}
