@@ -1,0 +1,115 @@
+{% extends "base_dash.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+  <div class="col-md-8">
+    <h2 class="display-4 mt-3"><ion-icon name="settings-outline"></ion-icon> Configuraciones</h2>
+  </div>
+  
+    <div class="card radius-10">
+      <div class="card-body">
+<div class="row row-cols-1 row-cols-lg-3">
+
+<a href="{% url 'saas_shop:product_list' %}">
+            <div class="col">
+              <div class="card radius-10 bg-primary">
+                <div class="card-body text-white">
+                   <div class="service-box bg-white text-primary">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                   </div>
+                   <h5>Perfil de Usuario</h5>
+                   <p class="mb-0">
+                   Aquí puedes personalizar por completo tu perfil de usuario: ajusta el tamaño de tu negocio, define tus necesidades de ITC y optimiza tu experiencia para recibir soluciones realmente alineadas a tu crecimiento.
+                   </p>
+                </div>
+              </div>
+            </div>
+</a>
+
+<a href="{% url 'saas_shop:product_list' %}">
+
+            <div class="col">
+              <div class="card radius-10 bg-primary">
+                <div class="card-body text-white">
+                   <div class="service-box bg-white text-primary">
+                   <ion-icon name="shield-outline"></ion-icon>
+                   </div>
+                   <h5>Privacidad y seguridad </h5>
+                   <p class="mb-0">Horses famous for their size and quality are reared in the marshes of Aurich and Stade, in Hildesheim and Hanover; and, for breeding purposes, in the stud farm of Celle.</p>
+                </div>
+              </div>
+            </div>
+</a>
+
+
+
+
+         </div>
+
+
+      </div>
+    </div>
+
+
+  </div>
+  <!-- end page content-->
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function typeWriterEffect(elementId, text, speed) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+   
+    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    typeWriterEffect("typewriter", text_start, 35);
+
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
+    const inputPhoto = document.getElementById("id_photo");
+    const previewImg = document.querySelector(".user-change-photo img");
+
+    btnCambiarFoto.addEventListener("click", function () {
+        inputPhoto.click();
+    });
+
+    inputPhoto.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImg.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+
+ 
+{% endblock %}

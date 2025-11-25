@@ -497,6 +497,13 @@ def profile_view(request):
 
 
 
+@login_required
+def settings(request):
+    profile = Profile.objects.get(user=request.user)    
+    return render(request, 'usuarios/settings.html', {
+        'section': 'settings',
+    })
+
 # views.py
 
 from django.contrib.auth.decorators import login_required
