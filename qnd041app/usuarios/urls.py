@@ -30,6 +30,7 @@ urlpatterns = [
     path("dashboard/pequena/", views.dashboard_pequena, name="dashboard_pequena"),
     path("dashboard/mediana/", views.dashboard_mediana, name="dashboard_mediana"),
     path("dashboard/enterprise/", views.dashboard_enterprise, name="dashboard_enterprise"),
+    path("dashboard/user/", views.dashboard_pather, name="dashboard_pather"),
 
     path(
         'politicas-terminos/',

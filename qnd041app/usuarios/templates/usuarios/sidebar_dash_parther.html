@@ -1,0 +1,118 @@
+{% load widget_tweaks %}
+{% load static %}
+
+
+<aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{% static 'assets/images/REDQUAIL.png' %}" class="logo-icon"  width="39px" alt="logo icon">
+        </div>
+
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+
+
+<li class="">
+  <a href="javascript:;" class="has-arrow" aria-expanded="false">
+    <div class="parent-icon">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+    </div>
+    <div style="font-size: 10pt;" class="menu-title">ITC Business Projects</div>
+  </a>
+
+  <ul class="mm-collapse" style="height: auto;">
+
+    {% if all_projects or projects_in_progress %}
+      
+      {# 🔥 Proyectos en progreso #}
+      {% for project in projects_in_progress %}
+        <li>
+          <a href="{% url 'business_customer_projects:processes' project.pk %}">
+            <ion-icon name="sync-outline"></ion-icon>
+            {{ project.name }} <span class="text-warning">({{ project.progress }}% en progreso)</span>
+          </a>
+        </li>
+      {% endfor %}
+
+      {# 🔥 Proyectos completados (100%) #}
+      {% for project in all_projects %}
+        <li>
+          <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
+            <ion-icon name="ellipse-outline"></ion-icon>
+            {{ project.name }}
+          </a>
+        </li>
+      {% endfor %}
+
+    {% else %}
+      {# 🔥 Si no tiene ningún proyecto creado #}
+      <li>
+        <a href="{% url 'business_customer_projects:create_project' %}">
+          <ion-icon name="add-outline"></ion-icon>
+          Crear Nuevo Proyecto
+        </a>
+      </li>
+    {% endif %}
+
+  </ul>
+</li>
+
+
+<li class="">
+  <a href="javascript:;" class="has-arrow" aria-expanded="false">
+    <div class="parent-icon">
+      <ion-icon name="cloud-download-outline"></ion-icon>
+    </div>
+    <div style="font-size: 10pt;" class="menu-title">ITC Business Products</div>
+  </a>
+  <ul class="mm-collapse" style="height: auto;">
+  
+            <li>
+               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
+              <ion-icon name="browsers-outline"></ion-icon>
+            <div style="font-size: 10pt;"  class="menu-title">Business Software</div>
+          </a>
+        </li>
+
+
+        <li>
+               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
+              <ion-icon name="grid-outline"></ion-icon>
+            <div style="font-size: 10pt;"  class="menu-title">Business Platforms</div>
+          </a>
+        </li>
+
+        <li>
+               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
+              <ion-icon name="cube-outline"></ion-icon>
+            <div style="font-size: 10pt;"  class="menu-title">Business Infrastructure</div>
+          </a>
+        </li>
+  
+
+  </ul>
+</li>
+
+      <li class="menu-label">Consulting</li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="ticket-outline"></ion-icon>
+            <div class="menu-title">Take a Ticket</div>
+          </a>
+        </li>
+
+    </ul>
+
+
+
+
+  
+    <!--end navigation-->
+
+
+</aside>
+
+

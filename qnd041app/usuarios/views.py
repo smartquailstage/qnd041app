@@ -356,6 +356,15 @@ User = get_user_model()
 
 from .tasks import enviar_correo_login  # 👈 importa la tarea
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from usuarios.models import Profile
+from saas_orders.models import SaaSOrder  # Asegúrate de importar SaaSOrder
+from .forms import LoginForm
+from .tasks import enviar_correo_login  # Si usas Celery para enviar el correo
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -402,25 +411,24 @@ def user_login(request):
             # ================================
             # 🔥 Redirección inteligente
             # ================================
-            # Si NO tiene perfil → crear perfil
+
+            # 1️⃣ Verificar si tiene una orden SaaS pagada
+            if SaaSOrder.objects.filter(user=user_auth, paid=True).exists():
+                return redirect("usuarios:dashboard_pather")
+
+            # 2️⃣ Si NO tiene perfil → crear perfil
             if not hasattr(user_auth, "profile"):
                 return redirect('usuarios:perfil')
 
-            # Si tiene perfil, evaluamos
+            # 3️⃣ Si tiene perfil, evaluamos tamaño de empresa
             profile = user_auth.profile
 
-            # ================================
-            # 🔥 Redirección según tamaño de empresa
-            # ================================
             if profile.tamano_empresa == "1-10 usuarios":
                 return redirect("usuarios:dashboard_micro")
-
             elif profile.tamano_empresa == "11-50 usuarios":
                 return redirect("usuarios:dashboard_pequena")
-
             elif profile.tamano_empresa == "51-200 usuarios":
                 return redirect("usuarios:dashboard_mediana")
-
             elif profile.tamano_empresa == "200+ usuarios":
                 return redirect("usuarios:dashboard_enterprise")
 
@@ -431,6 +439,7 @@ def user_login(request):
         form = LoginForm()
 
     return render(request, 'registration/editorial_literario/login.html', {'form': form})
+
 
 
 from django.shortcuts import render
@@ -555,6 +564,33 @@ def dashboard(request):
     return render(request, 'usuarios/dashboard.html', {
         'section': 'dashboard',
     })
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from usuarios.models import Profile
+from business_customer_projects.models import BusinessSystemProject   # Ajusta el import según tu estructura real
+
+@login_required
+def dashboard_pather(request):
+    profile = Profile.objects.get(user=request.user)
+
+    # Todos los proyectos del usuario
+    user_projects = BusinessSystemProject.objects.filter(user=request.user)
+
+    # Solo los completados (para el menú)
+    completed_projects = user_projects.filter(progress=100)
+
+    return render(
+        request,
+        "usuarios/dashboards/dashboard_parter.html",
+        {
+            'section': 'dashboard',
+            'profile': profile,
+            'all_projects': completed_projects,  # 👈 Aquí ya llegan filtrados
+            'projects_in_progress': user_projects.exclude(progress=100),
+        }
+    )
+
 
 
 from django.contrib.auth.decorators import login_required

@@ -1,0 +1,377 @@
+
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+
+<style>
+
+
+.ticker-container {
+background: #444040;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  max-width: 900px;
+  height: 48px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  margin-bottom: 11px;
+  box-sizing: border-box;
+}
+
+
+/* 🔒 Ocultar scrollbar (compatible cross-browser) */
+.ticker-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.ticker-container {
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.line {
+  opacity: 0;
+  white-space: pre-line;
+  margin: 4px 0;
+  font-size: 14px;          /* tamaño de letra más cómodo en móvil */
+  line-height: 1.4;
+  transform: translateX(80px); /* empieza desplazada a la derecha */
+  transition: all 0.4s ease-out;
+}
+
+.line.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background-color: #fff;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Colores según tipo de log */
+.info  { color: #717a7b; }
+.warn  { color: #ffcc00; }
+.error { color: #ff4444; }
+
+/* 🔹 Media queries para móvil */
+@media (max-width: 600px) {
+  .ticker-container {
+    padding: 8px;
+    height: 46px;
+  }          /* ajustar para pantallas pequeñas */
+  }
+  
+  .line {
+    font-size: 13px;
+    line-height: 1.3;
+    transform: translateX(40px); /* menos desplazamiento lateral en móvil */
+  }
+
+  .cursor {
+    width: 6px;              /* cursor más pequeño */
+  }
+
+
+</style>
+
+
+
+
+
+<header class="top-header">
+  <nav class="navbar navbar-expand gap-3">
+    <div class="toggle-icon">
+      <ion-icon name="menu-outline"></ion-icon>
+
+
+
+
+    </div>
+
+<div class="ticker-container" id="ticker">
+  <div class="line"><span class="cursor"></span></div>
+</div>
+
+  
+    <div class="top-navbar-right ms-auto">
+
+<ul class="navbar-nav align-items-center">
+
+<li class="nav-item dropdown dropdown-user-setting">
+  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    <div class="user-setting">
+      {% if request.user.profile.photo %}
+        <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="{{ request.user.get_full_name }}">
+      {% else %}
+        <img src="{% static 'assets/images/login_bg/Sello2.png' %}" class="user-img" style="width:30px;" alt="Foto por defecto">
+      {% endif %}
+    </div>
+  </a>
+
+  <ul class="dropdown-menu dropdown-menu-end">
+
+    <!-- Perfil -->
+    <li>
+      <a class="dropdown-item" href="{% url 'usuarios:dashboard' %}">
+        <div class="d-flex flex-row align-items-center gap-2">
+          {% if request.user.profile.photo %}
+              <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.get_full_name }}" class="rounded-circle" width="44" height="44">
+          {% else %}
+              <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto por defecto" class="rounded-circle" width="44" height="44">
+          {% endif %}
+          <div>
+              <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
+              <small class="mb-0 dropdown-user-designation text-secondary">{{ request.user.profile.nombre_empresa }}</small>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- 🔥 NUEVA SECCIÓN DE PROYECTOS -->
+    
+    {% if projects_in_progress %}
+      <li class="dropdown-header text-warning ps-3">ITC Business Project</li>
+      {% for project in projects_in_progress %}
+        <li>
+          <a class="dropdown-item" href="{% url 'business_customer_projects:processes' project.pk %}">
+            <ion-icon name="sync-outline"></ion-icon>
+            {{ project.name }} ({{ project.progress }}%)
+          </a>
+        </li>
+      {% endfor %}
+      <li><hr class="dropdown-divider"></li>
+    {% endif %}
+
+    {% if all_projects %}
+      <li class="dropdown-header text-success ps-3">Completados</li>
+      {% for project in all_projects %}
+        <li>
+          <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
+            <ion-icon name="checkmark-done-outline"></ion-icon>
+            {{ project.name }}
+          </a>
+        </li>
+      {% endfor %}
+      <li><hr class="dropdown-divider"></li>
+    {% endif %}
+
+    {% if not all_projects and not projects_in_progress %}
+      <li>
+        <a class="dropdown-item" href="{% url 'business_customer_projects:create_project' %}">
+          <ion-icon name="add-outline"></ion-icon>
+          Crear nuevo proyecto
+        </a>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+    {% endif %}
+
+    <!-- Configuración -->
+    <li>
+      <a class="dropdown-item" href="{% url 'usuarios:settings' %}">
+        <div class="d-flex align-items-center">
+          <div><ion-icon name="settings-outline"></ion-icon></div>
+          <div class="ms-3"><span>Configuraciones</span></div>
+        </div>
+      </a>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <!-- Salir -->
+    <li>
+      <a class="dropdown-item" href="{% url 'usuarios:logout' %}">
+        <div class="d-flex align-items-center">
+          <div><ion-icon name="log-out-outline"></ion-icon></div>
+          <div class="ms-3"><span>Salir</span></div>
+        </div>
+      </a>
+    </li>
+
+  </ul>
+</li>
+
+</ul>
+
+    </div>
+  </nav>
+</header>
+
+
+<script>
+const logs = [
+  "root@smartquail:~# initializing SmartQuail® CyberOps Console v4.8.1",
+  "[BOOT] System integrity verified. All modules signed and trusted.",
+  "[NETWORK] Establishing secure VPN tunnel to cloud node us-east-1...",
+  "[VPN] AES-256 tunnel established with SmartQuail CloudHub (latency: 28ms)",
+
+  // --- NMAP / NETWORK SCAN ---
+  "root@smartquail:~# nmap -A -T4 10.0.0.0/24",
+  "[SCANNER] Enumerating hosts... 18 nodes found active.",
+  "10.0.0.15 - open ports: 22(SSH), 8080(API), 443(HTTPS)",
+  "10.0.0.19 - open ports: 21(FTP), 1433(MSSQL), 8000(NodeJS)",
+  "[INFO] Performing banner grab for host 10.0.0.19:8080",
+  "[RESULT] Server: nginx/1.24.2 | Framework: ExpressJS v4.19",
+
+  // --- NGINX LOGS ---
+  "[NGINX] 2025/11/10 15:12:43 [notice] 1423#1423: start worker processes",
+  "[NGINX] 2025/11/10 15:13:10 [info] 1423#1423: 200 GET /api/v1/status (127.0.0.1) 0.003s",
+  "[NGINX] 2025/11/10 15:13:14 [warn] 1423#1423: 499 POST /api/v1/upload client closed connection prematurely",
+  "[NGINX] 2025/11/10 15:14:02 [info] 1423#1423: 302 GET /login redirected to /dashboard",
+
+  // --- SSH SESSION ---
+  "root@smartquail:~# ssh devops@10.0.0.15",
+  "Authentication successful. Session key: SHA256:e3a7f...8a1c",
+  "[SYSTEM] Ubuntu 24.04 LTS | Kernel 6.10.0 | Node v22.1.0",
+  "[PROCESS] Docker containers detected: 14 active | 3 paused",
+
+  // --- RABBITMQ LOGS ---
+  "[RABBITMQ] 2025-11-10 15:15:33 connection <0.453.0> (10.0.0.15:5672 -> 10.0.0.19:54218): user 'smartquail' authenticated successfully",
+  "[RABBITMQ] 2025-11-10 15:16:01 queue 'events_queue' reached 12000 messages (warning threshold 10000)",
+  "[RABBITMQ] 2025-11-10 15:16:22 consumer 'ml-defense-engine' ACKed 1000 messages in 3.2s",
+  "[RABBITMQ] 2025-11-10 15:16:59 queue 'alerts_queue' purged | 42 messages removed",
+
+  // --- KAFKA LOGS ---
+  "[KAFKA] [Broker-1] Leader election for topic 'ai_alerts' partition=2 completed. New leader: broker-3",
+  "[KAFKA] [ConsumerGroup:smartquail-ml] Offset commit success topic='telemetry' partition=1 offset=42391",
+  "[KAFKA] [Producer] Sent batch (size=128KB) to topic 'security_events' latency=22ms",
+  "[KAFKA] [Controller] Cluster id=skq-cluster-001 | ISR state healthy",
+
+  // --- POSTFIX LOGS ---
+  "[POSTFIX] 2025-11-10 15:18:03 status=sent (250 OK) from=<alerts@smartquail.com> to=<admin@smartquail.com> relay=mail.smartquail.com[10.0.0.10]:25",
+  "[POSTFIX] 2025-11-10 15:18:44 status=deferred (Connection timed out) to=<external@partner.net>",
+  "[POSTFIX] 2025-11-10 15:19:12 cleanup[8932]: message-id=<20251110-mlalert@smartquail.com>",
+
+  // --- REDIS LOGS ---
+  "[REDIS] 15:19:33.145 * DB loaded from disk: 0.002 seconds",
+  "[REDIS] 15:19:34.202 # WARNING Memory usage > 80% (maxmemory policy: allkeys-lru)",
+  "[REDIS] 15:19:35.511 * Background saving started by pid 4721",
+  "[REDIS] 15:19:36.822 * Background saving terminated with success",
+
+  // --- POSTGRES LOGS ---
+  "[POSTGRES] 2025-11-10 15:20:11 [INFO] connection authorized: user=mlops db=smartquail",
+  "[POSTGRES] 2025-11-10 15:20:14 [LOG] automatic vacuum of table 'public.telemetry': pages: 1500 removed: 321",
+  "[POSTGRES] 2025-11-10 15:20:17 [ERROR] duplicate key value violates unique constraint 'users_pkey'",
+  "[POSTGRES] 2025-11-10 15:20:20 [INFO] query completed in 28.4ms | SELECT COUNT(*) FROM alerts WHERE severity='HIGH'",
+
+  // --- SMARTQUAIL OPS ---
+  "root@10.0.0.15:/# ./deploy_scaler.sh --region=us-west-2 --nodes=30",
+  "[CLOUD] Auto-scaling SmartQuail cluster... Target nodes: 30",
+  "[INFO] QND0210239 SmartQuail Node provisioning in progress...",
+  "[CLOUD] Instance i-0afc8b93d created. (type: t3.large)",
+  "[CLOUD] Load balancer updated successfully.",
+  "[SECURITY] IDS signature update: CVE-2025-1093 mitigation applied.",
+  "[AI-SEC] Neural Defender scanning runtime traffic patterns...",
+  "[AI-SEC] Detected abnormal pattern in container: ml-defense-engine",
+  "[THREAT] Possible reverse shell attempt from IP 203.0.113.77",
+  "root@10.0.0.15:/# netstat -antp | grep 203.0.113.77",
+  "[ANALYSIS] Suspicious connection confirmed: python3 (PID 9921)",
+  "root@10.0.0.15:/# kill -9 9921",
+  "[ACTION] Malicious process terminated successfully.",
+  "root@10.0.0.15:/# ufw deny from 203.0.113.77",
+  "[FIREWALL] Rule added. IP permanently blacklisted.",
+  "root@10.0.0.15:/# systemctl restart smartquail-defense",
+  "[INFO] SmartQuail Defense restarted and operational",
+
+  // --- CLOUD & METRICS ---
+  "root@10.0.0.15:/# ./audit_cloud.sh --region=all",
+  "[CLOUD AUDIT] Verifying IAM roles, policies, and bucket access...",
+  "[RESULT] No misconfigurations found. All S3 buckets encrypted.",
+  "[METRICS] CPU Load: 0.42 | RAM: 58% | Net TX/RX: 122MB / 109MB",
+  "[METRICS] AI Defense Latency: 8.3ms | Detection Accuracy: 99.1%",
+  "[SUCCESS] All systems operational — SmartQuail CloudSec stable 🛰️",
+
+  // --- TRAINING PIPELINE ---
+  "root@smartquail:~# python train_model.py --dataset=imagenet --epochs=5",
+  "[TENSORFLOW] Initializing GPU devices...",
+  "[TENSORFLOW] Loaded dataset: 1.2M images | Classes: 1000",
+  "[TENSORFLOW] Epoch 1/5 - Loss: 2.45 - Accuracy: 15.3%",
+  "[TENSORFLOW] Epoch 5/5 - Loss: 1.31 - Accuracy: 65.4%",
+  "[TENSORFLOW] Model training completed ✅ | Saved: /models/resnet50_v2.h5",
+  "[RESULT] Test Accuracy: 64.8% | F1 Score: 0.63 | Precision: 0.65",
+
+  // --- ELASTICSEARCH & CLOUD GPU OPS ---
+  "[ELASTICSEARCH] Cluster health: GREEN | Nodes: 5 | Shards: 15",
+  "[ELASTICSEARCH] 100000 documents indexed | Took: 12.3s",
+  "[CLOUD] GPU Node 3 launched (Tesla T4) | Status: Ready",
+  "[AI-SEC] No anomalies detected | All processes stable",
+
+  // --- DEPLOYMENT ---
+  "[DEPLOY] Uploading model to cloud storage...",
+  "[DEPLOY] Model available at: https://cloud.smartquail.com/models/resnet50_v2.h5",
+  "[DEPLOY] Model deployed to TensorFlow Serving | Status: RUNNING ✅",
+
+  // --- SESSION CLOSE ---
+  "[SESSION] Secure session closed. Logs archived to /var/log/cyberops_2025_11_10.log"
+];
+
+
+const container = document.getElementById('ticker');
+const typingSpeed = 15; // velocidad de escritura (ms por letra)
+const linePause = 400;  // pausa entre líneas
+let currentLog = 0;
+let charIndex = 0;
+let cursor = document.querySelector('.cursor');
+let currentLine = container.querySelector('.line');
+
+function getLogClass(log) {
+  if (log.includes('ERROR')) return 'error';
+  if (log.includes('WARN')) return 'warn';
+  return 'info';
+}
+
+function typeLogs() {
+  if (currentLog >= logs.length) {
+    // Reset para repetir en loop
+    currentLog = 0;
+    charIndex = 0;
+    container.innerHTML = '<div class="line"><span class="cursor"></span></div>';
+    currentLine = container.querySelector('.line');
+  }
+
+  const logText = logs[currentLog];
+  const logClass = getLogClass(logText);
+
+  if (charIndex === 0) {
+    currentLine.classList.add(logClass, 'visible');
+  }
+
+  currentLine.textContent = logText.slice(0, charIndex + 1);
+  currentLine.appendChild(cursor);
+
+  container.scrollTop = container.scrollHeight;
+
+  charIndex++;
+
+  if (charIndex < logText.length) {
+    setTimeout(typeLogs, typingSpeed);
+  } else {
+    currentLog++;
+    charIndex = 0;
+    setTimeout(() => {
+      const newLine = document.createElement('div');
+      newLine.className = 'line';
+      container.appendChild(newLine);
+      setTimeout(() => newLine.classList.add('visible'), 50);
+      currentLine = newLine;
+      typeLogs();
+    }, linePause);
+  }
+}
+
+// iniciar animación
+typeLogs();
+</script>
+      <!--end top header-->
