@@ -29,8 +29,8 @@
       {% for project in projects_in_progress %}
         <li>
           <a href="{% url 'business_customer_projects:processes' project.pk %}">
-            <ion-icon name="sync-outline"></ion-icon>
-            {{ project.name }} <span class="text-warning">({{ project.progress }}%)</span>
+            
+            {{ project.name }} <span class="text-warning">({{ project.progress }}%) <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
           </a>
         </li>
       {% endfor %}
@@ -40,7 +40,7 @@
         <li>
           <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
             <ion-icon name="ellipse-outline"></ion-icon>
-            {{ project.name }}
+            {{ project.name }}<span class="text-sucess">(100%)</span>
           </a>
         </li>
       {% endfor %}

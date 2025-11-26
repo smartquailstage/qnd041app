@@ -2674,13 +2674,15 @@ textarea.form-control-lg {
 .btn-check:checked+.btn:focus-visible, .btn.active:focus-visible, .btn.show:focus-visible, .btn:first-child:active:focus-visible, :not(.btn-check)+.btn:active:focus-visible {
 	box-shadow: var(--bs-btn-focus-box-shadow)
 }
-.btn.disabled, .btn:disabled, fieldset:disabled .btn {
-	color: var(--bs-btn-disabled-color);
-	pointer-events: none;
-	background-color: var(--bs-btn-disabled-bg);
-	border-color: var(--bs-btn-disabled-border-color);
-	opacity: var(--bs-btn-disabled-opacity)
+.btn.disabled, .btn:disabled, fieldset:disabled .btn 
+{
+  color: #18bb6b;
+  pointer-events: none;
+  background-color: #372f2f;
+  border-color: #372f2f;
+  opacity: var(--bs-btn-disabled-opacity);
 }
+
 .btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #FF050D;
