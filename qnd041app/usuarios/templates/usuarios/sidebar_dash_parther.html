@@ -2,6 +2,12 @@
 {% load static %}
 
 
+<style>
+  .text-info {
+  color: #48ff05 !important;
+}
+</style>
+
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
@@ -41,7 +47,7 @@
           <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
             <ion-icon name="radio-button-on-outline" class="text-info"></ion-icon>
            
-            {{ project.name }}<span class="text-sucess">(100%)</span>
+            {{ project.name }}
           </a>
         </li>
       {% endfor %}

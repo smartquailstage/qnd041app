@@ -156,7 +156,7 @@ background: #444040;
     {% endif %}
 
     {% if all_projects %}
-      <li class="dropdown-header text-success ps-3">Completados</li>
+
       {% for project in all_projects %}
         <li>
           <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
