@@ -31,10 +31,11 @@
                         <div>
                             <p class="mb-1 text-white"> Meddes® (I+D)+A</p>
                             <h4 class="mb-0 text-white">Activo</h4>
-                            <p class="mb-1 text-white">app.meddes.com.ec <ion-icon name="shield-checkmark-sharp"></ion-icon> </p>
+                            <p class="mb-1 text-white"> <ion-icon name="shield-checkmark-sharp"></ion-icon> app.meddes.com.ec </p>
                         </div>
                         <div class="ms-auto text-white fs-2">
-                            <button class="btn btn-primary" type="button" disabled=""> <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <button class="btn btn-primary" type="button" disabled=""> 
+                              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                     <span class="visually-hidden">Loading...</span>
                   </button>
                         </div>
@@ -56,14 +57,14 @@
                         <div>
                             <p class="mb-1 text-white">Latencia Max (100 usuarios)</p>
                             <h4 class="mb-0 text-white">814 ms </h4>
-                            <p class="mb-1 text-white">última revision: 07/11/25   <ion-icon name="checkmark-done-outline"></ion-icon></p>
+                            <p class="mb-1 text-white"> <ion-icon name="checkmark-done-outline"></ion-icon> última revision: 07/11/25 </p>
                         </div>
                         <div class="ms-auto text-white fs-2">
-                            <ion-icon name="shuffle-outline"></ion-icon>
+                            <ion-icon name="wifi-outline"></ion-icon>
                         </div>
                     </div>
                     <hr class="text-white">
-                                        <p class="mb-0 text-white"><strong>Uso de recursos:</strong> 30% (Producción)</p>
+                                        <p class="mb-0 text-white"><strong>Uso de recursos:</strong> 30% (1000 Mbs/sec)</p>
                     <div class="progress my-0" style="height: 6px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
@@ -79,7 +80,7 @@
                         <div>
                             <p class="mb-1 text-white">Almacenamiento  <ion-icon name="shield-checkmark-sharp"></ion-icon> </p>
                             <h4 class="mb-0 text-white">25 GB </h4>
-                               <p class="mb-1 text-white">Respaldo: 2:00 am / 24hs <ion-icon name="sync-outline"></ion-icon></p>
+                               <p class="mb-1 text-white"> <ion-icon name="sync-outline"></ion-icon> Respaldo: 2:00 am / 24hs</p>
                         </div>
                         <div class="ms-auto text-white fs-2">
                            <ion-icon name="server-outline"></ion-icon>
@@ -100,9 +101,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-1 text-white">Procesamiento (vCPU/Intel) </p>
+                            <p class="mb-1 text-white">Unidad de Procesamiento (vCPU) </p>
                             <h4 class="mb-0 text-white">1000m </h4>
-                               <p class="mb-1 text-white">Servidor Público Dedicado</p>
+                               <p class="mb-1 text-white"><ion-icon name="cloud-upload-outline"></ion-icon> Servidor Público Dedicado</p>
                         </div>
                         <div class="ms-auto text-white fs-2">
                            <ion-icon name="hardware-chip-outline"></ion-icon>
@@ -131,6 +132,7 @@
                         <div>
                             <p class="mb-1 text-white">{{ project.name }}</p>
                             <h4 class="mb-0 text-white">En Progreso</h4>
+                             <p class="mb-1 text-white">qnd031app.smartquail.io</p>
                         </div>
                         <div class="ms-auto text-warning fs-2">
                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
@@ -151,15 +153,19 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-1 text-white">Cloud</p>
-                            <h4 class="mb-0 text-white">N/D</h4>
+                            <p class="mb-1 text-white">Calculando Latencia</p>
+                            <h4 class="mb-0 text-white">En Pruebas QA</h4>
+                             <p class="mb-1 text-white">Preparando Balanceador de carga</p>
                         </div>
-                        <div class="ms-auto text-white fs-2">
-                            <ion-icon name="cloud-upload-outline"></ion-icon>
+                        <div class="ms-auto text-warning fs-2">
+                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
                         </div>
                     </div>
                     <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Uso:</strong> Información no disponible</p>
+                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Geolocalizando)</p>
+                    <div class="progress mb-3" style="height:7px;">
+									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
                 </div>
             </div>
         </div>
@@ -170,50 +176,45 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-1 text-white">Seguridad</p>
-                            <h4 class="mb-0 text-white">Sin Alertas</h4>
+                            <p class="mb-1 text-white">Alojando Base de datos</p>
+                            <h4 class="mb-0 text-white">En Implementación</h4>
+                             <p class="mb-1 text-white">Arbol de Datos</p>
                         </div>
-                        <div class="ms-auto text-white fs-2">
-                            <ion-icon name="shield-checkmark-sharp"></ion-icon>
+                        <div class="ms-auto text-warning fs-2">
+                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
                         </div>
                     </div>
                     <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Monitoreo:</strong> OK</p>
+                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Desarollo)</p>
+                    <div class="progress mb-3" style="height:7px;">
+									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
                 </div>
             </div>
         </div>
 
         <!-- ⚫ 4 — Estado de Pago -->
-        <div class="col">
+                <div class="col">
             <div class="card radius-10 bg-primary">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-1 text-white">Estado de Pago</p>
-                            <h4 class="mb-0 text-white">
-                                {% if project.product %}
-                                    Pagado
-                                {% else %}
-                                    No pagado
-                                {% endif %}
-                            </h4>
+                            <p class="mb-1 text-white">Buscando Servidores Disponibles</p>
+                            <h4 class="mb-0 text-white">En Pruebas QA</h4>
+                             <p class="mb-1 text-white">Optimización de Recursos</p>
                         </div>
-                        <div class="ms-auto text-white fs-2">
-                            <ion-icon name="card-sharp"></ion-icon>
+                        <div class="ms-auto text-warning fs-2">
+                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
                         </div>
                     </div>
-<p class="mb-0 text-white"><strong>Producto:</strong>
-    {% if project.product %}
-        {{ project.product.name }}
-    {% else %}
-        N/A
-    {% endif %}
-</p>
-
+                    <hr class="text-white">
+                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Desarollo)</p>
+                    <div class="progress mb-3" style="height:7px;">
+									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
                 </div>
             </div>
         </div>
-
     </div>
     {% endfor %}
 
@@ -364,7 +365,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
    
-    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
+    const text_start = `Hola, {{ request.user.first_name }}, gracias por confiar en SmartQuail, Inc.
+Tu proyecto de Tecnologías de Información y Comunicación en la nube ya está disponible y en producción. Todos los recursos de nube que contrataste han sido correctamente alojados y distribuidos en nuestros servidores.
+
+Si deseas escalar algún proyecto, simplemente actualiza las opciones de usuario en tu perfil. Automáticamente te mostraremos todos los productos disponibles y alineados a tus necesidades.`;
     typeWriterEffect("typewriter", text_start, 35);
 
 
