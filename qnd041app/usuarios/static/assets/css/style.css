@@ -232,7 +232,7 @@ position: fixed;
 }
 
 .sidebar-wrapper .metismenu ul {
-  background: rgb(64, 57, 57);
+  background: rgba(64, 57, 57, 0);
   border: 0px solid #f8fafb;
   border-radius: 3%;
 }
@@ -251,7 +251,7 @@ position: fixed;
 .sidebar-wrapper .metismenu a:hover {
   color: #717a7b;
   text-decoration: none;
-  background-color: rgba(57, 45, 45, 0.32);
+  background-color: rgba(57, 45, 45, 0);
 }
 
 .menu-label {

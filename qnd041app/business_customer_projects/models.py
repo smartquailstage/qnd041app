@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from usuarios.models  import SmartQuailCrew
 from saas_shop.models import Product
+from saas_orders.models import SaaSOrder
 
 
 
@@ -23,8 +24,34 @@ class BusinessSystemProject(models.Model):
         verbose_name='Producto asociado'
     )
 
+    is_active = models.BooleanField(default=True, verbose_name='¿Proyecto activo?')
+    is_domain_configured = models.BooleanField(default=False, verbose_name='¿Dispone de dominio privado?')
+    domain_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
+    public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
+
+    saas_order = models.OneToOneField(
+        SaaSOrder,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="business_project",
+        verbose_name="Orden SaaS relacionada"
+    )
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        #editable=False,  # evita errores similares al de 'executed_at'
+        related_name='business_projects',
+        verbose_name='Producto asociado'
+    )
+
+
+
     # Nombre y descripción del proyecto
-    name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial")
+    name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial",default="Iniciando")
     description = models.TextField()
 
     # Fecha de creación
@@ -38,7 +65,7 @@ class BusinessSystemProject(models.Model):
         verbose_name='Equipo asignado'
     )
 
-    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)", default=0)
+    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)", default=10)
 
     # Sector de negocio
     SECTOR_CHOICES = [
@@ -88,6 +115,15 @@ class BusinessSystemProject(models.Model):
     def get_absolute_url(self):
         return reverse("business:project_detail", kwargs={"pk": self.pk})
 
+
+    def save(self, *args, **kwargs):
+        if self.saas_order:
+            item = self.saas_order.items.first()
+            if item:
+                self.product = item.product
+        super().save(*args, **kwargs)
+
+
 from usuarios.models import SmartQuailCrew  # Asegúrate de que esta importación es correcta
 
 from django.db import models
@@ -102,6 +138,19 @@ class BusinessProcess(models.Model):
     )
     name = models.CharField(max_length=200)
     description = models.TextField()
+    numero_maximo_procesos = models.IntegerField(default=1)
+    PROCESS_TYPE_CHOICES = [
+        ('Admin', 'Administrativo'),
+        ('Fin', 'Financiero'),
+        ('HR', 'Recursos Humanos'),
+        ('Sales', 'Ventas'),
+        ('Mkt', 'Marketing'),
+        ('Ops', 'Operaciones'),
+        ('CS','Cadena de Suministros'),
+        ('PS','Productos y Servicios'),
+    ]
+    process_type = models.CharField("Tipo de proceso",max_length=10,choices=PROCESS_TYPE_CHOICES,blank=True,null=True)
+
 
     progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
 
@@ -188,7 +237,7 @@ class BusinessProcess(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name} - {self.project.name}"
+        return f"{self.name} - {self.project.name} I+D"
 
 
 
@@ -275,16 +324,122 @@ class BusinessIntelligent(models.Model):
 
     # Tipos de inteligencia artificial
     AI_TYPE_CHOICES = [
-        ('binary_classification', 'Predicción por clasificación binaria'),
-        ('regression', 'Predicción por regresión'),
-        ('clustering', 'Clustering'),
-        ('nlp', 'Procesamiento de Lenguaje Natural (NLP)'),
-        ('image_recognition', 'Reconocimiento de imágenes'),
-        ('recommendation', 'Sistemas de recomendación'),
-        ('reinforcement_learning', 'Aprendizaje por refuerzo'),
-        ('deep_learning', 'Deep Learning'),
-        ('time_series', 'Series temporales'),
+
+    # -----------------------------
+    # 🔵 MODELOS SUPERVISADOS (scikit-learn, TensorFlow, Keras)
+    # -----------------------------
+    ('binary_classification', 'Clasificación Binaria (scikit-learn / TF / Keras)'),
+    ('multiclass_classification', 'Clasificación Multiclase'),
+    ('regression', 'Regresión Numérica'),
+    ('logistic_regression', 'Regresión Logística'),
+    ('svm_classifier', 'Clasificador SVM'),
+    ('random_forest', 'Bosque Aleatorio'),
+    ('gradient_boosting', 'Gradient Boosting (XGBoost / LightGBM)'),
+
+
+    # -----------------------------
+    # 🟣 MODELOS NO SUPERVISADOS (scikit-learn)
+    # -----------------------------
+    ('clustering', 'Clustering (K-Means / DBSCAN / GMM)'),
+    ('dimensionality_reduction', 'Reducción de Dimensionalidad (PCA / t-SNE)'),
+    ('anomaly_detection', 'Detección de Anomalías (Isolation Forest)'),
+
+
+    # -----------------------------
+    # 🟠 DEEP LEARNING (TensorFlow / Keras)
+    # -----------------------------
+    ('cnn', 'Redes Convolucionales (CNN)'),
+    ('rnn', 'Redes Recurrentes (RNN / LSTM / GRU)'),
+    ('transformer_custom', 'Transformers personalizados'),
+    ('autoencoders', 'Autoencoders para compresión / detección de anomalías'),
+    ('gan', 'Generative Adversarial Networks (GAN)'),
+
+
+    # -----------------------------
+    # 🟢 MODELOS DE SERIE TEMPORAL
+    # -----------------------------
+    ('time_series', 'Predicción de Series Temporales (LSTM / Prophet / ARIMA)'),
+
+
+    # -----------------------------
+    # 🔤 NLP (scikit-learn, TensorFlow, Keras, Gemini)
+    # -----------------------------
+    ('nlp', 'Procesamiento de Lenguaje Natural'),
+    ('text_classification', 'Clasificación de Texto'),
+    ('sentiment_analysis', 'Análisis de Sentimiento'),
+    ('topic_modeling', 'Modelado de Temas (LDA)'),
+    ('text_generation', 'Generación de Texto (Transformers / Gemini)'),
+    ('named_entity_recognition', 'NER - Reconocimiento de Entidades'),
+    ('embedding_models', 'Modelos de Embeddings (Word2Vec / BERT / Gemini)'),
+
+
+    # -----------------------------
+    # 🖼️ VISIÓN POR COMPUTADOR (TensorFlow / Keras)
+    # -----------------------------
+    ('image_recognition', 'Reconocimiento de Imágenes'),
+    ('object_detection', 'Detección de Objetos (YOLO / EfficientDet)'),
+    ('image_segmentation', 'Segmentación de Imágenes (UNet)'),
+    ('ocr', 'OCR Inteligente (Tesseract / Vision AI)'),
+
+
+    # -----------------------------
+    # 🧠 RECOMMENDER SYSTEMS
+    # -----------------------------
+    ('recommendation', 'Sistema de Recomendación (ML / Deep Learning)'),
+    ('content_based_filtering', 'Recomendación por Contenido'),
+    ('collaborative_filtering', 'Filtering Colaborativo'),
+    ('hybrid_recommender', 'Sistema de Recomendación Híbrido'),
+
+
+    # -----------------------------
+    # 🟡 REINFORCEMENT LEARNING (TensorFlow/keras-rl)
+    # -----------------------------
+    ('reinforcement_learning', 'Reinforcement Learning'),
+    ('q_learning', 'Q-Learning'),
+    ('policy_gradient', 'Policy Gradient'),
+    ('ddpg', 'Deep Deterministic Policy Gradient'),
+
+
+    # -----------------------------
+    # 🔴 AGENTES INTELIGENTES (Gemini / LLMs)
+    # -----------------------------
+    ('chatbot_agent', 'Agente Conversacional (Gemini / LLMs)'),
+    ('autonomous_agent', 'Agente Autónomo (Planificación + Acción)'),
+    ('decision_agent', 'Agente de Toma de Decisiones'),
+    ('documentation_agent', 'Agente Generador de Documentación Técnica'),
+    ('data_analysis_agent', 'Agente Analítico de Datos'),
+    ('code_generation_agent', 'Agente Generador de Código (Gemini Code)'),
+    ('integration_agent', 'Agente Integrador con APIs externas'),
+    ('workflow_agent', 'Agente que ejecuta flujos completos de trabajo'),
+    ('customer_support_agent', 'Agente de Atención al Cliente'),
+    ('business_intelligence_agent', 'Agente de Inteligencia de Negocio'),
+
+
+    # -----------------------------
+    # 🟤 MODELOS PARA AUDIO
+    # -----------------------------
+    ('audio_classification', 'Clasificación de Audio'),
+    ('speech_to_text', 'Speech-to-Text (Gemini Audio)'),
+    ('text_to_speech', 'Text-to-Speech (TTS)'),
+
+
+    # -----------------------------
+    # ⚫ OTROS MODELOS AVANZADOS
+    # -----------------------------
+    ('graph_neural_network', 'Graph Neural Networks (GNN)'),
+    ('probabilistic_models', 'Modelos Probabilísticos (Bayesianos)'),
+    ('large_language_model', 'Fine-Tuning de LLMs (Gemini Finetuning Tool)'),
+
+
+    # -----------------------------
+    # ⚙️ SISTEMAS HÍBRIDOS / INDUSTRIA
+    # -----------------------------
+    ('predictive_maintenance', 'Mantenimiento Predictivo'),
+    ('fraud_detection', 'Detección de Fraude'),
+    ('pricing_optimization', 'Optimización de Precios'),
+    ('inventory_forecasting', 'Predicción de Inventarios'),
     ]
+
     ai_type = models.CharField(
         "Tipo de Inteligencia Artificial",
         max_length=30,
@@ -359,10 +514,27 @@ class BusinessIntelligent(models.Model):
 
 class QATest(models.Model):
     process = models.ForeignKey(BusinessProcess, on_delete=models.CASCADE, related_name='qa_tests')
-    test_case = models.CharField(max_length=255)
-    description = models.TextField()
+    max_users = models.IntegerField(default=1)
+    date_reviewed = models.DateField(null=True, blank=True)
+    storage_used_gb = models.FloatField(help_text="Almacenamiento usado en GB",null=True,blank=True)
+    vCPUs_used = models.IntegerField(help_text="vCPUs usadas milicore",null=True,blank=True)
+    ram_used_gb = models.FloatField(help_text="RAM usada en GB",null=True,blank=True)
+    GPUs_used = models.CharField(max_length=100, help_text="GPUs usadas milicore",null=True,blank=True)
+    TPUs_used = models.CharField(max_length=100, help_text="Tensor usadas milicore",null=True,blank=True)
+    update_resources_used_pocentage = models.FloatField(help_text="Porcentaje de uso de recursos durante la prueba",null=True,blank=True)
+    latency_ms = models.FloatField(help_text="Latencia en milisegundos",null=True,blank=True)
+    uptime_percentage = models.FloatField(help_text="Porcentaje de tiempo activo durante la prueba",null=True,blank=True) 
+    SERVER_CHOICE = [
+        ('dedicated', 'Servidor privado Dedicado'),
+        ('shared', 'Servidor hibrido Compartido'),
+        ('cloud', 'Servidor público en la Nube'),
+    ]
+    server_type = models.CharField(max_length=20, choices=SERVER_CHOICE, help_text="Tipo de servidor utilizado",null=True,blank=True)
+    sketch_notes_stores = models.CharField(max_length=255, help_text="Cronograma de backups DataBase",null=True,blank=True)
+    test_case = models.CharField(max_length=255,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
     result = models.CharField(max_length=50, choices=[('passed', 'Aprobado'), ('failed', 'Fallido'), ('pending', 'Pendiente')])
-    executed_at = models.DateTimeField(auto_now_add=True)
+    executed_at = models.DateTimeField(auto_now_add=True, null=True,blank=True,editable=False)
     executed_by = models.CharField(max_length=100)
 
     def __str__(self):
@@ -379,6 +551,13 @@ class CloudResource(models.Model):
         ('network', 'Red'),
         ('other', 'Otro'),
     ]
+
+    storage_used_gb = models.FloatField(help_text="Almacenamiento usado en GB",null=True,blank=True)
+    vCPUs_used = models.IntegerField(help_text="vCPUs usadas milicore",null=True,blank=True)
+    ram_used_gb = models.FloatField(help_text="RAM usada en GB",null=True,blank=True)
+    GPUs_used = models.CharField(max_length=100, help_text="GPUs usadas milicore",null=True,blank=True)
+    TPUs_used = models.CharField(max_length=100, help_text="Tensor usadas milicore",null=True,blank=True)
+    update_resources_used_pocentage = models.FloatField(help_text="Porcentaje de uso de recursos durante la prueba final",null=True,blank=True)
 
     resource_type = models.CharField(max_length=50, choices=RESOURCE_TYPES)
     provider = models.CharField(max_length=100)  # Ej: AWS, GCP, Azure

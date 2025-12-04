@@ -9,29 +9,73 @@ from django.forms import modelformset_factory, inlineformset_factory
 
 from django import forms
 from .models import BusinessSystemProject
+from saas_shop.models import Product
 
 class BusinessSystemProjectForm(forms.ModelForm):
+
     class Meta:
         model = BusinessSystemProject
-        fields = ['name', 'logo_rectangular', 'logo_cuadrado']
+        fields = [
+            'product',
+            'is_domain_configured',
+            'domain_name',
+            'logo_rectangular',
+            'logo_cuadrado',
+        ]
+
         widgets = {
-            'name': forms.TextInput(attrs={
-                'class': 'form-control'
+
+            'product': forms.Select(attrs={'class': 'form-control'}),
+
+            'is_domain_configured': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
             }),
+
+            'domain_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'ejemplo.midominio.com',
+            }),
+
             'logo_rectangular': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
             }),
+
             'logo_cuadrado': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
             }),
         }
+
         help_texts = {
             'name': 'Asigne un nombre representativo a su proyecto IT Cloud.',
-            'logo_rectangular': 'Suba el logotipo horizontal/rectangular de su proyecto. Formato recomendado: PNG o JPG.',
-            'logo_cuadrado': 'Suba el logotipo cuadrado de su proyecto. Formato recomendado: PNG o JPG.',
+            'is_domain_configured': 'Marque esta opción si desea configurar un dominio privado asociado al proyecto.',
+            'domain_name': 'Ingrese el dominio privado que desea usar (solo si selecciona la opción anterior).',
         }
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Filtrar productos comprados por el usuario
+        if user:
+            self.fields['product'].queryset = Product.objects.filter(
+                saas_order_items__order__user=user
+            ).distinct()
+
+        # Hacer que domain_name sea opcional por defecto
+        self.fields['domain_name'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        wants_domain = cleaned_data.get('is_domain_configured')
+        domain_name = cleaned_data.get('domain_name')
+
+        # Validar que si marca el checkbox, debe ingresar un dominio
+        if wants_domain and not domain_name:
+            self.add_error('domain_name', "Debe ingresar el nombre del dominio privado.")
+
+        return cleaned_data
 
 
 

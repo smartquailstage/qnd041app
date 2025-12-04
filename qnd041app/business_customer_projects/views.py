@@ -45,33 +45,58 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def create_project(request):
     if request.method == 'POST':
-        # Incluimos el usuario logueado en el formulario
-        project_form = BusinessSystemProjectForm(request.POST)
+        project_form = BusinessSystemProjectForm(
+            request.POST,
+            request.FILES,
+            user=request.user    # ← IMPORTANTE
+        )
+
         if project_form.is_valid():
             project = project_form.save(commit=False)
             project.user = request.user  # Asignamos el usuario logueado
-            project.save()  # Guardamos el proyecto
-            return redirect('business_customer_projects:processes', project_id=project.id)  # Redirigimos a la URL de los procesos
+            project.save()
+            return redirect('business_customer_projects:processes', project_id=project.id)
+
     else:
-        project_form = BusinessSystemProjectForm()
+        project_form = BusinessSystemProjectForm(user=request.user)  # ← IMPORTANTE
 
     return render(request, 'create_project.html', {'form': project_form})
 
 
 
+
+from django.shortcuts import get_object_or_404
+
+@login_required
 def create_process(request, project_id):
+
+    # Filtrar proyectos SOLO del usuario
     projects = BusinessSystemProject.objects.filter(user=request.user)
-    project = BusinessSystemProject.objects.get(id=project_id)
+
+    # Asegurar que el proyecto pertenece al usuario
+    project = get_object_or_404(BusinessSystemProject, id=project_id, user=request.user)
+
     if request.method == 'POST':
         process_form = BusinessProcessForm(request.POST)
         if process_form.is_valid():
             process = process_form.save(commit=False)
             process.project = project
             process.save()
-            return redirect('automation', project_id=project.id)  # Redirige a automatización
+            return redirect('automation', project_id=project.id)
+
     else:
         process_form = BusinessProcessForm()
-    return render(request, 'create_process.html', {'form': process_form, 'project': project, 'projects': projects})
+
+    return render(
+        request,
+        'create_process.html',
+        {
+            'form': process_form,
+            'project': project,
+            'projects': projects
+        }
+    )
+
 
 def create_automation(request, project_id):
     project = BusinessSystemProject.objects.get(id=project_id)

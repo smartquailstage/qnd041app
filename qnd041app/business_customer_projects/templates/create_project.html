@@ -40,9 +40,17 @@
                                 
                                 <!-- Nombre del Proyecto -->
 <div class="mb-3">
-    {{ form.name|add_class:"form-control" }}
-    {% if form.name.help_text %}
-        <small class="form-text text-muted">{{ form.name.help_text }}</small>
+    {{ form.is_domain_configured|add_class:"form-check-input" }}
+    {% if form.is_domain_configured.help_text %}
+        <small class="form-text text-muted">{{ form.is_domain_configured.help_text }}</small>
+    {% endif %}
+</div>
+
+
+<div id="domain-name-container" class="mb-3" style="display: none;">
+    {{ form.domain_name|add_class:"form-control" }}
+    {% if form.domain_name.help_text %}
+        <small class="form-text text-muted">{{ form.domain_name.help_text }}</small>
     {% endif %}
 </div>
 
@@ -110,6 +118,27 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const checkbox = document.getElementById("id_is_domain_configured");
+    const domainField = document.getElementById("domain-name-container");
+
+    function toggleDomainField() {
+        if (checkbox.checked) {
+            domainField.style.display = "block";
+        } else {
+            domainField.style.display = "none";
+            document.getElementById("id_domain_name").value = "";  // Limpia el campo si se oculta
+        }
+    }
+
+    // Ejecutar al cargar la página (útil si hay errores y vuelve marcada)
+    toggleDomainField();
+
+    // Ejecutar cuando se marque/desmarque
+    checkbox.addEventListener("change", toggleDomainField);
+});
+</script>
 
 
 {% endblock %}

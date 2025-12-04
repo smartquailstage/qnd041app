@@ -612,7 +612,8 @@ TEMPLATES = [
                # 'usuarios.context_processors.ultima_cita',
                # 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
-                'business_customer_projects.context_processors.all_business_projects',
+                "business_customer_projects.context_processors.business_projects_context",
+
                 'billing.context_processors.all_business_billing',
             ],
         },

@@ -33,50 +33,61 @@
 <!-- Navbar para tabs -->
 
 
-<ul class="nav nav-pills" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true"><ion-icon name="folder-open-outline"></ion-icon></a>
-  </li>
-</ul>
 
-<!-- Tab Content -->
-<div class="tab-content mt-3">
-    <!-- TAB 1: Información General del Proyecto -->
-    <div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
+
         <div class="card radius-10">
+
+
             <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="border p-3 rounded">
                               
-                                    <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-{% if project.progress == 5 %}
-<p id="typewriter" style="color:#fff"></p>
+                           
+
+
+
+                                <hr>
+<h6>Terminal del sistema ITC:  <span class="spinner-border spinner-border-sm text-warning" role="status" aria-hidden="true"></span> {{project.name}}</h6>
+                                {% if project.progress == 5 %}
+<p id="typewriter" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 10 %}
-<p id="typewriter-resource" style="color:#fff"></p>
+<p id="typewriter-resource" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 15 %}
-<p id="typewriter-security" style="color:#fff"></p>
+<p id="typewriter-security" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 25 %}
-<p id="typewriter-nginx" style="color:#fff"></p>
+<p id="typewriter-nginx" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 50 %}
-<p id="typewriter-postgres" style="color:#fff"></p>
+<p id="typewriter-postgres" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 75 %}
-<p id="typewriter-kafka" style="color:#fff"></p>
+<p id="typewriter-kafka" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
 
 {% if project.progress == 100 %}
-<p id="typewriter-redis" style="color:#fff"></p>
+<p id="typewriter-redis" style="color:#fff;font-size: 10px;"></p>
 {% endif %}
+
+
+                                <!-- Consola estilo terminal -->
+                               <div class="card bg-primary text-success mb-3 terminal-card" style="font-family: 'Courier New', Courier, monospace; border: 1px solid #444040;">
+    <div class="card-body p-3" id="terminal-output" 
+         style="height: 369px; overflow-y: auto; white-space: pre-wrap;font-size: 10px;">
+    </div>
+</div>
+
+
+
+
 
 
 <div class="progress">
@@ -88,15 +99,7 @@
   </div>
 </div>
 
-
-                                <hr>
-
-                                <!-- Consola estilo terminal -->
-                               <div class="card bg-black text-success mb-3 terminal-card" style="font-family: 'Courier New', Courier, monospace; border: 1px solid #444040;">
-    <div class="card-body p-3" id="terminal-output" 
-         style="height: 220px; overflow-y: auto; white-space: pre-wrap;">
-    </div>
-</div>
+<hr>
 
 
                                 <!-- Nombre del Proyecto -->
@@ -122,19 +125,19 @@
           
             </div>
         </div>
-    </div>
+
 
     <!-- Otras pestañas de contenido pueden ir aquí -->
 </div>
 
 
 
-</div>
+
 
 
 
   </div> <!-- end page content -->
-</div>
+
 
 
 
@@ -237,6 +240,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // BLOQUES DE LOGS POR PORCENTAJE
     const logs_by_progress = [
+
+        { min: 5, logs: [
+            prefix + "[RESOURCE] Analizando requerimientos de carga del proyecto IT Cloud Business... (1.4s)",
+        ]},
+
         { min: 10, logs: [
             prefix + "[RESOURCE] Analizando requerimientos de carga del proyecto IT Cloud Business... (1.4s)",
             prefix + "[RESOURCE] Estimando consumo inicial: 2 vCPU, 4GB RAM, 40GB SSD. (214ms)",

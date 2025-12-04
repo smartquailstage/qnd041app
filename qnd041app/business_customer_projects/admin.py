@@ -152,8 +152,10 @@ class QATestAdmin(ModelAdmin):
     autocomplete_fields = ['process']
     compressed_fields = True
     search_fields = ['test_case', 'process__name', 'executed_by']
-    list_display = ['test_case', 'process', 'result', 'executed_at', 'executed_by']
+    list_display = ['test_case', 'process', 'result', 'executed_by']
     list_filter = ['result', 'executed_at']
+    editable_fields = ['result', 'description']
+    readonly_fields = ("executed_at",)
     list_fullwidth = True
     list_filter_sheet = True
     change_form_show_cancel_button = True
@@ -167,7 +169,6 @@ class QATestAdmin(ModelAdmin):
                 'description',
                 'result',
                 'executed_by',
-                'executed_at',
             ),
             'classes': ('collapse',),
         }),
