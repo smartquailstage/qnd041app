@@ -91,13 +91,28 @@
 
 
 <div class="progress">
-  <div class="progress-bar" role="progressbar" 
-       style="width: {{ project.progress }}%;" 
-       aria-valuenow="{{ project.progress }}" 
-       aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar" role="progressbar"
+       style="width: {{ project.progress }}%;
+              {% if project.progress == 5 %}
+                background-color: #e63946;
+              {% elif project.progress == 10 %}
+                background-color: #f8961e;
+              {% elif project.progress == 50 %}
+                background-color: #f9c74f;
+              {% elif project.progress == 80 %}
+                background-color: #42698a;
+              {% elif project.progress == 100 %}
+                background-color: #2a9d8f;
+              {% else %}
+                background-color: #6c757d; /* color por defecto */
+              {% endif %}"
+       aria-valuenow="{{ project.progress }}"
+       aria-valuemin="0"
+       aria-valuemax="100">
     {{ project.progress }}%
   </div>
 </div>
+
 
 <hr>
 
@@ -111,7 +126,7 @@
                                                       
 <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}" 
    class="btn btn-primary">
-    Ir a {{ project.name }} IT cloud 
+    Ir a {{ project.name }} 
     <ion-icon name="chevron-forward-outline"></ion-icon>
 </a>
 
