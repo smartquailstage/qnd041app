@@ -297,7 +297,6 @@ UNFOLD = {
     "SITE_DROPDOWN": [
         {"icon": "person", "title": _("Usuarios(AUTH)"), "link": reverse_lazy("admin:auth_user_changelist")},
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
-        {"icon": "people", "title": _("Administrativos"), "link": reverse_lazy("admin:usuarios_administrativeprofile_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
         
@@ -501,6 +500,8 @@ UNFOLD = {
 
 
 
+
+
 #LOGINGS REDIRECT
 
 LOGIN_REDIRECT_URL = 'usuarios:perfil'
@@ -539,6 +540,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
    # 'shop.middleware.LocaleRedirectMiddleware', 
@@ -603,17 +605,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-                'usuarios.context_processors.mensajes_nuevos_processor',
-                'usuarios.context_processors.datos_panel_usuario', 
-                'usuarios.context_processors.user_profile_data',
-                'usuarios.context_processors.citas_context',
-                'usuarios.context_processors.tareas_context',
-                'usuarios.context_processors.pagos_context',  
-                'usuarios.context_processors.profile_uploads_context',
-                'usuarios.context_processors.ultima_cita',
-                'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
-                'business_customer_projects.context_processors.all_business_projects',
+                "business_customer_projects.context_processors.business_projects_context",
                 'billing.context_processors.all_business_billing',
             ],
         },

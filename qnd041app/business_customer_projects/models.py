@@ -113,7 +113,7 @@ class BusinessSystemProject(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("business:project_detail", kwargs={"pk": self.pk})
+        return reverse("business_customer_projects:project_detail", kwargs={"pk": self.pk})
 
 
     def save(self, *args, **kwargs):
