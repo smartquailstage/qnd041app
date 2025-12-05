@@ -1612,7 +1612,7 @@ progress {
 	--bs-table-color: #fff;
 	--bs-table-bg: #3c9aae;
 	--bs-table-border-color:#fff;
-	--bs-table-accent-bg: transparent;
+	--bs-table-accent-bg: #444040;
 	--bs-table-striped-color: var(--bs-body-color);
 	--bs-table-striped-bg: rgba(0, 0, 0, 0.05);
 	--bs-table-active-color: var(--bs-body-color);
@@ -3515,7 +3515,7 @@ textarea.form-control-lg {
 }
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: var(--bs-nav-pills-link-active-color);
-    background-color: #b50f15;
+    background-color: #444040;
 }
 .nav-underline {
 	--bs-nav-underline-gap: 1rem;
@@ -6820,7 +6820,7 @@ textarea.form-control-lg {
 	transform: translateY(-50%)!important
 }
 .border {
-	border: var(--bs-border-width) var(--bs-border-style) #444040 !important;
+	border: var(--bs-border-width) var(--bs-border-style) #4f4e4e !important;
 }
 .border-0 {
 	border: 0!important

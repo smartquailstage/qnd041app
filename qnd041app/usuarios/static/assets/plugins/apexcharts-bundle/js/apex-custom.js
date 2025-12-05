@@ -129,6 +129,7 @@ $(function () {
 		xaxis: {
 			//type: 'datetime',
 			categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+			
 		},
 		legend: {
 			position: 'top',
@@ -141,52 +142,69 @@ $(function () {
 	
 	
 	// chart 3
-	var options = {
-		series: [{
-			name: 'series1',
-			data: [31, 40, 68, 31, 92, 55, 100]
-		}, {
-			name: 'series2',
-			data: [11, 82, 45, 80, 34, 52, 41]
-		}],
-		chart: {
-			foreColor: '#9ba7b2',
-			height: 360,
-			type: 'area',
-			zoom: {
-				enabled: false
-			},
-			toolbar: {
-				show: true
-			},
-		},
-		colors: ["#923eb9", '#18bb6b'],
-		title: {
-			text: 'Area Chart',
-			align: 'left',
-			style: {
-				fontSize: "16px",
-				color: '#666'
-			}
-		},
-		dataLabels: {
-			enabled: false
-		},
-		stroke: {
-			curve: 'smooth'
-		},
-		xaxis: {
-			type: 'datetime',
-			categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-		},
-		tooltip: {
-			x: {
-				format: 'dd/MM/yy HH:mm'
-			},
-		},
-	};
-	var chart = new ApexCharts(document.querySelector("#chart3"), options);
-	chart.render();
+var options = {
+    series: [{
+        name: 'series1',
+        data: [31, 40, 68, 31, 92, 55, 100]
+    }, {
+        name: 'series2',
+        data: [11, 82, 45, 80, 34, 52, 41]
+    }],
+    chart: {
+        foreColor: '#9ba7b2',
+        height: 360,
+        type: 'area',
+        zoom: {
+            enabled: false
+        },
+        toolbar: {
+            show: true
+        },
+    },
+    colors: ["#923eb9", '#18bb6b'],
+    title: {
+        text: 'Area Chart',
+        align: 'left',
+        style: {
+            fontSize: "16px",
+            color: '#666'
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    stroke: {
+        curve: 'smooth'
+    },
+    xaxis: {
+        type: 'datetime',
+        categories: [
+            "2018-09-19T00:00:00.000Z",
+            "2018-09-19T01:30:00.000Z",
+            "2018-09-19T02:30:00.000Z",
+            "2018-09-19T03:30:00.000Z",
+            "2018-09-19T04:30:00.000Z",
+            "2018-09-19T05:30:00.000Z",
+            "2018-09-19T06:30:00.000Z"
+        ]
+    },
+    tooltip: {
+        x: {
+            format: 'dd/MM/yy HH:mm'
+        },
+    },
+
+    // 👇 LEYENDAS EN BLANCO
+    legend: {
+        labels: {
+            colors: '#ffffff'
+        }
+    }
+};
+
+var chart = new ApexCharts(document.querySelector("#chart3"), options);
+chart.render();
+
 	
 	// chart 4
 	var options = {

@@ -1101,7 +1101,7 @@ position: fixed;
     display: inline-block;
     line-height: 80px !important;
     z-index: 2;
-    color: #0a0808;
+    color: #b1b1b1;
 }
 
 .w_chart canvas {

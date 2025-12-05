@@ -104,7 +104,7 @@
 }
 
 .bg-light-success {
-    background-color: rgb(24 187 107 / 12%)!important
+    background-color: rgba(0, 0, 0, 0.13) !important;
 }
 
 .bg-light-danger {
@@ -209,7 +209,7 @@
 }
 
 .text-success {
-  color: #9b0a0a !important;
+  color: #ffab4d !important;
 }
 
 .text-info {
@@ -822,7 +822,7 @@
 
 .nav-pills .nav-link {
     border-radius: .25rem;
-    color: #495057;
+    color: #ffab4d;
 }
 
 
