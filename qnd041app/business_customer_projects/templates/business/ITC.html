@@ -155,7 +155,7 @@
                     <tbody>
                       <tr>
                         <td>
-                          <div class="country-name h6 mb-0"> <ion-icon name="hardware-chip-outline"></ion-icon> (879 m)</div>
+                          <div class="country-name h6 mb-0"> <ion-icon name="hardware-chip-outline"></ion-icon> {{ project.latencia_aproximada_ms }}</div>
                         </td>
                         <td class="w-100">
                           <div class="progress flex-grow-1" style="height: 5px;">
@@ -202,7 +202,7 @@
                       </div>
                       <div class="d-flex align-items-center mt-3">
                        <div>
-                         <h4 class="mb-3">25GB</h4>
+                         <h4 class="mb-3"> {{ project.almacenamiento_aproximado_gb }} GB</h4>
                          <div class="d-flex align-items-center gap-2">
                           <div class="widget-icon-small bg-light-success text-sucess">
                            <ion-icon name="arrow-up-outline"></ion-icon>
@@ -226,55 +226,6 @@
 
             <hr class="my-4">
 
-            <h4>SmartQuail Crew  Asignado</h4>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-3 row-cols-xxl-3">
-  {% for member in staff %}
-    <div class="col">
-      <div class="card radius-10">
-        <div class="card-body text-center">
-          <div class="profile-img">
-            {% if member.profile_picture %}
-              <img src="{{ member.profile_picture.url }}" class="rounded-circle" width="120" height="120" alt="{{ member.full_name }}">
-            {% else %}
-              <img src="{% static 'images/default-profile.png' %}" class="rounded-circle" width="120" height="120" alt="Sin foto">
-            {% endif %}
-          </div>
-          <div class="mt-4">
-            <h5 class="mb-1">{{ member.full_name }}</h5>
-            <p class="mb-0">{{ member.get_role_display }}</p>
-          </div>
-          <div class="d-flex align-items-center justify-content-around mt-4">
-            <div class="">
-              <h6 class="mb-0">{{ member.email }}</h6>
-              <p class="mb-0 text-muted">Correo</p>
-            </div>
-            <div class="">
-              <h6 class="mb-0">{{ member.phone }}</h6>
-              <p class="mb-0 text-muted">Teléfono</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% empty %}
-    <p class="text-muted">No hay miembros asignados al proyecto.</p>
-  {% endfor %}
-</div>
-
-
-            {% if staff %}
-              <ul class="list-group">
-              {% for person in staff %}
-                <li class="list-group-item">
-                  <strong>{{ person.name }}</strong> – {{ person.role }}
-                  <br><small>Email: {{ person.email }}</small>
-                </li>
-              {% endfor %}
-              </ul>
-            {% else %}
-              <p class="text-muted">No hay personal asignado al proyecto.</p>
-            {% endif %}
           </div>
         </div>
       </div>
