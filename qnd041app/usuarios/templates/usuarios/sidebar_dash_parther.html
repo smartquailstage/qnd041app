@@ -44,7 +44,7 @@
       {% for project in all_projects %}
         <li>
           <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
-            <ion-icon name="radio-button-on-outline" class="text-info"></ion-icon>
+            <ion-icon name="checkmark-done-outline"></ion-icon>
             {{ project.name }}
           </a>
         </li>

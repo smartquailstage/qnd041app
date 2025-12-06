@@ -53,6 +53,12 @@ class ProductAdmin(ModelAdmin):
         }),
         ('Características técnicas', {
             'fields': (
+                'os',
+                'gpu',
+                'cpu',
+                'almacenamiento',
+                'ancho_banda',
+                'memoria',  
                 'software',
                 'numero_procesos',
                 'automatizacion',

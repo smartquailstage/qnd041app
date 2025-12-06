@@ -1,0 +1,32 @@
+      <!-- TAB 3: Recursos y Facturación -->
+      <div class="tab-pane fade" id="tab-recursos" role="tabpanel">
+        <div class="card radius-10">
+          <div class="card-body">
+            <h4 class="mb-3"><ion-icon name="hardware-chip-outline"></ion-icon> Recursos Cloud</h4>
+            {% for resource in cloud_resources %}
+            <div class="card mb-3 border">
+              <div class="card-body">
+                <h5>{{ resource.resource_name }} ({{ resource.provider }})</h5>
+                <p><strong>Tipo:</strong> {{ resource.get_resource_type_display }}</p>
+                <p><strong>Costo Mensual:</strong> ${{ resource.monthly_cost_usd }}</p>
+                <p><strong>Monitoreo:</strong> {{ resource.monitoring_tool|default:"No especificado" }}</p>
+                <p><strong>Estado:</strong> 
+                  <span class="badge 
+                    {% if resource.monitoring_status == 'healthy' %} bg-success 
+                    {% elif resource.monitoring_status == 'warning' %} bg-warning text-dark 
+                    {% else %} bg-danger 
+                    {% endif %}">
+                    {{ resource.get_monitoring_status_display }}
+                  </span>
+                </p>
+                {% if resource.alert_summary %}
+                <p><strong>Alertas:</strong> {{ resource.alert_summary }}</p>
+                {% endif %}
+              </div>
+            </div>
+            {% empty %}
+            <p>No hay recursos cloud asignados a este proyecto.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>

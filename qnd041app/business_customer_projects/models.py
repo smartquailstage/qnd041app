@@ -15,6 +15,7 @@ class BusinessSystemProject(models.Model):
     # Campo para el usuario logueado (asociado con el modelo de usuario)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+
     product = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
@@ -23,7 +24,8 @@ class BusinessSystemProject(models.Model):
         related_name='business_projects',
         verbose_name='Producto asociado'
     )
-
+    has_automation = models.BooleanField(default=False, verbose_name='¿Incluye automatización?')
+    has_ai = models.BooleanField(default=False, verbose_name='¿Incluye inteligencia artificial?')
     is_active = models.BooleanField(default=True, verbose_name='¿Proyecto activo?')
     is_domain_configured = models.BooleanField(default=False, verbose_name='¿Dispone de dominio privado?')
     domain_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
@@ -107,6 +109,31 @@ class BusinessSystemProject(models.Model):
         blank=True,
         verbose_name="Logotipo cuadrado",
         help_text="Formato recomendado: 1:1 (ancho:alto)"
+    )
+
+    latencia_aproximada_ms = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Latencia aproximada (ms)",
+        help_text="Latencia estimada del sistema en milisegundos"
+    )
+    procesamiento_aproximado_vcpu = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Procesamiento aproximado (vCPU milicore)",
+        help_text="Procesamiento estimado en vCPU milicore"
+    )
+    memoria_aproximada_gb = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Memoria aproximada (GB)",
+        help_text="Memoria estimada en GB"
+    )
+    almacenamiento_aproximado_gb = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Almacenamiento aproximado (GB)",
+        help_text="Almacenamiento estimado en GB"
     )
 
     def __str__(self):

@@ -103,6 +103,7 @@ background: #444040;
   <div class="line"><span class="cursor"></span></div>
 </div>
 
+
   
     <div class="top-navbar-right ms-auto">
 
@@ -110,6 +111,7 @@ background: #444040;
 
 <li class="nav-item dropdown dropdown-user-setting">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    
     <div class="user-setting">
       {% if request.user.profile.photo %}
         <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="{{ request.user.get_full_name }}">
@@ -119,12 +121,16 @@ background: #444040;
     </div>
   </a>
 
+
+
+    
   <ul class="dropdown-menu dropdown-menu-end">
 
     <!-- Perfil -->
     <li>
       <a class="dropdown-item" href="{% url 'usuarios:dashboard_pather' %}">
         <div class="d-flex flex-row align-items-center gap-2">
+        
           {% if request.user.profile.photo %}
               <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.get_full_name }}" class="rounded-circle" width="44" height="44">
           {% else %}
@@ -148,7 +154,7 @@ background: #444040;
         <li>
           <a class="dropdown-item" href="{% url 'business_customer_projects:processes' project.pk %}">
             <ion-icon name="sync-outline"></ion-icon>
-            {{ project.name }} ({{ project.progress }}%)
+            {{ project.name }} ({{ project.progress }}%) 
           </a>
         </li>
       {% endfor %}
@@ -161,7 +167,7 @@ background: #444040;
         <li>
           <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
           
-            {{ project.name }}
+            <ion-icon name="checkmark-done-outline"></ion-icon> {{ project.name }} $ 92.0
           </a>
         </li>
       {% endfor %}

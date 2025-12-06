@@ -1,0 +1,280 @@
+{% load widget_tweaks %}
+{% load static %}
+     
+     
+     <div class="tab-pane fade show active" id="tab-general" role="tabpanel">
+
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body" >
+    <div class="row">
+          <div class="col-12 col-xl-8 d-flex">
+            <div class="card radius-10 w-100">
+              <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
+                                               
+                            <img src="{% static 'assets/images/icons/india.png' %}" alt="" width="32">
+
+
+                    
+
+                 
+                  {% if project.is_active %}
+                  <h5>
+                  <ion-icon name="checkmark-done-outline"></ion-icon> 
+                                    {{ project.name }}   </h5>
+                  {% else %}
+                   <h5 class="mb-0 text-warning bg-light-warning px-2 rounded py-1">
+                  <ion-icon name="close-outline"></ion-icon>  {{ project.name }} Proyecto ITC Suspendido por falta de pago
+                  </h5>
+                  {% endif %}
+                  
+
+                 <p>Actualizado: {{ project.created_at|date:"d/m/Y H:i" }}</p>
+
+                <div class="d-flex align-items-center mb-3">
+           
+
+                  <h6 class="mb-0"><ion-icon name="cloud-download-outline"></ion-icon> {{ project.product }}</h6>
+                </div>
+
+
+               <div class="row g-4 align-items-center mb-4">
+                  <div class="col-12 col-xl-4">
+                     <div class="d-flex align-items-center gap-2 mb-3">
+                       {% if project.is_active %}
+                         <h1 class="mb-0">  Activo</h1>
+                        
+                         <p class="mb-0 text-success bg-light-success px-2 rounded py-1">+30% usado</p>
+
+                            {% else %}
+
+                            <h1 class="mb-0 text-warning bg-light-warning px-2 rounded py-1">  InActivo</h1>
+                        
+                         <p class="mb-0 text-warning bg-light-warning px-2 rounded py-1">0% </p>
+
+                           {% endif %}
+                     </div>
+                     <p class="mb-0">{{ project.description }}</p>
+                  </div>
+                  <div class="col-12 col-xl-8">
+                    {% if project.is_active %}
+                    <div id="chart3"></div>
+                    {% else %}
+                                  <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 15px; ">
+                <div class="d-flex align-items-justify mb-3">
+                  <h5 class="mb-0"><ion-icon name="cloud-download-outline"></ion-icon>  Suspendido</h5>
+
+                </div>
+
+  <p>
+    Hemos suspendido temporalmente el proyecto ITC debido a la falta 
+   
+  </p>
+<p>
+   de pago correspondiente a los recursos mensuales de infraestructura en la nube.
+</p>
+  <p>
+    Si usted está viendo este mensaje, por favor haga clic en el botón de Pago para reactivar el servicio.
+  </p>
+
+  <p>
+    Le recordamos que, de acuerdo con el contrato de alquiler de servicios de nube y con la Ley Orgánica de Protección de Datos Personales del Ecuador,
+  </p>
+
+  <p>
+    sus datos y recursos no serán eliminados automáticamente.
+  </p>
+
+  <p>
+    Mientras el proyecto permanezca suspendido, los recursos asignados continuarán generando consumo y acumulando deuda,
+  </p>
+
+  <p>
+    hasta que usted solicite expresamente la terminación definitiva haciendo clic en Eliminar Proyecto.
+  </p>
+
+</div>
+
+
+        
+                    {% endif %}
+                  </div>
+               </div><!--end row-->
+               <div class="d-flex flex-column flex-lg-row align-items-lg-center align-self-end justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle bg-light-success text-success">
+                    <ion-icon name="card-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ project.product.total_nube_iva }}</h4>
+                    <p class="mb-0 text-secondary">Costo Mensual</p>
+                    <p class="mb-0 text-secondary">Servicios de nube</p>
+                  </div>
+                </div>
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <ion-icon name="people-circle-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">8</h4>
+                    <p class="mb-0 text-secondary">Usuarios Simultáneos</p>
+                    <p class="mb-0 text-secondary">Detectados</p>
+                  </div>
+                </div>
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <ion-icon name="git-compare-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">29</h4>
+                    <p class="mb-0 text-secondary">Procesos Activos </p>
+                     <p class="mb-0 text-secondary">Implementados </p>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xl-4 d-flex">
+
+            
+            
+            <div class="card radius-10 overflow-hidden w-100">
+              <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
+
+                <div class="card radius-10 w-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <h5 class="mb-0">Procesamiento (vCPU) {{ project.product.cpu}} m</h5>
+
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-borderless align-middle mb-0">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="country-name h6 mb-0"> <ion-icon name="hardware-chip-outline"></ion-icon> (879 m)</div>
+                        </td>
+                        <td class="w-100">
+                          <div class="progress flex-grow-1" style="height: 5px;">
+                            <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 82%;"></div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="percent-data">82%</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+                <div class="d-flex flex-column gap-3">
+                  <div class="card border shadow-none radius-10 flex-grow-1 mb-0">
+                    <div class="card-body">
+                      <div class="d-flex align-items-start gap-2">
+                        <div>
+                          <h5 class="mb-0 ">Latencia Maxima</h5>
+                        </div>
+                        <div class="ms-auto widget-icon-2 bg-light-success text-success rounded-circle">
+                         <ion-icon name="cellular-outline"></ion-icon>
+                        </div>
+                      </div>
+                      <div class="">
+                        <h3 class="mb-2">{{ project.latencia_aproximada_ms }} ms </h3>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="widget-icon-small bg-light-danger text-danger">
+                            <ion-icon name="arrow-down-outline"></ion-icon>
+                           </div>
+                           <p class="mb-0">+525Mb/sec último mes</p>
+                        </div>
+                      </div>
+                      <div id="chart4"></div>
+                    </div>
+                  </div>
+                  <div class="card border shadow-none radius-10 mb-0">
+                    <div class="card-body">
+                      <div class="d-flex align-items-start gap-2">
+                        <div><h5 class="mb-0">Almacenamiento</h5></div>
+                      </div>
+                      <div class="d-flex align-items-center mt-3">
+                       <div>
+                         <h4 class="mb-3">25GB</h4>
+                         <div class="d-flex align-items-center gap-2">
+                          <div class="widget-icon-small bg-light-success text-sucess">
+                           <ion-icon name="arrow-up-outline"></ion-icon>
+                          </div>
+                          <p class="mb-0">+7% last month</p>
+                       </div>
+                       </div>
+                       <div class="ms-auto">
+                         <div class="w_chart" id="chart5" data-percent="60">
+                           <span class="w_percent"></span>
+                         </div>
+                       </div>
+                      </div>
+                    </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <hr class="my-4">
+
+            <h4>SmartQuail Crew  Asignado</h4>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-3 row-cols-xxl-3">
+  {% for member in staff %}
+    <div class="col">
+      <div class="card radius-10">
+        <div class="card-body text-center">
+          <div class="profile-img">
+            {% if member.profile_picture %}
+              <img src="{{ member.profile_picture.url }}" class="rounded-circle" width="120" height="120" alt="{{ member.full_name }}">
+            {% else %}
+              <img src="{% static 'images/default-profile.png' %}" class="rounded-circle" width="120" height="120" alt="Sin foto">
+            {% endif %}
+          </div>
+          <div class="mt-4">
+            <h5 class="mb-1">{{ member.full_name }}</h5>
+            <p class="mb-0">{{ member.get_role_display }}</p>
+          </div>
+          <div class="d-flex align-items-center justify-content-around mt-4">
+            <div class="">
+              <h6 class="mb-0">{{ member.email }}</h6>
+              <p class="mb-0 text-muted">Correo</p>
+            </div>
+            <div class="">
+              <h6 class="mb-0">{{ member.phone }}</h6>
+              <p class="mb-0 text-muted">Teléfono</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">No hay miembros asignados al proyecto.</p>
+  {% endfor %}
+</div>
+
+
+            {% if staff %}
+              <ul class="list-group">
+              {% for person in staff %}
+                <li class="list-group-item">
+                  <strong>{{ person.name }}</strong> – {{ person.role }}
+                  <br><small>Email: {{ person.email }}</small>
+                </li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No hay personal asignado al proyecto.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>

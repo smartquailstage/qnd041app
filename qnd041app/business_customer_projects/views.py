@@ -10,24 +10,22 @@ class BusinessSystemProjectDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
 
-        # Obtener procesos
+        # Procesos
         context["processes"] = project.processes.all()
 
-        # ✅ Obtener automatizaciones e IA usando related_name
-        context["automations"] = project.automations.all()
-        context["intelligents"] = project.intelligents.all()
-
-        # Recursos cloud
-        context["cloud_resources"] = project.cloud_resources.all()
-
-        # Pestañas condicionales
-        context["has_automation"] = context["processes"].filter(has_automation=True).exists() or context["automations"].exists()
-        context["has_ai"] = context["processes"].filter(has_ai=True).exists() or context["intelligents"].exists()
+        # Automación e IA basados en el PROYECTO, no en procesos
+        context["has_automation"] = project.has_automation
+        context["has_ai"] = project.has_ai
+        context["is_active"] = project.is_active
 
         # Personal a cargo
         context["staff"] = project.crew_members.all()
 
+        # Recursos cloud
+        context["cloud_resources"] = project.cloud_resources.all()
+
         return context
+
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
