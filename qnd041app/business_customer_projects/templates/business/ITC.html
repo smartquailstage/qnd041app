@@ -11,13 +11,7 @@
           <div class="col-12 col-xl-8 d-flex">
             <div class="card radius-10 w-100">
               <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
-                                               
-                            <img src="{% static 'assets/images/icons/india.png' %}" alt="" width="32">
-
-
-                    
-
-                 
+              <img src="{% static 'assets/images/icons/india.png' %}" alt="" width="32">                 
                   {% if project.is_active %}
                   <h5>
                   <ion-icon name="checkmark-done-outline"></ion-icon> 
@@ -34,7 +28,7 @@
                 <div class="d-flex align-items-center mb-3">
            
 
-                  <h6 class="mb-0"><ion-icon name="cloud-download-outline"></ion-icon> {{ project.product }}</h6>
+                  <h6 class="mb-0"><ion-icon name="cloud-upload-outline"></ion-icon> {{ project.product }}</h6>
                 </div>
 
 
@@ -58,7 +52,8 @@
                   </div>
                   <div class="col-12 col-xl-8">
                     {% if project.is_active %}
-                    <div id="chart3"></div>
+                    <div id="Chart3"></div>
+
                     {% else %}
                                   <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 15px; ">
                 <div class="d-flex align-items-justify mb-3">
@@ -117,7 +112,7 @@
                     <ion-icon name="people-circle-outline"></ion-icon>
                   </div>
                   <div class="">
-                    <h4 class="mb-0">8</h4>
+                    <h4 class="mb-0">{{ project.usuarios_max }}</h4>
                     <p class="mb-0 text-secondary">Usuarios Simultáneos</p>
                     <p class="mb-0 text-secondary">Detectados</p>
                   </div>
@@ -128,7 +123,7 @@
                     <ion-icon name="git-compare-outline"></ion-icon>
                   </div>
                   <div class="">
-                    <h4 class="mb-0">29</h4>
+                    <h4 class="mb-0">{{ project.active_processes_aproximados}}</h4>
                     <p class="mb-0 text-secondary">Procesos Activos </p>
                      <p class="mb-0 text-secondary">Implementados </p>
                   </div>
@@ -163,7 +158,7 @@
                           </div>
                         </td>
                         <td>
-                          <div class="percent-data">82%</div>
+                          <div class="percent-data">{{ project.porcentaje_procesamiento }}%</div>
                         </td>
                       </tr>
                     </tbody>
@@ -189,7 +184,7 @@
                            <div class="widget-icon-small bg-light-danger text-danger">
                             <ion-icon name="arrow-down-outline"></ion-icon>
                            </div>
-                           <p class="mb-0">+525Mb/sec último mes</p>
+                           <p class="mb-0">+{{ project.velocity_score }}Mb/sec último mes</p>
                         </div>
                       </div>
                       <div id="chart4"></div>
@@ -207,11 +202,11 @@
                           <div class="widget-icon-small bg-light-success text-sucess">
                            <ion-icon name="arrow-up-outline"></ion-icon>
                           </div>
-                          <p class="mb-0">+7% last month</p>
+                          <p class="mb-0">Backups: 2 am/24hs</p>
                        </div>
                        </div>
                        <div class="ms-auto">
-                         <div class="w_chart" id="chart5" data-percent="60">
+                         <div class="w_chart" id="chart5" data-percent="{{ project.porcentaje_almacenamiento }}">
                            <span class="w_percent"></span>
                          </div>
                        </div>
@@ -229,3 +224,7 @@
           </div>
         </div>
       </div>
+
+
+
+

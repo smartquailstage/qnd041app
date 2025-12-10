@@ -1,6 +1,21 @@
 from django.views.generic.detail import DetailView
 from .models import BusinessSystemProject, BusinessAutomation, BusinessIntelligent
 
+# views.py
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from collections import defaultdict
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import json
+from django.db.models import Avg
+
+
+from django.views.generic import DetailView
+from django.db.models import Avg
+from .models import BusinessSystemProject
+
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
@@ -10,21 +25,92 @@ class BusinessSystemProjectDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
 
-        # Procesos
-        context["processes"] = project.processes.all()
+        # Todos los procesos del proyecto
+        processes = project.processes.all()
+        context["processes"] = processes
 
-        # Automación e IA basados en el PROYECTO, no en procesos
+        # Estadísticas de procesos
+        total_processes = processes.count()
+        completed_processes = processes.filter(progress=100).count()
+        in_progress_processes = total_processes - completed_processes
+        average_progress = processes.aggregate(avg=Avg("progress"))["avg"] or 0
+
+        # Procesos filtrados por progreso para usar en el template
+        processes_completed = processes.filter(progress=100)
+        processes_in_progress = processes.exclude(progress=100)
+
+        context.update({
+            "total_processes": total_processes,
+            "completed_processes": completed_processes,
+            "in_progress_processes": in_progress_processes,
+            "average_progress": round(average_progress),
+            "processes_completed": processes_completed,
+            "processes_in_progress": processes_in_progress,
+        })
+
+        # Otros contextos existentes
         context["has_automation"] = project.has_automation
         context["has_ai"] = project.has_ai
         context["is_active"] = project.is_active
-
-        # Personal a cargo
         context["staff"] = project.crew_members.all()
-
-        # Recursos cloud
         context["cloud_resources"] = project.cloud_resources.all()
 
         return context
+
+
+
+
+from django.views.generic import ListView
+from django.db.models import Avg
+from .models import BusinessProcess
+
+from django.views.generic import ListView
+from django.db.models import Avg
+from .models import BusinessProcess, BusinessSystemProject
+
+class BusinessProcessListView(ListView):
+    model = BusinessProcess
+    template_name = "business/I_D.html"   # nombre corregido
+    context_object_name = "processes"
+    paginate_by = 20
+
+    def get_queryset(self):
+        # Filtra por proyecto si pasas ?project=<id>
+        project_id = self.request.GET.get("project")
+        if project_id:
+            return BusinessProcess.objects.filter(project_id=project_id)
+        return BusinessProcess.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+
+        # Estadísticas generales
+        total = queryset.count()
+        completed = queryset.filter(progress=100).count()
+        in_progress = queryset.filter(progress__lt=100).count()
+        average_progress = queryset.aggregate(avg=Avg("progress"))["avg"] or 0
+
+        context.update({
+            "total": total,
+            "completed": completed,
+            "in_progress": in_progress,
+            "average_progress": round(average_progress),
+            "processes": queryset,
+            # Agrupar procesos por usuario para la plantilla
+            "staff": [
+                {
+                    "member": user,
+                    "assigned_processes": queryset.filter(assigned_developer=user)
+                }
+                for user in queryset.values_list("assigned_developer", flat=True).distinct()
+                if user is not None
+            ]
+        })
+        return context
+
+
+
 
 
 from django.urls import reverse_lazy

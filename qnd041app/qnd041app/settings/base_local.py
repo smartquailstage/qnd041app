@@ -19,9 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ENV_FILE_PATH = BASE_DIR / ".env_local"
 load_dotenv(dotenv_path=ENV_FILE_PATH)
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST", default="127.0.0.1")
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=25)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
 
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io')
-SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="support@smartquail.io")
+SERVER_EMAIL = config("SERVER_EMAIL", default="support@smartquail.io")
+
 
 
 ADMINS = [

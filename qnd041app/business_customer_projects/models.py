@@ -24,12 +24,14 @@ class BusinessSystemProject(models.Model):
         related_name='business_projects',
         verbose_name='Producto asociado'
     )
+    usuarios_max = models.IntegerField(default=1, verbose_name='Número máximo de usuarios simultáneos')
     has_automation = models.BooleanField(default=False, verbose_name='¿Incluye automatización?')
     has_ai = models.BooleanField(default=False, verbose_name='¿Incluye inteligencia artificial?')
     is_active = models.BooleanField(default=True, verbose_name='¿Proyecto activo?')
     is_domain_configured = models.BooleanField(default=False, verbose_name='¿Dispone de dominio privado?')
     domain_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
     public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
+    velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')   
 
     saas_order = models.OneToOneField(
         SaaSOrder,
@@ -123,17 +125,42 @@ class BusinessSystemProject(models.Model):
         verbose_name="Procesamiento aproximado (vCPU milicore)",
         help_text="Procesamiento estimado en vCPU milicore"
     )
+    procesamiento_total_aproximado_millicore = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Procesamiento total aproximado (millicore)",
+        help_text="Procesamiento total estimado en millicore"
+    )      
     memoria_aproximada_gb = models.IntegerField(
         null=True,
         blank=True,
         verbose_name="Memoria aproximada (GB)",
         help_text="Memoria estimada en GB"
     )
+    memoria_total = models.IntegerField(
+        null=True,
+        blank=True,     
+        verbose_name="Memoria total (MB)",
+        help_text="Memoria total en MB"
+    )
     almacenamiento_aproximado_gb = models.IntegerField(
         null=True,
         blank=True,
         verbose_name="Almacenamiento aproximado (GB)",
         help_text="Almacenamiento estimado en GB"
+    )
+
+    almacenamiento_total_mb = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Almacenamiento total (GB)",
+        help_text="Almacenamiento total en GB"
+    )   
+    active_processes_aproximados = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Procesos activos aproximados",
+        help_text="Número estimado de procesos activos"
     )
 
     def __str__(self):
@@ -149,6 +176,34 @@ class BusinessSystemProject(models.Model):
             if item:
                 self.product = item.product
         super().save(*args, **kwargs)
+
+
+@property
+def porcentaje_almacenamiento(self):
+    if self.almacenamiento_aproximado_gb and self.almacenamiento_total_mb:
+        total_gb = self.almacenamiento_total_mb / 1024
+        if total_gb > 0:
+            return round((self.almacenamiento_aproximado_gb / total_gb) * 100, 2)
+    return None
+
+
+@property
+def porcentaje_procesamiento(self):
+    if self.procesamiento_aproximado_vcpu and self.procesamiento_total_aproximado_millicore:
+        if self.procesamiento_total_aproximado_millicore > 0:
+            return round((self.procesamiento_aproximado_vcpu /
+                          self.procesamiento_total_aproximado_millicore) * 100, 2)
+    return None
+
+
+@property
+def porcentaje_memoria(self):
+    if self.memoria_aproximada_gb and self.memoria_total:
+        total_gb = self.memoria_total / 1024
+        if total_gb > 0:
+            return round((self.memoria_aproximada_gb / total_gb) * 100, 2)
+    return None
+
 
 
 from usuarios.models import SmartQuailCrew  # Asegúrate de que esta importación es correcta
