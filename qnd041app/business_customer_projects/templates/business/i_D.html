@@ -27,7 +27,7 @@
              <ion-icon name="create-outline"></ion-icon>
         </div>
         <div>
-            <h4 class="mb-0">{{ total|default:"0" }}</h4>
+            <h4 class="mb-0">{{ total_processes }}</h4>
             <p class="mb-0 text-secondary">Total Procesos</p>
         </div>
     </div>
@@ -40,8 +40,8 @@
             <ion-icon name="code-slash-outline"></ion-icon>
         </div>
         <div>
-            <h4 class="mb-0">{{ in_progress|default:"0" }}</h4>
-            <p class="mb-0 text-secondary">En Desarrollo ({{ average_progress|default:"0" }}%)</p>
+            <h4 class="mb-0">{{ in_progress_processes }}</h4>
+            <p class="mb-0 text-secondary"> Total I+D ({{ average_progress|default:"0" }}%)</p>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
             <ion-icon name="checkmark-done-outline"></ion-icon>
         </div>
         <div>
-            <h4 class="mb-0">{{ completed|default:"0" }}</h4>
+            <h4 class="mb-0">{{ completed_processes }}</h4>
             <p class="mb-0 text-secondary">Completados</p>
         </div>
     </div>
@@ -86,9 +86,16 @@
                                                     </div>
                                                 </div>
 
+                                                                                              <div class="d-flex align-items-center mb-1">
+                                                    <h6 class="mb-0">{{ process.process_event }}</h6>
+                                                </div>
+
                                                 <div class="d-flex align-items-center mb-1">
-                                                    <h6 class="mb-0">{{ process.name }} (<ion-icon name="hourglass-outline"></ion-icon> {{ process.total_development_days }} días)
-                                                        <ion-icon name="create-outline"></ion-icon>
+                                                  
+                                                    <h6 class="mb-0"><ion-icon name="create-outline"></ion-icon> 
+                                                      {{ process.name }} 
+                                                      (<ion-icon name="hourglass-outline"></ion-icon> {{ process.total_development_days }} días,  <ion-icon name="code-slash-outline"></ion-icon>{{ process.progress|default:"0"  }}%)
+                                                        
                                                     </h6>
                                                   {% if process.final_url %}
                                                      <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1" style="font-size: 7px;"><a href="{{ porcess.final_url }}"><ion-icon name="eye-outline"></ion-icon> Ver en vivo</a></p>
@@ -121,15 +128,14 @@
                                                 </div>
 
 
-                                              <div class="d-flex align-items-center mb-1">
-                                                    <h6 class="mb-0">{{ process.process_event }}</h6>
-                                                </div>
+
 
                                                 <div class="d-flex align-items-center mb-1">
                                                     <h6 class="mb-0">
                                                         {% if process.has_automation %}
+                                                        <i class="fadeIn animated bx bx-bot"></i>
                                                         {{ process.automation_description}}
-                                                            <i class="fadeIn animated bx bx-bot"></i>
+                                                            
                                                         {% endif %}
                                                     </h6>
                                                 </div>
@@ -139,8 +145,9 @@
                                                     <h6 class="mb-0">
        
                                                         {% if process.has_ai %}
+                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
                                                          {{ process.ai_model_description }}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                                           
                                                         {% endif %}
                                                     </h6>
 

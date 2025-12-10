@@ -22,7 +22,13 @@
   <li class="nav-item" role="presentation">
     <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
-        <div class="tab-title"><ion-icon name="create-outline"></ion-icon> <span class="spinner-border spinner-border-sm text-warning"></span></div>
+        <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
+          {% if process.progress == 100 %}
+           <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+           {% else %}
+          <span class="spinner-border spinner-border-sm text-warning"></span>
+          {% endif %}
+        </div>
       </div>
     </a>
   </li>
