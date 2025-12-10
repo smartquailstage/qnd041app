@@ -64,8 +64,12 @@ from django.views.generic import ListView
 from django.db.models import Avg
 from .models import BusinessProcess
 
-from django.db.models import Avg
+from django.db.models import Avg, Sum
 from django.contrib.auth import get_user_model
+from django.views.generic import ListView
+from .models import BusinessProcess
+
+from django.db.models import Avg, Sum
 
 class BusinessProcessListView(ListView):
     model = BusinessProcess
@@ -89,7 +93,19 @@ class BusinessProcessListView(ListView):
         in_progress = queryset.filter(progress__lt=100).count()
         average_progress = queryset.aggregate(avg=Avg("progress"))["avg"] or 0
 
-        # Obtener usuarios asignados reales
+        # Total memoria y CPU consumidos
+        total_memory_used = queryset.aggregate(total_mem=Sum('memory_consumption'))['total_mem'] or 0
+        total_cpu_used = queryset.aggregate(total_cpu=Sum('cpu_consumption'))['total_cpu'] or 0
+
+        # Limites totales de memoria y CPU (usamos el máximo de los procesos para ejemplo)
+        total_memory_available = queryset.aggregate(total_mem_avail=Sum('total_memory_available'))['total_mem_avail'] or 1
+        total_cpu_available = queryset.aggregate(total_cpu_avail=Sum('total_cpu_available'))['total_cpu_avail'] or 1
+
+        # Porcentaje de uso
+        memory_percent = round((total_memory_used / total_memory_available) * 100, 2)
+        cpu_percent = round((total_cpu_used / total_cpu_available) * 100, 2)
+
+        # Staff
         assigned_users = queryset.exclude(assigned_developer__isnull=True).values_list("assigned_developer", flat=True).distinct()
         staff = []
         UserModel = get_user_model()
@@ -106,11 +122,13 @@ class BusinessProcessListView(ListView):
             "in_progress": in_progress,
             "average_progress": round(average_progress),
             "processes": queryset,
-            "staff": staff
+            "staff": staff,
+            "total_memory": total_memory_used,
+            "total_cpu": total_cpu_used,
+            "memory_percent": memory_percent,
+            "cpu_percent": cpu_percent,
         })
         return context
-
-
 
 
 from django.urls import reverse_lazy

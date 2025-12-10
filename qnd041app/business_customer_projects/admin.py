@@ -14,8 +14,6 @@ class BusinessSystemProjectAdmin(ModelAdmin):
 
 
 
-
-
 @admin.register(BusinessProcess)
 class BusinessProcessAdmin(ModelAdmin):
     autocomplete_fields = ['project', 'assigned_developer']
@@ -32,7 +30,12 @@ class BusinessProcessAdmin(ModelAdmin):
     list_filter_sheet = True
     change_form_show_cancel_button = True
     warn_unsaved_form = True
-    readonly_fields = ['total_development_days']
+    readonly_fields = [
+        'total_development_days', 
+        'memory_consumption', 'cpu_consumption', 
+        'total_memory_available', 'total_cpu_available',
+        'memory_percent_used', 'cpu_percent_used'
+    ]
 
     # 🔹 Fieldsets completos con todos los campos y tabs
     fieldsets = (
@@ -64,6 +67,14 @@ class BusinessProcessAdmin(ModelAdmin):
         ('Inteligencia Artificial', {
             'fields': ('has_ai', 'ai_model_description'),
             'classes': ('unfold', 'tab-ai'),
+        }),
+        ('Recursos del Proceso', {
+            'fields': (
+                'memory_consumption', 'cpu_consumption',
+                'total_memory_available', 'total_cpu_available',
+                'memory_percent_used', 'cpu_percent_used'
+            ),
+            'classes': ('unfold', 'tab-resources'),
         }),
     )
 

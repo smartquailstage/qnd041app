@@ -221,6 +221,17 @@ class BusinessProcess(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     numero_maximo_procesos = models.IntegerField(default=1)
+
+    # Campos de memoria y CPU
+    memory_consumption = models.FloatField("Consumo de memoria (MB)", default=0)
+    cpu_consumption = models.FloatField("Consumo de procesamiento (Cores)", default=0)
+    total_memory_available = models.FloatField("Memoria total disponible (MB)", default=1024)
+    total_cpu_available = models.FloatField("Procesamiento total disponible (Cores)", default=8)
+
+    memory_percent_used = models.FloatField("Porcentaje de memoria usada (%)", editable=False, default=0)
+    cpu_percent_used = models.FloatField("Porcentaje de CPU usada (%)", editable=False, default=0)
+
+    # Resto de campos existentes...
     PROCESS_TYPE_CHOICES = [
         ('Administrativo', 'Administrativo'),
         ('Financiero', 'Financiero'),
@@ -231,21 +242,12 @@ class BusinessProcess(models.Model):
         ('Cadena de Suministros','Cadena de Suministros'),
         ('Productos y Servicios','Productos y Servicios'),
     ]
-    process_type = models.CharField("Tipo de proceso",max_length=32,choices=PROCESS_TYPE_CHOICES,blank=True,null=True)
-
-
+    process_type = models.CharField("Tipo de proceso", max_length=32, choices=PROCESS_TYPE_CHOICES, blank=True, null=True)
     progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
-
     has_automation = models.BooleanField(default=False)
     automation_description = models.TextField(blank=True, null=True)
-
     has_ai = models.BooleanField(default=False)
-    ai_model_description = models.TextField(
-        blank=True, null=True,
-        help_text="Describe el modelo de IA y su implementación en el proceso"
-    )
-
-    # 👤 Desarrollador asignado
+    ai_model_description = models.TextField(blank=True, null=True, help_text="Describe el modelo de IA y su implementación en el proceso")
     assigned_developer = models.ForeignKey(
         SmartQuailCrew,
         on_delete=models.SET_NULL,
@@ -255,73 +257,67 @@ class BusinessProcess(models.Model):
         verbose_name="Desarrollador asignado"
     )
 
-    # 📅 Nuevas fechas
+    # Fechas y aprobación
     start_date = models.DateField("Fecha de inicio", null=True, blank=True)
     delivery_date = models.DateField("Fecha de entrega", null=True, blank=True)
-
     approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
 
-    PROCESS_TYPE_CHOICES = [
-        ('Investigación', 'Investigación'),
-        ('Desarrollo', 'Desarrollo'),
-    ]
     process_class = models.CharField(
         "Tipo de proceso",
         max_length=20,
-        choices=PROCESS_TYPE_CHOICES,
+        choices=[('Investigación', 'Investigación'), ('Desarrollo', 'Desarrollo')],
         blank=True,
         null=True
     )
 
-    TECHNOLOGY_TYPE_CHOICES = [
-    ('frontend', 'Frontend'),
-    ('backend', 'Backend'),
-    ]
-    
     technology_type = models.CharField(
-    "Tipo de Tecnología",
-    max_length=60,
-    choices=TECHNOLOGY_TYPE_CHOICES,
-    blank=True,
-    null=True,
+        "Tipo de Tecnología",
+        max_length=60,
+        choices=[('frontend', 'Frontend'), ('backend', 'Backend')],
+        blank=True,
+        null=True,
     )
 
-
-    PROCESS_CLASS_CHOICES = [
-        ('Entrevistas', 'Entrevistas'),
-        ('Implementación SmartBusinessAnalytics®-ERP', 'Implementación SmartBusinessAnalytics®-ERP'),
-        ('Implementación SmartBusinessMedia®-CRM', 'Implementación SmartBusinessMedia®-CRM'),
-        ('Desarrollo Interfase UI/UX', 'Desarrollo Interfase UI/UX'),
-        ('Desarrollo de Arquitectura', 'Desarrollo de Arquitectura'),
-    ]
     process_event = models.CharField(
         "Clase del proceso",
         max_length=120,
-        choices=PROCESS_CLASS_CHOICES,
+        choices=[
+            ('Entrevistas', 'Entrevistas'),
+            ('Implementación SmartBusinessAnalytics®-ERP', 'Implementación SmartBusinessAnalytics®-ERP'),
+            ('Implementación SmartBusinessMedia®-CRM', 'Implementación SmartBusinessMedia®-CRM'),
+            ('Desarrollo Interfase UI/UX', 'Desarrollo Interfase UI/UX'),
+            ('Desarrollo de Arquitectura', 'Desarrollo de Arquitectura'),
+        ],
         blank=True,
         null=True
     )
 
     final_url = models.URLField("URL final", blank=True, null=True)
-
-
-    # 🕓 Cálculo de duración
-    total_development_days = models.PositiveIntegerField(
-        "Días de desarrollo", null=True, blank=True, editable=False
-    )
+    total_development_days = models.PositiveIntegerField("Días de desarrollo", null=True, blank=True, editable=False)
 
     def save(self, *args, **kwargs):
+        # Calcular días de desarrollo
         if self.start_date and self.delivery_date:
             delta = self.delivery_date - self.start_date
             self.total_development_days = delta.days if delta.days >= 0 else 0
         else:
             self.total_development_days = None
+
+        # Calcular porcentaje de uso de memoria y CPU
+        if self.total_memory_available > 0:
+            self.memory_percent_used = round((self.memory_consumption / self.total_memory_available) * 100, 2)
+        else:
+            self.memory_percent_used = 0
+
+        if self.total_cpu_available > 0:
+            self.cpu_percent_used = round((self.cpu_consumption / self.total_cpu_available) * 100, 2)
+        else:
+            self.cpu_percent_used = 0
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} - {self.project.name} I+D"
-
-
 
 
 
