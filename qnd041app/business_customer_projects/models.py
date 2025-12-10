@@ -222,16 +222,16 @@ class BusinessProcess(models.Model):
     description = models.TextField()
     numero_maximo_procesos = models.IntegerField(default=1)
     PROCESS_TYPE_CHOICES = [
-        ('Admin', 'Administrativo'),
-        ('Fin', 'Financiero'),
-        ('HR', 'Recursos Humanos'),
-        ('Sales', 'Ventas'),
-        ('Mkt', 'Marketing'),
-        ('Ops', 'Operaciones'),
-        ('CS','Cadena de Suministros'),
-        ('PS','Productos y Servicios'),
+        ('Administrativo', 'Administrativo'),
+        ('Financiero', 'Financiero'),
+        ('Recursos Humanos', 'Recursos Humanos'),
+        ('Ventas', 'Ventas'),
+        ('Marketing', 'Marketing'),
+        ('Operaciones', 'Operaciones'),
+        ('Cadena de Suministros','Cadena de Suministros'),
+        ('Productos y Servicios','Productos y Servicios'),
     ]
-    process_type = models.CharField("Tipo de proceso",max_length=10,choices=PROCESS_TYPE_CHOICES,blank=True,null=True)
+    process_type = models.CharField("Tipo de proceso",max_length=32,choices=PROCESS_TYPE_CHOICES,blank=True,null=True)
 
 
     progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
@@ -262,12 +262,12 @@ class BusinessProcess(models.Model):
     approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
 
     PROCESS_TYPE_CHOICES = [
-        ('I', 'Investigación'),
-        ('D', 'Desarrollo'),
+        ('Investigación', 'Investigación'),
+        ('Desarrollo', 'Desarrollo'),
     ]
-    process_type = models.CharField(
+    process_class = models.CharField(
         "Tipo de proceso",
-        max_length=1,
+        max_length=20,
         choices=PROCESS_TYPE_CHOICES,
         blank=True,
         null=True
@@ -280,7 +280,7 @@ class BusinessProcess(models.Model):
     
     technology_type = models.CharField(
     "Tipo de Tecnología",
-    max_length=10,
+    max_length=60,
     choices=TECHNOLOGY_TYPE_CHOICES,
     blank=True,
     null=True,
@@ -288,15 +288,15 @@ class BusinessProcess(models.Model):
 
 
     PROCESS_CLASS_CHOICES = [
-        ('interview', 'Entrevistas'),
-        ('erp_impl', 'Implementación SmartBusinessAnalytics®-ERP'),
-        ('crm_impl', 'Implementación SmartBusinessMedia®-CRM'),
-        ('uiux_dev', 'Desarrollo Interfase UI/UX'),
-        ('architecture_dev', 'Desarrollo de Arquitectura'),
+        ('Entrevistas', 'Entrevistas'),
+        ('Implementación SmartBusinessAnalytics®-ERP', 'Implementación SmartBusinessAnalytics®-ERP'),
+        ('Implementación SmartBusinessMedia®-CRM', 'Implementación SmartBusinessMedia®-CRM'),
+        ('Desarrollo Interfase UI/UX', 'Desarrollo Interfase UI/UX'),
+        ('Desarrollo de Arquitectura', 'Desarrollo de Arquitectura'),
     ]
-    process_class = models.CharField(
+    process_event = models.CharField(
         "Clase del proceso",
-        max_length=30,
+        max_length=120,
         choices=PROCESS_CLASS_CHOICES,
         blank=True,
         null=True

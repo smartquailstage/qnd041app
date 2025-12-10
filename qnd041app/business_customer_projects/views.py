@@ -64,18 +64,16 @@ from django.views.generic import ListView
 from django.db.models import Avg
 from .models import BusinessProcess
 
-from django.views.generic import ListView
 from django.db.models import Avg
-from .models import BusinessProcess, BusinessSystemProject
+from django.contrib.auth import get_user_model
 
 class BusinessProcessListView(ListView):
     model = BusinessProcess
-    template_name = "business/I_D.html"   # nombre corregido
+    template_name = "business/I_D.html"
     context_object_name = "processes"
     paginate_by = 20
 
     def get_queryset(self):
-        # Filtra por proyecto si pasas ?project=<id>
         project_id = self.request.GET.get("project")
         if project_id:
             return BusinessProcess.objects.filter(project_id=project_id)
@@ -91,24 +89,26 @@ class BusinessProcessListView(ListView):
         in_progress = queryset.filter(progress__lt=100).count()
         average_progress = queryset.aggregate(avg=Avg("progress"))["avg"] or 0
 
+        # Obtener usuarios asignados reales
+        assigned_users = queryset.exclude(assigned_developer__isnull=True).values_list("assigned_developer", flat=True).distinct()
+        staff = []
+        UserModel = get_user_model()
+        for user_id in assigned_users:
+            user = UserModel.objects.get(id=user_id)
+            staff.append({
+                "member": user,
+                "processes": queryset.filter(assigned_developer=user)
+            })
+
         context.update({
             "total": total,
             "completed": completed,
             "in_progress": in_progress,
             "average_progress": round(average_progress),
             "processes": queryset,
-            # Agrupar procesos por usuario para la plantilla
-            "staff": [
-                {
-                    "member": user,
-                    "assigned_processes": queryset.filter(assigned_developer=user)
-                }
-                for user in queryset.values_list("assigned_developer", flat=True).distinct()
-                if user is not None
-            ]
+            "staff": staff
         })
         return context
-
 
 
 
