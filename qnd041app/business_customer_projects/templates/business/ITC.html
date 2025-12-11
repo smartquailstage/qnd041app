@@ -13,9 +13,6 @@
               <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
               <img src="{% static 'assets/images/icons/india.png' %}" alt="" width="32">                 
                   {% if project.is_active %}
-                  <h5>
-                  <ion-icon name="checkmark-done-outline"></ion-icon> 
-                                    {{ project.name }}   </h5>
                   {% else %}
                    <h5 class="mb-0 text-warning bg-light-warning px-2 rounded py-1">
                   <ion-icon name="close-outline"></ion-icon>  {{ project.name }} Proyecto ITC Suspendido por falta de pago
@@ -187,7 +184,7 @@
                            <p class="mb-0">+{{ project.velocity_score }}Mb/sec último mes</p>
                         </div>
                       </div>
-                      <div id="chart4"></div>
+                   
                     </div>
                   </div>
                   <div class="card border shadow-none radius-10 mb-0">

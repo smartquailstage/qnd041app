@@ -105,11 +105,34 @@ background: #444040;
   <div class="line"><span class="cursor"></span></div>
 </div>
 
+<div class="top-navbar-right ms-auto">
 
-  
-    <div class="top-navbar-right ms-auto">
 
 <ul class="navbar-nav align-items-center">
+
+  
+
+
+ 
+    
+
+                     <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+            {{ request.user.profile.nombre_empresa }}
+          </p>
+
+
+
+
+</ul>
+
+    </div>
+  
+<div class="top-navbar-right ms-auto">
+
+
+<ul class="navbar-nav align-items-center">
+
+  
 
 <li class="nav-item dropdown dropdown-user-setting">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
@@ -140,10 +163,6 @@ background: #444040;
           {% endif %}
           <div>
               <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
-              <small class="mb-0 dropdown-user-designation text-secondary">{{ request.user.profile.nombre_empresa }}</small>
-                     <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
-              StartUp
-          </p>
           </div>
         </div>
       </a>

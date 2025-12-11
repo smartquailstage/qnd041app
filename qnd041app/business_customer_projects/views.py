@@ -30,6 +30,10 @@ from django.views.generic import DetailView
 from django.db.models import Avg, Sum
 from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
 
+from django.views.generic import DetailView
+from django.db.models import Avg, Sum
+from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
+
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
@@ -76,7 +80,7 @@ class BusinessSystemProjectDetailView(DetailView):
         })
 
         # -------------------
-        # AUTOMATIZACIONES
+        # AUTOMATIZACIÓN
         # -------------------
         automations = project.automations.all()
         total_automations = automations.count()
@@ -84,7 +88,6 @@ class BusinessSystemProjectDetailView(DetailView):
         total_integrations = automations.filter(automation_category="integration").count()
         average_automation_progress = automations.aggregate(avg=Avg("progress"))["avg"] or 0
 
-        # Conteo por tipo de integración a terceros
         integration_counts = {
             "gov_api": automations.filter(integration_type="gov_api").count(),
             "social_media": automations.filter(integration_type="social_media").count(),
@@ -92,7 +95,6 @@ class BusinessSystemProjectDetailView(DetailView):
             "contract_certification": automations.filter(integration_type="contract_certification").count(),
         }
 
-        # Conteo por tipo de microservicio
         microservice_counts = {
             key: automations.filter(microservice_type=key).count()
             for key, _ in BusinessAutomation.MICROSERVICE_TYPE_CHOICES
@@ -129,13 +131,21 @@ class BusinessSystemProjectDetailView(DetailView):
         contracts = project.contracts.all()
         total_contracts = contracts.count()
 
+        # Conteo por tipo EXACTO como en tu modelo
+        contract_type_counts = {
+            "ip": contracts.filter(tipo="ip").count(),
+            "cloud_services": contracts.filter(tipo="cloud_services").count(),
+            "development": contracts.filter(tipo="development").count(),
+        }
+
         context.update({
             "contracts": contracts,
             "total_contracts": total_contracts,
+            "contract_type_counts": contract_type_counts,
         })
 
         # -------------------
-        # OTROS DATOS DEL PROYECTO
+        # OTROS DATOS
         # -------------------
         context.update({
             "has_automation": project.has_automation,

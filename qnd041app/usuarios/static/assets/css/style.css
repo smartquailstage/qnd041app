@@ -249,7 +249,7 @@ position: fixed;
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
 .sidebar-wrapper .metismenu a:hover {
-  color: #717a7b;
+  color: #feaa4c;
   text-decoration: none;
   background-color: rgba(57, 45, 45, 0);
 }

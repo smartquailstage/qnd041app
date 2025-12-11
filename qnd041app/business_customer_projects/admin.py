@@ -82,6 +82,73 @@ class BusinessProcessAdmin(ModelAdmin):
     unfold_fieldsets = True
 
 
+from .models import BusinessContracts
+
+@admin.register(BusinessContracts)
+class BusinessContractsAdmin(ModelAdmin):
+    
+    autocomplete_fields = ['project']
+    search_fields = ['titulo', 'project__name']
+    
+    list_display = [
+        'titulo',
+        'project',
+        'get_tipo_display',
+        'archivo_link',
+        'created_at',
+        'updated_at',
+    ]
+    
+    list_filter = [
+        'tipo',
+        'project',
+        'created_at',
+        'updated_at',
+    ]
+    
+    readonly_fields = ['created_at', 'updated_at']
+    
+    change_form_show_cancel_button = True
+    warn_unsaved_form = True
+    list_fullwidth = True
+    list_filter_sheet = True
+    
+    fieldsets = (
+        ('📄 Información General', {
+            'fields': (
+                'project',
+                'titulo',
+                'tipo',
+            ),
+            'classes': ('tab-general',),
+        }),
+        ('📁 Archivo del Contrato', {
+            'fields': (
+                'archivo',
+            ),
+            'classes': ('tab-file',),
+        }),
+        ('⏱ Tiempos', {
+            'fields': (
+                'created_at',
+                'updated_at',
+            ),
+            'classes': ('tab-dates',),
+        }),
+    )
+    
+    def archivo_link(self, obj):
+        if obj.archivo:
+            return f"<a href='{obj.archivo.url}' target='_blank'>Descargar</a>"
+        return "No disponible"
+    archivo_link.allow_tags = True
+    archivo_link.short_description = "Archivo"
+    
+    def get_tipo_display(self, obj):
+        return obj.get_tipo_display()
+    get_tipo_display.short_description = "Tipo de Contrato"
+
+
 @admin.register(BusinessAutomation)
 class BusinessAutomationAdmin(ModelAdmin):
 
