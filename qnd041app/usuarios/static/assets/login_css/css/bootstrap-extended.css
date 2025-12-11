@@ -2,7 +2,7 @@
 /* Components */
 
 .card {
-    border:1px solid #9b0a0a;
+    border:0px solid #9b0a0a;
     margin-bottom: 1.5rem;
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }

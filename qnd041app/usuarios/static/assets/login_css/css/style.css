@@ -32,7 +32,7 @@ body {
     color: #4c5258;
     font-size: 14px;
     letter-spacing: .5px;
-    background-color: #9b0a0a;
+    background-color: rgb(46, 46, 46);
     overflow-x: hidden;
     font-family: Roboto, sans-serif;
 }
