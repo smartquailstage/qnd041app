@@ -82,16 +82,19 @@ class BusinessProcessAdmin(ModelAdmin):
     unfold_fieldsets = True
 
 
-
 @admin.register(BusinessAutomation)
 class BusinessAutomationAdmin(ModelAdmin):
+
     autocomplete_fields = ['project', 'assigned_developer']
-    search_fields = ['name', 'project__name']
+    search_fields = ['title', 'project__name']
+    
     list_display = [
-        'name',
+        'title',
         'project',
-        'assigned_developer',
+        'automation_category',
         'automation_type',
+        'microservice_type',
+        'assigned_developer',
         'progress',
         'start_date',
         'delivery_date',
@@ -99,13 +102,18 @@ class BusinessAutomationAdmin(ModelAdmin):
         'total_development_days',
         'final_url'
     ]
+
     list_filter = [
+        'automation_category',
         'automation_type',
+        'microservice_type',
         'approved_by_client',
         'start_date',
         'delivery_date'
     ]
+
     readonly_fields = ['total_development_days']
+
     change_form_show_cancel_button = True
     warn_unsaved_form = True
     list_fullwidth = True
@@ -115,19 +123,23 @@ class BusinessAutomationAdmin(ModelAdmin):
         ('📄 Información General', {
             'fields': (
                 'project',
-                'name',
+                'title',
                 'description',
+                'automation_category',
                 'automation_type',
+                'microservice_type',
                 'progress',
             ),
-            'classes': ('collapse',),
+            'classes': ('tab-general',),
         }),
+
         ('👤 Asignación Técnica', {
             'fields': (
                 'assigned_developer',
             ),
-            'classes': ('collapse',),
+            'classes': ('tab-assignment',),
         }),
+
         ('📅 Fechas y Estado', {
             'fields': (
                 'start_date',
@@ -135,13 +147,14 @@ class BusinessAutomationAdmin(ModelAdmin):
                 'total_development_days',
                 'approved_by_client',
             ),
-            'classes': ('collapse',),
+            'classes': ('tab-dates',),
         }),
+
         ('🔗 Detalles Técnicos', {
             'fields': (
                 'final_url',
             ),
-            'classes': ('collapse',),
+            'classes': ('tab-technical',),
         }),
     )
 

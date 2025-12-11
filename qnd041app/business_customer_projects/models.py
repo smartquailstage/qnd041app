@@ -327,31 +327,104 @@ class BusinessAutomation(models.Model):
         on_delete=models.CASCADE,
         related_name='automations'
     )
-    
-    name = models.CharField(max_length=200)
-    description = models.TextField()
 
-    progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
+    # Información general
+    name = models.CharField(max_length=200)
+    title = models.CharField("Título de la automatización", max_length=200, null=True, blank=True)
+    description = models.TextField("Descripción de la automatización")
+
+    progress = models.IntegerField("Progreso (%)", help_text="Valor entre 0 y 100")
+
+    # Categorías generales de automatización
+    AUTOMATION_CATEGORY_CHOICES = [
+        ('communication', 'Automatización de comunicación'),
+        ('workflow', 'Flujos de trabajo'),
+        ('integration', 'Integraciones entre sistemas'),
+        ('monitoring', 'Monitoreo y alertas'),
+        ('security', 'Seguridad y autenticación'),
+        ('data_ops', 'Operaciones de datos'),
+        ('business_ops', 'Operaciones de negocio'),
+        ('etl', 'Pipelines ETL'),
+    ]
+
+    automation_category = models.CharField(
+        "Categoría de automatización",
+        max_length=40,
+        choices=AUTOMATION_CATEGORY_CHOICES,
+        blank=True,
+        null=True
+    )
 
     # Tipos de automatización
     AUTOMATION_TYPE_CHOICES = [
-        ('email', 'Email'),
-        ('auto_auth', 'Autoidentificación'),
-        ('report_gen', 'Generación de reportes'),
-        ('chatbot', 'Chatbot para negocios'),
-        ('data_sync', 'Sincronización de datos'),
-        ('notification', 'Notificaciones automáticas'),
-        ('workflow', 'Automatización de flujos de trabajo'),
+        ('email_auto', 'Envío automático de emails'),
+        ('sms_auto', 'Envío automático de SMS'),
+        ('whatsapp_bot', 'Bot automatizado de WhatsApp'),
+        ('push_notifications', 'Notificaciones push'),
+        ('email_marketing', 'Email marketing'),
+        ('task_automation', 'Automatización de tareas'),
+        ('approval_workflow', 'Flujos de aprobación'),
+        ('document_workflow', 'Flujos de documentos'),
+        ('cron_job', 'Tareas programadas'),
+        ('user_onboarding', 'Onboarding de usuarios'),
+        ('api_sync', 'Sincronización con APIs'),
+        ('crm_sync', 'Integración con CRM'),
+        ('erp_sync', 'Integración con ERP'),
+        ('webhook_forward', 'Enrutamiento de webhooks'),
+        ('slack_integration', 'Integración con Slack'),
+        ('teams_integration', 'Integración con Teams'),
+        ('uptime_monitor', 'Monitoreo de disponibilidad'),
+        ('error_alerts', 'Alertas de errores'),
+        ('system_logs', 'Procesamiento de logs'),
+        ('two_factor_flow', 'Flujos 2FA'),
+        ('data_import', 'Importación de datos'),
+        ('data_export', 'Exportación de datos'),
+        ('db_backup', 'Backups automáticos'),
+        ('csv_processing', 'Procesamiento de CSV/Excel'),
+        ('pipeline_etl', 'ETL Pipelines'),
+        ('data_cleaning', 'Limpieza de datos'),
+        ('invoice_automation', 'Automatización de facturación'),
+        ('inventory_update', 'Actualización de inventario'),
+        ('order_processing', 'Procesamiento de pedidos'),
+        ('contract_generation', 'Generación automática de documentos'),
+        ('reminders', 'Recordatorios automáticos'),
     ]
+
     automation_type = models.CharField(
         "Tipo de automatización",
-        max_length=20,
+        max_length=50,
         choices=AUTOMATION_TYPE_CHOICES,
         blank=True,
         null=True
     )
 
-    # 👤 Desarrollador asignado
+    # 🔥 Microservicios ampliados
+    MICROSERVICE_TYPE_CHOICES = [
+        ('django_task', 'Microservicio Django / Celery'),
+        ('n8n', 'Workflow n8n'),
+        ('rabbitmq', 'Colas RabbitMQ'),
+        ('redis_queue', 'Redis Queue / Pub-Sub'),
+        ('kafka', 'Apache Kafka — Streaming de datos'),
+        ('elasticsearch', 'Elasticsearch — Logs y monitoreo'),
+        ('logstash', 'Logstash — Procesamiento de logs'),
+        ('kibana', 'Kibana — Dashboards'),
+        ('postfix', 'Postfix — Servidor SMTP'),
+        ('dovecot', 'Dovecot — Servidor IMAP'),
+        ('cron_service', 'Sistema de cron / scheduler'),
+        ('external_api', 'Microservicio de automatización externo'),
+        ('standalone_service', 'Servicio independiente'),
+        ('hybrid', 'Híbrido Django + n8n + colas'),
+    ]
+
+    microservice_type = models.CharField(
+        "Microservicio utilizado",
+        max_length=40,
+        choices=MICROSERVICE_TYPE_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    # Asignación de desarrollador
     assigned_developer = models.ForeignKey(
         SmartQuailCrew,
         on_delete=models.SET_NULL,
@@ -361,29 +434,45 @@ class BusinessAutomation(models.Model):
         verbose_name="Desarrollador asignado"
     )
 
-    # 📅 Fechas
+    # Tipo de integración a terceros
+    INTEGRATION_TYPE_CHOICES = [
+        ('gov_api', 'APIs gubernamentales'),
+        ('social_media', 'Redes sociales'),
+        ('electronic_billing', 'Facturación electrónica'),
+        ('contract_certification', 'Certificación de contratos'),
+    ]
+
+    integration_type = models.CharField(
+        "Tipo de integración a terceros",
+        max_length=50,
+        choices=INTEGRATION_TYPE_CHOICES,
+        blank=True,
+        null=True
+    )
+
+    # Fechas
     start_date = models.DateField("Fecha de inicio", null=True, blank=True)
     delivery_date = models.DateField("Fecha de entrega", null=True, blank=True)
-
     approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
-
     final_url = models.URLField("URL final", blank=True, null=True)
 
-    # 🕓 Cálculo de duración
     total_development_days = models.PositiveIntegerField(
-        "Días de desarrollo", null=True, blank=True, editable=False
+        "Días de desarrollo",
+        null=True, blank=True,
+        editable=False
     )
 
     def save(self, *args, **kwargs):
         if self.start_date and self.delivery_date:
             delta = self.delivery_date - self.start_date
-            self.total_development_days = delta.days if delta.days >= 0 else 0
+            self.total_development_days = max(delta.days, 0)
         else:
             self.total_development_days = None
+
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name} - {self.project.name}"
+        return f"{self.title} - {self.project.name}"
 
 
 
@@ -648,3 +737,30 @@ class CloudResource(models.Model):
 
     def __str__(self):
         return f"{self.resource_name} ({self.provider})"
+
+
+# models.py
+from django.db import models
+
+class BusinessContracts(models.Model):
+    project = models.ForeignKey(
+        'BusinessSystemProject',
+        on_delete=models.CASCADE,
+        related_name='contracts'
+    )
+    # Tipos de contrato
+    CONTRACT_TYPE_CHOICES = [
+        ("ip", "Contrato de Propiedad Intelectual"),
+        ("cloud_services", "Contrato de Servicios de Nube"),
+        ("development", "Contrato de Desarrollo e Implementación de Procesos"),
+    ]
+
+    titulo = models.CharField(max_length=255, verbose_name="Título del Contrato")
+    tipo = models.CharField(max_length=50, choices=CONTRACT_TYPE_CHOICES, verbose_name="Tipo de Contrato")
+    archivo = models.FileField(upload_to="contracts/", verbose_name="Archivo del Contrato")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.titulo} ({self.get_tipo_display()})"

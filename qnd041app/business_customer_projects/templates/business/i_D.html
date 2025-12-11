@@ -204,6 +204,9 @@
 <div class="d-flex flex-column gap-3">
 
   <!-- Memoria RAM -->
+<div class="d-flex flex-column gap-3">
+
+  <!-- Memoria RAM -->
   <div class="card border shadow-none radius-10 flex-grow-1 mb-0">
     <div class="card-body">
       <div class="d-flex align-items-start gap-2">
@@ -215,15 +218,24 @@
         </div>
       </div>
       <div>
-        <h3 class="mb-2">{{ total_memory }} MB</h3>
-        <p>Utilizados ({{ memory_percent }}%)</p>
+        <h3 class="mb-2">{{ project.memoria_total }} MB</h3>
+        <p>Utilizados ({{ total_percent_memory_used }}%)</p>
         <div class="d-flex align-items-center gap-2">
-          <div class="widget-icon-small bg-light-danger text-danger">
-            +A
-          </div>
-          <div class="progress flex-grow-1" style="height: 5px;">
-            <div class="progress-bar bg-gradient-info" role="progressbar" style="width: {{ memory_percent }}%;"></div>
-          </div>
+          {% if total_percent_memory_used < 60 %}
+            <div class="widget-icon-small bg-light-success text-success"> 
+              <ion-icon name="cloud-done-outline"></ion-icon>
+            </div>
+            <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+              Recursos disponibles
+            </p>
+          {% else %}
+            <div class="widget-icon-small bg-light-success text-success">
+              <ion-icon name="cloud-offline-outline"></ion-icon>
+            </div>
+            <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+              Recursos límite críticos
+            </p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -241,20 +253,32 @@
         </div>
       </div>
       <div>
-        <h3 class="mb-2">{{ total_cpu }} Cores</h3>
-        <p>Utilizados ({{ cpu_percent }}%)</p>
+        <h3 class="mb-2">{{ project.procesamiento_total_aproximado_millicore }} Cores</h3>
+        <p>Utilizados ({{ total_percent_cpu_used }}%)</p>
         <div class="d-flex align-items-center gap-2">
-          <div class="widget-icon-small bg-light-danger text-danger">
-            +AI
-          </div>
-          <div class="progress flex-grow-1" style="height: 5px;">
-            <div class="progress-bar bg-gradient-info" role="progressbar" style="width: {{ cpu_percent }}%;"></div>
-          </div>
+          {% if total_percent_cpu_used < 60 %}
+            <div class="widget-icon-small bg-light-success text-success"> 
+              <ion-icon name="cloud-done-outline"></ion-icon>
+            </div>
+            <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+              Recursos disponibles
+            </p>
+          {% else %}
+            <div class="widget-icon-small bg-light-success text-success">
+              <ion-icon name="cloud-offline-outline"></ion-icon>
+            </div>
+            <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+              Recursos límite críticos
+            </p>
+          {% endif %}
         </div>
       </div>
       <div id="chart4"></div>
     </div>
   </div>
+
+</div>
+
 
 </div>
 

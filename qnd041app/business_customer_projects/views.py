@@ -16,49 +16,184 @@ from django.views.generic import DetailView
 from django.db.models import Avg
 from .models import BusinessSystemProject
 
+from django.db.models import Sum, Avg
+
+
+from django.db.models import Sum, Avg
+from django.shortcuts import get_object_or_404
+
+from django.views.generic import DetailView
+from django.db.models import Avg, Sum
+from .models import BusinessSystemProject, BusinessAutomation
+
+from django.views.generic import DetailView
+from django.db.models import Avg, Sum
+from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
+
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
     context_object_name = "project"
 
+    def safe_percent(self, value):
+        """Devuelve un porcentaje seguro entre 0 y 100 con dos decimales."""
+        try:
+            value = float(value)
+        except:
+            value = 0
+        return round(max(0, min(value, 100)), 2)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
 
-        # Todos los procesos del proyecto
+        # -------------------
+        # PROCESOS
+        # -------------------
         processes = project.processes.all()
-        context["processes"] = processes
-
-        # Estadísticas de procesos
         total_processes = processes.count()
         completed_processes = processes.filter(progress=100).count()
         in_progress_processes = total_processes - completed_processes
         average_progress = processes.aggregate(avg=Avg("progress"))["avg"] or 0
 
-        # Procesos filtrados por progreso para usar en el template
-        processes_completed = processes.filter(progress=100)
-        processes_in_progress = processes.exclude(progress=100)
+        total_percent_memory_used = self.safe_percent(
+            processes.aggregate(total_mem=Sum("memory_percent_used"))["total_mem"] or 0
+        )
+        total_percent_cpu_used = self.safe_percent(
+            processes.aggregate(total_cpu=Sum("cpu_percent_used"))["total_cpu"] or 0
+        )
 
         context.update({
+            "processes": processes,
             "total_processes": total_processes,
             "completed_processes": completed_processes,
             "in_progress_processes": in_progress_processes,
             "average_progress": round(average_progress),
-            "processes_completed": processes_completed,
-            "processes_in_progress": processes_in_progress,
+            "total_percent_memory_used": total_percent_memory_used,
+            "total_percent_cpu_used": total_percent_cpu_used,
+            "processes_completed": processes.filter(progress=100),
+            "processes_in_progress": processes.exclude(progress=100),
         })
 
-        # Otros contextos existentes
-        context["has_automation"] = project.has_automation
-        context["has_ai"] = project.has_ai
-        context["is_active"] = project.is_active
-        context["staff"] = project.crew_members.all()
-        context["cloud_resources"] = project.cloud_resources.all()
+        # -------------------
+        # AUTOMATIZACIONES
+        # -------------------
+        automations = project.automations.all()
+        total_automations = automations.count()
+        completed_automations = automations.filter(progress=100).count()
+        total_integrations = automations.filter(automation_category="integration").count()
+        average_automation_progress = automations.aggregate(avg=Avg("progress"))["avg"] or 0
+
+        # Conteo por tipo de integración a terceros
+        integration_counts = {
+            "gov_api": automations.filter(integration_type="gov_api").count(),
+            "social_media": automations.filter(integration_type="social_media").count(),
+            "electronic_billing": automations.filter(integration_type="electronic_billing").count(),
+            "contract_certification": automations.filter(integration_type="contract_certification").count(),
+        }
+
+        # Conteo por tipo de microservicio
+        microservice_counts = {
+            key: automations.filter(microservice_type=key).count()
+            for key, _ in BusinessAutomation.MICROSERVICE_TYPE_CHOICES
+        }
+
+        context.update({
+            "automations": automations,
+            "total_automations": total_automations,
+            "completed_automations": completed_automations,
+            "total_integrations": total_integrations,
+            "average_automation_progress": round(average_automation_progress),
+            "integration_counts": integration_counts,
+            "microservice_counts": microservice_counts,
+        })
+
+        # -------------------
+        # INTELIGENCIA ARTIFICIAL
+        # -------------------
+        intelligents = project.intelligents.all()
+        total_intelligents = intelligents.count()
+        completed_intelligents = intelligents.filter(progress=100).count()
+        average_intelligent_progress = intelligents.aggregate(avg=Avg("progress"))["avg"] or 0
+
+        context.update({
+            "intelligents": intelligents,
+            "total_intelligents": total_intelligents,
+            "completed_intelligents": completed_intelligents,
+            "average_intelligent_progress": round(average_intelligent_progress),
+        })
+
+        # -------------------
+        # CONTRATOS
+        # -------------------
+        contracts = project.contracts.all()
+        total_contracts = contracts.count()
+
+        context.update({
+            "contracts": contracts,
+            "total_contracts": total_contracts,
+        })
+
+        # -------------------
+        # OTROS DATOS DEL PROYECTO
+        # -------------------
+        context.update({
+            "has_automation": project.has_automation,
+            "has_ai": project.has_ai,
+            "is_active": project.is_active,
+            "staff": project.crew_members.all(),
+            "cloud_resources": project.cloud_resources.all(),
+        })
 
         return context
 
 
+from django.views.generic import ListView
+from .models import BusinessAutomation
 
+from django.views.generic import DetailView
+from django.db.models import Sum, Avg
+from .models import BusinessAutomation
+
+class BusinessAutomationListView(ListView):
+    model = BusinessAutomation
+    template_name = "business/A.html"
+    context_object_name = "automations"
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = BusinessAutomation.objects.all()
+
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(title__icontains=search)
+
+        automation_type = self.request.GET.get("automation_type")
+        if automation_type:
+            queryset = queryset.filter(automation_type=automation_type)
+
+        microservice_type = self.request.GET.get("microservice_type")
+        if microservice_type:
+            queryset = queryset.filter(microservice_type=microservice_type)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        automations = self.get_queryset()
+
+        # 🔹 Estadísticas
+        context["total_automations"] = automations.count()
+        context["total_integrations"] = automations.filter(automation_category="integration").count()
+        context["total_completed"] = automations.filter(progress=100).count()
+
+        # Opciones para filtros
+        context["types"] = BusinessAutomation.AUTOMATION_TYPE_CHOICES
+        context["microservices"] = BusinessAutomation.MICROSERVICE_TYPE_CHOICES
+        context["categories"] = BusinessAutomation.AUTOMATION_CATEGORY_CHOICES
+
+        return context
 
 from django.views.generic import ListView
 from django.db.models import Avg
