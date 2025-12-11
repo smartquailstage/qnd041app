@@ -97,6 +97,8 @@ background: #444040;
 
 
 
+
+
     </div>
 
 <div class="ticker-container" id="ticker">
@@ -139,6 +141,9 @@ background: #444040;
           <div>
               <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
               <small class="mb-0 dropdown-user-designation text-secondary">{{ request.user.profile.nombre_empresa }}</small>
+                     <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+              StartUp
+          </p>
           </div>
         </div>
       </a>
@@ -167,7 +172,7 @@ background: #444040;
         <li>
           <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
           
-            <ion-icon name="checkmark-done-outline"></ion-icon> {{ project.name }} $ 92.0
+            <ion-icon name="checkmark-done-outline"></ion-icon>{{ project.name }} $ 92.0
           </a>
         </li>
       {% endfor %}

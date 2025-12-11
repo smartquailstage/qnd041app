@@ -8,9 +8,25 @@
   <!-- start page content-->
   <div class="page-content">
 
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Proyecto de Negocio ITC</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                     {{ project.name }}
+                  
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
 
 <!-- Nav pills -->
-<ul class="nav nav-pills mb-3" id="custom-tabs" role="tablist">
+<ul class="nav nav-pills mb-2 text-success rounded text-success bg-light-success" id="custom-tabs" role="tablist">
+
+   
   <li class="nav-item" role="presentation">
     <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true">
       <div class="d-flex align-items-center">
@@ -60,14 +76,19 @@
 <li class="nav-item" role="presentation">
   <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
     <div class="d-flex align-items-center">
-      <div class="tab-icon"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
+      <ion-icon name="shield-checkmark"></ion-icon>
+      <ion-icon name="shield-half"></ion-icon>
+    <ion-icon name="pulse"></ion-icon>
+
     </div>
   </a>
 </li>
 
-  
+
 
 </ul>
+
+
 
 
 <div class="tab-content">

@@ -50,11 +50,10 @@
       </a>
     </div>
 
-    <div class="card shadow custom-card-width">
+    <div class="card custom-card-width">
       <div class="card-body">
         <div class="text-left mb-4">
-         <p>Cree su <strong>Cuenta de Negocios Inteligentes ahora</strong> y acceda a ventajas exclusivas, promociones personalizadas,<strong>demostraciones en tiempo real</strong> de productos de software y herramientas diseñadas para optimizar la productividad y la eficiencia de tu empresa.</p> <p><strong>Potencia tu organización con tecnología inteligente y lleva tu negocio al siguiente nivel de inovación.</strong></p>
-        </div>
+                  </div>
 
 <form class="form-body row g-3" method="post">
   {% csrf_token %}
@@ -133,7 +132,10 @@
   <!-- 📜 Sección: Términos y Suscripción -->
   <!-- ========================== -->
   <div class="col-12 mt-4">
+    
 <a href="{% url 'usuarios:politicas_terminos' %}"><p>Leer términos y condiciones de uso</p></a>
+<hr>
+<p> Si dispone de una cuenta activa en SmartQuail,Inc. <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
     <hr>
   </div>
 
@@ -169,7 +171,7 @@
   </div>
 
     <div class="col-12 d-grid mt-4">
-      <p> Si dispone de una cuenta activa en SmartQuail,Inc. <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
+      
   
   </div>
 

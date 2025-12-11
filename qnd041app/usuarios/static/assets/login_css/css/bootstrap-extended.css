@@ -4,7 +4,7 @@
 .card {
     border:0px solid #9b0a0a;
     margin-bottom: 1.5rem;
-    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    box-shadow: 0 .125rem .25rem rgb(46, 46, 46);
 }
 
 .card-header {
@@ -313,12 +313,12 @@
 
 
 .btn-primary {
-  --bs-btn-color: #fff;
+  --bs-btn-color: #ffab4d;
   --bs-btn-bg: #423f3f;
   --bs-btn-border-color: #423f3f;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #9b0a0a;
-  --bs-btn-hover-border-color: #fff;
+  --bs-btn-hover-bg: #7e7d7d;
+  --bs-btn-hover-border-color: #7e7d7d;
   --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #423f3f;
