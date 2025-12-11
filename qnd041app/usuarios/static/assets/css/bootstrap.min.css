@@ -3515,7 +3515,7 @@ textarea.form-control-lg {
 }
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: var(--bs-nav-pills-link-active-color);
-    background-color: #444040;
+    background-color:rgb(46, 46, 46);
 }
 .nav-underline {
 	--bs-nav-underline-gap: 1rem;
