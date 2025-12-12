@@ -413,7 +413,7 @@ class PaymentOrderListView(ListView):
     model = PaymentOrder
     template_name = "business/payment_order.html"
     context_object_name = "payment_orders"
-    paginate_by = 20
+    paginate_by = 5
     ordering = "-created_at"
 
     def get_queryset(self):
@@ -465,11 +465,11 @@ class PaymentOrderDetailView(DetailView):
 
         context.update({
             "project": payment.project,
-            "cost_hour": payment.cost_per_hour,
-            "days_until_expiration": payment.days_until_expiration,
-            "days_until_final_expiration": payment.days_until_final_expiration,
-            "is_expired": payment.is_expired,
-            "is_final_expired": payment.is_final_expired,
+            "cost_hour": payment.hourly_cost,
+          #  "days_until_expiration": payment.days_until_expiration,
+          #  "days_until_final_expiration": payment.days_until_final_expiration,
+          #  "is_expired": payment.is_expired,
+          #  "is_final_expired": payment.is_final_expired,
         })
 
         return context
