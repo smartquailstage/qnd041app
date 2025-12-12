@@ -418,18 +418,19 @@ class PaymentOrderListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
+
         queryset = PaymentOrder.objects.filter(user=user)
 
-        # 🔍 Búsqueda
+        # 🔍 Búsqueda corregida según tu modelo real
         search = self.request.GET.get("search")
         if search:
             queryset = queryset.filter(
-                Q(company_name__icontains=search) |
+                Q(empresa_nombre__icontains=search) |
                 Q(ruc__icontains=search) |
                 Q(service_type__icontains=search)
             )
 
-        # Opcional: filtrar por proyecto si se envía ?project=ID
+        # 🔎 Filtrar por proyecto si se envía ?project=ID
         project_id = self.request.GET.get("project")
         if project_id:
             queryset = queryset.filter(project_id=project_id)
@@ -440,7 +441,6 @@ class PaymentOrderListView(ListView):
         context = super().get_context_data(**kwargs)
         context["search"] = self.request.GET.get("search", "")
         return context
-
 
 from django.http import Http404
 

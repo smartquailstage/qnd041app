@@ -1612,7 +1612,7 @@ progress {
 	--bs-table-color: #fff;
 	--bs-table-bg: #3c9aae;
 	--bs-table-border-color:#fff;
-	--bs-table-accent-bg: #444040;
+	--bs-table-accent-bg: #2e2e2e;
 	--bs-table-striped-color: var(--bs-body-color);
 	--bs-table-striped-bg: rgba(0, 0, 0, 0.05);
 	--bs-table-active-color: var(--bs-body-color);
@@ -1627,7 +1627,7 @@ progress {
 .table>:not(caption)>*>* {
 	padding: .5rem .5rem;
 	color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
-	background-color: #827f7f;
+	background-color: #2e2e2e;
 	border-bottom-width: var(--bs-border-width);
 	box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)))
 }
