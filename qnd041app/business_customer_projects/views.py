@@ -131,7 +131,6 @@ class BusinessSystemProjectDetailView(DetailView):
         contracts = project.contracts.all()
         total_contracts = contracts.count()
 
-        # Conteo por tipo EXACTO como en tu modelo
         contract_type_counts = {
             "ip": contracts.filter(tipo="ip").count(),
             "cloud_services": contracts.filter(tipo="cloud_services").count(),
@@ -143,6 +142,9 @@ class BusinessSystemProjectDetailView(DetailView):
             "total_contracts": total_contracts,
             "contract_type_counts": contract_type_counts,
         })
+
+
+
 
         # -------------------
         # OTROS DATOS
@@ -156,6 +158,7 @@ class BusinessSystemProjectDetailView(DetailView):
         })
 
         return context
+
 
 
 from django.views.generic import ListView
@@ -401,3 +404,72 @@ def create_cloud_resource(request, project_id):
 
 
 
+from django.views.generic import ListView, DetailView
+from django.db.models import Q
+from .models import PaymentOrder
+
+
+class PaymentOrderListView(ListView):
+    model = PaymentOrder
+    template_name = "business/payment_order.html"
+    context_object_name = "payment_orders"
+    paginate_by = 20
+    ordering = "-created_at"
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = PaymentOrder.objects.filter(user=user)
+
+        # 🔍 Búsqueda
+        search = self.request.GET.get("search")
+        if search:
+            queryset = queryset.filter(
+                Q(company_name__icontains=search) |
+                Q(ruc__icontains=search) |
+                Q(service_type__icontains=search)
+            )
+
+        # Opcional: filtrar por proyecto si se envía ?project=ID
+        project_id = self.request.GET.get("project")
+        if project_id:
+            queryset = queryset.filter(project_id=project_id)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search"] = self.request.GET.get("search", "")
+        return context
+
+
+from django.http import Http404
+
+
+class PaymentOrderDetailView(DetailView):
+    model = PaymentOrder
+    template_name = "business/paymentorder_detail.html"
+    context_object_name = "payment"
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        # 🔒 Seguridad: solo mostrar si es del usuario actual
+        if obj.user != self.request.user:
+            raise Http404("No tienes permiso para ver esta orden de pago.")
+
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        payment = self.get_object()
+
+        context.update({
+            "project": payment.project,
+            "cost_hour": payment.cost_per_hour,
+            "days_until_expiration": payment.days_until_expiration,
+            "days_until_final_expiration": payment.days_until_final_expiration,
+            "is_expired": payment.is_expired,
+            "is_final_expired": payment.is_final_expired,
+        })
+
+        return context

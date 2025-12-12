@@ -743,24 +743,122 @@ class CloudResource(models.Model):
 from django.db import models
 
 class BusinessContracts(models.Model):
+        project = models.ForeignKey(
+            'BusinessSystemProject',
+            on_delete=models.CASCADE,
+            related_name='contracts'
+        )
+        # Tipos de contrato
+        CONTRACT_TYPE_CHOICES = [
+            ("ip", "Contrato de Propiedad Intelectual"),
+            ("cloud_services", "Contrato de Servicios de Nube"),
+            ("development", "Contrato de Desarrollo e Implementación de Procesos"),
+        ]
+
+        titulo = models.CharField(max_length=255, verbose_name="Título del Contrato")
+        tipo = models.CharField(max_length=50, choices=CONTRACT_TYPE_CHOICES, verbose_name="Tipo de Contrato")
+        archivo = models.FileField(upload_to="contracts/", verbose_name="Archivo del Contrato")
+
+        created_at = models.DateTimeField(auto_now_add=True)
+        updated_at = models.DateTimeField(auto_now=True)
+
+        def __str__(self):
+            return f"{self.titulo} ({self.get_tipo_display()})"
+
+
+from django.db import models
+from django.utils import timezone
+from datetime import timedelta
+from saas_shop.models import Product
+
+class PaymentOrder(models.Model):
+    # Tipos de servicio
+    SERVICE_TYPE_CHOICES = [
+        ("cloud_services", "Servicios de Nube"),
+        ("consulting_ticket", "Ticket de Consulta"),
+        ("strategic_agreement", "Convenio Estratégico"),
+        ("infrastructure", "Infraestructura"),
+        ("monitoring", "Monitoreo"),
+        ("security_support", "Seguridad y Soporte"),
+    ]
+
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='payment_orders',
+        verbose_name='Usuario',
+        null=True,
+        blank=True,
+
+    )
+
+    productos = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Producto asociado'
+    )
+
     project = models.ForeignKey(
         'BusinessSystemProject',
         on_delete=models.CASCADE,
-        related_name='contracts'
+        verbose_name='Proyecto asociado',
+        null=True,
+        blank=True
     )
-    # Tipos de contrato
-    CONTRACT_TYPE_CHOICES = [
-        ("ip", "Contrato de Propiedad Intelectual"),
-        ("cloud_services", "Contrato de Servicios de Nube"),
-        ("development", "Contrato de Desarrollo e Implementación de Procesos"),
-    ]
 
-    titulo = models.CharField(max_length=255, verbose_name="Título del Contrato")
-    tipo = models.CharField(max_length=50, choices=CONTRACT_TYPE_CHOICES, verbose_name="Tipo de Contrato")
-    archivo = models.FileField(upload_to="contracts/", verbose_name="Archivo del Contrato")
+
+
+
+    # Información de la empresa
+    company_name = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
+    company_ruc = models.CharField(max_length=20, verbose_name="RUC")
+
+    # Información de la orden
+    service_type = models.CharField(max_length=50, choices=SERVICE_TYPE_CHOICES, verbose_name="Tipo de Servicio")
+    cost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Costo")
+    iva = models.DecimalField(max_digits=5, decimal_places=2, default=0, verbose_name="IVA (%)")
+    date_issued = models.DateField(default=timezone.now, verbose_name="Fecha de Emisión")
+    expiration_date = models.DateField(verbose_name="Fecha de Expiración")
+    pago_verificado = models.BooleanField(default=False, verbose_name="¿Pago Verificado en Bancos?")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Orden de Pago"
+        verbose_name_plural = "Órdenes de Pago"
+
     def __str__(self):
-        return f"{self.titulo} ({self.get_tipo_display()})"
+        return f"{self.company_name} - {self.get_service_type_display()}"
+
+    # ------------------------
+    # MÉTODOS ÚTILES
+    # ------------------------
+
+    @property
+    def cost_with_iva(self):
+        if self.cost is None or self.iva is None:
+            return 0
+        return self.cost + self.iva
+
+    @property
+    def hourly_cost(self):
+        if self.cost is None:
+            return 0
+        return self.cost / 720
+
+    @property
+    def second_expiration_date(self):
+        if not self.expiration_date:
+            return None
+        return self.expiration_date + timedelta(days=15)
+
+
+    def save(self, *args, **kwargs):
+        """Si no se define expiration_date, se asigna automáticamente 30 días desde la emisión"""
+        if not self.expiration_date:
+            self.expiration_date = self.date_issued + timedelta(days=30)
+        super().save(*args, **kwargs)

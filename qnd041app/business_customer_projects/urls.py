@@ -13,5 +13,7 @@ urlpatterns = [
     path('projects/<int:project_id>/cloud_resource/create/', views.create_cloud_resource, name='create_cloud_resource'),
 
     path('projects/<int:pk>/', BusinessSystemProjectDetailView.as_view(), name='project_detail'),
+    path('payment_orders/', views.PaymentOrderListView.as_view(), name='paymentorder_list'),
+    path('payment_orders/<int:pk>/', views.PaymentOrderDetailView.as_view(), name='paymentorder_detail'),
 ]
 

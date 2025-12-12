@@ -318,3 +318,90 @@ class CloudResourceAdmin(ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import PaymentOrder
+
+
+@admin.register(PaymentOrder)
+class PaymentOrderAdmin(ModelAdmin):
+
+    # Autocomplete si en un futuro agregas relaciones
+    search_fields = [
+        'user',
+        'company_name',
+        'company_ruc',
+        'service_type',
+    ]
+
+    list_display = [
+        'company_name',
+        'company_ruc',
+        'service_type',
+        'cost',
+        'iva',
+        'cost_with_iva',
+        'hourly_cost',
+        'date_issued',
+        'expiration_date',
+        'second_expiration_date',
+    ]
+
+    list_filter = [
+        'service_type',
+        'date_issued',
+        'expiration_date',
+    ]
+
+    list_fullwidth = True
+    list_filter_sheet = True
+    warn_unsaved_form = True
+    change_form_show_cancel_button = True
+
+    readonly_fields = [
+        'cost_with_iva',
+        'hourly_cost',
+        'second_expiration_date',
+    ]
+
+    # ──────────────────────────────────────────────
+    # FIELDSETS CON TABS AL ESTILO BusinessProcessAdmin
+    # ──────────────────────────────────────────────
+    fieldsets = (
+
+        ('🏢 Información de la Empresa', {
+            'fields': (
+                'user',
+                'company_name',
+                'company_ruc',
+                'pago_verificado',
+            ),
+            'classes': ('unfold', 'tab-company'),
+        }),
+
+        ('💼 Información del Servicio', {
+            'fields': (
+                'project',
+                'service_type',
+                'cost',
+                'iva',
+                'cost_with_iva',
+                'hourly_cost',
+            ),
+            'classes': ('unfold', 'tab-service'),
+        }),
+
+        ('📅 Fechas y Vigencias', {
+            'fields': (
+                'date_issued',
+                'expiration_date',
+                'second_expiration_date',
+            ),
+            'classes': ('unfold', 'tab-dates'),
+        }),
+
+    )
+
+    unfold_fieldsets = True

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-download-outline"></ion-icon> Proyecto de Negocio ITC</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                    <ion-icon name="checkmark-done-outline"></ion-icon>  {{ project.name }}
+                  
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
+<!-- Nav pills -->
+<ul class="nav nav-pills mb-2 text-success rounded text-success bg-light-success" id="custom-tabs" role="tablist">
+
+   
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" data-bs-toggle="pill" href="#tab-orderlist" role="tab" aria-selected="true">
+      <div class="d-flex align-items-center">
+        <div class="tab-title"><ion-icon name="cloud-download-outline"></ion-icon> <ion-icon name="checkmark-done-circle-outline"></ion-icon></div>
+      </div>
+    </a>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
+          {% if process.progress == 100 %}
+           <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+           {% else %}
+          <span class="spinner-border spinner-border-sm text-warning"></span>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+  </li>
+
+
+
+{% if project.has_automation %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        
+        <div class="tab-title"><i class="fadeIn animated bx bx-bot"></i><span class="spinner-border spinner-border-sm text-warning"></span></div>
+      </div>
+    </a>
+  </li>
+  {% endif %}
+
+  {% if project.has_ai %}
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        <div class="tab-title">  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                         <span class="spinner-border spinner-border-sm text-warning"></span></div>
+      </div>
+    </a>
+  </li>
+  {% endif %}
+
+
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-seguridad" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+      <ion-icon name="shield-half"></ion-icon>
+       <span class="spinner-border spinner-border-sm text-warning"></span>
+
+    </div>
+  </a>
+</li>
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-monitoring" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+    <ion-icon name="pulse"></ion-icon>
+  <span class="spinner-border spinner-border-sm text-warning"></span>
+    </div>
+  </a>
+</li>
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+      <ion-icon name="shield-checkmark"></ion-icon>
+      
+    </div>
+  </a>
+</li>
+
+</ul>
+
+
+
+
+<div class="tab-content">
+
+      {% include "business/paymentorder_list.html" %}
+
+</div> <!-- end tab content -->
+
+
+  </div> <!-- end page content -->
+</div>
+
+{% endblock %}
