@@ -1,0 +1,88 @@
+{% extends "saas_orders/mails/base_mail.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block content %}
+<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+
+    <h2 style="color: #b5181a;">🧾 Confirmación de Orden - SmartQuail Cloud</h2>
+
+    <p>
+        Estimado/a <strong>{{ order.first_name }} {{ order.last_name }}</strong>,
+    </p>
+
+    <p>
+        Gracias por confiar en <strong>SmartQuail</strong> como su plataforma de gestión en la nube para procesos empresariales personalizados. Su orden ha sido registrada exitosamente y estamos listos para habilitar el acceso seguro a su software.
+    </p>
+
+    <p>A continuación, los detalles de su orden:</p>
+
+    <ul>
+        <li><strong>ID de la orden:</strong> 00000{{ order.id }}</li>
+        <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
+        <li><strong>Email:</strong> {{ order.email }}</li>
+        <li><strong>Fecha de la orden:</strong> {{ order.created|date:"M d, Y" }}</li>
+        <li><strong>Total a pagar:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
+    </ul>
+
+    <p>
+        Se adjunta un comprobante oficial en PDF para sus registros internos y auditorías.
+    </p>
+
+    <h3>Productos adquiridos:</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 8px; border: 1px solid #ddd;">#</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Producto</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Cantidad</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Precio Unitario</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.id }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.product.name }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.quantity }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.price|floatformat:2 }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.get_cost|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Resumen financiero:</h3>
+    <ul>
+        <li><strong>Subtotal:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
+        <li><strong>I.V.A ({{ order.iva }}%) :</strong> ${{ order.tax_subtotal|floatformat:2 }}</li>
+        <li><strong>Total:</strong> ${{ order.total|floatformat:2 }}</li>
+        <li><strong>Descuento (Anticipo):</strong> ${{ order.Anticipo|floatformat:2 }}</li>
+        <li><strong>Valor a cancelar:</strong> ${{ order.total|floatformat:2 }} / Mes</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+        Para proceder con la activación de su software y comenzar a administrar sus procesos empresariales personalizados, haga clic en el siguiente enlace:
+    </p>
+
+<p style="text-align: center;">
+    <a href="https://{{ domain }}{% url 'saas_orders:order_detail' order_id=order.id %}" 
+       style="background-color: #b5181a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+       Proceder al pago y activación
+    </a>
+</p>
+
+    <p style="margin-top: 10px; font-style: italic;">
+        <strong>Nota:</strong> Este enlace es válido por 15 días a partir de la fecha de emisión. Pasado este período, deberá realizar una nueva compra para acceder a la plataforma.
+    </p>
+
+    <p>
+        Nuestro equipo de soporte y consultoría cloud está a su disposición para garantizar una implementación segura, escalable y completamente adaptada a sus necesidades empresariales.
+    </p>
+
+    <p>
+        Gracias por elegir <strong>SmartQuail</strong> como su socio estratégico en la nube.
+    </p>
+
+</div>
+{% endblock %}

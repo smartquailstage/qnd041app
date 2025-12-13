@@ -40,94 +40,77 @@
                     <div class="card radius-10 w-100">
                         <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px; color: #eca04a;">
 
-<div class="card radius-10" style="color: #ffff;">
+<div class="card radius-10" style="color: #ffff; background-color: #2e2e2e;">
             <div class="card-header py-3">
                  <div class="row align-items-center g-3">
                    <div class="col-12 col-lg-6">
-                     <h5 class="mb-0">Company Name, Inc</h5>
+                     <h5 class="mb-0"># Factura:</h5>
                    </div>
                    <div class="col-12 col-lg-6 text-md-end">
-                     <a href="javascript:;" class="btn btn-primary me-2"><ion-icon name="file-tray-full-sharp" role="img" class="md hydrated" aria-label="file tray full sharp"></ion-icon>Export as PDF</a>
-                     <a href="javascript:;" onclick="window.print()" class="btn btn-secondary"><ion-icon name="print-sharp" role="img" class="md hydrated" aria-label="print sharp"></ion-icon>Print</a>
+                     <a href="javascript:;" onclick="window.print()" class="btn btn-secondary"><ion-icon name="print-sharp" role="img" class="md hydrated" aria-label="print sharp"></ion-icon>Realizar pago</a>
                    </div>
                  </div>
             </div>
-            <div class="card-header py-2" style="color: #ffff;">
-              <div class="row row-cols-1 row-cols-lg-3">
-                <div class="col">
-                 <div class="">
-                   <address class="m-t-5 m-b-5">
-                      <strong class="text-inverse">SmartQuail, Inc.</strong><br>
-                      Street Address<br>
-                      City, Zip Code<br>
-                      Telefono: (593) 96-3521262<br>
-                      Fax: (123) 456-7890
-                   </address>
-                  </div>
-                </div>
-                <div class="col">
-                 <div class="">
-                   <address class="m-t-5 m-b-5">
-                      <strong class="text-inverse">Company Name</strong><br>
-                      Street Address<br>
-                      City, Zip Code<br>
-                      Phone: (123) 456-7890<br>
-                      Fax: (123) 456-7890
-                   </address>
-                  </div>
-               </div>
-               <div class="col">
-                 <div class="">
-                   <div class=""><b>August 3,2012</b></div>
-                   <div class="invoice-detail">
-                      #0000123DSS<br>
-                      Services Product
-                   </div>
-                 </div>
-               </div>
-              </div>
-            </div>
+
            <div class="card-body">
              <div class="table-responsive">
-               <table class="table table-invoice">
-                  <thead>
-                     <tr>
-                        <th>TASK DESCRIPTION</th>
-                        <th class="text-center" width="10%">RATE</th>
-                        <th class="text-center" width="10%">HOURS</th>
-                        <th class="text-right" width="20%">LINE TOTAL</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <span class="text-inverse">Website design &amp; development</span><br>
-                           <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                        </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">50</td>
-                        <td class="text-right">$2,500.00</td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <span class="text-inverse">Branding</span><br>
-                           <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                        </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">40</td>
-                        <td class="text-right">$2,000.00</td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <span class="text-inverse">Redesign Service</span><br>
-                           <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                        </td>
-                        <td class="text-center">$50.00</td>
-                        <td class="text-center">50</td>
-                        <td class="text-right">$2,500.00</td>
-                     </tr>
-                  </tbody>
-               </table>
+  <table class="table table-invoice">
+    <thead>
+        <tr>
+            <th>DESCRIPCIÓN DE SERVICIO</th>
+            <th class="text-center" width="10%">SUBTOTAL</th>
+            <th class="text-center" width="10%">I.V.A</th>
+            <th class="text-right" width="20%">TOTAL</th>
+            <th class="text-right" width="20%">ESTADO</th>
+            <th class="text-right" width="20%">FACTURA</th>
+            <th class="text-right" width="20%">BOTON DE PAGO</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <span class="text-inverse">{{ payment.get_service_type_display }}</span><br>
+                <small>
+                    {% if payment.productos %}
+                        Producto: {{ payment.productos.name }}
+                    {% else %}
+                        Servicio provisto según el tipo seleccionado.
+                    {% endif %}
+                </small>
+            </td>
+
+            <td class="text-center">
+                ${{ payment.cost|floatformat:2 }}
+            </td>
+
+            <td class="text-center">
+                {{ payment.iva|floatformat:2 }}%
+            </td>
+
+            <td class="text-right">
+                ${{ payment.cost_with_iva|floatformat:2 }}
+            </td>
+
+            <td class="text-right">
+                {% if payment.pago_verificado %}
+                    <span class="label label-success">Pagado</span>
+                {% else %}
+                    <span class="label label-warning">Pendiente</span>
+                {% endif %}
+            </td>
+
+                        <td class="text-right">
+                ${{ payment.cost_with_iva|floatformat:2 }}
+            </td>
+
+                        <td class="text-right">
+                ${{ payment.cost_with_iva|floatformat:2 }}
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+
             </div>
 
             <div class="row bg-light align-items-center m-0">
@@ -146,6 +129,8 @@
                <p class="mb-0 text-white">TOTAL</p>
                <h4 class="mb-0 text-white">$4508.00</h4>
               </div>
+
+              
             </div><!--end row-->
 
             <hr>

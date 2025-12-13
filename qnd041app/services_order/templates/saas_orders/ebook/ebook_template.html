@@ -1,0 +1,288 @@
+{% load static %}
+{% load qr_code %}
+{% load humanize %}
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <link href="{% static 'css/report.css' %}" rel="stylesheet">
+    <title>Guía de Usuario — {{ product.nombre }}</title>
+    <meta name="description" content="Ebook técnico del producto SaaS SmartQuail">
+  </head>
+
+  <body>
+
+    <!-- Página 1 — PORTADA -->
+    <article id="cover">
+      <h1>SmartBusinessPlatforms®</h1>
+      <h2>Guía de Usuario</h2>
+      <p>Software Overview</p>
+
+      <address>
+        Santiago Silva Mauricio<br>
+        CEO & Founder<br>
+        SmartQuail, Inc<br>
+      </address>
+
+      <address>
+        info@smartquail.io<br>
+        https://ec.smartquail.com<br>
+        +593 96 352 1262<br>
+      </address>
+    </article>
+
+
+
+
+    <!-- Página 2 — CONTENIDOS EXACTAMENTE COMO ESTABA -->
+    <article id="contents">
+      <h2>Contenido</h2>
+      <ul>
+        <li><a href="#cliente-title">1. Información del Cliente</a></li>
+        <li><a href="#ebook-title">2. Ebook Técnico del Producto</a></li>
+        <li><a href="#terms-title">3. Términos y Condiciones</a></li>
+        <li><a href="#sre-title">4. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</a></li>
+      </ul>
+    </article>
+
+
+
+
+
+    <!-- Página 3 — INFORMACIÓN DEL CLIENTE -->
+    <article id="cliente">
+      <h2 id="cliente-title">1. Información del Cliente</h2>
+      <section>
+        <p><strong>Nombre:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Teléfono:</strong> {{ order.telefono }}</p>
+        <p><strong>R.U.C/C.I:</strong> {{ order.ruc }}</p>
+        <p><strong>Razón Social:</strong> {{ order.razon_social }}</p>
+        <p><strong>Sector de Negocios:</strong> {{ order.get_sector_display }}</p>
+        <p><strong>Fecha de creación:</strong> {{ order.created|date:"d/m/Y H:i" }}</p>
+        <p><strong>Estado de pago:</strong> {% if order.paid %}Pagado{% else %}Pendiente{% endif %}</p>
+        <p><strong>Acepta términos:</strong> {% if order.terms_accepted %}Sí{% else %}No{% endif %}</p>
+        <p><strong>Activo:</strong> {% if order.is_active %}Sí{% else %}No{% endif %}</p>
+      </section>
+    </article>
+
+
+
+
+
+    <!-- Página 4 — EBOOK TÉCNICO (SRE + PRODUCTO) -->
+    <article id="ebook">
+      <h2 id="ebook-title">2. Ebook Técnico del Producto — {{ product.nombre }}</h2>
+
+      <section>
+
+        <h3>Visión General</h3>
+        <p>
+          {{ product.nombre }} es un Sistema de Información y Comunicación empresarial basado completamente en la nube. 
+          Su propósito central es brindar una plataforma unificada que permita la gestión de operaciones, comunicación interna, 
+          automatización de procesos, análisis predictivo y administración de datos bajo un enfoque altamente confiable y escalable.
+        </p>
+
+        <p>
+          Desde una perspectiva de ingeniería de confiabilidad (SRE), el sistema está diseñado para operar bajo estándares que 
+          priorizan la disponibilidad, la resiliencia, la tolerancia a fallos y la autosanación. Se apoya en arquitecturas 
+          cloud-native que permiten que cada módulo funcione como un componente independiente pero coordinado dentro de un 
+          entorno distribuido y seguro.
+        </p>
+
+
+        <h3>Arquitectura Cloud-Native sobre Kubernetes</h3>
+        <p>
+          El corazón operativo del sistema se ejecuta en un clúster Kubernetes de alta disponibilidad. 
+          Cada módulo del producto —incluyendo automatización, comunicación, inteligencia artificial, 
+          gestión documental, flujos internos y API gateway— se encapsula en contenedores Docker que permiten 
+          un despliegue aislado, reproducible y completamente portable.
+        </p>
+
+        <p>
+          Kubernetes administra estos contenedores mediante:
+          <br>• Autoscaling Horizontal (HPA)  
+          <br>• Monitoreo de salud (Liveness y Readiness Probes)  
+          <br>• Rolling Updates para despliegues sin interrupciones  
+          <br>• Pods distribuidos en múltiples zonas de disponibilidad  
+        </p>
+
+        <p>
+          Esta infraestructura asegura que {{ product.nombre }} pueda manejar aumentos significativos de carga, 
+          brindar disponibilidad constante y recuperarse automáticamente ante fallas, incluso durante picos extremos de uso.
+        </p>
+
+
+        <h3>Infraestructura como Código con Terraform</h3>
+        <p>
+          Toda la infraestructura detrás de {{ product.nombre }} se define utilizando Terraform. 
+          Esto incluye redes, balanceadores, bases de datos, máquinas virtuales, volúmenes persistentes, 
+          certificados, firewalls y componentes de seguridad.
+        </p>
+
+        <p>
+          El enfoque declarativo de Terraform garantiza ambientes reproducibles, control de versiones 
+          y despliegues consistentes en múltiples regiones sin intervención manual. 
+          Esta práctica elimina discrepancias entre entornos y permite escalar infraestructura 
+          según el crecimiento operativo del cliente.
+        </p>
+
+
+        <h3>Automatización Empresarial mediante n8n</h3>
+        <p>
+          {{ product.nombre }} incluye una capa nativa de automatización basada en n8n. 
+          Esto permite conectar servicios internos y externos, orquestar flujos empresariales 
+          y ejecutar tareas automatizadas según reglas predefinidas.
+        </p>
+
+        <p>
+          La integración con n8n habilita:
+          <br>— Automatización avanzada entre sistemas internos  
+          <br>— Conexiones API bidireccionales con servicios externos  
+          <br>— Procesos event-driven  
+          <br>— Reducción de trabajo manual  
+        </p>
+
+        <p>
+          Gracias a esta integración, el sistema se adapta a procesos dinámicos sin requerir 
+          desarrollos personalizados, ofreciendo flexibilidad total para el crecimiento operacional.
+        </p>
+
+
+        <h3>Módulo de Inteligencia Artificial con Scikit-Learn</h3>
+        <p>
+          La capa analítica del sistema incorpora modelos desarrollados con Scikit-Learn. 
+          Estos algoritmos procesan datos históricos y operacionales del cliente para generar:
+        </p>
+
+        <p>
+          — Modelos de predicción de demanda  
+          — Segmentación automatizada de usuarios  
+          — Clasificación de eventos  
+          — Detección de anomalías  
+          — Análisis de patrones financieros o administrativos  
+        </p>
+
+        <p>
+          Los modelos operan dentro de pipelines entrenados, validados y versionados, 
+          garantizando precisión y consistencia en el procesamiento.
+        </p>
+
+
+        <h3>Seguridad Avanzada Zero Trust</h3>
+        <p>
+          El producto implementa un modelo Zero Trust, bajo el cual cada componente debe 
+          autenticar, autorizar y validar cada solicitud sin asumir confianza previa. 
+          La seguridad se implementa con:
+        </p>
+
+        <p>
+          • RBAC en Kubernetes  
+          • Cifrado AES-256 en reposo  
+          • Cifrado TLS 1.3 en tránsito  
+          • Control de acceso segmentado por microservicio  
+          • Escaneo de vulnerabilidades automático en CI/CD  
+        </p>
+
+
+        <h3>Observabilidad y Monitoreo</h3>
+        <p>
+          Como plataforma administrada bajo principios SRE, {{ product.nombre }} integra herramientas 
+          de monitoreo que permiten diagnosticar problemas antes de que afecten al usuario final:
+        </p>
+
+        <p>
+          • Prometheus: recolección de métricas<br>
+          • Grafana: visualización en tiempo real<br>
+          • Loki: logs distribuidos<br>
+          • Jaeger: trazabilidad completa de microservicios  
+        </p>
+
+        <p>
+          La plataforma aplica análisis de tendencias basado en métricas SLO/SLA, 
+          alertas dinámicas, manejo de presupuestos de error y mecanismos de autorrecuperación.
+        </p>
+
+
+        <h3>Características del Producto (desde el modelo)</h3>
+
+        <p><strong>Infraestructura:</strong> {{ product.infraestructura_descripcion }}</p>
+        <p><strong>I+D aplicado:</strong> {{ product.id_descripcion }}</p>
+        <p><strong>Automatización:</strong> {{ product.automatizacion_descripcion }}</p>
+        <p><strong>Inteligencia Artificial:</strong> {{ product.ai_descripcion }}</p>
+        <p><strong>Monitoreo:</strong> {{ product.monitoreo_descripcion }}</p>
+        <p><strong>Usuarios Simultáneos:</strong> {{ product.usuarios_simultaneos }} concurrentes</p>
+
+
+        <h3>Conclusión Final</h3>
+        <p>
+          {{ product.nombre }} constituye una plataforma cloud empresarial diseñada con los más altos 
+          estándares de ingeniería, integrando automatización, inteligencia artificial, 
+          sistemas de comunicación y procesamiento en tiempo real dentro de una arquitectura 
+          resiliente, segura y altamente escalable.
+        </p>
+
+      </section>
+    </article>
+
+
+
+
+
+
+    <!-- Página 5 — TÉRMINOS Y CONDICIONES (SIN CAMBIOS) -->
+    <article id="terms">
+      <h2 id="terms-title">3. Términos y Condiciones de Compra</h2>
+      <section>
+        <p>Los presentes <strong>Términos y Condiciones</strong> regulan la adquisición, desarrollo, implementación y uso de soluciones tecnológicas...</p>
+
+        <h3>4.1 Proceso de compra</h3>
+        <p>La compra se considera finalizada tras iniciar la fase de Investigación y Desarrollo (I+D)...</p>
+
+        <h3>4.2 Servicios en la nube</h3>
+        <p>El primer mes de uso es gratuito...</p>
+
+        <h3>4.3 Desarrollo Open Source</h3>
+        <p>El desarrollo se realiza sobre código abierto...</p>
+
+        <h3>4.4 Protección de datos</h3>
+        <p>SmartQuail cumple la Ley Orgánica de Protección de Datos...</p>
+
+        <h3>4.5 Legislación aplicable</h3>
+        <p>Estos términos se rigen por las leyes de Ecuador...</p>
+      </section>
+    </article>
+
+
+
+
+
+
+    <!-- Página 6 — SRE TECHNICAL DESCRIPTION (SIN CAMBIOS) -->
+    <article id="sre">
+      <h2 id="sre-title">4. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</h2>
+      <section>
+        <p>El Sistema de Respaldo de Empresas (SRE) es una solución integral que asegura la continuidad...</p>
+
+        <h3>Componentes Clave del SRE</h3>
+        <ul>
+          <li><strong>Almacenamiento Seguro:</strong> redundante en la nube...</li>
+          <li><strong>Automatización de Backups:</strong> programación automática...</li>
+          <li><strong>Recuperación Rápida:</strong> minimiza tiempos de inactividad...</li>
+          <li><strong>Monitoreo y Notificaciones:</strong> paneles de control...</li>
+          <li><strong>Escalabilidad:</strong> capacidad de crecimiento continuo...</li>
+        </ul>
+
+        <h3>Beneficios del SRE</h3>
+        <ul>
+          <li><strong>Seguridad:</strong> protección de datos sensibles...</li>
+          <li><strong>Reducción de Riesgos:</strong> prevención de pérdida de datos...</li>
+          <li><strong>Rendimiento:</strong> rápida recuperación...</li>
+          <li><strong>Conformidad:</strong> cumplimiento normativo...</li>
+        </ul>
+      </section>
+    </article>
+
+
+  </body>
+</html>
