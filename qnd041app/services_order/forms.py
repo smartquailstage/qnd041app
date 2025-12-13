@@ -1,9 +1,5 @@
 from django import forms
-from .models import SaaSOrder
-
-
-from django import forms
-from .models import SaaSOrder
+from .models import ServicesOrder
 
 
 
@@ -15,14 +11,14 @@ class AcceptTermsForm(forms.Form):
     )
 
     class Meta:
-        model = SaaSOrder
+        model = ServicesOrder
         fields = ['terms_accepted']
 
 
 class OrderCreateForm(forms.ModelForm):
 
     class Meta:
-        model = SaaSOrder
+        model = ServicesOrder
         fields = ['ruc', 'razon_social', 'sector', 'telefono']
 
     # Agregar clases de Bootstrap a los campos

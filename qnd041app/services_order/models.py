@@ -3,7 +3,7 @@ from saas_shop.models import Product
 from decimal import Decimal
 from django.core.validators import MinValueValidator, \
                                    MaxValueValidator
-from saas_coupons.models import Coupon
+from services_coupons.models import Coupon
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User, Group
 from django.conf import settings
@@ -13,7 +13,7 @@ from decimal import Decimal
 from djmoney.money import Money  # Asegúrate de importar si usas MoneyField
 from djmoney.models.fields import MoneyField
 
-class SaaSOrder(models.Model):
+class ServicesOrder(models.Model):
     SECTORES = [
         ('G', 'Gastronómico'),
         ('T', 'Turismo'),
@@ -95,7 +95,7 @@ class SaaSOrder(models.Model):
 
 
 
-class SaaSOrderItem(models.Model):
+class ServicesOrderItem(models.Model):
     order = models.ForeignKey(SaaSOrder,
                               related_name='items',
                               on_delete=models.CASCADE)

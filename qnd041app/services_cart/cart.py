@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
-from saas_shop.models import Product
-from saas_coupons.models import Coupon  # Asegúrate que este modelo exista y tenga atributo discount
+from business_customer_projects.models import PaymentOrder
+from services_coupons.models import Coupon  # Asegúrate que este modelo exista y tenga atributo discount
 
 
 class Cart:
@@ -34,7 +34,7 @@ class Cart:
 
     def __iter__(self):
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
+        products = PaymentOrder.objects.filter(id__in=product_ids)
         product_map = {str(product.id): product for product in products}
 
         for product_id, item in self.cart.items():
