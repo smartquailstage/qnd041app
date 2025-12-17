@@ -37,57 +37,44 @@
                                 <table class="table align-middle">
                                     <thead class="table-secondary">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Usuario</th>
-                                            <th>Empresa</th>
-                                            <th>RUC</th>
+                                            <th>Estado</th>
+                                            <th># Factura</th>
+                                              <th>Emisión</th>
+                                               <th>Vencimiento</th>
+                                                 <th>2da Vencimiento </th>
                                             <th>Servicio</th>
-                                            <th>Costo</th>
-                                            <th>IVA</th>
-                                            <th>Emisión</th>
-                                            <th>Expiración</th>
-                                            <th>2da Expiración</th>
-                                            <th>Acciones</th>
+                                          
+                                           
+                                          
+                                            <th>Valor</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for order in payment_orders %}
                                         <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <!-- Usuario -->
-                                            <td>  <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}">
-                                                <div class="d-flex align-items-center gap-3 cursor-pointer">
-                                                    <img src="{% if order.user.profile.photo %}{{ order.user.profile.photo.url }}{% else %}/static/images/default-avatar.png{% endif %}" 
-                                                         class="rounded-circle" width="44" height="44" alt="">
-                                                    <div>
-                                                        <p class="mb-0 fw-bold">{{ order.user.get_full_name|default:order.user.username }}</p>
-                                                        <small class="text-secondary">{{ order.user.email }}</small>
-                                                    </div>
-                                                </div>
-                                                </a>
+                                            <td>
+                                                {% if order.pago_verificado %}
+                                                    <span class="badge bg-success"><ion-icon name="checkmark-done-circle-outline"></ion-icon>Pagado</span>
+                                                {% elif order.pago_verificado %}
+                                                    <span class="badge bg-danger">Vencido</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning text-dark"><ion-icon name="alert-circle-outline"></ion-icon> Pendiente</span>
+                                                {% endif %}
                                             </td>
-                                            <!-- Empresa y RUC -->
-                                            <td>{{ order.empresa_nombre }}</td>
-                                            <td>{{ order.ruc }}</td>
-                                            <!-- Servicio -->
-                                             <a href="{% url 'business_customer_projects:project_detail' order.project.pk %}">
+                                            <td> <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}" class="text-primary">
+                                              {{ order.invoice_number }}
+                                                </a></td>
+
+                                           <td>{{ order.date_issued|date:"d/m/Y" }}</td>
+<td>{{ order.expiration_date|date:"d/m/Y" }}</td>
+<td>{{ order.second_expiration_date|date:"d/m/Y" }}</td>
+
+                                                                                         <a href="{% url 'business_customer_projects:project_detail' order.project.pk %}">
                                             <td>{{ order.get_service_type_display }}</td>
                                             </a>
-                                            <!-- Costos -->
-                                            <td>$ {{ order.costo }}</td>
-                                            <td>$ {{ order.iva }}</td>
-                                            <!-- Fechas -->
-                                            <td>{{ order.fecha_emision }}</td>
-                                            <td>{{ order.fecha_expiracion }}</td>
-                                            <td>{{ order.segunda_expiracion }}</td>
                                             <!-- Acciones -->
                                             <td>
-                                                <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                                                    <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}"
-                                                       class="text-primary" data-bs-toggle="tooltip" title="Ver">
-                                                       <i class="bi bi-eye-fill"></i>
-                                                    </a>
-                                                </div>
+                                                $US {{ order.cost_with_iva|floatformat:2 }}
                                             </td>
                                         </tr>
                                         {% empty %}

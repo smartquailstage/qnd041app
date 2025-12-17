@@ -770,6 +770,9 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from saas_shop.models import Product
+from django.db import models
+from django.conf import settings
+from django.utils import timezone
 
 class PaymentOrder(models.Model):
     # Tipos de servicio
@@ -782,7 +785,6 @@ class PaymentOrder(models.Model):
         ("security_support", "Seguridad y Soporte"),
     ]
 
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -790,7 +792,6 @@ class PaymentOrder(models.Model):
         verbose_name='Usuario',
         null=True,
         blank=True,
-
     )
 
     productos = models.ForeignKey(
@@ -809,12 +810,6 @@ class PaymentOrder(models.Model):
         blank=True
     )
 
-
-
-
-
-
-
     # Información de la empresa
     company_name = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
     company_ruc = models.CharField(max_length=20, verbose_name="RUC")
@@ -827,8 +822,23 @@ class PaymentOrder(models.Model):
     expiration_date = models.DateField(verbose_name="Fecha de Expiración")
     pago_verificado = models.BooleanField(default=False, verbose_name="¿Pago Verificado en Bancos?")
 
+    # Nuevos campos para facturación
+    invoice_number = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        verbose_name="Número de Serie de Factura"
+    )
+    invoice_file = models.FileField(
+        upload_to='invoices/',
+        null=True,
+        blank=True,
+        verbose_name="Archivo de Factura"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
     class Meta:
         verbose_name = "Orden de Pago"

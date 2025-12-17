@@ -325,6 +325,7 @@ from unfold.admin import ModelAdmin
 from .models import PaymentOrder
 
 
+
 @admin.register(PaymentOrder)
 class PaymentOrderAdmin(ModelAdmin):
 
@@ -347,12 +348,15 @@ class PaymentOrderAdmin(ModelAdmin):
         'date_issued',
         'expiration_date',
         'second_expiration_date',
+        'pago_verificado',
+        'invoice_number',
     ]
 
     list_filter = [
         'service_type',
         'date_issued',
         'expiration_date',
+        'pago_verificado',
     ]
 
     list_fullwidth = True
@@ -400,6 +404,14 @@ class PaymentOrderAdmin(ModelAdmin):
                 'second_expiration_date',
             ),
             'classes': ('unfold', 'tab-dates'),
+        }),
+
+        ('🧾 Facturación', {
+            'fields': (
+                'invoice_number',
+                'invoice_file',
+            ),
+            'classes': ('unfold', 'tab-invoice'),
         }),
 
     )

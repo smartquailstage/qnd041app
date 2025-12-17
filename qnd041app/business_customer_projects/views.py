@@ -480,6 +480,7 @@ class PaymentOrderDetailView(DetailView):
         # Actualizamos el contexto
         context.update({
             "project": self.object.project,
+            "cost_with_iva": self.object.cost_with_iva,
             "cost_hour": self.object.hourly_cost,
             "cart": cart,
             "payment": self.object,   # Aseguramos que template pueda usar {{ payment.id }}

@@ -15,35 +15,55 @@
 
     <!-- Nav pills -->
     <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
+
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="orderlist-tab" data-bs-toggle="pill" href="#tab-orderlist" role="tab" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title">
-              <ion-icon name="cloud-download-outline"></ion-icon>
-              <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-            </div>
-          </div>
+        {% if payment.invoice_file %}
+         {% if not payment.pago_verificado %}
+       
+                 <a href="{{ payment.invoice_file.url }}" class="btn btn-warning btn-sm" download>
+                    <ion-icon name="alert-circle-outline"></ion-icon>
+           <ion-icon name="document-outline"></ion-icon>
+              {{ payment.invoice_number }}
         </a>
+             
+            {% else %}
+             
+            
+                      <a href="{{ payment.invoice_file.url }}" class="btn btn-success btn-sm" download>
+                          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+           <ion-icon name="document-outline"></ion-icon>
+              {{ payment.invoice_number }}
+        </a>
+              
+              {% endif %}
+    {% else %}
+        <span class="text-muted">No disponible</span>
+    {% endif %}
+
+
+    
       </li>
+
     </ul>
 
+
+    
     <!-- Tab content -->
     <div class="tab-content">
       <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
         <hr class="my-4">
         <div class="card radius-10">
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-invoice">
+
+           <div class="table-responsive" >
+              <table class="table table-invoice" style="overflow-x:auto; white-space: nowrap;">
                 <thead>
                   <tr>
                     <th>DESCRIPCIÓN DE SERVICIO</th>
                     <th class="text-center" width="10%">SUBTOTAL</th>
                     <th class="text-center" width="10%">I.V.A</th>
                     <th class="text-right" width="20%">TOTAL</th>
-                    <th class="text-right" width="20%">ESTADO</th>
-                    <th class="text-right" width="20%">FACTURA</th>
-                    <th class="text-right" width="20%">BOTON DE PAGO</th>
+            
                   </tr>
                 </thead>
                 <tbody>
@@ -72,33 +92,9 @@
         ${{ payment.cost_with_iva|floatformat:2 }}
     </td>
 
-    <td class="text-right">
-        {% if payment.pago_verificado %}
-            <span class="badge bg-success">Pagado</span>
-        {% else %}
-            <span class="badge bg-warning text-dark">Pendiente</span>
-        {% endif %}
-    </td>
 
-    <td class="text-right">
-        ${{ payment.cost_with_iva|floatformat:2 }}
-    </td>
 
-    <td class="text-right">
-        {% if not payment.pago_verificado %}
-            <form action="{% url 'services_cart:cart_add_payment_order' payment.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success btn-sm">
-        Agregar al carrito
-    </button>
-</form>
 
-        {% else %}
-            <span class="badge bg-success">
-                <ion-icon name="checkmark-circle-outline"></ion-icon> Pagado
-            </span>
-        {% endif %}
-    </td>
 </tr>
 
                 </tbody>
@@ -107,21 +103,51 @@
               <!-- Resumen total -->
               <div class="row bg-light align-items-center m-0 mt-3">
                 <div class="col col-auto p-4">
-                  <p class="mb-0">SUBTOTAL</p>
+                  <p class="mb-0">SALDO TOTAL</p>
                   <h4 class="mb-0">${{ total|floatformat:2 }}</h4>
                 </div>
                 <div class="col col-auto p-4">
                   <i class="bi bi-plus-lg text-muted"></i>
                 </div>
                 <div class="col col-auto me-auto p-4">
-                  <p class="mb-0">PAYPAL FEE (5.4%)</p>
-                  <h4 class="mb-0">${{ paypal_fee|floatformat:2 }}</h4>
+
                 </div>
-                <div class="col bg-primary col-auto p-4">
-                  <p class="mb-0 text-white">TOTAL</p>
-                  <h4 class="mb-0 text-white">${{ total_with_fee|floatformat:2 }}</h4>
+
+                  {% if not payment.pago_verificado %}
+
+                      <div class="col bg-warning col-auto p-4">
+
+                         {% if not payment.pago_verificado %}
+            <form action="{% url 'services_cart:cart_add_payment_order' payment.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning btn-sm">
+     <p class="mb-0 text-white">PAGAR FACTURA</p>
+     <p class="mb-0 text-white"> {{ payment.invoice_number }}</p>
+     <h4 class="mb-0 text-white">${{ cost_with_iva|floatformat:2 }}</h4>
+    </button>
+</form>
+ </div>
+
+        {% else %}
+
+        {% endif %}
+
+
+    
+
+                
+                  {% else %}
+
+                <div class="col bg-success col-auto p-4">
+                  <p class="mb-0 text-white">PAGADO</p>
+                  <h4 class="mb-0 text-white">${{ cost_with_iva|floatformat:2 }}</h4>
                 </div>
+            
+
+                  {% endif %}
               </div><!--end row-->
+                
+
 
               <hr>
               <!-- invoice-note -->
