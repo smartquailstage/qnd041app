@@ -1,6 +1,6 @@
 import braintree
 from django.shortcuts import render, redirect, get_object_or_404 
-from saas_orders.models import SaaSOrder 
+from business_customer_projects.models import PaymentOrder
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -17,68 +17,72 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from io import BytesIO
 import weasyprint
-from saas_orders.models import SaaSOrder
+from business_customer_projects.models import PaymentOrder
 from celery.result import AsyncResult
 from .tasks import send_contracts  # Importa la tarea
 
+from services_cart.cart import Cart  # Asegúrate de importar tu clase Cart
+
 @login_required
 def payment_process(request):
-    order_id = request.session.get('order_id')
-    order = get_object_or_404(SaaSOrder, id=order_id)
+    cart = Cart(request)  # Obtenemos el carrito desde la sesión
+
+    if not cart:
+        # Si el carrito está vacío, redirigimos a la vista del carrito
+        return redirect('services_cart:cart_detail')
 
     if request.method == 'POST':
-        # retrieve nonce
         nonce = request.POST.get('payment_method_nonce', None)
-        # create and submit transaction
+        # Calculamos el total del carrito
+        total_amount = float(cart.get_total_price_after_discount()) 
+
         result = braintree.Transaction.sale({
-            'amount': f"{order.get_total_cost().amount:.2f}",  # <-- f-string con .amount
+            'amount': f"{total_amount:.2f}",
             'payment_method_nonce': nonce,
-            'options': {
-                'submit_for_settlement': True
-            }
+            'options': {'submit_for_settlement': True}
         })
 
         if result.is_success:
-            # mark the order as paid
-            order.paid = True
-            # store the unique transaction id
-            order.braintree_id = result.transaction.id
-            order.save()
+            # Marcamos cada PaymentOrder en el carrito como pagado
+            for item in cart:
+                order = item.product
+                order.pago_verificado = True
+                order.braintree_id = result.transaction.id
+                order.save()
 
-            # Enviar factura por correo
-            subject = f'My Shop - Invoice no. {order.id}'
-            message = 'Please, find attached the invoice for your recent purchase.'
-            email = EmailMessage(subject,
-                                 message,
-                                 'admin@myshop.com',
-                                 [order.email])
+                # Generar y enviar factura por correo
+                html = render_to_string('saas_orders/order/pdf.html', {'order': order})
+                out = BytesIO()
+                stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')]
+                weasyprint.HTML(string=html).write_pdf(out, stylesheets=stylesheets)
 
-            # Generar PDF
-            html = render_to_string('saas_orders/order/pdf.html', {'order': order})
-            out = BytesIO()
-            stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')]
-            weasyprint.HTML(string=html).write_pdf(out,
-                                                   stylesheets=stylesheets)
-            # Adjuntar PDF
-            email.attach(f'order_{order.id}.pdf',
-                         out.getvalue(),
-                         'application/pdf')
-            # Enviar el correo
-            email.send()
+                email = EmailMessage(
+                    f'My Shop - Invoice no. {order.id}',
+                    'Please, find attached your invoice.',
+                    'admin@myshop.com',
+                    [order.email]
+                )
+                email.attach(f'order_{order.id}.pdf', out.getvalue(), 'application/pdf')
+                email.send()
 
-            # Llamar a la tarea de Celery para enviar los contratos
-            send_contracts.delay(order.id)
+            # Limpiar carrito
+            cart.clear()
 
             return redirect('saas_payment:done')
         else:
             return redirect('saas_payment:canceled')
+
     else:
-        # generar token
+        # GET: generamos token de cliente
         client_token = braintree.ClientToken.generate()
-        return render(request, 
-                      'payment/process.html', 
-                      {'order': order,
-                       'client_token': client_token})
+        total_amount = cart.get_total_price_after_discount()
+        return render(request, 'payment/process.html', {
+            'cart': cart,
+            'client_token': client_token,
+            'total_amount': total_amount,
+
+        })
+
 
 
 
@@ -88,7 +92,7 @@ def payment_process(request):
 def payment_process_kushki(request):
     # Recuperamos el ID de la orden desde la sesión
     order_id = request.session.get('order_id')
-    order = get_object_or_404(SaaSOrder, id=order_id)
+    order = get_object_or_404(PaymentOrder, id=order_id)
 
     # Verificamos si el método de solicitud es POST
     if request.method == 'POST':

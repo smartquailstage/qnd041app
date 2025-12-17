@@ -445,15 +445,27 @@ class PaymentOrderListView(ListView):
 from django.http import Http404
 
 
+from django.http import Http404
+from django.views.generic import DetailView
+from services_cart.cart import Cart
+#from shop.recommender import Recommender
+from business_customer_projects.models import PaymentOrder
+
+
+from django.http import Http404
+from django.views.generic import DetailView
+
+
+
 class PaymentOrderDetailView(DetailView):
     model = PaymentOrder
     template_name = "business/paymentorder_detail.html"
-    context_object_name = "payment"
+    context_object_name = "payment"  # ya disponible en template como {{ payment }}
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
 
-        # 🔒 Seguridad: solo mostrar si es del usuario actual
+        # Seguridad: solo el usuario asignado puede ver la orden
         if obj.user != self.request.user:
             raise Http404("No tienes permiso para ver esta orden de pago.")
 
@@ -461,15 +473,19 @@ class PaymentOrderDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        payment = self.get_object()
 
+        # Instancia del carrito
+        cart = Cart(self.request)
+
+        # Actualizamos el contexto
         context.update({
-            "project": payment.project,
-            "cost_hour": payment.hourly_cost,
-          #  "days_until_expiration": payment.days_until_expiration,
-          #  "days_until_final_expiration": payment.days_until_final_expiration,
-          #  "is_expired": payment.is_expired,
-          #  "is_final_expired": payment.is_final_expired,
+            "project": self.object.project,
+            "cost_hour": self.object.hourly_cost,
+            "cart": cart,
+            "payment": self.object,   # Aseguramos que template pueda usar {{ payment.id }}
+            "in_cart": str(self.object.id) in cart.cart,  # Para deshabilitar botón si ya está en carrito
         })
 
         return context
+
+

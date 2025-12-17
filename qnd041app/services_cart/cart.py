@@ -1,20 +1,25 @@
 from decimal import Decimal
 from django.conf import settings
 from business_customer_projects.models import PaymentOrder
-from services_coupons.models import Coupon  # Asegúrate que este modelo exista y tenga atributo discount
+from services_coupons.models import Coupon
 
 
 class Cart:
     def __init__(self, request):
         self.session = request.session
-        cart = self.session.get(settings.CART_SESSION_ID)
-        if not cart:
-            cart = self.session[settings.CART_SESSION_ID] = {}
-        self.cart = cart
 
+        cart = self.session.get(settings.SERVICES_CART_SESSION_ID)
+        if cart is None:
+            cart = {}
+            self.session[settings.SERVICES_CART_SESSION_ID] = cart
+
+        self.cart = cart
         self.coupon_id = self.session.get('coupon_id')
         self._coupon = None
 
+    # -------------------------
+    # CUPÓN
+    # -------------------------
     @property
     def coupon(self):
         if self._coupon is None and self.coupon_id:
@@ -27,76 +32,79 @@ class Cart:
     @coupon.setter
     def coupon(self, value):
         self._coupon = value
-        if value:
-            self.coupon_id = value.id
-        else:
-            self.coupon_id = None
+        self.coupon_id = value.id if value else None
+        self.save()
 
+    # -------------------------
+    # ITERADOR
+    # -------------------------
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = PaymentOrder.objects.filter(id__in=product_ids)
-        product_map = {str(product.id): product for product in products}
+        order_ids = self.cart.keys()
+        orders = PaymentOrder.objects.filter(id__in=order_ids)
+        order_map = {str(order.id): order for order in orders}
 
-        for product_id, item in self.cart.items():
+        for order_id, item in self.cart.items():
+            order = order_map.get(order_id)
+            if not order:
+                continue
+
             price = Decimal(item['price'])
             quantity = item['quantity']
-            total_price = price * quantity
 
             yield {
-                'product': product_map.get(product_id),
+                'payment_order': order,
                 'price': price,
                 'quantity': quantity,
-                'total_price': total_price,
+                'total_price': price * quantity,
             }
-
-
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
 
-    def add(self, product, quantity=1, update_quantity=False):
-        product_id = str(product.id)
+    # -------------------------
+    # CRUD
+    # -------------------------
+    def add(self, payment_order, quantity=1, update_quantity=False):
+        order_id = str(payment_order.id)
+        price_decimal = payment_order.cost or Decimal('0.00')
 
-        # Usar price_amount, que es Decimal
-        price_decimal = product.price_amount
-
-        if price_decimal is None:
-            price_decimal = Decimal('0.00')
-
-        price_str = str(price_decimal)
-
-        if product_id not in self.cart:
-            self.cart[product_id] = {
+        if order_id not in self.cart:
+            self.cart[order_id] = {
                 'quantity': 0,
-                'price': price_str,
+                'price': str(price_decimal),
             }
+
         if update_quantity:
-            self.cart[product_id]['quantity'] = quantity
+            self.cart[order_id]['quantity'] = quantity
         else:
-            self.cart[product_id]['quantity'] += quantity
+            self.cart[order_id]['quantity'] += quantity
 
         self.save()
 
+    def remove(self, payment_order):
+        order_id = str(payment_order.id)
+        if order_id in self.cart:
+            del self.cart[order_id]
+            self.save()
+
+    def clear(self):
+        self.cart = {}
+        self.session[settings.SERVICES_CART_SESSION_ID] = {}
+        self.session.pop('coupon_id', None)
+        self.session.modified = True
+
+    # -------------------------
+    # TOTALES
+    # -------------------------
     def save(self):
-        # Guardar coupon_id en sesión para evitar serializar objetos
+        self.session[settings.SERVICES_CART_SESSION_ID] = self.cart
+
         if self.coupon_id:
             self.session['coupon_id'] = self.coupon_id
         else:
             self.session.pop('coupon_id', None)
 
         self.session.modified = True
-
-    def remove(self, product):
-        product_id = str(product.id)
-        if product_id in self.cart:
-            del self.cart[product_id]
-            self.save()
-
-    def clear(self):
-        if settings.CART_SESSION_ID in self.session:
-            del self.session[settings.CART_SESSION_ID]
-        self.session.pop('coupon_id', None)
-        self.save()
 
     def get_total_price(self):
         return sum(
@@ -107,7 +115,7 @@ class Cart:
     def get_discount(self):
         if self.coupon:
             return (self.coupon.discount / Decimal('100')) * self.get_total_price()
-        return Decimal('0')
+        return Decimal('0.00')
 
     def get_total_price_after_discount(self):
         return self.get_total_price() - self.get_discount()

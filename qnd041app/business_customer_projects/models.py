@@ -812,6 +812,9 @@ class PaymentOrder(models.Model):
 
 
 
+
+
+
     # Información de la empresa
     company_name = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
     company_ruc = models.CharField(max_length=20, verbose_name="RUC")
@@ -855,6 +858,18 @@ class PaymentOrder(models.Model):
         if not self.expiration_date:
             return None
         return self.expiration_date + timedelta(days=15)
+
+    def get_name(self):
+        return f"Orden #{self.id} - {self.company_name}"
+
+    def get_price(self):
+        return self.cost_with_iva
+
+    def get_absolute_url(self):
+        return reverse(
+            "paymentorder_detail",
+            args=[self.id]
+        )
 
 
     def save(self, *args, **kwargs):

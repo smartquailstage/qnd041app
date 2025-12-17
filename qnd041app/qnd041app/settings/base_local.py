@@ -223,6 +223,9 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+    "services_cart",
+    "services_coupons",
+    "services_payment",
     "rosetta",
     "taggit"
 ]
@@ -241,6 +244,8 @@ domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
+
+SERVICES_CART_SESSION_ID = 'services_cart'
 
 from usuarios.utils import  permission_callback,permission_callback_prospecion
 
@@ -622,6 +627,7 @@ TEMPLATES = [
                # 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
                 "business_customer_projects.context_processors.business_projects_context",
+                "services_cart.context_processors.cart",
 
                 'billing.context_processors.all_business_billing',
             ],

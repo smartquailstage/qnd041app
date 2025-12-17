@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class SaaSPaymentConfig(AppConfig):
+class ServicesPaymentConfig(AppConfig):
     name = 'services_payment'
+    verbose_name = "Services Payment"

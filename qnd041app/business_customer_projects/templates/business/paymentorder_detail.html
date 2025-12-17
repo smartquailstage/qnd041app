@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="page-content-wrapper">
-  <!-- start page content-->
   <div class="page-content">
 
     <!-- Breadcrumb -->
@@ -12,7 +11,6 @@
       <div class="breadcrumb-title pe-3">
         <ion-icon name="card"></ion-icon> Pagos por Servicios ITC
       </div>
-
     </div>
 
     <!-- Nav pills -->
@@ -31,128 +29,114 @@
 
     <!-- Tab content -->
     <div class="tab-content">
-     <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
-    <hr class="my-4">
-    <div class="card radius-10">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 d-flex">
-                    <div class="card radius-10 w-100">
-                        <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px; color: #eca04a;">
+      <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-invoice">
+                <thead>
+                  <tr>
+                    <th>DESCRIPCIÓN DE SERVICIO</th>
+                    <th class="text-center" width="10%">SUBTOTAL</th>
+                    <th class="text-center" width="10%">I.V.A</th>
+                    <th class="text-right" width="20%">TOTAL</th>
+                    <th class="text-right" width="20%">ESTADO</th>
+                    <th class="text-right" width="20%">FACTURA</th>
+                    <th class="text-right" width="20%">BOTON DE PAGO</th>
+                  </tr>
+                </thead>
+                <tbody>
+   <!-- En tu <tbody> -->
+<tr>
+    <td>
+        <span class="text-inverse">{{ payment.get_service_type_display }}</span><br>
+        <small>
+            {% if payment.productos %}
+                Producto: {{ payment.productos.name }}
+            {% else %}
+                Servicio provisto según el tipo seleccionado.
+            {% endif %}
+        </small>
+    </td>
 
-<div class="card radius-10" style="color: #ffff; background-color: #2e2e2e;">
-            <div class="card-header py-3">
-                 <div class="row align-items-center g-3">
-                   <div class="col-12 col-lg-6">
-                     <h5 class="mb-0"># Factura:</h5>
-                   </div>
-                   <div class="col-12 col-lg-6 text-md-end">
-                     <a href="javascript:;" onclick="window.print()" class="btn btn-secondary"><ion-icon name="print-sharp" role="img" class="md hydrated" aria-label="print sharp"></ion-icon>Realizar pago</a>
-                   </div>
-                 </div>
-            </div>
+    <td class="text-center">
+        ${{ payment.cost|floatformat:2 }}
+    </td>
 
-           <div class="card-body">
-             <div class="table-responsive">
-  <table class="table table-invoice">
-    <thead>
-        <tr>
-            <th>DESCRIPCIÓN DE SERVICIO</th>
-            <th class="text-center" width="10%">SUBTOTAL</th>
-            <th class="text-center" width="10%">I.V.A</th>
-            <th class="text-right" width="20%">TOTAL</th>
-            <th class="text-right" width="20%">ESTADO</th>
-            <th class="text-right" width="20%">FACTURA</th>
-            <th class="text-right" width="20%">BOTON DE PAGO</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <span class="text-inverse">{{ payment.get_service_type_display }}</span><br>
-                <small>
-                    {% if payment.productos %}
-                        Producto: {{ payment.productos.name }}
-                    {% else %}
-                        Servicio provisto según el tipo seleccionado.
-                    {% endif %}
-                </small>
-            </td>
+    <td class="text-center">
+        {{ payment.iva|floatformat:2 }}%
+    </td>
 
-            <td class="text-center">
-                ${{ payment.cost|floatformat:2 }}
-            </td>
+    <td class="text-right">
+        ${{ payment.cost_with_iva|floatformat:2 }}
+    </td>
 
-            <td class="text-center">
-                {{ payment.iva|floatformat:2 }}%
-            </td>
+    <td class="text-right">
+        {% if payment.pago_verificado %}
+            <span class="badge bg-success">Pagado</span>
+        {% else %}
+            <span class="badge bg-warning text-dark">Pendiente</span>
+        {% endif %}
+    </td>
 
-            <td class="text-right">
-                ${{ payment.cost_with_iva|floatformat:2 }}
-            </td>
+    <td class="text-right">
+        ${{ payment.cost_with_iva|floatformat:2 }}
+    </td>
 
-            <td class="text-right">
-                {% if payment.pago_verificado %}
-                    <span class="label label-success">Pagado</span>
-                {% else %}
-                    <span class="label label-warning">Pendiente</span>
-                {% endif %}
-            </td>
+    <td class="text-right">
+        {% if not payment.pago_verificado %}
+            <form action="{% url 'services_cart:cart_add_payment_order' payment.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success btn-sm">
+        Agregar al carrito
+    </button>
+</form>
 
-                        <td class="text-right">
-                ${{ payment.cost_with_iva|floatformat:2 }}
-            </td>
+        {% else %}
+            <span class="badge bg-success">
+                <ion-icon name="checkmark-circle-outline"></ion-icon> Pagado
+            </span>
+        {% endif %}
+    </td>
+</tr>
 
-                        <td class="text-right">
-                ${{ payment.cost_with_iva|floatformat:2 }}
-            </td>
+                </tbody>
+              </table>
 
-        </tr>
-    </tbody>
-</table>
-
-            </div>
-
-            <div class="row bg-light align-items-center m-0">
-              <div class="col col-auto p-4">
-                 <p class="mb-0">SUBTOTAL</p>
-                 <h4 class="mb-0">$4,500.00</h4>
-              </div>
-              <div class="col col-auto p-4">
-                 <i class="bi bi-plus-lg text-muted"></i>
-              </div>
-              <div class="col col-auto me-auto p-4">
-                 <p class="mb-0">PAYPAL FEE (5.4%)</p>
-                 <h4 class="mb-0">$108.00</h4>
-              </div>
-              <div class="col bg-primary col-auto p-4">
-               <p class="mb-0 text-white">TOTAL</p>
-               <h4 class="mb-0 text-white">$4508.00</h4>
-              </div>
-
-              
-            </div><!--end row-->
-
-            <hr>
-          <!-- begin invoice-note -->
-          <div class="my-3">
-           * Make all cheques payable to [Your Company Name]<br>
-           * Payment is due within 30 days<br>
-           * If you have any questions concerning this invoice, contact  [Name, Phone Number, Email]
-          </div>
-        <!-- end invoice-note -->
-           </div>
-          </div>
-                        </div>
-                    </div>
+              <!-- Resumen total -->
+              <div class="row bg-light align-items-center m-0 mt-3">
+                <div class="col col-auto p-4">
+                  <p class="mb-0">SUBTOTAL</p>
+                  <h4 class="mb-0">${{ total|floatformat:2 }}</h4>
                 </div>
+                <div class="col col-auto p-4">
+                  <i class="bi bi-plus-lg text-muted"></i>
+                </div>
+                <div class="col col-auto me-auto p-4">
+                  <p class="mb-0">PAYPAL FEE (5.4%)</p>
+                  <h4 class="mb-0">${{ paypal_fee|floatformat:2 }}</h4>
+                </div>
+                <div class="col bg-primary col-auto p-4">
+                  <p class="mb-0 text-white">TOTAL</p>
+                  <h4 class="mb-0 text-white">${{ total_with_fee|floatformat:2 }}</h4>
+                </div>
+              </div><!--end row-->
+
+              <hr>
+              <!-- invoice-note -->
+              <div class="my-3">
+                * Make all cheques payable to [Your Company Name]<br>
+                * Payment is due within 30 days<br>
+                * If you have any questions concerning this invoice, contact [Name, Phone Number, Email]
+              </div>
+
             </div>
+          </div>
         </div>
+      </div>
     </div>
+
+  </div>
 </div>
-
-    </div> <!-- end tab content -->
-
-  </div> <!-- end page content -->
-</div> <!-- end page content wrapper -->
 {% endblock %}

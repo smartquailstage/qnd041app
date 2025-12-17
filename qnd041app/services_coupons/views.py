@@ -26,4 +26,4 @@ def coupon_apply(request):
             request.session['coupon_id'] = None
             messages.error(request, "El código del cupón es inválido o ha expirado.")
     
-    return redirect('saas_cart:cart_detail')
+    return redirect('services_cart:cart_detail')

@@ -1,0 +1,132 @@
+{% extends "saas_shop/base3.html" %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+{% block title %}
+  Your shopping cart
+{% endblock %}
+
+{% block content %}
+<div class="page-content-wrapper">
+    <div class="page-content">
+
+        <!--start breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Software As Products</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0 align-items-center">
+                        <li class="breadcrumb-item"></li>
+                        <li class="breadcrumb-item active" aria-current="page">Software Shopping Cart</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+        <!--start shop cart-->
+        <section class="shop-page">
+            <div class="shop-container">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <!-- Lista de items -->
+                            <div class="col-12 col-xl-8">
+                                <div class="shop-cart-list">
+{% for item in cart %}
+    {% with order=item.payment_order %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6>{{ order.company_name }}</h6>
+                <p>Servicio: {{ order.get_service_type_display }}</p>
+                {% if order.project %}
+                    <p>Proyecto: {{ order.project }}</p>
+                {% endif %}
+                <p>Precio unitario: ${{ item.price|floatformat:2 }}</p>
+                <p>Cantidad: {{ item.quantity }}</p>
+                <p>Total: ${{ item.total_price|floatformat:2 }}</p>
+
+                <form action="{% url 'services_cart:cart_add_payment_order' order.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                    <input type="submit" value="Actualizar">
+                </form>
+
+                <a href="{% url 'services_cart:cart_remove_payment_order' order.id %}">Eliminar</a>
+            </div>
+        </div>
+    {% endwith %}
+{% endfor %}
+
+
+
+                                    <!-- Acciones globales -->
+                                    <div class="card mb-3">
+                                        <div class="card-body d-flex gap-3">
+                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
+                                                <i class='bx bx-shopping-bag'></i> Ver más productos
+                                            </a>
+                                            <a href="#" class="btn btn-outline-secondary btn-ecomm ms-auto">Clear Cart</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Resumen y cupón -->
+                            <div class="col-12 col-xl-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+
+                                        <!-- Formulario de cupón -->
+                                        <form method="POST" action=".">
+                                            {% csrf_token %}
+                                            <div class="input-group">
+                                                <input type="text" name="code" class="form-control" placeholder="Código de descuento" required>
+                                                <button type="submit" class="btn btn-primary">Aplicar Cupón</button>
+                                            </div>
+                                        </form>
+                                        {% if message %}
+                                        <div class="mt-2"><p>{{ message }}</p></div>
+                                        {% endif %}
+                                        {% if coupon_apply_form.errors %}
+                                        <div class="text-danger mt-1">
+                                            {{ coupon_apply_form.errors }}
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Totales -->
+                                        <div class="my-3 border-top pt-3">
+                                            <p class="mb-2">Subtotal <span class="float-end">${{ total|floatformat:2 }}</span></p>
+                                            {% if discount > 0 %}
+                                            <p class="mb-2 text-success">Descuento <span class="float-end">-${{ discount|floatformat:2 }}</span></p>
+                                            {% endif %}
+                                            <h5 class="mb-0">Total a pagar <span class="float-end">${{ total_after_discount|floatformat:2 }}</span></h5>
+                                        </div>
+
+                                        <!-- Checkout -->
+                                        <div class="d-grid mt-4">
+                                            <a href="{% url 'services_payment:process' %}" class="btn btn-primary btn-ecomm">
+                                                <ion-icon name="cart-outline"></ion-icon> Realizar Orden
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end row-->
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end shop cart-->
+
+    </div>
+</div>
+{% endblock %}

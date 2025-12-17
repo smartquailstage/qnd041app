@@ -3,7 +3,7 @@ from . import views
 from django.utils.translation import gettext_lazy as _
 
 
-app_name = 'saas_orders'
+app_name = 'services_orders'
 
 urlpatterns = [
     path('accept-terms/', views.accept_terms, name='accept_terms'),

@@ -4,12 +4,12 @@ from django.template.loader import render_to_string
 from io import BytesIO
 import weasyprint
 from django.conf import settings
-from saas_orders.models import SaaSOrder
+from business_customer_projects.models import PaymentOrder
 
 @shared_task
 def send_contracts(order_id):
     # Obtén la orden
-    order = SaaSOrder.objects.get(id=order_id)
+    order = PaymentOrder.objects.get(id=order_id)
     domain = "ec.smartquail.io"
 
     # Evitar errores de Fontconfig
