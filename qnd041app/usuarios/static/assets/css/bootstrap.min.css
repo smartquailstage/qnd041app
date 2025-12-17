@@ -4287,7 +4287,7 @@ textarea.form-control-lg {
 	content: var(--bs-breadcrumb-divider, "/")
 }
 .breadcrumb-item.active {
-	color: var(--bs-breadcrumb-item-active-color)
+	color: rgba(190, 196, 202, 0.75);
 }
 .pagination {
 	--bs-pagination-padding-x: 0.75rem;

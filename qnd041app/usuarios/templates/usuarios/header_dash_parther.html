@@ -116,10 +116,13 @@ background: #444040;
  
     
 
+
+
+
                      <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
             {{ request.user.profile.nombre_empresa }}
+             $ US {{ pending_orders_total|floatformat:2 }}
           </p>
-
 
 
 
