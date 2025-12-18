@@ -76,6 +76,7 @@
                     <th>PROYECTO ITC</th>
                     <th class="text-center" width="10%">SERVICIO</th>
                     <th class="text-right" width="20%">TOTAL A PAGAR</th>
+                    <th class="text-right" width="20%">BENEFICIO</th>
             
                   </tr>
                 </thead>
@@ -93,12 +94,18 @@
         {{ order.get_service_type_display }}
     </td>
 
-        <td>
-        ${{ item.total_price|floatformat:2 }}
+   {% endwith %}
+
+
+{% endfor %}
+
+           <td>
+       ${{ total|floatformat:2 }}
     </td>
 
-   {% endwith %}
-{% endfor %}
+    <td>
+         {% if discount > 0 %}<span class="text-success">-${{ discount|floatformat:2 }}</span>{% endif %}
+    </td>
 
 
 
@@ -138,13 +145,9 @@
 
 
 
-                <div class="col bg-success col-auto p-4">
-                                                             <p class="mb-2">Subtotal <span class="float-end">${{ total|floatformat:2 }}</span></p>
-                                            {% if discount > 0 %}
-                                            <p class="mb-2 text-success">Descuento <span class="float-end">-${{ discount|floatformat:2 }}</span></p>
-                                            {% endif %}
-                                            <h5 class="mb-0">Total a pagar <span class="float-end">${{ total_after_discount|floatformat:2 }}</span></h5>
-                                             <a href="{% url 'services_payment:process' %}" class="btn btn-primary btn-ecomm">
+                <div class="col bg-outline-primary  col-auto p-4">
+                                            <h5 class="mb-0">${{ total_after_discount|floatformat:2 }} <span class="float-end"></span></h5>
+                                             <a href="{% url 'services_payment:process' %}" class="btn btn-outline-primary btn-ecomm">
                                                 <ion-icon name="cart-outline"></ion-icon> Realizar Orden
                                             </a>
                 </div>
