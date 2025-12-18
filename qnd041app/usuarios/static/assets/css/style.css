@@ -32,7 +32,7 @@ body {
     color: #fff;
     font-size: 14px;
     letter-spacing: .5px;
-    background-color:#444040;
+    background-color:#2e2e2e;
     overflow-x: hidden;
     font-family: pt-sans-regular, sans-serif;
 }
@@ -95,7 +95,7 @@ position: fixed;
   left: 0;
   width: 260px;
   height: 100%;
-  background-color:#444040;
+  background-color:#2e2e2e;
   background-clip: padding-box;
   border-right: 0px solid #f8fafb;
   transition: all .2s;
@@ -114,9 +114,9 @@ position: fixed;
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color: #444040;
+  background-color:#2e2e2e;
   border-right: 0px solid #e2e3e4;
-  border-bottom: 1px solid #444040;
+  border-bottom: 1px solid #2e2e2e;
   transition: all .2s;
 }
 
@@ -383,7 +383,7 @@ position: fixed;
   padding: 0 1.5rem;
   border-bottom: 1px solid rgba(233, 236, 239, 0);
   background-clip: border-box;
-  background: #444040;
+  background: #2e2e2e;
   z-index: 5;
   transition: 0.3s all;
   box-shadow: none;
@@ -822,7 +822,7 @@ position: fixed;
 .btn i,
 .btn ion-icon {
     vertical-align: middle;
-    font-size: 2rem;
+    font-size: 1.2rem;
     margin-top: -1em;
     margin-bottom: -1em;
     margin-right: 7px;

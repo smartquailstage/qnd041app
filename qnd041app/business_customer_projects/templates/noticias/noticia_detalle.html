@@ -30,12 +30,12 @@
     <div class="tab-content">
       <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
         <hr class="my-4">
-        <div class="card radius-10">
-          <div class="card-body" style="background-color: rgb(46, 46, 46);">
+        <div class="card radius-10" style="background-color: #2e2e2e;">
+          <div class="card-body" style="background-color: #2e2e2e;">
 
 <div class="row">
               <div class="col-12 col-lg-8 col-xl-9">
-                <div class="card overflow-hidden radius-10">
+                <div class="card overflow-hidden radius-10" style="background-color: #2e2e2e;">
                         <div class="profile-cover bg-dark position-relative mb-4"
            style="
             background-image: url('{% if noticia.imagen_portada %}{{ noticia.imagen_portada.url }}{% endif %}');
@@ -43,12 +43,19 @@
             background-position: center;
             height: 280px;
            ">
+           <h3 class="mb-2">{{ noticia.titulo_1 }}</h3>
 
                   </div>
-                  <div class="card-body">
+                  <div class="card-body" style="background-color: #2e2e2e;">
                     <div class="mt-5 d-flex align-items-start justify-content-between">
                       <div class="">
                         <h3 class="mb-2">{{ noticia.titulo_1 }}</h3>
+                                                            <div class="rates cursor-pointer fs-6">	
+                                      <ion-icon name="heart-outline"></ion-icon>12
+                                      <ion-icon name="chatbubble-outline"></ion-icon>23
+                                      <ion-icon name="git-compare-outline"></ion-icon>25
+                                    </div>
+                        
                         <p class="mb-1"> Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}</p>
                         
                         <p>New York, United States</p>
@@ -59,15 +66,11 @@
                         </div>
                       </div>
 
-                                            <div class="">
-                                                   <a href="javascript:;" class="btn btn-outline-warning"><p><ion-icon name="download"></ion-icon></p></a>
-                         
-                          <a href="javascript:;" class="btn btn-outline-warning"><ion-icon name="share-social"></ion-icon></a>
-                      </div>
+       
                     </div>
                   </div>
                 </div>
-                <div class="card">
+                <div class="card" style="background-color: #2e2e2e;">
                   <div class="card-body">
                     <h4 class="mb-2">About Me</h4>
                     <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
@@ -116,24 +119,22 @@
                      <div class="add-review">
                               <div class="form-body p-3 rounded border bg-light">
                                
-
                                 <div class="mb-3">
-                                  <label class="form-label">Rating</label>
-                                  <select class="form-select">
-                                    <option selected="">Choose Rating</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="3">4</option>
-                                    <option value="3">5</option>
-                                  </select>
+
+                                          
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-warning"><ion-icon name="heart-outline"></ion-icon></button>
+                        <button type="button" class="btn btn-warning"><ion-icon name="git-compare-outline"></ion-icon></button>
+                        <button type="button" class="btn btn-warning"><ion-icon name="download"></ion-icon></button>
+                        <button type="button" class="btn btn-warning"><ion-icon name="chatbubble-ellipses-outline"></button>
+                      </div>
+                
                                 </div>
                                 <div class="mb-3">
-                                  <label class="form-label">Example textarea</label>
                                   <textarea class="form-control" rows="3"></textarea>
                                 </div>
                                 <div class="d-grid">
-                                  <button type="button" class="btn btn-outline-warning btn-ecomm">Submit a Review</button>
+                                  <button type="button" class="btn btn-outline-warning btn-ecomm"><ion-icon name="chatbubble-ellipses-outline"></ion-icon>Comentar</button>
                                 </div>
                               </div>
                             </div>
@@ -152,16 +153,43 @@
                   <div class="card-body">
 
                     
-                    <div class="review-user text-left">
-                    
-                              {% if noticia.autor_foto %}
-            <img src="{{ noticia.autor_foto.url }}" width="65" height="65" class="rounded-circle" alt="{{ noticia.autor_nombre }}">
-          {% else %}
-            <img src="{% static 'assets/images/avatars/05.png' %}" width="65" height="65" class="rounded-circle" alt="Autor">
-          {% endif %}
-                     <p class="mb-0"> Autor: {{ noticia.autor_nombre }}</p>
-                     <p class="mb-0">{{ noticia.autor_email }}
-                    </div>
+  <div class="review-user d-flex align-items-center text-left">
+
+  <!-- FOTO AUTOR -->
+  {% if noticia.autor_foto %}
+    <img src="{{ noticia.autor_foto.url }}"
+         width="65"
+         height="65"
+         class="rounded-circle"
+         alt="{{ noticia.autor_nombre }}">
+  {% else %}
+    <img src="{% static 'assets/images/avatars/05.png' %}"
+         width="65"
+         height="65"
+         class="rounded-circle"
+         alt="Autor">
+  {% endif %}
+
+  <!-- INFO AUTOR -->
+  <div class="ms-3">
+    <p class="mb-0 fw-bold">
+      {{ noticia.autor_nombre }}
+    </p>
+    <p >
+      Chief Officer Technologies
+    </p>
+        <p style="margin-top: -8px; font-size: 12px;">
+      SmartQuail,Inc
+    </p>
+    {% if noticia.autor_email %}
+      <p class="mb-0 text-muted" style="font-size: 13px;">
+        {{ noticia.autor_email }}
+      </p>
+    {% endif %}
+  </div>
+
+</div>
+
                   </div>
                 </div>
 
@@ -172,6 +200,32 @@
                      <p class=""><ion-icon name="logo-facebook" class="me-2 md hydrated" role="img" aria-label="logo facebook"></ion-icon>Facebook</p>
                      <p class=""><ion-icon name="logo-twitter" class="me-2 md hydrated" role="img" aria-label="logo twitter"></ion-icon>Twitter</p>
                      <p class="mb-0"><ion-icon name="logo-linkedin" class="me-2 md hydrated" role="img" aria-label="logo linkedin"></ion-icon>LinkedIn</p>
+                  </div>
+                </div>
+
+                <div class="card radius-10">
+                  <div class="card-body">
+                    <h5 class="mb-3">Estadisticas del Articulo</h5>
+                     <div class="mb-3">
+                      <p class="mb-1">leidos</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 45%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-3">
+                      <p class="mb-1">Compartidos</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 55%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-3">
+                      <p class="mb-1">Comentados</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+                      </div>
+                     </div>
+
+
                   </div>
                 </div>
 

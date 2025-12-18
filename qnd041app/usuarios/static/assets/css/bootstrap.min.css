@@ -6820,7 +6820,7 @@ textarea.form-control-lg {
 	transform: translateY(-50%)!important
 }
 .border {
-	border: var(--bs-border-width) var(--bs-border-style) #4f4e4e !important;
+	border: var(--bs-border-width) var(--bs-border-style) #2e2e2e !important
 }
 .border-0 {
 	border: 0!important
