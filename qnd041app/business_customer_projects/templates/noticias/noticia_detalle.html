@@ -31,7 +31,7 @@
       <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
         <hr class="my-4">
         <div class="card radius-10">
-          <div class="card-body">
+          <div class="card-body" style="background-color: rgb(46, 46, 46);">
 
 <div class="row">
               <div class="col-12 col-lg-8 col-xl-9">
@@ -43,13 +43,7 @@
             background-position: center;
             height: 280px;
            ">
-                            <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
-          {% if noticia.autor_foto %}
-            <img src="{{ noticia.autor_foto.url }}" alt="{{ noticia.autor_nombre }}">
-          {% else %}
-            <img src="{% static 'assets/images/avatars/05.png' %}" alt="Autor">
-          {% endif %}
-        </div>
+
                   </div>
                   <div class="card-body">
                     <div class="mt-5 d-flex align-items-start justify-content-between">
@@ -64,8 +58,11 @@
                           <span class="badge rounded-pill bg-primary">Project Management</span>
                         </div>
                       </div>
-                      <div class="">
-                         <a href="javascript:;" class="btn btn-primary"><ion-icon name="send-sharp" role="img" class="md hydrated" aria-label="send sharp"></ion-icon>Send Message</a>
+
+                                            <div class="">
+                                                   <a href="javascript:;" class="btn btn-outline-warning"><p><ion-icon name="download"></ion-icon></p></a>
+                         
+                          <a href="javascript:;" class="btn btn-outline-warning"><ion-icon name="share-social"></ion-icon></a>
                       </div>
                     </div>
                   </div>
@@ -77,19 +74,100 @@
                     <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
                   </div>
+
+
                 </div>
+                 <div class="card-body">
+                <div class="product-review">
+                              <h5 class="mb-4">3 Reviews For The Product</h5>
+                              <div class="review-list">
+                                <div class="d-flex align-items-start">
+                                  <div class="review-user">
+                                    <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="">
+                                  </div>
+                                  <div class="review-content ms-3">
+                                    <div class="rates cursor-pointer fs-6">	<i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star text-warning"></i>
+                                      <i class="bx bxs-star"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                      <h6 class="mb-0">James Caviness</h6>
+                                      <p class="mb-0 ms-auto">February 16, 2021</p>
+                                    </div>
+                                    <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan</p>
+                                  </div>
+                                </div>
+                                <hr>
+
+                              </div>
+                </div>
+                </div>
+
+                                
+ 
+                    
               </div>
               <div class="col-12 col-lg-4 col-xl-3">
-                <div class="card radius-10">
+
+
                   <div class="card-body">
-                    <h5 class="mb-3">Autor</h5>
-                     <p class="mb-0"><ion-icon name="compass-sharp" class="me-2 md hydrated" role="img" aria-label="compass sharp"></ion-icon>{{ noticia.autor_nombre }}</p>
+                     <div class="add-review">
+                              <div class="form-body p-3 rounded border bg-light">
+                               
+
+                                <div class="mb-3">
+                                  <label class="form-label">Rating</label>
+                                  <select class="form-select">
+                                    <option selected="">Choose Rating</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="3">4</option>
+                                    <option value="3">5</option>
+                                  </select>
+                                </div>
+                                <div class="mb-3">
+                                  <label class="form-label">Example textarea</label>
+                                  <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="d-grid">
+                                  <button type="button" class="btn btn-outline-warning btn-ecomm">Submit a Review</button>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+
+                  </div>
+           
+
+
+          
+                <div class="card radius-10">
+                  
+                            
+                  <div class="card-body">
+
+                    
+                    <div class="review-user text-left">
+                    
+                              {% if noticia.autor_foto %}
+            <img src="{{ noticia.autor_foto.url }}" width="65" height="65" class="rounded-circle" alt="{{ noticia.autor_nombre }}">
+          {% else %}
+            <img src="{% static 'assets/images/avatars/05.png' %}" width="65" height="65" class="rounded-circle" alt="Autor">
+          {% endif %}
+                     <p class="mb-0"> Autor: {{ noticia.autor_nombre }}</p>
+                     <p class="mb-0">{{ noticia.autor_email }}
+                    </div>
                   </div>
                 </div>
 
                 <div class="card radius-10">
                   <div class="card-body">
-                    <h5 class="mb-3">Connect</h5>
+                    <h5 class="mb-3">Referencias</h5>
                      <p class=""><ion-icon name="globe-sharp" class="me-2 md hydrated" role="img" aria-label="globe sharp"></ion-icon>www.example.com</p>
                      <p class=""><ion-icon name="logo-facebook" class="me-2 md hydrated" role="img" aria-label="logo facebook"></ion-icon>Facebook</p>
                      <p class=""><ion-icon name="logo-twitter" class="me-2 md hydrated" role="img" aria-label="logo twitter"></ion-icon>Twitter</p>
@@ -97,42 +175,7 @@
                   </div>
                 </div>
 
-                <div class="card radius-10">
-                  <div class="card-body">
-                    <h5 class="mb-3">Skills</h5>
-                     <div class="mb-3">
-                      <p class="mb-1">Web Design</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-3">
-                      <p class="mb-1">HTML5</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 55%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-3">
-                      <p class="mb-1">PHP7</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 65%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-3">
-                      <p class="mb-1">CSS3</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 75%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-0">
-                      <p class="mb-1">Photoshop</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 85%"></div>
-                      </div>
-                     </div>
-
-                  </div>
-                </div>
+              
 
               </div>
             </div>
