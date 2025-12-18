@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <!-- Breadcrumb -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">
+       <ion-icon name="globe-outline"></ion-icon> Noticias Negocios ITC
+      </div>
+      <div class="ps-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0 p-0 align-items-center">
+
+                <li class="breadcrumb-item active" aria-current="page">Ecuador y el Mundo</li>
+              </ol>
+            </nav>
+          </div>
+
+    </div>
+
+    <!-- Nav pills -->
+
+
+    
+    <!-- Tab content -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body">
+
+<div class="row">
+              <div class="col-12 col-lg-8 col-xl-9">
+                <div class="card overflow-hidden radius-10">
+                        <div class="profile-cover bg-dark position-relative mb-4"
+           style="
+            background-image: url('{% if noticia.imagen_portada %}{{ noticia.imagen_portada.url }}{% endif %}');
+            background-size: cover;
+            background-position: center;
+            height: 280px;
+           ">
+                            <div class="user-profile-avatar shadow position-absolute top-50 start-0 translate-middle-x">
+          {% if noticia.autor_foto %}
+            <img src="{{ noticia.autor_foto.url }}" alt="{{ noticia.autor_nombre }}">
+          {% else %}
+            <img src="{% static 'assets/images/avatars/05.png' %}" alt="Autor">
+          {% endif %}
+        </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="mt-5 d-flex align-items-start justify-content-between">
+                      <div class="">
+                        <h3 class="mb-2">{{ noticia.titulo_1 }}</h3>
+                        <p class="mb-1"> Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}</p>
+                        
+                        <p>New York, United States</p>
+                        <div class="">
+                          <span class="badge rounded-pill bg-primary">UX Research</span>
+                          <span class="badge rounded-pill bg-primary">CX Strategy</span>
+                          <span class="badge rounded-pill bg-primary">Project Management</span>
+                        </div>
+                      </div>
+                      <div class="">
+                         <a href="javascript:;" class="btn btn-primary"><ion-icon name="send-sharp" role="img" class="md hydrated" aria-label="send sharp"></ion-icon>Send Message</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="mb-2">About Me</h4>
+                    <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-4 col-xl-3">
+                <div class="card radius-10">
+                  <div class="card-body">
+                    <h5 class="mb-3">Autor</h5>
+                     <p class="mb-0"><ion-icon name="compass-sharp" class="me-2 md hydrated" role="img" aria-label="compass sharp"></ion-icon>{{ noticia.autor_nombre }}</p>
+                  </div>
+                </div>
+
+                <div class="card radius-10">
+                  <div class="card-body">
+                    <h5 class="mb-3">Connect</h5>
+                     <p class=""><ion-icon name="globe-sharp" class="me-2 md hydrated" role="img" aria-label="globe sharp"></ion-icon>www.example.com</p>
+                     <p class=""><ion-icon name="logo-facebook" class="me-2 md hydrated" role="img" aria-label="logo facebook"></ion-icon>Facebook</p>
+                     <p class=""><ion-icon name="logo-twitter" class="me-2 md hydrated" role="img" aria-label="logo twitter"></ion-icon>Twitter</p>
+                     <p class="mb-0"><ion-icon name="logo-linkedin" class="me-2 md hydrated" role="img" aria-label="logo linkedin"></ion-icon>LinkedIn</p>
+                  </div>
+                </div>
+
+                <div class="card radius-10">
+                  <div class="card-body">
+                    <h5 class="mb-3">Skills</h5>
+                     <div class="mb-3">
+                      <p class="mb-1">Web Design</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 45%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-3">
+                      <p class="mb-1">HTML5</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 55%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-3">
+                      <p class="mb-1">PHP7</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-3">
+                      <p class="mb-1">CSS3</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 75%"></div>
+                      </div>
+                     </div>
+                     <div class="mb-0">
+                      <p class="mb-1">Photoshop</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                      </div>
+                     </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+

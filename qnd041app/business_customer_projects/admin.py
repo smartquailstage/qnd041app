@@ -417,3 +417,112 @@ class PaymentOrderAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+
+
+
+from .models import Noticia
+
+
+@admin.register(Noticia)
+class NoticiaAdmin(ModelAdmin):
+
+    # ──────────────────────────────────────────────
+    # BÚSQUEDA
+    # ──────────────────────────────────────────────
+    search_fields = [
+        'titulo_1',
+        'subtitulo_1',
+        'autor_nombre',
+    ]
+
+    # ──────────────────────────────────────────────
+    # LISTADO
+    # ──────────────────────────────────────────────
+    list_display = [
+        'titulo_1',
+        'autor_nombre',
+        'fecha_publicacion',
+        'activa',
+    ]
+
+    list_filter = [
+        'activa',
+        'fecha_publicacion',
+        'autor_nombre',
+    ]
+
+    list_fullwidth = True
+    list_filter_sheet = True
+    warn_unsaved_form = True
+    change_form_show_cancel_button = True
+
+    # ──────────────────────────────────────────────
+    # SOLO LECTURA
+    # ──────────────────────────────────────────────
+    readonly_fields = [
+        'fecha_publicacion',
+    ]
+
+    # ──────────────────────────────────────────────
+    # FIELDSETS CON TABS (UNFOLD)
+    # ──────────────────────────────────────────────
+    fieldsets = (
+
+        ('📰 Información Principal', {
+            'fields': (
+                'titulo_1',
+                'titulo_2',
+                'titulo_3',
+                'subtitulo_1',
+                'subtitulo_2',
+                'subtitulo_3',
+            ),
+            'classes': ('unfold', 'tab-main'),
+        }),
+
+        ('📄 Contenido de la Noticia', {
+            'fields': (
+                'cuerpo_1',
+                'cuerpo_2',
+                'cuerpo_3',
+                'cuerpo_4',
+                'cuerpo_5',
+                'cuerpo_6',
+                'cuerpo_7',
+                'cuerpo_8',
+                'cuerpo_9',
+            ),
+            'classes': ('unfold', 'tab-content'),
+        }),
+
+        ('🖼 Imágenes', {
+            'fields': (
+                'imagen_portada',
+                'imagen_comercial',
+                'imagen_datos_estadisticos',
+            ),
+            'classes': ('unfold', 'tab-images'),
+        }),
+
+        ('✍️ Autor', {
+            'fields': (
+                'autor_nombre',
+                'autor_email',
+                'autor_bio',
+                'autor_foto',
+            ),
+            'classes': ('unfold', 'tab-author'),
+        }),
+
+        ('⚙️ Publicación', {
+            'fields': (
+                'activa',
+                'fecha_publicacion',
+            ),
+            'classes': ('unfold', 'tab-publish'),
+        }),
+
+    )
+
+    unfold_fieldsets = True

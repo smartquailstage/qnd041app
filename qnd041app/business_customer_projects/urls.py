@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import BusinessSystemProjectDetailView
+from .views import NoticiaListView, NoticiaDetailView
 from . import views
 
 app_name = 'business_customer_projects'
@@ -15,5 +16,8 @@ urlpatterns = [
     path('projects/<int:pk>/', BusinessSystemProjectDetailView.as_view(), name='project_detail'),
     path('payment_orders/', views.PaymentOrderListView.as_view(), name='paymentorder_list'),
     path('payment_orders/<int:pk>/', views.PaymentOrderDetailView.as_view(), name='paymentorder_detail'),
+
+    path('Noticias/', NoticiaListView.as_view(), name='lista'),
+    path('Noticias/<int:pk>/', NoticiaDetailView.as_view(), name='detalle'),
 ]
 

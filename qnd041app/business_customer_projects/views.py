@@ -490,3 +490,24 @@ class PaymentOrderDetailView(DetailView):
         return context
 
 
+
+
+
+from django.views.generic import ListView, DetailView
+from .models import Noticia
+
+class NoticiaListView(ListView):
+    model = Noticia
+    template_name = 'noticias/noticia_list.html'
+    context_object_name = 'noticias'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Noticia.objects.filter(activa=True).order_by('-fecha_publicacion')
+
+
+class NoticiaDetailView(DetailView):
+    model = Noticia
+    template_name = 'noticias/noticia_detalle.html'
+    context_object_name = 'noticia'
+

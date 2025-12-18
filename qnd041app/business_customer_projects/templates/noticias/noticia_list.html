@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <!-- Breadcrumb -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">
+       <ion-icon name="globe-outline"></ion-icon> Noticias Negocios ITC
+      </div>
+      <div class="ps-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0 p-0 align-items-center">
+
+                <li class="breadcrumb-item active" aria-current="page">Ecuador y el Mundo</li>
+              </ol>
+            </nav>
+          </div>
+
+    </div>
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
+
+      <li class="nav-item" role="presentation">
+ 
+        <span class="text-muted">Sigue nuestro canal de noticias de Negocios IT y Cloud Native y accede a insights clave sobre transformación digital, arquitectura cloud y modelos de negocio tecnológicos.</span>
+
+
+
+    
+      </li>
+
+    </ul>
+
+
+    
+    <!-- Tab content -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body">
+
+<div class="row row-cols-1 row-cols-lg-3 g-4">
+
+  {% for noticia in noticias %}
+  <div class="col">
+    <div class="card radius-10 h-100 position-relative overflow-hidden">
+
+      <!-- Imagen -->
+      {% if noticia.imagen_portada %}
+       <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+        <img src="{{ noticia.imagen_portada.url }}"
+             class="img-fluid radius-10 w-100"
+             style="object-fit: cover; min-height: 260px;"
+             alt="{{ noticia.titulo_1 }}">
+      {% else %}
+        <img src="{% static 'assets/images/placeholder.png' %}"
+             class="img-fluid radius-10 w-100"
+             style="object-fit: cover; min-height: 260px;"
+             alt="Sin imagen">
+      {% endif %}
+
+      <!-- OVERLAY -->
+      <div class="position-absolute top-50 start-0 translate-middle-y
+                  text-white p-4 w-100">
+
+        <h5 class="card-title mb-2">
+          {{ noticia.titulo_1 }}
+        </h5>
+
+        <p class="mb-1" style="font-size: 11px;">
+          {{ noticia.fecha_publicacion|date:"d M Y" }} ·
+          {{ noticia.autor_nombre }}
+        </p>
+
+        {% if noticia.cuerpo_1 %}
+          <p class="card-text">
+            {{ noticia.cuerpo_1|truncatewords:20 }}
+          </p>
+        {% endif %}
+
+      </div>
+    </a>
+      <!-- CONTENIDO INFERIOR -->
+
+
+    </div>
+  </div>
+  {% empty %}
+    <p>No hay noticias disponibles.</p>
+  {% endfor %}
+
+</div>
+
+
+<!-- PAGINACIÓN -->
+{% if is_paginated %}
+<nav class="mt-4">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+          Anterior
+        </a>
+      </li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+          Siguiente
+        </a>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+

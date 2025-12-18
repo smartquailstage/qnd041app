@@ -146,9 +146,9 @@
 
 
                 <div class="col bg-outline-primary  col-auto p-4">
-                                            <h5 class="mb-0">${{ total_after_discount|floatformat:2 }} <span class="float-end"></span></h5>
-                                             <a href="{% url 'services_payment:process' %}" class="btn btn-outline-primary btn-ecomm">
-                                                <ion-icon name="cart-outline"></ion-icon> Realizar Orden
+                                            <h5 class="mb-0">TOTAL $US {{ total_after_discount|floatformat:2 }} <span class="float-end"></span></h5>
+                                             <a href="{% url 'services_payment:process' %}" class="btn btn-warning btn-ecomm">
+                                                <ion-icon name="card-outline"></ion-icon> Realizar Pago
                                             </a>
                 </div>
             

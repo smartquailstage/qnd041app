@@ -887,3 +887,80 @@ class PaymentOrder(models.Model):
         if not self.expiration_date:
             self.expiration_date = self.date_issued + timedelta(days=30)
         super().save(*args, **kwargs)
+
+
+
+from django.db import models
+
+class Noticia(models.Model):
+    # =========================
+    # IMÁGENES
+    # =========================
+    imagen_portada = models.ImageField(
+        upload_to='noticias/portadas/',
+        blank=True,
+        null=True
+    )
+
+    imagen_comercial = models.ImageField(
+        upload_to='noticias/comercial/',
+        blank=True,
+        null=True
+    )
+
+    imagen_datos_estadisticos = models.ImageField(
+        upload_to='noticias/estadisticas/',
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # TÍTULOS
+    # =========================
+    titulo_1 = models.CharField(max_length=255)
+    titulo_2 = models.CharField(max_length=255, blank=True, null=True)
+    titulo_3 = models.CharField(max_length=255, blank=True, null=True)
+
+    # =========================
+    # SUBTÍTULOS
+    # =========================
+    subtitulo_1 = models.CharField(max_length=255, blank=True, null=True)
+    subtitulo_2 = models.CharField(max_length=255, blank=True, null=True)
+    subtitulo_3 = models.CharField(max_length=255, blank=True, null=True)
+    subtitulo_4 = models.CharField(max_length=255, blank=True, null=True)
+    subtitulo_5 = models.CharField(max_length=255, blank=True, null=True)
+    subtitulo_6 = models.CharField(max_length=255, blank=True, null=True)
+
+    # =========================
+    # CUERPOS DE TEXTO
+    # =========================
+    cuerpo_1 = models.TextField()
+    cuerpo_2 = models.TextField(blank=True, null=True)
+    cuerpo_3 = models.TextField(blank=True, null=True)
+    cuerpo_4 = models.TextField(blank=True, null=True)
+    cuerpo_5 = models.TextField(blank=True, null=True)
+    cuerpo_6 = models.TextField(blank=True, null=True)
+    cuerpo_7 = models.TextField(blank=True, null=True)
+    cuerpo_8 = models.TextField(blank=True, null=True)
+    cuerpo_9 = models.TextField(blank=True, null=True)
+
+    # =========================
+    # AUTOR
+    # =========================
+    autor_nombre = models.CharField(max_length=150)
+    autor_bio = models.TextField(blank=True, null=True)
+    autor_email = models.EmailField(blank=True, null=True)
+    autor_foto = models.ImageField(
+        upload_to='noticias/autores/',
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # METADATOS
+    # =========================
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    activa = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.titulo_1
