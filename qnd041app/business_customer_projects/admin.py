@@ -432,6 +432,20 @@ class ComentarioNoticiaInline(admin.TabularInline):
 
 
 
+from .models import Noticia, NoticiaMetricas
+
+
+class NoticiaMetricasInline(admin.StackedInline):
+    model = NoticiaMetricas
+    can_delete = False
+    extra = 0
+    verbose_name = "Métricas del Artículo"
+    verbose_name_plural = "Métricas del Artículo"
+
+    readonly_fields = (
+        'ultima_actualizacion',
+    )
+
 
 
 @admin.register(Noticia)
@@ -467,7 +481,7 @@ class NoticiaAdmin(ModelAdmin):
     warn_unsaved_form = True
     change_form_show_cancel_button = True
 
-    inlines = [ComentarioNoticiaInline]
+    inlines = [ComentarioNoticiaInline,NoticiaMetricasInline,]
 
     # ──────────────────────────────────────────────
     # SOLO LECTURA

@@ -534,3 +534,45 @@ class NoticiaDetailView(DetailView):
         context = self.get_context_data()
         context['form_comentario'] = form
         return self.render_to_response(context)
+
+
+
+# views.py
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+import json
+from .models import Noticia, NoticiaMetricas
+
+@login_required
+@require_POST
+def actualizar_metricas(request, pk):
+    data = json.loads(request.body)
+    action = data.get('action')
+
+    try:
+        noticia = Noticia.objects.get(pk=pk)
+        metricas, created = NoticiaMetricas.objects.get_or_create(noticia=noticia)
+
+        if action == 'like':
+            metricas.likes += 1
+        elif action == 'share_social':
+            metricas.compartidos_redes += 1
+        elif action == 'share_email':
+            metricas.compartidos_email += 1
+        elif action == 'download':
+            metricas.descargas += 1
+
+        metricas.save()
+
+        return JsonResponse({
+            'success': True,
+            'likes': metricas.likes,
+            'compartidos_redes': metricas.compartidos_redes,
+            'compartidos_email': metricas.compartidos_email,
+            'descargas': metricas.descargas
+        })
+
+    except Noticia.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Noticia no encontrada'})
+

@@ -991,3 +991,31 @@ class ComentarioNoticia(models.Model):
 
     def __str__(self):
         return f'Comentario de {self.usuario} en {self.noticia}'
+
+
+from django.db import models
+from django.utils import timezone
+
+
+class NoticiaMetricas(models.Model):
+    noticia = models.OneToOneField(
+        'Noticia',
+        on_delete=models.CASCADE,
+        related_name='metricas'
+    )
+
+    # =========================
+    # MÉTRICAS
+    # =========================
+    likes = models.PositiveIntegerField(default=0)
+    compartidos_redes = models.PositiveIntegerField(default=0)
+    compartidos_email = models.PositiveIntegerField(default=0)
+    descargas = models.PositiveIntegerField(default=0)
+
+    # =========================
+    # METADATOS
+    # =========================
+    ultima_actualizacion = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Métricas - {self.noticia.titulo_1}"
