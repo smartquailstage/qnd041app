@@ -497,6 +497,7 @@ class NoticiaAdmin(ModelAdmin):
 
         ('📰 Información Principal', {
             'fields': (
+                'categoria',
                 'titulo_1',
                 'titulo_2',
                 'titulo_3',
@@ -552,3 +553,15 @@ class NoticiaAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+
+from .models import CategoriaNoticia
+
+
+@admin.register(CategoriaNoticia)
+class CategoriaNoticiaAdmin(ModelAdmin):
+
+    list_display = ('nombre', 'slug', 'activa')
+    list_filter = ('activa',)
+    search_fields = ('nombre',)
+    prepopulated_fields = {'slug': ('nombre',)}

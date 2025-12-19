@@ -9,13 +9,13 @@
     <!-- Breadcrumb -->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
       <div class="breadcrumb-title pe-3">
-       <ion-icon name="globe-outline"></ion-icon> Noticias Negocios ITC
+       <ion-icon name="library-outline"></ion-icon> Biblioteca ITC
       </div>
       <div class="ps-3">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb mb-0 p-0 align-items-center">
 
-                <li class="breadcrumb-item active" aria-current="page">Ecuador y el Mundo</li>
+                <li class="breadcrumb-item active" aria-current="page">SmartQuail ® E-Books</li>
               </ol>
             </nav>
           </div>
@@ -25,14 +25,80 @@
     <!-- Nav pills -->
     <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
 
-      <li class="nav-item" role="presentation">
- 
-        <span class="text-muted">Sigue nuestro canal de noticias de Negocios IT y Cloud Native y accede a insights clave sobre transformación digital, arquitectura cloud y modelos de negocio tecnológicos.</span>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true">
+      <div class="d-flex align-items-center">
+        <div class="tab-title"><ion-icon name="cloud-download-outline"></ion-icon> </div>
+      </div>
+    </a>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
+
+      
+        </div>
+      </div>
+    </a>
+  </li>
 
 
 
-    
-      </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        
+        <div class="tab-title"><i class="fadeIn animated bx bx-bot"></i></div>
+      </div>
+    </a>
+  </li>
+
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
+      <div class="d-flex align-items-center">
+        <div class="tab-title">  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                          </div>
+      </div>
+    </a>
+  </li>
+
+
+
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-seguridad" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+      <ion-icon name="shield-half"></ion-icon>
+  
+
+    </div>
+  </a>
+</li>
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-monitoring" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+    <ion-icon name="pulse"></ion-icon>
+
+    </div>
+  </a>
+</li>
+
+
+<li class="nav-item" role="presentation">
+  <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
+    <div class="d-flex align-items-center">
+      <ion-icon name="shield-checkmark"></ion-icon>
+      
+    </div>
+  </a>
+</li>
+
 
     </ul>
 
@@ -40,107 +106,38 @@
     
     <!-- Tab content -->
     <div class="tab-content">
-      <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
-        <hr class="my-4">
-        <div class="card radius-10">
-          <div class="card-body">
 
-<div class="row row-cols-1 row-cols-lg-3 g-4">
-
-  {% for noticia in noticias %}
-  <div class="col">
-    <div class="card radius-10 h-100 position-relative overflow-hidden">
-
-      <!-- Imagen -->
-      {% if noticia.imagen_portada %}
-       <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-        <img src="{{ noticia.imagen_portada.url }}"
-             class="img-fluid radius-10 w-100"
-             style="object-fit: cover; min-height: 260px;"
-             alt="{{ noticia.titulo_1 }}">
-      {% else %}
-        <img src="{% static 'assets/images/placeholder.png' %}"
-             class="img-fluid radius-10 w-100"
-             style="object-fit: cover; min-height: 260px;"
-             alt="Sin imagen">
-      {% endif %}
-
-      <!-- OVERLAY -->
-      <div class="position-absolute top-50 start-0 translate-middle-y
-                  text-white p-4 w-100">
-
-        <h5 class="card-title mb-2">
-          {{ noticia.titulo_1 }}
-        </h5>
-
-        <p class="mb-1" style="font-size: 11px;">
-          {{ noticia.fecha_publicacion|date:"d M Y" }} ·
-          {{ noticia.autor_nombre }}
-        </p>
-
-        {% if noticia.cuerpo_1 %}
-          <p class="card-text">
-            {{ noticia.cuerpo_1|truncatewords:20 }}
-          </p>
-        {% endif %}
-
-      </div>
-    </a>
-      <!-- CONTENIDO INFERIOR -->
-
-
-    </div>
+<div class="tab-pane fade show active" id="tab-general" role="tabpanel">
+{% for noticia in noticias_itc %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}
+  <p>No hay noticias en esta categoría.</p>
+{% endfor %}
   </div>
-  {% empty %}
-    <p>No hay noticias disponibles.</p>
-  {% endfor %}
+  
 
-</div>
+  <div class="tab-pane fade show active" id="tab-desarrollo" role="tabpanel">
+{% for noticia in noticias_id %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}
+  <p>No hay noticias en esta categoría.</p>
+{% endfor %}
 
+  </div>
 
-<!-- PAGINACIÓN -->
-{% if is_paginated %}
-<nav class="mt-4">
-  <ul class="pagination justify-content-center">
+  <div class="tab-pane fade show active" id="tab-automatizacion" role="tabpanel">
+{% for noticia in noticias_automatizacion %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}   
+  <p>No hay noticias en esta categoría.</p>
+{% endfor %}  
 
-    {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-          Anterior
-        </a>
-      </li>
-    {% endif %}
-
-    {% for num in page_obj.paginator.page_range %}
-      {% if page_obj.number == num %}
-        <li class="page-item active">
-          <span class="page-link">{{ num }}</span>
-        </li>
-      {% else %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-        </li>
-      {% endif %}
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-          Siguiente
-        </a>
-      </li>
-    {% endif %}
-
-  </ul>
-</nav>
-{% endif %}
-
-
-          </div>
-        </div>
-      </div>
     </div>
 
+
+ </div>
+
+ 
   </div>
 </div>
 

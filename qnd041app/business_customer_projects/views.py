@@ -493,17 +493,53 @@ class PaymentOrderDetailView(DetailView):
 
 
 
-from django.views.generic import ListView, DetailView
-from .models import Noticia
+
+
+from django.views.generic import ListView
+from .models import Noticia, CategoriaNoticia
+
 
 class NoticiaListView(ListView):
     model = Noticia
     template_name = 'noticias/noticia_list.html'
     context_object_name = 'noticias'
-    paginate_by = 10
 
-    def get_queryset(self):
-        return Noticia.objects.filter(activa=True).order_by('-fecha_publicacion')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['noticias_itc'] = Noticia.objects.filter(
+            activa=True, categoria__slug='itc'
+        )
+
+        context['noticias_id'] = Noticia.objects.filter(
+            activa=True, categoria__slug='i_d'
+        )
+
+        context['noticias_automatizacion'] = Noticia.objects.filter(
+            activa=True, categoria__slug='automatizacion'
+        )
+
+        context['noticias_ia'] = Noticia.objects.filter(
+            activa=True, categoria__slug='ia'
+        )
+
+        context['noticias_seguridad'] = Noticia.objects.filter(
+            activa=True, categoria__slug='seguridad'
+        )
+
+        context['noticias_monitoring'] = Noticia.objects.filter(
+            activa=True, categoria__slug='monitoring'
+        )
+
+        context['noticias_recursos'] = Noticia.objects.filter(
+            activa=True, categoria__slug='recursos'
+        )
+
+        return context
+
+
+
+
 
 
 from .models import Noticia

@@ -890,9 +890,66 @@ class PaymentOrder(models.Model):
 
 
 
+
+from django.db import models
+from django.utils.text import slugify
+
+
+class CategoriaNoticia(models.Model):
+
+    ITC = 'ITC'
+    ID = 'ID'
+    AUTOMATIZACION = 'AUT'
+    IA = 'IA'
+
+    CATEGORIA_CHOICES = [
+        (ITC, 'ITC – Tecnologías de Información y Comunicación en la Nube'),
+        (ID, 'I+D – Investigación y Desarrollo'),
+        (AUTOMATIZACION, '+A – Automatización de Procesos de Información'),
+        (IA, '+AI – Inteligencia Artificial y Machine Learning'),
+    ]
+
+    nombre = models.CharField(
+        max_length=10,
+        choices=CATEGORIA_CHOICES,
+        unique=True
+    )
+
+    slug = models.SlugField(
+        max_length=50,
+        unique=True,
+        blank=True
+    )
+
+    activa = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Categoría de Noticia'
+        verbose_name_plural = 'Categorías de Noticias'
+        ordering = ['nombre']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.get_nombre_display())
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.get_nombre_display()
+
+
+
 from django.db import models
 
 class Noticia(models.Model):
+
+    categoria = models.ForeignKey(
+        CategoriaNoticia,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='noticias'
+    )
     # =========================
     # IMÁGENES
     # =========================
