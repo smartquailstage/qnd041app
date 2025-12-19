@@ -903,10 +903,10 @@ class CategoriaNoticia(models.Model):
     IA = 'IA'
 
     CATEGORIA_CHOICES = [
-        (ITC, 'ITC – Tecnologías de Información y Comunicación en la Nube'),
-        (ID, 'I+D – Investigación y Desarrollo'),
-        (AUTOMATIZACION, '+A – Automatización de Procesos de Información'),
-        (IA, '+AI – Inteligencia Artificial y Machine Learning'),
+        (ITC, 'Tecnologías de Información y Comunicación en la Nube'),
+        (ID, 'Investigación y Desarrollo'),
+        (AUTOMATIZACION, 'Automatización de Procesos de Información'),
+        (IA, 'Inteligencia Artificial y Machine Learning'),
     ]
 
     nombre = models.CharField(
