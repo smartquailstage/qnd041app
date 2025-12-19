@@ -98,19 +98,36 @@
       <div>
         <!-- No repetir el título aquí -->
 
+  {% if noticia.autor_foto %}
+    <img src="{{ noticia.autor_foto.url }}"
+         width="65"
+         height="65"
+         class="rounded-circle"
+         alt="{{ noticia.autor_nombre }}">
+  {% else %}
+    <img src="{% static 'assets/images/avatars/05.png' %}"
+         width="65"
+         height="65"
+         class="rounded-circle"
+         alt="Autor">
+  {% endif %}
 
 
 
-        <p class="mb-1 text-muted">
-          Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}
+  
+
+        <p class="mb-0 text-muted" style="font-size: 12px;margin-top: 0px;">
+         {{ noticia.autor_nombre }}
         </p>
-
         <p class="mb-0 text-muted" style="font-size: 12px;margin-top: -7px;">
-          Computacion en la nube
+         <strong>Chief Officer Technologies</strong>
         </p>
 
                 <p class="mb-0 text-muted" style="font-size: 12px;margin-top: -7px;">
-          SmartQuail ® 2026
+          SmartQuail,Inc
+        </p>
+                       <p class="mb-0 text-muted" style="font-size: 10px;margin-top: -7px;">
+          Todos los derechos reservados ® 2026
         </p>
 
         <div class="mt-2">
@@ -317,6 +334,7 @@ alt="{{ request.user.get_full_name|default:request.user.username }}">
                   <div class="card-body">
                 
                      <div class="mb-3">
+                        <p class="mb-1">Publicación: {{ noticia.fecha_publicacion|date:"d M Y" }}</p>
                       <p class="mb-1">Dificultad: Nivel Básico</p>
                       <div class="progress" style="height: 5px;">
                        <div class="progress-bar" role="progressbar" style="width: 45%"></div>
@@ -343,47 +361,7 @@ alt="{{ request.user.get_full_name|default:request.user.username }}">
                                 <div class="card radius-10">
                   
                             
-                  <div class="card-body">
 
-                    
-  <div class="review-user d-flex align-items-center text-left">
-
-  <!-- FOTO AUTOR -->
-  {% if noticia.autor_foto %}
-    <img src="{{ noticia.autor_foto.url }}"
-         width="65"
-         height="65"
-         class="rounded-circle"
-         alt="{{ noticia.autor_nombre }}">
-  {% else %}
-    <img src="{% static 'assets/images/avatars/05.png' %}"
-         width="65"
-         height="65"
-         class="rounded-circle"
-         alt="Autor">
-  {% endif %}
-
-  <!-- INFO AUTOR -->
-  <div class="ms-3">
-    <p class="mb-0 fw-bold">
-      {{ noticia.autor_nombre }}
-    </p>
-    <p >
-      Chief Officer Technologies
-    </p>
-        <p style="margin-top: -8px; font-size: 12px;">
-      SmartQuail,Inc
-    </p>
-    {% if noticia.autor_email %}
-      <p class="mb-0 text-muted" style="font-size: 13px;">
-        {{ noticia.autor_email }}
-      </p>
-    {% endif %}
-  </div>
-
-</div>
-
-                  </div>
                 </div>
 
               
