@@ -5,24 +5,20 @@
     <div class="card radius-10">
       <div class="card-body">
 
-        <!-- TÍTULO DE LA CATEGORÍA -->
-        {% if categoria_slug %}
-          <h5 class="mb-4 text-uppercase">
-            {{ categoria.nombre }}
-          </h5>
-        {% else %}
-         
-        {% endif %}
 
         <div class="row row-cols-1 row-cols-lg-3 g-4">
           {% with hay_noticias=False %}
           {% for noticia in noticias %}
             {% if noticia.activa %}
               {% with hay_noticias=True %}
+
+            
               <div class="col">
+
                 <div class="card radius-10 h-100 position-relative overflow-hidden">
 
                   <!-- Imagen -->
+                  
                   {% if noticia.imagen_portada %}
                     <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
                       <img src="{{ noticia.imagen_portada.url }}"
@@ -47,6 +43,10 @@
 
                     <p class="mb-1" style="font-size: 11px;">
                       {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
+                    </p>
+                    <p class="mb-1" style="font-size: 11px;">
+    
+                      {{ noticia.categoria }}
                     </p>
 
                     {% if noticia.cuerpo_1 %}
