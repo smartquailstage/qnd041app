@@ -901,12 +901,18 @@ class CategoriaNoticia(models.Model):
     ID = 'ID'
     AUTOMATIZACION = 'AUT'
     IA = 'IA'
+    SEGURIDAD = 'SAFE'
+    MONITORING = 'monitoring'
+    PRIVACIDAD = 'privacidad'
 
     CATEGORIA_CHOICES = [
         (ITC, 'Tecnologías de Información y Comunicación en la Nube'),
         (ID, 'Investigación y Desarrollo'),
         (AUTOMATIZACION, 'Automatización de Procesos de Información'),
         (IA, 'Inteligencia Artificial y Machine Learning'),
+        (SEGURIDAD, 'Seguridad'),
+        (MONITORING, 'monitoring'),
+        (PRIVACIDAD, 'privacidad'),
     ]
 
     nombre = models.CharField(

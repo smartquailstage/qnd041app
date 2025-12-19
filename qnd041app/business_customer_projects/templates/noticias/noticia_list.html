@@ -135,6 +135,43 @@
     </div>
 
 
+  <div class="tab-pane fade show active" id="tab-ai" role="tabpanel">
+{% for noticia in noticias_ia %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}   
+
+{% endfor %}  
+
+    </div>
+
+  <div class="tab-pane fade show active" id="tab-seguridad" role="tabpanel">
+{% for noticia in noticias_seguridad %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}   
+
+{% endfor %}  
+
+    </div>
+
+  <div class="tab-pane fade show active" id="tab-recursos" role="tabpanel">
+{% for noticia in noticias_recursos %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}   
+
+{% endfor %}  
+
+    </div>
+
+  <div class="tab-pane fade show active" id="tab-monitoring" role="tabpanel">
+{% for noticia in noticias_monitoring %}
+  {% include "noticias/partials/noticia_card.html" %}
+{% empty %}   
+
+{% endfor %}  
+
+    </div>
+
+
  </div>
 
 
