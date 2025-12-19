@@ -506,8 +506,31 @@ class NoticiaListView(ListView):
         return Noticia.objects.filter(activa=True).order_by('-fecha_publicacion')
 
 
+from .models import Noticia
+from .forms import ComentarioNoticiaForm
+
+
 class NoticiaDetailView(DetailView):
     model = Noticia
     template_name = 'noticias/noticia_detalle.html'
     context_object_name = 'noticia'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_comentario'] = ComentarioNoticiaForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ComentarioNoticiaForm(request.POST)
+
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.noticia = self.object
+            comentario.usuario = request.user
+            comentario.save()
+            return redirect(request.path)
+
+        context = self.get_context_data()
+        context['form_comentario'] = form
+        return self.render_to_response(context)

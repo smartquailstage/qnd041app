@@ -964,3 +964,30 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo_1
+
+
+from django.db import models
+from django.conf import settings
+
+class ComentarioNoticia(models.Model):
+    noticia = models.ForeignKey(
+        Noticia,
+        on_delete=models.CASCADE,
+        related_name='comentarios'
+    )
+
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    comentario = models.TextField()
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    activo = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-fecha_creacion']
+
+    def __str__(self):
+        return f'Comentario de {self.usuario} en {self.noticia}'

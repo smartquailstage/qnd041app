@@ -3,6 +3,27 @@
 
 {% block content %}
 
+
+<style>
+  #commentFormWrapper {
+    animation: fadeSlide .3s ease-in-out;
+  }
+
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+
+
+
 <div class="page-content-wrapper">
   <div class="page-content">
 
@@ -15,7 +36,7 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb mb-0 p-0 align-items-center">
 
-                <li class="breadcrumb-item active" aria-current="page">Ecuador y el Mundo</li>
+                <li class="breadcrumb-item active" aria-current="page">Computación en la Nube</li>
               </ol>
             </nav>
           </div>
@@ -35,41 +56,103 @@
 
 <div class="row">
               <div class="col-12 col-lg-8 col-xl-9">
-                <div class="card overflow-hidden radius-10" style="background-color: #2e2e2e;">
-                        <div class="profile-cover bg-dark position-relative mb-4"
-           style="
-            background-image: url('{% if noticia.imagen_portada %}{{ noticia.imagen_portada.url }}{% endif %}');
-            background-size: cover;
-            background-position: center;
-            height: 280px;
-           ">
-           <h3 class="mb-2">{{ noticia.titulo_1 }}</h3>
+<div class="card overflow-hidden radius-10" style="background-color: #2e2e2e;">
 
-                  </div>
-                  <div class="card-body" style="background-color: #2e2e2e;">
-                    <div class="mt-5 d-flex align-items-start justify-content-between">
-                      <div class="">
-                        <h3 class="mb-2">{{ noticia.titulo_1 }}</h3>
-                                                            <div class="rates cursor-pointer fs-6">	
-                                      <ion-icon name="heart-outline"></ion-icon>12
-                                      <ion-icon name="chatbubble-outline"></ion-icon>23
-                                      <ion-icon name="git-compare-outline"></ion-icon>25
-                                    </div>
-                        
-                        <p class="mb-1"> Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}</p>
-                        
-                        <p>New York, United States</p>
-                        <div class="">
-                          <span class="badge rounded-pill bg-primary">UX Research</span>
-                          <span class="badge rounded-pill bg-primary">CX Strategy</span>
-                          <span class="badge rounded-pill bg-primary">Project Management</span>
-                        </div>
-                      </div>
+  <!-- COVER -->
+  <div class="profile-cover position-relative mb-4"
+       style="
+        background-image: url('{% if noticia.imagen_portada %}{{ noticia.imagen_portada.url }}{% endif %}');
+        background-size: cover;
+        background-position: center;
+        height: 280px;
+       ">
 
-       
-                    </div>
-                  </div>
-                </div>
+    <!-- GRADIENTE (opcional pero recomendado) -->
+    <div class="position-absolute top-0 start-0 w-100 h-100"
+         style="background: linear-gradient(90deg, rgba(0,0,0,.6), rgba(0,0,0,.15));">
+    </div>
+
+    <!-- TÍTULO -->
+    <h3 class="position-absolute top-50 start-0 translate-middle-y
+               text-white fw-bold ps-4 pe-4 mb-0"
+        style="max-width: 75%;">
+      {{ noticia.titulo_1 }}
+    </h3>
+
+  </div>
+
+  <!-- CUERPO -->
+  <div class="card-body" style="background-color: #2e2e2e;">
+    <div class="d-flex align-items-start justify-content-between">
+
+      <div>
+        <!-- No repetir el título aquí -->
+<div class="rates cursor-pointer fs-6 mb-2">	
+  <ion-icon name="heart-outline"></ion-icon>12
+
+  <ion-icon id="toggleCommentForm"
+            name="chatbubble-outline"
+            style="cursor:pointer;">
+  </ion-icon>{{ noticia.comentarios.count }}
+
+  <ion-icon name="git-compare-outline"></ion-icon>25
+  <ion-icon name="send-outline"></ion-icon>22
+</div>
+
+<div id="commentFormWrapper" class="mt-3" style="display:none;">
+  <form method="post" action="">
+    {% csrf_token %}
+
+    <div class="d-flex align-items-start gap-3">
+      <!-- Avatar usuario -->
+<img src="
+  {% if request.user.profile.photo %}
+    {{ request.user.profile.photo.url }}
+  {% else %}
+    {% static 'assets/images/avatars/05.png' %}
+  {% endif %}
+"
+width="45"
+height="45"
+class="rounded-circle"
+alt="{{ request.user.get_full_name|default:request.user.username }}">
+
+      <div class="flex-grow-1">
+        <textarea name="comentario"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Escribe tu comentario..."
+                  required></textarea>
+
+        <div class="text-end mt-2">
+          <button type="submit" class="btn btn-warning btn-sm">
+            Comentar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+
+        <p class="mb-1 text-muted">
+          Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}
+        </p>
+
+        <div class="mt-2">
+          <span class="badge rounded-pill bg-primary">UX Research</span>
+          <span class="badge rounded-pill bg-primary">CX Strategy</span>
+          <span class="badge rounded-pill bg-primary">Project Management</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
                 <div class="card" style="background-color: #2e2e2e;">
                   <div class="card-body">
                     <h4 class="mb-2">About Me</h4>
@@ -81,31 +164,58 @@
 
                 </div>
                  <div class="card-body">
-                <div class="product-review">
-                              <h5 class="mb-4">3 Reviews For The Product</h5>
-                              <div class="review-list">
-                                <div class="d-flex align-items-start">
-                                  <div class="review-user">
-                                    <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="">
-                                  </div>
-                                  <div class="review-content ms-3">
-                                    <div class="rates cursor-pointer fs-6">	<i class="bx bxs-star text-warning"></i>
-                                      <i class="bx bxs-star text-warning"></i>
-                                      <i class="bx bxs-star text-warning"></i>
-                                      <i class="bx bxs-star text-warning"></i>
-                                      <i class="bx bxs-star"></i>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-2">
-                                      <h6 class="mb-0">James Caviness</h6>
-                                      <p class="mb-0 ms-auto">February 16, 2021</p>
-                                    </div>
-                                    <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan</p>
-                                  </div>
-                                </div>
-                                <hr>
+<div class="product-review">
+  <h5 class="mb-4">
+    Comentarios
+  </h5>
 
-                              </div>
-                </div>
+  <div class="review-list">
+
+    {% for comentario in noticia.comentarios.all %}
+      {% if comentario.activo %}
+      <div class="d-flex align-items-start mb-4">
+
+        <!-- USUARIO -->
+        <div class="review-user">
+          <img src="
+            {% if comentario.usuario.profile.photo %}
+              {{ comentario.usuario.profile.photo.url }}
+            {% else %}
+              {% static 'assets/images/avatars/05.png' %}
+            {% endif %}
+          "
+          width="65"
+          height="65"
+          class="rounded-circle"
+          alt="{{ comentario.usuario.username }}">
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="review-content ms-3 w-100">
+          <div class="d-flex align-items-center mb-2">
+            <h6 class="mb-0">
+              {{ comentario.usuario.get_full_name|default:comentario.usuario.username }}
+            </h6>
+            <p class="mb-0 ms-auto text-muted">
+              {{ comentario.fecha_creacion|date:"d M Y" }}
+            </p>
+          </div>
+
+          <p>
+            {{ comentario.comentario }}
+          </p>
+        </div>
+
+      </div>
+      <hr>
+      {% endif %}
+    {% empty %}
+      <p class="text-muted">No hay comentarios aún.</p>
+    {% endfor %}
+
+  </div>
+</div>
+
                 </div>
 
                                 
@@ -115,35 +225,6 @@
               <div class="col-12 col-lg-4 col-xl-3">
 
 
-                  <div class="card-body">
-                     <div class="add-review">
-                              <div class="form-body p-3 rounded border bg-light">
-                               
-                                <div class="mb-3">
-
-                                          
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-warning"><ion-icon name="heart-outline"></ion-icon></button>
-                        <button type="button" class="btn btn-warning"><ion-icon name="git-compare-outline"></ion-icon></button>
-                        <button type="button" class="btn btn-warning"><ion-icon name="download"></ion-icon></button>
-                        <button type="button" class="btn btn-warning"><ion-icon name="chatbubble-ellipses-outline"></button>
-                      </div>
-                
-                                </div>
-                                <div class="mb-3">
-                                  <textarea class="form-control" rows="3"></textarea>
-                                </div>
-                                <div class="d-grid">
-                                  <button type="button" class="btn btn-outline-warning btn-ecomm"><ion-icon name="chatbubble-ellipses-outline"></ion-icon>Comentar</button>
-                                </div>
-                              </div>
-                            </div>
-
-
-
-
-                  </div>
-           
 
 
           
@@ -205,23 +286,11 @@
 
                 <div class="card radius-10">
                   <div class="card-body">
-                    <h5 class="mb-3">Estadisticas del Articulo</h5>
+                    <h5 class="mb-3">Nivel del Articulo</h5>
                      <div class="mb-3">
-                      <p class="mb-1">leidos</p>
+                      <p class="mb-1">Básico</p>
                       <div class="progress" style="height: 5px;">
                        <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-3">
-                      <p class="mb-1">Compartidos</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 55%"></div>
-                      </div>
-                     </div>
-                     <div class="mb-3">
-                      <p class="mb-1">Comentados</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 65%"></div>
                       </div>
                      </div>
 
@@ -242,6 +311,24 @@
 
   </div>
 </div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('toggleCommentForm');
+    const formWrapper = document.getElementById('commentFormWrapper');
+
+    toggleBtn.addEventListener('click', function () {
+      if (formWrapper.style.display === 'none' || formWrapper.style.display === '') {
+        formWrapper.style.display = 'block';
+        formWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        formWrapper.style.display = 'none';
+      }
+    });
+  });
+</script>
 
 {% endblock %}
 

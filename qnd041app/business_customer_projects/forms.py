@@ -144,3 +144,21 @@ class ProjectWithComponentsForm(forms.Form):
     intelligents = inlineformset_factory(BusinessSystemProject, BusinessIntelligent, form=BusinessIntelligentForm, extra=1)
     tests = inlineformset_factory(BusinessProcess, QATest, form=QATestForm, extra=1)
     resources = inlineformset_factory(BusinessSystemProject, CloudResource, form=CloudResourceForm, extra=1)
+
+
+
+
+from django import forms
+from .models import ComentarioNoticia
+
+class ComentarioNoticiaForm(forms.ModelForm):
+    class Meta:
+        model = ComentarioNoticia
+        fields = ['comentario']
+        widgets = {
+            'comentario': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escribe tu comentario...'
+            })
+        }

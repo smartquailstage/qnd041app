@@ -421,7 +421,17 @@ class PaymentOrderAdmin(ModelAdmin):
 
 
 
-from .models import Noticia
+from .models import Noticia, ComentarioNoticia
+
+
+class ComentarioNoticiaInline(admin.TabularInline):
+    model = ComentarioNoticia
+    extra = 0
+    readonly_fields = ('usuario', 'fecha_creacion')
+    fields = ('usuario', 'comentario', 'activo', 'fecha_creacion')
+
+
+
 
 
 @admin.register(Noticia)
@@ -456,6 +466,8 @@ class NoticiaAdmin(ModelAdmin):
     list_filter_sheet = True
     warn_unsaved_form = True
     change_form_show_cancel_button = True
+
+    inlines = [ComentarioNoticiaInline]
 
     # ──────────────────────────────────────────────
     # SOLO LECTURA
