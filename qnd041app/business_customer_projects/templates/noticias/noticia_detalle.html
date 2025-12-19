@@ -97,7 +97,86 @@
 
       <div>
         <!-- No repetir el título aquí -->
-<div class="rates fs-6 mb-2">	
+
+
+
+
+        <p class="mb-1 text-muted">
+          Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}
+        </p>
+
+        <p class="mb-0 text-muted" style="font-size: 12px;margin-top: -7px;">
+          Computacion en la nube
+        </p>
+
+                <p class="mb-0 text-muted" style="font-size: 12px;margin-top: -7px;">
+          SmartQuail ® 2026
+        </p>
+
+        <div class="mt-2">
+          <span class="badge rounded-pill bg-primary">UX Research</span>
+          <span class="badge rounded-pill bg-primary">CX Strategy</span>
+          <span class="badge rounded-pill bg-primary">Project Management</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+                <div class="card" style="background-color: #2e2e2e;">
+                  <div class="card-body">
+               
+                    <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
+   
+
+
+                </div>
+
+                <div class="card-body">
+
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item">
+                    <img src="{% static 'assets/images/carousel/01.jpg' %}" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="{% static 'assets/images/carousel/02.jpg' %}" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item active">
+                    <img src="{% static 'assets/images/carousel/03.jpg' %}" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+
+                </div>
+                <div class="card-body">
+
+                                  <h4 class="mb-2">About Me</h4>
+                    <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
+
+                </div>
+
+                
+
+
+
+                </div>
+                 <div class="card-body">
+                    <div class="rates fs-6 mb-2">	
 
 
     <div class="rates cursor-pointer fs-6 mb-2">  
@@ -172,75 +251,6 @@ alt="{{ request.user.get_full_name|default:request.user.username }}">
 
   </form>
 </div>
-
-
-
-        <p class="mb-1 text-muted">
-          Publicado el {{ noticia.fecha_publicacion|date:"d M Y" }}
-        </p>
-
-        <div class="mt-2">
-          <span class="badge rounded-pill bg-primary">UX Research</span>
-          <span class="badge rounded-pill bg-primary">CX Strategy</span>
-          <span class="badge rounded-pill bg-primary">Project Management</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-                <div class="card" style="background-color: #2e2e2e;">
-                  <div class="card-body">
-               
-                    <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
-   
-
-
-                </div>
-
-                <div class="card-body">
-
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item">
-                    <img src="{% static 'assets/images/carousel/01.jpg' %}" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="{% static 'assets/images/carousel/02.jpg' %}" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item active">
-                    <img src="{% static 'assets/images/carousel/03.jpg' %}" class="d-block w-100" alt="...">
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-
-                </div>
-                <div class="card-body">
-
-                                  <h4 class="mb-2">About Me</h4>
-                    <p class="">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
-
-                </div>
-
-
-
-
-                </div>
-                 <div class="card-body">
 <div class="product-review">
   <h5 class="mb-4">
     Comentarios
@@ -303,9 +313,34 @@ alt="{{ request.user.get_full_name|default:request.user.username }}">
 
 
 
+                <div class="card radius-10">
+                  <div class="card-body">
+                
+                     <div class="mb-3">
+                      <p class="mb-1">Dificultad: Nivel Básico</p>
+                      <div class="progress" style="height: 5px;">
+                       <div class="progress-bar" role="progressbar" style="width: 45%"></div>
+                      </div>
+                     </div>
+
+
+                  </div>
+                </div>
 
           
+
+
                 <div class="card radius-10">
+                  <div class="card-body">
+                     <p class=""><ion-icon name="globe-sharp" class="me-2 md hydrated" role="img" aria-label="globe sharp"></ion-icon>www.example.com</p>
+                     <p class=""><ion-icon name="logo-facebook" class="me-2 md hydrated" role="img" aria-label="logo facebook"></ion-icon>Facebook</p>
+                     <p class=""><ion-icon name="logo-twitter" class="me-2 md hydrated" role="img" aria-label="logo twitter"></ion-icon>Twitter</p>
+                     <p class="mb-0"><ion-icon name="logo-linkedin" class="me-2 md hydrated" role="img" aria-label="logo linkedin"></ion-icon>LinkedIn</p>
+                  </div>
+                </div>
+
+
+                                <div class="card radius-10">
                   
                             
                   <div class="card-body">
@@ -347,30 +382,6 @@ alt="{{ request.user.get_full_name|default:request.user.username }}">
   </div>
 
 </div>
-
-                  </div>
-                </div>
-
-                <div class="card radius-10">
-                  <div class="card-body">
-                    <h5 class="mb-3">Referencias</h5>
-                     <p class=""><ion-icon name="globe-sharp" class="me-2 md hydrated" role="img" aria-label="globe sharp"></ion-icon>www.example.com</p>
-                     <p class=""><ion-icon name="logo-facebook" class="me-2 md hydrated" role="img" aria-label="logo facebook"></ion-icon>Facebook</p>
-                     <p class=""><ion-icon name="logo-twitter" class="me-2 md hydrated" role="img" aria-label="logo twitter"></ion-icon>Twitter</p>
-                     <p class="mb-0"><ion-icon name="logo-linkedin" class="me-2 md hydrated" role="img" aria-label="logo linkedin"></ion-icon>LinkedIn</p>
-                  </div>
-                </div>
-
-                <div class="card radius-10">
-                  <div class="card-body">
-                    <h5 class="mb-3">Nivel del Articulo</h5>
-                     <div class="mb-3">
-                      <p class="mb-1">Básico</p>
-                      <div class="progress" style="height: 5px;">
-                       <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                      </div>
-                     </div>
-
 
                   </div>
                 </div>
