@@ -209,19 +209,38 @@ def porcentaje_memoria(self):
 
 from django.db import models
 
+from django.db import models
+from django.utils import timezone
+
+
 class MonthlySystemMetrics(models.Model):
-    project = models.ForeignKey(BusinessSystemProject, on_delete=models.CASCADE, related_name="monthly_metrics")
-    date = models.DateField()  # mes de referencia
+    project = models.ForeignKey(
+        BusinessSystemProject,
+        on_delete=models.CASCADE,
+        related_name="monthly_metrics"
+    )
+    date = models.DateTimeField(null=True, blank=True)
+    date_final = models.DateTimeField(auto_now_add=True,null=True, blank=True)
+
     almacenamiento_gb = models.FloatField(null=True, blank=True)
     procesamiento_millicore = models.FloatField(null=True, blank=True)
     memoria_gb = models.FloatField(null=True, blank=True)
 
     class Meta:
-        unique_together = ('project', 'date')
-        ordering = ['date']
+        ordering = ["date"]
+
+    @property
+    def total_hours(self):
+        if not self.date or not self.date_final:
+            return 0
+        delta = self.date_final - self.date
+        return round(delta.total_seconds() / 3600, 2)
 
     def __str__(self):
         return f"{self.project.name} - {self.date}"
+
+
+
 
 
 from usuarios.models import SmartQuailCrew  # Asegúrate de que esta importación es correcta
@@ -243,11 +262,14 @@ class BusinessProcess(models.Model):
     # Campos de memoria y CPU
     memory_consumption = models.FloatField("Consumo de memoria (MB)", default=0)
     cpu_consumption = models.FloatField("Consumo de procesamiento (Cores)", default=0)
+    store_consumption = models.FloatField("Consumo de Almacenamiento (GB)", default=0)
     total_memory_available = models.FloatField("Memoria total disponible (MB)", default=1024)
     total_cpu_available = models.FloatField("Procesamiento total disponible (Cores)", default=8)
+    total_storege_available =  models.FloatField("Almacenamiento total disponible (GB)", default=8)
 
     memory_percent_used = models.FloatField("Porcentaje de memoria usada (%)", editable=False, default=0)
     cpu_percent_used = models.FloatField("Porcentaje de CPU usada (%)", editable=False, default=0)
+    storage_percent_used = models.FloatField("Porcentaje de CPU usada (%)", editable=False, default=0)
 
     # Resto de campos existentes...
     PROCESS_TYPE_CHOICES = [

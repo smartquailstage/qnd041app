@@ -52,17 +52,15 @@ import matplotlib.pyplot as plt
 import io
 import base64
 from .models import BusinessSystemProject, BusinessAutomation, MonthlySystemMetrics
-
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
     context_object_name = "project"
 
     def safe_percent(self, value):
-        """Devuelve un porcentaje seguro entre 0 y 100 con dos decimales."""
         try:
             value = float(value)
-        except:
+        except Exception:
             value = 0
         return round(max(0, min(value, 100)), 2)
 
@@ -74,153 +72,143 @@ class BusinessSystemProjectDetailView(DetailView):
         # PROCESOS
         # -------------------
         processes = project.processes.all()
-        total_processes = processes.count()
-        completed_processes = processes.filter(progress=100).count()
-        in_progress_processes = total_processes - completed_processes
-        average_progress = processes.aggregate(avg=Avg("progress"))["avg"] or 0
-
-        total_percent_memory_used = self.safe_percent(
-            processes.aggregate(total_mem=Sum("memory_percent_used"))["total_mem"] or 0
-        )
-        total_percent_cpu_used = self.safe_percent(
-            processes.aggregate(total_cpu=Sum("cpu_percent_used"))["total_cpu"] or 0
-        )
-
         context.update({
             "processes": processes,
-            "total_processes": total_processes,
-            "completed_processes": completed_processes,
-            "in_progress_processes": in_progress_processes,
-            "average_progress": round(average_progress),
-            "total_percent_memory_used": total_percent_memory_used,
-            "total_percent_cpu_used": total_percent_cpu_used,
-            "processes_completed": processes.filter(progress=100),
-            "processes_in_progress": processes.exclude(progress=100),
+            "total_processes": processes.count(),
+            "completed_processes": processes.filter(progress=100).count(),
+            "in_progress_processes": processes.exclude(progress=100).count(),
+            "average_progress": round(processes.aggregate(avg=Avg("progress"))["avg"] or 0),
+            "total_percent_memory_used": self.safe_percent(
+                processes.aggregate(total=Sum("memory_percent_used"))["total"] or 0
+            ),
+            "total_percent_cpu_used": self.safe_percent(
+                processes.aggregate(total=Sum("cpu_percent_used"))["total"] or 0
+            ),
+
         })
 
         # -------------------
         # AUTOMATIZACIÓN
         # -------------------
         automations = project.automations.all()
-        total_automations = automations.count()
-        completed_automations = automations.filter(progress=100).count()
-        total_integrations = automations.filter(automation_category="integration").count()
-        average_automation_progress = automations.aggregate(avg=Avg("progress"))["avg"] or 0
-
-        integration_counts = {
-            "gov_api": automations.filter(integration_type="gov_api").count(),
-            "social_media": automations.filter(integration_type="social_media").count(),
-            "electronic_billing": automations.filter(integration_type="electronic_billing").count(),
-            "contract_certification": automations.filter(integration_type="contract_certification").count(),
-        }
-
-        microservice_counts = {
-            key: automations.filter(microservice_type=key).count()
-            for key, _ in BusinessAutomation.MICROSERVICE_TYPE_CHOICES
-        }
-
         context.update({
             "automations": automations,
-            "total_automations": total_automations,
-            "completed_automations": completed_automations,
-            "total_integrations": total_integrations,
-            "average_automation_progress": round(average_automation_progress),
-            "integration_counts": integration_counts,
-            "microservice_counts": microservice_counts,
+            "total_automations": automations.count(),
+            "completed_automations": automations.filter(progress=100).count(),
+            "average_automation_progress": round(
+                automations.aggregate(avg=Avg("progress"))["avg"] or 0
+            ),
         })
 
         # -------------------
-        # INTELIGENCIA ARTIFICIAL
+        # IA
         # -------------------
         intelligents = project.intelligents.all()
-        total_intelligents = intelligents.count()
-        completed_intelligents = intelligents.filter(progress=100).count()
-        average_intelligent_progress = intelligents.aggregate(avg=Avg("progress"))["avg"] or 0
-
         context.update({
             "intelligents": intelligents,
-            "total_intelligents": total_intelligents,
-            "completed_intelligents": completed_intelligents,
-            "average_intelligent_progress": round(average_intelligent_progress),
+            "total_intelligents": intelligents.count(),
+            "completed_intelligents": intelligents.filter(progress=100).count(),
+            "average_intelligent_progress": round(
+                intelligents.aggregate(avg=Avg("progress"))["avg"] or 0
+            ),
         })
 
         # -------------------
         # CONTRATOS
         # -------------------
         contracts = project.contracts.all()
-        total_contracts = contracts.count()
-
-        contract_type_counts = {
-            "ip": contracts.filter(tipo="ip").count(),
-            "cloud_services": contracts.filter(tipo="cloud_services").count(),
-            "development": contracts.filter(tipo="development").count(),
-        }
-
         context.update({
             "contracts": contracts,
-            "total_contracts": total_contracts,
-            "contract_type_counts": contract_type_counts,
+            "total_contracts": contracts.count(),
         })
 
         # -------------------
-        # GRÁFICO DE RECURSOS (Matplotlib + NumPy, 3 histogramas verticales)
+        # MÉTRICAS + HORAS
         # -------------------
-        metrics = MonthlySystemMetrics.objects.filter(project=project).order_by('date')
+        metrics = MonthlySystemMetrics.objects.filter(project=project).order_by("date")
+
+        total_hours_used = round(
+            sum(m.total_hours for m in metrics), 2
+        )
+
+        hours = int(total_hours_used)
+        minutes = int(round((total_hours_used - hours) * 60))
+
+        context["total_hours_used"] = total_hours_used
+        context["total_hours_used_h"] = hours
+        context["total_hours_used_min"] = minutes
+
+        # -------------------
+        # GRÁFICO DE RECURSOS (3 HISTOGRAMAS SUPERPUESTOS)
+        # -------------------
         if metrics.exists():
             dates = [m.date.strftime("%b %Y") for m in metrics]
+            x = np.arange(len(dates))
+            width = 0.6
+
             almacenamiento = np.array([m.almacenamiento_gb or 0 for m in metrics])
             procesamiento = np.array([m.procesamiento_millicore or 0 for m in metrics])
             memoria = np.array([m.memoria_gb or 0 for m in metrics])
 
+            max_almacenamiento = project.almacenamiento_aproximado_gb or 0
+            max_procesamiento = project.procesamiento_total_aproximado_millicore or 0
+            max_memoria = project.memoria_aproximada_gb or 0
+
             fig, axs = plt.subplots(3, 1, figsize=(10, 12), sharex=True)
-            
-            fig.patch.set_facecolor('#2e2e2e')
+            fig.patch.set_facecolor("#2e2e2e")
+
             for ax in axs:
-                ax.set_facecolor('#2e2e2e')
-                ax.tick_params(colors='#ffab4d', labelcolor='#ffab4d')  # ticks
-                ax.spines['bottom'].set_color('#ffab4d')
-                ax.spines['top'].set_color('#ffab4d')
-                ax.spines['left'].set_color('#ffab4d')
-                ax.spines['right'].set_color('#ffab4d')
-                ax.yaxis.label.set_color('#ffab4d')
-                ax.title.set_color('#ffab4d')
-                ax.grid(color='#555555', linestyle='--', linewidth=0.5)
+                ax.set_facecolor("#2e2e2e")
+                ax.tick_params(colors="#ffab4d")
+                for spine in ax.spines.values():
+                    spine.set_color("#ffab4d")
+                ax.yaxis.label.set_color("#ffab4d")
+                ax.title.set_color("#ffab4d")
+                ax.grid(color="#555555", linestyle="--", linewidth=0.5)
 
-            # Histograma de Almacenamiento
-            axs[0].bar(dates, almacenamiento, color='tab:blue')
+            # Almacenamiento
+            axs[0].bar(x, [max_almacenamiento] * len(x),
+                       width=width, color="tab:blue", alpha=0.25)
+            axs[0].bar(x, almacenamiento,
+                       width=width, color="tab:blue", alpha=0.9)
             axs[0].set_ylabel("Almacenamiento (GB)")
-            axs[0].set_title(f"Almacenamiento mensual - {project.name}")
-            axs[0].grid(axis='y')
+           
 
-            # Histograma de Procesamiento
-            axs[1].bar(dates, procesamiento, color='tab:orange')
+            # Procesamiento
+            axs[1].bar(x, [max_procesamiento] * len(x),
+                       width=width, color="tab:orange", alpha=0.25)
+            axs[1].bar(x, procesamiento,
+                       width=width, color="tab:orange", alpha=0.9)
             axs[1].set_ylabel("Procesamiento (millicore)")
-            axs[1].set_title(f"Procesamiento mensual - {project.name}")
-            axs[1].grid(axis='y')
+            
 
-            # Histograma de Memoria
-            axs[2].bar(dates, memoria, color='tab:green')
-            axs[2].set_ylabel("Memoria (GB)")
-            axs[2].set_title(f"Memoria mensual - {project.name}")
-            axs[2].grid(axis='y')
+            # Memoria
+            axs[2].bar(x, [max_memoria] * len(x),
+                       width=width, color="tab:green", alpha=0.25)
+            axs[2].bar(x, memoria,
+                       width=width, color="tab:green", alpha=0.9)
+            axs[2].set_ylabel("Memoria RAM (GB)")
+           
 
-            plt.xticks(rotation=45)
+            axs[2].set_xticks(x)
+            axs[2].set_xticklabels(dates, rotation=45, color="#ffab4d")
+
             plt.tight_layout()
 
-            # Guardar gráfico en buffer y codificar como base64
             buffer = io.BytesIO()
-            plt.savefig(buffer, format='png')
+            plt.savefig(buffer, format="png", facecolor=fig.get_facecolor())
             plt.close()
             buffer.seek(0)
-            image_png = buffer.getvalue()
-            graph_base64 = base64.b64encode(image_png).decode('utf-8')
-            buffer.close()
 
-            context['resource_graph'] = graph_base64
-            context['monthly_metrics'] = metrics
+            context["resource_graph"] = base64.b64encode(
+                buffer.getvalue()
+            ).decode("utf-8")
+            context["monthly_metrics"] = metrics
+
+            buffer.close()
         else:
-            context['resource_graph'] = None
-            context['monthly_metrics'] = []
+            context["resource_graph"] = None
+            context["monthly_metrics"] = []
 
         # -------------------
         # OTROS DATOS
@@ -234,7 +222,6 @@ class BusinessSystemProjectDetailView(DetailView):
         })
 
         return context
-
 
 
 

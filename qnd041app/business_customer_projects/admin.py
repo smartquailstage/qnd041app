@@ -672,6 +672,7 @@ class MonthlySystemMetricsAdmin(ModelAdmin):
         'almacenamiento_gb',
         'memoria_gb',
         'procesamiento_millicore',
+        'total_hours',
     ]
 
     list_filter = [
