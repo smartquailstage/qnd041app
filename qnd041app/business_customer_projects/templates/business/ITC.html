@@ -6,11 +6,8 @@
 
        
         <div class="card radius-10">
-          <div class="card-body" >
-    <div class="row">
-          <div class="col-12 col-xl-8 d-flex">
-            <div class="card radius-10 w-100">
-              <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
+
+                   <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
               <img src="{% static 'assets/images/icons/india.png' %}" alt="" width="32">                 
                   {% if project.is_active %}
                   {% else %}
@@ -32,16 +29,60 @@
                <div class="row g-4 align-items-center mb-4">
             
                 
-                    {% if project.is_active %}
-                    <div class="col-12 col-xl-20">
+         
+               </div><!--end row-->
+               <div class="d-flex flex-column flex-lg-row align-items-lg-center align-self-end justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle bg-light-success text-success">
+                    <ion-icon name="card-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ project.product.total_nube_iva }}</h4>
+                    <p class="mb-0 text-secondary">Costo Mensual</p>
+                    <p class="mb-0 text-secondary">Servicios de nube</p>
+                  </div>
+                </div>
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <ion-icon name="people-circle-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ project.usuarios_max }}</h4>
+                    <p class="mb-0 text-secondary">Usuarios Simultáneos</p>
+                    <p class="mb-0 text-secondary">Detectados</p>
+                  </div>
+                </div>
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <ion-icon name="git-compare-outline"></ion-icon>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ project.active_processes_aproximados}}</h4>
+                    <p class="mb-0 text-secondary">Procesos Activos </p>
+                     <p class="mb-0 text-secondary">Implementados </p>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              
+          <div class="card-body" >
+    <div class="row">
+        
+            
+
+                         {% if project.is_active %}
+                   
   {% if project.is_active %}
     {% if resource_graph %}
-      <div class="card mb-3" style="background-color: rgb(46,46,46); border-radius: 15px;">
-        <div class="card-body">
+     
+       
           <img src="data:image/png;base64,{{ resource_graph }}" 
                alt="Gráfico de recursos" class="img-fluid rounded mb-3">
-        </div>
-      </div>
+       
+    
     {% else %}
       <p class="text-white">No hay métricas históricas registradas para este proyecto.</p>
     {% endif %}
@@ -100,45 +141,13 @@
 
         
                     {% endif %}
-                  </div>
-               </div><!--end row-->
-               <div class="d-flex flex-column flex-lg-row align-items-lg-center align-self-end justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle bg-light-success text-success">
-                    <ion-icon name="card-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ project.product.total_nube_iva }}</h4>
-                    <p class="mb-0 text-secondary">Costo Mensual</p>
-                    <p class="mb-0 text-secondary">Servicios de nube</p>
-                  </div>
-                </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <ion-icon name="people-circle-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ project.usuarios_max }}</h4>
-                    <p class="mb-0 text-secondary">Usuarios Simultáneos</p>
-                    <p class="mb-0 text-secondary">Detectados</p>
-                  </div>
-                </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <ion-icon name="git-compare-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ project.active_processes_aproximados}}</h4>
-                    <p class="mb-0 text-secondary">Procesos Activos </p>
-                     <p class="mb-0 text-secondary">Implementados </p>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
+                
+
+
+
+     
+          
+        
 
           
         </div>
