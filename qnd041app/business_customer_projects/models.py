@@ -206,6 +206,24 @@ def porcentaje_memoria(self):
 
 
 
+
+from django.db import models
+
+class MonthlySystemMetrics(models.Model):
+    project = models.ForeignKey(BusinessSystemProject, on_delete=models.CASCADE, related_name="monthly_metrics")
+    date = models.DateField()  # mes de referencia
+    almacenamiento_gb = models.FloatField(null=True, blank=True)
+    procesamiento_millicore = models.FloatField(null=True, blank=True)
+    memoria_gb = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('project', 'date')
+        ordering = ['date']
+
+    def __str__(self):
+        return f"{self.project.name} - {self.date}"
+
+
 from usuarios.models import SmartQuailCrew  # Asegúrate de que esta importación es correcta
 
 from django.db import models
@@ -1082,3 +1100,175 @@ class NoticiaMetricas(models.Model):
 
     def __str__(self):
         return f"Métricas - {self.noticia.titulo_1}"
+
+
+
+
+
+
+
+from django.conf import settings
+from django.db import models
+
+
+class ConsultationType(models.Model):
+    """
+    Tipos de consulta disponibles
+    """
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    has_cost = models.BooleanField(default=False)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return f"{self.name} - {'Con costo' if self.has_cost else 'Sin costo'}"
+
+
+class ConsultationQuestion(models.Model):
+    """
+    Preguntas sugeridas según el área de consulta
+    """
+    AREA_CHOICES = [
+        ('cloud', 'Computación en la nube'),
+        ('courses', 'Talleres y cursos de arquitectura cloud'),
+        ('design', 'Diseño de soluciones'),
+        ('security', 'Respaldo y seguridad'),
+        ('ai', 'Inteligencia Artificial'),
+        ('ml', 'Machine Learning'),
+    ]
+
+    area = models.CharField(max_length=20, choices=AREA_CHOICES)
+    question = models.TextField()
+
+    def __str__(self):
+        return f"[{self.get_area_display()}] {self.question[:50]}"
+
+
+
+from django.conf import settings
+from django.db import models
+
+
+class SupportTicket(models.Model):
+
+    # =========================
+    # TIPO DE CONSULTA
+    # =========================
+    CONSULTATION_TYPE_CHOICES = [
+        ('cloud_free', 'Consulta sobre tecnologías cloud (Sin costo)'),
+        ('courses_free', 'Consultas sobre talleres y cursos cloud (Sin costo)'),
+        ('design_paid', 'Diseño de arquitecturas cloud (Con costo)'),
+        ('security_paid', 'Respaldo y seguridad (Con costo)'),
+        ('ai_paid', 'Inteligencia Artificial (Con costo)'),
+        ('ml_paid', 'Machine Learning (Con costo)'),
+    ]
+
+    # =========================
+    # ÁREA
+    # =========================
+    AREA_CHOICES = [
+        ('cloud', 'Computación en la nube'),
+        ('courses', 'Talleres y cursos'),
+        ('design', 'Diseño de soluciones'),
+        ('security', 'Respaldo y seguridad'),
+        ('ai', 'Inteligencia Artificial'),
+        ('ml', 'Machine Learning'),
+    ]
+
+    # =========================
+    # PREGUNTAS FRECUENTES
+    # =========================
+    QUESTION_CHOICES = [
+        # CLOUD
+        ('q_cloud_1', '¿Qué proveedor de nube es más conveniente según mi presupuesto?'),
+        ('q_cloud_2', '¿Cómo migrar una aplicación local a la nube?'),
+        ('q_cloud_3', '¿Qué diferencia hay entre IaaS, PaaS y SaaS?'),
+        ('q_cloud_4', '¿Cómo escalar automáticamente una aplicación en la nube?'),
+        ('q_cloud_5', '¿Cómo reducir costos en infraestructura cloud?'),
+        ('q_cloud_6', '¿Qué región de nube debo elegir y por qué?'),
+
+        # CURSOS
+        ('q_course_1', '¿Qué conocimientos previos necesito para tomar un curso de arquitectura cloud?'),
+        ('q_course_2', '¿Los talleres incluyen prácticas reales?'),
+        ('q_course_3', '¿Qué certificaciones cloud recomiendan después del curso?'),
+        ('q_course_4', '¿Los cursos están orientados a AWS, Azure o Google Cloud?'),
+        ('q_course_5', '¿Se entregan materiales o grabaciones de las sesiones?'),
+        ('q_course_6', '¿Los cursos sirven para certificaciones oficiales?'),
+
+        # DISEÑO
+        ('q_design_1', '¿Cómo diseñar una arquitectura altamente disponible?'),
+        ('q_design_2', '¿Qué patrón de arquitectura es adecuado para mi aplicación?'),
+        ('q_design_3', '¿Cómo implementar balanceo de carga y alta disponibilidad?'),
+        ('q_design_4', '¿Cómo diseñar una solución cloud segura y escalable?'),
+
+        # SEGURIDAD
+        ('q_security_1', '¿Cómo implementar un plan de respaldo y recuperación ante desastres?'),
+        ('q_security_2', '¿Cómo proteger datos sensibles en la nube?'),
+        ('q_security_3', '¿Cómo cifrar datos en tránsito y en reposo?'),
+        ('q_security_4', '¿Cómo detectar y responder a incidentes de seguridad?'),
+
+        # IA
+        ('q_ai_1', '¿Cómo aplicar inteligencia artificial a mi negocio?'),
+        ('q_ai_2', '¿Qué datos necesito para implementar un sistema de IA?'),
+        ('q_ai_3', '¿Qué servicios cloud ofrecen IA preentrenada?'),
+
+        # ML
+        ('q_ml_1', '¿Qué diferencia hay entre IA y Machine Learning?'),
+        ('q_ml_2', '¿Cómo entrenar un modelo de machine learning en la nube?'),
+        ('q_ml_3', '¿Cómo desplegar un modelo de ML en producción?'),
+    ]
+
+    # =========================
+    # ESTADO DEL TICKET
+    # =========================
+    STATUS_CHOICES = [
+        ('active', 'Activo'),
+        ('finished', 'Terminado'),
+    ]
+
+    # =========================
+    # CAMPOS
+    # =========================
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    consultation_type = models.CharField(
+        max_length=30,
+        choices=CONSULTATION_TYPE_CHOICES
+    )
+
+    area = models.CharField(
+        max_length=20,
+        choices=AREA_CHOICES
+    )
+
+    question = models.CharField(
+        max_length=20,
+        choices=QUESTION_CHOICES
+    )
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    scheduled_datetime = models.DateTimeField(
+        help_text="Fecha y hora seleccionada por el usuario para la consulta"
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='active'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    finished_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Ticket #{self.id} - {self.get_status_display()}"

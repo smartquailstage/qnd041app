@@ -34,6 +34,25 @@ from django.views.generic import DetailView
 from django.db.models import Avg, Sum
 from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
 
+import matplotlib.pyplot as plt
+#import seaborn as sns
+import numpy as np
+import io
+import base64
+from datetime import date
+from django.utils import timezone
+
+from .models import MonthlySystemMetrics  # Asegúrate de tener este modelo
+
+
+from django.views.generic import DetailView
+from django.db.models import Avg, Sum
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+import base64
+from .models import BusinessSystemProject, BusinessAutomation, MonthlySystemMetrics
+
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
@@ -143,8 +162,65 @@ class BusinessSystemProjectDetailView(DetailView):
             "contract_type_counts": contract_type_counts,
         })
 
+        # -------------------
+        # GRÁFICO DE RECURSOS (Matplotlib + NumPy, 3 histogramas verticales)
+        # -------------------
+        metrics = MonthlySystemMetrics.objects.filter(project=project).order_by('date')
+        if metrics.exists():
+            dates = [m.date.strftime("%b %Y") for m in metrics]
+            almacenamiento = np.array([m.almacenamiento_gb or 0 for m in metrics])
+            procesamiento = np.array([m.procesamiento_millicore or 0 for m in metrics])
+            memoria = np.array([m.memoria_gb or 0 for m in metrics])
 
+            fig, axs = plt.subplots(3, 1, figsize=(10, 12), sharex=True)
+            
+            fig.patch.set_facecolor('#2e2e2e')
+            for ax in axs:
+                ax.set_facecolor('#2e2e2e')
+                ax.tick_params(colors='#ffab4d', labelcolor='#ffab4d')  # ticks
+                ax.spines['bottom'].set_color('#ffab4d')
+                ax.spines['top'].set_color('#ffab4d')
+                ax.spines['left'].set_color('#ffab4d')
+                ax.spines['right'].set_color('#ffab4d')
+                ax.yaxis.label.set_color('#ffab4d')
+                ax.title.set_color('#ffab4d')
+                ax.grid(color='#555555', linestyle='--', linewidth=0.5)
 
+            # Histograma de Almacenamiento
+            axs[0].bar(dates, almacenamiento, color='tab:blue')
+            axs[0].set_ylabel("Almacenamiento (GB)")
+            axs[0].set_title(f"Almacenamiento mensual - {project.name}")
+            axs[0].grid(axis='y')
+
+            # Histograma de Procesamiento
+            axs[1].bar(dates, procesamiento, color='tab:orange')
+            axs[1].set_ylabel("Procesamiento (millicore)")
+            axs[1].set_title(f"Procesamiento mensual - {project.name}")
+            axs[1].grid(axis='y')
+
+            # Histograma de Memoria
+            axs[2].bar(dates, memoria, color='tab:green')
+            axs[2].set_ylabel("Memoria (GB)")
+            axs[2].set_title(f"Memoria mensual - {project.name}")
+            axs[2].grid(axis='y')
+
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+
+            # Guardar gráfico en buffer y codificar como base64
+            buffer = io.BytesIO()
+            plt.savefig(buffer, format='png')
+            plt.close()
+            buffer.seek(0)
+            image_png = buffer.getvalue()
+            graph_base64 = base64.b64encode(image_png).decode('utf-8')
+            buffer.close()
+
+            context['resource_graph'] = graph_base64
+            context['monthly_metrics'] = metrics
+        else:
+            context['resource_graph'] = None
+            context['monthly_metrics'] = []
 
         # -------------------
         # OTROS DATOS
@@ -158,6 +234,8 @@ class BusinessSystemProjectDetailView(DetailView):
         })
 
         return context
+
+
 
 
 
@@ -612,3 +690,76 @@ def actualizar_metricas(request, pk):
     except Noticia.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Noticia no encontrada'})
 
+
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect
+from .models import SupportTicket
+from .forms import SupportTicketForm
+
+
+class SupportTicketListView(LoginRequiredMixin, ListView):
+    model = SupportTicket
+    template_name = 'tickets/ticket_list.html'
+    context_object_name = 'tickets'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = SupportTicket.objects.filter(user=self.request.user)
+
+        status = self.request.GET.get('status')
+        if status in ['active', 'finished']:
+            queryset = queryset.filter(status=status)
+
+        return queryset.order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SupportTicketForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """
+        Maneja la creación del ticket desde el ListView
+        """
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.status = 'active'
+            ticket.save()
+            return redirect('ticket_list')
+
+        self.object_list = self.get_queryset()
+        return self.render_to_response(
+            self.get_context_data(form=form)
+        )
+
+
+from django.utils import timezone
+from django.http import HttpResponseForbidden
+
+
+class SupportTicketDetailView(LoginRequiredMixin, DetailView):
+    model = SupportTicket
+    template_name = 'tickets/ticket_detail.html'
+    context_object_name = 'ticket'
+
+    def get_queryset(self):
+        return SupportTicket.objects.filter(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        """
+        Permite cerrar el ticket desde el detalle
+        """
+        ticket = self.get_object()
+
+        if ticket.status == 'active':
+            ticket.status = 'finished'
+            ticket.finished_at = timezone.now()
+            ticket.save()
+            return redirect('ticket_detail', pk=ticket.pk)
+
+        return HttpResponseForbidden()

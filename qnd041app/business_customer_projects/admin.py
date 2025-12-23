@@ -565,3 +565,131 @@ class CategoriaNoticiaAdmin(ModelAdmin):
     list_filter = ('activa',)
     search_fields = ('nombre',)
     prepopulated_fields = {'slug': ('nombre',)}
+
+
+
+
+from django.contrib import admin
+from .models import SupportTicket
+
+@admin.register(SupportTicket)
+class SupportTicketAdmin(ModelAdmin):
+
+    # ──────────────────────────────────────────────
+    # Búsqueda
+    # ──────────────────────────────────────────────
+    search_fields = [
+        'user__username',
+        'user__first_name',
+        'user__last_name',
+        'title',
+        'description',
+    ]
+
+    # ──────────────────────────────────────────────
+    # Listado
+    # ──────────────────────────────────────────────
+    list_display = [
+        'title',
+        'user',
+        'consultation_type',
+        'area',
+        'question',
+        'status',
+        'scheduled_datetime',
+        'created_at',
+        'finished_at',
+    ]
+
+    list_filter = [
+        'status',
+        'consultation_type',
+        'area',
+        'scheduled_datetime',
+        'created_at',
+    ]
+
+    list_fullwidth = True
+    list_filter_sheet = True
+    warn_unsaved_form = True
+    change_form_show_cancel_button = True
+
+    readonly_fields = [
+        'created_at',
+        'finished_at',
+    ]
+
+    # ──────────────────────────────────────────────
+    # FIELDSETS CON TABS
+    # ──────────────────────────────────────────────
+    fieldsets = (
+
+        ('👤 Usuario', {
+            'fields': (
+                'user',
+            ),
+            'classes': ('unfold', 'tab-user'),
+        }),
+
+        ('💻 Información de la Consulta', {
+            'fields': (
+                'title',
+                'description',
+                'consultation_type',
+                'area',
+                'question',
+            ),
+            'classes': ('unfold', 'tab-consultation'),
+        }),
+
+        ('📅 Programación', {
+            'fields': (
+                'scheduled_datetime',
+                'status',
+                'created_at',
+                'finished_at',
+            ),
+            'classes': ('unfold', 'tab-dates'),
+        }),
+
+    )
+
+    unfold_fieldsets = True
+
+
+
+from .models import MonthlySystemMetrics
+
+@admin.register(MonthlySystemMetrics)
+class MonthlySystemMetricsAdmin(ModelAdmin):
+    search_fields = [
+        'project__name',  # Permite buscar por nombre del proyecto
+    ]
+
+    list_display = [
+        'project',
+        'date',
+        'almacenamiento_gb',
+        'memoria_gb',
+        'procesamiento_millicore',
+    ]
+
+    list_filter = [
+        'project',
+        'date',
+    ]
+
+    readonly_fields = []  # Aquí puedes poner campos que solo quieras mostrar como lectura
+
+    fieldsets = (
+        ('📊 Métricas Mensuales', {
+            'fields': (
+                'project',
+                'date',
+                'almacenamiento_gb',
+                'memoria_gb',
+                'procesamiento_millicore',
+            ),
+        }),
+    )
+

@@ -130,97 +130,27 @@
 
 
       <li class="">
-  <a href="javascript:;" class="has-arrow" aria-expanded="false">
-    <div class="parent-icon">
-      <ion-icon name="card-outline"></ion-icon>
-      
-    </div>
-    <div style="font-size: 10pt;" class="menu-title"> Inversiones ITC </div>
-  </a>
-  <ul class="mm-collapse" style="height: auto;">
 
 
 
 
-
-        <li>
-               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Uso de Nube Pública</div>
+            <a href="{% url 'business_customer_projects:paymentorder_list' %}">
+            <div class="parent-icon">
+             <ion-icon name="card-outline"></ion-icon>
+            </div>
+            <div class="menu-title">Inversiones</div>
           </a>
-        </li>
 
 
-                <li>
-               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Ticket de Consulta</div>
-          </a>
-        </li>
 
-                        <li>
-               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Convenio Estratégico</div>
-          </a>
-        </li>
-
-                                <li>
-               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Infraestructura</div>
-          </a>
-        </li>
-
-                                      <li>
-          <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Monitoreo</div>
-          </a>
-        </li>
-
-
-                                              <li>
-          <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Seguridad</div>
-          </a>
-        </li>
-
-                                                      <li>
-          <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
-             
-              <ion-icon name="card-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Soporte</div>
-          </a>
-        </li>
-
-
-            <li>
-               <a href="{% url 'business_customer_projects:paymentorder_list' %}" aria-expanded="false">
-               <ion-icon name="list-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Resumen de Cuenta</div>
-          </a>
-        </li>
-
-
-  
-
-  </ul>
           <a href="{% url 'business_customer_projects:lista' %}">
             <div class="parent-icon">
-              <ion-icon name="library-outline"></ion-icon>
+              <ion-icon name="document-text-outline"></ion-icon>
             </div>
-            <div class="menu-title">Biblioteca ITC</div>
+            <div class="menu-title">Documentación</div>
           </a>
 
-                    <a href="index.html">
+                    <a href="{% url 'business_customer_projects:ticket_list' %}">
             <div class="parent-icon">
                <ion-icon name="ticket-outline"></ion-icon>
             </div>

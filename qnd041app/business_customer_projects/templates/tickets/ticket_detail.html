@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <!-- Breadcrumb -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">
+        <ion-icon name="card"></ion-icon> Pagos por Servicios ITC
+      </div>
+      <div class="ps-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0 p-0 align-items-center">
+
+                <li class="breadcrumb-item active" aria-current="page">{{ payment.project }}</li>
+              </ol>
+            </nav>
+          </div>
+
+    </div>
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
+
+      <li class="nav-item" role="presentation">
+        {% if payment.invoice_file %}
+         {% if not payment.pago_verificado %}
+       
+                 <a href="{{ payment.invoice_file.url }}" class="btn btn-warning btn-sm" download>
+                    <ion-icon name="alert-circle-outline"></ion-icon>
+           <ion-icon name="document-outline"></ion-icon>
+              {{ payment.invoice_number }}
+        </a>
+             
+            {% else %}
+             
+            
+                      <a href="{{ payment.invoice_file.url }}" class="btn btn-success btn-sm" download>
+                          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+           <ion-icon name="document-outline"></ion-icon>
+              {{ payment.invoice_number }}
+        </a>
+              
+              {% endif %}
+    {% else %}
+        <span class="text-muted">No disponible</span>
+    {% endif %}
+
+
+    
+      </li>
+
+    </ul>
+
+
+    
+    <!-- Tab content -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body">
+
+           <div class="table-responsive" >
+              <table class="table table-invoice" style="overflow-x:auto; white-space: nowrap;">
+                <thead>
+                  <tr>
+                    <th>DESCRIPCIÓN DE SERVICIO</th>
+                    <th class="text-center" width="10%">SUBTOTAL</th>
+                    <th class="text-center" width="10%">I.V.A</th>
+                    <th class="text-right" width="20%">TOTAL</th>
+            
+                  </tr>
+                </thead>
+                <tbody>
+   <!-- En tu <tbody> -->
+<tr>
+    <td>
+        <span class="text-inverse">{{ payment.get_service_type_display }}</span><br>
+        <small>
+            {% if payment.productos %}
+                Producto: {{ payment.productos.name }}
+            {% else %}
+                Servicio provisto según el tipo seleccionado.
+            {% endif %}
+        </small>
+    </td>
+
+    <td class="text-center">
+        ${{ payment.cost|floatformat:2 }}
+    </td>
+
+    <td class="text-center">
+        {{ payment.iva|floatformat:2 }}%
+    </td>
+
+    <td class="text-right">
+        ${{ payment.cost_with_iva|floatformat:2 }}
+    </td>
+
+
+
+
+</tr>
+
+                </tbody>
+              </table>
+
+              <!-- Resumen total -->
+              <div class="row bg-light align-items-center m-0 mt-3">
+                <div class="col col-auto p-4">
+                  <p class="mb-0">SALDO PENDIENTE</p>
+                  <h4 class="mb-0">$ US {{ pending_orders_total|floatformat:2 }}</h4>
+                </div>
+                <div class="col col-auto p-4">
+                  <i class="bi bi-plus-lg text-muted"></i>
+                </div>
+                <div class="col col-auto me-auto p-4">
+
+                </div>
+
+                  {% if not payment.pago_verificado %}
+
+                      <div class="col bg-warning col-auto p-4">
+
+                         {% if not payment.pago_verificado %}
+            <form action="{% url 'services_cart:cart_add_payment_order' payment.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning btn-sm">
+     <p class="mb-0 text-white">PAGAR FACTURA</p>
+     <p class="mb-0 text-white"> {{ payment.invoice_number }}</p>
+     <h4 class="mb-0 text-white">${{ cost_with_iva|floatformat:2 }}</h4>
+    </button>
+</form>
+ </div>
+
+        {% else %}
+
+        {% endif %}
+
+
+    
+
+                
+                  {% else %}
+
+                <div class="col bg-success col-auto p-4">
+                  <p class="mb-0 text-white">PAGADO</p>
+                  <h4 class="mb-0 text-white">${{ cost_with_iva|floatformat:2 }}</h4>
+                </div>
+            
+
+                  {% endif %}
+              </div><!--end row-->
+                
+
+
+              <hr>
+              <!-- invoice-note -->
+              <div class="my-3">
+                * Esta factura deberá ser cancelada a más tardar el día 23 de octubre de 2025.<br>
+                *A partir del 15 de diciembre de 2025, el sistema procederá a la suspensión del servicio y a la inhabilitación del proyecto en caso de no registrarse el pago correspondiente.<br>
+                * Si usted no está de acuerdo con el detalle de la presente factura o desea cancelar el servicio, <br>
+                por favor comuníquese con nuestro departamento de atención al cliente a través del correo
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -162,3 +162,27 @@ class ComentarioNoticiaForm(forms.ModelForm):
                 'placeholder': 'Escribe tu comentario...'
             })
         }
+
+
+
+from django import forms
+from .models import SupportTicket
+
+
+class SupportTicketForm(forms.ModelForm):
+    class Meta:
+        model = SupportTicket
+        fields = [
+            'consultation_type',
+            'area',
+            'question',
+            'title',
+            'description',
+            'scheduled_datetime',
+        ]
+        widgets = {
+            'scheduled_datetime': forms.DateTimeInput(
+                attrs={'type': 'datetime-local'}
+            ),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }

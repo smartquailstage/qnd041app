@@ -2,6 +2,10 @@ from django.urls import path
 from .views import BusinessSystemProjectDetailView
 from .views import NoticiaListView, NoticiaDetailView
 from . import views
+from .views import (
+    SupportTicketListView,
+    SupportTicketDetailView,
+)
 
 app_name = 'business_customer_projects'
 
@@ -20,6 +24,20 @@ urlpatterns = [
     path('Noticias/', NoticiaListView.as_view(), name='lista'),
     path('Noticias/<int:pk>/', NoticiaDetailView.as_view(), name='detalle'),
     path('Noticias/<int:pk>/metricas/', views.actualizar_metricas, name='actualizar_metricas'),
+
+    # Lista de consultas + formulario de creación
+    path(
+        'tickets/',
+        SupportTicketListView.as_view(),
+        name='ticket_list'
+    ),
+
+    # Detalle de una consulta
+    path(
+        'tickets/<int:pk>/',
+        SupportTicketDetailView.as_view(),
+        name='ticket_detail'
+    ),
 
 ]
 

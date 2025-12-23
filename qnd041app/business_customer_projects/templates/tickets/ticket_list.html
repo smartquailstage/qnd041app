@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <!-- Breadcrumb -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+      <div class="breadcrumb-title pe-3">
+        <ion-icon name="card"></ion-icon> Inversiones ITC
+      </div>
+    </div>
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="orderlist-tab" data-bs-toggle="pill" href="#tab-ticket" role="tab" aria-selected="true">
+          <div class="d-flex align-items-center">
+            <div class="tab-title">
+              <ion-icon name="cloud-download-outline"></ion-icon>
+              <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-ticket" role="tabpanel">
+        <hr class="my-4">
+        <div class="card radius-10">
+          <div class="card-body">
+            <div class="row">
+
+              <!-- BLOQUE PRINCIPAL: Listado de tickets -->
+              <div class="col col-xl-20 d-flex">
+                <div class="card radius-10 w-100">
+                  <div class="card-body" style="background-color: rgb(46,46,46); border-radius:25px;">
+                    <h5>
+                      <ion-icon name="hardware-chip-outline"></ion-icon>
+                      Tickets realizados
+                    </h5>
+
+                    <div class="row g-4 align-items-center mt-4">
+                      <div class="col-12" style="max-height: 300px; overflow-y: auto;">
+                        {% for ticket in tickets %}
+                          <div class="d-flex align-items-start mb-3">
+
+                            <!-- FOTO DE PERFIL -->
+
+                            <!-- CONTENIDO DEL TICKET -->
+                            <div class="review-content ms-3 w-100">
+
+                              <!-- NOMBRE Y ESTADO -->
+                              <div class="d-flex align-items-center mb-2">
+                                <h6 class="mb-0">{{ ticket.user.get_full_name|default:ticket.user.username }}</h6>
+                                {% if ticket.status == 'active' %}
+                                  <span class="badge bg-success ms-2">Activo</span>
+                                {% else %}
+                                  <span class="badge bg-secondary ms-2">Terminado</span>
+                                {% endif %}
+                              </div>
+
+                              <!-- DETALLES DEL TICKET -->
+                              <small class="text-muted">Tipo de consulta: {{ ticket.get_consultation_type_display }}</small><br>
+                              <small class="text-muted">Área: {{ ticket.get_area_display }}</small><br>
+                              <p class="mt-1 mb-1"><strong>Pregunta:</strong> {{ ticket.get_question_display }}</p>
+                              <small class="text-muted">📅 {{ ticket.scheduled_datetime|date:"d/m/Y H:i" }}</small>
+
+                              {% if ticket.description %}
+                                <p class="mt-2 text-muted">{{ ticket.description|truncatewords:20 }}</p>
+                              {% endif %}
+
+                              <!-- Botón ver detalle -->
+                           
+                            </div>
+                          </div>
+                          <hr/>
+                        {% empty %}
+                          <p class="text-muted">No hay consultas registradas.</p>
+                        {% endfor %}
+                      </div>
+                    </div>
+
+                  </div>
+
+                      <div class="card-body">
+                        <h5 class="mb-2 text-white">Crear Ticket</h5>
+
+                        <!-- FORMULARIO -->
+                        <form method="post" class="d-flex flex-column gap-2">
+                          {% csrf_token %}
+
+
+                          <!-- Tipo de consulta -->
+                          <div class="mb-2">
+                            {{ form.consultation_type.label_tag }}
+                            {{ form.consultation_type|add_class:"form-select" }}
+                            {% if form.consultation_type.errors %}
+                              <div class="text-danger small">{{ form.consultation_type.errors }}</div>
+                            {% endif %}
+                          </div>
+
+                          <!-- Área -->
+                          <div class="mb-2">
+                            {{ form.area.label_tag }}
+                            {{ form.area|add_class:"form-select" }}
+                            {% if form.area.errors %}
+                              <div class="text-danger small">{{ form.area.errors }}</div>
+                            {% endif %}
+                          </div>
+
+                          <!-- Pregunta frecuente -->
+                          <div class="mb-2">
+                            {{ form.question.label_tag }}
+                            {{ form.question|add_class:"form-select" }}
+                            {% if form.question.errors %}
+                              <div class="text-danger small">{{ form.question.errors }}</div>
+                            {% endif %}
+                          </div>
+
+                          <!-- Fecha y hora -->
+                          <div class="mb-2">
+                            {{ form.scheduled_datetime.label_tag }}
+                            {{ form.scheduled_datetime|add_class:"form-control" }}
+                            {% if form.scheduled_datetime.errors %}
+                              <div class="text-danger small">{{ form.scheduled_datetime.errors }}</div>
+                            {% endif %}
+                          </div>
+
+                          <!-- Botón enviar -->
+                          <button type="submit" class="btn btn-primary mt-2">Crear Ticket</button>
+                        </form>
+
+                      </div>
+                </div>
+                
+                  
+                 
+                
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end tab content -->
+
+  </div> <!-- end page content -->
+</div>
+{% endblock %}
