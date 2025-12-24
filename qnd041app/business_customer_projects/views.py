@@ -85,6 +85,10 @@ class BusinessSystemProjectDetailView(DetailView):
                 processes.aggregate(total=Sum("cpu_percent_used"))["total"] or 0
             ),
 
+            "total_percent_store_used": self.safe_percent(
+                processes.aggregate(total=Sum("storage_percent_used"))["total"] or 0
+            ),
+
         })
 
         # -------------------

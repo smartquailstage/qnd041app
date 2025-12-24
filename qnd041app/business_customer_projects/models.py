@@ -263,6 +263,7 @@ class BusinessProcess(models.Model):
     memory_consumption = models.FloatField("Consumo de memoria (MB)", default=0)
     cpu_consumption = models.FloatField("Consumo de procesamiento (Cores)", default=0)
     store_consumption = models.FloatField("Consumo de Almacenamiento (GB)", default=0)
+    
     total_memory_available = models.FloatField("Memoria total disponible (MB)", default=1024)
     total_cpu_available = models.FloatField("Procesamiento total disponible (Cores)", default=8)
     total_storege_available =  models.FloatField("Almacenamiento total disponible (GB)", default=8)
@@ -353,6 +354,11 @@ class BusinessProcess(models.Model):
             self.cpu_percent_used = round((self.cpu_consumption / self.total_cpu_available) * 100, 2)
         else:
             self.cpu_percent_used = 0
+
+        if self.total_storage_available > 0:
+            self.storage_percent_used = round((self.storage_consumption / self.total_storage_available) * 100, 2)
+        else:
+            self.storage_percent_used = 0
 
         super().save(*args, **kwargs)
 

@@ -5,11 +5,6 @@
 <!doctype html>
 <html lang="en">
 
-  <!-- Incluir los scripts de Braintree -->
-  <script src="https://js.braintreegateway.com/web/3.76.0/js/client.min.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.76.0/js/hosted-fields.min.js"></script>
-  <script src="https://js.braintreegateway.com/web/3.76.0/js/data-collector.min.js"></script>
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -42,9 +37,6 @@
   <link href="{% static 'assets/css/semi-dark.css' %}" rel="stylesheet" />
   <link href="{% static 'assets/css/header-colors.css' %}" rel="stylesheet" />
 
-  <script src="https://js.braintreegateway.com/web/dropin/1.23.0/js/dropin.min.js"></script>
-
-
   
 
   <title>Smartquail - Login </title>
@@ -56,8 +48,8 @@
    
   <!--start wrapper-->
   <div class="wrapper">
-    {% include 'usuarios/header.html' %} 
-    {% include 'usuarios/sidebar.html' %} 
+    {% include 'usuarios/header_dash_parther.html' %} 
+    {% include 'usuarios/sidebar_dash_parther.html' %} 
 
   
     
@@ -65,7 +57,7 @@
 
 {% block content %}
 {% endblock %}
-
+   {% include 'footer.html' %} 
 
     <!--start footer-->
 
@@ -88,7 +80,7 @@
 
   </div>
 
-  
+
   <!--end wrapper-->
   {% bootstrap_javascript jquery='full' %}
   <script src="{% static 'assets/plugins/datetimepicker/js/legacy.js' %}"></script>
@@ -108,6 +100,10 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <!--plugins-->
   <script src="{% static 'assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
+  <script>
+    const recursosData = JSON.parse('{{ recursos_chart|safe }}');
+</script>
+ <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts-custom.js' %}"></script>
   <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts.min.js' %}"></script>
   <script src="{% static 'assets/plugins/easyPieChart/jquery.easypiechart.js' %}"></script>
   <script src="{% static 'assets/plugins/chartjs/chart.min.js' %}"></script>

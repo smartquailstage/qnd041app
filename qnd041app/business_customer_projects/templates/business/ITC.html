@@ -3,11 +3,6 @@
 {% load static %}
 
 
-
-
-
-
-
 <div class="tab-content">     
      
      <div class="tab-pane fade show active" id="tab-general" role="tabpanel">
@@ -16,7 +11,7 @@
         <div class="card radius-10" style="background-color: #2e2e2e;">
 
                    <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
-            <h5>Tecnologias de comunicacion e informacion en la nube ITC</h5>     
+            <h5>Infraestructura en la nube ITC</h5>     
              <h6 class="mb-0"><ion-icon name="cloud-upload-outline"></ion-icon> {{ project.product }}</h6>           
                   {% if project.is_active %}
                   {% else %}
@@ -51,7 +46,7 @@
                     <ion-icon name="server-outline"></ion-icon>
                   </div>
                   <div class="">
-                    <h4 class="mb-0">{{ project.porcentaje_almacenamiento }} %</h4>
+                    <h4 class="mb-0">{{ total_percent_store_used }} %</h4>
                     <p class="mb-0 text-secondary">Almacenamiento (GB)</p>
                     <p class="mb-0 text-secondary">Recurso Utilizado</p>
                   </div>
@@ -75,7 +70,10 @@
                   <div class="">
                     <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
                     <p class="mb-0 text-secondary">Memoria RAM (GB) </p>
-                     <p class="mb-0 text-secondary">Recurso Utilizado </p>
+                     {% if project.is_active %}
+                     <p class="mb-0 text-secondary">{{ project.total_memory_available }} Recurso Utilizado </p>
+                     {% else%}
+                     {% endif %}
                   </div>
                 </div>
               </div>
