@@ -75,6 +75,192 @@
 
 </ul>
 
+
+    <ul class="metismenu" id="menu">
+
+                    
+        
+      <a href="{% url 'saas_shop:product_list'  %}"><li class="menu-label">SOFTWARE AS PRODUCTS (SaaP) </li></a>
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinessanalytics" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinessmedia" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="brush-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+{% for c in categories %}
+   {% if c.slug == "smartbusinesslaw" %}
+    <li class="">
+      <a href="javascript:;" class="has-arrow" aria-expanded="false">
+        <div class="parent-icon">
+         <ion-icon name="finger-print-outline"></ion-icon>
+        </div>
+        <div style="font-size: 10pt;" class="menu-title">{{ c.name }}</div>
+      </a>
+
+      <ul class="mm-collapse" style="height: 2px;">
+        {% for p in c.products.all %}
+          <li>
+            <a href="{{ p.get_absolute_url }}">
+              <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>
+              {{ p.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+{% endfor %}
+
+
+
+
+
+        <li class="menu-label">Infrastructure as a Service (IaaS)</li>
+
+
+                <li class="">
+          <a href="javascript:;" class="has-arrow" aria-expanded="false">
+            <div class="parent-icon">
+            <ion-icon name="radio-outline"></ion-icon>
+            </div>
+            <div style="font-size: 10pt;"  class="menu-title">Disponibilidad</div>
+          </a>
+          <ul class="mm-collapse" style="height: 2px;">
+            <li> <a href="widgets-static-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Alta
+              </a>
+            </li>
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Intermedia
+              </a>
+            </li>
+
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Regular
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
+
+                        <li class="">
+          <a href="javascript:;" class="has-arrow" aria-expanded="false">
+            <div class="parent-icon">
+             <ion-icon name="shield-outline"></ion-icon>
+            </div>
+            <div style="font-size: 10pt;"  class="menu-title">Seguridad</div>
+          </a>
+          <ul class="mm-collapse" style="height: 2px;">
+            <li> <a href="widgets-static-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Extrema 85 %
+              </a>
+            </li>
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Intermedia 60 %
+              </a>
+            </li>
+
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Regular 30 %
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
+
+        <li class="">
+          <a href="javascript:;" class="has-arrow" aria-expanded="false">
+            <div class="parent-icon">
+             <ion-icon name="pulse-outline"></ion-icon>
+            </div>
+            <div style="font-size: 10pt;"  class="menu-title">Monitoreo</div>
+          </a>
+          <ul class="mm-collapse" style="height: 2px;">
+            <li> <a href="widgets-static-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Extrema 85 %
+              </a>
+            </li>
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Intermedia 60 %
+              </a>
+            </li>
+
+            <li> <a href="widgets-data-widgets.html">
+                <ion-icon name="ellipse-outline" role="img" class="md hydrated" aria-label="ellipse outline"></ion-icon>Regular 30 %
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
+
+        <li class="menu-label">Private Cloud Server </li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="apps-outline"></ion-icon>
+            <div class="menu-title">On-Premise</div>
+          </a>
+        </li>
+
+
+      <li class="menu-label">Consulting</li>
+
+        <li>
+          <a href="index.html" aria-expanded="false">
+            <div class="parent-icon">
+              <ion-icon name="ticket-outline"></ion-icon>
+            <div class="menu-title">Take a Ticket</div>
+          </a>
+        </li>
+
+    </ul>
 </li>
 
 
