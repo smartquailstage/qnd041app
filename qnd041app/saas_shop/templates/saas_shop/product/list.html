@@ -57,9 +57,9 @@
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
 
       <!-- Carrusel SmartBusinessAnalytics -->
-<div class="card">
+<div class="card" style="background-color: #2e2e2e;">
   
-  <div class="card-body p-0" style="background-color: #444040;">
+  <div class="card-body p-0" style="background-color: #2e2e2e;">
     {% for c in categories %}
       {% if c.slug == "business-analytics" %}
         {% if c.products.all %}
@@ -71,9 +71,11 @@
                   <!-- Enlace envuelve todo el contenido de la imagen -->
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gray  bg-opacity-50">
-                        <h2 class="text-white"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}</h2>
-                        <p class="mb-1 text-warning">Maximo de usuarios simultáneos: {{ product.usuarios_simultaneos }}</p>
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
+                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
                       </div>
                     </div>
                   </a>
@@ -96,26 +98,27 @@
       {% endif %}
     {% endfor %}
 
-    <div class="card">
+    <div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
   <div class="card-body p-4" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  background-color: #403c3c;
+  background-color: #2e2e2e;
   border-radius: 25px;">
     <p>
       <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
     </p>
     <p>
-      Gracias a su ecosistema modular y altamente personalizable, los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y desarrollar sus propios flujos de información, adaptándolos a las necesidades específicas de su negocio o institución. SmartBusinessAnalytics® integra tecnologías de última generación como inteligencia artificial, analítica predictiva, automatización de procesos (RPA) y big data, ofreciendo una visión completa y dinámica del rendimiento organizacional.
+      Gracias a su ecosistema modular y altamente personalizable,
+       los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
+        desarrollar sus propios flujos de información, adaptándolos a las necesidades
+         específicas de su negocio o institución. SmartBusinessAnalytics® 
+         integra tecnologías de última generación como inteligencia artificial, 
+         analítica predictiva, automatización de procesos (RPA) y big data, 
+         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades, leer <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">documentación</a>
     </p>
-    <p>
-      Esta solución inteligente está pensada para escalar de manera flexible en función del crecimiento y las estrategias comerciales u operacionales de cada organización. Su infraestructura en la nube permite incrementar recursos de procesamiento y almacenamiento sin interrupciones, garantizando la continuidad operativa, la seguridad de los datos y el cumplimiento de los más altos estándares tecnológicos del mercado.
-    </p>
-    <p>
-      En un entorno cada vez más competitivo y digitalizado, <strong>SmartBusinessAnalytics®</strong> se consolida como una herramienta estratégica para impulsar la eficiencia, la innovación y la sostenibilidad de las empresas y organizaciones sociales, transformando los datos en conocimiento y el conocimiento en acción.
-    </p>
+
   </div>
 </div>
   </div>
@@ -174,7 +177,7 @@
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  background-color: #403c3c;
+  background-color: #2e2e2e;
   border-radius: 25px;
   margin-bottom: 1rem;">
     <p>
@@ -214,8 +217,9 @@
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                 
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
-                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}</h2>
-                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión (I+D): $ {{ product.price_amount  }} Incluye I.V.A </p>
+                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
                 
                 </div>
               </div>
@@ -251,7 +255,7 @@
       <strong>SmartBusinessLaw®</strong>
        es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
         estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
-       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades, leer <a href="" class="text-warning">documentación</a>
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades, leer <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">documentación</a>
     </p>
    
   </div>

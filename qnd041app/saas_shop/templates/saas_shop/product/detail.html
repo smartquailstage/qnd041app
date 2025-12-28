@@ -191,7 +191,7 @@
                     <ion-icon name="play-outline"></ion-icon>  Administrador de contenidos Multimedia (CRM)
                       {% endif %}
                       {% if product.category.name == "Business Analytics" %}
-                      <ion-icon name="bar-chart-outline"></ion-icon>Panificador de Recursos Financieros 
+                      <ion-icon name="bar-chart-outline"></ion-icon> Panificador de Recursos Empresariales (ERP)
                       {% endif %}
                   
                   </li>
@@ -201,7 +201,7 @@
 
           </div>
 
-<div class="product-more-info mt-4">
+<div class="product-more-info mt-4" >
   <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
 
     <!-- Información -->
@@ -311,8 +311,8 @@
 
     <!-- TAB: Información -->
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
-      <div class="card">
-        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+      <div class="card" style="background-color: #2e2e2e;">
+        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#2e2e2e;border-radius:25px;">
 
           <div class="product-detail-card">
   <div class="product-detail-body">
@@ -402,8 +402,8 @@
     <a href="{{ product.demo_url }}" 
        class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
        target="_blank">
-        <ion-icon name="play-circle-outline"></ion-icon>
-        Ver Demo
+       
+        Explorar Demo
     </a>
 
     <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
@@ -411,9 +411,9 @@
         {{ cart_product_form.quantity }}   <!-- Campo oculto -->
         {{ cart_product_form.update }}     <!-- Campo oculto -->
 
-        <button type="submit" class="btn btn-primary btn-ecomm d-flex align-items-center gap-2">
-            <ion-icon name="cart-outline"></ion-icon>
-            {% trans 'ir a Carrito' %}
+        <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
+          
+            {% trans 'Ordenar Software' %}
         </button>
     </form>
 
