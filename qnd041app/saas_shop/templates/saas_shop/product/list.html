@@ -13,6 +13,21 @@
          <div class="page-content">
 
 
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones ITC</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)
+                  
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
 <div class="product-more-info mt-4">
   <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablistt">
     <li class="nav-item" role="presentation">
@@ -43,10 +58,12 @@
 
       <!-- Carrusel SmartBusinessAnalytics -->
 <div class="card">
+  
   <div class="card-body p-0" style="background-color: #444040;">
     {% for c in categories %}
       {% if c.slug == "business-analytics" %}
         {% if c.products.all %}
+        
           <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               {% for product in c.products.all %}
@@ -54,9 +71,9 @@
                   <!-- Enlace envuelve todo el contenido de la imagen -->
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red  bg-opacity-50">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gray  bg-opacity-50">
                         <h2 class="text-white"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}</h2>
-                        <p class="mb-1 text-white">${{ product.description }}</p>
+                        <p class="mb-1 text-warning">Maximo de usuarios simultáneos: {{ product.usuarios_simultaneos }}</p>
                       </div>
                     </div>
                   </a>
@@ -78,11 +95,8 @@
         {% endif %}
       {% endif %}
     {% endfor %}
-  </div>
-</div>
 
-
-<div class="card">
+    <div class="card">
   <div class="card-body p-4" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
@@ -104,11 +118,17 @@
     </p>
   </div>
 </div>
+  </div>
+</div>
+
+
+
 
 
     </div>
 
     <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
+    
        <div class="card-body p-0">
 
 
@@ -121,7 +141,7 @@
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red bg-opacity-50 text-white">
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gray bg-opacity-50 text-white">
                   <h2 style="color:#ffff"><ion-icon name="play-outline"></ion-icon> {{ product.name }}</h2>
                   <p class="mb-1">${{ product.description }}</p>
             
@@ -147,14 +167,16 @@
     {% endfor %}
   </div>
 
-  <div class="card">
-  <div class="card-body p-4" style="color: #ededed;
+
+
+  <div class="card-body p-0" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.2;
   background-color: #403c3c;
-  border-radius: 25px;">
+  border-radius: 25px;
+  margin-bottom: 1rem;">
     <p>
       <strong>SmartBusinessMedia®</strong> es un CRM especializado en la administración y gestión de contenidos multimedia en alta disponibilidad y definición. Su arquitectura en la nube permite trabajar en tiempo real, ofreciendo a las empresas y agencias creativas un entorno unificado para planificar, producir, distribuir y analizar contenido digital sin interrupciones.
     </p>
@@ -171,7 +193,7 @@
       En un entorno digital donde la inmediatez y la calidad del contenido marcan la diferencia, <strong>SmartBusinessMedia®</strong> se posiciona como la herramienta esencial para transformar datos, creatividad y estrategia en resultados medibles, sólidos y sostenibles.
     </p>
   </div>
-</div>
+
 
     </div>
 
@@ -182,6 +204,8 @@
     {% for c in categories %}
       {% if c.slug == "business-law" %}
         {% if c.products.all %}
+
+        
         <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             {% for product in c.products.all %}
@@ -189,9 +213,9 @@
                 <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                 
-                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-red bg-opacity-50 text-white">
-                  <h2 style="color:#ffff"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}</h2>
-                  <p class="mb-1">${{ product.description }}</p>
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}</h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión (I+D): $ {{ product.price_amount  }} Incluye I.V.A </p>
                 
                 </div>
               </div>
@@ -215,29 +239,21 @@
     {% endfor %}
   </div>
 
-  <div class="card">
-  <div class="card-body p-4" style="color: #ededed;
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  background-color: #403c3c;
+  background-color: #2e2e2e;
   border-radius: 25px;">
     <p>
-      <strong>SmartBusinessLaw®</strong> es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas, estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad, garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales.
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades, leer <a href="" class="text-warning">documentación</a>
     </p>
-    <p>
-      Esta plataforma está orientada a la automatización de procesos legales, incluyendo la legalización de proyectos tecnológicos ante entidades regulatorias como la <strong>Superintendencia de Protección de Datos Personales del Ecuador</strong>, así como la gestión de contratos, demandas, reclamos y documentación jurídica de forma digital y centralizada.
-    </p>
-    <p>
-      <strong>SmartBusinessLaw®</strong> incorpora módulos inteligentes de generación automática de contratos, seguimiento procesal, firma electrónica, y control de plazos y vencimientos. Además, cuenta con un sistema de notificaciones automáticas que alerta a los usuarios sobre fechas límite, audiencias, renovaciones y etapas clave dentro de cada proceso legal, reduciendo riesgos y mejorando la eficiencia operativa.
-    </p>
-    <p>
-      Su ecosistema modular y escalable permite personalizar los flujos de trabajo según el tipo de caso o área jurídica, integrando funcionalidades de analítica, automatización documental y cumplimiento normativo. Gracias a su diseño intuitivo, los equipos legales pueden centralizar la información, mejorar la colaboración interna y garantizar la integridad de los datos en cada etapa del proceso.
-    </p>
-    <p>
-      En un entorno empresarial donde la gestión legal requiere precisión, transparencia y agilidad, <strong>SmartBusinessLaw®</strong> se consolida como una herramienta estratégica que combina tecnología, seguridad y automatización para transformar la gestión jurídica en un proceso eficiente, confiable y orientado a resultados.
-    </p>
+   
   </div>
 </div>
 

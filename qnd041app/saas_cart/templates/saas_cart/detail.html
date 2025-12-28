@@ -128,7 +128,7 @@
                                     <div class="card-body" style="color:#fff; background-attachment: #2e2e2e;">
                                         <div class="d-lg-flex align-items-center gap-3">
                                             <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
-                                                <ion-icon name="search-outline"></ion-icon> Explorar más 
+                                                <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
                                             </a>
                                         </div>
                                     </div>
@@ -178,9 +178,14 @@
     {% with product=item.product %}
         {% with totals=product.get_totals %}
             <div class="product-pricing mb-4">
+
+
+
                 <p class="mb-2">
                     <strong>{{ product.name }}</strong>
                 </p>
+
+
 
                 <p class="mb-2">
                     Subtotal:
@@ -206,7 +211,15 @@
         {% endwith %}
     {% endwith %}
 {% endfor %}
+                <p class="mb-2">
+                    Cantidad:
+                    <span class="float-end">
+                        {% for item in cart %}
 
+                        {{ item.quantity }}
+                        {% endfor %}
+                    </span>
+                </p>
 
                                     {% if discount > 0 %}
                                     <p class="mb-2 text-success">
@@ -214,6 +227,7 @@
                                         <span class="float-end">
                                             -${{ discount|floatformat:2 }}
                                         </span>
+                                        
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">

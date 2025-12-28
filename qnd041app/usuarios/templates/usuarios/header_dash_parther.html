@@ -133,8 +133,69 @@ background: #282828;
 
 
 <ul class="navbar-nav align-items-center">
+ {% if cart|length > 0 %}
+  <li class="nav-item dropdown dropdown-large">
+  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+    <div class="position-relative">
+      
+        <span class="notify-badge"><button class="btn btn-primary" type="button" disabled=""> 
+                              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true">1</span>
+                    <span class="visually-hidden">Loading...</span>
+                  </button></span>
+     
+      <ion-icon name="browsers-outline"></ion-icon>
+    </div>
+  </a>
 
-  
+  <div class="dropdown-menu dropdown-menu-end">
+    <div class="msg-header d-flex align-items-center">
+      <p class="msg-header-title mb-0">
+         Software de Negocio
+      </p>
+      <p class="msg-header-clear ms-auto mb-0 text-primary">
+        {{ cart|length }} Pendientes
+      </p>
+    </div>
+
+    <div class="header-notifications-list">
+      {% for item in cart %}
+        <a class="dropdown-item" href="{% url 'saas_cart:cart_detail' %}">
+          <div class="d-flex align-items-center">
+            <div class="notify text-success">
+{% if item.product.category.slug == "business-law" %}
+ <ion-icon name="albums-outline"></ion-icon>
+{% elif item.product.category.slug == "business-analytics" %}
+  <ion-icon name="bar-chart-outline"></ion-icon>
+{% elif item.product.category.slug == "business-media" %}
+<ion-icon name="play-outline"></ion-icon>
+{% endif %}
+
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="msg-name">{{ item.product.name }}</h6>
+              <p class="msg-info">
+                Cantidad: {{ item.quantity }} &nbsp; — &nbsp;
+                Total: ${{ item.total_price }}
+              </p>
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        <div class="dropdown-item text-center text-muted small">
+          Tu carrito está vacío
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center msg-footer">
+      <p class="mb-1">
+        <strong>Valor total a pagar:</strong> ${{ cart.get_total_price }}
+      </p>
+
+    </div>
+  </div>
+</li>
+ {% endif %}
 
 <li class="nav-item dropdown dropdown-user-setting">
   <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
