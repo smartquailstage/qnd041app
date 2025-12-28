@@ -52,9 +52,9 @@ def cart_detail(request):
                 request.session['coupon_id'] = coupon.id
                 cart.coupon = coupon
                 cart.save()
-                message = "¡Cupón aplicado exitosamente!"
+                message = "¡Convenio aplicado exitosamente!"
             except Coupon.DoesNotExist:
-                message = "El cupón no es válido."
+                message = "El código no es válido."
         else:
             message = "Formulario no válido."
     else:

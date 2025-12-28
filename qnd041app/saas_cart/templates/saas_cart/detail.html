@@ -19,18 +19,18 @@
 
 
 
-<div class="card">
+<div class="card" style="background-color: #2e2e2e;">
   <div class="card-body p-4" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  background-color: #403c3c;
+  background-color: #2e2e2e;
   border-radius: 25px;">
 
-      <div class="shop-cart">
+      <div class="shop-cart" style="background-color: #2e2e2e;">
 
-            <ul class="nav nav-tabs mb-3" role="tablist">
+            <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
       <li class="nav-item" role="presentation">
         <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
           <div class="d-flex align-items-center">
@@ -45,7 +45,7 @@
                         <div class="col-12 col-xl-8">
 
                             										<div class="card border-0">
-											<div class="card-body" style="color:#fff">
+											<div class="card-body" style="color:#fff; background-color: #2e2e2e;">
 												<div class="steps steps-light">
 													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
@@ -70,12 +70,12 @@
 												</div>
 											</div>
 										</div>
-                            <div class="shop-cart-list">
+                            <div class="shop-cart-list" style="background-color: #2e2e2e;">
 
                                 {% for item in cart %}
                                 {% with product=item.product %}
                                 <div class="card mb-3">
-                                    <div class="card-body" style="color:#fff">
+                                    <div class="card-body" style="color:#fff; background-color: #2e2e2e;">
                                         <div class="row align-items-center g-3">
                                             <!-- Imagen y detalles del producto -->
                                             <div class="col-12 col-lg-6">
@@ -100,9 +100,8 @@
                                                 <div class="cart-action text-center">
                                                     <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
                                                         {% csrf_token %}
-                                                        {{ item.update_quantity_form.quantity }}
-                                                        {{ item.update_quantity_form.update }}
-                                                        <input type="submit" value="Update" class="btn btn-sm btn-outline-secondary ms-2">
+
+                                                       
                                                     </form>
                                                 </div>
                                             </div>
@@ -111,17 +110,11 @@
                                             <div class="col-12 col-lg-3">
                                                 <div class="text-center">
                                                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-primary btn-ecomm">
-                                                            <i class='bx bx-x-circle'></i>Remove
-                                                        </a>
-                                                        <a href="javascript:;" class="btn btn-outline-primary btn-ecomm">
-                                                            <i class='bx bx-heart mx-0'></i>
+                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
+                                                            <i class='bx bx-x-circle'></i>Eliminar
                                                         </a>
                                                     </div>
-                                                    <!-- Total por producto -->
-                                                    <p class="mt-2 mb-0 fw-bold">
-                                                        Total: ${{ item.total_price|floatformat:2 }}
-                                                    </p>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -131,14 +124,11 @@
                                 {% endfor %}
 
                                 <!-- Acciones globales del carrito -->
-                                <div class="card">
-                                    <div class="card-body" style="color:#fff">
+                                <div class="card" style="background-color: #2e2e2e;">
+                                    <div class="card-body" style="color:#fff; background-attachment: #2e2e2e;">
                                         <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
-                                                <i class='bx bx-shopping-bag'></i> Continue Shopping
-                                            </a>
-                                            <a href="#" class="btn btn-light btn-ecomm ms-auto">
-                                                <i class='bx bx-x-circle'></i> Clear Cart
+                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
+                                                <ion-icon name="search-outline"></ion-icon> Explorar más 
                                             </a>
                                         </div>
                                     </div>
@@ -148,18 +138,20 @@
                         </div>
 
                         <div class="col-12 col-xl-4">
-                            <div class="card">
+                            <div class="card" style="background-color: #2e2e2e;">
                                 <div class="card-body" style="color:#fff">
                                     <div class="card">
                                         <div class="card-body" style="color:#fff">
-                                            <p class="fs-5">Apply Discount Code</p>
                                             <form method="POST" action=".">
                                                 {% csrf_token %}
                                                 <div class="input-group">
-                                                    <input type="text" name="code" class="form-control" placeholder="Código de descuento" required>
-                                                    <button type="submit" class="btn btn-primary">Aplicar Cupón</button>
+                                                    <input type="text" name="code" class="form-control" placeholder="Aplicar Código Convenio" required>
+                                                    <button type="submit" class="btn btn-warning"><ion-icon name="arrow-redo-outline"></ion-icon></button>
+                                                    
                                                 </div>
+                                                
                                             </form>
+                                            <p style="font-size: 9px; margin-top: 5px;">* Si dispone de convenio con SmartQuail,Inc, escriba su codigo aquí</p>
                                             {% if message %}
                                             <div class="mt-2">
                                                 <p>{{ message }}</p>
@@ -171,7 +163,7 @@
                                     <!-- Muestra el estado del cupón -->
                                     {% if coupon %}
                                     <div class="my-3">
-                                        <p><strong>Cupón Aplicado:</strong> {{ coupon.code }}</p>
+                                        <p><strong>Cunvenio Aplicado:</strong> {{ coupon.code }}</p>
                                         <p><strong>Descuento:</strong> -${{ discount|floatformat:2 }}</p>
                                     </div>
                                     {% endif %}
@@ -179,7 +171,7 @@
                             </div>
 
                           
-                            <div class="card mb-0">
+                            <div class="card mb-0" style="background-color: #2e2e2e;">
                                 <div class="card-body" style="color:#fff">
                                     <!-- Mostrar Subtotal, IVA, y Totales -->
 {% for item in cart %}
@@ -218,14 +210,14 @@
 
                                     {% if discount > 0 %}
                                     <p class="mb-2 text-success">
-                                        Discount: 
+                                        Descuento: 
                                         <span class="float-end">
                                             -${{ discount|floatformat:2 }}
                                         </span>
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                        Order Total: 
+                                       Valor Total: 
                                         <span class="float-end">
                                             ${{ total_after_discount|floatformat:2 }}
                                         </span>
@@ -233,11 +225,11 @@
                                     {% else %}
                                     <!-- Si no hay descuento -->
                                     <p class="mb-2">
-                                        Discount: <span class="float-end">--</span>
+                                        Descuento: <span class="float-end">--</span>
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                        Order Total: 
+                                        Valor Total: 
                                         <span class="float-end">
                                             ${{ total|floatformat:2 }}
                                         </span>
@@ -248,8 +240,8 @@
 
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
-                                        <a href="{% url 'saas_orders:order_create' %}" class="btn btn-primary btn-ecomm">
-                                            Proceed to Checkout
+                                        <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
+                                           <ion-icon name="card-outline"></ion-icon> Realizar Pago <ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
                                 </div>
@@ -279,34 +271,6 @@
     <!-- start page content-->
     <div class="page-content">
 
-        <!--start breadcrumb-->
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Software As Products</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0 align-items-center">
-                        <li class="breadcrumb-item"></li>
-                        <li class="breadcrumb-item active" aria-current="page">Software Shopping Cart</li>
-                    </ol>
-                </nav>
-            </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary">Settings</button>
-                    <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                        <a class="dropdown-item" href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:;">Separated link</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--end breadcrumb-->
 
 
 
@@ -389,10 +353,10 @@
                                             <div class="col-12 col-lg-3">
                                                 <div class="text-center">
                                                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-primary btn-ecomm">
+                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
                                                             <i class='bx bx-x-circle'></i>Remove
                                                         </a>
-                                                        <a href="javascript:;" class="btn btn-outline-primary btn-ecomm">
+                                                        <a href="javascript:;" class="btn btn-outline-warning btn-ecomm">
                                                             <i class='bx bx-heart mx-0'></i>
                                                         </a>
                                                     </div>
@@ -412,7 +376,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-primary btn-ecomm">
+                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
                                                 <i class='bx bx-shopping-bag'></i> Ver más productos
                                             </a>
                                         </div>
