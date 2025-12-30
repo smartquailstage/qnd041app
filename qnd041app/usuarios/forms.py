@@ -67,6 +67,40 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
+    SECTOR_NEGOCIOS_CHOICES = [
+        ('G', 'Gastronómico'),
+        ('T', 'Turismo'),
+        ('Th', 'Tecnología'),
+        ('I', 'Industrial'),
+        ('AG', 'Agricola'),
+        ('I', 'Coorporativo'),
+        ('E', 'Educativo'),
+        ('A', 'Administrativo'),
+        ('A', 'Finaciero'),
+        ('M', 'Medico & Salud'),
+        ('C', 'Contructivo'),
+        ('Co', 'Comercial'),
+        ('L', 'Legal'),
+        ('ET', 'Entretenimiento'),
+        ('M', 'Marketing & Publicitario'),
+        ('GO', 'Gubernamental'),
+        ('ONG', 'Organicion sin fines de lucro'),
+        ('O', 'Otro'),
+    ]
+
+    sector_negocios = forms.ChoiceField(
+        label='Sector de negocios',
+        help_text='Elija el sector de negocio al que pertenece.',
+        choices=SECTOR_NEGOCIOS_CHOICES,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control select2',
+                'data-placeholder': 'Elija un sector',
+                }
+                )
+        )
+
+
     acepta_terminos = forms.BooleanField(
         label='He leído y acepto los términos y condiciones de SmartQuail, Inc.',
         required=True,

@@ -150,10 +150,10 @@ background: #282828;
   <div class="dropdown-menu dropdown-menu-end">
     <div class="msg-header d-flex align-items-center">
       <p class="msg-header-title mb-0">
-         Software de Negocio
+         Ordenes de Software
       </p>
       <p class="msg-header-clear ms-auto mb-0 text-primary">
-        {{ cart|length }} Pendientes
+        {{ cart|length }} Realizadas
       </p>
     </div>
 
@@ -174,7 +174,7 @@ background: #282828;
             <div class="flex-grow-1">
               <h6 class="msg-name">{{ item.product.name }}</h6>
               <p class="msg-info">
-                Cantidad: {{ item.quantity }} &nbsp; — &nbsp;
+                Licencias: {{ item.quantity }} &nbsp; — &nbsp;
                 Total: ${{ item.total_price }}
               </p>
             </div>

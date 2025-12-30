@@ -20,41 +20,83 @@
   font-size: 14px;
 }
 
+
+.braintree-field {
+  height: 45px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.braintree-field iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.braintree-field.braintree-hosted-fields-focused {
+  border-color: #66afe9;
+}
+
+.braintree-field.braintree-hosted-fields-invalid {
+  border-color: #e74c3c;
+}
+
+.braintree-field.braintree-hosted-fields-valid {
+  border-color: #2ecc71;
+}
+
+
+
 </style>
 
 <div class="page-content-wrapper">
           <!-- start page content-->
          <div class="page-content">
 
+                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                 Método de Pago
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
 
 <div class="product-more-info mt-4">
 
-    <ul class="nav nav-tabs mb-3" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title text-uppercase fw-500"><ion-icon name="card-outline"></ion-icon></div>
-          </div>
-        </a>
-      </li>
-    </ul>
 
 <div class="card">
   <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.2; background-color: #403c3c; border-radius: 25px;">
 
     <!-- Progreso de pasos -->
-    <div class="card border-0 bg-transparent">
-      <div class="card-body">
-        <div class="steps steps-light">
-          <a class="step-item active" href="#">
-            <div class="step-progress"><span class="step-count">1</span></div>
-          </a>
-
-          <a class="step-item active current"  href="#" ><div class="step-progress"><span class="step-count">3</span></div></a>
-          <a class="step-item"><div class="step-progress"><span class="step-count">4</span></div></a>
-        </div>
-      </div>
-    </div>
+                      <div class="card border-0">
+                      <div class="card-body" style="background-color: #2e2e2e;">
+                        <div class="steps steps-light">
+                          <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+                            <div class="step-progress"><span class="step-count">1</span></div>
+              
+                          </a>
+                          <a class="step-item active" href="#">
+                            <div class="step-progress"><span class="step-count">2</span></div>
+                         
+                          </a>
+                          <a class="step-item active" href="#">
+                            <div class="step-progress"><span class="step-count">3</span></div>
+                          
+                          </a>
+                          <a class="step-item item active current">
+                            <div class="step-progress"><span class="step-count">4</span></div>
+                           
+                          </a>
+                        </div>
+                      </div>
+                    </div>
 
     <!-- Checkout Section -->
     <section class="shop-page">
@@ -68,7 +110,7 @@
                     <div class="card">
                       <div class="card-header border-bottom" style="color:#fff">
                         <h2 class="h5 mb-0">
-                          <span class="step-count-circle">3</span> Método de Pago
+                         Método de Pago
                         </h2>
                         <p class="mt-2">
                           Por favor, seleccione el método de pago que considere más adecuado para realizar el abono correspondiente a los servicios de software y recursos contratados. Una vez confirmado el pago, se enviará a su correo electrónico los siguientes documentos:
@@ -95,40 +137,45 @@
 
                         <div class="tab-content pt-3" id="paymentTabsContent">
                           <!-- Tarjeta -->
-                  <div class="tab-pane fade show active" id="card" role="tabpanel">
-    <form id="payment" action="." method="post">
-        {% csrf_token %}
-        
-        <!-- Mostrar el token generado desde el backend -->
-    
+     <div class="tab-pane fade show active" id="card" role="tabpanel">
 
-                <div class="form-group">
-                  <label>Card Number</label>
-                  <div id="card-number"></div>
-                  <div class="help-block with-errors mt-20"></div>
-                </div>
-                
-                <div class="form-group">
-                  <div class="col-xs-4 pl-0">
-                    <label>CVV</label>
-                    <div id="cvv"></div>
-                    <div class="help-block with-errors mt-20"></div>
-                  </div>
-                  <div class="col-xs-4 pl-0">
-                    <label>Exp. Month</label>
-                    <div id="expiration-date"></div>
-                  </div>
-                </div>
+<form id="payment" action="." method="post">
+  {% csrf_token %}
 
+  <div class="form-group mb-3">
+    <label>Card Number</label>
+    <div id="card-number" class="braintree-field"></div>
+  </div>
 
-        <!-- Campo oculto para el nonce -->
-        <input type="hidden" name="payment_method_nonce" id="nonce">
+  <div class="row mb-3">
+    <div class="col-6">
+      <label>CVV</label>
+      <div id="cvv" class="braintree-field"></div>
+    </div>
 
-        <div class="d-grid">
-            <h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-            <input type="submit" value="Confirmar Pago" class="btn btn-primary btn-ecomm">
-        </div>
-    </form>
+    <div class="col-6">
+      <label>Expiration Date</label>
+      <div id="expiration-date" class="braintree-field"></div>
+    </div>
+  </div>
+
+  <!-- UN SOLO NONCE -->
+  <input type="hidden" id="nonce" name="payment_method_nonce">
+
+  <div class="d-grid">
+    <h5 class="mb-2">
+      Total a Pagar:
+      <span class="float-end">${{ order.get_total_cost }}</span>
+    </h5>
+    <input
+      type="submit"
+      class="btn btn-primary btn-ecomm"
+      value="Confirmar Pago"
+      disabled
+    >
+  </div>
+
+</form>
 </div>
 
 
@@ -187,147 +234,59 @@
   </div>
 
 
-{% endblock %}
+    <!-- Load the required client component. -->
+  <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
+  <!-- Load Hosted Fields component. -->
+  <script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
+  <script>
+    var form = document.querySelector('#payment');
+    var submit = document.querySelector('input[type="submit"]');
 
-{% block script %}
-<!-- Braintree SDK -->
-<!-- Load Braintree JS SDK -->
-<script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
-
-<script>
-  // Crea la instancia del cliente de Braintree con el client_token
-  braintree.client.create({
-    authorization: '{{ client_token }}'  <!-- Asegúrate de que client_token esté definido -->
-  }, function (clientErr, clientInstance) {
-    if (clientErr) {
-      console.error(clientErr);
-      return;
-    }
-
-    // Crea los Hosted Fields para mostrar los campos de pago
-    braintree.hostedFields.create({
-      client: clientInstance,
-      styles: {
-        'input': {
-          'font-size': '10px',  // Tamaño global de la fuente
-          'color': '#333',
-          'padding': '5px',
-          'background-color': '#fff',
-        },
-        'input.invalid': {'color': 'red'},
-        'input.valid': {'color': 'green'}
-      },
-      fields: {
-        number: {selector: '#card-number'},
-        cvv: {selector: '#cvv'},
-        expirationDate: {selector: '#expiration-date'}
-      }
-    }, function (hostedFieldsErr, hostedFieldsInstance) {
-      if (hostedFieldsErr) {
-        console.error(hostedFieldsErr);
+    braintree.client.create({
+      authorization: '{{ client_token }}'
+    }, function (clientErr, clientInstance) {
+      if (clientErr) {
+        console.error(clientErr);
         return;
       }
 
-      // Habilitar el botón de envío una vez que los campos estén listos
-      document.getElementById('submit-order').removeAttribute('disabled');
+      braintree.hostedFields.create({
+        client: clientInstance,
+        styles: {
+          'input': {'font-size': '13px'},
+          'input.invalid': {'color': 'red'},
+          'input.valid': {'color': 'green'}
+        },
+        fields: {
+          number: {selector: '#card-number'},
+          cvv: {selector: '#cvv'},
+          expirationDate: {selector: '#expiration-date'}
+        }
+      }, function (hostedFieldsErr, hostedFieldsInstance) {
+        if (hostedFieldsErr) {
+          console.error(hostedFieldsErr);
+          return;
+        }
 
-      // Manejar el envío del formulario
-      var form = document.querySelector('#payment');
-      form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Evitar el envío normal del formulario
+        submit.removeAttribute('disabled');
 
-        // Tokenizar los datos de la tarjeta usando los Hosted Fields
-        hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
-          if (tokenizeErr) {
-            console.error(tokenizeErr);
-            return;
-          }
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
 
-          // Establecer el nonce (token de pago) en el formulario antes de enviarlo
-          document.getElementById('nonce').value = payload.nonce;
-
-          // Enviar el formulario
-          form.submit();
-        });
+          hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+            if (tokenizeErr) {
+              console.error(tokenizeErr);
+              return;
+            }
+            // set nonce to send to the server
+            document.getElementById('nonce').value = payload.nonce;
+            // submit form
+            document.getElementById('payment').submit();
+          });
+        }, false);
       });
     });
-  });
-</script>
-
-
-
+  </script>
 
 {% endblock %}
 
-
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		let hostedFieldsInitialized = false;
-
-		function initBraintree() {
-			if (hostedFieldsInitialized) return;
-
-			braintree.client.create({
-				authorization: '{{ client_token }}'
-			}, function (clientErr, clientInstance) {
-				if (clientErr) {
-					console.error("Error creando cliente Braintree:", clientErr);
-					return;
-				}
-
-				braintree.hostedFields.create({
-					client: clientInstance,
-					styles: {
-						'input': {'font-size': '13px'},
-						'input.invalid': {'color': 'red'},
-						'input.valid': {'color': 'green'}
-					},
-					fields: {
-						number: { selector: '#card-number' },
-						cvv: { selector: '#cvv' },
-						expirationDate: { selector: '#expiration-date' }
-					}
-				}, function (hostedFieldsErr, hostedFieldsInstance) {
-					if (hostedFieldsErr) {
-						console.error("Error creando Hosted Fields:", hostedFieldsErr);
-						return;
-					}
-
-					hostedFieldsInitialized = true;
-					const form = document.getElementById('payment');
-					const submit = form.querySelector('input[type="submit"]');
-
-					form.addEventListener('submit', function (event) {
-						event.preventDefault();
-
-						hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
-							if (tokenizeErr) {
-								console.error("Error al tokenizar:", tokenizeErr);
-								alert("Verifica los datos de la tarjeta.");
-								return;
-							}
-
-							document.getElementById('nonce').value = payload.nonce;
-							form.submit();
-						});
-					});
-				});
-			});
-		}
-
-		// Escuchamos cuando se activa la pestaña de tarjeta
-		const cardTabTrigger = document.querySelector('[href="#card"]');
-		if (cardTabTrigger) {
-			cardTabTrigger.addEventListener('shown.bs.tab', function () {
-				setTimeout(initBraintree, 100);  // pequeña espera para asegurarse que es visible
-			});
-		}
-
-		// Si ya está activa al cargar
-		const cardTab = document.getElementById('card');
-		if (cardTab && cardTab.classList.contains('show')) {
-			initBraintree();
-		}
-	});
-</script>

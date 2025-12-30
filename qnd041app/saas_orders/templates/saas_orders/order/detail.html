@@ -30,45 +30,53 @@
   <div class="page-content">
 
 
+                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                 Pago de Orden de Software
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
+
+
     <!--end breadcrumb-->
 
     <!--start shop cart-->
     <section class="shop-page">
       <div class="shop-container">
         <div class="card shadow-sm border-0">
-              <ul class="nav nav-tabs mb-3" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title text-uppercase fw-500"><ion-icon name="pricetags-outline"></ion-icon></div>
-          </div>
-        </a>
-      </li>
-    </ul>
+  
     
-          <div class="card-body">
+          <div class="card-body" style="background-color: #2e2e2e;">
             <div class="shop-cart">
               <div class="row">
 
                 <!-- ============================= -->
                 <!--  COLUMNA IZQUIERDA - DETALLE -->
                 <!-- ============================= -->
-                <div class="col-12 col-xl-8">
+                <div class="col-12 col-xl-20">
                   <div class="checkout-details">
 
                     <!-- Steps -->
                     <div class="card border-0">
-                      <div class="card-body">
+                      <div class="card-body" style="background-color: #2e2e2e;">
                         <div class="steps steps-light">
                           <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
                             <div class="step-progress"><span class="step-count">1</span></div>
               
                           </a>
-                          <a class="step-item active current" href="#">
+                          <a class="step-item active" href="#">
                             <div class="step-progress"><span class="step-count">2</span></div>
                          
                           </a>
-                          <a class="step-item item ">
+                          <a class="step-item item active current">
                             <div class="step-progress"><span class="step-count">3</span></div>
                           
                           </a>
@@ -86,13 +94,10 @@
 
   <!-- Orden Activa -->
   <div class="card">
-    <div class="card-body">
+    <div class="card-body" style="background-color: #2e2e2e;">
 
       <!-- Usuario -->
       <div class="d-flex align-items-center mb-3">
-        <div>
-          <img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-        </div>
         <div class="ms-3">
           <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
           <p class="mb-0">{{ order.email }}</p>
@@ -103,24 +108,32 @@
 
       <!-- Título -->
       <h2 class="h5 mb-0">
-        <span class="step-count-circle">2</span> Detalle de Orden de Software
+         Detalle de Orden de Software
       </h2>
       <p class="mt-2">
-         Detalle completo de la orden generada. 
-        Verifique la información antes de proceder al pago.
+      <p><strong> Track ID de orden:</strong> #SQ02-ERP-120-00{{ order.id }}</p>
+      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
+      {% if order.coupon  %}
+      <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
+      {% else %}
+      <p><strong>Convenio:</strong> No registra</p>
+      {% endif %}
       </p>
 
       <div class="my-3 border-bottom"></div>
 
       <!-- Información de la orden -->
       <h5 class="mb-3">Información de la Orden</h5>
-      <p><strong>ID de orden:</strong> #{{ order.id }}</p>
+      <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
+      <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
+      <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
+      <p><strong>Contacto:</strong> {{ order.telefono }}</p>
       <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
 
       <hr>
 
       <!-- Productos adquiridos -->
-      <h5 class="mb-3">Productos Solicitados</h5>
+      <h5 class="mb-3">Software Solicitado</h5>
       <ul class="list-group bg-transparent">
         {% for item in order.items.all %}
         <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
@@ -137,7 +150,7 @@
 
       <!-- Total -->
       <h4 class="d-flex justify-content-between">
-        <span>Total a pagar:</span>
+        <span>Valor total de inversión:</span>
         <span>${{ order.get_total_cost }}</span>
       </h4>
 
@@ -146,8 +159,8 @@
       <!-- Botón de pago -->
       <div class="row">
         <div class="col-md-6">
-          <a href="{% url 'saas_payment:process' %}?order={{ order.id }}" class="btn btn-primary btn-ecomm w-100">
-            Proceder al Pago
+          <a href="{% url 'saas_payment:process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
+          <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
           </a>
         </div>
       </div>

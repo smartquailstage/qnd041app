@@ -30,6 +30,19 @@
           <!-- start page content-->
          <div class="page-content">
 
+                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                 Confirmación de Orden
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
 
 <div class="product-more-info mt-4">
 
@@ -41,19 +54,11 @@
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
     line-height: 1.2;
-    background-color: #403c3c;
+    background-color: #2e2e2e;
     border-radius: 25px;">
 
     <!-- Tabs -->
-    <ul class="nav nav-tabs mb-3" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title text-uppercase fw-500"><ion-icon name="pricetags-outline"></ion-icon></div>
-          </div>
-        </a>
-      </li>
-    </ul>
+
 
     <!-- Contenido de las Tabs -->
     <div class="tab-content pt-3">
@@ -92,7 +97,7 @@
 
               <hr>
 
-              <h2 class="h5 mb-0"> <span class="step-count-circle">2</span>Formulario de Facturación</h2>
+            
               <p>Una vez que complete el formulario y confirme la orden de software, recibirá en su correo electrónico un documento en formato PDF que incluirá los detalles de la orden de compra, los puntos de desarrollo acordados, y las políticas y términos de adquisición, para su conocimiento y registro institucional.</p>
               <div class="my-3 border-bottom"></div>
 
@@ -102,43 +107,30 @@
 
                   <!-- RUC -->
                   <div class="col-md-6">
-                    <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
+                    <label class="form-label" for="{{ form.ruc.id_for_label }}">Registro Fiscal (R.U.C) / Número de Identificacion (C.I) </label>
                     {{ form.ruc }}
                   </div>
 
                   <!-- Razon Social -->
                   <div class="col-md-6">
-                    <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización, Negocio o Marca</label>
+                    <label class="form-label" for="{{ form.razon_social.id_for_label }}">Razón Social / Nombre de titular de identificación</label>
                     {{ form.razon_social }}
                   </div>
 
                   <!-- Sector -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
-                    {{ form.sector }}
-                  </div>
-
-                  <!-- Teléfono -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.telefono.id_for_label }}">Teléfono</label>
-                    <div class="input-group">
-                      <span class="input-group-text">+593</span>
-                      {{ form.telefono }}
-                    </div>
-                    <small class="form-text text-muted">Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.</small>
-                  </div>
+          
 
                   <!-- Botones -->
                   <div class="col-md-6">
                     <div class="d-grid">
-                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Volver al carrito</a>
+                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de orden</a>
                     </div>
                   </div>
 
 
                   <div class="col-md-6">
                     <div class="d-grid">
-                      <input type="submit" value="{% trans 'Ordenar Software' %}" class="btn btn-primary btn-ecomm">
+                      <input type="submit" value="{% trans 'Confirmar Orden de Software' %}" class="btn btn-warning btn-ecomm">
                     </div>
                   </div>
                 </form>

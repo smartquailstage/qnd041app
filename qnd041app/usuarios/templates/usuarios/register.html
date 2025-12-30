@@ -105,6 +105,7 @@
 
 
 
+
   {% for field in user_form.visible_fields %}
     {% if field.name in "password password2" %}
       <div class="col-12">
@@ -127,6 +128,32 @@
       </div>
     {% endif %}
   {% endfor %}
+
+{% for field in user_form.visible_fields %}
+  {% if field.name == "sector_negocios" %}
+    <div class="col-12">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+      {% if user_form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class+="form-control is-invalid select2" %}
+        {% else %}
+          {% render_field field class+="form-control is-valid select2" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class+="form-control select2" %}
+      {% endif %}
+
+      {% for error in field.errors %}
+        <div class="invalid-feedback d-block">{{ error }}</div>
+      {% endfor %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endfor %}
 
   <!-- ========================== -->
   <!-- 📜 Sección: Términos y Suscripción -->

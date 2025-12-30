@@ -64,6 +64,8 @@ def order_create(request):
             order.first_name = user.first_name
             order.last_name = user.last_name
             order.email = user.email
+            order.telefono = user.telefono
+            order.sector = user.sector_negocios
             order.save()
 
             for item in cart:

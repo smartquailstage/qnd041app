@@ -18,6 +18,20 @@
 <div class="product-more-info mt-4">
 
 
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                  Verificación de Orden 
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
 
 <div class="card" style="background-color: #2e2e2e;">
   <div class="card-body p-4" style="color: #ededed;
@@ -30,15 +44,7 @@
 
       <div class="shop-cart" style="background-color: #2e2e2e;">
 
-            <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="tab-order" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title text-uppercase fw-500"><ion-icon name="cart-outline"></ion-icon></div>
-          </div>
-        </a>
-      </li>
-    </ul>
+
                     										
                     <div class="row">
 
@@ -91,6 +97,10 @@
                                                         <h5 class="mb-0">
                                                             ${{ item.price|floatformat:2 }}
                                                         </h5>
+
+                                                        <p class="mb-0">
+                                                           Usted esta ordenado {{ item.quantity }} licencia(s)
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,7 +121,7 @@
                                                 <div class="text-center">
                                                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
                                                         <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
-                                                            <i class='bx bx-x-circle'></i>Eliminar
+                                                            <i class='bx bx-x-circle'></i>Eliminar Orden
                                                         </a>
                                                     </div>
 
@@ -212,7 +222,7 @@
     {% endwith %}
 {% endfor %}
                 <p class="mb-2">
-                    Cantidad:
+                    Número de licencias:
                     <span class="float-end">
                         {% for item in cart %}
 
@@ -255,7 +265,7 @@
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
                                         <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
-                                           <ion-icon name="card-outline"></ion-icon> Realizar Pago <ion-icon name="chevron-forward-outline"></ion-icon>
+                                          Realizar Orden<ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
                                 </div>
