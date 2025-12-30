@@ -1,5 +1,5 @@
 {% extends "saas_shop/base3.html" %}
-
+{% load static %}
 {% block title %}Selecciona método de pago{% endblock %}
 
 {% block content %}
@@ -68,14 +68,14 @@
 
           </div>
 
-<div class="product-more-info mt-4">
+<div class="product-more-info mt-4" style="background-color: #2e2e2e;">
 
 
-<div class="card">
+<div class="card" style="background-color: #2e2e2e;">
   <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.2; background-color: #403c3c; border-radius: 25px;">
 
     <!-- Progreso de pasos -->
-                      <div class="card border-0">
+                      <div class="card border-0" style="background-color: #2e2e2e;">
                       <div class="card-body" style="background-color: #2e2e2e;">
                         <div class="steps steps-light">
                           <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
@@ -101,25 +101,23 @@
     <!-- Checkout Section -->
     <section class="shop-page">
       <div class="shop-container">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-0" style="background-color: #2e2e2e;">
           <div class="card-body">
             <div class="shop-cart">
               <div class="row">
                 <div class="col-12 col-xl-8">
                   <div class="checkout-details">
-                    <div class="card">
+                    <div class="card" style="background-color: #2e2e2e;">
                       <div class="card-header border-bottom" style="color:#fff">
                         <h2 class="h5 mb-0">
                          Método de Pago
                         </h2>
-                        <p class="mt-2">
-                          Por favor, seleccione el método de pago que considere más adecuado para realizar el abono correspondiente a los servicios de software y recursos contratados. Una vez confirmado el pago, se enviará a su correo electrónico los siguientes documentos:
-                        </p>
-                        <ul>
-                          <li><strong>Contrato de Propiedad Intelectual</strong></li>
-                          <li><strong>Contrato de Servicios de Desarrollo y Consultoría</strong></li>
-                          <li><strong>Contrato de Alquiler de Servicios en la Nube</strong></li>
-                        </ul>
+
+                                  <span class="bg-white rounded-0"><img src="{% static 'assets/images/icons/mastercard.png' %}" width="45" alt=""></span>
+    <span class="bg-white"><img src="{% static 'assets/images/icons/visa.png' %}" width="45" alt=""></span>
+    <span class="bg-white"><img src="{% static 'assets/images/icons/american-express.png' %}" width="45" alt=""></span>
+
+
                       </div>
                       <div class="card-body">
                         <!-- Tabs -->
@@ -144,8 +142,10 @@
 
   <div class="form-group mb-3">
     <label>Card Number</label>
-    <div id="card-number" class="braintree-field"></div>
+    <div id="card-number" class="braintree-field">
+      </div>
   </div>
+
 
   <div class="row mb-3">
     <div class="col-6">
@@ -169,7 +169,7 @@
     </h5>
     <input
       type="submit"
-      class="btn btn-primary btn-ecomm"
+      class="btn btn-warning btn-ecomm"
       value="Confirmar Pago"
       disabled
     >
@@ -211,6 +211,42 @@
                     </div>
                   </div>
                 </div>
+
+                          <div class="col-12 col-xl-4 d-flex">
+
+            
+            
+            <div class="card radius-10 overflow-hidden w-100">
+              <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 25px;">
+
+                            <div class="card radius-10 w-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h5 class="mb-0">Equipo SmartQuail Responsable</h5>
+                                    </div>
+
+                                    <!-- CONTENEDOR HORIZONTAL -->
+                                    <div class="d-flex gap-4 flex-wrap">
+                                    <p class="mt-2">
+                          Por favor, seleccione el método de pago que considere más adecuado para realizar el abono correspondiente a los servicios de software y recursos contratados. Una vez confirmado el pago, se enviará a su correo electrónico los siguientes documentos:
+                        </p>
+                        <ul>
+                          <li><strong>Contrato de Propiedad Intelectual</strong></li>
+                          <li><strong>Contrato de Servicios de Desarrollo y Consultoría</strong></li>
+                          <li><strong>Contrato de Alquiler de Servicios en la Nube</strong></li>
+                        </ul>
+                                    </div>
+                                    <!-- FIN CONTENEDOR HORIZONTAL -->
+
+                                </div>
+                            </div>
+
+
+
+
+              </div>
+            </div>
+          </div>
 
                 <!-- Order Summary -->
 
