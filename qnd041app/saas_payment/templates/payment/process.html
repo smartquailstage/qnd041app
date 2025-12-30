@@ -60,7 +60,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                 Método de Pago
+                 Pago de Licencias
                   </li>
                 </ol>
               </nav>
@@ -109,9 +109,7 @@
                   <div class="checkout-details">
                     <div class="card" style="background-color: #2e2e2e;">
                       <div class="card-header border-bottom" style="color:#fff">
-                        <h2 class="h5 mb-0">
-                         Método de Pago
-                        </h2>
+
 
                                   <span class="bg-white rounded-0"><img src="{% static 'assets/images/icons/mastercard.png' %}" width="45" alt=""></span>
     <span class="bg-white"><img src="{% static 'assets/images/icons/visa.png' %}" width="45" alt=""></span>
@@ -121,91 +119,145 @@
                       </div>
                       <div class="card-body">
                         <!-- Tabs -->
-                        <ul class="nav nav-tabs" id="paymentTabs" role="tablist">
-                          <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="card-tab" data-bs-toggle="tab" href="#card" role="tab">Tarjeta</a>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="paypal-tab" data-bs-toggle="tab" href="#paypal" role="tab">PayPal</a>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="bank-tab" data-bs-toggle="tab" href="#bank" role="tab">Transferencia</a>
-                          </li>
-                        </ul>
+<ul class="nav nav-pills mb-2 rounded bg-light-success" id="paymentTabs" role="tablist">
+
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active"
+            id="card-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#card"
+            type="button"
+            role="tab"
+            aria-controls="card"
+            aria-selected="true">
+      <ion-icon name="card-outline"></ion-icon>
+    </button>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <button class="nav-link"
+            id="paypal-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#paypal"
+            type="button"
+            role="tab"
+            aria-controls="paypal"
+            aria-selected="false">
+      <ion-icon name="logo-paypal"></ion-icon>
+    </button>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <button class="nav-link"
+            id="bank-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#bank"
+            type="button"
+            role="tab"
+            aria-controls="bank"
+            aria-selected="false">
+      <ion-icon name="shuffle-outline"></ion-icon>
+    </button>
+  </li>
+
+</ul>
+
 
                         <div class="tab-content pt-3" id="paymentTabsContent">
-                          <!-- Tarjeta -->
-     <div class="tab-pane fade show active" id="card" role="tabpanel">
 
-<form id="payment" action="." method="post">
-  {% csrf_token %}
+  <!-- Tarjeta -->
+  <div class="tab-pane fade show active"
+       id="card"
+       role="tabpanel"
+       aria-labelledby="card-tab">
 
-  <div class="form-group mb-3">
-    <label>Card Number</label>
-    <div id="card-number" class="braintree-field">
+    <form id="payment" action="." method="post">
+      {% csrf_token %}
+
+      <div class="form-group mb-3">
+        <label>Número de tarjeta de crédito</label>
+        <div id="card-number" class="braintree-field"></div>
       </div>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <label>CVV</label>
+          <div id="cvv" class="braintree-field"></div>
+        </div>
+
+        <div class="col-6">
+          <label>Expiración</label>
+          <div id="expiration-date" class="braintree-field"></div>
+        </div>
+      </div>
+
+      <input type="hidden" id="nonce" name="payment_method_nonce">
+
+      <div class="d-grid">
+        <h5 class="mb-2">
+          Total a Pagar:
+          <span class="float-end">${{ order.get_total_cost }}</span>
+        </h5>
+        <input
+          type="submit"
+          class="btn btn-warning btn-ecomm"
+          value="Confirmar Pago"
+          disabled>
+      </div>
+    </form>
   </div>
 
+  <!-- PayPal -->
+  <div class="tab-pane fade"
+       id="paypal"
+       role="tabpanel"
+       aria-labelledby="paypal-tab">
 
-  <div class="row mb-3">
-    <div class="col-6">
-      <label>CVV</label>
-      <div id="cvv" class="braintree-field"></div>
-    </div>
-
-    <div class="col-6">
-      <label>Expiration Date</label>
-      <div id="expiration-date" class="braintree-field"></div>
-    </div>
+    <form action="." method="post">
+      {% csrf_token %}
+      <p>Serás redirigido a PayPal para completar el pago.</p>
+      <div class="d-grid">
+        <h5 class="mb-0">
+          Total a Pagar:
+          <span class="float-end">${{ order.get_total_cost }}</span>
+        </h5>
+        <button type="submit" class="btn btn-warning btn-ecomm">
+          <ion-icon name="card-outline"></ion-icon> Pagar con PayPal
+        </button>
+      </div>
+    </form>
   </div>
 
-  <!-- UN SOLO NONCE -->
-  <input type="hidden" id="nonce" name="payment_method_nonce">
+  <!-- Transferencia -->
+  <div class="tab-pane fade"
+       id="bank"
+       role="tabpanel"
+       aria-labelledby="bank-tab">
 
-  <div class="d-grid">
-    <h5 class="mb-2">
-      Total a Pagar:
-      <span class="float-end">${{ order.get_total_cost }}</span>
-    </h5>
-    <input
-      type="submit"
-      class="btn btn-warning btn-ecomm"
-      value="Confirmar Pago"
-      disabled
-    >
+    <form action="." method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="token" class="form-label">Token de Transacción</label>
+        <input type="text"
+               name="token"
+               id="token"
+               class="form-control"
+               placeholder="Token generado por Kushki">
+      </div>
+      <div class="d-grid">
+        <h5 class="mb-0">
+          Total a Pagar:
+          <span class="float-end">${{ order.get_total_cost }}</span>
+        </h5>
+        <button type="submit" class="btn btn-success btn-ecomm">
+          <ion-icon name="card-outline"></ion-icon> Pagar por Transferencia
+        </button>
+      </div>
+    </form>
   </div>
 
-</form>
 </div>
 
-
-                          <!-- PayPal -->
-                          <div class="tab-pane fade" id="paypal" role="tabpanel">
-                            <form action='.' method="post">
-                              {% csrf_token %}
-                              <p>Serás redirigido a PayPal para completar el pago.</p>
-                              <div class="d-grid">
-								<h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-                                <button type="submit" class="btn btn-warning btn-ecomm"> <ion-icon name="card-outline"></ion-icon> Pagar con PayPal</button>
-                              </div>
-                            </form>
-                          </div>
-
-                          <!-- Transferencia Bancaria -->
-                          <div class="tab-pane fade" id="bank" role="tabpanel">
-                            <form action='.' method="post">
-                              {% csrf_token %}
-                              <div class="mb-3">
-                                <label for="token" class="form-label">Token de Transacción</label>
-                                <input type="text" name="token" id="token" class="form-control" placeholder="Token generado por Kushki">
-                              </div>
-                              <div class="d-grid">
-								    <h5 class="mb-0">Total a Pagar: <span class="float-end">${{ order.get_total_cost }}</span></h5>
-                                <button type="submit" class="btn btn-success btn-ecomm"><ion-icon name="card-outline"></ion-icon> Pagar por Transferencia</button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
                         <!-- End Tabs -->
                       </div>
                     </div>
@@ -222,7 +274,9 @@
                             <div class="card radius-10 w-100">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
-                                        <h5 class="mb-0">Equipo SmartQuail Responsable</h5>
+                                                                <h2 class="h5 mb-0">
+                         Método de Pago
+                        </h2>
                                     </div>
 
                                     <!-- CONTENEDOR HORIZONTAL -->
@@ -274,55 +328,80 @@
   <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
   <!-- Load Hosted Fields component. -->
   <script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
-  <script>
-    var form = document.querySelector('#payment');
-    var submit = document.querySelector('input[type="submit"]');
+<script>
+  var form = document.querySelector('#payment');
+  var submit = form.querySelector('input[type="submit"]');
 
-    braintree.client.create({
-      authorization: '{{ client_token }}'
-    }, function (clientErr, clientInstance) {
-      if (clientErr) {
-        console.error(clientErr);
+  braintree.client.create({
+    authorization: '{{ client_token }}'
+  }, function (clientErr, clientInstance) {
+
+    if (clientErr) {
+      console.error(clientErr);
+      return;
+    }
+
+    braintree.hostedFields.create({
+      client: clientInstance,
+      styles: {
+        'input': {
+          'font-size': '16px',
+          'color': '#333'
+        },
+        '::placeholder': {
+          'color': '#999'
+        },
+        'input.invalid': {
+          'color': 'red'
+        },
+        'input.valid': {
+          'color': '#ffc107'
+        }
+      },
+      fields: {
+        number: {
+          selector: '#card-number',
+          placeholder: 'XXXX XXXX XXXX XXXX'
+        },
+        cvv: {
+          selector: '#cvv',
+          placeholder: '123'
+        },
+        expirationDate: {
+          selector: '#expiration-date',
+          placeholder: 'MM / AA'
+        }
+      }
+    }, function (hostedFieldsErr, hostedFieldsInstance) {
+
+      if (hostedFieldsErr) {
+        console.error(hostedFieldsErr);
         return;
       }
 
-      braintree.hostedFields.create({
-        client: clientInstance,
-        styles: {
-          'input': {'font-size': '13px'},
-          'input.invalid': {'color': 'red'},
-          'input.valid': {'color': 'green'}
-        },
-        fields: {
-          number: {selector: '#card-number'},
-          cvv: {selector: '#cvv'},
-          expirationDate: {selector: '#expiration-date'}
-        }
-      }, function (hostedFieldsErr, hostedFieldsInstance) {
-        if (hostedFieldsErr) {
-          console.error(hostedFieldsErr);
-          return;
-        }
+      // Habilitar botón
+      submit.removeAttribute('disabled');
 
-        submit.removeAttribute('disabled');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-        form.addEventListener('submit', function (event) {
-          event.preventDefault();
+        hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
 
-          hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
-            if (tokenizeErr) {
-              console.error(tokenizeErr);
-              return;
-            }
-            // set nonce to send to the server
-            document.getElementById('nonce').value = payload.nonce;
-            // submit form
-            document.getElementById('payment').submit();
-          });
-        }, false);
-      });
+          if (tokenizeErr) {
+            console.error(tokenizeErr);
+            return;
+          }
+
+          // Asignar nonce
+          document.getElementById('nonce').value = payload.nonce;
+
+          // Enviar formulario
+          form.submit();
+        });
+      }, false);
     });
-  </script>
+  });
+</script>
 
 {% endblock %}
 
