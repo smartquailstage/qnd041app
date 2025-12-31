@@ -6,29 +6,40 @@ ENV NODE_VERSION=qnd041app
 ENV NODE_APP_NAME=qnd041app
 ENV USER=qnd111
 ENV VERSION=111
+ENV PATH="/py/bin:/scripts:$PATH"
 
-# Instalar Git y clonar repositorio
-RUN apk add --no-cache git
-ARG username=smartquailDev
-ARG password=ms1719183830
-RUN git clone https://github.com/smartquailstage/${NODE_VERSION}.git
+# Instalar dependencias básicas y build tools necesarias para uWSGI
+RUN apk add --no-cache \
+    build-base \
+    python3-dev \
+    libffi-dev \
+    musl-dev \
+    linux-headers \
+    jpeg-dev \
+    zlib-dev \
+    postgresql-dev \
+    postgresql-client \
+    curl \
+    wget \
+    fontconfig \
+    ttf-freefont \
+    font-noto \
+    busybox-extras \
+    gettext \
+    bash
 
-# Copiar archivos locales necesarios
+# Crear virtualenv e instalar pip
+RUN python3.11 -m venv /py && \
+    /py/bin/pip install --upgrade pip wheel setuptools
+
+# Copiar requerimientos y scripts
 COPY ./${VERSION}.txt /${VERSION}.txt
 COPY ./scripts /scripts
 COPY ./uwsgi_pro.ini /${NODE_VERSION}/${NODE_APP_NAME}/uwsgi_pro.ini
 COPY ./qnode_ascii-art.txt /${NODE_VERSION}/${NODE_APP_NAME}/qnode_art.txt
 
-WORKDIR /${NODE_VERSION}/${NODE_APP_NAME}
-EXPOSE 9000
-
-# Crear virtualenv, actualizar pip e instalar dependencias de Alpine
-RUN python3.11 -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
-    apk add --no-cache postgresql-client libffi-dev jpeg-dev zlib-dev wget \
-        fontconfig ttf-freefont font-noto terminus-font busybox-extras gettext \
-        build-base curl postgresql-dev gcc musl-dev python3-dev linux-headers && \
-    /py/bin/pip install -r /${VERSION}.txt
+# Instalar dependencias Python (uWSGI ahora compilará bien)
+RUN /py/bin/pip install -r /${VERSION}.txt
 
 # Crear usuario y carpetas necesarias
 RUN adduser --disabled-password --no-create-home ${USER} && \
@@ -45,7 +56,7 @@ RUN adduser --disabled-password --no-create-home ${USER} && \
                              /var/log/uwsgi && \
     chmod -R +x /scripts
 
-# Configuración de zona horaria y locales
+# Configurar zona horaria y locales
 RUN apk add --no-cache tzdata musl musl-utils musl-locales && \
     cp /usr/share/zoneinfo/America/Guayaquil /etc/localtime && \
     echo 'export LC_ALL=es_ES.UTF-8' >> /etc/profile.d/locale.sh && \
@@ -54,7 +65,9 @@ RUN apk add --no-cache tzdata musl musl-utils musl-locales && \
 ENV TZ=America/Guayaquil
 ENV LANG=es_ES.UTF-8
 ENV LANGUAGE=es_ES.UTF-8
-ENV PATH="/py/bin:/scripts:$PATH"
+
+WORKDIR /${NODE_VERSION}/${NODE_APP_NAME}
+EXPOSE 9000
 
 USER ${USER}
 
