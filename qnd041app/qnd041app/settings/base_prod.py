@@ -255,6 +255,7 @@ CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
 
+SERVICES_CART_SESSION_ID = 'services_cart'
 
 from usuarios.utils import permission_callback 
 
