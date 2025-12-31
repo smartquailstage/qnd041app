@@ -318,7 +318,7 @@ def is_all(request):
 
 
 UNFOLD = {
-    "SITE_TITLE": "SmartBusinessAnalytics® + AI +A +I+D     Enterprises Resource Planning",
+    "SITE_TITLE": "SmartBusinessAnalytics® (I+D), (+A) ,(AI)     Planificador de Recursos Empresariales.",
     "SITE_HEADER": "MEDDES",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",
@@ -328,7 +328,6 @@ UNFOLD = {
     "SITE_DROPDOWN": [
         {"icon": "person", "title": _("Usuarios(AUTH)"), "link": reverse_lazy("admin:auth_user_changelist")},
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
-        {"icon": "people", "title": _("Administrativos"), "link": reverse_lazy("admin:usuarios_administrativeprofile_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
         
@@ -355,7 +354,7 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
-    "LOGIN": {  "image": lambda request: static("img/BA-BG/test2.jpg"),
+    "LOGIN": {  "image": lambda request: static("img/login_analytics2.png"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
                 },
