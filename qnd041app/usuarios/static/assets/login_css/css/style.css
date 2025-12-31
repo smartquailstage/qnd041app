@@ -1359,7 +1359,7 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("../images/authentication/au-sign-up-basic.png");
+    background-image: url("../images/login_bg.png");
     background-position: center;
     background-size: cover;
     width: 100%;
