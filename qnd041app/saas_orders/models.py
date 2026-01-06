@@ -53,7 +53,7 @@ class SaaSOrder(models.Model):
     message="Ingrese solo los 9 dígitos del número de teléfono, sin el prefijo +593."
     )
 
-    telefono = models.CharField(validators=[phone_regex], max_length=9)
+    telefono = models.CharField(validators=[phone_regex], max_length=15)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")
