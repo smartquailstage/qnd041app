@@ -7,27 +7,25 @@
             <div class="row">
                 <div class="col-12 d-flex">
                     <div class="card radius-10 w-100">
+                          <h5 class="mb-0"> <ion-icon name="list"></ion-icon> Resumen de cuenta</h5>
                         <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px; color: #eca04a;">
-
+                           
                             <!-- Encabezado y búsqueda -->
                             <div class="d-flex align-items-center mb-3">
-                                <h5 class="mb-0"> <ion-icon name="list"></ion-icon> Resumen de cuenta</h5>
+                               
                                 <form method="get" class="ms-auto d-flex align-items-center position-relative" style="max-width: 300px;">
                                     <!-- Ícono dentro del input -->
-                                    <div class="position-absolute top-50 translate-middle-y ps-3">
-                                        <ion-icon name="search-sharp"></ion-icon>
-                                    </div>
                                     <!-- Input -->
                                     <input 
-                                        class="form-control ps-5" 
+                                        class="form-control" 
                                         type="text" 
                                         name="search" 
-                                        placeholder="Buscar por empresa, RUC o servicio" 
+                                        placeholder="Buscar por servicio" 
                                         value="{{ search }}"
                                         style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
                                     <!-- Botón -->
                                     <button type="submit" class="btn btn-warning" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                                        Buscar
+                                       <ion-icon name="search-sharp"></ion-icon>
                                     </button>
                                 </form>
                             </div>
@@ -58,7 +56,7 @@
                                                 {% elif order.pago_verificado %}
                                                     <span class="badge bg-danger">Vencido</span>
                                                 {% else %}
-                                                    <span class="badge bg-warning text-dark"><ion-icon name="alert-circle-outline"></ion-icon> Pendiente</span>
+                                                    <span class="spinner-border spinner-border-sm text-warning"></span> <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}" class="text-primary">Pendiente </a> 
                                                 {% endif %}
                                             </td>
                                             <td> <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}" class="text-primary">
