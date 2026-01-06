@@ -376,21 +376,23 @@ def user_login(request):
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                messages.error(request, "❌ No existe ningún usuario registrado con ese correo electrónico.")
+                messages.error(request, "No existe una cuenta asociada a ese correo electrónico."
+                "Por favor, verifique la dirección ingresada.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
             # Autenticar
             user_auth = authenticate(request, username=user.email, password=password)
             if user_auth is None:
-                messages.error(request, "⚠️ La contraseña no corresponde al usuario registrado.")
+                messages.error(request, "La contraseña ingresada no coincide con el usuario registrado."
+                "Por favor, verifique la información.")
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
             # Validar si está activo
             if not user_auth.is_active:
                 messages.warning(
                     request,
-                    "⚠️ Su cuenta todavía no ha sido activada. "
-                    "Por favor revise su correo o contacte al administrador del sistema."
+                    "Su cuenta todavía no ha sido activada. "
+                    "En caso de no haber recibido el mensaje con el botón de activación, le recomendamos revisar su buzón de spam."
                 )
                 return render(request, 'registration/editorial_literario/login.html', {'form': form})
 
@@ -406,7 +408,7 @@ def user_login(request):
             user_ip = request.META.get('REMOTE_ADDR', 'IP no disponible')
             enviar_correo_login.delay(user_auth.id, fecha_hora, user_ip)
 
-            messages.success(request, f"✅ Bienvenido, {user_auth.first_name or user_auth.email}")
+            messages.success(request, f"Gracias {user_auth.first_name or user_auth.email}, por dedicar un tiempo a nuestra plataforma de negocios inteligentes,")
 
             # ================================
             # 🔥 Redirección inteligente

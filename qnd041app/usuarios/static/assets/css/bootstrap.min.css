@@ -3257,7 +3257,7 @@ textarea.form-control-lg {
   text-align: inherit;
   text-decoration: none;
   white-space: nowrap;
-  background-color: #444040;
+  background-color: #282828;
   border: 0;
     border-bottom-width: 0px;
     border-bottom-style: none;
@@ -3979,7 +3979,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 --bs-card-color: #ffab4d;
-  --bs-card-bg: #444040;
+  --bs-card-bg: #2e2e2e;
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
