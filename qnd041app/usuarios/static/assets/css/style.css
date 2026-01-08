@@ -121,8 +121,10 @@ position: fixed;
 }
 
 .sidebar-wrapper .sidebar-header .logo-icon {
-  width: 40px;
+  width: 30px;
 }
+
+
 
 .sidebar-wrapper .sidebar-header .logo-text {
   font-size: 22px;

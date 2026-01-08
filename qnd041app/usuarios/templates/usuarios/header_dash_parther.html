@@ -9,7 +9,7 @@
 
 
 .ticker-container {
-background: #282828;
+background: #2e2e2e;
   border-radius: 8px;
   padding: 12px;
   width: 100%;
@@ -204,7 +204,7 @@ background: #282828;
       {% if request.user.profile.photo %}
         <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="{{ request.user.get_full_name }}">
       {% else %}
-        <img src="{% static 'assets/images/login_bg/Sello2.png' %}" class="user-img" style="width:30px;" alt="Foto por defecto">
+        <img src="{% static 'assets/images/default.png' %}" class="user-img" style="width:30px;" alt="Foto por defecto">
       {% endif %}
     </div>
   </a>
@@ -218,12 +218,6 @@ background: #282828;
     <li>
       <a class="dropdown-item" href="{% url 'usuarios:dashboard_pather' %}">
         <div class="d-flex flex-row align-items-center gap-2">
-        
-          {% if request.user.profile.photo %}
-              <img src="{{ request.user.profile.photo.url }}" alt="{{ request.user.get_full_name }}" class="rounded-circle" width="44" height="44">
-          {% else %}
-              <img src="{% static 'assets/images/login_bg/Sello2.png' %}" alt="Foto por defecto" class="rounded-circle" width="44" height="44">
-          {% endif %}
           <div>
               <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
           </div>
