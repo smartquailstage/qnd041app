@@ -49,11 +49,15 @@ class SaaSOrder(models.Model):
     razon_social = models.CharField(_('Razón Social'), max_length=200,null=True, blank=True)
     sector = models.CharField(_('Sector de Negocios'), max_length=100, choices=SECTORES,null=True, blank=True)
     phone_regex = RegexValidator(
-    regex=r'^\d{9,15}$',
-    message="Ingrese solo los 9 dígitos del número de teléfono, sin el prefijo +593."
+        regex=r'^\+?593?\d{9,15}$',
+        message="El número de teléfono debe estar en formato internacional. Ejemplo: +593XXXXXXXXX."
     )
-
-    telefono = models.CharField(validators=[phone_regex], max_length=15)
+    telefono = PhoneNumberField(
+        verbose_name="Teléfono convencional de contacto",
+        validators=[phone_regex],
+        default='+593',
+        unique=True  # quitar la restricción
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")

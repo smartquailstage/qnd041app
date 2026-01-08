@@ -546,7 +546,7 @@ def editar_perfil(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect("mi_perfil")
+            return redirect('usuarios:profile_view')
     else:
         form = ProfileForm(instance=profile)
 

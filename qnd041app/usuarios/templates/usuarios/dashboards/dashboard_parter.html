@@ -10,230 +10,64 @@
   <!-- start page content-->
   <div class="page-content">
 
-  <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="cloud-download-outline"></ion-icon> Proyectos de Negocios ITC </h2>
+  {% if all_projects or projects_in_progress %}
 
-  </div>
-  
-    <div class="card radius-10">
-      <div class="card-body">
+<div class="card radius-10">
+  <div class="card-body">
 
-{% if all_projects or projects_in_progress %}
-
+    {# ================= PROYECTOS COMPLETADOS ================= #}
     {% for project in all_projects %}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
 
-        <!-- 🔵 1 — Estado del Proyecto -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white"> Meddes® (I+D)+A</p>
-                            <h4 class="mb-0 text-white">Activo</h4>
-                            <p class="mb-1 text-white"> <ion-icon name="shield-checkmark-sharp"></ion-icon> app.meddes.com.ec </p>
-                        </div>
-                        <div class="ms-auto text-white fs-2">
-                            <button class="btn btn-primary" type="button" disabled=""> 
-                              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                    <span class="visually-hidden">Loading...</span>
-                  </button>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Producción)</p>
-                    <div class="progress my-0" style="height: 6px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                </div>
+      <!-- 🔵 Estado del Proyecto -->
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">Activo</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar bg-success"
+                   style="width: {{ project.progress }}%"></div>
             </div>
+          </div>
         </div>
-
-        <!-- 🟣 2 — Uso de Recursos Cloud -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Latencia Max (100 usuarios)</p>
-                            <h4 class="mb-0 text-white">814 ms </h4>
-                            <p class="mb-1 text-white"> <ion-icon name="checkmark-done-outline"></ion-icon> última revision: 07/11/25 </p>
-                        </div>
-                        <div class="ms-auto text-white fs-2">
-                            <ion-icon name="wifi-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                                        <p class="mb-0 text-white"><strong>Uso de recursos:</strong> 30% (1000 Mbs/sec)</p>
-                    <div class="progress my-0" style="height: 6px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 🟢 3 — Seguridad y Monitoreo -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Almacenamiento  <ion-icon name="shield-checkmark-sharp"></ion-icon> </p>
-                            <h4 class="mb-0 text-white">25 GB </h4>
-                               <p class="mb-1 text-white"> <ion-icon name="sync-outline"></ion-icon> Respaldo: 2:00 am / 24hs</p>
-                        </div>
-                        <div class="ms-auto text-white fs-2">
-                           <ion-icon name="server-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Uso de recurso Bucket:</strong> 5% (5 GB)</p>
-                    <div class="progress my-0" style="height: 6px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ⚫ 4 — Estado de Pago -->
-          <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Unidad de Procesamiento (vCPU) </p>
-                            <h4 class="mb-0 text-white">1000m </h4>
-                               <p class="mb-1 text-white"><ion-icon name="cloud-upload-outline"></ion-icon> Servidor Público Dedicado</p>
-                        </div>
-                        <div class="ms-auto text-white fs-2">
-                           <ion-icon name="hardware-chip-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Uso de recurso vCPU:</strong> 95% (978m)</p>
-                    <div class="progress my-0" style="height: 6px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                </div>
-            </div>
-        </div>
+      </div>
 
     </div>
     {% endfor %}
 
+    {# ================= PROYECTOS EN PROGRESO ================= #}
     {% for project in projects_in_progress %}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
 
-        <!-- 🔵 1 — Estado del Proyecto -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">{{ project.name }}</p>
-                            <h4 class="mb-0 text-white">En Progreso</h4>
-                             <p class="mb-1 text-white">qnd031app.smartquail.io</p>
-                        </div>
-                        <div class="ms-auto text-warning fs-2">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Desarollo)</p>
-                    <div class="progress mb-3" style="height:7px;">
-									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-                </div>
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">En Progreso</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress mb-3" style="height:7px;">
+              <div class="progress-bar bg-warning"
+                   style="width: {{ project.progress }}%"></div>
             </div>
+          </div>
         </div>
+      </div>
 
-        <!-- 🟣 2 — Cloud -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Calculando Latencia</p>
-                            <h4 class="mb-0 text-white">En Pruebas QA</h4>
-                             <p class="mb-1 text-white">Preparando Balanceador de carga</p>
-                        </div>
-                        <div class="ms-auto text-warning fs-2">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Geolocalizando)</p>
-                    <div class="progress mb-3" style="height:7px;">
-									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 🟢 3 — Seguridad -->
-        <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Alojando Base de datos</p>
-                            <h4 class="mb-0 text-white">En Implementación</h4>
-                             <p class="mb-1 text-white">Arbol de Datos</p>
-                        </div>
-                        <div class="ms-auto text-warning fs-2">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Desarollo)</p>
-                    <div class="progress mb-3" style="height:7px;">
-									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ⚫ 4 — Estado de Pago -->
-                <div class="col">
-            <div class="card radius-10 bg-primary">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-1 text-white">Buscando Servidores Disponibles</p>
-                            <h4 class="mb-0 text-white">En Pruebas QA</h4>
-                             <p class="mb-1 text-white">Optimización de Recursos</p>
-                        </div>
-                        <div class="ms-auto text-warning fs-2">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
-                        </div>
-                    </div>
-                    <hr class="text-white">
-                    <p class="mb-0 text-white"><strong>Progreso:</strong> {{ project.progress }}% (Desarollo)</p>
-                    <div class="progress mb-3" style="height:7px;">
-									<div class="progress-bar bg-warning" role="progressbar" style="width: {{ project.progress }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-                </div>
-            </div>
-        </div>
     </div>
     {% endfor %}
 
-{% else %}
-
-    <!-- SIN PROYECTOS -->
-    <div class="alert alert-warning text-center">
-        No tienes proyectos creados.
-        <br>
-        <a href="{% url 'business_customer_projects:create_project' %}" class="btn btn-primary mt-2">
-            Crear Proyecto
-        </a>
-    </div>
+  </div>
+</div>
 
 {% endif %}
-
-
-      </div>
-    </div>
 
     <div class="col-md-8">
     <h2 class="display-4 mt-3"> <ion-icon name="cloud-upload-outline"></ion-icon> Soluciones para Negocios ITC</h2>
