@@ -12,22 +12,20 @@
 
 {% block content %}
 
+<style>
+.top-50 {
+  top: clamp(10%, 19%, 30%) !important;
+}
 
-
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-          
-
+</style>
 
 
 
 <div class="row">
   <div class="col-lg-8 mx-auto">
 
-    <div class="card radius-10">
-      <div class="card-body" style="background-color: #9e191b;">
+    <div class="card radius-10 top-50">
+      <div class="card-body" style="background-color: #2e2e2f;">
 
            
         <form method="POST" enctype="multipart/form-data">
@@ -54,14 +52,14 @@
       {{ form.photo|add_class:"d-none"|attr:"id:id_photo" }}
     </div>
 
-    <button type="button" id="btnCambiarFoto" class="btn btn-outline-primary btn-sm radius-30 px-4">
+    <button type="button" id="btnCambiarFoto" class="btn btn-outline-warning btn-sm radius-30 px-4">
      <ion-icon name="person-circle-outline"></ion-icon> Selecione su foto de perfil
     </button>
   </div>
 
   <!-- Columna derecha: AI Agent -->
   <div class="col-md-8">
-    <h4 class="display-4 mt-3"><ion-icon name="chatbox-ellipses-outline"></ion-icon> AI Agent SmartQuail, Inc</h4>
+    <h4 class="display-4 mt-3"><ion-icon name="chatbox-ellipses-outline"></ion-icon></h4>
     <p id="typewriter" style="color:#fff;">
       
     </p>
@@ -127,11 +125,11 @@
 
           <!-- BOTÓN GUARDAR -->
 <div class="text-start mt-3 d-flex gap-3">
-  <a href="{% url 'usuarios:logout' %}" class="btn btn-outline-primary px-4">
+  <a href="{% url 'usuarios:logout' %}" class="btn btn-outline-warning px-4">
     <ion-icon name="log-out-outline"></ion-icon> Cerrar Sesión
   </a>
 
-  <button type="submit" class="btn btn-outline-primary px-4">
+  <button type="submit" class="btn btn-outline-warning px-4">
     Continuar <ion-icon name="arrow-forward-outline"></ion-icon>
   </button>
 </div>
@@ -146,11 +144,6 @@
 
 
 
-  </div>
-
-
-
-</div>
 
 
              
@@ -203,9 +196,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
    
-    const text_start = `Hola, soy el agente de IA de SmartQuail. Para brindarte acceso a nuestras demostraciones y ayudarte a explorar los aspectos técnicos y tecnológicos de nuestros productos, necesitamos conocer un poco más sobre tus necesidades e iniciativas o proyectos de negocio tecnológico.
+    const text_start = `Hola, soy el agente de Inteligencia Artificial de SmartQuail, Inc.
 
-Te invitamos cordialmente a completar el siguiente formulario. ¡Gracias por tu interés!`;
+Queremos ayudarte a descubrir cómo nuestras soluciones pueden impulsar tus proyectos tecnológicos. Para darte acceso a nuestras demostraciones y ofrecerte una experiencia personalizada, necesitamos conocer mejor tus necesidades, objetivos e iniciativas de negocio.Te invitamos a completar el siguiente formulario.`;
     typeWriterEffect("typewriter", text_start, 35);
 
 

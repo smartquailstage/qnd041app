@@ -1,4 +1,4 @@
-{% extends "base_dash.html" %}
+{% extends "base_dash_parther.html" %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -82,44 +82,67 @@
   </div>
 
 
-         <div class="row row-cols-1 row-cols-lg-3">
-              <div class="col">
-               <div class="card radius-10">
-                 <div class="card-body">
-                  <img src="assets/images/cards/15.png" class="img-fluid radius-10" alt="...">
-                  <div class="text-center mt-4">
-                    <h5 class="card-title">Fire Up Your Motivation</h5>
-                    <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                    <a href="component-cards.html#" class="btn btn-dark px-4 radius-10">Read More</a>
-                  </div>
-                 </div>
-               </div>
-              </div>
-              <div class="col">
-                <div class="card radius-10">
-                  <div class="card-body">
-                   <img src="assets/images/cards/16.png" class="img-fluid radius-10" alt="...">
-                   <div class="text-center mt-4">
-                     <h5 class="card-title">Fire Up Your Motivation</h5>
-                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                     <a href="component-cards.html#" class="btn btn-warning px-4 radius-10">Read More</a>
-                   </div>
-                  </div>
-                </div>
-               </div>
-               <div class="col">
-                <div class="card radius-10">
-                  <div class="card-body">
-                   <img src="assets/images/cards/17.png" class="img-fluid radius-10" alt="...">
-                   <div class="text-center mt-4">
-                     <h5 class="card-title">Fire Up Your Motivation</h5>
-                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                     <a href="component-cards.html#" class="btn btn-info px-4 radius-10">Read More</a>
-                   </div>
-                  </div>
-                </div>
-               </div>
-           </div>
+       <div class="row row-cols-1 row-cols-lg-3 g-4">
+
+  {% for noticia in noticias|slice:":3" %}
+  <div class="col">
+
+    <div class="card radius-10 h-100 position-relative overflow-hidden">
+
+      <!-- Imagen -->
+      {% if noticia.imagen_portada %}
+        <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+          <img src="{{ noticia.imagen_portada.url }}"
+               class="img-fluid radius-10 w-100"
+               style="object-fit: cover; min-height: 260px;"
+               alt="{{ noticia.titulo_1 }}">
+        </a>
+      {% else %}
+        <img src="{% static 'assets/images/placeholder.png' %}"
+             class="img-fluid radius-10 w-100"
+             style="object-fit: cover; min-height: 260px;"
+             alt="Sin imagen">
+      {% endif %}
+
+      <!-- Overlay -->
+      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+        <div class="position-absolute top-50 start-0 translate-middle-y
+                    text-white p-4 w-100"
+             style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
+
+          <h5 class="card-title mb-2">
+            {{ noticia.titulo_1 }}
+          </h5>
+
+          <p class="mb-1" style="font-size: 11px;">
+            {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
+          </p>
+
+          {% if noticia.categoria %}
+            <p class="mb-1 text-uppercase" style="font-size: 11px;">
+              {{ noticia.categoria }}
+            </p>
+          {% endif %}
+
+          {% if noticia.cuerpo_1 %}
+            <p class="card-text mt-2">
+              {{ noticia.cuerpo_1|truncatewords:20 }}
+            </p>
+          {% endif %}
+
+        </div>
+      </a>
+
+    </div>
+  </div>
+  {% empty %}
+    <div class="col-12 text-center">
+      <p>No hay noticias disponibles en este momento.</p>
+    </div>
+  {% endfor %}
+
+</div>
+
       </div>
     </div>
 

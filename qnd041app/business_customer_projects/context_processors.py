@@ -1,26 +1,42 @@
 from .models import BusinessSystemProject
+from saas_orders.models import SaaSOrder
+
 
 def business_projects_context(request):
-    # Si no está autenticado, devolver vacío
+    # Usuario no autenticado → no hay datos
     if not request.user.is_authenticated:
         return {
             'all_projects': [],
             'projects_in_progress': [],
         }
 
-    # Todos los proyectos del usuario
+    # Verificar si el usuario tiene una orden activa
+    has_active_order = SaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True  # ajusta este campo si es distinto
+    ).exists()
+
+    # Si NO tiene orden activa → no exponer proyectos
+    if not has_active_order:
+        return {
+            'all_projects': [],
+            'projects_in_progress': [],
+        }
+
+    # Proyectos del usuario
     user_projects = BusinessSystemProject.objects.filter(user=request.user)
 
-    # Completados
+    # Proyectos completados
     completed_projects = user_projects.filter(progress=100)
 
-    # En progreso
-    in_progress = user_projects.exclude(progress=100)
+    # Proyectos en progreso
+    in_progress_projects = user_projects.exclude(progress=100)
 
     return {
         'all_projects': completed_projects,
-        'projects_in_progress': in_progress,
+        'projects_in_progress': in_progress_projects,
     }
+
 
 
 
@@ -61,3 +77,15 @@ def pending_payment_orders_total(request):
         "pending_orders_count": pending_orders.count(),
     }
 
+
+
+from .models import Noticia
+
+def noticias_context(request):
+    noticias = Noticia.objects.filter(activa=True).select_related(
+        'categoria'
+    )
+
+    return {
+        'noticias': noticias
+    }

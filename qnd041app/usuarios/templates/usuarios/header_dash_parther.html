@@ -117,12 +117,12 @@ background: #282828;
     
 
 
-
+{% if all_projects or projects_in_progress %} 
 
                      <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
             <ion-icon name="card-outline"></ion-icon> ${{ pending_orders_total|floatformat:2 }}
           </p>
-
+{% endif %}
 
 
 </ul>
@@ -234,7 +234,7 @@ background: #282828;
     <li><hr class="dropdown-divider"></li>
 
     <!-- 🔥 NUEVA SECCIÓN DE PROYECTOS -->
-    
+    {% if all_projects or projects_in_progress %} 
     {% if projects_in_progress %}
       <li class="dropdown-header text-warning ps-3">ITC Business Project</li>
       {% for project in projects_in_progress %}
@@ -270,6 +270,7 @@ background: #282828;
       </li>
       <li><hr class="dropdown-divider"></li>
     {% endif %}
+     {% endif %}
 
     <!-- Configuración -->
     <li>
