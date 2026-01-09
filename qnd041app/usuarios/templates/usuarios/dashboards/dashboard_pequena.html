@@ -16,11 +16,75 @@
   </div>
 
 
-    <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones Negocios ITC</h2>
-    <p>Ingresa a cada opcion para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio. <ion-icon name="chevron-forward-outline"></ion-icon> </p>
+   {% if all_projects or projects_in_progress %}
+
+<div class="card radius-10">
+  <div class="card-body">
+
+    {# ================= PROYECTOS COMPLETADOS ================= #}
+    {% for project in all_projects %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+      <!-- 🔵 Estado del Proyecto -->
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">Activo</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar bg-success"
+                   style="width: {{ project.progress }}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
+    {# ================= PROYECTOS EN PROGRESO ================= #}
+    {% for project in projects_in_progress %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">En Progreso</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress mb-3" style="height:7px;">
+              <div class="progress-bar bg-warning"
+                   style="width: {{ project.progress }}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
   </div>
+</div>
+
+{% endif %}
   <hr>
+       <div class="col-md-8">
+    <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones Negocios ITC</h2>
+    <p>Ingresa a cada opción para explorar las demostraciones y conocer en detalle la metodología que utilizamos para diseñar e implementar soluciones personalizadas para tu proyecto o negocio. </p>
+   <p>Si deseas acceder a opciones avanzadas, ingresa a tu <a href="{% url 'usuarios:editar_perfil' %}"><ion-icon name="person-circle-outline"></ion-icon> perfil de usuario</a>  y asegúrate de configurar o actualizar el tamaño de tu empresa, para habilitar más funcionalidades.</p>
+  
+  </div> 
+  </div>
+
+
+  
     <div class="card radius-10">
       <div class="card-body">
 <div class="row row-cols-1 row-cols-lg-3">
@@ -32,7 +96,7 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="browsers-outline"></ion-icon>
                    </div>
-                   <h5>Business Software</h5>
+                   <h5>Software</h5>
                    <p class="mb-0">
                    Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
                    Relaciones con Clientes (CRM).
@@ -50,7 +114,7 @@
                    <div class="service-box bg-white text-primary">
                    <ion-icon name="grid-outline"></ion-icon>
                    </div>
-                   <h5>Business Platforms  </h5>
+                   <h5>Plataformas </h5>
                    <p class="mb-0">
                     Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
                    </p>
@@ -66,7 +130,7 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="cube-outline"></ion-icon>
                    </div>
-                   <h5>Business Infrastructure</h5>
+                   <h5>Infraestructura</h5>
                    <p class="mb-0">
                     Adquiere independencia y soberanía digital con tu propia infraestructura en la nube, totalmente configurada para gestionar tus procesos sin depender de servidores públicos dedicados.
                     </p>
@@ -77,13 +141,13 @@
 
 
          </div>
-
+  <hr>
   <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación Negocios ITC </h2>
-     <p>Explore todas la documentacion recomendada <ion-icon name="chevron-forward-outline"></ion-icon> </p>
-    
+    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación ITC </h2>
+    <p>Accede a la documentación especializada sobre Negocios Inteligentes ITC, con información relevante para Ecuador y mercados internacionales. Consulta además la documentación técnica y funcional de todas  soluciones tecnológicas de SmartQuail, Inc., disponible desde la plataforma.</p>
   </div>
- <hr>
+
+
 <div class="row row-cols-1 row-cols-lg-3 g-4">
 
   {% for noticia in noticias|slice:":3" %}
@@ -144,9 +208,11 @@
   {% endfor %}
 
 </div>
+  <hr>
 
       </div>
     </div>
+
 
 
   </div>

@@ -11,7 +11,6 @@ from django.shortcuts import get_object_or_404
 
 
 
-
 def ultima_cita(request):
     """
     Procesador de contexto que obtiene la primera cita pendiente del usuario autenticado,

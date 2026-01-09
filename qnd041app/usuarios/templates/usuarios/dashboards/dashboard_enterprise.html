@@ -16,9 +16,73 @@
   </div>
 
 
-    <div class="col-md-8">
-    <h2 class="display-4 mt-3">ITC Business Products </h2>
+  {% if all_projects or projects_in_progress %}
+
+<div class="card radius-10">
+  <div class="card-body">
+
+    {# ================= PROYECTOS COMPLETADOS ================= #}
+    {% for project in all_projects %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+      <!-- 🔵 Estado del Proyecto -->
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">Activo</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar bg-success"
+                   style="width: {{ project.progress }}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
+    {# ================= PROYECTOS EN PROGRESO ================= #}
+    {% for project in projects_in_progress %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <p class="mb-1 text-white">{{ project.name }}</p>
+            <h4 class="mb-0 text-white">En Progreso</h4>
+            <hr class="text-white">
+            <p class="mb-0 text-white">
+              <strong>Progreso:</strong> {{ project.progress }}%
+            </p>
+            <div class="progress mb-3" style="height:7px;">
+              <div class="progress-bar bg-warning"
+                   style="width: {{ project.progress }}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+
   </div>
+</div>
+
+{% endif %}
+  <hr>
+    <div class="col-md-8">
+    <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones Negocios ITC</h2>
+    <p>Ingresa a cada opción para explorar las demostraciones y conocer en detalle la metodología que utilizamos para diseñar e implementar soluciones personalizadas para tu proyecto o negocio. </p>
+    <p>Si deseas acceder a opciones avanzadas, ingresa a tu <a href="{% url 'usuarios:editar_perfil' %}"><ion-icon name="person-circle-outline"></ion-icon> perfil de usuario</a>  y asegúrate de configurar o actualizar el tamaño de tu empresa, para habilitar más funcionalidades.</p>
+  </div>  
+
+
+
   
     <div class="card radius-10">
       <div class="card-body">
@@ -31,7 +95,7 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="browsers-outline"></ion-icon>
                    </div>
-                   <h5>Business Software</h5>
+                   <h5>Software</h5>
                    <p class="mb-0">
                    Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
                    Relaciones con Clientes (CRM).
@@ -49,7 +113,7 @@
                    <div class="service-box bg-white text-primary">
                    <ion-icon name="grid-outline"></ion-icon>
                    </div>
-                   <h5>Business Platforms  </h5>
+                   <h5>Plataformas </h5>
                    <p class="mb-0">
                     Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
                    </p>
@@ -65,7 +129,7 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="cube-outline"></ion-icon>
                    </div>
-                   <h5>Business Infrastructure</h5>
+                   <h5>Infraestructura</h5>
                    <p class="mb-0">
                     Adquiere independencia y soberanía digital con tu propia infraestructura en la nube, totalmente configurada para gestionar tus procesos sin depender de servidores públicos dedicados.
                     </p>
@@ -76,50 +140,75 @@
 
 
          </div>
-
+  <hr>
   <div class="col-md-8">
-    <h2 class="display-4 mt-3">Business Inteligente News </h2>
+    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación ITC </h2>
+    <p>Accede a la documentación especializada sobre Negocios Inteligentes ITC, con información relevante para Ecuador y mercados internacionales. Consulta además la documentación técnica y funcional de todas  soluciones tecnológicas de SmartQuail, Inc., disponible desde la plataforma.</p>
   </div>
 
 
-         <div class="row row-cols-1 row-cols-lg-3">
-              <div class="col">
-               <div class="card radius-10">
-                 <div class="card-body">
-                  <img src="assets/images/cards/15.png" class="img-fluid radius-10" alt="...">
-                  <div class="text-center mt-4">
-                    <h5 class="card-title">Fire Up Your Motivation</h5>
-                    <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                    <a href="component-cards.html#" class="btn btn-dark px-4 radius-10">Read More</a>
-                  </div>
-                 </div>
-               </div>
-              </div>
-              <div class="col">
-                <div class="card radius-10">
-                  <div class="card-body">
-                   <img src="assets/images/cards/16.png" class="img-fluid radius-10" alt="...">
-                   <div class="text-center mt-4">
-                     <h5 class="card-title">Fire Up Your Motivation</h5>
-                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                     <a href="component-cards.html#" class="btn btn-warning px-4 radius-10">Read More</a>
-                   </div>
-                  </div>
-                </div>
-               </div>
-               <div class="col">
-                <div class="card radius-10">
-                  <div class="card-body">
-                   <img src="assets/images/cards/17.png" class="img-fluid radius-10" alt="...">
-                   <div class="text-center mt-4">
-                     <h5 class="card-title">Fire Up Your Motivation</h5>
-                     <p class="card-text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                     <a href="component-cards.html#" class="btn btn-info px-4 radius-10">Read More</a>
-                   </div>
-                  </div>
-                </div>
-               </div>
-           </div>
+<div class="row row-cols-1 row-cols-lg-3 g-4">
+
+  {% for noticia in noticias|slice:":3" %}
+  <div class="col">
+
+    <div class="card radius-10 h-100 position-relative overflow-hidden">
+
+      <!-- Imagen -->
+      {% if noticia.imagen_portada %}
+        <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+          <img src="{{ noticia.imagen_portada.url }}"
+               class="img-fluid radius-10 w-100"
+               style="object-fit: cover; min-height: 260px;"
+               alt="{{ noticia.titulo_1 }}">
+        </a>
+      {% else %}
+        <img src="{% static 'assets/images/placeholder.png' %}"
+             class="img-fluid radius-10 w-100"
+             style="object-fit: cover; min-height: 260px;"
+             alt="Sin imagen">
+      {% endif %}
+
+      <!-- Overlay -->
+      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+        <div class="position-absolute top-50 start-0 translate-middle-y
+                    text-white p-4 w-100"
+             style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
+
+          <h5 class="card-title mb-2">
+            {{ noticia.titulo_1 }}
+          </h5>
+
+          <p class="mb-1" style="font-size: 11px;">
+            {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
+          </p>
+
+          {% if noticia.categoria %}
+            <p class="mb-1 text-uppercase" style="font-size: 11px;">
+              {{ noticia.categoria }}
+            </p>
+          {% endif %}
+
+          {% if noticia.cuerpo_1 %}
+            <p class="card-text mt-2">
+              {{ noticia.cuerpo_1|truncatewords:20 }}
+            </p>
+          {% endif %}
+
+        </div>
+      </a>
+
+    </div>
+  </div>
+  {% empty %}
+    <div class="col-12 text-center">
+      <p>No hay noticias disponibles en este momento.</p>
+    </div>
+  {% endfor %}
+
+</div>
+  <hr>
+
       </div>
     </div>
 

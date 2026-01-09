@@ -216,10 +216,11 @@ background: #2e2e2e;
 
     <!-- Perfil -->
     <li>
-      <a class="dropdown-item" href="{% url 'usuarios:dashboard_pather' %}">
+      <a class="dropdown-item" href="{% url 'usuarios:profile_view' %}">
         <div class="d-flex flex-row align-items-center gap-2">
           <div>
               <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
+              <p>{{ request.user.profile.nombre_empresa }}</p>
           </div>
         </div>
       </a>

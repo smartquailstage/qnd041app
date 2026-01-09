@@ -2,6 +2,28 @@ from .models import BusinessSystemProject
 from saas_orders.models import SaaSOrder
 
 
+from usuarios.models import Profile
+
+def tamano_empresa_context(request):
+    """
+    Procesador de contexto que expone el tamaño de la empresa
+    SOLO del usuario autenticado.
+    """
+    tamano_empresa = None
+
+    if request.user.is_authenticated:
+        try:
+            profile = Profile.objects.select_related('user').get(user=request.user)
+            tamano_empresa = profile.tamano_empresa
+        except Profile.DoesNotExist:
+            tamano_empresa = None
+
+    return {
+        'tamano_empresa': tamano_empresa
+    }
+
+
+
 def business_projects_context(request):
     # Usuario no autenticado → no hay datos
     if not request.user.is_authenticated:

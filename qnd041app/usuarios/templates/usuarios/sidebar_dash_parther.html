@@ -11,15 +11,18 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{% static 'assets/images/QUAIL.png' %}" class="logo-icon"  width="9px" alt="logo icon">
+            <a href="{% url 'usuarios:dashboard_pather' %}">
+              <img src="{% static 'assets/images/QUAIL.png' %}" class="logo-icon"  width="9px" alt="logo icon">
+            </a>
                                  
 
         </div>
 
         <div>
             <h4 class="logo-text" style="margin-top: 5px;">
-                <div>
+                <div><a href="{% url 'usuarios:dashboard_pather' %}">
                     <img src="{% static 'assets/images/smartquail_iso.png' %}"  width="110px" alt="logo icon">
+                    </a>
                 </div>
             </h4>
         </div>
@@ -33,7 +36,23 @@
 
       <li class="menu-label">
                  <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
-              {{ request.user.profile.nombre_empresa }} (StartUp)
+                  {% if tamano_empresa == "1-10 usuarios" %}
+PYMES
+
+{% elif tamano_empresa == "11-50 usuarios" %}
+ STARUP
+
+{% elif tamano_empresa == "51-200 usuarios" %}
+Enterprise
+
+{% elif tamano_empresa == "200+ usuarios" %}
+Coorp & Industrial
+
+{% else %}
+    No se ha definido el tamaño de la empresa.
+{% endif %}
+
+    
           </p>
       </li>
 {% if all_projects or projects_in_progress %}                          
@@ -151,6 +170,14 @@
                <i class="fadeIn animated bx bx-support"></i>
             </div>
             <div class="menu-title">Soporte</div>
+          </a>
+
+
+                              <a href="{% url 'business_customer_projects:ticket_list' %}">
+            <div class="parent-icon">
+               <ion-icon name="log-out-outline"></ion-icon>
+            </div>
+            <div class="menu-title">Salir</div>
           </a>
 
 

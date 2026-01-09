@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% load static %}
 
-{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+{% block title %} Usuarios ITC {% endblock %}
 
 {% block content %}
 
@@ -15,7 +15,7 @@
     <div class="card radius-10">
       <div class="card-body">
         
-        <h5 class="mb-3"> <ion-icon name="person-circle-outline"></ion-icon> Perfil de Usuario</h5>
+        <h5 class="mb-3"> <ion-icon name="person-circle-outline"></ion-icon> Cuenta de Usuario ITC</h5>
 
         <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
           <div class="user-change-photo shadow">
@@ -23,14 +23,14 @@
             {% if profile.photo %}
               <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
             {% else %}
-              <img src="/static/img/default-user.png" alt="Foto de perfil" width="120" class="rounded-circle">
+              <img  src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
             {% endif %}
 
           </div>
 
-          <a href="#" class="btn btn-outline-primary btn-sm radius-30 px-4">
-            <ion-icon name="image-sharp"></ion-icon>
-            Cambiar Foto
+          <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-outline-warning btn-sm radius-30 px-4">
+            <ion-icon name="create-outline"></ion-icon>
+            Editar Cuenta
           </a>
         </div>
 
@@ -40,30 +40,26 @@
         <div class="row g-3">
 
           <div class="col-6">
-            <label class="form-label">Usuario</label>
-            <input type="text" class="form-control" value="{{ profile.user.username }}" disabled>
+            <p><ion-icon name="mail-outline"></ion-icon> {{ profile.user.username }}</p>
           </div>
 
-          <div class="col-6">
-            <label class="form-label">Email Corporativo</label>
-            <input type="text" class="form-control" value="{{ profile.email_corporativo }}" disabled>
-          </div>
+
 
           <div class="col-6">
-            <label class="form-label">Nombre Completo</label>
-            <input type="text" class="form-control" value="{{ profile.nombre_completo }}" disabled>
+            <p><ion-icon name="person-outline"></ion-icon> {{ profile.nombre_completo }}</p>
           </div>
 
-          <div class="col-6">
-            <label class="form-label">Cédula / RUC</label>
-            <input type="text" class="form-control" value="{{ profile.ruc_usuario }}" disabled>
-          </div>
+
 
           <div class="col-6">
             <label class="form-label">Cargo</label>
             <input type="text" class="form-control" value="{{ profile.cargo_usuario }}" disabled>
           </div>
 
+          <div class="col-6">
+             <p><ion-icon name="person-outline"></ion-icon> {{ profile.cargo_usuario }}</p>
+          </div>
+          
           <div class="col-6">
             <label class="form-label">Teléfono</label>
             <input type="text" class="form-control" value="{{ profile.telefono }}" disabled>

@@ -19,7 +19,12 @@
      
               <div class="card radius-10">
                 <div class="card-body text-center">
-                  <h1 class="display-4 mt-5">Bienvenido a SmartQuail,Inc</h1>
+                  <h1 class="display-4 mt-5">Bienvenido</h1>
+                      <div class="logo-container">
+      <a href="{% slugurl 'home' %}">
+        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 100%; max-width: 250px;" alt="Logo">
+      </a>
+    </div>
                   <p>Gracias por registrarse en nuestra plataforma de negocios inteligentes.
                     <br>Por motivos de seguridad, hemos enviado un correo electrónico con el botón de activación de su cuenta.
                   <br>Si no lo encuentra en su bandeja de entrada, por favor revisar la carpeta de spam o correo no deseado.
