@@ -34,105 +34,52 @@
           </a>
         </div>
 
-        <h5 class="mb-0 mt-4">Información del Usuario</h5>
+        <h5 class="mb-0 mt-4">Información de Negocio ITC</h5>
         <hr>
 
         <div class="row g-3">
 
           <div class="col-6">
-            <p><ion-icon name="mail-outline"></ion-icon> {{ profile.user.username }}</p>
-          </div>
-
-
-
-          <div class="col-6">
-            <p><ion-icon name="person-outline"></ion-icon> {{ profile.nombre_completo }}</p>
-          </div>
-
-
-
-          <div class="col-6">
-            <label class="form-label">Cargo</label>
-            <input type="text" class="form-control" value="{{ profile.cargo_usuario }}" disabled>
+           
+            <p> {{ profile.user.username }}</p>
+            <p>{{ profile.telefono }}</p>
+            <p>{{ profile.provincia }}</p>
+            <p>{{ profile.direccion_empresa }}</p> 
           </div>
 
           <div class="col-6">
-             <p><ion-icon name="person-outline"></ion-icon> {{ profile.cargo_usuario }}</p>
+             <p> {{ profile.nombre_empresa }}</p>
+            <p> {{ profile.nombre_completo }}</p>
+            <p> {{ profile.cargo_usuario }}</p>
+            <p> {{ profile.sector_negocio }}</p>
           </div>
-          
-          <div class="col-6">
-            <label class="form-label">Teléfono</label>
-            <input type="text" class="form-control" value="{{ profile.telefono }}" disabled>
-          </div>
+
 
         </div>
 
 
-        <h5 class="mb-0 mt-4">Información Empresarial</h5>
+        <h5 class="mb-0 mt-4">Configuraciones de Escalabilidad</h5>
         <hr>
 
         <div class="row g-3">
 
-          <div class="col-12">
-            <label class="form-label">Empresa</label>
-            <input type="text" class="form-control" value="{{ profile.nombre_empresa }}" disabled>
-          </div>
-
-          <div class="col-6">
-            <label class="form-label">RUC Empresa</label>
-            <input type="text" class="form-control" value="{{ profile.ruc_empresa }}" disabled>
-          </div>
-
-          <div class="col-6">
-            <label class="form-label">Sector</label>
-            <input type="text" class="form-control" value="{{ profile.sector_negocio }}" disabled>
-          </div>
-
-          <div class="col-6">
+                    <div class="col-6">
             <label class="form-label">Tamaño Empresa</label>
-            <input type="text" class="form-control" value="{{ profile.tamano_empresa }}" disabled>
+            <p>{{ profile.tamano_empresa }}</p>
           </div>
-
-          <div class="col-6">
-            <label class="form-label">Provincia</label>
-            <input type="text" class="form-control" value="{{ profile.provincia }}" disabled>
-          </div>
-
-          <div class="col-12">
-            <label class="form-label">Dirección Empresa</label>
-            <input type="text" class="form-control" value="{{ profile.direccion_empresa }}" disabled>
-          </div>
-
-        </div>
-
-
-        <h5 class="mb-0 mt-4">Información Cloud</h5>
-        <hr>
-
-        <div class="row g-3">
 
           <div class="col-6">
             <label class="form-label">Nivel de Experiencia</label>
-            <input type="text" class="form-control" value="{{ profile.nivel_experiencia_cloud }}" disabled>
+            <p>{{ profile.nivel_experiencia_cloud }}</p>
           </div>
 
           <div class="col-6">
             <label class="form-label">Presupuesto Estimado</label>
-            <input type="text" class="form-control" value="{{ profile.presupuesto_estimado }}" disabled>
-          </div>
-
-          <div class="col-12">
-            <label class="form-label">Servicios de Interés</label>
-            <textarea class="form-control" rows="3" disabled>
-{{ profile.servicios_cloud_interes|join:", " }}
-            </textarea>
+            <p> $ {{ profile.presupuesto_estimado }}</p>
           </div>
 
         </div>
 
-        <div class="text-start mt-3">
-          <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-warning px-4">Editar Perfil</a>
-        </div>
 
       </div>
     </div>

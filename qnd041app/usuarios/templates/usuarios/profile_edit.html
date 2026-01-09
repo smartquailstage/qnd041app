@@ -18,7 +18,6 @@
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
 
-          <h5 class="mb-3">Editar Perfil</h5>
 
           <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
             <div class="user-change-photo shadow">
@@ -26,17 +25,35 @@
               {% if profile.photo %}
                 <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
               {% else %}
-                <img src="/static/img/default-user.png" alt="Foto de perfil" width="120" class="rounded-circle">
+                  <img  src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
               {% endif %}
 
             </div>
 
-            <div>
-              {{ form.photo }}
-            </div>
+<div>
+    <!-- Input real (oculto) -->
+    <input 
+        type="file"
+        name="photo"
+        id="id_photo"
+        accept="image/*"
+        style="display: none;"
+    >
+
+    <!-- Botón personalizado -->
+    <button 
+        type="button"
+        class="btn btn-outline-primary btn-sm radius-30 px-4"
+        onclick="document.getElementById('id_photo').click();"
+    >
+        <ion-icon name="image-sharp"></ion-icon>
+        Change Photo
+    </button>
+</div>
+
           </div>
 
-          <h5 class="mb-0 mt-4">Información del Usuario</h5>
+          <h5 class="mb-0 mt-4">Información del Usuario ITC</h5>
           <hr>
 
           <div class="row g-3">
@@ -47,88 +64,52 @@
             </div>
 
             <div class="col-6">
-              <label class="form-label">Cédula / RUC</label>
-              {{ form.ruc_usuario }}
-            </div>
-
-            <div class="col-6">
               <label class="form-label">Cargo</label>
               {{ form.cargo_usuario }}
             </div>
 
-            <div class="col-6">
-              <label class="form-label">Correo Corporativo</label>
-              {{ form.email_corporativo }}
-            </div>
-
-            <div class="col-6">
-              <label class="form-label">Teléfono</label>
-              {{ form.telefono }}
-            </div>
 
           </div>
-
-
-          <h5 class="mb-0 mt-4">Información Empresarial</h5>
-          <hr>
-
+<hr>
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label">Nombre Empresa</label>
               {{ form.nombre_empresa }}
             </div>
 
-            <div class="col-6">
-              <label class="form-label">RUC Empresa</label>
-              {{ form.ruc_empresa }}
-            </div>
+
 
             <div class="col-6">
               <label class="form-label">Sector</label>
               {{ form.sector_negocio }}
             </div>
 
-            <div class="col-6">
-              <label class="form-label">Tamaño Empresa</label>
-              {{ form.tamano_empresa }}
-            </div>
 
-            <div class="col-12">
-              <label class="form-label">Dirección Empresa</label>
-              {{ form.direccion_empresa }}
-            </div>
-
-            <div class="col-12">
-              <label class="form-label">Provincia</label>
-              {{ form.provincia }}
-            </div>
-          </div>
-
-
-          <h5 class="mb-0 mt-4">Información Cloud</h5>
-          <hr>
-
-          <div class="row g-3">
 
             <div class="col-6">
               <label class="form-label">Nivel de Experiencia</label>
               {{ form.nivel_experiencia_cloud }}
             </div>
+            
+            <div class="col-6">
+              <label class="form-label">Tamaño Empresa</label>
+              {{ form.tamano_empresa }}
+            </div>
+
+          <div class="row g-3">
+
 
             <div class="col-6">
               <label class="form-label">Presupuesto Estimado</label>
               {{ form.presupuesto_estimado }}
             </div>
 
-            <div class="col-12">
-              <label class="form-label">Servicios de Interés</label>
-              {{ form.servicios_cloud_interes }}
-            </div>
+
 
           </div>
 
           <div class="text-start mt-3">
-            <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+            <button type="submit" class="btn btn-warning px-4">Guardar Cambios</button>
           </div>
 
         </form>
