@@ -1,4 +1,4 @@
-{% extends "base_dash.html" %}
+{% extends "base_dash_parther.html" %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -18,21 +18,6 @@
       <div class="card-body">
 <div class="row row-cols-1 row-cols-lg-3">
 
-<a href="{% url 'usuarios:profile_view' %}">
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                    <ion-icon name="person-circle-outline"></ion-icon>
-                   </div>
-                   <h5>Perfil de Usuario</h5>
-                   <p class="mb-0">
-                   Aquí puedes personalizar por completo tu perfil de usuario: ajusta el tamaño de tu negocio, define tus necesidades de ITC y optimiza tu experiencia para recibir soluciones realmente alineadas a tu crecimiento.
-                   </p>
-                </div>
-              </div>
-            </div>
-</a>
 
 <a href="{% url 'saas_shop:product_list' %}">
 

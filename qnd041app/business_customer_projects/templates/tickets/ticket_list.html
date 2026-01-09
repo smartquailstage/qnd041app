@@ -9,27 +9,12 @@
     <!-- Breadcrumb -->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
       <div class="breadcrumb-title pe-3">
-        <ion-icon name="card"></ion-icon> Inversiones ITC
+         <i class="fadeIn animated bx bx-support"></i> Soporte Técnico ITC
       </div>
     </div>
 
-    <!-- Nav pills -->
-    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="orderlist-tab" data-bs-toggle="pill" href="#tab-ticket" role="tab" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title">
-              <ion-icon name="cloud-download-outline"></ion-icon>
-              <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-            </div>
-          </div>
-        </a>
-      </li>
-    </ul>
 
-    <!-- Tab content -->
-    <div class="tab-content">
-      <div class="tab-pane fade show active" id="tab-ticket" role="tabpanel">
+
         <hr class="my-4">
         <div class="card radius-10">
           <div class="card-body">
@@ -39,10 +24,7 @@
               <div class="col col-xl-20 d-flex">
                 <div class="card radius-10 w-100">
                   <div class="card-body" style="background-color: rgb(46,46,46); border-radius:25px;">
-                    <h5>
-                      <ion-icon name="hardware-chip-outline"></ion-icon>
-                      Tickets realizados
-                    </h5>
+
 
                     <div class="row g-4 align-items-center mt-4">
                       <div class="col-12" style="max-height: 300px; overflow-y: auto;">
@@ -80,7 +62,7 @@
                           </div>
                           <hr/>
                         {% empty %}
-                          <p class="text-muted">No hay consultas registradas.</p>
+                      
                         {% endfor %}
                       </div>
                     </div>
@@ -132,7 +114,7 @@
                           </div>
 
                           <!-- Botón enviar -->
-                          <button type="submit" class="btn btn-primary mt-2">Crear Ticket</button>
+                          <button type="submit" class="btn btn-warning mt-2">Crear Ticket</button>
                         </form>
 
                       </div>
@@ -146,8 +128,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div> <!-- end tab content -->
+<!-- end tab content -->
 
   </div> <!-- end page content -->
 </div>
