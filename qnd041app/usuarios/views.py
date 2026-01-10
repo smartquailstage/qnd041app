@@ -538,7 +538,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import ProfileForm
 
+from django.views.decorators.cache import never_cache
+
 @login_required
+@never_cache
 def editar_perfil(request):
     profile = Profile.objects.get(user=request.user)
 
@@ -547,10 +550,14 @@ def editar_perfil(request):
         if form.is_valid():
             form.save()
             return redirect('usuarios:profile_view')
+
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, "usuarios/profile_edit.html", {"form": form, "profile": profile})
+    return render(request, "usuarios/profile_edit.html", {
+        "form": form,
+        "profile": profile
+    })
 
 
 
