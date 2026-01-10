@@ -281,6 +281,8 @@ class Product(models.Model):
             self._safe_money(self.total_ml_iva).amount,       # IA / ML / Deep Learning
             
             ], Decimal('0'))
+        self.price = Money(total_price_val, 'USD')
+        self.price_amount = total_price_val
             
 
         # 5) Utilidad Bruta (suma de márgenes)
