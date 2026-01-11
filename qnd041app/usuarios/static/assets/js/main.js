@@ -7,28 +7,51 @@ $(function() {
 	})
 
 
-  $(".nav-toggle-icon").on("click", function() {
-		$(".wrapper").toggleClass("toggled")
-	})
+// Toggle principal
+$(".nav-toggle-icon").on("click", function () {
+    $(".wrapper").toggleClass("toggled");
+});
 
-    $(".mobile-menu-button").on("click", function() {
-		$(".wrapper").addClass("toggled")
-	})
+// Mobile
+$(".mobile-menu-button").on("click", function () {
+    $(".wrapper").addClass("toggled");
+});
 
-	$(function() {
-		for (var e = window.location, o = $(".metismenu li a").filter(function() {
-				return this.href == e
-			}).addClass("").parent().addClass("mm-active"); o.is("li");) o = o.parent("").addClass("mm-show").parent("").addClass("mm-active")
-	})
+// Activar menú actual
+$(function () {
+    for (
+        var e = window.location,
+            o = $(".metismenu li a").filter(function () {
+                return this.href == e;
+            }).parent().addClass("mm-active");
+        o.is("li");
+    ) {
+        o = o.parent("ul").addClass("mm-show").parent("li").addClass("mm-active");
+    }
+});
 
+// Hover toggle
+$(".toggle-icon").click(function () {
+    if ($(".wrapper").hasClass("toggled")) {
+        $(".wrapper").removeClass("toggled");
+        $(".sidebar-wrapper").unbind("hover");
+    } else {
+        $(".wrapper").addClass("toggled");
+        $(".sidebar-wrapper").hover(
+            function () {
+                $(".wrapper").addClass("sidebar-hovered");
+            },
+            function () {
+                $(".wrapper").removeClass("sidebar-hovered");
+            }
+        );
+    }
+});
 
-	$(".toggle-icon").click(function() {
-		$(".wrapper").hasClass("toggled") ? ($(".wrapper").removeClass("toggled"), $(".sidebar-wrapper").unbind("hover")) : ($(".wrapper").addClass("toggled"), $(".sidebar-wrapper").hover(function() {
-			$(".wrapper").addClass("sidebar-hovered")
-		}, function() {
-			$(".wrapper").removeClass("sidebar-hovered")
-		}))
-	})
+// 🔒 Sidebar CERRADO por defecto
+$(document).ready(function () {
+    $(".wrapper").addClass("toggled");
+});
 
 
 

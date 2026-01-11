@@ -19,8 +19,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)
-                  
+                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)                
                   </li>
                 </ol>
               </nav>
@@ -116,7 +115,7 @@
          específicas de su negocio o institución. SmartBusinessAnalytics® 
          integra tecnologías de última generación como inteligencia artificial, 
          analítica predictiva, automatización de procesos (RPA) y big data, 
-         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades, leer <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">documentación</a>
+         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
 
   </div>
@@ -139,21 +138,23 @@
       {% if c.slug == "business-media" %}
         {% if c.products.all %}
         <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            {% for product in c.products.all %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-               <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
-              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-gray bg-opacity-50 text-white">
-                  <h2 style="color:#ffff"><ion-icon name="play-outline"></ion-icon> {{ product.name }}</h2>
-                  <p class="mb-1">${{ product.description }}</p>
-            
+                      <div class="carousel-inner">
+              {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
+                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="play-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              </div>
-              </a>
+              {% endfor %}
             </div>
-            {% endfor %}
-          </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{% trans "Previous" %}</span>
@@ -171,7 +172,7 @@
   </div>
 
 
-
+  <div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
   <div class="card-body p-0" style="color: #ededed;
   text-align: justify;
   font-family: 'Segoe UI', sans-serif;
@@ -184,19 +185,11 @@
       <strong>SmartBusinessMedia®</strong> es un CRM especializado en la administración y gestión de contenidos multimedia en alta disponibilidad y definición. Su arquitectura en la nube permite trabajar en tiempo real, ofreciendo a las empresas y agencias creativas un entorno unificado para planificar, producir, distribuir y analizar contenido digital sin interrupciones.
     </p>
     <p>
-      A través de su panel de control intuitivo, los equipos pueden diseñar su estrategia de marketing digital, implementarla en tiempo real y visualizar métricas precisas sobre el rendimiento de sus contenidos. Cada acción queda registrada y analizada mediante sistemas de analítica avanzada, lo que permite tomar decisiones informadas para maximizar el impacto de cada publicación o campaña.
+      A través de su panel de control intuitivo, los equipos pueden diseñar su estrategia de marketing digital, implementarla en tiempo real y visualizar métricas precisas sobre el rendimiento de sus contenidos. Cada acción queda registrada y analizada mediante sistemas de analítica avanzada, lo que permite tomar decisiones informadas para maximizar el impacto de cada publicación o campaña.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
-    <p>
-      <strong>SmartBusinessMedia®</strong> integra módulos especializados en gestión de campañas, automatización de flujos de contenido, control de versiones multimedia y monitoreo de rendimiento en múltiples plataformas sociales y canales digitales. Todo esto, respaldado por una infraestructura escalable y segura que garantiza la disponibilidad y consistencia de los datos.
-    </p>
-    <p>
-      Esta solución ha sido diseñada para profesionales del marketing, medios y comunicación que buscan eficiencia, precisión y control total sobre sus activos digitales. Su tecnología en la nube permite administrar equipos distribuidos, optimizar tiempos de producción y mantener una visión 360° del comportamiento del público en tiempo real.
-    </p>
-    <p>
-      En un entorno digital donde la inmediatez y la calidad del contenido marcan la diferencia, <strong>SmartBusinessMedia®</strong> se posiciona como la herramienta esencial para transformar datos, creatividad y estrategia en resultados medibles, sólidos y sostenibles.
-    </p>
-  </div>
 
+  </div>
+</div>
 
     </div>
 
@@ -255,7 +248,7 @@
       <strong>SmartBusinessLaw®</strong>
        es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
         estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
-       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades, leer <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">documentación</a>
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
    
   </div>
