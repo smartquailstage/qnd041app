@@ -56,7 +56,6 @@ class SaaSOrder(models.Model):
         verbose_name="Teléfono convencional de contacto",
         validators=[phone_regex],
         default='+593',
-        unique=True  # quitar la restricción
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
