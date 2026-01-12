@@ -118,79 +118,64 @@ def payment_process(request):
 
 @login_required
 def payment_process_kushki(request):
-    # Recuperamos el ID de la orden desde la sesión
     order_id = request.session.get('order_id')
     order = get_object_or_404(SaaSOrder, id=order_id)
 
-    # Verificamos si el método de solicitud es POST
     if request.method == 'POST':
-        # Recuperamos el token de pago generado por Kushki
-        token = request.POST.get('token', None)
+        token = request.POST.get('token')
 
-        if token:
-            # Aquí debes usar la API de Kushki para realizar la transacción
-            # Usamos la clave privada de Kushki para hacer la solicitud
-            private_key = 'KUSHKI_PRIVATE_KEY'
-            url = 'https://sandbox.kushki.com/v1/transaction/charge'
-
-            # Datos de la transacción
-            data = {
-                'amount': int(order.get_total_cost() * 100),  # Monto en centavos
-                'currency': 'USD',
-                'token': token,
-                'service': 'PRODUCTO O SERVICIO',  # Nombre del servicio o producto
-            }
-
-            headers = {
-                'Authorization': f'Bearer {private_key}',
-                'Content-Type': 'application/json'
-            }
-
-            # Hacemos la solicitud de la transacción a Kushki
-            response = requests.post(url, json=data, headers=headers)
-
-            if response.status_code == 200:
-                # Si la transacción fue exitosa, marcamos la orden como pagada
-                order.paid = True
-                order.braintree_id = response.json().get('transaction_id')  # Guarda el ID de la transacción de Kushki
-                order.save()
-
-                # Creamos el correo con la factura en PDF
-                subject = f'My Shop - Invoice no. {order.id}'
-                message = 'Please, find attached the invoice for your recent purchase.'
-                email = EmailMessage(subject,
-                                     message,
-                                     'admin@myshop.com',
-                                     [order.email])
-
-                # Generamos la factura en PDF
-                html = render_to_string('orders/order/pdf.html', {'order': order})
-                out = BytesIO()
-                response = HttpResponse(content_type='application/pdf')
-                response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
-                weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response, stylesheets=[weasyprint.CSS('orders/static/css/pdf.css')], presentational_hints=True)
-                # Adjuntamos el archivo PDF
-                email.attach(f'order_{order.id}.pdf', out.getvalue(), 'application/pdf')
-                # Enviamos el correo
-                email.send()
-
-                # Redirigimos a la página de "pedido realizado con éxito"
-                return redirect('saas_payment:done')
-
-            else:
-                # Si la transacción falla, redirigimos a la página de cancelación
-                return redirect('saas_payment:canceled')
-
-        else:
-            # Si no se recibió el token de Kushki
+        if not token:
             return redirect('saas_payment:canceled')
 
-    else:
-        # En la primera solicitud (GET), generamos el token de cliente para Kushki
-        client_token = 'GENERATE_YOUR_CLIENT_TOKEN_HERE'  # En Kushki no es necesario un ClientToken como en Braintree
-        return render(request,
-                      'payment/process.html',
-                      {'order': order})
+        # 💡 Usa tu PRIVATE KEY real de Kushki
+        private_key = settings.KUSHKI_PRIVATE_KEY
+        url = settings.KUSHKI_CHARGE_URL  # Ej: 'https://sandbox.kushki.com/v1/charges'
+
+        # Montos en Kushki deben enviarse en **centavos**
+        amount_cents = int(order.get_total_cost().amount * 100)
+
+        payload = {
+            "amount": amount_cents,
+            "currency": "USD",
+            "token": token
+        }
+
+        headers = {
+            "Authorization": f"Bearer {private_key}",
+            "Content-Type": "application/json"
+        }
+
+        res = requests.post(url, json=payload, headers=headers)
+        data = res.json()
+
+        if res.status_code == 200 and data.get("status") in ("AUTHORIZED", "APPROVED", "SUCCESS"):
+            # Guardar transacción
+            order.paid = True
+            order.kushki_id = data.get("ticket") or data.get("transactionId") or data.get("reference")
+            order.save()
+
+            # 🧾 Enviar factura por email (igual que Braintree)
+            subject = f'My Shop - Invoice no. {order.id}'
+            message = 'Please find attached your receipt.'
+            email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
+
+            html = render_to_string('saas_orders/order/pdf.html', {'order': order})
+            out = BytesIO()
+
+            weasyprint.HTML(
+                string=html,
+                base_url=request.build_absolute_uri()
+            ).write_pdf(out, stylesheets=[weasyprint.CSS('saas_orders/static/css/pdf.css')])
+
+            email.attach(f'order_{order.id}.pdf', out.getvalue(), 'application/pdf')
+            email.send()
+
+            return redirect('saas_payment:done')
+
+        return redirect('saas_payment:canceled')
+
+    # GET → Renderizar página con formulario de Kushki
+    return render(request, 'payment/process.html', {'order': order})
 
 
 
