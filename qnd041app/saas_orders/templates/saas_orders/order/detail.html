@@ -159,7 +159,7 @@
       <!-- Botón de pago -->
       <div class="row">
         <div class="col-md-6">
-          <a href="{% url 'saas_payment:payment_process_kushki' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
+          <a href="{% url 'saas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
           <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
           </a>
         </div>
