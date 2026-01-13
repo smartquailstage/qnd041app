@@ -14,7 +14,11 @@
   <div class="header-center">
   CPI-SQ20{{ order.id }} 
   </div>
-  Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}
+
+    <div class="header-right">
+    <strong>Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}</strong>
+  </div>
+
 </header>
 
 
@@ -23,7 +27,7 @@
 
 <div class="titulos">
     <h2>CONTRATO DE PROPIEDAD INTELECTUAL DEL SISTEMA DE INFORMACIÓN</h2>
-    <p>ENTRE {{ order.first_name }} {{ order.last_name }} Y SMARTQUAIL S.A.S.</p>
+    <p>Entre <strong>{{ order.first_name }} {{ order.last_name }}</strong> & <strong>SMARTQUAIL S.A.S.</strong></p>
 </div>
 
 <div class="preambulo">
@@ -169,10 +173,10 @@ CONTRATO DE PROPIEDAD INTELECTUAL: CPI-SQ20{{ order.id }}
 
 
 <hr>
-<footer>
+<footer class="page-footer">
   <p>
-    SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
-    Web: https://ec.smartquail.io |  +593 (963) 521-262<br>
+    <strong>SMARTQUAIL.S.A.S</strong>, — NEGOCIOS ITC ECUADOR<br>
+     https://ec.smartquail.io | UIO | +593 (963) 521-262<br>
     © 2026 SmartQuail, Inc. Todos los derechos reservados.
   </p>
 </footer>

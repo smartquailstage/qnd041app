@@ -10,7 +10,7 @@
 
 @page {
   size: A4;
-  margin: 1cm 1cm 1cm 1cm;
+  margin: 1.5cm 1cm 2cm 1cm;
 
   @top-left {
     content: element(page-header);
@@ -68,6 +68,18 @@ header {
   text-align: center;
   flex: 1;                       /* ocupa todo el espacio disponible */
 }
+
+
+/* BLOQUE DERECHO */
+.header-right {
+  z-index: 1;                     /* delante del logo si aplica */
+  font-family: "soon", sans-serif;
+  font-size: 9pt;
+  color: #333;
+  text-align: right;              /* alinea a la derecha */
+  flex-shrink: 0;                 /* evita que se encoja */
+}
+
 
 
 /* LOGO */
@@ -187,6 +199,8 @@ input::before, textarea::before, textarea::after {
 
 footer p {
   text-align: center;
+  font-size: 8pt;
+  line-height: 10pt;
 }
 
 
@@ -197,6 +211,10 @@ footer.page-footer {
   font-size: 8pt;
   font-family: "soon", sans-serif;
   color: #666;
+  padding: 2mm 0;
+  border-top: 1px solid #ccc;   
+  margin-bottom: 1px;
+  width: 100%;
 }
 
 /* Para mostrar número de página en PDF con WeasyPrint */
