@@ -209,7 +209,7 @@ def admin_contract_ip_pdf(request, order_id):
     # Generar QR
     qr = qrcode.QRCode(
         version=1,
-        box_size=1.5,
+        box_size=1,
         border=2
     )
     qr.add_data(qr_data)
