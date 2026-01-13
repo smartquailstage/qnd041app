@@ -188,22 +188,36 @@ def admin_contract_ip_pdf(request, order_id):
         order.save(update_fields=["contract_hash"])
 
     # ------------------------------
-    # Datos del QR (URL verificable)
+    # Datos del QR (URL + información adicional)
     # ------------------------------
     verification_url = (
         f"http://ec.smartquail.io/es/business_customer_projects/verify/contract/{order.contract_hash}"
     )
 
+    # Texto completo que irá dentro del QR
+    qr_data = (
+        f"SMARTQUAIL.S.A.S\n"
+        f"R.U.C: 1793206532-001\n"
+        f"UIO-Ecuador\n"
+        f"REPRESENTANTE LEGAL\n"
+        f"SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
+        f"CONTRATO: CPI-SQ20{order.id}\n"
+        f"TOKEN: {order.contract_hash}\n"
+        f"Hacer click para validar contrato : {verification_url}"
+    )
+
+    # Generar QR
     qr = qrcode.QRCode(
         version=1,
-        box_size=2.5,
+        box_size=1.5,
         border=2
     )
-    qr.add_data(verification_url)
+    qr.add_data(qr_data)
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="black", back_color="white")
 
+    # Convertir a base64
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
@@ -236,15 +250,12 @@ def admin_contract_ip_pdf(request, order_id):
     ).write_pdf(
         response,
         stylesheets=[
-            weasyprint.CSS(
-                'saas_orders/static/css/contract_ip.css'
-            )
+            weasyprint.CSS('saas_orders/static/css/contract_ip.css')
         ],
         presentational_hints=True
     )
 
     return response
-
 
 
 

@@ -303,9 +303,32 @@ span.pageNumber::before {
 
 .signature-box {
   width: 4cm;                    /* tamaño del cuadrado */
-  height: 2cm;
-  border: 1px solid #000;        /* borde del cuadrado */
+  height: 1.5cm;
+  border: 1px dashed #000;        /* borde del cuadrado */
   margin-bottom: 2mm;
+  background-color: #ffffff;   /* fondo blanco */
+}
+
+
+/* BLOQUE DE NOTA DE VALIDACIÓN */
+.contract-note {
+  margin-top: 5mm;
+  padding: 4mm 6mm;
+  background-color: #f6f6f4; /* color amarillo suave para alerta */
+  border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
+  font-family: "soon", sans-serif;
+  font-size: 7.5pt;
+  line-height: 12pt;
+  color: #000000;
+  text-align: justify;
+  border-radius: 5px;
+}
+
+.contract-note code {
+  font-family: "soon", monospace;
+  background-color: #f1f1f1;
+  padding: 1px 3px;
+  border-radius: 3px;
 }
 
 
