@@ -39,5 +39,18 @@ urlpatterns = [
         name='ticket_detail'
     ),
 
+    path(
+        'verify/contract/<str:contract_hash>/',
+        views.verify_contract,
+        name='verify_contract'
+    ),
+
+    path(
+        'verify/contract/<str:contract_hash>/done/',
+        views.verify_contract_done,
+        name='contract_verified'
+    ),
+
 ]
+
 

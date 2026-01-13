@@ -165,28 +165,87 @@ def admin_ebook_pdf(request, order_id):
     return response
 
 
+
+
+import base64
+import io
+import qrcode
+import hashlib
+
+from django.conf import settings
+
+
 @staff_member_required
 def admin_contract_ip_pdf(request, order_id):
     order = get_object_or_404(SaaSOrder, id=order_id)
 
-    html = render_to_string(
-        'saas_orders/contracts/contract_ip.html',
-        {'order': order, 'domain': 'ec.smartquail.io'}
+    # ------------------------------
+    # Generar HASH único (solo una vez)
+    # ------------------------------
+    if not order.contract_hash:
+        raw_string = f"{order.id}-{order.created.isoformat()}-{settings.SECRET_KEY}"
+        order.contract_hash = hashlib.sha256(raw_string.encode()).hexdigest()
+        order.save(update_fields=["contract_hash"])
+
+    # ------------------------------
+    # Datos del QR (URL verificable)
+    # ------------------------------
+    verification_url = (
+        f"http://ec.smartquail.io/es/business_customer_projects/verify/contract/{order.contract_hash}"
     )
 
+    qr = qrcode.QRCode(
+        version=1,
+        box_size=2.5,
+        border=2
+    )
+    qr.add_data(verification_url)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_data_url = f"data:image/png;base64,{qr_base64}"
+
+    # ------------------------------
+    # Renderizar HTML
+    # ------------------------------
+    html = render_to_string(
+        'saas_orders/contracts/contract_ip.html',
+        {
+            'order': order,
+            'domain': 'ec.smartquail.io',
+            'qr_url': qr_data_url,
+            'contract_hash': order.contract_hash,
+        }
+    )
+
+    # ------------------------------
+    # Generar PDF
+    # ------------------------------
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename=contract_ip_{order.id}.pdf'
+    response['Content-Disposition'] = (
+        f'attachment; filename=contract_ip_{order.id}.pdf'
+    )
 
     weasyprint.HTML(
         string=html,
         base_url=request.build_absolute_uri()
     ).write_pdf(
         response,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_ip.css')],
+        stylesheets=[
+            weasyprint.CSS(
+                'saas_orders/static/css/contract_ip.css'
+            )
+        ],
         presentational_hints=True
     )
 
     return response
+
+
 
 
 @staff_member_required

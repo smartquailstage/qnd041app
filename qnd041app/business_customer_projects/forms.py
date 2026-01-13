@@ -11,6 +11,27 @@ from django import forms
 from .models import BusinessSystemProject
 from saas_shop.models import Product
 
+
+from saas_orders.models import SaaSOrder
+
+class ContractUploadForm(forms.ModelForm):
+    class Meta:
+        model = SaaSOrder
+        fields = ['signed_contract']
+
+    def clean_signed_contract(self):
+        file = self.cleaned_data['signed_contract']
+
+        if file.size > 5 * 1024 * 1024:
+            raise forms.ValidationError("El archivo no puede superar 5MB")
+
+        if not file.name.lower().endswith(('.pdf', '.png', '.jpg', '.jpeg')):
+            raise forms.ValidationError("Formato no permitido")
+
+        return file
+
+
+
 class BusinessSystemProjectForm(forms.ModelForm):
 
     class Meta:

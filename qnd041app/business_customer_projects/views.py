@@ -561,6 +561,86 @@ class PaymentOrderDetailView(DetailView):
 
 
 
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
+
+
+from .forms import ContractUploadForm
+
+
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
+from django.http import HttpResponseForbidden
+
+from .models import SaaSOrder
+from .forms import ContractUploadForm
+
+
+def verify_contract(request, contract_hash):
+    template_name = "business/Policies.html"
+
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash=contract_hash
+    )
+
+    # 🔒 Evitar que se vuelva a firmar
+    if order.contract_verified:
+        return render(
+            request,
+            template_name,
+            {
+                'order': order,
+                'already_signed': True,
+            }
+        )
+
+    if request.method == 'POST':
+        form = ContractUploadForm(
+            request.POST,
+            request.FILES,
+            instance=order
+        )
+
+        if form.is_valid():
+            contract = form.save(commit=False)
+            contract.contract_signed_at = timezone.now()
+            contract.contract_verified = True
+            contract.save()
+
+            return redirect(
+                'business_customer_projects:contract_verified',
+                contract_hash=order.contract_hash
+            )
+
+    else:
+        form = ContractUploadForm(instance=order)
+
+    return render(
+        request,
+        template_name,
+        {
+            'order': order,
+            'form': form,
+        }
+    )
+
+
+def verify_contract_done(request, contract_hash):
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash=contract_hash,
+        contract_verified=True
+    )
+
+    return render(
+        request,
+        'business_customer_projects/business/Policies.html',
+        {
+            'order': order
+        }
+    )
+
 
 
 

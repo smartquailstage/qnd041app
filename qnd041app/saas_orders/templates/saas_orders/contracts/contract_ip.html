@@ -1,4 +1,25 @@
+{% load static %}
 <div class="page-number"></div>
+
+<main>
+
+<body>
+ <header>
+     <div class="header-left">
+    <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+ </div>
+     
+    
+  </div>
+  <div class="header-center">
+  CPI-SQ20{{ order.id }} 
+  </div>
+  Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}
+</header>
+
+
+
+<hr>
 
 <div class="titulos">
     <h2>CONTRATO DE PROPIEDAD INTELECTUAL DEL SISTEMA DE INFORMACIÓN</h2>
@@ -20,8 +41,8 @@
 </div>
 
 <div class="clausulas">
-
-    <h3>Propiedad Intelectual y Titularidad del Sistema</h3>
+<hr>
+    <h3>Clausura Primera: Propiedad Intelectual y Titularidad del Sistema</h3>
     <p>
         Las partes declaran que el sistema de información objeto del presente contrato ha sido 
         desarrollado mediante la participación conjunta de EL CONTRATANTE y SMARTQUAIL, ya sea por 
@@ -32,6 +53,7 @@
         flujos de automatización, interfaces, recursos de nube, componentes de inteligencia artificial, 
         modelos de operación y cualquier elemento digital inherente al producto contratado.
     </p>
+<hr>
 
     <h3>Derechos de Uso, Explotación y Desarrollo</h3>
     <p>
@@ -44,7 +66,7 @@
         propiedad acordada, y EL CONTRATANTE podrá solicitar evoluciones funcionales sin que ello afecte 
         la distribución del derecho intelectual establecido.
     </p>
-
+<hr>
     <h3>Protección, Custodia y Conservación del Código Fuente</h3>
     <p>
         SMARTQUAIL conservará la custodia operativa del código fuente, infraestructura técnica y 
@@ -55,7 +77,7 @@
         alteración no autorizada del código, arquitectura o automatizaciones será considerada una 
         vulneración de la propiedad intelectual conjunta.
     </p>
-
+<hr>
     <h3>Confidencialidad y Restricciones de Divulgación</h3>
     <p>
         Ambas partes se comprometen a preservar la absoluta confidencialidad de todo el contenido técnico, 
@@ -64,6 +86,7 @@
         expreso y escrito de la otra. Esta obligación se mantiene incluso después de la terminación del 
         contrato, sin límite de vigencia, debido a la naturaleza compartida de la propiedad intelectual.
     </p>
+<hr>
 
     <h3>Responsabilidad sobre la Integridad del Sistema</h3>
     <p>
@@ -75,6 +98,27 @@
         deberán consensuar los procedimientos y el alcance de los cambios para preservar la propiedad 
         compartida.
     </p>
+<hr>
+
+
+
+ <header>
+
+        <div class="header-left">
+   Pag 2/2
+  </div>
+
+  <div class="header-center">
+CONTRATO DE PROPIEDAD INTELECTUAL: CPI-SQ20{{ order.id }} 
+  </div>
+
+
+
+</header>
+
+
+
+<hr>
 
     <h3>Terminación y Efectos sobre la Propiedad Intelectual</h3>
     <p>
@@ -86,8 +130,39 @@
         código o división operativa, manteniendo siempre la proporcionalidad del derecho intelectual 
         establecido.
     </p>
+<hr>
+
+    <h3>Legislación Aplicable y Jurisdicción</h3>
+    <p>
+        El presente contrato se regirá e interpretará conforme a las leyes vigentes en la República del 
+        Ecuador. Cualquier controversia derivada del mismo será sometida a la jurisdicción de los tribunales 
+        competentes del Distrito Metropolitano de Quito, renunciando las partes a cualquier otro fuero que 
+        pudiera corresponderles por razón de su domicilio presente o futuro.
+    </p>
+</div>
+
+    <h3><strong>CERTIFICACIÓN DE CONTRATO </strong></h3>
+<div class="certificaciones">
+
+  <div class="cert-left">
+    
+    <!-- QR: puede ser una imagen generada con Django o un SVG -->
+     <img src="{{ qr_url }}" alt="QR de certificación">
+     <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    
+  </div>
+<div class="cert-right">
+
+  <div class="cert-sign">
+    <!-- Cuadrado para la firma -->
+    <div class="signature-box"></div>
+    <p><strong>CONTRATANTE</strong></p>
+  </div>
+</div>
 
 </div>
+
+
 
 <footer>
   <p>
@@ -96,3 +171,7 @@
     © 2025 SmartQuail, Inc. Todos los derechos reservados.
   </p>
 </footer>
+
+</main>
+
+</body>

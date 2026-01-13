@@ -1,152 +1,185 @@
+{% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static %}
 
-<div class="tab-pane fade" id="tab-recursos" role="tabpanel">
-
-    <hr class="my-4">
-    <div class="card radius-10">
-        <div class="card-body">
-
-            <div class="row">
-                <div class="col-12 col-xl-8 d-flex">
-                    <div class="card radius-10 w-100">
-                        <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 25px;">
+{% block content %}
 
 
-                            <h5>Terminos y condiciones del contrato: {{ project.name }}</h5>
-
-                            <!-- RESUMEN DE CONTRATOS -->
-                            <div class="d-flex flex-column flex-lg-row align-items-lg-center align-self-end justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
-
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="widget-icon rounded-circle bg-light-success text-success">
-                                        <ion-icon name="git-network-outline"></ion-icon>
-                                    </div>
-                                    <div class="">
-                                        <h4 class="mb-0">{{ total_contracts }}</h4>
-                                        <p class="mb-0 text-secondary">Total de Contratos</p>
-                                    </div>
-                                </div>
-
-                                <div class="vr d-none d-lg-block"></div>
-
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="widget-icon rounded-circle bg-light-success text-success">
-                                        <ion-icon name="code-slash-outline"></ion-icon>
-                                    </div>
-                                    <div class="">
-                                        <h4 class="mb-0">{{ contract_type_counts.ip }}</h4>
-                                        <p class="mb-0 text-secondary">Contratos Propiedad Intelectual</p>
-                                    </div>
-                                </div>
-
-                                <div class="vr d-none d-lg-block"></div>
-
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="widget-icon rounded-circle bg-light-success text-success">
-                                        <ion-icon name="checkmark-done-outline"></ion-icon>
-                                    </div>
-                                    <div class="">
-                                        <h4 class="mb-0">{{ contract_type_counts.cloud_services }}</h4>
-                                        <p class="mb-0 text-secondary">Servicios de Nube</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- LISTA DE CONTRATOS -->
-                            <div class="row g-4 align-items-center mb-4">
-                                <div class="col-12 col-xl-12" style="max-height: 300px; overflow-y: auto; margin-top: 79px;">
-
-                                    {% if contracts %}
-                                        {% for contract in contracts %}
-                                            <div class="d-flex align-items-start">
-
-                                                <div class="review-content ms-3">
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
 
 
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <h6 class="mb-0">
-                                                            {{ contract.titulo }}
-                                                            <ion-icon name="document-text-outline"></ion-icon>
-                                                            <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center mb-2">
-                                                        <h6 class="mb-0 text-secondary">{{ contract.get_tipo_display }}</h6>
-                                                        <p class="mb-0 ms-auto">{{ contract.created_at|date:"F j, Y" }}</p>
-                                                    </div>
-
-                                                    <p>
-                                                        Archivo:
-                                                        <a href="{{ contract.archivo.url }}" target="_blank" class="text-info">
-                                                            Descargar contrato
-                                                        </a>
-                                                    </p>
-
-                                                </div>
-                                            </div>
-
-                                            <hr/>
-                                        {% endfor %}
-                                    {% else %}
-                                        <p class="text-muted text-center">No hay contratos registrados.</p>
-                                    {% endif %}
-
-                                </div>
-                            </div><!-- end row -->
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COLUMNA DERECHA (NO ALTERADA) -->
-                <div class="col-12 col-xl-4 d-flex">
-                    <div class="card radius-10 overflow-hidden w-100">
-                        <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px;">
-
-                            <!-- EQUIPO RESPONSABLE -->
-                            <div class="card radius-10 w-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <h5 class="mb-0">Equipo SmartQuail Responsable</h5>
-                                    </div>
-
-                                    <div class="d-flex gap-4">
-                                        <div class="review-user text-center">
-                                            <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="" />
-                                            <p class="mb-0 fw-bold" style="font-size: 13px;">Mauricio Silva</p>
-                                            <p class="mb-0 text-muted" style="font-size: 9px;">Project Manager</p>
-                                        </div>
-
-                                        <div class="review-user text-center">
-                                            <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="" />
-                                            <p class="mb-0 fw-bold" style="font-size: 13px;">Mauricio Silva</p>
-                                            <p class="mb-0 text-muted" style="font-size: 9px;">Desarrollador</p>
-                                        </div>
-
-                                        <div class="review-user text-center">
-                                            <img src="assets/images/avatars/01.png" width="65" height="65" class="rounded-circle" alt="" />
-                                            <p class="mb-0 fw-bold" style="font-size: 13px;">Mauricio Silva</p>
-                                            <p class="mb-0 text-muted" style="font-size: 9px;">Ingeniero de IA</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- TARJETAS DE OTROS DATOS (NO ALTERADAS) -->
-                            {{ block.super }}
-
-                        </div>
-                    </div>
-                </div>
-
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-download-outline"></ion-icon>   {{ project.name }}</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                  INSIGHTS 
+                  
+                  </li>
+                </ol>
+              </nav>
             </div>
 
-            <hr class="my-4">
-        </div>
-    </div>
+          </div>
 
+
+<!-- Nav pills -->
+<ul class="nav nav-pills mb-2 bg-light-success rounded" id="custom-tabs" role="tablist">
+
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#tab-general">
+            <ion-icon name="cloud-download-outline"></ion-icon>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="pill" href="#tab-desarrollo">
+            <ion-icon name="create-outline"></ion-icon>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#tab-policies">
+            <ion-icon name="shield-checkmark"></ion-icon>
+        </a>
+    </li>
+
+</ul>
+
+<!-- TAB CONTENT (OBLIGATORIO) -->
+<div class="tab-content mt-4">
+
+    <!-- TAB POLICIES -->
+    <div class="tab-pane fade show active" id="tab-policies" role="tabpanel">
+
+        <div class="card radius-10">
+            <div class="card-body">
+
+                <div class="row">
+
+                    <!-- COLUMNA IZQUIERDA -->
+                    <div class="col-12 col-xl-8">
+
+                        <div class="card radius-10">
+                            <div class="card-body bg-dark text-white rounded">
+
+                                <h5>Términos y condiciones del contrato</h5>
+
+                                <!-- RESUMEN -->
+                                <div class="d-flex justify-content-between border p-3 rounded mb-4">
+                                    <div>
+                                        <h4>{{ total_contracts }}</h4>
+                                        <small>Total contratos</small>
+                                    </div>
+                                    <div>
+                                        <h4>{{ contract_type_counts.ip }}</h4>
+                                        <small>Propiedad Intelectual</small>
+                                    </div>
+                                    <div>
+                                        <h4>{{ contract_type_counts.cloud_services }}</h4>
+                                        <small>Nube</small>
+                                    </div>
+                                </div>
+
+                                <!-- LISTA -->
+                                {% if contracts %}
+                                    {% for contract in contracts %}
+                                        <div class="mb-3">
+                                            <h6>
+                                                {{ contract.titulo }}
+                                                <ion-icon name="document-text-outline"></ion-icon>
+                                            </h6>
+                                            <small>{{ contract.get_tipo_display }} · {{ contract.created_at|date:"d/m/Y" }}</small>
+                                            <br>
+                                            <a href="{{ contract.archivo.url }}" target="_blank" class="text-info">
+                                                Descargar contrato
+                                            </a>
+                                        </div>
+                                        <hr>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="text-muted">No hay contratos registrados.</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- COLUMNA DERECHA -->
+                    <div class="col-12 col-xl-4">
+
+                        <div class="card radius-10">
+                            <div class="card-body bg-dark text-white rounded">
+
+                                <h5>Equipo SmartQuail</h5>
+
+                                <div class="d-flex gap-3">
+                                    <div class="text-center">
+                                        <img src="{% static 'images/avatars/01.png' %}" width="60" class="rounded-circle">
+                                        <p class="mb-0">Mauricio Silva</p>
+                                        <small>Project Manager</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- VALIDACIÓN DE CONTRATO -->
+               {% if order %}
+<div class="card radius-10 mt-4">
+    <div class="card-body bg-dark text-white rounded">
+
+        <h5>
+            Validación del contrato
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </h5>
+
+        {% if order.contract_verified %}
+            <div class="alert alert-success">
+                ✔ Contrato verificado<br>
+
+                <strong>Firmado:</strong>
+                {{ order.contract_signed_at|date:"d/m/Y H:i" }}<br>
+
+                {% if order.signed_contract %}
+                    <a href="{{ order.signed_contract.url }}" target="_blank">
+                        Descargar contrato firmado
+                    </a>
+                {% endif %}
+
+                <br>
+                <small>Hash: {{ order.contract_hash }}</small>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.signed_contract.label_tag }}
+                    {{ form.signed_contract }}
+                    <br><br>
+                    <button class="btn btn-success">
+                        Subir contrato firmado
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+
+    </div>
 </div>
+{% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

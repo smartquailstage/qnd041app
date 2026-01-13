@@ -13,6 +13,12 @@ from decimal import Decimal
 from djmoney.money import Money  # Asegúrate de importar si usas MoneyField
 from djmoney.models.fields import MoneyField
 
+# saas_orders/models.py
+import hashlib
+from django.conf import settings
+from django.db import models
+
+
 class SaaSOrder(models.Model):
     SECTORES = [
         ('G', 'Gastronómico'),
@@ -69,6 +75,37 @@ class SaaSOrder(models.Model):
     discount = models.IntegerField(default=0,
                                    validators=[MinValueValidator(0),
                                                MaxValueValidator(100)])
+
+    contract_hash = models.CharField(
+        max_length=64,
+        unique=True,
+        null=True,
+        blank=True,
+        db_index=True
+    )
+
+    signed_contract = models.FileField(
+        upload_to='contracts/signed/',
+        null=True,
+        blank=True
+    )
+
+    contract_signed_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    contract_verified = models.BooleanField(
+        default=False,
+        verbose_name="Contrato verificado"
+    )
+
+    def generate_contract_hash(self):
+        """
+        Genera un hash único e inmutable para el contrato.
+        """
+        raw_string = f"{self.id}-{self.created.isoformat()}-{settings.SECRET_KEY}"
+        return hashlib.sha256(raw_string.encode()).hexdigest()
 
     
     # Nuevos campos

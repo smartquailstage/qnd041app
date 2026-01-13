@@ -55,7 +55,7 @@ Coorp & Industrial
     
           </p>
       </li>
-{% if all_projects or projects_in_progress %}                          
+{% if all_projects or projects_in_progress %}
 <li class="">
   <a href="javascript:;" class="has-arrow" aria-expanded="false">
     <div class="parent-icon">
@@ -64,33 +64,43 @@ Coorp & Industrial
     <div style="font-size: 10pt;" class="menu-title">Proyectos ITC</div>
   </a>
 
+  <ul class="mm-collapse" style="height: auto;">
 
-<ul class="mm-collapse" style="height: auto;">
+    {# 🔥 Proyectos en progreso #}
+    {% for project in projects_in_progress %}
+      <li>
+        <a href="{% url 'business_customer_projects:processes' project.pk %}">
+          <span class="spinner-border spinner-border-sm text-warning"></span>
+          {{ project.name }}
+          <span class="text-warning">({{ project.progress }}%)</span>
+        </a>
+      </li>
+    {% endfor %}
 
-  {# 🔥 Proyectos en progreso #}
-  {% for project in projects_in_progress %}
-    <li>
-      <a href="{% url 'business_customer_projects:processes' project.pk %}">
-        <span class="spinner-border spinner-border-sm text-warning"></span>
-        {{ project.name }}
-        <span class="text-warning">({{ project.progress }}%)</span>
-      </a>
-    </li>
-  {% endfor %}
+    {# 🔥 Proyectos completados #}
+    {% for project in all_projects %}
+      <li>
+        <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+          {{ project.name }}
+        </a>
+      </li>
+    {% endfor %}
 
-  {# 🔥 Proyectos completados #}
-  {% for project in all_projects %}
-    <li>
-      <a href="{% url 'business_customer_projects:project_detail' project.pk %}">
-        <ion-icon name="checkmark-done-outline"></ion-icon>
-        {{ project.name }}
-      </a>
-    </li>
-  {% endfor %}
+    {# 🔥 Crear proyecto solo si hay orden activa #}
+    {% if projects_in_progress or all_projects %}
+      <li>
+        <a href="{% url 'business_customer_projects:create_project' %}">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          Crear Proyecto
+        </a>
+      </li>
+    {% endif %}
 
-</ul>
+  </ul>
 </li>
 {% endif %}
+
 
 
 

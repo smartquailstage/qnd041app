@@ -24,41 +24,41 @@ def tamano_empresa_context(request):
 
 
 
+
+
+
+
 def business_projects_context(request):
-    # Usuario no autenticado → no hay datos
     if not request.user.is_authenticated:
         return {
-            'all_projects': [],
+            'order': None,
+            'all_projects': [], 
             'projects_in_progress': [],
         }
 
-    # Verificar si el usuario tiene una orden activa
-    has_active_order = SaaSOrder.objects.filter(
+    # Orden activa
+    order = SaaSOrder.objects.filter(
         user=request.user,
-        is_active=True  # ajusta este campo si es distinto
-    ).exists()
+        is_active=True
+    ).first()
 
-    # Si NO tiene orden activa → no exponer proyectos
-    if not has_active_order:
+    if not order:
         return {
+            'order': None,
             'all_projects': [],
             'projects_in_progress': [],
         }
 
-    # Proyectos del usuario
     user_projects = BusinessSystemProject.objects.filter(user=request.user)
 
-    # Proyectos completados
     completed_projects = user_projects.filter(progress=100)
-
-    # Proyectos en progreso
     in_progress_projects = user_projects.exclude(progress=100)
 
     return {
+        'order': order,  # 👈 ahora el template puede usar `order`
         'all_projects': completed_projects,
         'projects_in_progress': in_progress_projects,
     }
-
 
 
 
