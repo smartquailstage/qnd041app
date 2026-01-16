@@ -177,3 +177,80 @@ def send_order_email(order_id):
     order.save(update_fields=['email_sent'])
 
     return f"Correo enviado a {order.email} para la orden {order_id}."
+
+
+
+# saas_orders/tasks.py
+from celery import shared_task
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from io import BytesIO
+import weasyprint
+from django.conf import settings
+from .models import SaaSOrder
+
+@shared_task
+def send_payment_and_contracts_email_task(order_id):
+    try:
+        order = SaaSOrder.objects.get(id=order_id)
+        domain = 'ec.smartquail.io'
+
+        # Render HTML del correo
+        html_message = render_to_string(
+            'saas_orders/mails/payment_completed.html',
+            {'order': order, 'domain': domain}
+        )
+
+        subject = "✅ Pago registrado y verificación de contratos - ITC Business"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = [order.email]
+
+        email = EmailMultiAlternatives(
+            subject,
+            "Su pago ha sido registrado correctamente en SmartQuail Cloud.",
+            from_email,
+            to_email
+        )
+        email.attach_alternative(html_message, "text/html")
+
+        # Adjuntar contratos no firmados
+        contracts = [
+            ('Contrato_IP.pdf', 'saas_orders/contracts/contract_ip.html', 'contract_hash_ip', 'contract_verified_ip'),
+            ('Contrato_DEV.pdf', 'saas_orders/contracts/contract_development.html', 'contract_hash_dev', 'contract_verified_dev'),
+            ('Contrato_CLOUD.pdf', 'saas_orders/contracts/contract_cloud_rent.html', 'contract_hash_cloud', 'contract_verified_cloud'),
+        ]
+
+        for filename, template, hash_field, verified_field in contracts:
+            if not getattr(order, verified_field):
+                # Generar hash si no existe
+                if not getattr(order, hash_field):
+                    generator_method = f'generate_{hash_field}'
+                    if hasattr(order, generator_method):
+                        setattr(order, hash_field, getattr(order, generator_method)())
+                        order.save(update_fields=[hash_field])
+
+                # Renderizar PDF
+                html_contract = render_to_string(
+                    template,
+                    {'order': order, 'domain': domain, 'contract_hash': getattr(order, hash_field)}
+                )
+
+                out = BytesIO()
+                css_path = f'saas_orders/static/css/{filename.lower().replace(".pdf", "")}.css'
+
+                weasyprint.HTML(string=html_contract, base_url=f"https://{domain}/").write_pdf(
+                    out,
+                    stylesheets=[weasyprint.CSS(css_path)],
+                    presentational_hints=True
+                )
+
+                email.attach(filename, out.getvalue(), 'application/pdf')
+
+        email.send()
+        order.email_sent = True
+        order.save(update_fields=['email_sent'])
+        return True
+
+    except Exception as e:
+        print(f"Error enviando correo de pago y contratos: {e}")
+        return False
