@@ -15,6 +15,9 @@ from djmoney.models.fields import MoneyField
 
 # saas_orders/models.py
 import hashlib
+import uuid
+from django.utils import timezone
+from datetime import timedelta
 from django.conf import settings
 from django.db import models
 
@@ -76,42 +79,62 @@ class SaaSOrder(models.Model):
                                    validators=[MinValueValidator(0),
                                                MaxValueValidator(100)])
 
-    contract_hash = models.CharField(
-        max_length=64,
-        unique=True,
-        null=True,
-        blank=True,
-        db_index=True
-    )
+    # ------------------------------
+    # Hashes por contrato
+    # ------------------------------
+    contract_hash_ip = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    contract_hash_dev = models.CharField(max_length=64, unique=True, null=True, blank=True)
+    contract_hash_cloud = models.CharField(max_length=64, unique=True, null=True, blank=True)
 
-    signed_contract = models.FileField(
-        upload_to='contracts/signed/',
-        null=True,
-        blank=True
-    )
+    # ------------------------------
+    # Firma IP
+    # ------------------------------
+    signed_contract_ip = models.FileField(upload_to='contracts/signed/', null=True, blank=True)
+    contract_signed_at_ip = models.DateTimeField(null=True, blank=True)
+    contract_verified_ip = models.BooleanField(default=False)
 
-    contract_signed_at = models.DateTimeField(
-        null=True,
-        blank=True
-    )
+    # ------------------------------
+    # Firma DEV
+    # ------------------------------
+    signed_contract_dev = models.FileField(upload_to='contracts/signed/', null=True, blank=True)
+    contract_signed_at_dev = models.DateTimeField(null=True, blank=True)
+    contract_verified_dev = models.BooleanField(default=False)
 
-    contract_verified = models.BooleanField(
-        default=False,
-        verbose_name="Contrato verificado"
-    )
+    # ------------------------------
+    # Firma CLOUD
+    # ------------------------------
+    signed_contract_cloud = models.FileField(upload_to='contracts/signed/', null=True, blank=True)
+    contract_signed_at_cloud = models.DateTimeField(null=True, blank=True)
+    contract_verified_cloud = models.BooleanField(default=False)
 
-    def generate_contract_hash(self):
-        """
-        Genera un hash único e inmutable para el contrato.
-        """
-        raw_string = f"{self.id}-{self.created.isoformat()}-{settings.SECRET_KEY}"
-        return hashlib.sha256(raw_string.encode()).hexdigest()
-
-    
     # Nuevos campos
     terms_accepted = models.BooleanField(default=False, verbose_name="Acepta términos y condiciones")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
     email_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
+
+    # ==================================================
+    # 🔐 HASH GENERATOR
+    # ==================================================
+    def _generate_contract_hash(self, contract_type: str) -> str:
+        raw = (
+            f"{self.id}|"
+            f"{contract_type}|"
+            f"{uuid.uuid4()}|"
+            f"{timezone.now().isoformat()}|"
+            f"{settings.SECRET_KEY}"
+        )
+        return hashlib.sha256(raw.encode()).hexdigest()
+
+    def generate_contract_hash_ip(self):
+        return self._generate_contract_hash("IP")
+
+    def generate_contract_hash_dev(self):
+        return self._generate_contract_hash("DEV")
+
+    def generate_contract_hash_cloud(self):
+        return self._generate_contract_hash("CLOUD")
+
+    # ------------------------------
 
     class Meta:
         ordering = ('-created',)

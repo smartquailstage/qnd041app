@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="page-content-wrapper">
+  <!-- start page content-->
+  <div class="page-content">
+
+
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-download-outline"></ion-icon>   {{ project.name }}</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                 VERICACIÓN & AUTOIDDENTIFICACIÓN DE CONTRATOS
+                  
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
+
+<!-- Nav pills -->
+<ul class="nav nav-pills mb-2 bg-light-success rounded" id="custom-tabs" role="tablist">
+
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#tab-general">
+            <ion-icon name="cloud-download-outline"></ion-icon>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="pill" href="#tab-desarrollo">
+            <ion-icon name="create-outline"></ion-icon>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#tab-policies">
+            <ion-icon name="shield-checkmark"></ion-icon>
+        </a>
+    </li>
+
+</ul>
+
+<!-- TAB CONTENT (OBLIGATORIO) -->
+<div class="tab-content mt-4">
+
+    <!-- TAB POLICIES -->
+    <div class="tab-pane fade show active" id="tab-policies" role="tabpanel">
+
+        <div class="card radius-10">
+            <div class="card-body">
+
+                <div class="row">
+               {% if order %}
+<div class="card radius-10 mt-4">
+    <div class="card-body bg-dark text-white rounded">
+
+        <h5>
+            Validación del contrato
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </h5>
+
+        {% if order.contract_verified_dev %}
+            <div class="alert alert-success">
+                ✔ Contrato verificado<br>
+                <strong>Contrato de Desarrollo (I+D)</strong><br>
+                <strong>Codigo de Verificación: CDID-SQ02{{order.id}}</strong><br>
+                <strong>Firmado:</strong>
+                {{ order.contract_signed_at_dev|date:"d/m/Y H:i" }}<br>
+
+                {% if order.signed_contract_dev %}
+                    <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                        Descargar contrato firmado
+                    </a>
+                {% endif %}
+
+                <br>
+                <small> Token ID CONTRACT: {{ order.contract_hash_dev }}</small>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.signed_contract_dev.label_tag }}
+                    {{ form.signed_contract_dev }}
+                    <br><br>
+                    <button class="btn btn-success">
+                        Subir contrato firmado
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endif %}
+
+
+{% if not order.contract_verified_ip %}
+<div class="alert alert-info">
+    El contrato de propiedad intelectual aún no ha sido firmado. Por favor, complete el proceso de verificación para continuar.
+</div>
+{% endif %}
+
+{% if not order.contract_verified_cloud %}
+<div class="alert alert-info">
+    El contrato de alquiler de nube aún no ha sido firmado. Por favor, complete el proceso de verificación para continuar.
+</div>
+{% endif %}
+
+
+                </div>
+
+                <!-- VALIDACIÓN DE CONTRATO -->
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

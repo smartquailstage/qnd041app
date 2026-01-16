@@ -14,21 +14,87 @@ from saas_shop.models import Product
 
 from saas_orders.models import SaaSOrder
 
+
+class ContractUploadCloudForm(forms.ModelForm):
+    class Meta:
+        model = SaaSOrder
+        fields = ['signed_contract_cloud']
+
+    def clean_signed_contract_cloud(self):
+        file = self.cleaned_data.get('signed_contract_cloud')
+
+        if not file:
+            raise forms.ValidationError(
+                "Debes subir el contrato firmado."
+            )
+
+        if file.size > 5 * 1024 * 1024:
+            raise forms.ValidationError(
+                "El archivo no puede superar 5MB."
+            )
+
+        allowed_extensions = ('.pdf', '.png', '.jpg', '.jpeg')
+        if not file.name.lower().endswith(allowed_extensions):
+            raise forms.ValidationError(
+                "Formato no permitido. Solo PDF, PNG o JPG."
+            )
+
+        return file
+
+
+class ContractUploadDevForm(forms.ModelForm):
+    class Meta:
+        model = SaaSOrder
+        fields = ['signed_contract_dev']
+
+    def clean_signed_contract_dev(self):
+        file = self.cleaned_data.get('signed_contract_dev')
+
+        if not file:
+            raise forms.ValidationError(
+                "Debes subir el contrato firmado."
+            )
+
+        if file.size > 5 * 1024 * 1024:
+            raise forms.ValidationError(
+                "El archivo no puede superar 5MB."
+            )
+
+        allowed_extensions = ('.pdf', '.png', '.jpg', '.jpeg')
+        if not file.name.lower().endswith(allowed_extensions):
+            raise forms.ValidationError(
+                "Formato no permitido. Solo PDF, PNG o JPG."
+            )
+
+        return file
+
+
 class ContractUploadForm(forms.ModelForm):
     class Meta:
         model = SaaSOrder
-        fields = ['signed_contract']
+        fields = ['signed_contract_ip']
 
-    def clean_signed_contract(self):
-        file = self.cleaned_data['signed_contract']
+    def clean_signed_contract_ip(self):
+        file = self.cleaned_data.get('signed_contract_ip')
+
+        if not file:
+            raise forms.ValidationError(
+                "Debes subir el contrato firmado."
+            )
 
         if file.size > 5 * 1024 * 1024:
-            raise forms.ValidationError("El archivo no puede superar 5MB")
+            raise forms.ValidationError(
+                "El archivo no puede superar 5MB."
+            )
 
-        if not file.name.lower().endswith(('.pdf', '.png', '.jpg', '.jpeg')):
-            raise forms.ValidationError("Formato no permitido")
+        allowed_extensions = ('.pdf', '.png', '.jpg', '.jpeg')
+        if not file.name.lower().endswith(allowed_extensions):
+            raise forms.ValidationError(
+                "Formato no permitido. Solo PDF, PNG o JPG."
+            )
 
         return file
+
 
 
 

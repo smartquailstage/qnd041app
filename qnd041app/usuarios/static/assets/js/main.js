@@ -6,51 +6,74 @@ $(function() {
 		$("#menu").metisMenu()
 	})
 
-
-// Toggle principal
-$(".nav-toggle-icon").on("click", function () {
-    $(".wrapper").toggleClass("toggled");
-});
-
-// Mobile
-$(".mobile-menu-button").on("click", function () {
+// ===============================
+// 🔒 Sidebar cerrado por defecto
+// ===============================
+$(document).ready(function () {
     $(".wrapper").addClass("toggled");
 });
 
+// ===============================
+// Toggle principal (mobile + desktop)
+// ===============================
+function toggleSidebar() {
+    $(".wrapper").toggleClass("toggled");
+
+    // Ajustar hover según estado
+    if (!$(".wrapper").hasClass("toggled") && $(window).width() >= 992) {
+        enableHoverSidebar();
+    } else {
+        disableHoverSidebar();
+    }
+}
+
+// Llamar a toggle desde cualquier botón
+$(".nav-toggle-icon, .mobile-menu-button, .toggle-icon").on("click", function (e) {
+    e.stopPropagation(); // Evita bubbling no deseado
+    toggleSidebar();
+});
+
+// ===============================
 // Activar menú actual
+// ===============================
 $(function () {
-    for (
-        var e = window.location,
-            o = $(".metismenu li a").filter(function () {
-                return this.href == e;
-            }).parent().addClass("mm-active");
-        o.is("li");
-    ) {
+    var current = window.location.href;
+    var o = $(".metismenu li a").filter(function () {
+        return this.href === current;
+    }).parent().addClass("mm-active");
+
+    while (o.is("li")) {
         o = o.parent("ul").addClass("mm-show").parent("li").addClass("mm-active");
     }
 });
 
-// Hover toggle
-$(".toggle-icon").click(function () {
-    if ($(".wrapper").hasClass("toggled")) {
-        $(".wrapper").removeClass("toggled");
-        $(".sidebar-wrapper").unbind("hover");
-    } else {
-        $(".wrapper").addClass("toggled");
-        $(".sidebar-wrapper").hover(
-            function () {
-                $(".wrapper").addClass("sidebar-hovered");
-            },
-            function () {
-                $(".wrapper").removeClass("sidebar-hovered");
-            }
-        );
-    }
-});
+// ===============================
+// Hover toggle para desktop
+// ===============================
+function enableHoverSidebar() {
+    $(".sidebar-wrapper").hover(
+        function () {
+            $(".wrapper").addClass("sidebar-hovered");
+        },
+        function () {
+            $(".wrapper").removeClass("sidebar-hovered");
+        }
+    );
+}
 
-// 🔒 Sidebar CERRADO por defecto
-$(document).ready(function () {
-    $(".wrapper").addClass("toggled");
+function disableHoverSidebar() {
+    $(".sidebar-wrapper").off("mouseenter mouseleave");
+}
+
+// ===============================
+// Ajustar hover al redimensionar
+// ===============================
+$(window).on("load resize", function () {
+    if ($(window).width() >= 992 && !$(".wrapper").hasClass("toggled")) {
+        enableHoverSidebar();
+    } else {
+        disableHoverSidebar();
+    }
 });
 
 

@@ -180,68 +180,182 @@ def admin_contract_ip_pdf(request, order_id):
     order = get_object_or_404(SaaSOrder, id=order_id)
 
     # ------------------------------
-    # Generar HASH único (solo una vez)
+    # Generar HASH IP (solo una vez)
     # ------------------------------
-    if not order.contract_hash:
-        raw_string = f"{order.id}-{order.created.isoformat()}-{settings.SECRET_KEY}"
-        order.contract_hash = hashlib.sha256(raw_string.encode()).hexdigest()
-        order.save(update_fields=["contract_hash"])
+    if not order.contract_hash_ip:
+        order.contract_hash_ip = order.generate_contract_hash_ip()
+        order.save(update_fields=["contract_hash_ip"])
 
     # ------------------------------
-    # Datos del QR (URL + información adicional)
+    # URL de verificación
     # ------------------------------
     verification_url = (
-        f"http://ec.smartquail.io/es/business_customer_projects/verify/contract/{order.contract_hash}"
+        f"http://ec.smartquail.io/es/business_customer_projects/"
+        f"verify/contract/ip/{order.contract_hash_ip}/"
     )
 
-    # Texto completo que irá dentro del QR
     qr_data = (
-        f"SMARTQUAIL.S.A.S\n"
-        f"R.U.C: 1793206532-001\n"
-        f"UIO-Ecuador\n"
-        f"REPRESENTANTE LEGAL\n"
-        f"SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
+        "SMARTQUAIL S.A.S\n"
+        "R.U.C: 1793206532-001\n"
+        "UIO - Ecuador\n"
+        "REPRESENTANTE LEGAL\n"
+        "SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
         f"CONTRATO: CPI-SQ20{order.id}\n"
-        f"TOKEN: {order.contract_hash}\n"
-        f"Hacer click para validar contrato : {verification_url}"
+        f"TOKEN: {order.contract_hash_ip}\n"
+        f"Validar contrato: {verification_url}"
     )
 
-    # Generar QR
-    qr = qrcode.QRCode(
-        version=1,
-        box_size=1,
-        border=2
-    )
+    qr = qrcode.QRCode(version=1, box_size=1, border=2)
     qr.add_data(qr_data)
     qr.make(fit=True)
-
     img = qr.make_image(fill_color="black", back_color="white")
 
-    # Convertir a base64
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
     qr_data_url = f"data:image/png;base64,{qr_base64}"
 
-    # ------------------------------
-    # Renderizar HTML
-    # ------------------------------
     html = render_to_string(
-        'saas_orders/contracts/contract_ip.html',
+        "saas_orders/contracts/contract_ip.html",
         {
-            'order': order,
-            'domain': 'ec.smartquail.io',
-            'qr_url': qr_data_url,
-            'contract_hash': order.contract_hash,
+            "order": order,
+            "domain": "ec.smartquail.io",
+            "qr_url": qr_data_url,
+            "contract_hash_ip": order.contract_hash_ip,
         }
     )
 
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f"attachment; filename=contract_ip_{order.id}.pdf"
+    )
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS("saas_orders/static/css/contract_ip.css")],
+        presentational_hints=True
+    )
+
+    return response
+
+
+@staff_member_required
+def admin_contract_development_pdf(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id)
+
     # ------------------------------
-    # Generar PDF
+    # Generar HASH DEV
     # ------------------------------
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = (
-        f'attachment; filename=contract_ip_{order.id}.pdf'
+    if not order.contract_hash_dev:
+        order.contract_hash_dev = order.generate_contract_hash_dev()
+        order.save(update_fields=["contract_hash_dev"])
+
+    verification_url = (
+        f"http://ec.smartquail.io/es/business_customer_projects/"
+        f"verify/contract/development/{order.contract_hash_dev}/"
+    )
+
+    qr_data = (
+        "SMARTQUAIL S.A.S\n"
+        "R.U.C: 1793206532-001\n"
+        "UIO - Ecuador\n"
+        "REPRESENTANTE LEGAL\n"
+        "SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
+        f"CONTRATO: CD-SQ20{order.id}\n"
+        f"TOKEN: {order.contract_hash_dev}\n"
+        f"Validar contrato: {verification_url}"
+    )
+
+    qr = qrcode.QRCode(version=1, box_size=1, border=2)
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_data_url = f"data:image/png;base64,{qr_base64}"
+
+    html = render_to_string(
+        "saas_orders/contracts/contract_development.html",
+        {
+            "order": order,
+            "domain": "ec.smartquail.io",
+            "qr_url": qr_data_url,
+            "contract_hash_dev": order.contract_hash_dev,
+        }
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f"attachment; filename=contract_development_{order.id}.pdf"
+    )
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS("saas_orders/static/css/contract_dev.css")],
+        presentational_hints=True
+    )
+
+    return response
+
+
+@staff_member_required
+def admin_contract_cloud_pdf(request, order_id):
+    order = get_object_or_404(SaaSOrder, id=order_id)
+
+    # ------------------------------
+    # Generar HASH CLOUD
+    # ------------------------------
+    if not order.contract_hash_cloud:
+        order.contract_hash_cloud = order.generate_contract_hash_cloud()
+        order.save(update_fields=["contract_hash_cloud"])
+
+    verification_url = (
+        f"http://ec.smartquail.io/es/business_customer_projects/"
+        f"verify/contract/cloud/{order.contract_hash_cloud}/"
+    )
+
+    qr_data = (
+        "SMARTQUAIL S.A.S\n"
+        "R.U.C: 1793206532-001\n"
+        "UIO - Ecuador\n"
+        "REPRESENTANTE LEGAL\n"
+        "SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
+        f"CONTRATO: CC-SQ20{order.id}\n"
+        f"TOKEN: {order.contract_hash_cloud}\n"
+        f"Validar contrato: {verification_url}"
+    )
+
+    qr = qrcode.QRCode(version=1, box_size=1, border=2)
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_data_url = f"data:image/png;base64,{qr_base64}"
+
+    html = render_to_string(
+        "saas_orders/contracts/contract_cloud_rent.html",
+        {
+            "order": order,
+            "domain": "ec.smartquail.io",
+            "qr_url": qr_data_url,
+            "contract_hash_cloud": order.contract_hash_cloud,
+        }
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f"attachment; filename=contract_cloud_{order.id}.pdf"
     )
 
     weasyprint.HTML(
@@ -250,58 +364,9 @@ def admin_contract_ip_pdf(request, order_id):
     ).write_pdf(
         response,
         stylesheets=[
-            weasyprint.CSS('saas_orders/static/css/contract_ip.css')
+            weasyprint.CSS("saas_orders/static/css/contratct_resources.css")
         ],
         presentational_hints=True
     )
 
     return response
-
-
-
-@staff_member_required
-def admin_contract_development_pdf(request, order_id):
-    order = get_object_or_404(SaaSOrder, id=order_id)
-
-    html = render_to_string(
-        'saas_orders/contracts/contract_development.html',
-        {'order': order, 'domain': 'ec.smartquail.io'}
-    )
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename=contract_development_{order.id}.pdf'
-
-    weasyprint.HTML(
-        string=html,
-        base_url=request.build_absolute_uri()
-    ).write_pdf(
-        response,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_dev.css')],
-        presentational_hints=True
-    )
-
-    return response
-
-@staff_member_required
-def admin_contract_cloud_pdf(request, order_id):
-    order = get_object_or_404(SaaSOrder, id=order_id)
-
-    html = render_to_string(
-        'saas_orders/contracts/contract_cloud_rent.html',
-        {'order': order, 'domain': 'ec.smartquail.io'}
-    )
-
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename=contract_cloud_{order.id}.pdf'
-
-    weasyprint.HTML(
-        string=html,
-        base_url=request.build_absolute_uri()
-    ).write_pdf(
-        response,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/contract_resources.css')],
-        presentational_hints=True
-    )
-
-    return response
-

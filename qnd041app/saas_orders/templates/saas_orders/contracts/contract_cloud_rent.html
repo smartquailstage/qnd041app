@@ -1,4 +1,28 @@
+{% load i18n %}
+{% load static %}
+
+
+
+
 <div class="page-number"></div>
+
+ <header>
+     <div class="header-left">
+    <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+ </div>
+     
+    
+  </div>
+  <div class="header-center">
+  CPI-SQ20{{ order.id }} 
+  </div>
+
+    <div class="header-right">
+    <strong>Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}</strong>
+  </div>
+
+</header>
+
 
 <div class="titulos">
     <h2>CONTRATO DE ARRENDAMIENTO DE RECURSOS DE NUBE</h2>
@@ -91,6 +115,35 @@
     </p>
 
 </div>
+
+
+<hr>
+    <h3><strong>CERTIFICACIÓN DE CONTRATO </strong></h3>
+<div class="certificaciones">
+
+  <div class="cert-left">
+    
+    <!-- QR: puede ser una imagen generada con Django o un SVG -->
+     <img src="{{ qr_url }}" alt="QR de certificación">
+     <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    
+  </div>
+<div class="cert-right">
+
+  <div class="cert-sign">
+    <!-- Cuadrado para la firma -->
+    <div class="signature-box"></div>
+    <p><strong>CONTRATANTE</strong></p>
+  </div>
+</div>
+
+</div>
+<hr>
+<div class="contract-note">
+<strong>TOKEN ID CONTRACT : {{ order.contract_hash_cloud }}</strong>
+</div>
+
+
 
 <footer>
   <p>

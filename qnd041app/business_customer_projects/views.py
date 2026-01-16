@@ -573,19 +573,18 @@ from django.utils import timezone
 from django.http import HttpResponseForbidden
 
 from .models import SaaSOrder
-from .forms import ContractUploadForm
+from .forms import ContractUploadForm,ContractUploadDevForm,ContractUploadCloudForm
 
-
-def verify_contract(request, contract_hash):
-    template_name = "business/Policies.html"
+@login_required(login_url='usuarios:login')
+def verify_contract(request, contract_hash_ip):
+    template_name = "business/contract_verify.html"
 
     order = get_object_or_404(
         SaaSOrder,
-        contract_hash=contract_hash
+        contract_hash_ip=contract_hash_ip
     )
 
-    # 🔒 Evitar que se vuelva a firmar
-    if order.contract_verified:
+    if order.contract_verified_ip:
         return render(
             request,
             template_name,
@@ -603,16 +602,19 @@ def verify_contract(request, contract_hash):
         )
 
         if form.is_valid():
-            contract = form.save(commit=False)
-            contract.contract_signed_at = timezone.now()
-            contract.contract_verified = True
-            contract.save()
+            order = form.save(commit=False)
+            order.contract_signed_at_ip = timezone.now()
+            order.contract_verified_ip = True
+            order.save(update_fields=[
+                'signed_contract_ip',
+                'contract_signed_at_ip',
+                'contract_verified_ip'
+            ])
 
             return redirect(
-                'business_customer_projects:contract_verified',
-                contract_hash=order.contract_hash
+                'business_customer_projects:contract_ip_verified',
+                contract_hash_ip=order.contract_hash_ip
             )
-
     else:
         form = ContractUploadForm(instance=order)
 
@@ -625,21 +627,167 @@ def verify_contract(request, contract_hash):
         }
     )
 
-
-def verify_contract_done(request, contract_hash):
+@login_required(login_url='usuarios:login')
+def verify_contract_done(request, contract_hash_ip):
     order = get_object_or_404(
         SaaSOrder,
-        contract_hash=contract_hash,
-        contract_verified=True
+        contract_hash_ip=contract_hash_ip,
+        contract_verified_ip=True
     )
 
     return render(
         request,
-        'business_customer_projects/business/Policies.html',
+        "business/contract_verify.html",
         {
-            'order': order
+            'order': order,
+            'already_signed': True,
         }
     )
+
+
+@login_required(login_url='usuarios:login')
+def verify_contract_development(request, contract_hash_dev):
+    template_name = "business/contract_verify_development.html"
+
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash_dev=contract_hash_dev
+    )
+
+    if order.contract_verified_dev:
+        return render(
+            request,
+            template_name,
+            {
+                'order': order,
+                'already_signed': True,
+            }
+        )
+
+    if request.method == 'POST':
+        form = ContractUploadDevForm(
+            request.POST,
+            request.FILES,
+            instance=order
+        )
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.contract_signed_at_dev = timezone.now()
+            order.contract_verified_dev = True
+            order.save(update_fields=[
+                'signed_contract_dev',
+                'contract_signed_at_dev',
+                'contract_verified_dev'
+            ])
+
+            return redirect(
+                'business_customer_projects:contract_development_verified',
+                contract_hash_dev=order.contract_hash_dev
+            )
+    else:
+        form = ContractUploadDevForm(instance=order)
+
+    return render(
+        request,
+        template_name,
+        {
+            'order': order,
+            'form': form,
+        }
+    )
+
+
+@login_required(login_url='usuarios:login')
+def verify_contract_development_done(request, contract_hash_dev):
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash_dev=contract_hash_dev,
+        contract_verified_dev=True
+    )
+
+    return render(
+        request,
+        "business/contract_verify_development.html",
+        {
+            'order': order,
+            'already_signed': True,
+        }
+    )
+
+
+@login_required(login_url='usuarios:login')
+def verify_contract_cloud(request, contract_hash_cloud):
+    template_name = "business/contract_verify_cloud.html"
+
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash_cloud=contract_hash_cloud
+    )
+
+    if order.contract_verified_cloud:
+        return render(
+            request,
+            template_name,
+            {
+                'order': order,
+                'already_signed': True,
+            }
+        )
+
+    if request.method == 'POST':
+        form = ContractUploadCloudForm(
+            request.POST,
+            request.FILES,
+            instance=order
+        )
+
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.contract_signed_at_cloud = timezone.now()
+            order.contract_verified_cloud = True
+            order.save(update_fields=[
+                'signed_contract_cloud',
+                'contract_signed_at_cloud',
+                'contract_verified_cloud'
+            ])
+
+            return redirect(
+                'business_customer_projects:contract_cloud_verified',
+                contract_hash_cloud=order.contract_hash_cloud
+            )
+    else:
+        form = ContractUploadCloudForm(instance=order)
+
+    return render(
+        request,
+        template_name,
+        {
+            'order': order,
+            'form': form,
+        }
+    )
+
+
+@login_required(login_url='usuarios:login')
+def verify_contract_cloud_done(request, contract_hash_cloud):
+    order = get_object_or_404(
+        SaaSOrder,
+        contract_hash_cloud=contract_hash_cloud,
+        contract_verified_cloud=True
+    )
+
+    return render(
+        request,
+        "business/contract_verify_cloud.html",
+        {
+            'order': order,
+            'already_signed': True,
+        }
+    )
+
+
+
 
 
 

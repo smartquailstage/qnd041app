@@ -10,6 +10,9 @@ from .views import (
 app_name = 'business_customer_projects'
 
 urlpatterns = [
+    # -------------------------------------------------
+    # PROYECTOS
+    # -------------------------------------------------
     path('projects/create/', views.create_project, name='create_project'),
     path('projects/<int:project_id>/processes/create/', views.create_process, name='processes'),
     path('projects/<int:project_id>/automation/create/', views.create_automation, name='automation'),
@@ -18,39 +21,65 @@ urlpatterns = [
     path('projects/<int:project_id>/cloud_resource/create/', views.create_cloud_resource, name='create_cloud_resource'),
 
     path('projects/<int:pk>/', BusinessSystemProjectDetailView.as_view(), name='project_detail'),
+
+    # -------------------------------------------------
+    # PAGOS
+    # -------------------------------------------------
     path('payment_orders/', views.PaymentOrderListView.as_view(), name='paymentorder_list'),
     path('payment_orders/<int:pk>/', views.PaymentOrderDetailView.as_view(), name='paymentorder_detail'),
 
+    # -------------------------------------------------
+    # NOTICIAS
+    # -------------------------------------------------
     path('Noticias/', NoticiaListView.as_view(), name='lista'),
     path('Noticias/<int:pk>/', NoticiaDetailView.as_view(), name='detalle'),
     path('Noticias/<int:pk>/metricas/', views.actualizar_metricas, name='actualizar_metricas'),
 
-    # Lista de consultas + formulario de creación
-    path(
-        'tickets/',
-        SupportTicketListView.as_view(),
-        name='ticket_list'
-    ),
+    # -------------------------------------------------
+    # SOPORTE
+    # -------------------------------------------------
+    path('tickets/', SupportTicketListView.as_view(), name='ticket_list'),
+    path('tickets/<int:pk>/', SupportTicketDetailView.as_view(), name='ticket_detail'),
 
-    # Detalle de una consulta
-    path(
-        'tickets/<int:pk>/',
-        SupportTicketDetailView.as_view(),
-        name='ticket_detail'
-    ),
+    # -------------------------------------------------
+    # 🔐 VERIFICACIÓN DE CONTRATOS
+    # -------------------------------------------------
 
+    # 📄 CONTRATO IP
     path(
-        'verify/contract/<str:contract_hash>/',
+        'verify/contract/ip/<str:contract_hash_ip>/',
         views.verify_contract,
-        name='verify_contract'
+        name='verify_contract_ip'
     ),
-
     path(
-        'verify/contract/<str:contract_hash>/done/',
+        'verify/contract/ip/<str:contract_hash_ip>/done/',
         views.verify_contract_done,
-        name='contract_verified'
+        name='contract_ip_verified'
     ),
 
+    # 🧠 CONTRATO DESARROLLO
+    path(
+        'verify/contract/development/<str:contract_hash_dev>/',
+        views.verify_contract_development,
+        name='verify_contract_development'
+    ),
+    path(
+        'verify/contract/development/<str:contract_hash_dev>/done/',
+        views.verify_contract_development_done,
+        name='contract_development_verified'
+    ),
+
+    # ☁️ CONTRATO CLOUD
+    path(
+        'verify/contract/cloud/<str:contract_hash_cloud>/',
+        views.verify_contract_cloud,
+        name='verify_contract_cloud'
+    ),
+    path(
+        'verify/contract/cloud/<str:contract_hash_cloud>/done/',
+        views.verify_contract_cloud_done,
+        name='contract_cloud_verified'
+    ),
 ]
 
 

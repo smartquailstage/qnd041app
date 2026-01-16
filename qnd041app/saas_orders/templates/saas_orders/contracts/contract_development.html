@@ -1,20 +1,29 @@
 {% load i18n %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="utf-8">
-    <title>Contrato de Prestación de Servicios Tecnológicos</title>
-    <link href="/static/css/contracts.css" rel="stylesheet">
-    <meta name="description" content="Contrato de Prestación de Servicios Tecnológicos">
 
-</head>
+ <header>
+     <div class="header-left">
+    <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+ </div>
+     
+    
+  </div>
+  <div class="header-center">
+  CPI-SQ20{{ order.id }} 
+  </div>
+
+    <div class="header-right">
+    <strong>Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}</strong>
+  </div>
+
+</header>
+
+
 
 <body>
 
-    <img src="{% static 'img/logo_smartquailred.png' %}" alt="Logo de SmartQuail" style="width:180px; margin-bottom:10px;">
 
     <div class="titulos">
         <h1><strong>CONTRATO DE PRESTACIÓN DE SERVICIOS TECNOLÓGICOS (I+D, Automatización e Inteligencia Artificial)</strong></h1>
@@ -61,21 +70,30 @@
 
     </div>
 
-    <div class="signature-block">
-        <div>
-            <hr>
-            <strong>{{ order.razon_social }}</strong><br>
-            Representante: {{ order.first_name }} {{ order.last_name }}<br>
-            RUC: {{ order.ruc }}
-        </div>
+    <h3><strong>CERTIFICACIÓN DE CONTRATO </strong></h3>
+<div class="certificaciones">
 
-        <div>
-            <hr>
-            <strong>SMARTQUAIL S.A.S.</strong><br>
-            Representante: Santiago Mauricio Silva Domínguez<br>
-            RUC: 1793206532001
-        </div>
-    </div>
+  <div class="cert-left">
+    
+    <!-- QR: puede ser una imagen generada con Django o un SVG -->
+     <img src="{{ qr_url }}" alt="QR de certificación">
+     <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    
+  </div>
+<div class="cert-right">
+
+  <div class="cert-sign">
+    <!-- Cuadrado para la firma -->
+    <div class="signature-box"></div>
+    <p><strong>CONTRATANTE</strong></p>
+  </div>
+</div>
+
+</div>
+<hr>
+<div class="contract-note">
+<strong>TOKEN ID CONTRACT : {{ order.contract_hash }}</strong>
+</div>
 
 
 
