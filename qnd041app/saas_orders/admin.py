@@ -273,28 +273,80 @@ contract_cloud.short_description = "Alquiler Cloud"
 
 
 
-
-
 @admin.register(SaaSOrder)
 class SaaSOrderAdmin(ModelAdmin):
-    list_sections = [OrderSaaSDetailComponent,DistribucionSemanalSaaSOrdenesComponent]
-    list_display = ['id', 'first_name', 'last_name', 'email',
-            'ruc', 'razon_social','telefono','paid', order_pdf,order_ebook,contract_ip,contract_development,contract_cloud]
-    list_filter = ['paid', 'created', 'updated']
+    # Componentes Unfold
+    list_sections = [OrderSaaSDetailComponent, DistribucionSemanalSaaSOrdenesComponent]
+
+    # List display
+    list_display = [
+        'id', 'first_name', 'last_name', 'email',
+        'ruc', 'razon_social', 'telefono', 'paid',
+        order_pdf, order_ebook,
+        'signed_contract_ip', 'signed_contract_dev', 'signed_contract_cloud'
+    ]
+
+    list_filter = ['paid', 'is_active', 'terms_accepted', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
 
-    def utilidad_bruta_total_display(self, obj):
-        return f"${obj.utilidad_bruta_total():,.2f}"
-    utilidad_bruta_total_display.short_description = "Utilidad Bruta"
+    # Campos de solo lectura
+    readonly_fields = [
+        'contract_hash_ip', 'contract_hash_dev', 'contract_hash_cloud',
+        'contract_signed_at_ip', 'contract_signed_at_dev', 'contract_signed_at_cloud',
+        'created', 'updated'
+    ]
 
-    def valor_deducible_iva_total_display(self, obj):
-        return f"${obj.valor_deducible_iva_total():,.2f}"
-    valor_deducible_iva_total_display.short_description = "Deducible IVA"
+    # -------------------------------
+    # Fieldsets organizados en Tabs
+    # -------------------------------
+    fieldsets = (
+        ('Información del Cliente', {
+            'fields': (
+                'user', 'first_name', 'last_name', 'email',
+                'ruc', 'razon_social', 'sector', 'telefono'
+            ),
+            'classes': ('unfold', 'tab-general'),
+        }),
+        ('Contratos IP', {
+            'fields': (
+                'signed_contract_ip', 'contract_signed_at_ip',
+                'contract_verified_ip', 'contract_hash_ip'
+            ),
+            'classes': ('unfold', 'tab-ip'),
+        }),
+        ('Contratos DEV', {
+            'fields': (
+                'signed_contract_dev', 'contract_signed_at_dev',
+                'contract_verified_dev', 'contract_hash_dev'
+            ),
+            'classes': ('unfold', 'tab-dev'),
+        }),
+        ('Contratos CLOUD', {
+            'fields': (
+                'signed_contract_cloud', 'contract_signed_at_cloud',
+                'contract_verified_cloud', 'contract_hash_cloud'
+            ),
+            'classes': ('unfold', 'tab-cloud'),
+        }),
+        ('Pagos y Descuentos', {
+            'fields': (
+                'paid', 'force_paid', 'braintree_id', 'coupon', 'discount'
+            ),
+            'classes': ('unfold', 'tab-payment'),
+        }),
+        ('Términos y Estado', {
+            'fields': (
+                'terms_accepted', 'is_active', 'email_sent'
+            ),
+            'classes': ('unfold', 'tab-status'),
+        }),
+        ('Fechas', {
+            'fields': ('created', 'updated'),
+            'classes': ('unfold', 'tab-dates'),
+        }),
+    )
 
-    def utilidad_liquida_total_display(self, obj):
-        return f"${obj.utilidad_liquida_total():,.2f}"
-    utilidad_liquida_total_display.short_description = "Utilidad Líquida"
-
-
+    # Permite collapse/expand dentro de cada tab
+    unfold_fieldsets = True
 

@@ -69,6 +69,7 @@ class SaaSOrder(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")
+    force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
     coupon = models.ForeignKey(Coupon,
                                related_name='saas_orders',
@@ -155,8 +156,83 @@ class SaaSOrder(models.Model):
             self.is_active = False
             self.save()
 
+    def save(self, *args, **kwargs):
+        # ⚡ Detectar si force_paid cambia a True y aún no está marcado como pagado
+        send_email = False
+        if self.force_paid and not self.paid:
+            self.paid = True
+            if not self.email_sent:
+                send_email = True  # marcar para enviar email después de guardar
 
+        # Guardar cambios primero
+        super().save(*args, **kwargs)
 
+        # ⚡ Enviar correo con contratos generados automáticamente
+        if send_email and self.email:
+            domain = 'ec.smartquail.io'
+
+            # Render HTML del correo
+            html_message = render_to_string(
+                'saas_orders/mails/invoices/payment_completed.html',
+                {'order': self, 'domain': domain}
+            )
+
+            subject = f"Su pago se ha completado correctamente 🎉"
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to_email = [self.email]
+
+            email = EmailMultiAlternatives(
+                subject,
+                "Su pago ha sido registrado correctamente en nuestro sistema.",
+                from_email,
+                to_email
+            )
+            email.attach_alternative(html_message, "text/html")
+
+            # ------------------------------
+            # Generar los 3 contratos en PDF desde los templates
+            # ------------------------------
+            contracts_templates = [
+                ('Contrato_IP.pdf', 'saas_orders/contracts/contract_ip.html', 'contract_hash_ip'),
+                ('Contrato_DEV.pdf', 'saas_orders/contracts/contract_development.html', 'contract_hash_dev'),
+                ('Contrato_CLOUD.pdf', 'saas_orders/contracts/contract_cloud_rent.html', 'contract_hash_cloud'),
+            ]
+
+            for filename, template, hash_field in contracts_templates:
+                # Si el hash no existe, generar uno
+                if not getattr(self, hash_field):
+                    setattr(self, hash_field, getattr(self, f'generate_{hash_field}')())
+                    super().save(update_fields=[hash_field])
+
+                html_contract = render_to_string(
+                    template,
+                    {
+                        'order': self,
+                        'domain': domain,
+                        'contract_hash': getattr(self, hash_field)
+                    }
+                )
+
+                out = BytesIO()
+                # Ajusta la ruta de tu CSS según tu proyecto
+                css_path = f'saas_orders/static/css/{filename.lower().replace(".pdf","")}.css'
+                weasyprint.HTML(string=html_contract, base_url=f"https://{domain}/").write_pdf(
+                    out,
+                    stylesheets=[weasyprint.CSS(css_path)],
+                    presentational_hints=True
+                )
+
+                email.attach(filename, out.getvalue(), 'application/pdf')
+
+            # ------------------------------
+            # Enviar correo
+            # ------------------------------
+            try:
+                email.send()
+                self.email_sent = True
+                super().save(update_fields=['email_sent'])
+            except Exception as e:
+                print(f"Error enviando email a {self.email}: {e}")
 
 class SaaSOrderItem(models.Model):
     order = models.ForeignKey(SaaSOrder,
