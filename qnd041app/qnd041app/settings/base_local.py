@@ -153,7 +153,7 @@ INSTALLED_APPS = [
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-   
+   'smartcontracts',
     "djmoney",
     "localflavor",
     "boto3",

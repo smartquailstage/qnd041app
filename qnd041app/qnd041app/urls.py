@@ -38,6 +38,7 @@ urlpatterns += i18n_patterns(
     path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+    path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
 
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),

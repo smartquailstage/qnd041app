@@ -1,0 +1,80 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        {{ contrato.numero_contrato }}
+    </div>
+
+    <div class="header-right">
+        <strong>Ecuador, {{ contrato.created_at|date:"d" }} de {{ contrato.created_at|date:"F" }} de {{ contrato.created_at|date:"Y" }}</strong>
+    </div>
+</header>
+<hr>
+<div class="titulos">
+    <h2> {{ contrato.get_tipo_contrato_display|upper }}</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+
+       <strong>ENTRE:</strong> 
+
+SMARTQUAIL S.A.S., sociedad legalmente constituida conforme a las leyes de la República del Ecuador, con RUC 179320653001, debidamente representada por <strong>SANTIAGO MAURICIO SILVA DOMINGUEZ</strong>, en adelante “SMARTQUAIL”;
+
+y
+
+<strong>{{ contrato.partes_contratantes }}</strong>, portadora de la cédula de identidad N.° 1722252713, mayor de edad, en adelante “LA CLIENTE”, según corresponda;
+
+conjuntamente denominadas “LAS PARTES”, quienes libre y voluntariamente convienen celebrar el presente {{ contrato.get_tipo_contrato_display|upper }}, sujeto a las siguientes cláusulas:
+
+    </p>
+</div>
+
+<div class="clausulas">
+    {% for clausula in clausulas %}
+        <h3>{{ clausula.get_clausula_display }}: {{ clausula.titulo_clausura }} </h3>
+        <p>{{ clausula.detalle }}</p>
+    {% empty %}
+        <p>No se han definido cláusulas para este contrato.</p>
+    {% endfor %}
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN DE CONTRATO</strong></h3>
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <!-- QR generado -->
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>SMARTQUAIL S.A.S</strong></p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <!-- Cuadrado para la firma -->
+            <div class="signature-box"></div>
+            <p><strong>LA CLIENTE</strong></p>
+        </div>
+    </div>
+
+</div>
+<hr>
+<div class="contract-note">
+    <strong>TOKEN ID CONTRACT: {{ contrato.contract_hash }}</strong><br>
+</div>
+
+<footer>
+    <hr>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: ec.smartquail.io | Tel: +593 (96) 352-1262<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>
