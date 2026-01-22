@@ -35,7 +35,7 @@
       {% if c.slug == "business-gastronomico" %}
 
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
+      <a class="nav-link " id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
         <div class="d-flex align-items-center">
           <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-restaurant"></i></div>
         </div>
@@ -48,7 +48,7 @@
       {% if c.slug == "business-medico" %}
 
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
+      <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="true">
         <div class="d-flex align-items-center">
           <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-health"></i></div>
         </div>
@@ -225,7 +225,7 @@
   </ul>
 
   <div class="tab-content pt-3">
-    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+    <div class="tab-pane fade " id="description" role="tabpanel" aria-labelledby="tab-description">
 
       <!-- Carrusel SmartBusinessAnalytics -->
 <div class="card" style="background-color: #2e2e2e;">
@@ -243,7 +243,7 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><i class="lni lni-restaurant"></i>{{ product.name }}<sup>I+D</sup>
+                                        <h2 style="color:#ffff; font-size: 16px;"><i class="lni lni-restaurant"></i> {{ product.name }}<sup>I+D</sup>
  , maximo {{ product.numero_procesos }}  Procesos </h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
                 
@@ -278,16 +278,10 @@
   background-color: #2e2e2e;
   border-radius: 25px;">
     <p>
-      <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
+      <strong>Plataformas Inteligentes Gatronómicas</strong> Nuestra plataforma inteligente de gestión de procesos gastronómicos centraliza y optimiza todas las operaciones del sector food service mediante tecnologías avanzadas en la nube, seguras y escalables. Diseñada para restaurantes, cafeterías,bares, cocinas industriales y cadenas gastronómicas, permite un control total de los procesos, desde la planificación hasta la entrega final.
     </p>
     <p>
-      Gracias a su ecosistema modular y altamente personalizable,
-       los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
-        desarrollar sus propios flujos de información, adaptándolos a las necesidades
-         específicas de su negocio o institución. SmartBusinessAnalytics® 
-         integra tecnologías de última generación como inteligencia artificial, 
-         analítica predictiva, automatización de procesos (RPA) y big data, 
-         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+Con infraestructura cloud de última generación, altos estándares de seguridad y disponibilidad continua, nuestra plataforma impulsa operaciones más eficientes, rentables y sostenibles, permitiendo que los equipos se enfoquen en lo esencial: crear experiencias gastronómicas de excelencia.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
 
   </div>
@@ -365,7 +359,7 @@
 
     </div>
 
-    <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="tab-tags">
+    <div class="tab-pane fade " id="tags" role="tabpanel" aria-labelledby="tab-tags">
       <div class="card-body p-0">
 
 
