@@ -193,6 +193,12 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     #"coupons",
+    #PAAS
+    'paas_shop',
+    'paas_cart',
+    'paas_orders',
+    'paas_coupons',
+    'paas_payment',
     #SAAS
     'saas_shop',
     'saas_orders',

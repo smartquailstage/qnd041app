@@ -1,0 +1,154 @@
+{% load i18n %}
+{% load static %}
+
+
+
+
+<div class="page-number"></div>
+
+ <header>
+     <div class="header-left">
+    <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+ </div>
+     
+    
+  </div>
+  <div class="header-center">
+  CPI-SQ20{{ order.id }} 
+  </div>
+
+    <div class="header-right">
+    <strong>Ecuador, {{ order.created|date:"d" }} de {{ order.created|date:"F" }} de {{ order.created|date:"Y" }}</strong>
+  </div>
+
+</header>
+
+
+<div class="titulos">
+    <h2>CONTRATO DE ARRENDAMIENTO DE RECURSOS DE NUBE</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+        El presente contrato se celebra entre <strong>SmartQuail, Inc.</strong>, en adelante “EL PROVEEDOR”,  
+        y el cliente cuyos datos constan en el documento comercial asociado, en adelante “EL ARRENDATARIO”.  
+        Ambas partes acuerdan las condiciones del alquiler mensual de recursos de infraestructura en la nube 
+        identificados como <strong>{{ product.name }}</strong>, cuyo detalle funcional corresponde a la 
+        descripción técnica siguiente: {{ product.description }}. El presente instrumento establece los términos, 
+        obligaciones y responsabilidades derivadas del uso, pago y continuidad del servicio.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>Objeto del Contrato</h3>
+    <p>
+        EL PROVEEDOR concede a EL ARRENDATARIO el derecho de uso mensual de los recursos tecnológicos en la nube 
+        identificados como <strong>{{ product.name }}</strong>. Estos recursos corresponden a capacidad computacional, 
+        almacenamiento, redes, herramientas de seguridad y cualquier componente adicional especificado en la ficha técnica 
+        del producto contratado. El servicio es prestado bajo modalidad de arrendamiento y no implica transferencia de 
+        propiedad o cesión permanente de ningún activo digital, licencia o arquitectura subyacente.
+    </p>
+
+    <h3>Condiciones del Servicio</h3>
+    <p>
+        El servicio será habilitado mediante acceso autenticado y protocolos de seguridad administrados por EL PROVEEDOR. 
+        La disponibilidad del sistema se mantiene bajo estándares comerciales adecuados, dentro de la infraestructura 
+        destinada a garantizar continuidad operativa, recuperación ante desastres y monitoreo. EL ARRENDATARIO reconoce 
+        que la prestación del servicio depende de condiciones técnicas y de factores externos propios del entorno de la 
+        nube, aceptando que la operación de los recursos no constituye un servicio ininterrumpido absoluto.
+    </p>
+
+    <h3>Plazo y Renovación</h3>
+    <p>
+        El servicio se contrata por períodos mensuales sucesivos contados a partir de la fecha de activación. 
+        La renovación es automática al finalizar cada ciclo mensual, salvo manifestación expresa de terminación por 
+        cualquiera de las partes mediante notificación con al menos cinco días previo al vencimiento del periodo en curso. 
+        Durante la vigencia del contrato, EL ARRENDATARIO mantiene acceso pleno a los recursos salvo que incurra en 
+        incumplimientos contractuales.
+    </p>
+
+    <h3>Precio y Condiciones de Pago</h3>
+    <p>
+        EL ARRENDATARIO se obliga a pagar a EL PROVEEDOR la suma mensual de 
+        <strong>{{ product.price }}</strong> correspondiente al uso de los recursos en la nube descritos.  
+        El pago deberá efectuarse dentro de los primeros cinco días de cada mes, empleando los medios habilitados en la 
+        plataforma comercial o indicados por EL PROVEEDOR. La falta de pago dentro del plazo constituye mora automática, 
+        sin necesidad de notificación adicional.
+    </p>
+
+    <h3>Suspensión por Mora</h3>
+    <p>
+        En caso de que EL ARRENDATARIO incurra en mora superior a cinco días posteriores al vencimiento del plazo mensual 
+        de pago, EL PROVEEDOR podrá suspender temporalmente el acceso a todos los recursos contratados.  
+        La suspensión será aplicada de manera automática y permanecerá vigente hasta que se regularicen los pagos adeudados.  
+        Si la mora supera un periodo continuo de treinta días, EL PROVEEDOR queda facultado para proceder con la desactivación 
+        definitiva del servicio, eliminación de recursos no esenciales y terminación del contrato, sin que ello implique 
+        responsabilidad por daños o pérdida de información. La reactivación posterior estará sujeta a disponibilidad técnica 
+        y al pago completo de las obligaciones pendientes.
+    </p>
+
+    <h3>Responsabilidad y Uso Adecuado</h3>
+    <p>
+        EL ARRENDATARIO se compromete a utilizar los recursos contratados conforme a la ley, buenas prácticas 
+        tecnológicas y políticas de seguridad del servicio. EL PROVEEDOR no se responsabiliza por fallos derivados de 
+        configuraciones realizadas por EL ARRENDATARIO, integraciones externas, maniobras técnicas no autorizadas o uso 
+        indebido de los recursos. La manipulación inapropiada que genere afectaciones, riesgos de seguridad o sobrecarga 
+        operativa será considerada causal de suspensión inmediata.
+    </p>
+
+    <h3>Confidencialidad y Protección de Datos</h3>
+    <p>
+        Las partes acuerdan mantener estricta confidencialidad respecto a toda información técnica, operativa y comercial 
+        intercambiada con motivo del presente contrato. EL PROVEEDOR garantiza que los datos alojados se gestionan conforme 
+        a estándares técnicos razonables y políticas internas de seguridad, sin asumir responsabilidad por actos de terceros 
+        o eventos inevitables de naturaleza excepcional.
+    </p>
+
+    <h3>Terminación del Contrato</h3>
+    <p>
+        EL ARRENDATARIO podrá solicitar la terminación del servicio en cualquier momento, debiendo cancelar las cantidades 
+        pendientes hasta la fecha efectiva de cierre. EL PROVEEDOR podrá dar por terminado el contrato en caso de incumplimiento, 
+        uso inadecuado de los recursos, intentos de vulneración del sistema o mora reiterada. Una vez terminado el contrato, 
+        se conservarán copias de seguridad únicamente por el tiempo estrictamente técnico necesario, sin obligación de mantener 
+        los datos con posterioridad.
+    </p>
+
+</div>
+
+
+<hr>
+    <h3><strong>CERTIFICACIÓN DE CONTRATO </strong></h3>
+<div class="certificaciones">
+
+  <div class="cert-left">
+    
+    <!-- QR: puede ser una imagen generada con Django o un SVG -->
+     <img src="{{ qr_url }}" alt="QR de certificación">
+     <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    
+  </div>
+<div class="cert-right">
+
+  <div class="cert-sign">
+    <!-- Cuadrado para la firma -->
+    <div class="signature-box"></div>
+    <p><strong>CONTRATANTE</strong></p>
+  </div>
+</div>
+
+</div>
+<hr>
+<div class="contract-note">
+<strong>TOKEN ID CONTRACT : {{ order.contract_hash_cloud }}</strong>
+</div>
+
+
+
+<footer>
+  <p>
+    SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+    Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+    © 2025 SmartQuail, Inc. Todos los derechos reservados.
+  </p>
+</footer>

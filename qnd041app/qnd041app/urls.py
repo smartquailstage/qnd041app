@@ -38,6 +38,13 @@ urlpatterns += i18n_patterns(
     path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+
+
+    path('paas_cart/', include('paas_cart.urls', namespace='paas_cart')),
+    path('paas_shop/', include('paas_shop.urls', namespace='paas_shop')),
+    path('paas_orders/', include('paas_orders.urls', namespace='paas_orders')),
+    path('paas_coupons/', include('paas_coupons.urls', namespace='paas_coupons')),
+    path('paas_payment/', include('paas_payment.urls', namespace='paas_payment')),
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
 
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

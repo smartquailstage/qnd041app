@@ -1,0 +1,1299 @@
+{% extends "paas_shop/base3.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones ITC</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item">
+                     <ion-icon name="grid-outline"></ion-icon> Plataformas de Negocios Digitales              
+                  </li>
+                </ol>
+              </nav>
+            </div>
+
+          </div>
+
+<div class="product-more-info mt-4">
+  <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablistt">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-gastronomico" %}
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-restaurant"></i></div>
+        </div>
+      </a>
+    </li>
+      {% endif %}
+    {% endfor %}
+
+        {% for c in categories %}
+      {% if c.slug == "business-medico" %}
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-health"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+      {% for c in categories %}
+      {% if c.slug == "business-tecnologico" %}
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="lni lni-code-alt"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+      {% for c in categories %}
+      {% if c.slug == "business-educar" %}
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#educar" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="lni lni-graduation"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+
+      {% for c in categories %}
+      {% if c.slug == "business-ong" %}
+
+        <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#ong" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><ion-icon name="people-circle-outline"></ion-icon></div>
+        </div>
+      </a>
+    </li>
+
+        {% endif %}
+    {% endfor %}
+
+
+      {% for c in categories %}
+      {% if c.slug == "business-publico" %}
+
+            <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#business-public" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-cabinet"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+
+      {% for c in categories %}
+      {% if c.slug == "business-privado" %}
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#business-private" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-cabinet"></i></div>
+        </div>
+      </a>
+    </li>
+
+        {% endif %}
+    {% endfor %}
+
+
+    {% for c in categories %}
+    {% if c.slug == "business-servicios" %}
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#services" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-street-view"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+        {% for c in categories %}
+    {% if c.slug == "business-industrial" %}
+
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#industries" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-shape-polygon"></i></div>
+        </div>
+      </a>
+    </li>
+
+        {% endif %}
+    {% endfor %}
+
+
+    {% for c in categories %}
+    {% if c.slug == "business-transporte" %}
+
+
+        <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#transporte" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-bus"></i></div>
+        </div>
+      </a>
+    </li>
+
+            {% endif %}
+    {% endfor %}
+
+
+        {% for c in categories %}
+    {% if c.slug == "business-investigacion" %}
+
+            <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#research" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-dna"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+        {% for c in categories %}
+    {% if c.slug == "business-art" %}
+
+
+                <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#art" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-palette"></i></div>
+        </div>
+      </a>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+
+
+        {% for c in categories %}
+    {% if c.slug == "business-marketing" %}
+
+
+                    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#marketing" role="tab" aria-controls="tags" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-broadcast"></i></div>
+        </div>
+      </a>
+    </li>
+
+       {% endif %}
+    {% endfor %}
+
+  </ul>
+
+  <div class="tab-content pt-3">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+
+      <!-- Carrusel SmartBusinessAnalytics -->
+<div class="card" style="background-color: #2e2e2e;">
+  
+  <div class="card-body p-0" style="background-color: #2e2e2e;">
+    {% for c in categories %}
+      {% if c.slug == "business-gastronomico" %}
+        {% if c.products.all %}
+        
+          <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
+                                        <h2 style="color:#ffff; font-size: 16px;"><i class="lni lni-restaurant"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Previous" %}</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Next" %}</span>
+            </button>
+          </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
+  <div class="card-body p-4" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
+    </p>
+    <p>
+      Gracias a su ecosistema modular y altamente personalizable,
+       los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
+        desarrollar sus propios flujos de información, adaptándolos a las necesidades
+         específicas de su negocio o institución. SmartBusinessAnalytics® 
+         integra tecnologías de última generación como inteligencia artificial, 
+         analítica predictiva, automatización de procesos (RPA) y big data, 
+         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+
+  </div>
+</div>
+  </div>
+</div>
+
+
+
+
+
+    </div>
+
+    <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
+    
+       <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-medico" %}
+        {% if c.products.all %}
+        <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+              {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
+                                        <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-health"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+
+  <div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;
+  margin-bottom: 1rem;">
+    <p>
+      <strong>SmartBusinessMedia®</strong> es un CRM especializado en la administración y gestión de contenidos multimedia en alta disponibilidad y definición. Su arquitectura en la nube permite trabajar en tiempo real, ofreciendo a las empresas y agencias creativas un entorno unificado para planificar, producir, distribuir y analizar contenido digital sin interrupciones.
+    </p>
+    <p>
+      A través de su panel de control intuitivo, los equipos pueden diseñar su estrategia de marketing digital, implementarla en tiempo real y visualizar métricas precisas sobre el rendimiento de sus contenidos. Cada acción queda registrada y analizada mediante sistemas de analítica avanzada, lo que permite tomar decisiones informadas para maximizar el impacto de cada publicación o campaña.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+
+  </div>
+</div>
+
+    </div>
+
+    <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-tecnologico" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="lni lni-code-alt"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+        <div class="tab-pane fade" id="educar" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-educar" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="people-circle-outline"></ion-icon>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+    <div class="tab-pane fade" id="ong" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-ong" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="people-circle-outline"></ion-icon>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+        <div class="tab-pane fade" id="business-public" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-publico" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-cabinet"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+            <div class="tab-pane fade" id="business-private" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-privado" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-cabinet"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+                <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-servicios" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-street-view"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+                    <div class="tab-pane fade" id="industries" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-industrial" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-shape-polygon"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+                        <div class="tab-pane fade" id="research" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-investigacion" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-shape-polygon"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+                            <div class="tab-pane fade" id="art" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-art" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-shape-polygon"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+                                <div class="tab-pane fade" id="marketing" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "business-art" %}
+        {% if c.products.all %}
+
+        
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-shape-polygon"></i>{{ product.name }}<sup>I+D</sup>
+ , maximo {{ product.numero_procesos }}  Procesos </h2>
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                
+                </div>
+              </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="card" style="margin-top: 19px;">
+  <div class="card-body p-0" style="color: #ededed;
+  text-align: justify;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2e2e2e;
+  border-radius: 25px;">
+    <p>
+      <strong>SmartBusinessLaw®</strong>
+       es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
+        estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
+       garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+    </p>
+   
+  </div>
+</div>
+
+
+    </div>
+
+
+
+  </div>
+</div>
+
+
+      </div>
+  </div>
+
+
+{% endblock %}
+
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+
+          <!--start breadcrumb-->
+          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">IT Cloud Busines Solutions</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item"><a href="javascript:;"></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">Software Como Producto (SaaP)</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="ms-auto">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary">Settings</button>
+                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end breadcrumb-->
+
+          
+
+
+          <!-- BLOQUE 1: Introducción SaaP -->
+<div class="card mb-4">
+  <div class="card-body">
+
+
+
+    <div class="accordion" id="accordionSaaP">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSaaP1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaaP1" aria-expanded="false" aria-controls="collapseSaaP1">
+             Modelo (B-SaaP)
+          </button>
+        </h2>
+        <div id="collapseSaaP1" class="accordion-collapse collapse " aria-labelledby="headingSaaP1" data-bs-parent="#accordionSaaP">
+          <div class="accordion-body" style="text-align: justify;">
+           En un mercado saturado de soluciones estándar bajo modelos SaaS, en Smartquail ofrecemos una alternativa estratégica: desarrollamos software como producto, en código abierto y bajo un modelo co-propietario, pensado para brindar a las organizaciones mayor autonomía tecnológica. A diferencia del SaaS, donde el usuario accede a una plataforma cerrada, con licencias limitadas y sin control real sobre su evolución, nosotros trabajamos junto a nuestros clientes en la co-producción de tecnologías personalizadas, adaptadas a los procesos específicos de cada negocio.
+
+Este enfoque no solo permite al cliente apropiarse del conocimiento y el código, sino también escalar, modificar e integrar sus soluciones con total libertad, sin depender de terceros. En Smartquail creemos que la innovación nace desde adentro, por eso diseñamos herramientas tecnológicas que no se imponen, sino que se construyen en conjunto, respetando la lógica interna de cada organización. El resultado es un software que no se alquila: se transforma en un activo estratégico, escalable y sostenible en el tiempo.
+            Nuestra metodología permite que el conocimiento técnico no quede encapsulado ni atado a plataformas cerradas. Al contrario, se transfiere y se integra con el saber propio de la organización, potenciando la capacidad de innovación interna. Además, garantizamos la seguridad del desarrollo, tanto en términos técnicos como contractuales, asegurando que cada producto cumpla con estándares de calidad, buenas prácticas y protección de datos.
+
+Lo más importante: la propiedad intelectual del software pertenece al cliente. Esto significa que el negocio no solo accede a una herramienta funcional, sino que adquiere un recurso tecnológico propio, sostenible en el tiempo y alineado con su crecimiento. En lugar de pagar licencias perpetuas por soluciones impersonales, nuestros clientes invierten en tecnología que les pertenece, evoluciona con ellos y se adapta a su realidad.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- BLOQUE 3: Productos de SmartQuail -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionProductos">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingProd1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProd1" aria-expanded="false" aria-controls="collapseProd1">
+        Investigación y desarollo (I+D), Automatización (+A) , Inteligencia Artificial (+AI)
+          </button>
+        </h2>
+        <div id="collapseProd1" class="accordion-collapse collapse" aria-labelledby="headingProd1" data-bs-parent="#accordionProductos">
+          <div class="accordion-body" style="text-align: justify;">
+            En SmartQuail, creemos que la innovación no es un producto final: es un proceso continuo que impulsa la eficiencia, la competitividad y el crecimiento sostenible. Nuestro enfoque en Investigación y Desarrollo (I+D) está diseñado para crear sistemas de información totalmente personalizables, listos para despegar y evolucionar con cada cliente, sin límites.
+
+A medida que estos sistemas escalan, incorporan de forma orgánica capacidades avanzadas de automatización, reduciendo tiempos operativos y eliminando tareas repetitivas. Y cuando el negocio lo exige, la solución está preparada para integrar inteligencia artificial: desde motores predictivos y asistentes virtuales, hasta algoritmos de aprendizaje automático que optimizan procesos en tiempo real. Así, la escalabilidad no solo es técnica, sino estratégicamente inteligente, acompañando cada etapa del crecimiento empresarial con tecnología que se adapta, aprende y potencia el futuro.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 4: ERP SmartBusinessAnalytics -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionAnalytics">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingAnalytics">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnalytics" aria-expanded="false" aria-controls="collapseAnalytics">
+          SmartBusinessAnalytics – ERP para datos, métricas y Big Data
+          </button>
+        </h2>
+        <div id="collapseAnalytics" class="accordion-collapse collapse" aria-labelledby="headingAnalytics" data-bs-parent="#accordionAnalytics">
+          <div class="accordion-body" style="text-align: justify;">
+             <strong>SmartBusinessAnalytics</strong>  es mucho más que un ERP.
+Es la plataforma digital integral que conecta, automatiza y optimiza todos los procesos de tu empresa — desde finanzas, operaciones y ventas, hasta recursos humanos, proyectos e innovación — con inteligencia de negocio y analítica avanzada en tiempo real.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ 
+
+
+<!-- Carrusel SmartBusinessAnalytics -->
+<div class="card">
+  <div class="card-body p-0">
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessanalytics" %}
+        {% if c.products.all %}
+          <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <!-- Enlace envuelve todo el contenido de la imagen -->
+                  <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+                        <h2 class="text-white">{{ product.name }}</h2>
+                        <p class="mb-1 text-white">${{ product.price }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Previous" %}</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">{% trans "Next" %}</span>
+            </button>
+          </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+<!-- BLOQUE 5: CRM SmartBusinessMedia -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionMedia">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingMedia">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedia" aria-expanded="true" aria-controls="collapseMedia">
+         <ion-icon name="brush-outline"></ion-icon>   &nbsp;  SmartBusinessMedia – CRM para marketing digital y contenidos
+          </button>
+        </h2>
+        <div id="collapseMedia" class="accordion-collapse collapse show" aria-labelledby="headingMedia" data-bs-parent="#accordionMedia">
+          <div class="accordion-body" style="text-align: justify;">
+            <strong>SmartBusinessMedia</strong> es el CRM ideal para gestionar campañas, contenidos y estrategia digital...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Carrusel SmartBusinessMedia -->
+<div class="card">
+  <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinessmedia" %}
+        {% if c.products.all %}
+        <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- BLOQUE 6: ERP SmartBusinessLaw -->
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="accordion" id="accordionLaw">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingLaw">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLaw" aria-expanded="true" aria-controls="collapseLaw">
+            SmartBusinessLaw – Gestión Legal Inteligente
+          </button>
+        </h2>
+        <div id="collapseLaw" class="accordion-collapse collapse show" aria-labelledby="headingLaw" data-bs-parent="#accordionLaw">
+          <div class="accordion-body" style="text-align: justify;">
+            <strong>SmartBusinessLaw</strong> es nuestro ERP especializado en procesos legales...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Carrusel SmartBusinessLaw -->
+<div class="card">
+  <div class="card-body p-0">
+
+
+    {% for c in categories %}
+      {% if c.slug == "smartbusinesslaw" %}
+        {% if c.products.all %}
+        <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
+                  <h2>{{ product.name }}</h2>
+                  <p class="mb-1">${{ product.price }}</p>
+                  <a href="{{ product.get_absolute_url }}" class="btn btn-light btn-sm">{% trans "View Details" %}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+        {% else %}
+          <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
