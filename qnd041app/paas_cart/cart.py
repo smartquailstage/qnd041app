@@ -7,9 +7,9 @@ from paas_coupons.models import Coupon  # Asegúrate que este modelo exista y te
 class Cart:
     def __init__(self, request):
         self.session = request.session
-        cart = self.session.get(settings.CART_SESSION_ID)
+        cart = self.session.get(settings.PAAS_CART_SESSION_ID)
         if not cart:
-            cart = self.session[settings.CART_SESSION_ID] = {}
+            cart = self.session[settings.PAAS_CART_SESSION_ID] = {}
         self.cart = cart
 
         self.coupon_id = self.session.get('coupon_id')
@@ -93,8 +93,8 @@ class Cart:
             self.save()
 
     def clear(self):
-        if settings.CART_SESSION_ID in self.session:
-            del self.session[settings.CART_SESSION_ID]
+        if settings.PAAS_CART_SESSION_ID in self.session:
+            del self.session[settings.PAAS_CART_SESSION_ID]
         self.session.pop('coupon_id', None)
         self.save()
 

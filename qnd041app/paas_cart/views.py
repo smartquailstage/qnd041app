@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from paas_shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
-from saas_coupons.forms import CouponApplyForm
+from paas_coupons.forms import CouponApplyForm
 
 from django.contrib.auth.decorators import login_required
 
@@ -22,7 +22,7 @@ def cart_add(request, product_id):
         cart.add(product=product,
                  quantity=cd['quantity'],
                  update_quantity=cd['update'])
-    return redirect('saas_cart:cart_detail')
+    return redirect('paas_cart:cart_detail')
 
 
 def cart_remove(request, product_id):

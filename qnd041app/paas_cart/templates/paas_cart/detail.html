@@ -1,4 +1,4 @@
-{% extends "saas_shop/base3.html" %}
+{% extends "paas_shop/base3.html" %}
 {% load static %}
 {% load i18n %}
 {% load custom_filters %}
@@ -108,7 +108,7 @@
                                             <!-- Formulario para actualizar cantidad -->
                                             <div class="col-12 col-lg-3">
                                                 <div class="cart-action text-center">
-                                                    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
+                                                    <form action="{% url 'paas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
                                                         {% csrf_token %}
 
                                                        
@@ -120,7 +120,7 @@
                                             <div class="col-12 col-lg-3">
                                                 <div class="text-center">
                                                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
+                                                        <a href="{% url 'paas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
                                                             <i class='bx bx-x-circle'></i>Eliminar Orden
                                                         </a>
                                                     </div>
@@ -137,7 +137,7 @@
                                 <div class="card" style="background-color: #2e2e2e;">
                                     <div class="card-body" style="color:#fff; background-attachment: #2e2e2e;">
                                         <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
+                                            <a href="{% url 'paas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
                                                 <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
                                             </a>
                                         </div>
@@ -264,7 +264,7 @@
 
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
-                                        <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
+                                        <a href="{% url 'paas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
                                           Realizar Orden<ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
@@ -313,7 +313,7 @@
                             										<div class="card border-0">
 											<div class="card-body">
 												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
 														<div class="step-label"><i class='bx bx-cart'></i></div>
@@ -364,7 +364,7 @@
                                             <!-- Formulario para actualizar cantidad -->
                                             <div class="col-12 col-lg-3">
                                                 <div class="cart-action text-center">
-                                                    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
+                                                    <form action="{% url 'paas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
                                                         {% csrf_token %}
                                                         {{ item.update_quantity_form.quantity }}
                                                         {{ item.update_quantity_form.update }}
@@ -377,7 +377,7 @@
                                             <div class="col-12 col-lg-3">
                                                 <div class="text-center">
                                                     <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
+                                                        <a href="{% url 'paas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
                                                             <i class='bx bx-x-circle'></i>Remove
                                                         </a>
                                                         <a href="javascript:;" class="btn btn-outline-warning btn-ecomm">
@@ -400,7 +400,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
+                                            <a href="{% url 'paas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
                                                 <i class='bx bx-shopping-bag'></i> Ver más productos
                                             </a>
                                         </div>
@@ -511,7 +511,7 @@
 
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
-                                        <a href="{% url 'saas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
+                                        <a href="{% url 'paas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
                                            <ion-icon name="cart-outline"></ion-icon> Realizar Orden 
                                         </a>
                                     </div>

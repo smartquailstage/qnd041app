@@ -1,4 +1,4 @@
-{% extends "saas_shop/base3.html" %}
+{% extends "paas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
@@ -68,7 +68,7 @@
                     <div class="card border-0">
                       <div class="card-body" style="background-color: #2e2e2e;">
                         <div class="steps steps-light">
-                          <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+                          <a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
                             <div class="step-progress"><span class="step-count">1</span></div>
               
                           </a>
@@ -111,7 +111,7 @@
          Detalle de Orden de Software
       </h2>
       <p class="mt-2">
-      <p><strong> Track ID de orden:</strong> #SQ02-ERP-120-00{{ order.id }}</p>
+      <p><strong> Track ID de orden:</strong> #SQ02-PTM-130-00{{ order.id }}</p>
       <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
       {% if order.coupon  %}
       <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
@@ -159,7 +159,7 @@
       <!-- Botón de pago -->
       <div class="row">
         <div class="col-md-6">
-          <a href="{% url 'saas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
+          <a href="{% url 'paas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
           <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
           </a>
         </div>
@@ -176,7 +176,7 @@
       <p class="fs-5">Su orden ha expirado.</p>
       <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
 
-      <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
+      <a href="{% url 'paas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
         Ver Catálogo de Productos
       </a>
 
@@ -248,12 +248,12 @@
 										<div class="card border-0">
 											<div class="card-body">
 												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
 														<div class="step-label"><i class='bx bx-cart'></i></div>
 													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
+													<a class="step-item active current" href="{% url 'paas_orders:order_create' %}">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
 														<div class="step-label"><i class='bx bx-user-circle'></i></div>
@@ -334,7 +334,7 @@
     <!-- Botones de acción -->
     <div class="col-md-6">
       <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
+        <a href="{% url 'paas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
       </div>
     </div>
 

@@ -1,4 +1,4 @@
-{% extends "saas_shop/base3.html" %}
+{% extends "paas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
@@ -134,7 +134,7 @@
             <p><strong>10. Legislación y jurisdicción</strong></p>
             <p>Estos términos se rigen por las leyes de la República del Ecuador. Cualquier controversia será resuelta por los tribunales del Distrito Metropolitano de Quito.</p>
 
-<form method="post" action="{% url 'saas_orders:accept_terms' %}">
+<form method="post" action="{% url 'paas_orders:accept_terms' %}">
     {% csrf_token %}
     <div class="form-check">
         {{ form.terms_accepted }}
@@ -221,12 +221,12 @@ document.addEventListener("DOMContentLoaded", function() {
 										<div class="card border-0">
 											<div class="card-body">
 												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
 														<div class="step-label"><i class='bx bx-cart'></i></div>
 													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
+													<a class="step-item active current" href="{% url 'paas_orders:order_create' %}">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
 														<div class="step-label"><i class='bx bx-user-circle'></i></div>
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- Botones de acción -->
     <div class="col-md-6">
       <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
+        <a href="{% url 'paas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
       </div>
     </div>
 

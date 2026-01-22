@@ -1,4 +1,4 @@
-{% extends "saas_shop/base3.html" %}
+{% extends "paas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
@@ -71,10 +71,10 @@
 
               <!-- Progreso de pasos -->
               <div class="steps steps-light">
-                <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+                <a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
                   <div class="step-progress"><span class="step-count">1</span></div>
                 </a>
-                <a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
+                <a class="step-item active current" href="{% url 'paas_orders:order_create' %}">
                   <div class="step-progress"><span class="step-count">2</span></div>
                 </a>
                 <a class="step-item"><div class="step-progress"><span class="step-count">3</span></div></a>
@@ -123,7 +123,7 @@
                   <!-- Botones -->
                   <div class="col-md-6">
                     <div class="d-grid">
-                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de orden</a>
+                      <a href="{% url 'paas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de orden</a>
                     </div>
                   </div>
 
@@ -180,12 +180,12 @@
 										<div class="card border-0">
 											<div class="card-body">
 												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
 														<div class="step-label"><i class='bx bx-cart'></i></div>
 													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
+													<a class="step-item active current" href="{% url 'paas_orders:order_create' %}">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
 														<div class="step-label"><i class='bx bx-user-circle'></i></div>
@@ -266,7 +266,7 @@
     <!-- Botones de acción -->
     <div class="col-md-6">
       <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
+        <a href="{% url 'paas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
       </div>
     </div>
 

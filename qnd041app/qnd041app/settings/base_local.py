@@ -250,6 +250,7 @@ domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
+PAAS_CART_SESSION_ID = 'paas_cart'
 
 SERVICES_CART_SESSION_ID = 'services_cart'
 
