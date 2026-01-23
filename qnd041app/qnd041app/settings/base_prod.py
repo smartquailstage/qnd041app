@@ -203,6 +203,12 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     #"coupons",
+    #PAAS
+    'paas_shop',
+    'paas_cart',
+    'paas_orders',
+    'paas_coupons',
+    'paas_payment',
     #SAAS
     'saas_shop',
     'saas_orders',
@@ -254,6 +260,7 @@ domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
+PAAS_CART_SESSION_ID = 'paas_cart'
 
 SERVICES_CART_SESSION_ID = 'services_cart'
 
@@ -678,12 +685,14 @@ TEMPLATES = [
                # 'usuarios.context_processors.ultima_cita',
                # 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
+                'paas_cart.context_processors.cart',
                 "business_customer_projects.context_processors.business_projects_context",
                 "business_customer_projects.context_processors.pending_payment_orders_total",
                 "business_customer_projects.context_processors.noticias_context",
                 "business_customer_projects.context_processors.tamano_empresa_context",
                 "services_cart.context_processors.cart",
                 'billing.context_processors.all_business_billing',
+                
             ],
         },
     },
