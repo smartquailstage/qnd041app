@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
-from .models import Category, Product
+from .models import Category, Product, Suite
 
 
 @admin.register(Category)
@@ -8,6 +8,10 @@ class CategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
+
+@admin.register(Suite)
+class SuiteAdmin(ModelAdmin):
+    list_display = ['suite',]
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
@@ -18,6 +22,8 @@ class ProductAdmin(ModelAdmin):
         'price',
         'available',
     )
+
+   # autocomplete_fields = ('suite',)
 
     prepopulated_fields = {
         "slug": ("name",)
@@ -60,6 +66,7 @@ class ProductAdmin(ModelAdmin):
                 'fields': (
                     'name',
                     'slug',
+                    'suite',
                     'description',
                     'category',
                     'available',

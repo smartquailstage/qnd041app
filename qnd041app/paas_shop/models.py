@@ -55,6 +55,27 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('paas_shop:product_list_by_category', args=[self.slug])
 
+class Suite(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+
+
+    SUITES = [
+        ('SmartBusinessAnalytics® (I+D)', 'SmartBusinessAnalytics® (I+D)'),
+        ('SmartBusinessAnalytics® (I+D+A)', 'SmartBusinessAnalytics® (I+D+A)'),
+        ('SmartBusinessAnalytics® (I+D+A+AI)', 'SmartBusinessAnalytics® (I+D+A+AI)'),
+        ('SmartBusinessMedia® (I+D)', 'SmartBusinessMedia® (I+D)'),
+        ('SmartBusinessMedia® (I+D+A)', 'SmartBusinessMedia® (I+D+A)'),
+        ('SmartBusinessMedia® (I+D+A+AI)', 'SmartBusinessMedia® (I+D+A+AI)'),
+        ('SmartBusinessLaw® (I+D)', 'SmartBusinessLaw® (I+D)'),
+        ('SmartBusinessLaw® (I+D+A)', 'SmartBusinessLaw® (I+D+A)'),
+        ('SmartBusinessLaw® (I+D+A+AI)', 'SmartBusinessLaw® (I+D+A+AI)'),
+    ]
+
+    suite = models.CharField(choices=SUITES, null=True, blank=True, max_length=200)
+
+
+    def __str__(self):
+        return self.suite
 
 
 
@@ -108,11 +129,18 @@ class Product(models.Model):
         ('recomendacion', 'Agente de IA de recomendación'),
     ]
 
- 
 
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    suite = models.ManyToManyField(
+        Suite,
+        blank=True,
+        related_name='products'
+    )
+
+    
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)

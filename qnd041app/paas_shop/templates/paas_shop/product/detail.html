@@ -179,13 +179,13 @@
          <div class="page-content">
 
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
+            <div class="breadcrumb-title pe-3"> <ion-icon name="grid-outline"></ion-icon> Plataformas  para Negocios  </div>
             <div class="ps-3">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                    {% if product.category.name == "Business Law" %}
-                  <ion-icon name="albums-outline"></ion-icon> Planificador de Recursos Legales
+                    {% if product.category.name == "Business Gastronomico" %}
+                  <i class="fadeIn animated bx bx-restaurant"></i> Sector Gastronómico
                     {% endif %}
                     {% if product.category.name == "Business Media" %} 
                     <ion-icon name="play-outline"></ion-icon>  Administrador de contenidos Multimedia (CRM)
@@ -227,82 +227,118 @@
         </div>
       </a>
     </li>
+
+
+
+
 {% if product.is_reaserch %}
     <!-- Investigación -->
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-investigacion" data-bs-toggle="tab" href="#investigacion" role="tab"
-         aria-controls="investigacion" aria-selected="false">
+      <a class="nav-link" id="tab-uiux" data-bs-toggle="tab" href="#uiux" role="tab"
+         aria-controls="uiux" aria-selected="false">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">I + D</div>
+          <div class="tab-title text-uppercase fw-500"> <i class="fadeIn animated bx bx-merge"></i> </div>
         </div>
       </a>
     </li>
 {% else %}
 {% endif %}
 
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessAnalytics® (I+D)" %}
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="tab-sba-investigacion" data-bs-toggle="tab"
+             href="#sba-investigacion" role="tab">
+            <div class="d-flex align-items-center">
+              <div class="tab-title text-uppercase fw-500">
+                SBA <sup>I + D</sup>
+              </div>
+            </div>
+          </a>
+        </li>
+    {% endif %}
+{% endfor %}
 
-{% if product.is_automatitation %}
+
+
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessAnalytics® (I+D+A)" %}
 
     <!-- Automatización -->
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-automatizacion" data-bs-toggle="tab" href="#automatizacion" role="tab"
+      <a class="nav-link" id="tab-sba-automatizacion" data-bs-toggle="tab" href="#tab-automatizacion" role="tab"
          aria-controls="automatizacion" aria-selected="false">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">+A</div>
+          <div class="tab-title text-uppercase fw-500">SBA <sup>I + D + A</sup></div>
         </div>
       </a>
     </li>
-{% else %}
-{% endif %}
+    {% endif %}
+{% endfor %}
 
-{% if product.is_intelligent %}
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessAnalytics® (I+D+A+AI)" %}
     <!-- Inteligencia Artificial -->
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-inteligencia" data-bs-toggle="tab" href="#inteligencia-artificial" role="tab"
-         aria-controls="inteligencia-artificial" aria-selected="false">
+      <a class="nav-link" id="tab-sba-ia" data-bs-toggle="tab" href="#tab-ia" role="tab"
+         aria-controls="tab-ia" aria-selected="false">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">+IA</div>
+          <div class="tab-title text-uppercase fw-500">SBA <sup>I + D + A + AI</sup></div>
         </div>
       </a>
     </li>
-{% else %}
+    {% endif %}
+{% endfor %}
+
+
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessMedia® (I+D)" %}
+    <!-- Inteligencia Artificial -->
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-media-investigacion" data-bs-toggle="tab" href="#media-investigacion" role="tab"
+         aria-controls="media-investigacion" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SBM <sup>I + D </sup></div>
+        </div>
+      </a>
+    </li>
 {% endif %}
+{% endfor %}
+
+
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessMedia® (I+D+A)" %}
+    <!-- Inteligencia Artificial -->
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-sbm-automatizacion" data-bs-toggle="tab" href="#sbm-automatizacion" role="tab"
+         aria-controls="sbm-automatizacion" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SBM <sup>I + D + A </sup></div>
+        </div>
+      </a>
+    </li>
+{% endif %}
+{% endfor %}
+
+
+{% for suite in product.suite.all %}
+    {% if suite.suite == "SmartBusinessMedia® (I+D+A+AI)" %}
+    <!-- Inteligencia Artificial -->
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-sbm-inteligencia" data-bs-toggle="tab" href="#sbm-inteligencia-artificial" role="tab"
+         aria-controls="sbm-inteligencia-artificial" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">SBM <sup>I + D + A + AI </sup></div>
+        </div>
+      </a>
+    </li>
+{% endif %}
+{% endfor %}
 
     <!-- Monitoreo -->
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-monitoreo" data-bs-toggle="tab" href="#monitoreo" role="tab"
-         aria-controls="monitoreo" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">
-            <ion-icon name="bar-chart-outline"></ion-icon>
-          </div>
-        </div>
-      </a>
-    </li>
 
-    <!-- Ciberseguridad -->
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-ciberseguridad" data-bs-toggle="tab" href="#ciberseguridad" role="tab"
-         aria-controls="ciberseguridad" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">
-            <ion-icon name="shield-outline"></ion-icon>
-          </div>
-        </div>
-      </a>
-    </li>
 
-    <!-- Soporte -->
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-soporte" data-bs-toggle="tab" href="#soporte" role="tab"
-         aria-controls="soporte" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">
-            <ion-icon name="headset-outline"></ion-icon>
-          </div>
-        </div>
-      </a>
-    </li>
+
 
   </ul>
 
@@ -397,12 +433,7 @@
             <div class="d-flex gap-2">
 
       <!-- Botón para ver demo -->
-    <a href="{{ product.demo_url }}" 
-       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
-       target="_blank">
-       
-        Explorar Demo
-    </a>
+
 
     <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
         {% csrf_token %}
@@ -411,7 +442,7 @@
 
         <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
           
-            {% trans 'Ordenar Software' %}
+            {% trans 'Ordenar Plataforma' %}
         </button>
     </form>
 
@@ -741,6 +772,123 @@
 
       </div>
     </div>
+
+
+        <div class="tab-pane fade" id="uiux" role="tabpanel" aria-labelledby="tab-uiux">
+      <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+  <h5 class="mt-3">
+   <i class="fadeIn animated bx bx-merge"></i>
+    Interfase y Experiencia de usuario (UI/UX)
+  </h5>
+
+<p>
+   Desarrollamos procesos avanzados de <strong>Investigación y Desarrollo (I+D)</strong> enfocados en la creación de 
+  <strong>interfaces web inteligentes, totalmente personalizadas</strong> para clientes y usuarios finales del sector 
+  <strong>{{ product.category.sector }}</strong>.
+  Nuestro enfoque garantiza experiencias digitales intuitivas, rápidas, ágiles y optimizadas, alineadas con los objetivos del negocio y las expectativas del usuario.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Investigación centrada en el usuario (User-Centered Design):</strong>
+    Realizamos estudios funcionales y de comportamiento para comprender a profundidad las necesidades, flujos de trabajo y patrones de uso de los usuarios finales, asegurando interfaces alineadas a escenarios reales de operación.
+  </li>
+
+  <li>
+    <strong>Análisis del sector y del producto:</strong>
+    Adaptamos cada interfaz al contexto específico del sector <strong>(( product.sector ))</strong>, considerando normativas, procesos clave, niveles de madurez digital y objetivos estratégicos del cliente.
+  </li>
+
+  <li>
+    <strong>Arquitectura de experiencia de usuario (UX):</strong>
+    Diseñamos estructuras de navegación claras y jerárquicas que reducen la curva de aprendizaje y mejoran la eficiencia operativa.
+    <ul>
+      <li>Mapeo de flujos de usuario.</li>
+      <li>Definición de journeys y escenarios críticos.</li>
+      <li>Optimización de tiempos de interacción.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Diseño de interfaz (UI) totalmente personalizado:</strong>
+    Creamos interfaces visuales únicas, alineadas a la identidad del cliente y optimizadas para usabilidad y accesibilidad.
+    <ul>
+      <li>Diseño responsive (desktop, tablet y móvil).</li>
+      <li>Componentes visuales reutilizables.</li>
+      <li>Jerarquía visual clara y consistente.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración automática con sistemas multiforma:</strong>
+    Las interfaces se integran de manera automática y segura con sistemas externos, plataformas multiforma y aplicaciones de terceros, garantizando interoperabilidad y continuidad operativa.
+    <ul>
+      <li>Integraciones vía APIs y servicios web.</li>
+      <li>Conectividad con sistemas empresariales y operativos.</li>
+      <li>Sincronización de datos en tiempo real.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración nativa con la suite SmartQuail:</strong>
+    Todas las interfaces desarrolladas se conectan de forma nativa con la suite completa de SmartQuail, incluyendo:
+    <ul>
+      <li><strong>SmartBusinessAnalytics® SBA</strong>: análisis avanzado de datos, métricas operativas y visualización inteligente.</li>
+      <li><strong>SmartBusinessManagement® SBM</strong>: gestión integral de procesos, flujos de trabajo y operaciones empresariales.</li>
+    </ul>
+    Esta integración permite una comunicación fluida entre usuarios, sistemas y procesos.
+  </li>
+
+  <li>
+    <strong>Experiencias y comunicaciones personalizadas en tiempo real:</strong>
+    Gracias a la integración automatizada y a la analítica en vivo, las interfaces ofrecen experiencias dinámicas y comunicaciones contextuales adaptadas a cada usuario y proceso.
+    <ul>
+      <li>Notificaciones inteligentes en tiempo real.</li>
+      <li>Flujos de información personalizados según rol y contexto.</li>
+      <li>Interacción directa entre usuarios, procesos y datos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Optimización de rendimiento y velocidad:</strong>
+    Todas las interfaces se desarrollan bajo principios de alto rendimiento, asegurando tiempos de carga mínimos y respuestas inmediatas.
+    <ul>
+      <li>Carga optimizada de componentes.</li>
+      <li>Interacciones ágiles y fluidas.</li>
+      <li>Compatibilidad con navegadores modernos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Accesibilidad y usabilidad universal:</strong>
+    Diseñamos interfaces inclusivas que facilitan el uso por parte de distintos perfiles de usuario, considerando buenas prácticas de accesibilidad digital.
+  </li>
+
+  <li>
+    <strong>Evolución y mejora continua:</strong>
+    La interfaz no es estática: se analiza, mide y optimiza continuamente según métricas de uso, comportamiento y rendimiento.
+    <ul>
+      <li>Análisis de interacción.</li>
+      <li>Mejoras iterativas.</li>
+      <li>Adaptación a nuevas necesidades del negocio.</li>
+    </ul>
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  Este enfoque integral de <strong>Investigación y Desarrollo en interfaces web</strong> permite que cada solución, incluyendo 
+  <strong>{{ product.name }}</strong>, ofrezca una experiencia digital moderna, inteligente y conectada, impulsando la adopción, productividad y comunicación en tiempo real entre usuarios y procesos dentro del sector 
+  <strong>(( product.sector ))</strong>.
+</p>
+
+
+      </div>
+    </div>
+
+
 {% if product.is_reaserch %}
     <!-- TAB: Investigación -->
     <div class="tab-pane fade" id="investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
@@ -1104,9 +1252,701 @@
     </div>
 
   </div>
+
+
+  
+  <div class="tab-pane fade" id="sba-investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
+  <div class="card">
+    <div class="card-body p-4"
+         style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
+                font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+
+<h5 class="mt-3">
+  <ion-icon name="stats-chart-outline"></ion-icon>
+  SmartBusinessAnalytics® ERP (I+D)
+</h5>
+
+<p>
+  <strong>SmartBusinessAnalytics® ERP (I+D)</strong> es la <strong>plataforma analítica estratégica</strong>
+  de <strong>SmartBusinessMedia®</strong>, diseñada para convertirse en el núcleo de
+  <strong>investigación, análisis y toma de decisiones</strong> del sector de negocios.
+  Funciona como un <strong>ERP analítico de nueva generación</strong>, capaz de transformar
+  datos operativos, de usuarios y de procesos en conocimiento accionable en tiempo real.
+</p>
+
+<p>
+  Desde una perspectiva técnica y comercial, SmartBusinessAnalytics® conecta de forma directa
+  la <strong>infraestructura de datos</strong> con las <strong>interfaces de clientes y usuarios finales</strong>,
+  permitiendo que cada interacción digital se convierta en una fuente de información para
+  optimizar productos, servicios y modelos de negocio.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Plataforma analítica central para el negocio:</strong>
+    SmartBusinessAnalytics® actúa como el motor analítico del ecosistema SmartQuail,
+    consolidando información proveniente de plataformas operativas, interfaces web,
+    aplicaciones multiforma y sistemas externos.
+    <ul>
+      <li>Unificación de datos operativos, comerciales y de experiencia de usuario.</li>
+      <li>Modelos analíticos orientados a rendimiento, eficiencia y crecimiento.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Investigación y desarrollo basado en datos reales:</strong>
+    A diferencia de enfoques tradicionales, el módulo (I+D) se alimenta directamente
+    de datos reales generados por los usuarios y procesos del negocio.
+    <ul>
+      <li>Análisis de comportamiento de usuarios en interfaces.</li>
+      <li>Evaluación de flujos, tiempos y puntos de fricción.</li>
+      <li>Validación continua de decisiones de diseño y funcionalidad.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Relación directa con plataformas e interfaces de clientes:</strong>
+    Las interfaces web y aplicaciones del cliente no son elementos aislados; funcionan
+    como <strong>canales activos de captación de datos</strong> que se integran automáticamente
+    con SmartBusinessAnalytics® ERP.
+    <ul>
+      <li>Captura de eventos, interacciones y transacciones en tiempo real.</li>
+      <li>Retroalimentación inmediata hacia dashboards y modelos analíticos.</li>
+      <li>Personalización dinámica de la experiencia del usuario.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración multiforma y conectividad empresarial:</strong>
+    SmartBusinessAnalytics® se integra de manera automática con sistemas multiforma,
+    aplicaciones empresariales y plataformas de terceros mediante APIs seguras.
+    <ul>
+      <li>Interoperabilidad entre sistemas internos y externos.</li>
+      <li>Sincronización de datos en tiempo real o por eventos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración nativa con la suite SmartQuail:</strong>
+    <ul>
+      <li>
+        <strong>SmartBusinessAnalytics® (SBA):</strong>
+        análisis avanzado, métricas inteligentes, visualización de indicadores clave y
+        monitoreo continuo del desempeño del negocio.
+      </li>
+      <li>
+        <strong>SmartBusinessManagement® (SBM):</strong>
+        ejecución y orquestación de procesos, flujos operativos y acciones derivadas del
+        análisis generado por SBA.
+      </li>
+    </ul>
+    Esta integración convierte los datos en <strong>decisiones ejecutables</strong>.
+  </li>
+
+  <li>
+    <strong>Experiencias y comunicaciones personalizadas en tiempo real:</strong>
+    A nivel comercial, el ERP analítico permite adaptar mensajes, procesos y experiencias
+    según el perfil del usuario, su contexto y su comportamiento.
+    <ul>
+      <li>Notificaciones inteligentes y contextuales.</li>
+      <li>Flujos personalizados por rol, cliente o segmento.</li>
+      <li>Interacción directa entre datos, procesos y usuarios.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Optimización continua del negocio:</strong>
+    SmartBusinessAnalytics® ERP no es estático: evoluciona junto al negocio,
+    utilizando métricas reales para mejorar eficiencia, rentabilidad y experiencia digital.
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessAnalytics® ERP (I+D)</strong> se posiciona como la
+  <strong>plataforma analítica indispensable para el sector de negocios</strong>,
+  conectando datos, procesos e interfaces de clientes en un ecosistema inteligente
+  que impulsa la innovación, la toma de decisiones y el crecimiento sostenible dentro de
+  <strong>{{ product.name }}</strong> y la suite SmartQuail.
+</p>
+
+    </div>
+  </div>
 </div>
 
 
+
+  <div class="tab-pane fade" id="tab-automatizacion" role="tabpanel" aria-labelledby="tab-automatizacion">
+  <div class="card">
+    <div class="card-body p-4"
+         style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
+                font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">
+  <ion-icon name="stats-chart-outline"></ion-icon>
+  SmartBusinessAnalytics® ERP (I+D+A)
+</h5>
+
+<p>
+  <strong>SmartBusinessAnalytics® ERP (I+D+A)</strong> es la <strong>plataforma central de
+  automatización de procesos de información y comunicación</strong> de
+  <strong>SmartBusinessMedia®</strong>, diseñada para transformar datos dispersos en
+  <strong>flujos automatizados, continuos y accionables</strong> para el sector de negocios.
+</p>
+
+<p>
+  Desde una perspectiva técnica y comercial, SmartBusinessAnalytics® automatiza la
+  <strong>captura, procesamiento, análisis y distribución de la información</strong>,
+  conectando en tiempo real la infraestructura de datos con las plataformas operativas,
+  las interfaces de clientes y los canales de comunicación digitales.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Motor de automatización de información empresarial:</strong>
+    SmartBusinessAnalytics® funciona como un <strong>orquestador inteligente de datos y eventos</strong>,
+    eliminando procesos manuales y consolidando información proveniente de sistemas
+    operativos, interfaces web, aplicaciones multiforma y plataformas externas.
+    <ul>
+      <li>Ingesta automática de datos estructurados y no estructurados.</li>
+      <li>Normalización y consolidación de información en tiempo real.</li>
+      <li>Activación automática de flujos informativos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización basada en eventos y reglas de negocio:</strong>
+    Cada interacción del usuario, transacción o cambio de estado genera eventos que
+    activan <strong>procesos automáticos de información y comunicación</strong>.
+    <ul>
+      <li>Disparadores automáticos por evento.</li>
+      <li>Reglas dinámicas según contexto, rol o proceso.</li>
+      <li>Ejecución sin intervención humana.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización de notificaciones multicanal:</strong>
+    La plataforma automatiza la comunicación con clientes y usuarios mediante
+    múltiples canales integrados.
+    <ul>
+      <li><strong>Correo electrónico:</strong> envíos automáticos transaccionales,
+          informativos y de seguimiento.</li>
+      <li><strong>Chatbots inteligentes:</strong> atención automática, respuestas
+          contextuales y seguimiento de procesos.</li>
+      <li><strong>Integración con WhatsApp:</strong> notificaciones, recordatorios,
+          confirmaciones y comunicación directa en tiempo real.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Relación directa con plataformas e interfaces de clientes:</strong>
+    Las interfaces web y aplicaciones del cliente actúan como <strong>puntos activos de automatización</strong>,
+    generando eventos que se traducen automáticamente en acciones, mensajes y flujos de comunicación.
+    <ul>
+      <li>Actualización inmediata de estados.</li>
+      <li>Notificaciones automáticas al usuario final.</li>
+      <li>Experiencias dinámicas y personalizadas.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración multiforma automatizada:</strong>
+    SmartBusinessAnalytics® se integra de forma automática con sistemas empresariales,
+    plataformas externas y servicios de mensajería mediante APIs seguras y conectores especializados.
+    <ul>
+      <li>Interoperabilidad entre sistemas y canales digitales.</li>
+      <li>Sincronización de información en tiempo real.</li>
+      <li>Automatización de procesos intersistemas.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración nativa con la suite SmartQuail:</strong>
+    <ul>
+      <li>
+        <strong>SmartBusinessAnalytics® (SBA):</strong>
+        automatización del análisis, generación de métricas y monitoreo continuo
+        del comportamiento de la información y los procesos.
+      </li>
+      <li>
+        <strong>SmartBusinessManagement® (SBM):</strong>
+        ejecución automática de procesos, flujos operativos y acciones
+        derivadas directamente de los eventos y reglas definidas.
+      </li>
+    </ul>
+    Esta integración convierte la información en <strong>procesos y comunicaciones automatizadas</strong>.
+  </li>
+
+  <li>
+    <strong>Optimización continua mediante automatización:</strong>
+    El ERP analiza de forma automática el desempeño de los procesos de información
+    y comunicación, detectando cuellos de botella y optimizando flujos sin intervención manual.
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessAnalytics® ERP (I+D+A)</strong> se consolida como la
+  <strong>plataforma de automatización de procesos de información y comunicación esencial
+  para el sector de negocios</strong>, integrando datos, sistemas, interfaces y canales
+  como correo electrónico, chatbots y WhatsApp en un ecosistema operativo inteligente,
+  ágil y escalable dentro de <strong>{{ product.name }}</strong> y la suite SmartQuail.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="tab-pane fade" id="tab-ia" role="tabpanel" aria-labelledby="tab-sba-ia">
+  <div class="card">
+    <div class="card-body p-4"
+         style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
+                font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">
+  <ion-icon name="stats-chart-outline"></ion-icon>
+  SmartBusinessAnalytics® ERP (I+D+A+AI)
+</h5>
+
+<p>
+  <strong>SmartBusinessAnalytics® ERP (I+D+A+AI)</strong> es la <strong>plataforma cognitiva
+  de Big Data, Inteligencia Artificial y automatización predictiva</strong> de
+  <strong>SmartBusinessMedia®</strong>, diseñada para transformar grandes volúmenes de datos
+  empresariales en <strong>modelos inteligentes, decisiones automatizadas y experiencias
+  adaptativas en tiempo real</strong> para el sector de negocios.
+</p>
+
+<p>
+  Desde una perspectiva técnica y comercial, SmartBusinessAnalytics® integra
+  <strong>Big Data, Machine Learning, Redes Neuronales y Procesamiento de Lenguaje Natural (NLP)</strong>
+  para capturar, procesar, analizar e interpretar información estructurada y no estructurada,
+  conectando la infraestructura de datos con las plataformas operativas, las interfaces
+  de clientes y los canales conversacionales digitales.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Arquitectura Big Data empresarial:</strong>
+    La plataforma opera sobre una arquitectura distribuida de <strong>Big Data</strong>,
+    capaz de procesar información masiva proveniente de sistemas internos, interfaces web,
+    aplicaciones multiforma, interacciones conversacionales y fuentes externas.
+    <ul>
+      <li>Ingesta de datos estructurados, no estructurados y datos conversacionales.</li>
+      <li>Procesamiento en tiempo real y por streaming.</li>
+      <li>Almacenamiento analítico optimizado para IA y modelos predictivos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Machine Learning y Redes Neuronales avanzadas:</strong>
+    SmartBusinessAnalytics® incorpora <strong>modelos de aprendizaje automático y deep learning</strong>
+    que analizan patrones complejos de comportamiento empresarial y de usuarios.
+    <ul>
+      <li>Modelos supervisados, no supervisados y de refuerzo.</li>
+      <li>Detección de patrones, anomalías y correlaciones ocultas.</li>
+      <li>Autoaprendizaje continuo basado en datos históricos y en tiempo real.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Inteligencia Artificial predictiva:</strong>
+    La IA no solo analiza, sino que <strong>predice escenarios futuros</strong> y
+    ejecuta acciones automáticas basadas en probabilidad y contexto.
+    <ul>
+      <li>Predicción de demanda, comportamiento y riesgos.</li>
+      <li>Modelos de recomendación y optimización.</li>
+      <li>Toma de decisiones automatizada basada en modelos predictivos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Chatbots inteligentes en lenguaje natural (NLP / NLU):</strong>
+    La plataforma integra <strong>chatbots conversacionales avanzados</strong> capaces
+    de comprender, interpretar y responder en <strong>lenguaje natural</strong>,
+    aprendiendo continuamente de cada interacción.
+    <ul>
+      <li>Procesamiento de Lenguaje Natural (NLP) y comprensión semántica (NLU).</li>
+      <li>Conversaciones contextuales y multilingües.</li>
+      <li>Interacción con datos, procesos y modelos predictivos.</li>
+      <li>Capacidad de ejecutar acciones, consultas y flujos operativos desde lenguaje humano.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización cognitiva de comunicaciones:</strong>
+    La IA impulsa flujos de comunicación inteligentes y predictivos en múltiples canales.
+    <ul>
+      <li>Correos electrónicos personalizados basados en comportamiento y predicción.</li>
+      <li>Chatbots conversacionales para atención, soporte y ventas.</li>
+      <li>Integración con WhatsApp para notificaciones, recordatorios y respuestas automáticas.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Interfaces predictivas y experiencias inteligentes:</strong>
+    Las interfaces web y aplicaciones del cliente se convierten en
+    <strong>canales de aprendizaje y predicción</strong>, adaptando la experiencia del usuario
+    según modelos de IA.
+    <ul>
+      <li>Personalización dinámica de contenidos y flujos.</li>
+      <li>Recomendaciones en tiempo real.</li>
+      <li>Experiencias basadas en intención y contexto.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración multiforma orientada a IA:</strong>
+    SmartBusinessAnalytics® se integra automáticamente con sistemas empresariales,
+    plataformas externas y servicios digitales, alimentando continuamente los modelos
+    de inteligencia artificial.
+    <ul>
+      <li>APIs inteligentes basadas en eventos.</li>
+      <li>Flujos de datos bidireccionales.</li>
+      <li>Interoperabilidad total del ecosistema.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración nativa con la suite SmartQuail:</strong>
+    <ul>
+      <li>
+        <strong>SmartBusinessAnalytics® (SBA):</strong>
+        analítica avanzada, entrenamiento de modelos, monitoreo predictivo y visualización
+        inteligente de indicadores.
+      </li>
+      <li>
+        <strong>SmartBusinessManagement® (SBM):</strong>
+        ejecución automática de procesos, flujos operativos y acciones disparadas por
+        decisiones de IA y resultados predictivos.
+      </li>
+    </ul>
+    Esta integración convierte los datos en <strong>acciones autónomas impulsadas por inteligencia artificial</strong>.
+  </li>
+
+  <li>
+    <strong>Evolución continua y autoaprendizaje:</strong>
+    La plataforma aprende de forma constante del comportamiento del negocio y de las
+    interacciones en lenguaje natural, refinando modelos, mejorando predicciones y
+    optimizando decisiones sin intervención humana.
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessAnalytics® ERP (I+D+A+AI)</strong> se consolida como la
+  <strong>plataforma de Big Data, Inteligencia Artificial y comunicación conversacional
+  indispensable para el sector de negocios</strong>, integrando modelos predictivos,
+  chatbots en lenguaje natural y automatización cognitiva en un ecosistema inteligente,
+  escalable y orientado al crecimiento dentro de <strong>{{ product.name }}</strong> y la
+  suite SmartQuail.
+</p>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="tab-pane fade" id="sbm-automatizacion" role="tabpanel" aria-labelledby="tab-sbm-automatizacion">
+  <div class="card">
+    <div class="card-body p-4"
+         style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
+                font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">
+  <ion-icon name="play-circle-outline"></ion-icon>
+  SmartBusinessMedia® CRM (I+D+A)
+</h5>
+
+<p>
+  <strong>SmartBusinessMedia® CRM (I+D+A)</strong> es la <strong>plataforma avanzada de
+  automatización, integración y gestión inteligente de contenidos digitales</strong> de
+  <strong>SmartBusinessMedia®</strong>, diseñada para <strong>agencias de marketing digital,
+  social media y negocios digitales</strong> que requieren operar, escalar y automatizar
+  su presencia digital y sus procesos comerciales en múltiples canales.
+</p>
+
+<p>
+  Desde una perspectiva técnica y comercial, SmartBusinessMedia® CRM actúa como un
+  <strong>hub central de automatización</strong> que conecta redes sociales del ecosistema
+  <strong>Meta (Facebook, Instagram, WhatsApp)</strong>, sitios web, ecommerce y herramientas
+  de inteligencia artificial, permitiendo la <strong>publicación programada, gestión de
+  contenidos en tiempo real y automatización completa del ciclo digital y comercial</strong>.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Automatización avanzada de redes sociales Meta:</strong>
+    La plataforma se integra de forma nativa con <strong>Facebook, Instagram y WhatsApp</strong>,
+    permitiendo gestionar contenidos, audiencias y comunicaciones desde un único entorno.
+    <ul>
+      <li>Publicación automática y programada en Facebook e Instagram.</li>
+      <li>Gestión centralizada de mensajes, comentarios y respuestas.</li>
+      <li>Automatización de flujos de interacción con audiencias.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Programación inteligente de publicaciones:</strong>
+    SmartBusinessMedia® CRM permite diseñar calendarios de contenido totalmente automatizados,
+    alineados con la estrategia de marketing digital.
+    <ul>
+      <li>Publicaciones programadas por fecha, hora y canal.</li>
+      <li>Distribución multicanal sincronizada.</li>
+      <li>Reutilización automática de contenidos en diferentes formatos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración con Gemini y Canvas para creación asistida:</strong>
+    La plataforma integra <strong>Gemini</strong> y <strong>Canvas</strong> como motores de
+    apoyo creativo e inteligencia artificial.
+    <ul>
+      <li>Generación asistida de textos, copies y descripciones.</li>
+      <li>Optimización automática de contenidos según canal y audiencia.</li>
+      <li>Diseño y adaptación visual dinámica de piezas creativas.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización de flujos con n8n:</strong>
+    Mediante la integración con <strong>n8n</strong>, SmartBusinessMedia® CRM orquesta
+    procesos complejos sin intervención manual.
+    <ul>
+      <li>Automatización de publicaciones y campañas.</li>
+      <li>Conexión entre redes sociales, web, ecommerce y CRM.</li>
+      <li>Disparadores por eventos, horarios o comportamiento del usuario.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Gestión automática de contenidos web en tiempo real:</strong>
+    La plataforma se integra directamente con sitios web personalizados,
+    sincronizando contenidos y campañas de forma automática.
+    <ul>
+      <li>Publicación instantánea de contenidos desde el CRM a la web.</li>
+      <li>Webs diseñadas y personalizadas según la estrategia digital.</li>
+      <li>Compatibilidad total con SEO, performance y experiencia de usuario.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización completa del ecommerce:</strong>
+    SmartBusinessMedia® CRM conecta el ecosistema de contenidos con el
+    <strong>proceso comercial y de ecommerce</strong> del negocio.
+    <ul>
+      <li>Publicación automática de productos y promociones en redes sociales.</li>
+      <li>Integración con catálogos, precios y stock.</li>
+      <li>Automatización de campañas, mensajes y seguimiento de clientes.</li>
+      <li>Conexión directa con WhatsApp para ventas conversacionales.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Análisis automático del flujo de publicaciones:</strong>
+    La plataforma analiza en tiempo real el rendimiento de cada contenido y campaña.
+    <ul>
+      <li>Seguimiento del flujo de publicaciones por canal.</li>
+      <li>Análisis de alcance, engagement y conversión.</li>
+      <li>Optimización automática de horarios y formatos.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>CRM orientado a automatización comercial:</strong>
+    Más allá de la gestión de contactos, el CRM automatiza relaciones y procesos.
+    <ul>
+      <li>Gestión de clientes, marcas y audiencias.</li>
+      <li>Seguimiento automático de leads y oportunidades.</li>
+      <li>Flujos personalizados por cliente, campaña o negocio.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Personalización total y escalabilidad:</strong>
+    Cada implementación se adapta al modelo de negocio, volumen de contenidos
+    y objetivos comerciales.
+    <ul>
+      <li>Paneles y flujos personalizados por agencia o cliente.</li>
+      <li>Escalabilidad según cuentas, campañas y ecommerce.</li>
+      <li>Configuración flexible orientada a crecimiento.</li>
+    </ul>
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessMedia® CRM (I+D+A)</strong> se consolida como la
+  <strong>plataforma de automatización digital y social media más completa para el
+  sector de negocios</strong>, integrando redes sociales Meta, inteligencia artificial,
+  automatización con n8n, ecommerce y contenidos web en tiempo real dentro de un
+  ecosistema inteligente, escalable y totalmente personalizado para maximizar
+  resultados comerciales y de marketing en <strong>{{ product.name }}</strong>.
+</p>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessMedia® CRM (I+D)</strong> se posiciona como el
+  <strong>mejor gestor de contenidos multimedia streaming para agencias de marketing
+  digital y social media</strong>, integrando web, contenidos, clientes y análisis
+  en tiempo real en una plataforma inteligente, flexible y totalmente personalizada,
+  diseñada para maximizar el impacto digital dentro de <strong>{{ product.name }}</strong>
+  y el ecosistema SmartBusinessMedia®.
+</p>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+  <div class="tab-pane fade" id="sbm-inteligencia-artificial" role="tabpanel" aria-labelledby="tab-sbm-inteligencia">
+  <div class="card">
+    <div class="card-body p-4"
+         style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
+                font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">
+  <ion-icon name="sparkles-outline"></ion-icon>
+  SmartBusinessMedia® CRM (AI Marketing Engine)
+</h5>
+
+<p>
+  <strong>SmartBusinessMedia® CRM (AI Marketing Engine)</strong> es la
+  <strong>plataforma de inteligencia artificial aplicada al marketing digital</strong>
+  de <strong>SmartBusinessMedia®</strong>, diseñada para agencias, marcas y negocios
+  digitales que buscan <strong>automatizar, escalar y optimizar</strong> la creación,
+  distribución y monetización de contenidos mediante <strong>IA avanzada y modelos
+  neuronales</strong>.
+</p>
+
+<p>
+  Desde una perspectiva técnica y comercial, la plataforma opera como un
+  <strong>motor cognitivo de marketing</strong> que integra
+  <strong>redes neuronales, Machine Learning, modelos generativos y algoritmos de
+  recomendación</strong> para analizar el comportamiento de audiencias, generar
+  contenido de forma automática y ejecutar estrategias de marketing digital
+  totalmente inteligentes y orientadas a conversión.
+</p>
+
+<ul>
+
+  <li>
+    <strong>Arquitectura de Inteligencia Artificial y Redes Neuronales:</strong>
+    SmartBusinessMedia® CRM está construido sobre una arquitectura de
+    <strong>IA distribuida</strong>, capaz de aprender continuamente del
+    comportamiento de usuarios, campañas y plataformas.
+    <ul>
+      <li>Redes neuronales profundas para análisis de comportamiento digital.</li>
+      <li>Modelos de aprendizaje supervisado y no supervisado.</li>
+      <li>Autoajuste continuo de estrategias basado en resultados reales.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Autogeneración inteligente de contenidos:</strong>
+    La plataforma incorpora <strong>modelos generativos de IA</strong> capaces de
+    crear contenido de manera automática y contextual.
+    <ul>
+      <li>Generación automática de textos, copies, descripciones y campañas.</li>
+      <li>Creación asistida de imágenes, piezas gráficas y multimedia.</li>
+      <li>Adaptación dinámica del contenido según canal, audiencia y objetivo.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Marketing digital impulsado por IA:</strong>
+    SmartBusinessMedia® CRM ejecuta servicios completos de marketing digital
+    mediante algoritmos inteligentes.
+    <ul>
+      <li>SEO y SEM optimizados automáticamente por modelos de IA.</li>
+      <li>Gestión inteligente de campañas en redes sociales.</li>
+      <li>Optimización continua de inversión publicitaria.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Algoritmos de preferencia y recomendación para ecommerce:</strong>
+    La plataforma integra <strong>sistemas de recomendación avanzados</strong> que
+    personalizan la experiencia de compra.
+    <ul>
+      <li>Recomendación de productos basada en comportamiento y contexto.</li>
+      <li>Predicción de intención de compra.</li>
+      <li>Personalización dinámica de catálogos y ofertas.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Automatización inteligente del ecommerce:</strong>
+    SmartBusinessMedia® CRM conecta IA, marketing y ecommerce en un flujo continuo.
+    <ul>
+      <li>Publicación automática de productos y promociones.</li>
+      <li>Segmentación inteligente de clientes.</li>
+      <li>Activación automática de campañas según comportamiento.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Análisis predictivo de audiencias y conversiones:</strong>
+    Mediante Big Data y Machine Learning, la plataforma anticipa resultados
+    comerciales y optimiza acciones.
+    <ul>
+      <li>Predicción de engagement y conversión.</li>
+      <li>Detección temprana de abandono o desinterés.</li>
+      <li>Optimización proactiva de funnels de venta.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Experiencias digitales hiperpersonalizadas:</strong>
+    Las interfaces web, redes sociales y plataformas de ecommerce se adaptan
+    automáticamente a cada usuario.
+    <ul>
+      <li>Contenido dinámico basado en preferencias individuales.</li>
+      <li>Mensajes personalizados en tiempo real.</li>
+      <li>Experiencias omnicanal coherentes.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Integración con ecosistemas digitales y APIs inteligentes:</strong>
+    La plataforma se conecta con herramientas externas, redes sociales y
+    marketplaces, alimentando continuamente los modelos de IA.
+    <ul>
+      <li>Integración con plataformas de ecommerce.</li>
+      <li>Conectividad con redes sociales y canales digitales.</li>
+      <li>Interoperabilidad total del ecosistema de marketing.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Aprendizaje continuo y optimización autónoma:</strong>
+    SmartBusinessMedia® CRM aprende de cada interacción, campaña y transacción,
+    evolucionando sus modelos sin intervención humana.
+  </li>
+
+</ul>
+
+<p class="mb-1">
+  En conjunto, <strong>SmartBusinessMedia® CRM</strong> se posiciona como la
+  <strong>plataforma de marketing digital basada en Inteligencia Artificial más
+  avanzada del sector</strong>, integrando autogeneración de contenidos, redes
+  neuronales y algoritmos de preferencia para ecommerce en un ecosistema inteligente,
+  escalable y orientado a maximizar visibilidad, conversión y crecimiento sostenible
+  dentro de <strong>{{ product.name }}</strong>.
+</p>
+
+
+
+    </div>
+  </div>
+</div>
 
 
       </div>
