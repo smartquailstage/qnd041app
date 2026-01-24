@@ -13,7 +13,7 @@
         <li>
           {% for item in page.galleria.all %}
           {% image item.image scale-100 as s1 %}
-          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat;opacity: 0.4"></div>
+          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat;opacity: 0.7"></div>
           {% endfor %}
           <div class="hero-text-wrap-sq gradient-overlay-bg-sq">
             <div class="hero-text white-color">
@@ -32,7 +32,7 @@
         <li>
           {% for item in page.galleria.all %}
           {% image item.image_2 scale-100 as s2 %}
-          <div class="slide-img" style="background:url('{{s2.url}}') center center / cover scroll no-repeat;opacity: 0.4"></div>
+          <div class="slide-img" style="background:url('{{s2.url}}') center center / cover scroll no-repeat;opacity: 0.6"></div>
           {% endfor %}
           <div class="hero-text-wrap-sbm gradient-overlay-bg-sbm">
             <div class="hero-text">
