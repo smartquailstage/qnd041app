@@ -132,10 +132,10 @@ class Home(Page):
         locals()[f'product_description_{i}'] = models.CharField(max_length=150, null=True, blank=True, verbose_name=f'Descripción Producto-{i}')
 
     # Contadores
-    numero_coffe = models.IntegerField(null=True, blank=True)
-    numero_experiencia = models.IntegerField(null=True, blank=True)
-    numero_horas = models.IntegerField(null=True, blank=True)
-    numero_wins = models.IntegerField(null=True, blank=True)
+    numero_coffe =models.CharField(max_length=150, null=True, blank=True, verbose_name="Servicios IT Entregados")
+    numero_experiencia = models.CharField(max_length=150, null=True, blank=True, verbose_name="Seguridad")
+    numero_horas  = models.CharField(max_length=150, null=True, blank=True, verbose_name="Gobernanza IT")
+    numero_wins= models.CharField(max_length=150, null=True, blank=True, verbose_name="Calidad de Servicio")
 
     # Equipo
     for i in range(1, 5):
