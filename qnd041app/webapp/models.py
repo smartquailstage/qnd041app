@@ -1377,3 +1377,478 @@ class GlobalLinksSettingsSBT(BaseSiteSetting):
     ]
 
 
+
+    import json
+from os.path import splitext
+
+from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
+
+from wagtail.models import Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    FieldRowPanel,
+)
+from wagtail.contrib.forms.models import (
+    AbstractEmailForm,
+    AbstractFormField,
+    FORM_FIELD_CHOICES,
+)
+from wagtail.contrib.forms.forms import FormBuilder
+from wagtail.contrib.forms.panels import FormSubmissionsPanel
+from wagtail.models import Collection
+
+from wagtail.images import get_image_model
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail import blocks
+
+from modelcluster.fields import ParentalKey
+
+
+# ------------------------------------------------------------------
+# CHOICES
+# ------------------------------------------------------------------
+
+JOBS = (
+    ("Marketing & Publishing", "Marketing & Publishing"),
+    ("UI/UX Developer", "UI/UX Developer"),
+    ("Python/Django Developer", "Python/Django Developer"),
+    ("Docker Developer", "Docker Developer"),
+    ("Kubernetes Developer", "Kubernetes Developer"),
+    ("FullStack Developer", "FullStack Developer"),
+    ("Chief Technology Officer", "Chief Technology Officer"),
+    ("Chief Officer", "Chief Officer"),
+)
+
+JOBS_CATEGORY = (
+    ("Community Manager Senior", "Community Manager Senior"),
+    ("Community Manager Junior", "Community Manager Junior"),
+    ("Content Designer Senior", "Content Designer Senior"),
+    ("Content Designer Junior", "Content Designer Junior"),
+    ("Project Manager Senior", "Project Manager Senior"),
+    ("Project Manager Junior", "Project Manager Junior"),
+    ("UI/UX Designer Senior", "UI/UX Designer Senior"),
+    ("UI/UX Designer Junior", "UI/UX Designer Junior"),
+    ("Django Developer Senior", "Django Developer Senior"),
+    ("Django Developer Junior", "Django Developer Junior"),
+    ("Site Reliability Engineer Senior", "Site Reliability Engineer Senior"),
+    ("Site Reliability Engineer Junior", "Site Reliability Engineer Junior"),
+)
+
+CITIES = (
+    ("Quito", "Quito"),
+    ("Guayaquil", "Guayaquil"),
+    ("Cuenca", "Cuenca"),
+    ("Buenos Aires", "Buenos Aires"),
+    ("Mendoza", "Mendoza"),
+    ("Paris", "Paris"),
+    ("Lausanne", "Lausanne"),
+    ("New York", "New York"),
+)
+
+COUNTRIES = (
+    ("Ecuador", "Ecuador"),
+    ("Switzerland", "Switzerland"),
+    ("Argentina", "Argentina"),
+    ("France", "France"),
+    ("United States", "United States"),
+)
+
+TIMEJOBS = (
+    ("Part Time", "Part Time"),
+    ("Full Time", "Full Time"),
+)
+
+
+# ------------------------------------------------------------------
+# JOB LISTING PAGE
+# ------------------------------------------------------------------
+
+class JobsListingOpeningPage(Page):
+    template = "webapp/joblistingopening.html"
+
+    custom_title = models.CharField(
+        max_length=100,
+        help_text="Overwrites the default title",
+    )
+
+    jobs_category = models.CharField(
+        max_length=100,
+        choices=JOBS,
+        blank=True,
+        null=True,
+    )
+
+    benefits = RichTextField(
+        blank=True,
+        verbose_name="Beneficios"
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("custom_title"),
+        FieldPanel("jobs_category"),
+        FieldPanel("benefits"),
+    ]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context["posts"] = JobsFormDetailOpeningPage.objects.live().public()
+        return context
+
+
+# ------------------------------------------------------------------
+# FORM FIELD (CUSTOM IMAGE FIELD)
+# ------------------------------------------------------------------
+
+class JobsFormOpeningPage(AbstractFormField):
+    page = ParentalKey(
+        "JobsFormDetailOpeningPage",
+        on_delete=models.CASCADE,
+        related_name="form_fields",
+    )
+
+    field_type = models.CharField(
+        max_length=16,
+        choices=list(FORM_FIELD_CHOICES) + [("image", "Upload Image")],
+    )
+
+
+# ------------------------------------------------------------------
+# CUSTOM FORM BUILDER
+# ------------------------------------------------------------------
+
+class CustomFormBuilder(FormBuilder):
+    def create_image_field(self, field, options):
+        from wagtail.images.forms import WagtailImageField
+        return WagtailImageField(**options)
+
+
+# ------------------------------------------------------------------
+# JOB DETAIL + FORM PAGE
+# ------------------------------------------------------------------
+
+class JobsFormDetailOpeningPage(AbstractEmailForm):
+    template = "webapp/jobdetailopening.html"
+
+    jobs_category = models.CharField(
+        max_length=100,
+        choices=JOBS_CATEGORY,
+        blank=True,
+        null=True,
+    )
+
+    city = models.CharField(
+        max_length=100,
+        choices=CITIES,
+        blank=True,
+        null=True,
+    )
+
+    country = models.CharField(
+        max_length=100,
+        choices=COUNTRIES,
+        blank=True,
+        null=True,
+    )
+
+    timejobs = models.CharField(
+        max_length=100,
+        choices=TIMEJOBS,
+        blank=True,
+        null=True,
+    )
+
+    description = RichTextField(
+        blank=True,
+        verbose_name="Descripción corta",
+    )
+
+    uploadcv = models.FileField(
+        upload_to="CV_file/%Y/%m/%d",
+        blank=True,
+        null=True,
+    )
+
+    comments = RichTextField(
+        blank=True,
+        verbose_name="Mensaje para que nos dejen un comentario",
+    )
+
+    thank_you_text = RichTextField(blank=True)
+
+    form_builder = CustomFormBuilder
+
+    uploaded_image_collection = models.ForeignKey(
+        Collection,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    content = StreamField(
+        [
+            ("title_and_text", blocks.StructBlock([
+                ("title", blocks.CharBlock()),
+                ("text", blocks.RichTextBlock()),
+            ])),
+            ("full_richtext", blocks.RichTextBlock()),
+            ("simple_richtext", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+        ],
+        blank=True,
+        null=True,
+        use_json_field=True,
+    )
+
+    # --------------------------------------------------------------
+    # IMAGE HANDLING
+    # --------------------------------------------------------------
+
+    def get_uploaded_image_collection(self):
+        return self.uploaded_image_collection or Collection.get_first_root_node()
+
+    @staticmethod
+    def get_image_title(filename):
+        if filename:
+            result = splitext(filename)[0]
+            return result.replace("-", " ").replace("_", " ").title()
+        return ""
+
+    def process_form_submission(self, form):
+        cleaned_data = form.cleaned_data
+
+        for name, field in form.fields.items():
+            from wagtail.images.forms import WagtailImageField
+
+            if isinstance(field, WagtailImageField):
+                image_file = cleaned_data.get(name)
+
+                if image_file:
+                    ImageModel = get_image_model()
+                    image = ImageModel(
+                        file=image_file,
+                        title=self.get_image_title(image_file.name),
+                        collection=self.get_uploaded_image_collection(),
+                        uploaded_by_user=form.user if form.user and not form.user.is_anonymous else None,
+                    )
+                    image.save()
+                    cleaned_data[name] = image.pk
+                else:
+                    cleaned_data.pop(name, None)
+
+        submission = self.get_submission_class().objects.create(
+            form_data=json.dumps(cleaned_data, cls=DjangoJSONEncoder),
+            page=self,
+        )
+
+        if self.to_address:
+            self.send_mail(form)
+
+        return submission
+
+    # --------------------------------------------------------------
+    # PANELS
+    # --------------------------------------------------------------
+
+    content_panels = Page.content_panels + [
+        FieldPanel("jobs_category"),
+        FieldPanel("city"),
+        FieldPanel("country"),
+        FieldPanel("timejobs"),
+        FieldPanel("description"),
+        FieldPanel("uploadcv"),
+        FieldPanel("uploaded_image_collection"),
+        FieldPanel("content"),
+        InlinePanel("form_fields", label="Form fields"),
+        FieldPanel("comments"),
+        FieldPanel("thank_you_text"),
+        FormSubmissionsPanel(),
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("from_address", classname="col6"),
+                        FieldPanel("to_address", classname="col6"),
+                    ]
+                ),
+                FieldPanel("subject"),
+            ],
+            heading="Email settings",
+        ),
+    ]
+
+
+
+from django.db import models
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, InlinePanel
+from wagtail.models import Page, Orderable, ParentalKey
+from wagtail.fields import RichTextField
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+
+# -------------------
+# About Us Items
+# -------------------
+
+class AboutUsPageItem(Orderable):
+    page = ParentalKey('ResumePage', on_delete=models.CASCADE, related_name='aboutus_items')
+
+    image_1 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Banner'
+    )
+    image_2 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 1'
+    )
+    image_3 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 2'
+    )
+    image_4 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 3'
+    )
+    image_5 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 4'
+    )
+    image_6 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 5'
+    )
+    image_7 = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name='Profile Picture 6'
+    )
+
+    team1_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 1 Name')
+    team2_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 2 Name')
+    team3_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 3 Name')
+    team4_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 4 Name')
+
+    team1_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 1 Position')
+    team2_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 2 Position')
+    team3_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 3 Position')
+    team4_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 4 Position')
+
+    panels = [
+        FieldPanel('image_1'),
+        FieldPanel('image_2'),
+        FieldPanel('image_3'),
+        FieldPanel('image_4'),
+        FieldPanel('image_5'),
+        FieldPanel('image_6'),
+        FieldPanel('image_7'),
+        FieldPanel('team1_name'),
+        FieldPanel('team2_name'),
+        FieldPanel('team3_name'),
+        FieldPanel('team4_name'),
+        FieldPanel('team1_position'),
+        FieldPanel('team2_position'),
+        FieldPanel('team3_position'),
+        FieldPanel('team4_position'),
+    ]
+
+# -------------------
+# Portfolio Choices
+# -------------------
+
+PORTFOLIO = (
+    ("Landscapes", "Landscapes"),
+    ("Visual Production", "Visual Production"),
+    ("Web Content", "Web Content"),
+    ("Social Networks Content", "Social Networks Content"),
+    ("Web Design", "Web Design"),
+    ("Artificial Intelligence", "Artificial Intelligence"),
+)
+
+# -------------------
+# Resume Form Fields
+# -------------------
+
+class ContactFormResumeField(AbstractFormField):
+    page = ParentalKey('ResumePage', on_delete=models.CASCADE, related_name='form_fields')
+
+# -------------------
+# Resume Page
+# -------------------
+
+class ResumePage(AbstractEmailForm):
+    template = "webapp/resume.html"
+
+    custom_title = models.CharField(max_length=100, blank=False, null=False, help_text='Nombre')
+
+    # Portfolio fields
+    portfolio_1 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
+    portfolio_2 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
+    portfolio_3 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
+    portfolio_4 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
+
+    # About / Messages
+    aboutus = RichTextField(blank=True, verbose_name='Acerca de mí')
+    aboutus_1 = RichTextField(blank=True, verbose_name='Mensaje 1')
+    aboutus_2 = RichTextField(blank=True, verbose_name='Mensaje 2')
+    aboutus_3 = RichTextField(blank=True, verbose_name='Mensaje 3')
+
+    # Experience / Education
+    experience_message = models.CharField(max_length=100, blank=False, null=True, help_text='Mensaje de experiencia')
+    educational_message = models.CharField(max_length=100, blank=False, null=True, help_text='Mensaje de educación')
+
+    # Profile image
+    image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Foto de perfil')
+
+    # Comments
+    comments = RichTextField(blank=True, verbose_name='Mensaje para que nos dejen un comentario')
+    thank_you_text = RichTextField(blank=True)
+    resume_url = models.URLField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('custom_title'),
+        FieldPanel('aboutus'),
+        FieldPanel('aboutus_1'),
+        FieldPanel('aboutus_2'),
+        FieldPanel('aboutus_3'),
+        FieldPanel('portfolio_1'),
+        FieldPanel('portfolio_2'),
+        FieldPanel('portfolio_3'),
+        FieldPanel('portfolio_4'),
+        FieldPanel('resume_url'),
+        FieldPanel('experience_message'),
+        FieldPanel('educational_message'),
+        FieldPanel('image'),
+        InlinePanel('aboutus_items', label="About Us Items"),
+        InlinePanel('form_fields', label="Contact Form Fields"),
+        FieldPanel('thank_you_text', classname="full"),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel('subject'),
+        ], "Email"),
+    ]

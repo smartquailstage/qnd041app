@@ -68,27 +68,56 @@
               <li>
                 <div class="row">
                   <div class="col-menu col-md-3">
-                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia®</h6></a>
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia</h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Media Customer Relationship Management Plataform (MCRM).'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Customer Relationship Management(CRM)'%}</a></li>
 
                         <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'Marketing Media Consulting' %}</a></li>
                        
                       </ul>
                     </div>
                   </div>
-                  <!--=== end col-3 ===-->
-                  <div class="col-menu col-md-3">
-                    <h6 class="title">SmartBusinessTechnologies®</h6>
+
+                                    <div class="col-menu col-md-3">
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessAnalytics</h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="creative-onepage.html">IT Cloud Architectures Technologies</a></li>
-                        <li><a href="creative-portfolio.html">IT Cloud Infrastructures Technologies</a></li>
-                        <li><a href="personal-resume.html">IT  Cloud Technologies Consulting</a></li>
+                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter">{% trans 'Enterprice Anytics Planning(ERP).'%}</a></li>
+
+                        <li><a href="{% url 'sbashop:product_list' %}#Staff">{% trans 'FinTech Consulting' %}</a></li>
+                       
                       </ul>
                     </div>
                   </div>
+
+
+                  <!--=== end col-3 ===-->
+                  <div class="col-menu col-md-3">
+                    <h6 class="title">SmartBusinessLaw</h6>
+                    <div class="content">
+                      <ul class="menu-col">
+                        <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter">{% trans 'Enterprice Law Planing (ELP)'%}</a></li>
+
+                        <li><a href="{% url 'sblshop:product_list' %}#Staff">{% trans 'LawTech Consultingg' %}</a></li>
+                       
+                      </ul>
+                    </div>
+                  </div>
+
+
+                <div class="col-menu col-md-3">
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessPlatforms</h6></a>
+                    <div class="content">
+                      <ul class="menu-col">
+                        <li><a href="{% url 'sbpshop:product_list' %}#portfolio-filter">{% trans 'Business Platforms'%}</a></li>
+
+                        <li><a href="{% url 'sbpshop:product_list' %}#Staff">{% trans 'Platforms Consulting' %}</a></li>
+                       
+                      </ul>
+                    </div>
+                  </div>
+
                 
                 </div>
                 <!--=== end row ===-->
@@ -137,24 +166,112 @@
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% training_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/training/training.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% jobs_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/training/jobs.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
+
+
+   <div class="col-menu col-md-3">
+  <a href="{% slugurl 'jobs' %}">
+    <h6 class="title" style="color:#bd1818;">Marketing & Publishing</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=community-manager-junior">
+          {% trans "Community Manager Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=community-manager-senior">
+          {% trans "Community Manager Senior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=content-designer-junior">
+          {% trans "Content Designer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=content-designer-senior">
+          {% trans "Content Designer Senior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'jobs' %}">
+    <h6 class="title" style="color:#bd1818;">UI / UX Developer</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=uiux-designer-junior">
+          {% trans "Front-End Designer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=uiux-designer-senior">
+          {% trans "Front-End Designer Senior" %}
+        </a>
+      </li>
+            <li>
+        <a href="{% slugurl 'jobs' %}?category=django-developer-junior">
+          {% trans "Back-End Developer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=django-developer-senior">
+          {% trans "Back-End Developer Senior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'jobs' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Human talent' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=django-developer-junior">
+          {% trans "Project Manager Senior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=django-developer-senior">
+          {% trans "Project Manager Senior Junior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'jobs' %}">
+    <h6 class="title" style="color:#bd1818;">DevOps & Cloud</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=sre-junior">
+          {% trans "Site Reliability Engineer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'jobs' %}?category=sre-senior">
+          {% trans "Site Reliability Engineer Senior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
                 </div>
                 <!--=== end row ===-->
               </li>
