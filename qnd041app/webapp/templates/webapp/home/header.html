@@ -10,28 +10,13 @@
 
   <!--=== Header Start ===-->
   <nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav on no-full">
-    <!--=== 
-    <div class="fullscreen-search-overlay" id="search-overlay"> <a href="index.html#" class="fullscreen-close" id="fullscreen-close-button"><i class="icofont icofont-close"></i></a>
-      <div id="fullscreen-search-wrapper">
-                   
-                    <form method="post" class="form login_type text-center" id="fullscreen-searchform" >
-                     
-                      <input type="text" name="username" class="form-control mb-20" placeholder="Username">
-                
-                      <input type="password" name="password" class="form-control mb-20" placeholder="Password">
-                  
-                      <button type="submit" name="login" class="btn btn-color btn-circle full-width">LOGIN</button>
-                    
-                      <h6 class="mt-20 gray-light"> DON'T HAVE AN ACCOUNT? </h6>
-                  
-                      <a href="login.html#">SIGN UP <i class="fa fa-angle-double-right"></i> </a>
-                    </form>
-                  
-                 
-      
-      </div>
-    </div>
-  ===-->
+
+
+
+
+
+        <!--=== Start Top Search ===-->
+
 
     <div class="container">
 <div class="attr-nav">
@@ -59,6 +44,10 @@
         {% endfor %}
       </ul>
     </li>
+
+        <li ><a href="{% url 'usuarios:login' %}" class="btn-circle">Ingresar</a></li>
+
+
   </ul>
 </div>
       <!--=== End Atribute Navigation ===-->

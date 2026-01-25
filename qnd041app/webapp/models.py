@@ -25,6 +25,7 @@ from wagtail.images.models import Image
 #    class Meta:
 #        app_label = "webapp"
 
+from usuarios.forms import LoginForm  # importa tu formulario
 
 from datetime import datetime, timezone
 from django.utils.timezone import now
@@ -227,7 +228,6 @@ class Home(Page):
         InlinePanel('galleria', label="Imagenes de Fondo Barner"),
     ]
 
-    
 
 
 
