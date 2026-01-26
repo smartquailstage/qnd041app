@@ -1692,8 +1692,31 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 # About Us Items
 # -------------------
 
+
+class aboutusPage(Page):
+    template = "webapp/aboutus.html"
+
+    custom_title = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False,
+        help_text='Overwrites the default title',
+    )
+
+    aboutus = RichTextField(blank=True, verbose_name='SmartQuail Story')
+
+    content_panels = Page.content_panels + [
+        FieldPanel("custom_title"),
+        FieldPanel("aboutus"),
+        InlinePanel('aboutus_items', label="Teams"),
+    ]
+
 class AboutUsPageItem(Orderable):
-    page = ParentalKey('ResumePage', on_delete=models.CASCADE, related_name='aboutus_items')
+    page = ParentalKey(
+        'aboutusPage',
+        on_delete=models.CASCADE,
+        related_name='aboutus_items'
+    )
 
     image_1 = models.ForeignKey(
         'wagtailimages.Image',
@@ -1703,58 +1726,70 @@ class AboutUsPageItem(Orderable):
         related_name='+',
         verbose_name='Banner'
     )
+
     image_2 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 1'
     )
+
     image_3 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 2'
     )
+
     image_4 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 3'
     )
+
     image_5 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 4'
     )
+
     image_6 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 5'
     )
+
     image_7 = models.ForeignKey(
         'wagtailimages.Image',
-        null=True, blank=True,
+        null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name='Profile Picture 6'
     )
 
-    team1_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 1 Name')
-    team2_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 2 Name')
-    team3_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 3 Name')
-    team4_name = models.CharField(max_length=100, blank=False, null=False, help_text='Team 4 Name')
+    team1_name = models.CharField(max_length=100)
+    team2_name = models.CharField(max_length=100)
+    team3_name = models.CharField(max_length=100)
+    team4_name = models.CharField(max_length=100)
 
-    team1_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 1 Position')
-    team2_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 2 Position')
-    team3_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 3 Position')
-    team4_position = models.CharField(max_length=100, blank=False, null=False, help_text='Team 4 Position')
+    team1_position = models.CharField(max_length=100)
+    team2_position = models.CharField(max_length=100)
+    team3_position = models.CharField(max_length=100)
+    team4_position = models.CharField(max_length=100)
 
     panels = [
         FieldPanel('image_1'),
@@ -1791,64 +1826,213 @@ PORTFOLIO = (
 # Resume Form Fields
 # -------------------
 
-class ContactFormResumeField(AbstractFormField):
-    page = ParentalKey('ResumePage', on_delete=models.CASCADE, related_name='form_fields')
 
-# -------------------
-# Resume Page
-# -------------------
+
+
+class ContactFormResumeField(AbstractFormField):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='form_fields'
+    )
+
+
+class Skill(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='skills'
+    )
+
+    title = models.CharField(max_length=100)
+    percentage = models.PositiveIntegerField(help_text="0 - 100")
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('percentage'),
+    ]
+
+
+class Counter(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='counters'
+    )
+
+    icon = models.CharField(
+        max_length=50,
+        help_text="Ej: icofont-clock-time"
+    )
+    number = models.PositiveIntegerField()
+    label = models.CharField(max_length=100)
+
+    panels = [
+        FieldPanel('icon'),
+        FieldPanel('number'),
+        FieldPanel('label'),
+    ]
+
+
+class PortfolioCategory(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='portfolio_categories'
+    )
+
+    name = models.CharField(max_length=50)
+
+    panels = [
+        FieldPanel('name'),
+    ]
+
+
+class PortfolioItem(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='portfolio_items'
+    )
+
+    title = models.CharField(max_length=100)
+    category = models.CharField(max_length=50)
+    image = models.ForeignKey(
+        Image,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    link = models.URLField(blank=True)
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('category'),
+        FieldPanel('image'),
+        FieldPanel('link'),
+    ]
+
+class Experience(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='experiences'
+    )
+
+    period = models.CharField(max_length=50)
+    company = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    description = RichTextField()
+
+    panels = [
+        FieldPanel('period'),
+        FieldPanel('company'),
+        FieldPanel('role'),
+        FieldPanel('description'),
+    ]
+
+
+class Education(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='education_items'
+    )
+
+    period = models.CharField(max_length=50)
+    institution = models.CharField(max_length=100)
+    degree = models.CharField(max_length=100)
+    description = RichTextField()
+
+    panels = [
+        FieldPanel('period'),
+        FieldPanel('institution'),
+        FieldPanel('degree'),
+        FieldPanel('description'),
+    ]
+
+
+class SocialLink(Orderable):
+    page = ParentalKey(
+        'ResumePage',
+        on_delete=models.CASCADE,
+        related_name='social_links'
+    )
+
+    icon = models.CharField(
+        max_length=50,
+        help_text="Ej: icofont-facebook"
+    )
+    url = models.URLField()
+
+    panels = [
+        FieldPanel('icon'),
+        FieldPanel('url'),
+    ]
+
+
 
 class ResumePage(AbstractEmailForm):
     template = "webapp/resume.html"
 
-    custom_title = models.CharField(max_length=100, blank=False, null=False, help_text='Nombre')
+    # HERO
+    hero_name = models.CharField(max_length=100)
+    hero_rotating_text = models.CharField(
+        max_length=255,
+        help_text="Ej: Creative | Designer | Front-end Developer",
+        null=True,
+        blank=True,
+    )
+    hero_background = models.ForeignKey(
+        Image,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    resume_url = models.URLField(blank=True,null=True)
 
-    # Portfolio fields
-    portfolio_1 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
-    portfolio_2 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
-    portfolio_3 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
-    portfolio_4 = models.CharField(max_length=100, choices=PORTFOLIO, null=True)
+    # ABOUT
+    about_title = models.CharField(
+        max_length=100,
+        default="About Me",
+        null=True,
+        blank=True,
+    )
+    about_text = RichTextField(blank=True,null=True)
 
-    # About / Messages
-    aboutus = RichTextField(blank=True, verbose_name='Acerca de mí')
-    aboutus_1 = RichTextField(blank=True, verbose_name='Mensaje 1')
-    aboutus_2 = RichTextField(blank=True, verbose_name='Mensaje 2')
-    aboutus_3 = RichTextField(blank=True, verbose_name='Mensaje 3')
+    # RESUME TEXTS
+    experience_message = RichTextField(blank=True,null=True)
+    educational_message = RichTextField(blank=True,null=True)
 
-    # Experience / Education
-    experience_message = models.CharField(max_length=100, blank=False, null=True, help_text='Mensaje de experiencia')
-    educational_message = models.CharField(max_length=100, blank=False, null=True, help_text='Mensaje de educación')
-
-    # Profile image
-    image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+', verbose_name='Foto de perfil')
-
-    # Comments
-    comments = RichTextField(blank=True, verbose_name='Mensaje para que nos dejen un comentario')
-    thank_you_text = RichTextField(blank=True)
-    resume_url = models.URLField(blank=True, null=True)
+    # THANK YOU
+    thank_you_text = RichTextField(blank=True,null=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('custom_title'),
-        FieldPanel('aboutus'),
-        FieldPanel('aboutus_1'),
-        FieldPanel('aboutus_2'),
-        FieldPanel('aboutus_3'),
-        FieldPanel('portfolio_1'),
-        FieldPanel('portfolio_2'),
-        FieldPanel('portfolio_3'),
-        FieldPanel('portfolio_4'),
+
+        FieldPanel('hero_name'),
+        FieldPanel('hero_rotating_text'),
+        FieldPanel('hero_background'),
         FieldPanel('resume_url'),
+
+        FieldPanel('about_title'),
+        FieldPanel('about_text'),
+
+        InlinePanel('skills', label="Skills"),
+        InlinePanel('counters', label="Counters"),
+
+        InlinePanel('portfolio_categories', label="Portfolio Categories"),
+        InlinePanel('portfolio_items', label="Portfolio Items"),
+
         FieldPanel('experience_message'),
+        InlinePanel('experiences', label="Experience"),
+
         FieldPanel('educational_message'),
-        FieldPanel('image'),
-        InlinePanel('aboutus_items', label="About Us Items"),
+        InlinePanel('education_items', label="Education"),
+
+        InlinePanel('social_links', label="Social Links"),
+
         InlinePanel('form_fields', label="Contact Form Fields"),
-        FieldPanel('thank_you_text', classname="full"),
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
-            FieldPanel('subject'),
-        ], "Email"),
+        FieldPanel('thank_you_text'),
     ]

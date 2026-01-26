@@ -1,166 +1,216 @@
 {% extends "webapp/base.html" %}
-{% load i18n wagtailcore_tags wagtailimages_tags %}
-{% load widget_tweaks %}
-{% load webapp_0_tags %}
-{% load static %}
-{% load menu_tags %}
+{% load i18n wagtailcore_tags wagtailimages_tags static menu_tags %}
 
 {% block content %}
 
-{% main_menu template="webapp/home//header.html" %}
+<style>
+#home,
+.full-screen-bg,
+.hero-text-wrap {
+  height: 100vh;
+}
+.hero-text-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
 
+{% main_menu template="webapp/home/header.html" %}
 
+<!-- ================= HERO ================= -->
+<section class="pt-0 pb-0" id="home">
+  <div class="full-screen-bg">
+    {% image page.hero_background  scale-100 as hero_bg %}
+    <div class="parallax-img"
+         style="background: url('{{ hero_bg.url }}') center center / cover no-repeat;">
+    </div>
 
-  <!--=== Parallax Start ======-->
-  <section class="pt-0 pb-0" id="home">
-    <div class="full-screen-bg">
-    {% image self.image scale-100 as s1 %}
-      <div class="parallax-img" style="background: url('{{ s1.url }}') center center / cover scroll no-repeat;"></div>
-      <canvas></canvas>
-      <div class="hero-text-wrap">
-        <div class="hero-text white-color">
-          <div class="container text-center">
-            <h1 class="white-color font-700">{{ self.custom_title }} </h1>
-            <div class="animate-caption">
-              <h2 class="white-color mt-30"><span class="rotate">Hello | I m  | {{ self.aboutus | richtext }} | {{ self.aboutus_1 | richtext }}  | & | {{ self.aboutus_2 | richtext }} </span></h2>
-            </div>
-            <p class="text-center mt-30"><a class="btn btn-outline-white btn-circle">{% trans 'View Resume' %}</a> <a class="btn btn-dark btn-circle">Hire Me</a></p>
+    <canvas></canvas>
+
+    <div class="hero-text-wrap">
+      <div class="hero-text white-color">
+        <div class="container text-center">
+          <h1 class="white-color font-700">{{ page.hero_name }}</h1>
+
+          <div class="animate-caption">
+            <h2 class="white-color mt-30">
+              <span class="rotate">{{ page.hero_rotating_text }}</span>
+            </h2>
           </div>
+
+          <p class="text-center mt-30">
+            {% if page.resume_url %}
+            <a href="{{ page.resume_url }}" class="btn btn-outline-white btn-circle">
+              {% trans "View Resume" %}
+            </a>
+            {% endif %}
+            <a href="#contact" class="btn btn-dark btn-circle">
+              {% trans "Contact to me" %}
+            </a>
+          </p>
         </div>
       </div>
     </div>
-  </section>
-  <!--=== Parallax End ======-->
+  </div>
+</section>
 
-  <!--=== Who We Are Start ======-->
-  <section class="main-section" id="about">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 section-heading">
-          <h1 class="text-uppercase font-700">{% trans 'Porfolio' %}</h1>
-          <div class="mt-30">
-            <p>{{ self.aboutus_3 | richtext }} </p>
-          </div>
+<!-- ================= ABOUT ================= -->
+<section class="main-section" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 section-heading">
+        <h1 class="text-uppercase font-700">{{ page.about_title }}</h1>
+        <div class="mt-30">
+          {{ page.about_text|richtext }}
         </div>
       </div>
-
     </div>
-  </section>
-  <!--=== Who We Are End ======-->
 
-  <!--=== Portfolio Start ======-->
-  <section class="pt-0 pb-0" id="portfolio">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="portfolio-container text-center">
-          <ul id="portfolio-filter" class="list-inline filter-transparent">
-            <li class="active" data-group="all">All</li>
-            <li data-group="{{self.porfolio_1}}">{{self.porfolio_1}}</li>
-            <li data-group="{{self.porfolio_2}}">{{self.porfolio_2}}</li>
-            <li data-group="{{self.porfolio_3}}">{{self.porfolio_3}}</li>
-            <li data-group="{{self.porfolio_4}}">{{self.porfolio_4}}</li>
-          </ul>
-          <ul id="portfolio-grid" class="three-column hover-two">
-            {% for item in page.porfolio_item_Page.all %}
-            <li class="portfolio-item" data-groups='["all", "{{ item.porfolio }}", "branding"]'>
-              <div class="portfolio gallery-image-hover">
-                <div class="dark-overlay"></div>
-                {% image item.image_1 scale-100 as porfolio1 %}
-                <img src="{{ porfolio1.url }}" alt="">
-                <div class="portfolio-wrap">
-                  <div class="portfolio-description">
-                    <h3 class="portfolio-title">{{ item.porfolio_title }}</h3>
-                 </div>
-                  <!--=== /.project-info ===-->
+    <div class="row mt-50">
+      <!-- SKILLS -->
+      <div class="col-md-6 resume-bar">
+        {% for skill in page.skills.all %}
+        <div class="progress-bar-title">{{ skill.title }}</div>
+        <div class="progress">
+          <div class="progress-bar" data-width="{{ skill.percent }}">
+            <span>{{ skill.percent }}%</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- COUNTERS -->
+      <div class="col-md-6">
+        <div class="row">
+          {% for counter in page.counters.all %}
+          <div class="col-md-6 counter text-center col-sm-6 {% if forloop.counter > 2 %}mt-30{% endif %}">
+            <i class="icofont {{ counter.icon }} default-icon font-30px"></i>
+            <h2 class="count font-700">{{ counter.number }}</h2>
+            <h3 class="dark-color">{{ counter.label }}</h3>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PORTFOLIO ================= -->
+<section class="pt-0 pb-0" id="portfolio">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="portfolio-container text-center">
+
+        <ul id="portfolio-grid" class="three-column hover-two">
+          {% for item in page.portfolio_items.all %}
+          {% image item.image scale-100 as img %}
+          <li class="portfolio-item" data-groups='["all","{{ item.category }}"]'>
+            <div class="portfolio gallery-image-hover">
+              <div class="dark-overlay"></div>
+              <img src="{{ img.url }}" alt="{{ item.title }}">
+              <div class="portfolio-wrap">
+                <div class="portfolio-description">
+                  <h3 class="portfolio-title">{{ item.title }}</h3>
+                  <span class="links">{{ item.category }}</span>
                 </div>
               </div>
-              <!--=== /.portfolio ===-->
-            </li>
-            {% endfor %}
-          </ul>
-          
-        </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+
       </div>
     </div>
-  </section>
-  <!--=== Portfolio End ======-->
+  </div>
+</section>
 
-  <!--=== Resume Start ======-->
-  <section class="dark-bg" id="resume">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 section-heading white-color">
-          <h1 class="text-uppercase font-700"> {% trans 'My Resume' %}</h1>
-        </div>
-      </div>
-      <div class="row mt-50">
-        <div class="col-md-12">
-          <h3 class="mt-10 raleway-font font-700 text-uppercase">Experience</h3>
-          <p class="white-color">{{ self.experience_mesange }}</p>
-         
-          <ul class="resume-slider owl-carousel">
-            {% for item in page.experiece_item_Page.all %}
-            <li>
-             
-              <h3><i class="icofont icofont-calendar"></i>{{ item.Fecha }}</h3>
-              <h3><i class="icofont icofont-envato"></i>{{ item.business_title }}</h3>
-              <h2>{{ item.business_chage }}</h2>
-              <p>{{ item.business_activity }}</p>
-            
-            </li>
-            {% endfor %}
-          </ul>
-         
-        </div>
-      </div>
-      <div class="row mt-50">
-        <div class="col-md-12">
-          <h3 class="mt-10 font-700 text-uppercase">{% trans 'Education' %}</h3>
-          <p class="white-color">{{ self.educational_mesange }}</p>
-          
-          <ul class="resume-slider owl-carousel">
-            {% for item in page.educational_item_Page.all %}
-            <li>
-              <h3><i class="icofont icofont-calendar"></i>{{ item.Fecha }}</h3>
-              <h3><i class="icofont icofont-envato"></i> {{item.academy_title}}</h3>
-              <h2> {{ item.title  }}</h2>
-              <p>{{ item.academy_activity }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-         
-        </div>
+<!-- ================= RESUME ================= -->
+<section class="dark-bg" id="resume">
+  <div class="container">
+
+    <!-- EXPERIENCE -->
+    <div class="row">
+      <div class="col-sm-8 section-heading white-color">
+        <h1 class="text-uppercase font-700">{% trans "My Resume" %}</h1>
+        {{ page.experience_message|richtext }}
       </div>
     </div>
-  </section>
-  <!--=== Resume End ======-->
 
-  <!--=== Contact Us Start ======-->
-  <section class="contact-us" id="contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 section-heading">
-          <h1 class="text-uppercase font-700">{% trans 'Contact Me' %}</h1>
-        </div>
+    <ul class="resume-slider owl-carousel mt-50">
+      {% for exp in page.experiences.all %}
+      <li>
+        <h3><i class="icofont icofont-calendar"></i> {{ exp.period }}</h3>
+        <h3><i class="icofont icofont-briefcase"></i> {{ exp.company }}</h3>
+        <h2>{{ exp.role }}</h2>
+        {{ exp.description|richtext }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- EDUCATION -->
+    <div class="row mt-50">
+      <div class="col-md-12">
+        {{ page.education_message|richtext }}
+        <ul class="resume-slider owl-carousel">
+          {% for edu in page.education_items.all %}
+          <li>
+            <h3><i class="icofont icofont-calendar"></i> {{ edu.period }}</h3>
+            <h3><i class="icofont icofont-university"></i> {{ edu.institution }}</h3>
+            <h2>{{ edu.degree }}</h2>
+            {{ edu.description|richtext }}
+          </li>
+          {% endfor %}
+        </ul>
       </div>
-      <div class="row mt-50">
-        <div class="col-sm-12 col-md-offset-2 col-md-8">
-          <form id="form-comments" class="comment-form" action="{% pageurl page %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+    </div>
 
-            <p class="text-center">
-              <button type="submit" name="submit" class="btn btn-color btn-circle">Send Request</button>
-            </p>
+  </div>
+</section>
 
+<!-- ================= CONTACT ================= -->
+<section class="contact-us" id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 section-heading">
+        <h1 class="text-uppercase font-700">{% trans "Contact Me" %}</h1>
+      </div>
+    </div>
+
+    <div class="row mt-50">
+      <div class="col-sm-12 col-md-offset-2 col-md-8">
+        <form action="{% pageurl page %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <p class="text-center">
+            <button type="submit" class="btn btn-color btn-circle">
+              {% trans "Send Request" %}
+            </button>
+          </p>
         </form>
-
-
-        </div>
       </div>
     </div>
-  </section>
-  <!--=== Contact Us End ======-->
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<section class="dark-bg flat-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <ul class="social-media">
+          {% for social in page.social_links.all %}
+          <li>
+            <a href="{{ social.url }}" class="icofont {{ social.icon }}" target="_blank"></a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "webapp/home/footer_section.html" %}
 
 
 <script>
@@ -266,5 +316,5 @@ loop();
 </script>
 
 
-{% include 'webapp/home/footer_section.html' %}
+
 {% endblock %}
