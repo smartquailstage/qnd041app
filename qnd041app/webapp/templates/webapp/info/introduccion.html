@@ -3,14 +3,7 @@
 {% load widget_tweaks webapp_0_tags menu_tags %}
 
 {% block content %}
-  {% for item in page.galleria_3.all %}
-    {% image item.banner_background scale-100 as s1 %}
-    <style>
-      .portfolio-cover-bg {
-        background-image: url("{{ s1.url }}");
-      }
-    </style>
-  {% endfor %}
+
 
   {% main_menu template="webapp/home/header.html" %}
 
@@ -22,7 +15,7 @@
     <!--=== page-title-section start ===-->
     {% for item in page.galleria_3.all %}
   {% if item.banner_background %}
-    {% image item.banner_background original as bg %}
+    {% image item.banner_background original  as bg %}
     <section class="title-hero-bg portfolio-cover-bg"
              data-stellar-background-ratio="0.2"
              style="
