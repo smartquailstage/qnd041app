@@ -8,9 +8,6 @@
   <div class="container"></div>
 </section>
 
-{# =======================
-   ABOUT SECTION (BANNER)
-   ======================= #}
 <section class="white-bg">
   {% for item in page.aboutus_items.all %}
     {% image item.image_1 scale-100 as banner %}
@@ -30,9 +27,6 @@
   </div>
 </section>
 
-{# =======================
-   TEAM SECTION
-   ======================= #}
 <section>
   <div class="container">
     <div class="row">
@@ -47,7 +41,7 @@
     {% for item in page.aboutus_items.all %}
     <div class="row mt-50">
 
-      {# === TEAM MEMBER 1 === #}
+
       <div class="col-md-3 col-sm-6">
         {% image item.image_2 scale-100 as img %}
         <div class="team-member-container gallery-image-hover">
@@ -61,7 +55,6 @@
         </div>
       </div>
 
-      {# === TEAM MEMBER 2 === #}
       <div class="col-md-3 col-sm-6">
         {% image item.image_3 scale-100 as img %}
         <div class="team-member-container gallery-image-hover">
@@ -73,7 +66,6 @@
         </div>
       </div>
 
-      {# === TEAM MEMBER 3 === #}
       <div class="col-md-3 col-sm-6">
         {% image item.image_4 scale-100 as img %}
         <div class="team-member-container gallery-image-hover">
