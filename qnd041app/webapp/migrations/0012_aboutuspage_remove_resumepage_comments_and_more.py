@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('wagtailimages', '0027_image_description'),
-        ('wagtailcore', '0095_formsubmission'),
         ('webapp', '0011_resumepage_contactformresumefield_aboutuspageitem'),
     ]
 
