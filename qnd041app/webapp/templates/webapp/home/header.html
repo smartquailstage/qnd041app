@@ -71,9 +71,9 @@
                     <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia</h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Customer Relationship Management(CRM)'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Customer Relationship (CRM)'%}</a></li>
 
-                        <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'Marketing Media Consulting' %}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'MarketingTech Consulting' %}</a></li>
                        
                       </ul>
                     </div>
@@ -83,7 +83,7 @@
                     <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessAnalytics</h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter">{% trans 'Enterprice Anytics Planning(ERP).'%}</a></li>
+                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter">{% trans 'Enterprise Resource Planning '%}</a></li>
 
                         <li><a href="{% url 'sbashop:product_list' %}#Staff">{% trans 'FinTech Consulting' %}</a></li>
                        
@@ -97,9 +97,9 @@
                     <h6 class="title">SmartBusinessLaw</h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter">{% trans 'Enterprice Law Planing (ELP)'%}</a></li>
+                        <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter">{% trans 'Enterprise  Law Planing (ELP)'%}</a></li>
 
-                        <li><a href="{% url 'sblshop:product_list' %}#Staff">{% trans 'LawTech Consultingg' %}</a></li>
+                        <li><a href="{% url 'sblshop:product_list' %}#Staff">{% trans 'LawTech Consulting' %}</a></li>
                        
                       </ul>
                     </div>
@@ -128,35 +128,92 @@
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% bycategory_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
+                       <div class="col-menu col-md-3">
+                    <h6 class="title">SmartBusinessTechnologies</h6>
                     <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycategory.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% byorganizationtype_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/byorganizationtype.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% bycustomer_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycustomer.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
+                      <ul class="menu-col">
+                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'ON-Primeses Cloud Servers'%}</a></li>
 
-               
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Tech Consultingg' %}</a></li>
+                       
+                      </ul>
+                    </div>
+                  </div>  
+                  
+                                         <div class="col-menu col-md-3">
+                    <h6 class="title">Cloud Native Computing</h6>
+<div class="content">
+  <ul class="menu-col">
+    <li>
+      <a href="{% slugurl 'cloud' %}">
+        {% trans "Cloud Microservers Architecture" %}
+      </a>
+    </li>
+
+    <li>
+      <a href="{% slugurl 'vm' %}">
+        {% trans "Virtual Machines" %}
+      </a>
+    </li>
+
+    <li>
+      <a href="{% slugurl 'orchestration' %}">
+        {% trans "Orchestration" %}
+      </a>
+    </li>
+  </ul>
+</div>
+
+                  </div>    
+
+           <div class="col-menu col-md-3">
+  <h6 class="title">{% trans "ITC Business" %}</h6>
+
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'id' %}">
+          {% trans "Development and Research" %}
+        </a>
+      </li>
+
+      <li>
+        <a href="{% slugurl 'ida' %}">
+          {% trans "Automations" %}
+        </a>
+      </li>
+
+      <li>
+        <a href="{% slugurl 'ida-ai' %}">
+          {% trans "Artificial Intelligence" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="col-menu col-md-3">
+  <h6 class="title">{% trans "ITC Business Ecuador" %}</h6>
+
+  <div class="content">
+    <ul class="menu-col">
+      <p style="line-height: 16px;">
+        {% trans "Impulsa tu negocio al siguiente nivel. Regístrate hoy y descubre soluciones tecnológicas en la nube diseñadas para innovar, escalar y transformar tu empresa. Únete a nuestra comunidad y accede a contenido y documentación exclusiva." %}
+      </p>
+
+      <li>
+
+        <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-white btn-rounded btn-animate"><span>Register <i class="icofont icofont-arrow-right"></i></span></a> </p>
+
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
                 </div>
                 <!--=== end row ===-->
               </li>
