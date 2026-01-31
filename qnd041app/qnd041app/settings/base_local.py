@@ -154,6 +154,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "ckeditor",
    'smartcontracts',
+   'smartbusinesslaw',
     "djmoney",
     "localflavor",
     "boto3",
