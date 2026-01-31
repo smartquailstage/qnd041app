@@ -1,6 +1,89 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from .models import *
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+from django.contrib import admin
+from .models import SPDP_ActaDelegado, Regulacion
+
+# -------------------------------
+# SPDP_ActaDelegado PDFs
+# -------------------------------
+
+def delegado_pdf_link(obj):
+    """PDF general DPD"""
+    url = reverse('smartbusinesslaw:admin_delegado_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}" target="_blank"><span class="material-symbols-outlined">download</span> Descargar</a>')
+delegado_pdf_link.short_description = "CERTIFICADO (DPD)"
+
+def rat_pdf_link(obj):
+    """PDF del Registro de Actividades de Tratamiento"""
+    url = reverse('smartbusinesslaw:admin_rat_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}" target="_blank"><span class="material-symbols-outlined">download</span>Descarga</a>')
+rat_pdf_link.short_description = "CERTIFICADO (RAT)"
+
+def incidente_pdf_link(obj):
+    """PDF de Incidentes y Mitigaciones"""
+    url = reverse('smartbusinesslaw:admin_incidente_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}" target="_blank"><span class="material-symbols-outlined">download</span>Descarga</a>')
+incidente_pdf_link.short_description = "CERTIFICADO (EIPD/DPIA)"
+
+
+
+from django.utils import timezone
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+
+
+def VENCIMIENTO(obj):
+    """
+    PDF de Incidentes y Mitigaciones
+    Muestra tiempo restante antes de expiración (días, horas, minutos)
+    """
+    url = reverse('smartbusinesslaw:admin_incidente_pdf', args=[obj.id])
+
+    # ⏳ Cálculo del tiempo restante
+    if obj.fecha_expiracion:
+        now = timezone.now()
+        delta = obj.fecha_expiracion - now
+
+        if delta.total_seconds() > 0:
+            dias = delta.days
+            horas, remainder = divmod(delta.seconds, 3600)
+            minutos = remainder // 60
+
+            tiempo_restante = (
+                f"{dias}d {horas}h {minutos}m"
+            )
+            estado = f"<small style='color:#2e7d32;'>⏳ {tiempo_restante}</small>"
+        else:
+            estado = "<small style='color:#c62828;'>⛔ EXPIRADO</small>"
+    else:
+        estado = "<small style='color:#757575;'>— sin fecha —</small>"
+
+    return mark_safe(
+        f"""
+        {estado}
+        """
+    )
+
+
+incidente_pdf_link.short_description = "CERTIFICADO EIPD / DPIA"
+
+
+# -------------------------------
+# Regulacion PDF
+# -------------------------------
+
+def regulacion_pdf_link(obj):
+    """PDF de la regulación / base legal"""
+    url = reverse('smartbusinesslaw:admin_regulacion_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}" target="_blank">Ver PDF</a>')
+regulacion_pdf_link.short_description = "PDF"
+
+
+
+
 
 # ===========================
 # SCVS_Estatutos Admin
@@ -112,11 +195,15 @@ class SPDP_ActaDelegadoAdmin(ModelAdmin):
     # -------------------------
     list_display = (
         'nombre_delegado',
-        'fecha_nombramiento',
-        'rat_nombre_tratamiento',
-        'incidente_identificacion',
-        'regulacion',
+        'rat_titular_datos',
+        VENCIMIENTO,
+        delegado_pdf_link,       # Enlace PDF DPD
+        rat_pdf_link,            # Enlace PDF RAT
+        incidente_pdf_link, 
+        'legalizado_spd',
     )
+
+    list_editable = ['legalizado_spd']
 
     list_filter = (
         'fecha_nombramiento',

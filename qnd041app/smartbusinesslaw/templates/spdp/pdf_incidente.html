@@ -1,0 +1,99 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        INC-SQ20{{ delegado.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>Ecuador, {{ delegado.fecha_creacion|date:"d" }} de {{ delegado.fecha_creacion|date:"F" }} de {{ delegado.fecha_creacion|date:"Y" }}</strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>REGISTRO DE INCIDENTE DE SEGURIDAD Y MITIGACIÓN DE DATOS (EIPD/DPIA)</h2>
+    <p><strong>{{ delegado.nombre_delegado }}, {{ delegado.correo_delegado }}, {{ delegado.identificacion_delegado }}</strong></p>
+</div>
+
+<div class="preambulo">
+    <p>
+        Este documento certifica la identificación, gestión y mitigación de un incidente de seguridad relacionado con el 
+        tratamiento de datos personales bajo la responsabilidad de <strong>SmartQuail, Inc.</strong>  
+        El incidente ha sido registrado por el Delegado de Protección de Datos (DPD) y se describen a continuación los 
+        detalles, riesgos, medidas de mitigación y acciones correctivas adoptadas.  
+        Todas las partes reconocen el cumplimiento con la normativa vigente en materia de protección de datos personales.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Identificación del Incidente</h3>
+    <p>
+        <strong>Código/ID del Incidente:</strong> {{ delegado.incidente_identificacion }}<br>
+        <strong>Fecha de detección:</strong> {{ delegado.incidente_fecha_deteccion|date:"d/m/Y" }}<br>
+        <strong>Tipo de incidente:</strong> {{ delegado.incidente_tipo }}<br>
+        <strong>Datos personales afectados:</strong> {{ delegado.incidente_datos_afectados }}<br>
+        <strong>Titulares afectados:</strong> {{ delegado.incidente_titulares_afectados }}<br>
+        <strong>Nivel de riesgo:</strong> {{ delegado.incidente_riesgo }}<br>
+        <strong>Notificado a la SPDP:</strong> {% if delegado.incidente_notificado_spdp %}Sí{% else %}No{% endif %}<br>
+        <strong>Fecha de notificación:</strong> {{ delegado.incidente_fecha_notificacion|date:"d/m/Y" }}
+    </p>
+
+    <h3>2. Descripción del Incidente</h3>
+    <p>
+        {{ delegado.incidente_descripcion }}
+    </p>
+
+    <h3>3. Medidas de Mitigación</h3>
+    <p>
+        {{ delegado.incidente_medidas_mitigacion }}
+    </p>
+
+    <h3>4. Medidas Correctivas Implementadas</h3>
+    <p>
+        {{ delegado.incidente_medidas_correctivas }}
+    </p>
+
+    <h3>5. Estado Actual</h3>
+    <p>
+        {{ delegado.incidente_estado|capfirst }}
+    </p>
+
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN DEL INCIDENTE</strong></h3>
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>RESPONSABLE / DPD</strong></p>
+        </div>
+    </div>
+
+</div>
+<hr>
+<div class="contract-note">
+    <strong>TOKEN ID INCIDENTE: {{ delegado.hash_incidente }}</strong>
+</div>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>

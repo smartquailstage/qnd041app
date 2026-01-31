@@ -2,6 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import Group
 from django.conf import settings
+import uuid
+import hashlib
+from django.utils import timezone
+from django.conf import settings
+
 
 
 # Opciones de documentación por entidad
@@ -228,6 +233,9 @@ class SPDP_PoliticaInterna(models.Model):
         verbose_name_plural = "Políticas Internas SPDP"
 
 from django.db import models
+from datetime import timedelta
+from django.utils import timezone
+
 
 class SPDP_ActaDelegado(models.Model):
 
@@ -241,7 +249,7 @@ class SPDP_ActaDelegado(models.Model):
         related_name='spdp_delegado'
     )
 
-    nombre_delegado = models.CharField(max_length=255,null=True, blank=True)
+    nombre_delegado = models.CharField(max_length=255,null=True, blank=True, verbose_name="Delegado (DPD)")
     identificacion_delegado = models.CharField(max_length=50,null=True, blank=True)
     correo_delegado = models.EmailField(blank=True, null=True)
     telefono_delegado = models.CharField(max_length=30, blank=True, null=True)
@@ -272,6 +280,7 @@ class SPDP_ActaDelegado(models.Model):
 
     declaracion_independencia = models.BooleanField(default=True)
     declaracion_confidencialidad = models.BooleanField(default=True)
+    hash_delegado = models.CharField(max_length=255, blank=True, null=True)
 
     # =====================================================
     # II. REGISTRO DE ACTIVIDADES DE TRATAMIENTO (RAT)
@@ -283,7 +292,8 @@ class SPDP_ActaDelegado(models.Model):
     null=True,
     blank=True,
     related_name='rat_tratamientos',
-    help_text="Usuario titular de los datos personales"
+    help_text="Usuario titular de los datos personales",
+    verbose_name="Titulares (DPD)"
     
     )
 
@@ -369,7 +379,8 @@ class SPDP_ActaDelegado(models.Model):
     blank=True,
     null=True,
     choices=RAT_CATEGORIA_DESTINATARIOS_CHOICES,
-    help_text="Destinatarios o terceros receptores de datos. Seleccione uno o varios."
+    help_text="Destinatarios o terceros receptores de datos. Seleccione uno o varios.",
+
     )
 
     rat_transferencias_internacionales = models.BooleanField(default=False)
@@ -412,8 +423,8 @@ class SPDP_ActaDelegado(models.Model):
     rat_categoria_titulares = models.ManyToManyField(
     Group,
     blank=True,
-    related_name='rat_tratamientos',
-    help_text="Grupos de usuarios que actúan como titulares de los datos"
+    help_text="Grupos de usuarios que actúan como titulares de los datos",
+   
     )
 
     # =====================================================
@@ -511,9 +522,99 @@ class SPDP_ActaDelegado(models.Model):
     observaciones = models.TextField(blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True,null=True, blank=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True,null=True, blank=True)
+    fecha_expiracion = models.DateTimeField(
+    null=True,
+    blank=True,
+    editable=False,
+    help_text="Fecha automática de expiración (fecha de creación + 310 días)")
+
+    legalizado_spd = models.BooleanField(default=False, verbose_name="Legalizado (SPDP)")
+
+
+    hash_delegado = models.CharField(max_length=64, unique=True, null=True, blank=True)  # DPD
+    hash_rat = models.CharField(max_length=64, unique=True, null=True, blank=True)       # RAT
+    hash_incidente = models.CharField(max_length=64, unique=True, null=True, blank=True) # Incidente
+
+    # =====================================================
+    # 🔐 MÉTODOS DE GENERACIÓN DE HASH
+    # =====================================================
+    def _generate_hash(self, doc_type: str) -> str:
+        """
+        Genera un hash SHA-256 único para cada documento.
+        Incluye id del registro, tipo de documento, UUID y timestamp.
+        """
+        raw = f"{self.id}|{doc_type}|{uuid.uuid4()}|{timezone.now().isoformat()}"
+        return hashlib.sha256(raw.encode()).hexdigest()
+
+    def generate_hash_delegado(self):
+        self.hash_delegado = self._generate_hash("DPD")
+        self.save(update_fields=["hash_delegado"])
+        return self.hash_delegado
+
+    def generate_hash_rat(self):
+        self.hash_rat = self._generate_hash("RAT")
+        self.save(update_fields=["hash_rat"])
+        return self.hash_rat
+
+    def generate_hash_incidente(self):
+        self.hash_incidente = self._generate_hash("INCIDENTE")
+        self.save(update_fields=["hash_incidente"])
+        return self.hash_incidente
+
+    # =====================================================
+    # MÉTODOS DE UTILIDAD
+    # =====================================================
+    def get_qr_url_delegado(self):
+        import qrcode, io, base64
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr.add_data(f"DPD-{self.id}-{self.hash_delegado}")
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        return f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    def get_qr_url_rat(self):
+        import qrcode, io, base64
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr.add_data(f"RAT-{self.id}-{self.hash_rat}")
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        return f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    def get_qr_url_incidente(self):
+        import qrcode, io, base64
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr.add_data(f"INCIDENTE-{self.id}-{self.hash_incidente}")
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        return f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
 
     def get_document_name(self):
         return f"SPDP_{self.nombre_delegado}_{self.fecha_nombramiento.strftime('%Y%m%d')}"
+
+    @property
+    def dias_para_expirar(self):
+        if self.fecha_expiracion and self.fecha_actualizacion:
+            delta = self.fecha_expiracion - self.fecha_actualizacion
+            return delta.days
+        return None
+
+
+
+    def save(self, *args, **kwargs):
+        if self.fecha_creacion and not self.fecha_expiracion:
+            self.fecha_expiracion = self.fecha_creacion + timedelta(days=310)
+        super().save(*args, **kwargs)
+
+
+
+    
 
     class Meta:
         verbose_name = "Registro SPDP DPD / RAT / Incidentes"
