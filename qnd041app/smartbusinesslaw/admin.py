@@ -85,6 +85,107 @@ regulacion_pdf_link.short_description = "PDF"
 
 
 
+
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
+from unfold.components import BaseComponent, register_component
+
+
+@register_component
+class ActaDelegadoComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Delegado de Protección de Datos (DPD)"
+    
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance  # instancia SPDP_ActaDelegado
+
+        headers = [
+            "Campo",
+            "Valor",
+        ]
+
+        rows = [
+            ["Delegado (DPD)", a.nombre_delegado],
+            ["Identificación", a.identificacion_delegado],
+            ["Correo electrónico", a.correo_delegado],
+            ["Teléfono", a.telefono_delegado],
+            ["Fecha de nombramiento", a.fecha_nombramiento],
+            ["Acto de designación", a.acto_designacion],
+            ["Tipo de vinculación", a.get_tipo_vinculacion_display() if a.tipo_vinculacion else ""],
+            ["Declaración de independencia", "Sí" if a.declaracion_independencia else "No"],
+            ["Declaración de confidencialidad", "Sí" if a.declaracion_confidencialidad else "No"],
+        ]
+
+        context.update({
+            "title": "Información del Delegado de Protección de Datos (DPD)",
+            "table": {
+                "headers": headers,
+                "rows": rows,
+            }
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+
+@register_component
+class ActaIncidenteComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Registro de Incidencias de Seguridad"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance  # SPDP_ActaDelegado
+
+        headers = [
+            "Campo",
+            "Detalle",
+        ]
+
+        rows = [
+            ["Código del incidente", i.incidente_identificacion],
+            ["Fecha de detección", i.incidente_fecha_deteccion],
+            ["Tipo de incidente", i.incidente_tipo],
+            ["Estado", i.get_incidente_estado_display() if i.incidente_estado else ""],
+            ["Nivel de riesgo", i.incidente_riesgo],
+            ["Datos afectados", i.incidente_datos_afectados],
+            ["Titulares afectados", i.incidente_titulares_afectados],
+            ["Notificado a la SPDP", "Sí" if i.incidente_notificado_spdp else "No"],
+            ["Fecha de notificación", i.incidente_fecha_notificacion],
+            ["Medidas de mitigación", i.incidente_medidas_mitigacion],
+            ["Medidas correctivas", i.incidente_medidas_correctivas],
+            ["Observaciones", i.observaciones],
+        ]
+
+        context.update({
+            "title": "Registro de Incidencias de Seguridad",
+            "table": {
+                "headers": headers,
+                "rows": rows,
+            }
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+
+
 # ===========================
 # SCVS_Estatutos Admin
 # ===========================
@@ -109,6 +210,10 @@ class SCVS_EstatutosAdmin(ModelAdmin):
 # ===========================
 @admin.register(SPDP_ActaDelegado)
 class SPDP_ActaDelegadoAdmin(ModelAdmin):
+    list_sections = [
+    ActaDelegadoComponent,ActaIncidenteComponent,
+    ]
+
 
     fieldsets = (
 

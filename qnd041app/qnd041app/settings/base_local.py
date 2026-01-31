@@ -416,6 +416,33 @@ UNFOLD = {
 "navigation": [
 
     {
+        "title": _("SmartBusinessLaw® (I+D)+A"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+            {
+                "title": _("SPDP"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+                        {
+                "title": _("SRI"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+        ],
+    },
+
+    {
         "title": _("Comunicaciones"),
         "separator": True,
         "collapsible": True,
