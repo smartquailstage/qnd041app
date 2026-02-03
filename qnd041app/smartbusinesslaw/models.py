@@ -111,19 +111,269 @@ class SCVS_ActasAsamblea(models.Model):
         verbose_name = "Acta de Asamblea SCVS"
         verbose_name_plural = "Actas de Asamblea SCVS"
 
-class SCVS_InformeFinanciero(models.Model):
-    regulacion = models.ForeignKey(Regulacion, on_delete=models.CASCADE, related_name='scvs_informes')
-    ejercicio = models.CharField(max_length=20)
-    fecha_presentacion = models.DateField()
-    aprobado_por_junta = models.BooleanField(default=False)
-    archivo = models.FileField(upload_to='scvs/informes/', blank=True, null=True)
 
-    def get_document_name(self):
-        return f"InformeFinanciero_{self.ejercicio}"
+
+class SCVSFinancialReport(models.Model):
+    # =========================
+    # DATOS GENERALES
+    # =========================
+    ruc = models.CharField(
+        "RUC",
+        max_length=13,
+        null=True, blank=True,
+        help_text="Número de RUC de la compañía (13 dígitos). Es el identificador único tributario en Ecuador."
+    )
+    company_name = models.CharField(
+        "Nombre de la compañía",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre legal completo de la compañía registrado ante la Superintendencia de Compañías."
+    )
+    company_type = models.CharField(
+        "Tipo de sociedad",
+        max_length=10,
+        choices=[
+            ('SA', 'Sociedad Anónima'),
+            ('LTDA', 'Compañía Limitada'),
+            ('SAS', 'SAS'),
+        ],
+        null=True, blank=True,
+        help_text="Tipo legal de la sociedad según registro mercantil."
+    )
+    fiscal_year = models.PositiveIntegerField(
+        "Año fiscal",
+        null=True, blank=True,
+        help_text="Año al que corresponde el reporte financiero. Ejemplo: 2025"
+    )
+    economic_activity = models.CharField(
+        "Actividad económica",
+        max_length=10,
+        null=True, blank=True,
+        help_text="Código CIIU (Clasificación Internacional Industrial Uniforme) de la actividad económica principal de la empresa."
+    )
+    currency = models.CharField(
+        "Moneda",
+        max_length=10,
+        default='USD',
+        null=True, blank=True,
+        help_text="Moneda utilizada en los estados financieros. Normalmente USD para Ecuador."
+    )
+
+    # =========================
+    # BALANCE GENERAL
+    # =========================
+    cash_and_equivalents = models.DecimalField(
+        "Efectivo y equivalentes", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Suma del efectivo en caja y bancos, más inversiones a corto plazo fácilmente convertibles en efectivo."
+    )
+    short_term_investments = models.DecimalField(
+        "Inversiones a corto plazo", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Inversiones temporales y valores negociables con vencimiento menor a un año."
+    )
+    accounts_receivable = models.DecimalField(
+        "Cuentas por cobrar", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto total que clientes deben a la compañía por ventas a crédito."
+    )
+    inventories = models.DecimalField(
+        "Inventarios", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor de inventarios de bienes, materias primas y productos terminados listos para la venta."
+    )
+    other_current_assets = models.DecimalField(
+        "Otros activos corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Otros activos que se espera convertir en efectivo o usar dentro del año fiscal."
+    )
+    property_plant_equipment = models.DecimalField(
+        "Propiedad, planta y equipo", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor de terrenos, edificios, maquinaria y equipo utilizados en las operaciones de la empresa."
+    )
+    accumulated_depreciation = models.DecimalField(
+        "Depreciación acumulada", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Suma de la depreciación aplicada a los activos fijos desde su adquisición."
+    )
+    intangible_assets = models.DecimalField(
+        "Activos intangibles", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Activos no físicos con valor económico, como patentes, marcas o software."
+    )
+    other_non_current_assets = models.DecimalField(
+        "Otros activos no corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Activos que no se espera convertir en efectivo en menos de un año, distintos a los ya mencionados."
+    )
+
+    accounts_payable = models.DecimalField(
+        "Cuentas por pagar", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Deudas con proveedores por compras de bienes o servicios a crédito."
+    )
+    short_term_loans = models.DecimalField(
+        "Préstamos a corto plazo", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Obligaciones financieras con vencimiento menor a un año."
+    )
+    tax_payables = models.DecimalField(
+        "Obligaciones tributarias", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Impuestos por pagar, incluyendo IVA, retenciones y otros tributos pendientes."
+    )
+    labor_obligations = models.DecimalField(
+        "Obligaciones laborales", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Deudas con empleados, como salarios, bonos, prestaciones sociales o vacaciones pendientes."
+    )
+    other_current_liabilities = models.DecimalField(
+        "Otros pasivos corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Otras obligaciones a corto plazo que la empresa debe cumplir dentro del año fiscal."
+    )
+
+    long_term_loans = models.DecimalField(
+        "Préstamos a largo plazo", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Obligaciones financieras con vencimiento mayor a un año."
+    )
+    provisions = models.DecimalField(
+        "Provisiones", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Reservas de dinero para cubrir pasivos futuros o contingencias previstas."
+    )
+    other_non_current_liabilities = models.DecimalField(
+        "Otros pasivos no corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Obligaciones financieras y no financieras con vencimiento mayor a un año distintas a las ya mencionadas."
+    )
+
+    share_capital = models.DecimalField(
+        "Capital social", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto de aportes de los socios o accionistas registrado legalmente como capital social."
+    )
+    legal_reserve = models.DecimalField(
+        "Reserva legal", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Porción de las utilidades retenidas que la ley exige mantener como reserva legal."
+    )
+    retained_earnings = models.DecimalField(
+        "Resultados acumulados", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Utilidades o pérdidas acumuladas de ejercicios anteriores que se mantienen en la empresa."
+    )
+    net_income = models.DecimalField(
+        "Resultado neto", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Resultado neto del periodo fiscal: ingresos menos gastos e impuestos."
+    )
+
+    # =========================
+    # ESTADO DE RESULTADOS
+    # =========================
+    operating_revenue = models.DecimalField(
+        "Ingresos operativos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Ingresos generados por la actividad principal de la compañía (ventas de productos o servicios)."
+    )
+    cost_of_sales = models.DecimalField(
+        "Costo de ventas", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Costos directamente relacionados con la producción o adquisición de bienes vendidos."
+    )
+    gross_profit = models.DecimalField(
+        "Utilidad bruta", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Ingresos operativos menos el costo de ventas."
+    )
+
+    administrative_expenses = models.DecimalField(
+        "Gastos administrativos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Gastos relacionados con la administración general de la empresa (sueldos de gerencia, servicios, etc.)"
+    )
+    selling_expenses = models.DecimalField(
+        "Gastos de ventas", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Gastos relacionados con la comercialización y distribución de productos o servicios."
+    )
+    financial_expenses = models.DecimalField(
+        "Gastos financieros", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Intereses pagados y otros costos financieros relacionados con deudas."
+    )
+
+    other_income = models.DecimalField(
+        "Otros ingresos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Ingresos no operativos, como venta de activos, dividendos o ganancias extraordinarias."
+    )
+    other_expenses = models.DecimalField(
+        "Otros gastos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Gastos no operativos, como pérdidas por venta de activos o gastos extraordinarios."
+    )
+
+    income_tax = models.DecimalField(
+        "Impuesto a la renta", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto del impuesto a la renta correspondiente al periodo fiscal."
+    )
+
+    # =========================
+    # CAMBIOS EN EL PATRIMONIO
+    # =========================
+    equity_opening_balance = models.DecimalField(
+        "Saldo inicial del patrimonio", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Saldo total del patrimonio al inicio del ejercicio fiscal."
+    )
+    equity_increases = models.DecimalField(
+        "Incrementos del patrimonio", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Aumentos en el patrimonio durante el periodo, incluyendo aportes de socios y utilidades netas."
+    )
+    equity_decreases = models.DecimalField(
+        "Disminuciones del patrimonio", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Reducciones en el patrimonio durante el periodo, como distribución de dividendos o pérdidas netas."
+    )
+    equity_closing_balance = models.DecimalField(
+        "Saldo final del patrimonio", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Saldo total del patrimonio al cierre del ejercicio fiscal."
+    )
+
+    # =========================
+    # FLUJO DE EFECTIVO
+    # =========================
+    cashflow_operating = models.DecimalField(
+        "Flujos de operación", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Entrada y salida de efectivo por operaciones normales de la compañía."
+    )
+    cashflow_investing = models.DecimalField(
+        "Flujos de inversión", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Entrada y salida de efectivo relacionadas con la compra o venta de activos a largo plazo."
+    )
+    cashflow_financing = models.DecimalField(
+        "Flujos de financiamiento", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Entrada y salida de efectivo relacionadas con préstamos, emisión de acciones o dividendos."
+    )
+    net_cash_flow = models.DecimalField(
+        "Flujo neto de efectivo", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Variación neta del efectivo durante el periodo: flujo de operación + inversión + financiamiento."
+    )
+
+    # =========================
+    # ANEXOS SCVS
+    # =========================
+    accounts_receivable_related = models.DecimalField(
+        "Cuentas por cobrar relacionadas", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Cuentas por cobrar a empresas relacionadas o vinculadas a la compañía."
+    )
+    accounts_payable_related = models.DecimalField(
+        "Cuentas por pagar relacionadas", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Cuentas por pagar a empresas relacionadas o vinculadas a la compañía."
+    )
+    fixed_assets_cost = models.DecimalField(
+        "Costo de activos fijos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor de adquisición de todos los activos fijos antes de depreciación."
+    )
+    fixed_assets_depreciation = models.DecimalField(
+        "Depreciación de activos fijos", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Depreciación acumulada de los activos fijos hasta la fecha del reporte."
+    )
+    financial_obligations_total = models.DecimalField(
+        "Obligaciones financieras totales", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Total de todas las deudas y préstamos, tanto a corto como a largo plazo."
+    )
+    employee_profit_sharing = models.DecimalField(
+        "Participación de empleados", max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto de utilidades destinado a la participación de los trabajadores según ley."
+    )
+
+    # =========================
+    # METADATA
+    # =========================
+    created_at = models.DateTimeField("Fecha de creación", auto_now_add=True)
+    updated_at = models.DateTimeField("Última actualización", auto_now=True)
 
     class Meta:
-        verbose_name = "Informe Financiero SCVS"
-        verbose_name_plural = "Informes Financieros SCVS"
+        unique_together = ('ruc', 'fiscal_year')
+        verbose_name = "Balance: SuperIntendencia de Compañías, Valores y Seguros"
+        verbose_name_plural = "Balances: SuperIntendencia de Compañías, Valores y Seguros"
+
+    def __str__(self):
+        return f"{self.company_name} - {self.fiscal_year}"
 
 # ===========================
 # SPDP - Superintendencia de Protección de Datos Personales

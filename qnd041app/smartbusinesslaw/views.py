@@ -260,3 +260,107 @@ def rat_pdf(request, delegado_id):
     return response
 
 
+
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from .models import SCVSFinancialReport
+
+def generar_txt_scvs(request, pk):
+    """
+    Genera un archivo .txt compatible con la Superintendencia de Compañías
+    a partir del registro SCVSFinancialReport identificado por pk.
+    """
+    # Obtener el reporte
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+
+    # Construir contenido del .txt
+    lines = []
+
+    # ----------------------
+    # Sección: Datos Generales
+    # ----------------------
+    lines.append(f"RUC|{reporte.ruc}")
+    lines.append(f"Nombre|{reporte.company_name}")
+    lines.append(f"TipoSociedad|{reporte.company_type}")
+    lines.append(f"AñoFiscal|{reporte.fiscal_year}")
+    lines.append(f"ActividadEconomica|{reporte.economic_activity}")
+    lines.append(f"Moneda|{reporte.currency}")
+
+    # ----------------------
+    # Sección: Balance General
+    # ----------------------
+    lines.append(f"EfectivoEquivalentes|{reporte.cash_and_equivalents}")
+    lines.append(f"InversionesCortoPlazo|{reporte.short_term_investments}")
+    lines.append(f"CuentasPorCobrar|{reporte.accounts_receivable}")
+    lines.append(f"Inventarios|{reporte.inventories}")
+    lines.append(f"OtrosActivosCorrientes|{reporte.other_current_assets}")
+    lines.append(f"PropiedadPlantaEquipo|{reporte.property_plant_equipment}")
+    lines.append(f"DepreciacionAcumulada|{reporte.accumulated_depreciation}")
+    lines.append(f"ActivosIntangibles|{reporte.intangible_assets}")
+    lines.append(f"OtrosActivosNoCorrientes|{reporte.other_non_current_assets}")
+    lines.append(f"CuentasPorPagar|{reporte.accounts_payable}")
+    lines.append(f"PrestamosCortoPlazo|{reporte.short_term_loans}")
+    lines.append(f"ObligacionesTributarias|{reporte.tax_payables}")
+    lines.append(f"ObligacionesLaborales|{reporte.labor_obligations}")
+    lines.append(f"OtrosPasivosCorrientes|{reporte.other_current_liabilities}")
+    lines.append(f"PrestamosLargoPlazo|{reporte.long_term_loans}")
+    lines.append(f"Provisiones|{reporte.provisions}")
+    lines.append(f"OtrosPasivosNoCorrientes|{reporte.other_non_current_liabilities}")
+    lines.append(f"CapitalSocial|{reporte.share_capital}")
+    lines.append(f"ReservaLegal|{reporte.legal_reserve}")
+    lines.append(f"ResultadosAcumulados|{reporte.retained_earnings}")
+    lines.append(f"ResultadoNeto|{reporte.net_income}")
+
+    # ----------------------
+    # Sección: Estado de Resultados
+    # ----------------------
+    lines.append(f"IngresosOperativos|{reporte.operating_revenue}")
+    lines.append(f"CostoVentas|{reporte.cost_of_sales}")
+    lines.append(f"UtilidadBruta|{reporte.gross_profit}")
+    lines.append(f"GastosAdministrativos|{reporte.administrative_expenses}")
+    lines.append(f"GastosVentas|{reporte.selling_expenses}")
+    lines.append(f"GastosFinancieros|{reporte.financial_expenses}")
+    lines.append(f"OtrosIngresos|{reporte.other_income}")
+    lines.append(f"OtrosGastos|{reporte.other_expenses}")
+    lines.append(f"ImpuestoRenta|{reporte.income_tax}")
+
+    # ----------------------
+    # Sección: Cambios en el Patrimonio
+    # ----------------------
+    lines.append(f"SaldoInicialPatrimonio|{reporte.equity_opening_balance}")
+    lines.append(f"IncrementosPatrimonio|{reporte.equity_increases}")
+    lines.append(f"DisminucionesPatrimonio|{reporte.equity_decreases}")
+    lines.append(f"SaldoFinalPatrimonio|{reporte.equity_closing_balance}")
+
+    # ----------------------
+    # Sección: Flujo de Efectivo
+    # ----------------------
+    lines.append(f"FlujoOperacion|{reporte.cashflow_operating}")
+    lines.append(f"FlujoInversion|{reporte.cashflow_investing}")
+    lines.append(f"FlujoFinanciamiento|{reporte.cashflow_financing}")
+    lines.append(f"FlujoNeto|{reporte.net_cash_flow}")
+
+    # ----------------------
+    # Sección: Anexos SCVS
+    # ----------------------
+    lines.append(f"CuentasPorCobrarRelacionadas|{reporte.accounts_receivable_related}")
+    lines.append(f"CuentasPorPagarRelacionadas|{reporte.accounts_payable_related}")
+    lines.append(f"CostoActivosFijos|{reporte.fixed_assets_cost}")
+    lines.append(f"DepreciacionActivosFijos|{reporte.fixed_assets_depreciation}")
+    lines.append(f"ObligacionesFinancieras|{reporte.financial_obligations_total}")
+    lines.append(f"ParticipacionEmpleados|{reporte.employee_profit_sharing}")
+
+    # ----------------------
+    # Construir contenido
+    # ----------------------
+    content = "\n".join(lines)
+
+    # ----------------------
+    # Respuesta HTTP para descargar el archivo
+    # ----------------------
+    response = HttpResponse(content, content_type='text/plain')
+    filename = f"{reporte.ruc}_SCVS_{reporte.fiscal_year}.txt"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response

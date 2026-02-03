@@ -6,6 +6,336 @@ from django.urls import reverse
 from django.contrib import admin
 from .models import SPDP_ActaDelegado, Regulacion
 
+
+#SCVS_Estatutos, SRI_RUC, MT_Contratos, IESS_Aportes
+
+from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+
+@register_component
+class BalanceGeneralComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Balance General"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance  # SCVSFinancialReport
+
+        headers = ["Cuenta", "Monto"]
+
+        rows = [
+            ["Efectivo y equivalentes", i.cash_and_equivalents],
+            ["Inversiones a corto plazo", i.short_term_investments],
+            ["Cuentas por cobrar", i.accounts_receivable],
+            ["Inventarios", i.inventories],
+            ["Otros activos corrientes", i.other_current_assets],
+            ["Propiedad, planta y equipo", i.property_plant_equipment],
+            ["Depreciación acumulada", i.accumulated_depreciation],
+            ["Activos intangibles", i.intangible_assets],
+            ["Otros activos no corrientes", i.other_non_current_assets],
+            ["Cuentas por pagar", i.accounts_payable],
+            ["Préstamos a corto plazo", i.short_term_loans],
+            ["Obligaciones tributarias", i.tax_payables],
+            ["Obligaciones laborales", i.labor_obligations],
+            ["Otros pasivos corrientes", i.other_current_liabilities],
+            ["Préstamos a largo plazo", i.long_term_loans],
+            ["Provisiones", i.provisions],
+            ["Otros pasivos no corrientes", i.other_non_current_liabilities],
+            ["Capital social", i.share_capital],
+            ["Reserva legal", i.legal_reserve],
+            ["Resultados acumulados", i.retained_earnings],
+            ["Resultado neto del ejercicio", i.net_income],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class EstadoResultadosComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Estado de Resultados"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance
+
+        headers = ["Cuenta", "Monto"]
+
+        rows = [
+            ["Ingresos operativos", i.operating_revenue],
+            ["Costo de ventas", i.cost_of_sales],
+            ["Utilidad bruta", i.gross_profit],
+            ["Gastos administrativos", i.administrative_expenses],
+            ["Gastos de ventas", i.selling_expenses],
+            ["Gastos financieros", i.financial_expenses],
+            ["Otros ingresos", i.other_income],
+            ["Otros gastos", i.other_expenses],
+            ["Impuesto a la renta", i.income_tax],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class FlujoEfectivoComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Flujo de Efectivo"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance
+
+        headers = ["Actividad", "Monto"]
+
+        rows = [
+            ["Actividades de operación", i.cashflow_operating],
+            ["Actividades de inversión", i.cashflow_investing],
+            ["Actividades de financiamiento", i.cashflow_financing],
+            ["Flujo neto de efectivo", i.net_cash_flow],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+from django.template.loader import render_to_string
+
+
+@register_component
+class DatosGeneralesComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Datos Generales de la Compañía"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance  # SCVSFinancialReport
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance
+
+        headers = ["Campo", "Detalle"]
+
+        rows = [
+            ["RUC", i.ruc],
+            ["Nombre de la compañía", i.company_name],
+            ["Tipo de sociedad", i.get_company_type_display() if i.company_type else ""],
+            ["Año fiscal", i.fiscal_year],
+            ["Actividad económica (CIIU)", i.economic_activity],
+            ["Moneda del reporte", i.currency],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+# components.py
+from django.template.loader import render_to_string
+
+
+@register_component
+class CambiosPatrimonioComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Cambios en el Patrimonio"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance
+
+        headers = ["Cuenta", "Monto"]
+
+        rows = [
+            ["Saldo inicial del patrimonio", i.equity_opening_balance],
+            ["Incrementos en el patrimonio", i.equity_increases],
+            ["Disminuciones del patrimonio", i.equity_decreases],
+            ["Saldo final del patrimonio", i.equity_closing_balance],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class AnexosSCVSComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Anexos SCVS"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = self.instance
+
+        headers = ["Cuenta", "Detalle"]
+
+        rows = [
+            ["Cuentas por cobrar relacionadas", i.accounts_receivable_related],
+            ["Cuentas por pagar relacionadas", i.accounts_payable_related],
+            ["Costo de activos fijos", i.fixed_assets_cost],
+            ["Depreciación de activos fijos", i.fixed_assets_depreciation],
+            ["Obligaciones financieras totales", i.financial_obligations_total],
+            ["Participación de empleados", i.employee_profit_sharing],
+        ]
+
+        context.update({
+            "title": self.name,
+            "table": {"headers": headers, "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+
+def SCVS_TXT(obj):
+    """
+    Genera un enlace para descargar el archivo .txt compatible SCVS
+    """
+    # URL de la vista que genera el TXT
+    url = reverse('smartbusinesslaw:export_txt_scvs', args=[obj.id])
+
+    # Verificar si el objeto tiene todos los campos necesarios
+    # (opcional: aquí podrías agregar validaciones)
+    if obj:
+        link = f'<a href="{url}" target="_blank" style="color:#1565c0;">📄 Descargar TXT</a>'
+    else:
+        link = '<small style="color:#757575;">— sin archivo —</small>'
+
+    return mark_safe(link)
+SCVS_TXT.short_description = "Archivo TXT SCVS"
+
+
+from .models import SCVSFinancialReport
+
+
+@admin.register(SCVSFinancialReport)
+class SCVSFinancialReportAdmin(ModelAdmin):
+    # ---------------------------
+    # Componentes renderizados
+    # ---------------------------
+    list_sections = [
+        DatosGeneralesComponent,
+        BalanceGeneralComponent,
+        EstadoResultadosComponent,
+        CambiosPatrimonioComponent,
+        FlujoEfectivoComponent,
+        AnexosSCVSComponent,
+    ]
+
+    # ---------------------------
+    # Fieldsets clásicos (solo con campos del modelo)
+    # ---------------------------
+    fieldsets = (
+        ('Datos Generales', {
+            'fields': ('ruc', 'company_name', 'company_type', 'fiscal_year', 'economic_activity', 'currency'),
+            'classes': ('unfold', 'tab-datos-generales'),
+        }),
+        ('Balance General', {
+            'fields': (
+                'cash_and_equivalents', 'short_term_investments', 'accounts_receivable', 'inventories',
+                'other_current_assets', 'property_plant_equipment', 'accumulated_depreciation',
+                'intangible_assets', 'other_non_current_assets', 'accounts_payable', 'short_term_loans',
+                'tax_payables', 'labor_obligations', 'other_current_liabilities', 'long_term_loans',
+                'provisions', 'other_non_current_liabilities', 'share_capital', 'legal_reserve',
+                'retained_earnings', 'net_income'
+            ),
+            'classes': ('unfold', 'tab-balance-general'),
+        }),
+        ('Estado de Resultados', {
+            'fields': (
+                'operating_revenue', 'cost_of_sales', 'gross_profit', 'administrative_expenses',
+                'selling_expenses', 'financial_expenses', 'other_income', 'other_expenses', 'income_tax'
+            ),
+            'classes': ('unfold', 'tab-estado-resultados'),
+        }),
+        ('Cambios en el Patrimonio', {
+            'fields': ('equity_opening_balance', 'equity_increases', 'equity_decreases', 'equity_closing_balance'),
+            'classes': ('unfold', 'tab-cambios-patrimonio'),
+        }),
+        ('Flujo de Efectivo', {
+            'fields': ('cashflow_operating', 'cashflow_investing', 'cashflow_financing', 'net_cash_flow'),
+            'classes': ('unfold', 'tab-flujo-efectivo'),
+        }),
+        ('Anexos SCVS', {
+            'fields': (
+                'accounts_receivable_related', 'accounts_payable_related', 'fixed_assets_cost',
+                'fixed_assets_depreciation', 'financial_obligations_total', 'employee_profit_sharing'
+            ),
+            'classes': ('unfold', 'tab-anexos-scvs'),
+        }),
+        ('Metadata', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('unfold', 'tab-metadata'),
+        }),
+    )
+
+    # ---------------------------
+    # Listado principal
+    # ---------------------------
+    list_display = ('company_name', 'ruc', 'fiscal_year', 'net_income', 'equity_closing_balance',SCVS_TXT)
+
+    list_filter = ('fiscal_year', 'company_type')
+
+    search_fields = ('company_name', 'ruc')
+
+    readonly_fields = ('created_at', 'updated_at')
+
+    unfold_fieldsets = True
+
 # -------------------------------
 # SPDP_ActaDelegado PDFs
 # -------------------------------
@@ -69,6 +399,9 @@ def VENCIMIENTO(obj):
 
 
 incidente_pdf_link.short_description = "CERTIFICADO EIPD / DPIA"
+
+
+
 
 
 # -------------------------------

@@ -39,4 +39,8 @@ urlpatterns = [
         views.regulacion_pdf,
         name='admin_regulacion_pdf'
     ),
+
+    path('scvs/<int:pk>/export-txt/', views.generar_txt_scvs, name='export_txt_scvs'),
 ]
+
+

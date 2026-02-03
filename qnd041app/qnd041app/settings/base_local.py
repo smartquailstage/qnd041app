@@ -429,6 +429,17 @@ UNFOLD = {
                 "permission": is_all,
             },
 
+
+            {
+                "title": _("Balances SCVS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvsfinancialreport_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
             {
                 "title": _("Anexos SRI"),
                 "icon": "inbox",
