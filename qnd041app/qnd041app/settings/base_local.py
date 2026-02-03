@@ -429,8 +429,18 @@ UNFOLD = {
                 "permission": is_all,
             },
 
-                        {
-                "title": _("SRI"),
+            {
+                "title": _("Anexos SRI"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Declaraciones SRI"),
                 "icon": "inbox",
                 "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
