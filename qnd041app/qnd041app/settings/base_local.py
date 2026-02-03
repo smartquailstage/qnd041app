@@ -421,7 +421,7 @@ UNFOLD = {
         "collapsible": True,
         "items": [
             {
-                "title": _("SPDP"),
+                "title": _(" Registros SPDP"),
                 "icon": "inbox",
                 "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",

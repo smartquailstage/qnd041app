@@ -238,28 +238,66 @@ class AnexosSCVSComponent(BaseComponent):
         return render_to_string(self.template_name, self.get_context_data())
 
 
-from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.urls import reverse
 
-def SCVS_TXT(obj):
-    """
-    Genera un enlace para descargar el archivo .txt compatible SCVS
-    """
-    # URL de la vista que genera el TXT
-    url = reverse('smartbusinesslaw:export_txt_scvs', args=[obj.id])
+# -----------------------------
+# Enlace TXT: Datos Generales
+# -----------------------------
+def SCVS_DatosGenerales(obj):
+    url_txt = reverse('smartbusinesslaw:txt_datos_generales', args=[obj.id])
+    url_pdf = reverse('smartbusinesslaw:pdf_datos_generales', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+    )
+SCVS_DatosGenerales.short_description = "Datos Generales"
 
-    # Verificar si el objeto tiene todos los campos necesarios
-    # (opcional: aquí podrías agregar validaciones)
-    if obj:
-        link = f'<a href="{url}" target="_blank" style="color:#1565c0;">📄 Descargar TXT</a>'
-    else:
-        link = '<small style="color:#757575;">— sin archivo —</small>'
+# -----------------------------
+# Enlace TXT: Balance General
+# -----------------------------
+def SCVS_BalanceGeneral(obj):
+    url_txt = reverse('smartbusinesslaw:txt_balance_general', args=[obj.id])
+    url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+    )
+SCVS_BalanceGeneral.short_description = "Balance General"
 
-    return mark_safe(link)
-SCVS_TXT.short_description = "Archivo TXT SCVS"
+# -----------------------------
+# Enlace TXT: Estado de Resultados
+# -----------------------------
+def SCVS_EstadoResultados(obj):
+    url_txt = reverse('smartbusinesslaw:txt_estado_resultados', args=[obj.id])
+    url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+    )
+SCVS_EstadoResultados.short_description = "Estado Resultados"
 
+# -----------------------------
+# Enlace TXT: Cambios en el Patrimonio
+# -----------------------------
+def SCVS_CambiosPatrimonio(obj):
+    url_txt = reverse('smartbusinesslaw:txt_cambios_patrimonio', args=[obj.id])
+    url_pdf = reverse('smartbusinesslaw:pdf_cambios_patrimonio', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+    )
+SCVS_CambiosPatrimonio.short_description = "Cambios Patrimonio"
 
-from .models import SCVSFinancialReport
+def SCVS_FlujoAnexos(obj):
+    url_txt = reverse('smartbusinesslaw:txt_flujo_anexos', args=[obj.id])
+    url_pdf = reverse('smartbusinesslaw:pdf_anexos', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+    )
+SCVS_FlujoAnexos.short_description = "Flujo/Anexos"
+
 
 
 @admin.register(SCVSFinancialReport)
@@ -326,7 +364,13 @@ class SCVSFinancialReportAdmin(ModelAdmin):
     # ---------------------------
     # Listado principal
     # ---------------------------
-    list_display = ('company_name', 'ruc', 'fiscal_year', 'net_income', 'equity_closing_balance',SCVS_TXT)
+    list_display = ('fiscal_year',
+    SCVS_DatosGenerales,
+    SCVS_BalanceGeneral,
+    SCVS_EstadoResultados,
+    SCVS_CambiosPatrimonio,
+    SCVS_FlujoAnexos,
+    )
 
     list_filter = ('fiscal_year', 'company_type')
 

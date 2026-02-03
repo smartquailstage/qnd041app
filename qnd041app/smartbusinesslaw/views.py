@@ -266,101 +266,289 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import SCVSFinancialReport
 
-def generar_txt_scvs(request, pk):
+# ----------------------
+# Helpers para formato
+# ----------------------
+def format_decimal(value):
+    """Formatea valores numéricos a 2 decimales, 0.00 si None"""
+    if value is None:
+        return "0.00"
+    return f"{value:.2f}"
+
+def format_text(value):
+    """Texto vacío si None"""
+    return value if value else ""
+
+# ----------------------
+# Vista: Datos Generales
+# ----------------------
+def txt_datos_generales(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    lines = [
+        f"RUC|{format_text(reporte.ruc)}",
+        f"Nombre|{format_text(reporte.company_name)}",
+        f"TipoSociedad|{format_text(reporte.company_type)}",
+        f"AñoFiscal|{format_text(reporte.fiscal_year)}",
+        f"ActividadEconomica|{format_text(reporte.economic_activity)}",
+        f"Moneda|{format_text(reporte.currency)}",
+    ]
+    content = "\n".join(lines)
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_DatosGenerales.txt"'
+    return response
+
+# ----------------------
+# Vista: Balance General
+# ----------------------
+def txt_balance_general(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    lines = [
+        f"EfectivoEquivalentes|{format_decimal(reporte.cash_and_equivalents)}",
+        f"InversionesCortoPlazo|{format_decimal(reporte.short_term_investments)}",
+        f"CuentasPorCobrar|{format_decimal(reporte.accounts_receivable)}",
+        f"Inventarios|{format_decimal(reporte.inventories)}",
+        f"OtrosActivosCorrientes|{format_decimal(reporte.other_current_assets)}",
+        f"PropiedadPlantaEquipo|{format_decimal(reporte.property_plant_equipment)}",
+        f"DepreciacionAcumulada|{format_decimal(reporte.accumulated_depreciation)}",
+        f"ActivosIntangibles|{format_decimal(reporte.intangible_assets)}",
+        f"OtrosActivosNoCorrientes|{format_decimal(reporte.other_non_current_assets)}",
+        f"CuentasPorPagar|{format_decimal(reporte.accounts_payable)}",
+        f"PrestamosCortoPlazo|{format_decimal(reporte.short_term_loans)}",
+        f"ObligacionesTributarias|{format_decimal(reporte.tax_payables)}",
+        f"ObligacionesLaborales|{format_decimal(reporte.labor_obligations)}",
+        f"OtrosPasivosCorrientes|{format_decimal(reporte.other_current_liabilities)}",
+        f"PrestamosLargoPlazo|{format_decimal(reporte.long_term_loans)}",
+        f"Provisiones|{format_decimal(reporte.provisions)}",
+        f"OtrosPasivosNoCorrientes|{format_decimal(reporte.other_non_current_liabilities)}",
+        f"CapitalSocial|{format_decimal(reporte.share_capital)}",
+        f"ReservaLegal|{format_decimal(reporte.legal_reserve)}",
+        f"ResultadosAcumulados|{format_decimal(reporte.retained_earnings)}",
+        f"ResultadoNeto|{format_decimal(reporte.net_income)}",
+    ]
+    content = "\n".join(lines)
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_BalanceGeneral.txt"'
+    return response
+
+# ----------------------
+# Vista: Estado de Resultados
+# ----------------------
+def txt_estado_resultados(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    lines = [
+        f"IngresosOperativos|{format_decimal(reporte.operating_revenue)}",
+        f"CostoVentas|{format_decimal(reporte.cost_of_sales)}",
+        f"UtilidadBruta|{format_decimal(reporte.gross_profit)}",
+        f"GastosAdministrativos|{format_decimal(reporte.administrative_expenses)}",
+        f"GastosVentas|{format_decimal(reporte.selling_expenses)}",
+        f"GastosFinancieros|{format_decimal(reporte.financial_expenses)}",
+        f"OtrosIngresos|{format_decimal(reporte.other_income)}",
+        f"OtrosGastos|{format_decimal(reporte.other_expenses)}",
+        f"ImpuestoRenta|{format_decimal(reporte.income_tax)}",
+    ]
+    content = "\n".join(lines)
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_EstadoResultados.txt"'
+    return response
+
+# ----------------------
+# Vista: Cambios en el Patrimonio
+# ----------------------
+def txt_cambios_patrimonio(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    lines = [
+        f"SaldoInicialPatrimonio|{format_decimal(reporte.equity_opening_balance)}",
+        f"IncrementosPatrimonio|{format_decimal(reporte.equity_increases)}",
+        f"DisminucionesPatrimonio|{format_decimal(reporte.equity_decreases)}",
+        f"SaldoFinalPatrimonio|{format_decimal(reporte.equity_closing_balance)}",
+    ]
+    content = "\n".join(lines)
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_CambiosPatrimonio.txt"'
+    return response
+
+# ----------------------
+# Vista: Flujo de Efectivo y Anexos
+# ----------------------
+def txt_flujo_anexos(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    lines = [
+        f"FlujoOperacion|{format_decimal(reporte.cashflow_operating)}",
+        f"FlujoInversion|{format_decimal(reporte.cashflow_investing)}",
+        f"FlujoFinanciamiento|{format_decimal(reporte.cashflow_financing)}",
+        f"FlujoNeto|{format_decimal(reporte.net_cash_flow)}",
+        f"CuentasPorCobrarRelacionadas|{format_decimal(reporte.accounts_receivable_related)}",
+        f"CuentasPorPagarRelacionadas|{format_decimal(reporte.accounts_payable_related)}",
+        f"CostoActivosFijos|{format_decimal(reporte.fixed_assets_cost)}",
+        f"DepreciacionActivosFijos|{format_decimal(reporte.fixed_assets_depreciation)}",
+        f"ObligacionesFinancieras|{format_decimal(reporte.financial_obligations_total)}",
+        f"ParticipacionEmpleados|{format_decimal(reporte.employee_profit_sharing)}",
+    ]
+    content = "\n".join(lines)
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_FlujoEfectivo_Anexos.txt"'
+    return response
+
+
+@staff_member_required
+def pdf_datos_generales(request, pk):
     """
-    Genera un archivo .txt compatible con la Superintendencia de Compañías
-    a partir del registro SCVSFinancialReport identificado por pk.
+    Genera PDF de Datos Generales del reporte SCVSFinancialReport
     """
     # Obtener el reporte
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
 
-    # Construir contenido del .txt
-    lines = []
+    # ----------------------------
+    # Generar QR basado en RUC + Año fiscal
+    # ----------------------------
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-DATOS-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
 
-    # ----------------------
-    # Sección: Datos Generales
-    # ----------------------
-    lines.append(f"RUC|{reporte.ruc}")
-    lines.append(f"Nombre|{reporte.company_name}")
-    lines.append(f"TipoSociedad|{reporte.company_type}")
-    lines.append(f"AñoFiscal|{reporte.fiscal_year}")
-    lines.append(f"ActividadEconomica|{reporte.economic_activity}")
-    lines.append(f"Moneda|{reporte.currency}")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_url = f"data:image/png;base64,{qr_base64}"
 
-    # ----------------------
-    # Sección: Balance General
-    # ----------------------
-    lines.append(f"EfectivoEquivalentes|{reporte.cash_and_equivalents}")
-    lines.append(f"InversionesCortoPlazo|{reporte.short_term_investments}")
-    lines.append(f"CuentasPorCobrar|{reporte.accounts_receivable}")
-    lines.append(f"Inventarios|{reporte.inventories}")
-    lines.append(f"OtrosActivosCorrientes|{reporte.other_current_assets}")
-    lines.append(f"PropiedadPlantaEquipo|{reporte.property_plant_equipment}")
-    lines.append(f"DepreciacionAcumulada|{reporte.accumulated_depreciation}")
-    lines.append(f"ActivosIntangibles|{reporte.intangible_assets}")
-    lines.append(f"OtrosActivosNoCorrientes|{reporte.other_non_current_assets}")
-    lines.append(f"CuentasPorPagar|{reporte.accounts_payable}")
-    lines.append(f"PrestamosCortoPlazo|{reporte.short_term_loans}")
-    lines.append(f"ObligacionesTributarias|{reporte.tax_payables}")
-    lines.append(f"ObligacionesLaborales|{reporte.labor_obligations}")
-    lines.append(f"OtrosPasivosCorrientes|{reporte.other_current_liabilities}")
-    lines.append(f"PrestamosLargoPlazo|{reporte.long_term_loans}")
-    lines.append(f"Provisiones|{reporte.provisions}")
-    lines.append(f"OtrosPasivosNoCorrientes|{reporte.other_non_current_liabilities}")
-    lines.append(f"CapitalSocial|{reporte.share_capital}")
-    lines.append(f"ReservaLegal|{reporte.legal_reserve}")
-    lines.append(f"ResultadosAcumulados|{reporte.retained_earnings}")
-    lines.append(f"ResultadoNeto|{reporte.net_income}")
+    # ----------------------------
+    # Renderizar plantilla HTML
+    # ----------------------------
+    html = render_to_string('smartbusinesslaw/pdf_datos_generales.html', {
+        'reporte': reporte,
+        'qr_url': qr_url,
+    })
 
-    # ----------------------
-    # Sección: Estado de Resultados
-    # ----------------------
-    lines.append(f"IngresosOperativos|{reporte.operating_revenue}")
-    lines.append(f"CostoVentas|{reporte.cost_of_sales}")
-    lines.append(f"UtilidadBruta|{reporte.gross_profit}")
-    lines.append(f"GastosAdministrativos|{reporte.administrative_expenses}")
-    lines.append(f"GastosVentas|{reporte.selling_expenses}")
-    lines.append(f"GastosFinancieros|{reporte.financial_expenses}")
-    lines.append(f"OtrosIngresos|{reporte.other_income}")
-    lines.append(f"OtrosGastos|{reporte.other_expenses}")
-    lines.append(f"ImpuestoRenta|{reporte.income_tax}")
+    # ----------------------------
+    # Crear respuesta PDF
+    # ----------------------------
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="DatosGenerales_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
 
-    # ----------------------
-    # Sección: Cambios en el Patrimonio
-    # ----------------------
-    lines.append(f"SaldoInicialPatrimonio|{reporte.equity_opening_balance}")
-    lines.append(f"IncrementosPatrimonio|{reporte.equity_increases}")
-    lines.append(f"DisminucionesPatrimonio|{reporte.equity_decreases}")
-    lines.append(f"SaldoFinalPatrimonio|{reporte.equity_closing_balance}")
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
 
-    # ----------------------
-    # Sección: Flujo de Efectivo
-    # ----------------------
-    lines.append(f"FlujoOperacion|{reporte.cashflow_operating}")
-    lines.append(f"FlujoInversion|{reporte.cashflow_investing}")
-    lines.append(f"FlujoFinanciamiento|{reporte.cashflow_financing}")
-    lines.append(f"FlujoNeto|{reporte.net_cash_flow}")
+    return response
 
-    # ----------------------
-    # Sección: Anexos SCVS
-    # ----------------------
-    lines.append(f"CuentasPorCobrarRelacionadas|{reporte.accounts_receivable_related}")
-    lines.append(f"CuentasPorPagarRelacionadas|{reporte.accounts_payable_related}")
-    lines.append(f"CostoActivosFijos|{reporte.fixed_assets_cost}")
-    lines.append(f"DepreciacionActivosFijos|{reporte.fixed_assets_depreciation}")
-    lines.append(f"ObligacionesFinancieras|{reporte.financial_obligations_total}")
-    lines.append(f"ParticipacionEmpleados|{reporte.employee_profit_sharing}")
 
-    # ----------------------
-    # Construir contenido
-    # ----------------------
-    content = "\n".join(lines)
+@staff_member_required
+def pdf_balance(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
 
-    # ----------------------
-    # Respuesta HTTP para descargar el archivo
-    # ----------------------
-    response = HttpResponse(content, content_type='text/plain')
-    filename = f"{reporte.ruc}_SCVS_{reporte.fiscal_year}.txt"
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    # QR opcional
+    import io, base64, qrcode
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-BALANCE-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_url = f"data:image/png;base64,{qr_base64}"
 
+    # Renderizar plantilla HTML
+    from django.template.loader import render_to_string
+    html = render_to_string('smartbusinesslaw/pdf_balance.html', {'reporte': reporte, 'qr_url': qr_url})
+
+    # Crear PDF
+    import weasyprint
+    from django.http import HttpResponse
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Balance_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
+    return response
+
+
+
+@staff_member_required
+def pdf_estado_resultados(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-ESTADORESULTADOS-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string('smartbusinesslaw/pdf_estado_resultados.html', {'reporte': reporte, 'qr_url': qr_url})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="EstadoResultados_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_cambios_patrimonio(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-CAMBIOSPATRIMONIO-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string('smartbusinesslaw/pdf_cambios_patrimonio.html', {'reporte': reporte, 'qr_url': qr_url})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="CambiosPatrimonio_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_flujo_efectivo(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-FLUJOEFECTIVO-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string('smartbusinesslaw/pdf_flujo_efectivo.html', {'reporte': reporte, 'qr_url': qr_url})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="FlujoEfectivo_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
+    return response
+
+
+
+
+
+@staff_member_required
+def pdf_anexos(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-ANEXOS-{reporte.ruc}-{reporte.fiscal_year}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string('smartbusinesslaw/pdf_anexos.html', {'reporte': reporte, 'qr_url': qr_url})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Anexos_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
     return response

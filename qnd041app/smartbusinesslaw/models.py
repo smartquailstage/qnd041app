@@ -867,8 +867,8 @@ class SPDP_ActaDelegado(models.Model):
     
 
     class Meta:
-        verbose_name = "Superintendencia de Protección de Datos Personales (SPDP)"
-        verbose_name_plural = "Superintendencia de Protección de Datos Personales (SPDP)"
+        verbose_name = "Registro: Superintendencia de Protección de Datos Personales (SPDP)"
+        verbose_name_plural = "Registros: Superintendencia de Protección de Datos Personales (SPDP)"
 
 
 # ===========================
