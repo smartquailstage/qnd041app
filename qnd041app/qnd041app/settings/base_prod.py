@@ -186,7 +186,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "business_customer_projects",
-   
+    'smartbusinesslaw',
 
              # Apps propias del proyecto
     "usuarios",
