@@ -1173,3 +1173,430 @@ class SCVS_ActasAsambleaAdmin(ModelAdmin):
 
 
     unfold_fieldsets = True
+
+
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+
+# ==================================================
+# ATS
+# ==================================================
+
+
+def mes(obj):
+    meses = {
+        1: "Enero",
+        2: "Febrero",
+        3: "Marzo",
+        4: "Abril",
+        5: "Mayo",
+        6: "Junio",
+        7: "Julio",
+        8: "Agosto",
+        9: "Septiembre",
+        10: "Octubre",
+        11: "Noviembre",
+        12: "Diciembre",
+    }
+    return meses.get(obj.mes, "—")
+mes.short_description = "Mes"
+
+def ZIP_ATS(obj):
+    url_zip = reverse('smartbusinesslaw:zip_ats', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.ventas_total}"  # ejemplo: mostrar total de ventas como valor del ATS
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+ZIP_ATS.short_description = "ATS"
+
+# ==================================================
+# RDEP
+# ==================================================
+def ZIP_RDEP(obj):
+    url_zip = reverse('smartbusinesslaw:zip_rdep', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.cantidad_empleados}" if obj.tiene_empleados else "0"
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>  </a>'
+    )
+ZIP_RDEP.short_description = "RDEP"
+
+# ==================================================
+# Dividendos
+# ==================================================
+def ZIP_Dividendos(obj):
+    url_zip = reverse('smartbusinesslaw:zip_dividendos', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.dividendo_pagado or 0}"  # mostrar monto de dividendos
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+ZIP_Dividendos.short_description = "ADI"
+
+# ==================================================
+# Partes Relacionadas
+# ==================================================
+def ZIP_PartesRelacionadas(obj):
+    url_zip = reverse('smartbusinesslaw:zip_partes_relacionadas', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.monto_operacion_parte_relacionada or 0}"  # monto de operaciones
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+ZIP_PartesRelacionadas.short_description = "OPR"
+
+# ==================================================
+# Conciliación Tributaria
+# ==================================================
+def ZIP_Conciliacion(obj):
+    url_zip = reverse('smartbusinesslaw:zip_conciliacion', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.utilidad_contable or 0}"  # mostrar utilidad contable
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+ZIP_Conciliacion.short_description = "Conciliación Tributaria"
+
+
+def ZIP_BENEFICIARIOS(obj):
+    url_zip = reverse('smartbusinesslaw:zip_beneficiarios_finales', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
+    display_value = f"{obj.dividendo_pagado or 0}"  # mostrar dividendo pagado como valor principal
+    return mark_safe(
+        f'<a href="{url_zip}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+ZIP_BENEFICIARIOS.short_description = "REBEFICS"
+
+
+
+from django.contrib import admin
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+from unfold.admin import ModelAdmin
+from django.template.loader import render_to_string
+
+from .models import SRI_AnexosTributarios
+
+# ===========================
+# COMPONENTES VISUALES (CARDS)
+# ===========================
+
+@register_component
+class ATSComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "ATS – Compras y Ventas"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Tipo comprobante compra", a.compras_tipo_comprobante],
+            ["ID proveedor", a.compras_id_proveedor],
+            ["Razón social proveedor", a.compras_razon_social_proveedor],
+            ["Fecha emisión", a.compras_fecha_emision],
+            ["Base IVA 0%", a.compras_base_iva_0],
+            ["Base gravada IVA", a.compras_base_iva],
+            ["IVA", a.compras_monto_iva],
+            ["Total compra", a.compras_total],
+            ["Ventas Base IVA 0%", a.ventas_base_iva_0],
+            ["Ventas Base gravada IVA", a.ventas_base_iva],
+            ["IVA ventas", a.ventas_monto_iva],
+            ["Total ventas", a.ventas_total],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "ATS – Compras y Ventas",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+@register_component
+class BeneficiariosComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Beneficiarios Finales"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = []
+
+        # Solo agregar si distribuyó dividendos
+        if a.distribuyo_dividendos:
+            rows.append(["Tipo identificación socio", a.socio_tipo_id])
+            rows.append(["Identificación socio", a.socio_identificacion])
+            rows.append(["Nombre socio", a.socio_nombre])
+            rows.append(["Porcentaje participación", a.socio_porcentaje_participacion])
+            rows.append(["Dividendo recibido", a.dividendo_pagado])
+            rows.append(["Impuesto retenido", a.impuesto_dividendo])
+        else:
+            rows.append(["No se distribuyeron dividendos", ""])
+
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Beneficiarios Finales",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+@register_component
+class RetencionesComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "ATS – Retenciones"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Código ret IR", a.retencion_ir_codigo],
+            ["% ret IR", a.retencion_ir_porcentaje],
+            ["Valor ret IR", a.retencion_ir_valor],
+            ["Código ret IVA", a.retencion_iva_codigo],
+            ["% ret IVA", a.retencion_iva_porcentaje],
+            ["Valor ret IVA", a.retencion_iva_valor],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "ATS – Retenciones",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class RDEPComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "RDEP – Relación de Dependencia"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Tiene empleados", a.tiene_empleados],
+            ["ID empleado", a.empleado_identificacion],
+            ["Nombre empleado", a.empleado_nombres],
+            ["Cargo", a.empleado_cargo],
+            ["Sueldo anual", a.empleado_sueldo_anual],
+            ["Aporte IESS", a.empleado_aporte_iess],
+            ["IR retenido", a.empleado_ir_retenido],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "RDEP – Relación de Dependencia",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class DividendosComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "ADI"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Distribuyó dividendos", a.distribuyo_dividendos],
+            ["ID socio", a.socio_identificacion],
+            ["Nombre socio", a.socio_nombre],
+            ["% participación", a.socio_porcentaje_participacion],
+            ["Dividendo pagado", a.dividendo_pagado],
+            ["Impuesto dividendos", a.impuesto_dividendo],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Dividendos",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class PartesRelacionadasComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Partes Relacionadas"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Tiene partes relacionadas", a.tiene_partes_relacionadas],
+            ["ID parte relacionada", a.parte_relacionada_identificacion],
+            ["Nombre parte relacionada", a.parte_relacionada_nombre],
+            ["Monto operación", a.monto_operacion_parte_relacionada],
+            ["Tipo operación", a.tipo_operacion],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Partes Relacionadas",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class ConciliacionTributariaComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Conciliación Tributaria"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        a = self.instance
+        rows = [
+            ["Utilidad contable", a.utilidad_contable],
+            ["Gastos no deducibles", a.gastos_no_deducibles],
+            ["Ingresos exentos", a.ingresos_exentos],
+            ["Base imponible IR", a.base_imponible],
+            ["Impuesto renta causado", a.impuesto_renta_causado],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Conciliación Tributaria",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+# ===========================
+# ADMIN DE SRI_AnexosTributarios
+# ===========================
+@admin.register(SRI_AnexosTributarios)
+class SRI_AnexosTributariosAdmin(ModelAdmin):
+
+    list_sections = [
+        ATSComponent,
+        RetencionesComponent,
+        RDEPComponent,
+        DividendosComponent,
+        PartesRelacionadasComponent,
+        ConciliacionTributariaComponent,
+        BeneficiariosComponent,  # <-- agregado
+    ]
+
+    fieldsets = (
+        ("I. Identificación contribuyente", {
+            "fields": (
+                "ruc", "razon_social", "ejercicio_fiscal", "mes", "obligado_contabilidad",
+            ),
+            "classes": ("unfold", "tab-identificacion"),
+        }),
+        ("II. ATS – Compras y Ventas", {
+            "fields": (
+                "compras_tipo_comprobante", "compras_tipo_id_proveedor", "compras_id_proveedor",
+                "compras_razon_social_proveedor", "compras_fecha_emision", "compras_establecimiento",
+                "compras_punto_emision", "compras_secuencial", "compras_autorizacion",
+                "compras_base_no_objeto_iva", "compras_base_iva_0", "compras_base_iva",
+                "compras_monto_iva", "compras_total", "ventas_tipo_id_cliente",
+                "ventas_id_cliente", "ventas_razon_social_cliente", "ventas_base_iva_0",
+                "ventas_base_iva", "ventas_monto_iva", "ventas_total",
+            ),
+            "classes": ("unfold", "tab-ats"),
+        }),
+        ("III. ATS – Retenciones", {
+            "fields": (
+                "retencion_ir_codigo", "retencion_ir_porcentaje", "retencion_ir_valor",
+                "retencion_iva_codigo", "retencion_iva_porcentaje", "retencion_iva_valor",
+            ),
+            "classes": ("unfold", "tab-retenciones"),
+        }),
+        ("IV. RDEP – Relación de Dependencia", {
+            "fields": (
+                "tiene_empleados", "empleado_tipo_id", "empleado_identificacion",
+                "empleado_nombres", "empleado_cargo", "empleado_sueldo_anual",
+                "empleado_aporte_iess", "empleado_ir_retenido",
+            ),
+            "classes": ("unfold", "tab-rdep"),
+        }),
+        ("VI. Partes Relacionadas", {
+            "fields": (
+                "tiene_partes_relacionadas", "parte_relacionada_identificacion",
+                "parte_relacionada_nombre", "monto_operacion_parte_relacionada", "tipo_operacion",
+            ),
+            "classes": ("unfold", "tab-partes"),
+        }),
+        ("VII. Conciliación Tributaria", {
+            "fields": (
+                "utilidad_contable", "gastos_no_deducibles", "ingresos_exentos",
+                "base_imponible", "impuesto_renta_causado",
+            ),
+            "classes": ("unfold", "tab-conciliacion"),
+        }),
+        ("VIII. Beneficiarios Finales", {  # <-- nuevo tab
+            "fields": (
+                "distribuyo_dividendos", "socio_tipo_id", "socio_identificacion", "socio_nombre",
+                "socio_porcentaje_participacion", "dividendo_pagado", "impuesto_dividendo",
+            ),
+            "classes": ("unfold", "tab-beneficiarios"),
+        }),
+        ("IX. Firmas y responsabilidad", {
+            "fields": ("representante_legal", "contador", "fecha_certificacion",),
+            "classes": ("unfold", "tab-firmas"),
+        }),
+    )
+    
+    list_display = (
+        "ejercicio_fiscal",
+        "mes",
+      
+        ZIP_ATS,
+        ZIP_Dividendos,
+        ZIP_RDEP,
+        ZIP_PartesRelacionadas,
+        ZIP_Conciliacion,
+        ZIP_BENEFICIARIOS,  # <-- agregado
+    )
+
+    list_filter = (
+        "ejercicio_fiscal", "mes", "obligado_contabilidad",
+    )
+
+    search_fields = (
+        "ruc", "razon_social",
+    )
+
+    unfold_fieldsets = True

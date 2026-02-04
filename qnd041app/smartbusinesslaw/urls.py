@@ -109,8 +109,33 @@ urlpatterns = [
         views.pdf_scvs_consolidado,
         name='pdf_scvs_consolidado'
     ),
-    
+
+        # ----------------------------
+    # Vistas XML SRI
+    # ----------------------------
+
+    # ==================================================
+    # Descarga ZIP Beneficiarios Finales
+    # ==================================================
+    path(
+        'beneficiarios/zip/<str:ruc>/<int:ejercicio>/<int:mes>/',
+        views.zip_beneficiarios_finales,
+        name='zip_beneficiarios_finales'
+    ),
+
+
+    path('zip/ats/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_ats, name='zip_ats'),
+    path('zip/rdep/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_rdep, name='zip_rdep'),
+    path('zip/dividendos/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_dividendos, name='zip_dividendos'),
+    path('zip/partes_relacionadas/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_partes_relacionadas, name='zip_partes_relacionadas'),
+    path('zip/conciliacion/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_conciliacion, name='zip_conciliacion'),
 ]
+
+    
+
+
+
+
 
 
 
