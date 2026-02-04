@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.contrib.admin.views.decorators import staff_member_required
 import weasyprint
 from .models import SPDP_ActaDelegado
+from .models import SCVS_ActasAsamblea
 
 
 import qrcode
@@ -415,7 +416,7 @@ def pdf_datos_generales(request, pk):
     # ----------------------------
     # Renderizar plantilla HTML
     # ----------------------------
-    html = render_to_string('smartbusinesslaw/pdf_datos_generales.html', {
+    html = render_to_string('scvs/pdf_datos_generales.html', {
         'reporte': reporte,
         'qr_url': qr_url,
     })
@@ -453,7 +454,7 @@ def pdf_balance(request, pk):
 
     # Renderizar plantilla HTML
     from django.template.loader import render_to_string
-    html = render_to_string('smartbusinesslaw/pdf_balance.html', {'reporte': reporte, 'qr_url': qr_url})
+    html = render_to_string('scvs/pdf_balance.html', {'reporte': reporte, 'qr_url': qr_url})
 
     # Crear PDF
     import weasyprint
@@ -479,7 +480,7 @@ def pdf_estado_resultados(request, pk):
     img.save(buffer, format="PNG")
     qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
 
-    html = render_to_string('smartbusinesslaw/pdf_estado_resultados.html', {'reporte': reporte, 'qr_url': qr_url})
+    html = render_to_string('scvs/pdf_estado_resultados.html', {'reporte': reporte, 'qr_url': qr_url})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="EstadoResultados_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
     weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
@@ -500,7 +501,7 @@ def pdf_cambios_patrimonio(request, pk):
     img.save(buffer, format="PNG")
     qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
 
-    html = render_to_string('smartbusinesslaw/pdf_cambios_patrimonio.html', {'reporte': reporte, 'qr_url': qr_url})
+    html = render_to_string('scvs/pdf_cambios_patrimonio.html', {'reporte': reporte, 'qr_url': qr_url})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="CambiosPatrimonio_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
     weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
@@ -521,7 +522,7 @@ def pdf_flujo_efectivo(request, pk):
     img.save(buffer, format="PNG")
     qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
 
-    html = render_to_string('smartbusinesslaw/pdf_flujo_efectivo.html', {'reporte': reporte, 'qr_url': qr_url})
+    html = render_to_string('scvs/pdf_flujo_efectivo.html', {'reporte': reporte, 'qr_url': qr_url})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="FlujoEfectivo_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
     weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
@@ -545,10 +546,171 @@ def pdf_anexos(request, pk):
     img.save(buffer, format="PNG")
     qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
 
-    html = render_to_string('smartbusinesslaw/pdf_anexos.html', {'reporte': reporte, 'qr_url': qr_url})
+    html = render_to_string('scvs/pdf_anexos.html', {'reporte': reporte, 'qr_url': qr_url})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="Anexos_{reporte.ruc}_{reporte.fiscal_year}.pdf"'
     weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
         response, stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')], presentational_hints=True
+    )
+    return response
+
+
+
+@staff_member_required
+def pdf_acta_junta(request, pk):
+    acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-ACTA-{acta.ejercicio_fiscal}-{acta.fecha_asamblea}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string(
+        'scvs/pdf_acta_junta.html',
+        {'acta': acta, 'qr_url': qr_url}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="ActaJunta_{acta.ejercicio_fiscal}.pdf"'
+    )
+
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_nomina_socios(request, pk):
+    acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-SOCIOS-{acta.socios_anio_fiscal}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string(
+        'scvs/pdf_nomina_socios.html',
+        {'acta': acta, 'qr_url': qr_url}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="NominaSocios_{acta.socios_anio_fiscal}.pdf"'
+    )
+
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_nomina_administradores(request, pk):
+    acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-ADMINS-{acta.admins_anio_fiscal}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string(
+        'scvs/pdf_nomina_administradores.html',
+        {'acta': acta, 'qr_url': qr_url}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="NominaAdministradores_{acta.admins_anio_fiscal}.pdf"'
+    )
+
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_informe_gerente(request, pk):
+    acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-GERENTE-{acta.gerente_anio_fiscal}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string(
+        'scvs/pdf_informe_gerente.html',
+        {'acta': acta, 'qr_url': qr_url}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="InformeGerente_{acta.gerente_anio_fiscal}.pdf"'
+    )
+
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
+    return response
+
+
+@staff_member_required
+def pdf_scvs_consolidado(request, pk):
+    acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+    qr_data = f"SCVS-CONSOLIDADO-{acta.ejercicio_fiscal}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_url = f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+
+    html = render_to_string(
+        'scvs/pdf_consolidado.html',
+        {'acta': acta, 'qr_url': qr_url}
+    )
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="SCVS_Consolidado_{acta.ejercicio_fiscal}.pdf"'
+    )
+
+    weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
     )
     return response

@@ -96,20 +96,518 @@ class SCVS_Estatutos(models.Model):
         verbose_name = "Estatuto SCVS"
         verbose_name_plural = "Estatutos SCVS"
 
+from django.db import models
+
 class SCVS_ActasAsamblea(models.Model):
-    regulacion = models.ForeignKey(Regulacion, on_delete=models.CASCADE, related_name='scvs_actas')
-    fecha_asamblea = models.DateField()
-    tema_tratado = models.TextField()
-    asistentes = models.TextField()
-    resultado = models.TextField()
-    archivo = models.FileField(upload_to='scvs/actas/', blank=True, null=True)
+
+    # =========================
+    # RELACIÓN REGULATORIA
+    # =========================
+    regulacion = models.ForeignKey(
+        'Regulacion',
+        on_delete=models.CASCADE,
+        related_name='scvs_actas',
+        verbose_name="Regulación asociada",
+        help_text="Regulación o proceso legal al que pertenece este conjunto documental SCVS."
+    )
+
+    # =====================================================
+    # A. DATOS GENERALES DE LA JUNTA
+    # =====================================================
+    tipo_junta = models.CharField(
+        "Tipo de junta",
+        max_length=20,
+        choices=[
+            ('ORDINARIA', 'Junta Ordinaria'),
+            ('EXTRAORDINARIA', 'Junta Extraordinaria'),
+            ('UNIVERSAL', 'Junta Universal'),
+        ],
+        null=True, blank=True,
+        help_text="Tipo de Junta General celebrada según la Ley de Compañías."
+    )
+
+    fecha_asamblea = models.DateField(
+        "Fecha de la asamblea",
+        null=True, blank=True,
+        help_text="Fecha en la que se celebró la Junta General."
+    )
+
+    hora_inicio = models.TimeField(
+        "Hora de inicio",
+        null=True, blank=True,
+        help_text="Hora de inicio formal de la Junta General."
+    )
+
+    hora_cierre = models.TimeField(
+        "Hora de cierre",
+        null=True, blank=True,
+        help_text="Hora de clausura de la Junta General."
+    )
+
+    lugar_asamblea = models.CharField(
+        "Lugar de la asamblea",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Ciudad y dirección donde se celebró la Junta General."
+    )
+
+    ejercicio_fiscal = models.PositiveIntegerField(
+        "Ejercicio fiscal",
+        null=True, blank=True,
+        help_text="Ejercicio económico al que corresponde la Junta General."
+    )
+
+    # =====================================================
+    # B. CONVOCATORIA
+    # =====================================================
+    forma_convocatoria = models.CharField(
+        "Forma de convocatoria",
+        max_length=50,
+        null=True, blank=True,
+        help_text="Medio utilizado para convocar a la Junta (prensa, correo, estatuto o universal)."
+    )
+
+    fecha_convocatoria = models.DateField(
+        "Fecha de convocatoria",
+        null=True, blank=True,
+        help_text="Fecha en la que se realizó la convocatoria formal."
+    )
+
+    medio_convocatoria = models.TextField(
+        "Medio de convocatoria",
+        null=True, blank=True,
+        help_text="Detalle del medio de convocatoria utilizado."
+    )
+
+    convocatoria_valida = models.BooleanField(
+        "Convocatoria válida",
+        null=True, blank=True,
+        help_text="Indica si la convocatoria cumple los requisitos legales."
+    )
+
+    # =====================================================
+    # C. QUÓRUM
+    # =====================================================
+    capital_suscrito_total = models.DecimalField(
+        "Capital suscrito total",
+        max_digits=18, decimal_places=2,
+        null=True, blank=True,
+        help_text="Capital suscrito total de la compañía."
+    )
+
+    capital_presente = models.DecimalField(
+        "Capital presente o representado",
+        max_digits=18, decimal_places=2,
+        null=True, blank=True,
+        help_text="Capital presente o debidamente representado en la Junta."
+    )
+
+    porcentaje_asistencia = models.DecimalField(
+        "Porcentaje de asistencia",
+        max_digits=5, decimal_places=2,
+        null=True, blank=True,
+        help_text="Porcentaje del capital presente respecto al total."
+    )
+
+    quorum_valido = models.BooleanField(
+        "Quórum válido",
+        null=True, blank=True,
+        help_text="Indica si se cumple el quórum legal para deliberar."
+    )
+
+    # =====================================================
+    # D. ASISTENTES
+    # =====================================================
+    socios_asistentes = models.TextField(
+        "Socios / Accionistas asistentes",
+        null=True, blank=True,
+        help_text="Listado detallado de socios o accionistas asistentes, con acciones y porcentajes."
+    )
+
+    administradores_asistentes = models.TextField(
+        "Administradores asistentes",
+        null=True, blank=True,
+        help_text="Listado de administradores presentes en la Junta."
+    )
+
+    # =====================================================
+    # E. DIRECTIVA DE LA JUNTA
+    # =====================================================
+    presidente_junta = models.CharField(
+        "Presidente de la Junta",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del presidente de la Junta General."
+    )
+
+    secretario_junta = models.CharField(
+        "Secretario de la Junta",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del secretario de la Junta General."
+    )
+
+    # =====================================================
+    # F. ORDEN DEL DÍA
+    # =====================================================
+    orden_dia = models.TextField(
+        "Orden del día",
+        null=True, blank=True,
+        help_text="Listado completo de los puntos tratados en la Junta."
+    )
+
+    # =====================================================
+    # G. DESARROLLO Y RESOLUCIONES
+    # =====================================================
+    desarrollo_junta = models.TextField(
+        "Desarrollo de la Junta",
+        null=True, blank=True,
+        help_text="Descripción del desarrollo de la Junta y deliberaciones."
+    )
+
+    resoluciones = models.TextField(
+        "Resoluciones adoptadas",
+        null=True, blank=True,
+        help_text="Detalle completo de las resoluciones aprobadas."
+    )
+
+    resultados_votacion = models.TextField(
+        "Resultados de votación",
+        null=True, blank=True,
+        help_text="Detalle de votos a favor, en contra y abstenciones."
+    )
+
+    # =====================================================
+    # H. INFORME DE GERENTE
+    # =====================================================
+    gerente_nombre = models.CharField(
+        "Nombre del gerente",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del Gerente General que rinde el informe."
+    )
+
+    informe_gerente = models.TextField(
+        "Informe del gerente",
+        null=True, blank=True,
+        help_text="Informe narrativo del gerente sobre la gestión del ejercicio fiscal."
+    )
+
+    # =====================================================
+    # I. CERTIFICACIÓN Y FIRMAS
+    # =====================================================
+    representante_legal = models.CharField(
+        "Representante legal",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del representante legal de la compañía."
+    )
+
+    abogado_patrocinador = models.CharField(
+        "Abogado patrocinador",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del abogado patrocinador que certifica el acta."
+    )
+
+    contador = models.CharField(
+        "Contador",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del contador responsable de la información financiera."
+    )
+
+    fecha_certificacion = models.DateField(
+        "Fecha de certificación",
+        null=True, blank=True,
+        help_text="Fecha en que el documento fue certificado y firmado."
+    )
+
+    # =====================================================
+    # ARCHIVO FINAL
+    # =====================================================
+    archivo = models.FileField(
+        "Archivo PDF",
+        upload_to='scvs/actas/',
+        null=True, blank=True,
+        help_text="Archivo PDF del acta firmada para subir a la SCVS."
+    )
+
+
+    # =====================================================
+    # J. NÓMINA DE SOCIOS / ACCIONISTAS (SCVS 3.1.3)
+    # =====================================================
+    socios_anio_fiscal = models.PositiveIntegerField(
+        "Año fiscal (Nómina de socios)",
+        null=True, blank=True,
+        help_text="Año fiscal al que corresponde la nómina de socios o accionistas."
+    )
+
+    socios_fecha_corte = models.DateField(
+        "Fecha de corte de la nómina",
+        null=True, blank=True,
+        help_text="Fecha de corte de la información de socios o accionistas."
+    )
+
+    socios_tipo_compania = models.CharField(
+        "Tipo de compañía",
+        max_length=10,
+        choices=[('SA', 'Sociedad Anónima'), ('LTDA', 'Compañía Limitada'), ('SAS', 'SAS')],
+        null=True, blank=True,
+        help_text="Tipo de compañía según su forma societaria."
+    )
+
+    socios_detalle = models.TextField(
+        "Detalle de socios / accionistas",
+        null=True, blank=True,
+        help_text=(
+            "Listado estructurado de socios o accionistas. "
+            "Debe incluir por cada socio: tipo de persona, nombres/razón social, "
+            "nacionalidad, tipo y número de identificación, número de acciones o participaciones, "
+            "valor nominal, porcentaje de participación, tipo de aporte, capital suscrito y pagado."
+        )
+    )
+
+    socios_total_numero = models.PositiveIntegerField(
+        "Total de socios / accionistas",
+        null=True, blank=True,
+        help_text="Número total de socios o accionistas registrados."
+    )
+
+    socios_capital_suscrito_total = models.DecimalField(
+        "Capital suscrito total (socios)",
+        max_digits=18, decimal_places=2,
+        null=True, blank=True,
+        help_text="Capital suscrito total según la nómina de socios."
+    )
+
+    socios_capital_pagado_total = models.DecimalField(
+        "Capital pagado total (socios)",
+        max_digits=18, decimal_places=2,
+        null=True, blank=True,
+        help_text="Capital efectivamente pagado según la nómina de socios."
+    )
+
+    socios_representante_legal = models.CharField(
+        "Representante legal (socios)",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del representante legal que certifica la nómina de socios."
+    )
+
+    socios_contador = models.CharField(
+        "Contador (socios)",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del contador responsable de certificar la nómina de socios."
+    )
+
+    socios_fecha_certificacion = models.DateField(
+        "Fecha de certificación (socios)",
+        null=True, blank=True,
+        help_text="Fecha de certificación de la nómina de socios."
+    )
+
+
+
+    # =====================================================
+    # K. NÓMINA DE ADMINISTRADORES (SCVS 3.1.8)
+    # =====================================================
+    admins_anio_fiscal = models.PositiveIntegerField(
+        "Año fiscal (administradores)",
+        null=True, blank=True,
+        help_text="Año fiscal al que corresponde la nómina de administradores."
+    )
+
+    admins_fecha_vigencia = models.DateField(
+        "Fecha de vigencia del nombramiento",
+        null=True, blank=True,
+        help_text="Fecha desde la cual se encuentra vigente el nombramiento de los administradores."
+    )
+
+    admins_detalle = models.TextField(
+        "Detalle de administradores",
+        null=True, blank=True,
+        help_text=(
+            "Listado estructurado de administradores. "
+            "Debe incluir: nombres, tipo y número de identificación, cargo, "
+            "fecha de inicio y fin de funciones, forma de designación, nacionalidad."
+        )
+    )
+
+    admins_representante_legal_vigente = models.BooleanField(
+        "Representante legal vigente",
+        null=True, blank=True,
+        help_text="Indica si el representante legal consta como vigente en la nómina."
+    )
+
+    admins_observaciones = models.TextField(
+        "Observaciones (administradores)",
+        null=True, blank=True,
+        help_text="Observaciones adicionales relacionadas con la nómina de administradores."
+    )
+
+    admins_representante_legal = models.CharField(
+        "Representante legal (administradores)",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del representante legal que certifica la nómina de administradores."
+    )
+
+    admins_secretario = models.CharField(
+        "Secretario de la compañía",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del secretario que certifica la nómina de administradores."
+    )
+
+    admins_fecha_certificacion = models.DateField(
+        "Fecha de certificación (administradores)",
+        null=True, blank=True,
+        help_text="Fecha de certificación de la nómina de administradores."
+    )
+
+
+    # =====================================================
+    # L. INFORME DE GERENTE (SCVS 3.1.5)
+    # =====================================================
+    gerente_anio_fiscal = models.PositiveIntegerField(
+        "Año fiscal (informe del gerente)",
+        null=True, blank=True,
+        help_text="Año fiscal al que corresponde el informe del gerente."
+    )
+
+    gerente_nombre = models.CharField(
+        "Nombre del gerente general",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del Gerente General que emite el informe."
+    )
+
+    gerente_cargo = models.CharField(
+        "Cargo del gerente",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Cargo oficial del gerente general."
+    )
+
+    gerente_periodo_informado = models.CharField(
+        "Periodo informado",
+        max_length=100,
+        null=True, blank=True,
+        help_text="Periodo que cubre el informe del gerente."
+    )
+
+    gerente_introduccion = models.TextField(
+        "Introducción del informe",
+        null=True, blank=True,
+        help_text="Introducción general del informe del gerente."
+    )
+
+    gerente_situacion_financiera = models.TextField(
+        "Situación financiera",
+        null=True, blank=True,
+        help_text="Descripción de la situación financiera de la compañía."
+    )
+
+    gerente_desempeno_operativo = models.TextField(
+        "Desempeño operativo",
+        null=True, blank=True,
+        help_text="Análisis del desempeño operativo del ejercicio."
+    )
+
+    gerente_objeto_social = models.TextField(
+        "Cumplimiento del objeto social",
+        null=True, blank=True,
+        help_text="Evaluación del cumplimiento del objeto social de la compañía."
+    )
+
+    gerente_decisiones = models.TextField(
+        "Decisiones administrativas",
+        null=True, blank=True,
+        help_text="Principales decisiones administrativas adoptadas durante el ejercicio."
+    )
+
+    gerente_eventos_relevantes = models.TextField(
+        "Eventos relevantes",
+        null=True, blank=True,
+        help_text="Eventos relevantes ocurridos durante el ejercicio fiscal."
+    )
+
+    gerente_riesgos = models.TextField(
+        "Riesgos y contingencias",
+        null=True, blank=True,
+        help_text="Riesgos y contingencias identificados por la gerencia."
+    )
+
+    gerente_cumplimiento_legal = models.TextField(
+        "Cumplimiento normativo",
+        null=True, blank=True,
+        help_text="Declaración de cumplimiento normativo y legal."
+    )
+
+    gerente_proyecciones = models.TextField(
+        "Perspectivas futuras",
+        null=True, blank=True,
+        help_text="Perspectivas y proyecciones futuras de la compañía."
+    )
+
+    gerente_conclusion = models.TextField(
+        "Conclusión",
+        null=True, blank=True,
+        help_text="Conclusión final del informe del gerente."
+    )
+
+    gerente_declaracion_responsabilidad = models.TextField(
+        "Declaración de responsabilidad",
+        null=True, blank=True,
+        help_text="Declaración expresa de responsabilidad del gerente general."
+    )
+
+    gerente_firma = models.CharField(
+        "Firma del gerente general",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del gerente general que firma el informe."
+    )
+
+    gerente_representante_legal = models.CharField(
+        "Representante legal (informe gerente)",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del representante legal que suscribe el informe del gerente."
+    )
+
+    gerente_abogado = models.CharField(
+        "Abogado patrocinador",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre del abogado patrocinador del informe del gerente."
+    )
+
+    gerente_fecha_emision = models.DateField(
+        "Fecha de emisión del informe",
+        null=True, blank=True,
+        help_text="Fecha de emisión del informe del gerente."
+    )
+
+
+    # =====================================================
+    # METADATA
+    # =====================================================
+    created_at = models.DateTimeField("Fecha de creación", auto_now_add=True,null=True, blank=True)
+    updated_at = models.DateTimeField("Última actualización", auto_now=True,null=True, blank=True)
 
     def get_document_name(self):
-        return f"ActaAsamblea_{self.fecha_asamblea.strftime('%Y%m%d')}"
+        return f"ActaJuntaSCVS_{self.fecha_asamblea.strftime('%Y%m%d') if self.fecha_asamblea else 'SIN_FECHA'}"
 
     class Meta:
-        verbose_name = "Acta de Asamblea SCVS"
-        verbose_name_plural = "Actas de Asamblea SCVS"
+        verbose_name = "Acta de Junta General SCVS"
+        verbose_name_plural = "Actas de Junta General SCVS"
+
+    def __str__(self):
+        return self.get_document_name()
+
 
 
 

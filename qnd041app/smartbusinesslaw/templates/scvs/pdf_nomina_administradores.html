@@ -1,0 +1,75 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}">
+    </div>
+
+    <div class="header-center">
+        SCVS-ADMINS-{{ acta.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Ecuador, {{ acta.admins_fecha_certificacion|date:"d" }} de
+            {{ acta.admins_fecha_certificacion|date:"F" }} de
+            {{ acta.admins_fecha_certificacion|date:"Y" }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>NÓMINA DE ADMINISTRADORES</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+        De conformidad con la Ley de Compañías y las resoluciones de la
+        Superintendencia de Compañías, Valores y Seguros, se presenta
+        la Nómina de Administradores correspondiente al ejercicio fiscal
+        {{ acta.admins_anio_fiscal }}.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Vigencia del Nombramiento</h3>
+    <p>
+        <strong>Fecha de vigencia:</strong> {{ acta.admins_fecha_vigencia|date:"d/m/Y" }}<br>
+        <strong>Representante legal vigente:</strong>
+        {% if acta.admins_representante_legal_vigente %}Sí{% else %}No{% endif %}
+    </p>
+
+    <h3>2. Detalle de Administradores</h3>
+    <p>{{ acta.admins_detalle|linebreaks }}</p>
+
+    <h3>3. Observaciones</h3>
+    <p>{{ acta.admins_observaciones|default:"Sin observaciones." }}</p>
+
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN</strong></h3>
+
+<div class="certificaciones">
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>REPRESENTANTE LEGAL</strong><br>{{ acta.admins_representante_legal }}</p>
+        </div>
+
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>SECRETARIO</strong><br>{{ acta.admins_secretario }}</p>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 SmartQuail, Inc. Todos los derechos reservados.</p>
+</footer>

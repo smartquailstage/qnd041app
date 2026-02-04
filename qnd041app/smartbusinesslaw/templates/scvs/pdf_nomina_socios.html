@@ -1,0 +1,87 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        SCVS-SOCIOS-{{ acta.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Ecuador, {{ acta.socios_fecha_certificacion|date:"d" }} de
+            {{ acta.socios_fecha_certificacion|date:"F" }} de
+            {{ acta.socios_fecha_certificacion|date:"Y" }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>NÓMINA DE SOCIOS / ACCIONISTAS</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+        En cumplimiento de la Ley de Compañías y las disposiciones emitidas por la
+        Superintendencia de Compañías, Valores y Seguros, se presenta la Nómina
+        de Socios / Accionistas correspondiente al ejercicio fiscal
+        <strong>{{ acta.socios_anio_fiscal }}</strong>,
+        con fecha de corte
+        <strong>{{ acta.socios_fecha_corte|date:"d/m/Y" }}</strong>.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Información General</h3>
+    <p>
+        <strong>Tipo de compañía:</strong> {{ acta.socios_tipo_compania }}<br>
+        <strong>Total de socios / accionistas:</strong> {{ acta.socios_total_numero }}<br>
+        <strong>Capital suscrito total:</strong> USD {{ acta.socios_capital_suscrito_total }}<br>
+        <strong>Capital pagado total:</strong> USD {{ acta.socios_capital_pagado_total }}
+    </p>
+
+    <h3>2. Detalle de Socios / Accionistas</h3>
+    <p>
+        {{ acta.socios_detalle|linebreaks }}
+    </p>
+
+    <h3>3. Certificación</h3>
+    <p>
+        Certificamos que la presente nómina refleja fielmente la información
+        constante en el libro de acciones y participaciones de la compañía,
+        y se emite para los fines legales correspondientes.
+    </p>
+
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN</strong></h3>
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>{{ acta.regulacion.razon_social|default:"SMARTQUAIL S.A.S." }}</strong></p>
+    </div>
+
+    <div class="cert-right">
+
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p>
+                <strong>SECRETARIO AD–HOC</strong><br>
+                {{ acta.secretario_junta }}
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>

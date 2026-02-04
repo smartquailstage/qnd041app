@@ -582,6 +582,64 @@ class SCVS_EstatutosAdmin(ModelAdmin):
     list_filter = ('fecha_aprobacion', 'regulacion')
     unfold_fieldsets = True
 
+
+def SCVS_ActaJunta(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_acta_junta', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_ActaJunta.short_description = "Acta Junta"
+
+
+
+def SCVS_NominaSocios(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_nomina_socios', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_NominaSocios.short_description = "Nómina Socios"
+
+
+
+def SCVS_NominaAdministradores(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_nomina_administradores', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_NominaAdministradores.short_description = "Nómina Administradores"
+
+
+def SCVS_InformeGerente(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_informe_gerente', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_InformeGerente.short_description = "Informe Gerente"
+
+
+def SCVS_BalanceGeneral(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_balance', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_BalanceGeneral.short_description = "Balance General"
+
+
+def SCVS_EstadoResultados(obj):
+    url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
+    return mark_safe(
+        f'<a href="{url_pdf}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+    )
+SCVS_EstadoResultados.short_description = "Estado Resultados"
+
+
+
 # ===========================
 # SPDP_ActaDelegado Admin
 # ===========================
@@ -590,6 +648,8 @@ class SPDP_ActaDelegadoAdmin(ModelAdmin):
     list_sections = [
     ActaDelegadoComponent,ActaIncidenteComponent,
     ]
+
+
 
 
     fieldsets = (
@@ -764,4 +824,352 @@ class IESS_AportesAdmin(ModelAdmin):
     )
     list_display = ('empleado', 'periodo', 'monto', 'fecha_pago', 'regulacion')
     list_filter = ('periodo', 'regulacion')
+    unfold_fieldsets = True
+
+
+
+from .models import SCVS_ActasAsamblea
+
+
+@register_component
+class ActaJuntaGeneralComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Acta de Junta General"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance
+
+        rows = [
+            ["Tipo de junta", a.tipo_junta],
+            ["Fecha de asamblea", a.fecha_asamblea],
+            ["Hora de inicio", a.hora_inicio],
+            ["Hora de cierre", a.hora_cierre],
+            ["Lugar", a.lugar_asamblea],
+            ["Ejercicio fiscal", a.ejercicio_fiscal],
+            ["Forma de convocatoria", a.forma_convocatoria],
+            ["Fecha de convocatoria", a.fecha_convocatoria],
+            ["Quórum válido", "Sí" if a.quorum_valido else "No"],
+            ["Capital presente", a.capital_presente],
+            ["Porcentaje asistencia", a.porcentaje_asistencia],
+            ["Presidente", a.presidente_junta],
+            ["Secretario", a.secretario_junta],
+            ["Orden del día", a.orden_dia],
+            ["Resoluciones", a.resoluciones],
+        ]
+
+        context.update({
+            "title": "Acta de Junta General",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class NominaSociosComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Nómina de Socios / Accionistas"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance
+
+        rows = [
+            ["Año fiscal", a.socios_anio_fiscal],
+            ["Fecha de corte", a.socios_fecha_corte],
+            ["Tipo de compañía", a.socios_tipo_compania],
+            ["Detalle de socios", a.socios_detalle],
+            ["Total socios", a.socios_total_numero],
+            ["Capital suscrito total", a.socios_capital_suscrito_total],
+            ["Capital pagado total", a.socios_capital_pagado_total],
+            ["Representante legal", a.socios_representante_legal],
+            ["Contador", a.socios_contador],
+            ["Fecha certificación", a.socios_fecha_certificacion],
+        ]
+
+        context.update({
+            "title": "Nómina de Socios / Accionistas (SCVS 3.1.3)",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+@register_component
+class NominaAdministradoresComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Nómina de Administradores"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance
+
+        rows = [
+            ["Año fiscal", a.admins_anio_fiscal],
+            ["Fecha vigencia", a.admins_fecha_vigencia],
+            ["Detalle administradores", a.admins_detalle],
+            ["Representante legal vigente", "Sí" if a.admins_representante_legal_vigente else "No"],
+            ["Observaciones", a.admins_observaciones],
+            ["Representante legal", a.admins_representante_legal],
+            ["Secretario", a.admins_secretario],
+            ["Fecha certificación", a.admins_fecha_certificacion],
+        ]
+
+        context.update({
+            "title": "Nómina de Administradores (SCVS 3.1.8)",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+
+@register_component
+class InformeGerenteComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Informe de Gerente General"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance
+
+        rows = [
+            ["Año fiscal", a.gerente_anio_fiscal],
+            ["Gerente general", a.gerente_nombre],
+            ["Cargo", a.gerente_cargo],
+            ["Periodo informado", a.gerente_periodo_informado],
+            ["Introducción", a.gerente_introduccion],
+            ["Situación financiera", a.gerente_situacion_financiera],
+            ["Desempeño operativo", a.gerente_desempeno_operativo],
+            ["Eventos relevantes", a.gerente_eventos_relevantes],
+            ["Riesgos", a.gerente_riesgos],
+            ["Cumplimiento legal", a.gerente_cumplimiento_legal],
+            ["Proyecciones", a.gerente_proyecciones],
+            ["Conclusión", a.gerente_conclusion],
+            ["Declaración de responsabilidad", a.gerente_declaracion_responsabilidad],
+            ["Gerente firmante", a.gerente_firma],
+            ["Representante legal", a.gerente_representante_legal],
+            ["Abogado patrocinador", a.gerente_abogado],
+            ["Fecha emisión", a.gerente_fecha_emision],
+        ]
+
+        context.update({
+            "title": "Informe de Gerente (SCVS 3.1.5)",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class SCVSChecklistComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Checklist Documental SCVS"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = self.instance
+
+        rows = [
+            ["Acta de Junta", "✔️" if a.fecha_asamblea else "❌"],
+            ["Nómina de Socios", "✔️" if a.socios_detalle else "❌"],
+            ["Nómina de Administradores", "✔️" if a.admins_detalle else "❌"],
+            ["Informe de Gerente", "✔️" if a.gerente_introduccion else "❌"],
+            ["Archivo PDF cargado", "✔️" if a.archivo else "❌"],
+        ]
+
+        context.update({
+            "title": "Checklist SCVS",
+            "table": {"headers": ["Documento", "Estado"], "rows": rows}
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+
+from .models import SCVS_ActasAsamblea
+
+# ===========================
+# SCVS_ActasAsamblea Admin
+# ===========================
+@admin.register(SCVS_ActasAsamblea)
+class SCVS_ActasAsambleaAdmin(ModelAdmin):
+
+    # ----------------------------------
+    # Componentes visuales (cards)
+    # ----------------------------------
+    list_sections = [
+        SCVSChecklistComponent,
+        ActaJuntaGeneralComponent,
+        NominaSociosComponent,
+        NominaAdministradoresComponent,
+        InformeGerenteComponent,
+    ]
+
+    fieldsets = (
+
+        # ---------------------------------------------------
+        # 1. ACTA DE JUNTA GENERAL (SCVS 3.1.N)
+        # ---------------------------------------------------
+        ('Acta de Junta General de Socios / Accionistas', {
+            'fields': (
+                'regulacion',
+                'tipo_junta',
+                'fecha_asamblea',
+                'hora_inicio',
+                'hora_cierre',
+                'lugar_asamblea',
+                'ejercicio_fiscal',
+                'forma_convocatoria',
+                'fecha_convocatoria',
+                'quorum_valido',
+                'capital_presente',
+                'porcentaje_asistencia',
+                'presidente_junta',
+                'secretario_junta',
+                'orden_dia',
+                'resoluciones',
+            ),
+            'classes': ('unfold', 'tab-acta'),
+        }),
+
+        # ---------------------------------------------------
+        # 2. NÓMINA DE SOCIOS / ACCIONISTAS (SCVS 3.1.3)
+        # ---------------------------------------------------
+        ('Nómina de Socios / Accionistas', {
+            'fields': (
+                'socios_anio_fiscal',
+                'socios_fecha_corte',
+                'socios_tipo_compania',
+                'socios_detalle',
+                'socios_total_numero',
+                'socios_capital_suscrito_total',
+                'socios_capital_pagado_total',
+                'socios_representante_legal',
+                'socios_contador',
+                'socios_fecha_certificacion',
+            ),
+            'classes': ('unfold', 'tab-socios'),
+        }),
+
+        # ---------------------------------------------------
+        # 3. NÓMINA DE ADMINISTRADORES (SCVS 3.1.8)
+        # ---------------------------------------------------
+        ('Nómina de Administradores', {
+            'fields': (
+                'admins_anio_fiscal',
+                'admins_fecha_vigencia',
+                'admins_detalle',
+                'admins_representante_legal_vigente',
+                'admins_observaciones',
+                'admins_representante_legal',
+                'admins_secretario',
+                'admins_fecha_certificacion',
+            ),
+            'classes': ('unfold', 'tab-administradores'),
+        }),
+
+        # ---------------------------------------------------
+        # 4. INFORME DE GERENTE GENERAL (SCVS 3.1.5)
+        # ---------------------------------------------------
+        ('Informe de Gerente General', {
+            'fields': (
+                'gerente_anio_fiscal',
+                'gerente_nombre',
+                'gerente_cargo',
+                'gerente_periodo_informado',
+                'gerente_introduccion',
+                'gerente_situacion_financiera',
+                'gerente_desempeno_operativo',
+                'gerente_eventos_relevantes',
+                'gerente_riesgos',
+                'gerente_cumplimiento_legal',
+                'gerente_proyecciones',
+                'gerente_conclusion',
+                'gerente_declaracion_responsabilidad',
+                'gerente_firma',
+                'gerente_representante_legal',
+                'gerente_abogado',
+                'gerente_fecha_emision',
+            ),
+            'classes': ('unfold', 'tab-gerente'),
+        }),
+
+        # ---------------------------------------------------
+        # 5. ARCHIVOS Y CONTROL
+        # ---------------------------------------------------
+        ('Control y Documentos', {
+            'fields': (
+                'archivo',
+            ),
+            'classes': ('unfold', 'tab-control'),
+        }),
+    )
+
+    # -------------------------
+    # Listado principal
+    # -------------------------
+    list_display = (
+    'ejercicio_fiscal',
+    # --- Documentos SCVS (PDF) ---
+    SCVS_ActaJunta,                # 3.1.N Acta de Junta General
+    SCVS_NominaSocios,             # 3.1.3 Nómina de Socios / Accionistas
+    SCVS_NominaAdministradores,    # 3.1.8 Nómina de Administradores
+    SCVS_InformeGerente,           # 3.1.5 Informe de Gerente
+    SCVS_BalanceGeneral,           # 3.1.1 Balance General
+    )
+
+
+    list_filter = (
+        'ejercicio_fiscal',
+        'tipo_junta',
+        'socios_tipo_compania',
+        'admins_representante_legal_vigente',
+        'regulacion',
+    )
+
+    search_fields = (
+        'presidente_junta',
+        'secretario_junta',
+        'gerente_nombre',
+        'socios_detalle',
+        'admins_detalle',
+    )
+
+
     unfold_fieldsets = True

@@ -441,6 +441,16 @@ UNFOLD = {
 
 
             {
+                "title": _("Informes/Actas SCVS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
                 "title": _("Anexos SRI"),
                 "icon": "inbox",
                 "link": reverse_lazy("admin:usuarios_mensaje_changelist"),

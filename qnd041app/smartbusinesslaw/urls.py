@@ -64,7 +64,54 @@ urlpatterns = [
 
     # ---------- PDF Anexos SCVS ----------
     path('pdf/anexos/<int:pk>/', views.pdf_anexos, name='pdf_anexos'),
+
+    # --------------------------------------------------
+    # ACTA DE JUNTA GENERAL (SCVS 3.1.N)
+    # --------------------------------------------------
+    path(
+        'pdf/acta-junta/<int:pk>/',
+        views.pdf_acta_junta,
+        name='pdf_acta_junta'
+    ),
+
+    # --------------------------------------------------
+    # NÓMINA DE SOCIOS / ACCIONISTAS (SCVS 3.1.3)
+    # --------------------------------------------------
+    path(
+        'pdf/nomina-socios/<int:pk>/',
+        views.pdf_nomina_socios,
+        name='pdf_nomina_socios'
+    ),
+
+    # --------------------------------------------------
+    # NÓMINA DE ADMINISTRADORES (SCVS 3.1.8)
+    # --------------------------------------------------
+    path(
+        'pdf/nomina-administradores/<int:pk>/',
+        views.pdf_nomina_administradores,
+        name='pdf_nomina_administradores'
+    ),
+
+    # --------------------------------------------------
+    # INFORME DE GERENTE (SCVS 3.1.5)
+    # --------------------------------------------------
+    path(
+        'pdf/informe-gerente/<int:pk>/',
+        views.pdf_informe_gerente,
+        name='pdf_informe_gerente'
+    ),
+
+    # --------------------------------------------------
+    # CONSOLIDADO INTERNO (OPCIONAL)
+    # --------------------------------------------------
+    path(
+        'pdf/consolidado/<int:pk>/',
+        views.pdf_scvs_consolidado,
+        name='pdf_scvs_consolidado'
+    ),
+    
 ]
+
 
 
 

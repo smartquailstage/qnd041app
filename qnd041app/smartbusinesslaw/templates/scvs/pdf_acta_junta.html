@@ -1,0 +1,195 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        ACTA No. {{ acta.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito,
+            {{ acta.fecha_asamblea|date:"d" }} de
+            {{ acta.fecha_asamblea|date:"F" }} de
+            {{ acta.fecha_asamblea|date:"Y" }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>ACTA DE ASAMBLEA UNIPERSONAL DE ACCIONISTA</h2>
+    <p><strong>{{ acta.regulacion.razon_social|default:"SMARTQUAIL S.A.S." }}</strong></p>
+</div>
+
+<div class="preambulo">
+    <p>
+        En la ciudad de <strong>{{ acta.lugar_asamblea }}</strong>, a los
+        {{ acta.fecha_asamblea|date:"d" }} días del mes de
+        {{ acta.fecha_asamblea|date:"F" }} de
+        {{ acta.fecha_asamblea|date:"Y" }},
+        siendo las {{ acta.hora_inicio }},
+        en las oficinas de la compañía, se reúne la totalidad del capital social,
+        conformado por el accionista único, conforme consta en el libro de acciones
+        de la compañía.
+    </p>
+
+    <p>
+        Comparece el accionista único <strong>{{ acta.socios_asistentes }}</strong>,
+        propietario del <strong>100% del capital social suscrito y pagado</strong>,
+        quien resuelve celebrar la presente
+        <strong>Asamblea Unipersonal de Accionista</strong>.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Instalación de la Asamblea</h3>
+    <p>
+        El accionista único de la compañía procede a designar, conforme a derecho,
+        como <strong>Presidente Ad–Hoc</strong> de la Asamblea a
+        <strong>{{ acta.presidente_junta }}</strong>, y como
+        <strong>Secretario Ad–Hoc</strong> a
+        <strong>{{ acta.secretario_junta }}</strong>, quienes aceptan el encargo
+        y asumen sus funciones de conformidad con lo dispuesto en la Ley de Compañías
+        y el estatuto social vigente.
+    </p>
+
+
+
+    <p>
+        Acto seguido, la Presidencia solicita a la Secretaría certificar la hora
+        y verificar el quórum de instalación, frente a lo cual la Secretaría deja
+        constancia que siendo las {{ acta.hora_inicio }},
+        se encuentra presente el accionista único que representa el
+        <strong>cien por ciento (100%) del capital social suscrito y pagado</strong>
+        de la compañía, por lo que se declara válidamente instalada la
+        <strong>Asamblea Unipersonal de Accionista</strong>,
+        con plena capacidad para deliberar y resolver sobre los asuntos sometidos
+        a su conocimiento.
+    </p>
+
+</div>
+<div class="clausulas">
+    <h3>2. Orden del Día</h3>
+    <p>
+        La Presidencia pone en conocimiento del accionista el siguiente
+        <strong>Orden del Día</strong>:
+    </p>
+
+    <p>
+        {{ acta.orden_dia|linebreaks }}
+    </p>
+
+    <p>
+        El Orden del Día es conocido y aprobado en su integridad por unanimidad
+        del accionista único, dejándose expresa constancia de la obligación de
+        confidencialidad respecto de los asuntos tratados y de la información
+        conocida en el desarrollo de la presente Asamblea.
+    </p>
+</div>
+<div class="clausulas">
+    <h3>3. Conocimiento y Resolución sobre los Estados Financieros</h3>
+    <p>
+        En cumplimiento de lo dispuesto en la Ley de Compañías, se ponen a
+        consideración del accionista único las Cuentas, el Balance General,
+        el Estado de Resultados, así como el Informe de la Administración,
+        correspondientes al ejercicio económico concluido el
+        treinta y uno (31) de diciembre de {{ acta.ejercicio_fiscal }},
+        documentos que fueron oportunamente puestos a disposición del accionista
+        para su revisión y análisis.
+    </p>
+
+    <p>
+        Luego de efectuado el examen respectivo, la
+        <strong>Asamblea Unipersonal de Accionista</strong>
+        resuelve <strong>aprobar por unanimidad y sin observaciones</strong>
+        los referidos estados financieros y el informe de administración,
+        dejándose constancia de su conformidad con la situación económica,
+        financiera y patrimonial de la compañía.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>4. Resolución sobre el Destino del Resultado del Ejercicio</h3>
+    <p>
+        El Presidente Ad–Hoc informa que el ejercicio económico correspondiente
+        al año {{ acta.ejercicio_fiscal }} arrojó utilidad líquida.
+        En consecuencia, se somete a consideración del accionista único
+        la resolución sobre el destino del resultado del ejercicio.
+    </p>
+
+    <p>
+        Luego del análisis respectivo, la Asamblea Unipersonal de Accionista
+        resuelve por unanimidad que la totalidad de la utilidad líquida del ejercicio
+        sea destinada a la cuenta de
+        <strong>utilidades acumuladas</strong> de la compañía,
+        de conformidad con lo previsto en la Ley de Compañías y el estatuto social.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>5. Clausura de la Asamblea</h3>
+    <p>
+        No habiendo otros asuntos que tratar y una vez agotado el Orden del Día,
+        se dispone un receso para la elaboración de la presente acta.
+        Reinstalada la sesión, se da lectura íntegra a la misma,
+        la cual es aprobada por unanimidad del accionista único,
+        sin observaciones ni objeciones.
+    </p>
+
+    <p>
+        En consecuencia, se declara formalmente clausurada la
+        <strong>Asamblea Unipersonal de Accionista</strong>
+        siendo las {{ acta.hora_cierre }},
+        para constancia de lo actuado, firmando el Presidente Ad–Hoc
+        y el Secretario Ad–Hoc en unidad de acto.
+    </p>
+
+</div>
+
+
+<hr>
+
+<h3><strong>CERTIFICACIÓN</strong></h3>
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>{{ acta.regulacion.razon_social|default:"SMARTQUAIL S.A.S." }}</strong></p>
+    </div>
+
+    <div class="cert-right">
+
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p>
+                <strong>SECRETARIO AD–HOC</strong><br>
+                {{ acta.secretario_junta }}
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<hr>
+
+<div class="contract-note">
+    <strong>TOKEN ID DELEGADO: {{ delegado.hash_incidente }}</strong>
+</div>
+
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>
