@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cheque de Sueldo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+        }
+
+        .cheque {
+            border: 2px solid #000;
+            padding: 15px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .empresa {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td {
+            padding: 4px;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .firma {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cheque">
+
+    <div class="header">
+        <div>
+            <div class="empresa">{{ nomina.razon_social }}</div>
+            <div>RUC: {{ nomina.ruc_empleador }}</div>
+            <div>Período: {{ nomina.mes }}/{{ nomina.anio }}</div>
+        </div>
+        <div>
+            <img src="{{ qr_url }}" alt="QR">
+        </div>
+    </div>
+
+    <hr>
+
+    <p>
+        <strong>Empleado:</strong> {{ nomina.apellidos }} {{ nomina.nombres }}<br>
+        <strong>Cédula:</strong> {{ nomina.cedula_empleado }}<br>
+        <strong>Contrato:</strong> {{ nomina.tipo_contrato }}
+    </p>
+
+    <table>
+        <tr>
+            <td>Sueldo base</td>
+            <td class="right">{{ nomina.sueldo_base }}</td>
+        </tr>
+        <tr>
+            <td>Horas extra</td>
+            <td class="right">{{ nomina.horas_extra }}</td>
+        </tr>
+        <tr>
+            <td>Otros ingresos</td>
+            <td class="right">{{ nomina.otros_ingresos }}</td>
+        </tr>
+        <tr>
+            <td>Décimos</td>
+            <td class="right">
+                {{ nomina.decimo_tercero|default:"0.00" }} +
+                {{ nomina.decimo_cuarto|default:"0.00" }}
+            </td>
+        </tr>
+        <tr>
+            <td>Aporte IESS (9.45%)</td>
+            <td class="right">- {{ nomina.aporte_iess_trabajador }}</td>
+        </tr>
+        <tr>
+            <th>NETO A PAGAR</th>
+            <th class="right">{{ nomina.sueldo_a_pagar }}</th>
+        </tr>
+    </table>
+
+    <div class="firma">
+        _______________________________<br>
+        Firma del trabajador
+    </div>
+
+</div>
+
+</body>
+</html>

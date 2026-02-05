@@ -463,12 +463,28 @@ UNFOLD = {
             {
                 "title": _("Declaraciones SRI"),
                 "icon": "inbox",
-                "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
+                "link": reverse_lazy("admin:smartbusinesslaw_sri_declaracionimpuestos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+            {
+                "title": _("Contratos MT"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_contratolaboral_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
 
+            {
+                "title": _("Nomina IESS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
 
         ],
     },

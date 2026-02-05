@@ -4,3 +4,4 @@ from django.apps import AppConfig
 class SmartbusinesslawConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'smartbusinesslaw'
+    verbose_name = "SmartBusinessLaw (I+D)"

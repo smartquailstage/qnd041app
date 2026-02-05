@@ -1,0 +1,16 @@
+{% extends "pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>ESTADO DE CAMBIOS EN EL PATRIMONIO</h2>
+</div>
+
+<div class="clausulas">
+    <p>
+        Saldo inicial: {{ reporte.equity_opening_balance }}<br>
+        Incrementos: {{ reporte.equity_increases }}<br>
+        Disminuciones: {{ reporte.equity_decreases }}<br>
+        <strong>Saldo final:</strong> {{ reporte.equity_closing_balance }}
+    </p>
+</div>
+{% endblock %}

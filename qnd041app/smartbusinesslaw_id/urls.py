@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'smartbusinesslaw'
+app_name = 'Smartbusinesslaw_id'
 
 urlpatterns = [
     # ----------------------------
@@ -134,22 +134,10 @@ urlpatterns = [
         views.pdf_contrato_laboral,
         name="pdf_contrato_laboral"
     ),
-
-    path(
-        "nomina/rol_pagos/<int:pk>/pdf/",
-        views.pdf_rol_pagos,
-        name="pdf_rol_pagos"
-    ),
-
-    # Cheque de Sueldo en PDF
-    path(
-        "nomina/cheque_sueldo/<int:pk>/pdf/",
-        views.pdf_cheque_sueldo,
-        name="pdf_cheque_sueldo"
-    ),
 ]
 
     
+
 
 
 
