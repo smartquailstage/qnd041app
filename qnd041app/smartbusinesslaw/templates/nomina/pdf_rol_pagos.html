@@ -30,55 +30,74 @@
         En cumplimiento de lo dispuesto por el
         <strong>Código del Trabajo</strong> y las normas del
         <strong>Instituto Ecuatoriano de Seguridad Social (IESS)</strong>,
-        se emite el presente <strong>Rol de Pagos</strong> correspondiente
-        al período <strong>{{ nomina.mes }}/{{ nomina.anio }}</strong>,
-        a favor del trabajador cuyos datos constan a continuación.
+        se emite el presente <strong>Rol de Pagos</strong>
+        correspondiente al período
+        <strong>{{ nomina.mes }}/{{ nomina.anio }}</strong>.
     </p>
 </div>
 
 <div class="clausulas">
-    <h3>1. Datos del Trabajador</h3>
+    <h3>1. Datos del Contrato</h3>
 
     <p>
-        <strong>Trabajador:</strong> {{ nomina.contrato.trabajador_nombres }}<br>
-        <strong>Cédula:</strong> {{ nomina.cedula_empleado }}<br>
-        <strong>Nacionalidad:</strong> {{ nomina.nacionalidad }}<br>
-        <strong>Tipo de contrato:</strong> {{ nomina.tipo_contrato }}<br>
-        <strong>Fecha de ingreso:</strong> {{ nomina.fecha_ingreso }}
+        <strong>Contrato SUT:</strong> {{ nomina.contrato }}<br>
+        <strong>Fecha de ingreso:</strong> {{ nomina.fecha_ingreso }}<br>
+        {% if nomina.fecha_salida %}
+            <strong>Fecha de salida:</strong> {{ nomina.fecha_salida }}<br>
+        {% endif %}
     </p>
 </div>
 
 <div class="clausulas">
-    <h3>2. Ingresos</h3>
+    <h3>2. Ingresos Gravados</h3>
 
     <p>
-        <strong>Sueldo base:</strong> $ {{ nomina.sueldo_base }}<br>
-        <strong>Horas extra:</strong> $ {{ nomina.horas_extra }}<br>
+        <strong>Sueldo base:</strong> {{ nomina.sueldo_base }}<br>
+        <strong>Horas extra:</strong> {{ nomina.horas_extra|default:"0.00 USD" }}<br>
 
+        <strong>Bonificaciones:</strong>
         {% if nomina.recibe_bonificacion %}
-            <strong>Bonificaciones:</strong> $ {{ nomina.otros_ingresos }}<br>
+            {{ nomina.otros_ingresos }}
+        {% else %}
+            <em>No grava</em>
         {% endif %}
+        <br>
 
+        <strong>Décimo tercero:</strong>
         {% if nomina.recibe_decimo_tercero %}
-            <strong>Décimo tercero:</strong> $ {{ nomina.decimo_tercero }}<br>
+            {{ nomina.decimo_tercero }}
+        {% else %}
+            <em>No grava</em>
         {% endif %}
+        <br>
 
+        <strong>Décimo cuarto:</strong>
         {% if nomina.recibe_decimo_cuarto %}
-            <strong>Décimo cuarto:</strong> $ {{ nomina.decimo_cuarto }}<br>
+            {{ nomina.decimo_cuarto }}
+        {% else %}
+            <em>No grava</em>
         {% endif %}
+        <br>
 
+        <strong>Utilidades:</strong>
         {% if nomina.recibe_utilidades %}
-            <strong>Utilidades:</strong> $ {{ nomina.utilidades }}<br>
+            {{ nomina.utilidades }}
+        {% else %}
+            <em>No grava</em>
         {% endif %}
+        <br>
 
+        <strong>Vacaciones:</strong>
         {% if nomina.recibe_vacaciones %}
-            <strong>Vacaciones:</strong> $ {{ nomina.vacaciones }}<br>
+            {{ nomina.vacaciones }}
+        {% else %}
+            <em>No grava</em>
         {% endif %}
     </p>
 
     <p>
         <strong>Total ingresos:</strong>
-        <strong>$ {{ nomina.total_ingresos }}</strong>
+        <strong>{{ nomina.total_ingresos }}</strong>
     </p>
 </div>
 
@@ -87,11 +106,15 @@
 
     <p>
         <strong>Aporte IESS trabajador (9.45%):</strong>
-        $ {{ nomina.aporte_iess_trabajador }}<br>
+        {{ nomina.aporte_iess_trabajador }}<br>
 
+        <strong>Otros descuentos:</strong>
         {% if nomina.recibe_descuento %}
-            <strong>Otros descuentos ({{ nomina.razon_descuento }}):</strong>
-            $ {{ nomina.descuentos }}<br>
+            {{ nomina.descuentos }}
+            <br>
+            <em>Motivo:</em> {{ nomina.get_razon_descuento_display }}
+        {% else %}
+            <em>No aplica</em>
         {% endif %}
     </p>
 </div>
@@ -100,13 +123,13 @@
     <h3>4. Valor Neto a Pagar</h3>
 
     <p>
-        Luego de aplicar los ingresos y descuentos legales correspondientes,
-        el valor neto a pagar al trabajador es de:
+        Luego de aplicar los ingresos, aportes al IESS y descuentos legales,
+        el valor neto a pagar al trabajador es:
     </p>
 
     <p>
         <strong>SUELDO NETO A PAGAR:</strong>
-        <strong>$ {{ nomina.sueldo_a_pagar }}</strong>
+        <strong>{{ nomina.sueldo_a_pagar }}</strong>
     </p>
 </div>
 
@@ -137,7 +160,7 @@
 <hr>
 
 <div class="contract-note">
-    <strong>HASH DE VERIFICACIÓN: {{ nomina.hash_contrato }}</strong>
+    <strong>HASH DE VERIFICACIÓN:</strong> {{ nomina.hash_contrato }}
 </div>
 
 <footer>
