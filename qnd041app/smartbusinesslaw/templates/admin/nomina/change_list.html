@@ -1,0 +1,19 @@
+{% extends "unfold/change_list.html" %}
+
+{% block footer %}
+<div class="unfold-footer-stats">
+    <strong>Total registros:</strong> {{ totals.total_registros }} |
+    <strong>Sueldo base:</strong> ${{ totals.total_sueldo_base }} |
+    <strong>Otros ingresos:</strong> ${{ totals.total_otros_ingresos }} |
+    <strong>Décimo 3°:</strong> ${{ totals.total_decimo_tercero }} |
+    <strong>Décimo 4°:</strong> ${{ totals.total_decimo_cuarto }} |
+    <strong>Utilidades:</strong> ${{ totals.total_utilidades }} |
+    <strong>Vacaciones:</strong> ${{ totals.total_vacaciones }} |
+    <strong>Descuentos:</strong> ${{ totals.total_descuentos }} |
+    <strong>IESS Trabajador:</strong> ${{ totals.total_iess_trabajador }} |
+    <strong>IESS Empleador:</strong> ${{ totals.total_iess_empleador }} |
+    <strong>Total a pagar:</strong> <strong>${{ totals.total_sueldo_pagar }}</strong>
+</div>
+
+{{ block.super }}
+{% endblock %}

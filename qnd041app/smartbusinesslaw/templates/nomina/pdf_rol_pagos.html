@@ -1,0 +1,149 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        ROL DE PAGOS No. {{ nomina.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            {{ nomina.razon_social }}<br>
+            {{ nomina.mes }}/{{ nomina.anio }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>COMPROBANTE DE PAGO DE REMUNERACIONES</h2>
+    <p><strong>{{ nomina.razon_social }}</strong></p>
+</div>
+
+<div class="preambulo">
+    <p>
+        En cumplimiento de lo dispuesto por el
+        <strong>Código del Trabajo</strong> y las normas del
+        <strong>Instituto Ecuatoriano de Seguridad Social (IESS)</strong>,
+        se emite el presente <strong>Rol de Pagos</strong> correspondiente
+        al período <strong>{{ nomina.mes }}/{{ nomina.anio }}</strong>,
+        a favor del trabajador cuyos datos constan a continuación.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>1. Datos del Trabajador</h3>
+
+    <p>
+        <strong>Trabajador:</strong> {{ nomina.contrato.trabajador_nombres }}<br>
+        <strong>Cédula:</strong> {{ nomina.cedula_empleado }}<br>
+        <strong>Nacionalidad:</strong> {{ nomina.nacionalidad }}<br>
+        <strong>Tipo de contrato:</strong> {{ nomina.tipo_contrato }}<br>
+        <strong>Fecha de ingreso:</strong> {{ nomina.fecha_ingreso }}
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>2. Ingresos</h3>
+
+    <p>
+        <strong>Sueldo base:</strong> $ {{ nomina.sueldo_base }}<br>
+        <strong>Horas extra:</strong> $ {{ nomina.horas_extra }}<br>
+
+        {% if nomina.recibe_bonificacion %}
+            <strong>Bonificaciones:</strong> $ {{ nomina.otros_ingresos }}<br>
+        {% endif %}
+
+        {% if nomina.recibe_decimo_tercero %}
+            <strong>Décimo tercero:</strong> $ {{ nomina.decimo_tercero }}<br>
+        {% endif %}
+
+        {% if nomina.recibe_decimo_cuarto %}
+            <strong>Décimo cuarto:</strong> $ {{ nomina.decimo_cuarto }}<br>
+        {% endif %}
+
+        {% if nomina.recibe_utilidades %}
+            <strong>Utilidades:</strong> $ {{ nomina.utilidades }}<br>
+        {% endif %}
+
+        {% if nomina.recibe_vacaciones %}
+            <strong>Vacaciones:</strong> $ {{ nomina.vacaciones }}<br>
+        {% endif %}
+    </p>
+
+    <p>
+        <strong>Total ingresos:</strong>
+        <strong>$ {{ nomina.total_ingresos }}</strong>
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>3. Descuentos</h3>
+
+    <p>
+        <strong>Aporte IESS trabajador (9.45%):</strong>
+        $ {{ nomina.aporte_iess_trabajador }}<br>
+
+        {% if nomina.recibe_descuento %}
+            <strong>Otros descuentos ({{ nomina.razon_descuento }}):</strong>
+            $ {{ nomina.descuentos }}<br>
+        {% endif %}
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>4. Valor Neto a Pagar</h3>
+
+    <p>
+        Luego de aplicar los ingresos y descuentos legales correspondientes,
+        el valor neto a pagar al trabajador es de:
+    </p>
+
+    <p>
+        <strong>SUELDO NETO A PAGAR:</strong>
+        <strong>$ {{ nomina.sueldo_a_pagar }}</strong>
+    </p>
+</div>
+
+<hr>
+
+<h3><strong>CERTIFICACIÓN</strong></h3>
+
+<div class="certificaciones">
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p>
+            <strong>{{ nomina.razon_social }}</strong><br>
+            RUC: {{ nomina.ruc_empleador }}
+        </p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p>
+                <strong>EMPLEADOR</strong><br>
+                {{ nomina.razon_social }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="contract-note">
+    <strong>HASH DE VERIFICACIÓN: {{ nomina.hash_contrato }}</strong>
+</div>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>

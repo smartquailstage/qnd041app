@@ -2357,15 +2357,18 @@ from .models import Nomina
 
 
 from .models import Nomina
-
+from django.db.models import Sum, Count
 
 def periodo(obj):
     return f"{obj.mes}-{obj.anio}" 
 periodo.short_description = "Período"
 
 
+
+
 @admin.register(Nomina)
 class NominaAdmin(ModelAdmin):
+
     list_sections = [
         IdentificacionNominaComponent,
         EmpleadorNominaComponent,
@@ -2374,7 +2377,7 @@ class NominaAdmin(ModelAdmin):
     ]
 
     # ==========================================================
-    # Campos condicionales: solo se muestran si el booleano es True
+    # Campos condicionales
     # ==========================================================
     conditional_fields = {
         "otros_ingresos": "recibe_bonificacion == true",
@@ -2390,32 +2393,14 @@ class NominaAdmin(ModelAdmin):
     # Fieldsets
     # ==========================================================
     fieldsets = (
-        # ================================
-        # I. Identificación de la Nómina
-        # ================================
         ("I. Identificación de la Nómina", {
-            "fields": (
-                "mes",
-                "anio",
-                "contrato",
-            ),
+            "fields": ("mes", "anio", "contrato"),
             "classes": ("unfold", "tab-identificacion"),
         }),
-
-        # ================================
-        # II. Empleador
-        # ================================
         ("II. Empleador", {
-            "fields": (
-                "razon_social",
-                "ruc_empleador",
-            ),
+            "fields": ("razon_social", "ruc_empleador"),
             "classes": ("unfold", "tab-empleador"),
         }),
-
-        # ================================
-        # III. Remuneración
-        # ================================
         ("III. Remuneración", {
             "fields": (
                 "sueldo_base",
@@ -2451,41 +2436,34 @@ class NominaAdmin(ModelAdmin):
     )
 
     # ==========================================================
-    # Listado en admin
+    # Listado
     # ==========================================================
     list_display = (
         "contrato",
-        periodo,
+        "mes",
+        "anio",
         "sueldo_base",
-        "aporte_iess_trabajador",
-        "aporte_iess_empleador",
+        "otros_ingresos",
         "decimo_tercero",
         "decimo_cuarto",
         "utilidades",
         "vacaciones",
         "descuentos",
-        "otros_ingresos",
+        "aporte_iess_trabajador",
+        "aporte_iess_empleador",
         "sueldo_a_pagar",
         ROL_PAGOS_PDF,
         CHEQUE_SUELDO_PDF,
     )
 
     search_fields = (
-        "contrato__nombres",
-        "contrato__cedula_empleado",
+        "contrato__trabajador_nombres",
+        "contrato__trabajador_identificacion",
         "razon_social",
     )
 
-    list_filter = (
-        "mes",
-        "anio",
-    )
+    list_filter = ("mes", "anio")
 
-
-
-    # ==========================================================
-    # Campos de solo lectura
-    # ==========================================================
     readonly_fields = (
         "decimo_tercero",
         "decimo_cuarto",
@@ -2495,8 +2473,36 @@ class NominaAdmin(ModelAdmin):
         "aporte_iess_empleador",
         "total_ingresos",
         "sueldo_a_pagar",
-        "hash_contrato",
     )
 
     unfold_fieldsets = True
 
+    # ==========================================================
+    # 🔢 TOTALES (CLAVE)
+    # ==========================================================
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        totals = qs.aggregate(
+            total_registros=Sum(1),
+            total_sueldo_base=Sum("sueldo_base"),
+            total_otros_ingresos=Sum("otros_ingresos"),
+            total_decimo_tercero=Sum("decimo_tercero"),
+            total_decimo_cuarto=Sum("decimo_cuarto"),
+            total_utilidades=Sum("utilidades"),
+            total_vacaciones=Sum("vacaciones"),
+            total_descuentos=Sum("descuentos"),
+            total_iess_trabajador=Sum("aporte_iess_trabajador"),
+            total_iess_empleador=Sum("aporte_iess_empleador"),
+            total_sueldo_pagar=Sum("sueldo_a_pagar"),
+        )
+
+        self.totals = {k: v or 0 for k, v in totals.items()}
+        self.totals["total_registros"] = qs.count()
+
+        return qs
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context["totals"] = getattr(self, "totals", {})
+        return super().changelist_view(request, extra_context=extra_context)

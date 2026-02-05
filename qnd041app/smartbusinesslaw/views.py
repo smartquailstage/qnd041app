@@ -1158,8 +1158,8 @@ def pdf_rol_pagos(request, pk):
     )
 
     qr_data = (
-        f"ROL-PAGOS | {nomina.cedula_empleado} | "
-        f"{nomina.mes}/{nomina.anio} | {nomina.ruc_empleador}"
+        f"ROL-PAGOS | {nomina.contrato} | "
+        f"{nomina.mes}/{nomina.anio} | {nomina.sueldo_a_pagar} | "
     )
 
     qr.add_data(qr_data)
@@ -1191,7 +1191,7 @@ def pdf_rol_pagos(request, pk):
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = (
         f'attachment; filename="RolPagos_'
-        f'{nomina.apellidos}_{nomina.mes}_{nomina.anio}.pdf"'
+        f'{nomina.contrato}_{nomina.mes}_{nomina.anio}.pdf"'
     )
 
     weasyprint.HTML(
@@ -1201,7 +1201,7 @@ def pdf_rol_pagos(request, pk):
         response,
         stylesheets=[
             weasyprint.CSS(
-                "static/css/pdf.css"
+                "smartbusinesslaw/static/css/pdf.css"
             )
         ],
         presentational_hints=True
