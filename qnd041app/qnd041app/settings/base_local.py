@@ -177,6 +177,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "business_customer_projects",
+    "smartbusinessanalytics_id",
    
 
              # Apps propias del proyecto
@@ -481,6 +482,32 @@ UNFOLD = {
                 "title": _("Nomina IESS"),
                 "icon": "inbox",
                 "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+        ],
+    },
+
+    {
+        "title": _("SmartBusinessAnalytics® (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+            {
+                "title": _("Ingresos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_ingreso_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Engresos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
