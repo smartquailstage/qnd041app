@@ -546,162 +546,143 @@ class Egreso(models.Model):
 
 
 
-
-
-
 from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
-from .models import Ingreso, Egreso  # Ajusta según tu app
+from .models import Ingreso, Egreso
+
 
 class EstadoFinanciero(models.Model):
-    """
-    Modelo que consolida información financiera de ingresos y egresos,
-    generando estados de resultados y factores financieros para decisiones.
-    """
 
-    fecha_inicio = models.DateField(
-        null=True, blank=True,
-        verbose_name="Fecha de inicio",
-        help_text="Fecha de inicio del período financiero a analizar."
-    )
-
-    fecha_fin = models.DateField(
-        null=True, blank=True,
-        verbose_name="Fecha de fin",
-        help_text="Fecha de fin del período financiero a analizar."
-    )
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
 
     # ==============================
     # RESULTADOS AGREGADOS
     # ==============================
-    total_ingresos = MoneyField(
-        max_digits=12, decimal_places=2, default_currency='USD',
-        null=True, blank=True,
-        verbose_name="Total de ingresos",
-        help_text="Suma de todos los ingresos netos dentro del período."
-    )
-
-    total_egresos = MoneyField(
-        max_digits=12, decimal_places=2, default_currency='USD',
-        null=True, blank=True,
-        verbose_name="Total de egresos",
-        help_text="Suma de todos los egresos netos dentro del período."
-    )
-
-    utilidad_bruta = MoneyField(
-        max_digits=12, decimal_places=2, default_currency='USD',
-        null=True, blank=True,
-        verbose_name="Utilidad bruta",
-        help_text="Ingresos netos menos costos directos (sin gastos operativos)."
-    )
-
-    utilidad_neta = MoneyField(
-        max_digits=12, decimal_places=2, default_currency='USD',
-        null=True, blank=True,
-        verbose_name="Utilidad neta",
-        help_text="Resultado final después de todos los egresos y gastos."
-    )
+    total_ingresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_egresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    utilidad_bruta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    utilidad_neta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     # ==============================
-    # FACTORES FINANCIEROS
+    # INDICADORES
     # ==============================
-    margen_utilidad_bruta = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal('0'),
-        null=True, blank=True,
-        verbose_name="Margen de utilidad bruta (%)",
-        help_text="Utilidad bruta / total ingresos * 100"
-    )
-
-    margen_utilidad_neta = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal('0'),
-        null=True, blank=True,
-        verbose_name="Margen de utilidad neta (%)",
-        help_text="Utilidad neta / total ingresos * 100"
-    )
-
-    rentabilidad = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal('0'),
-        null=True, blank=True,
-        verbose_name="Rentabilidad (%)",
-        help_text="Indicador general de la rentabilidad de la empresa."
-    )
-
-    liquidez = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal('0'),
-        null=True, blank=True,
-        verbose_name="Liquidez (%)",
-        help_text="Capacidad de cubrir egresos con ingresos del período."
-    )
+    margen_utilidad_bruta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
+    margen_utilidad_neta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
+    rentabilidad = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
+    liquidez = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
 
     # ==============================
-    # MÉTODOS DE CÁLCULO
+    # CAMPOS AVANZADOS
     # ==============================
-    def calcular_estado_financiero(self):
+    punto_equilibrio = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    dividendos_accionistas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    analisis_activos = models.JSONField(null=True, blank=True)
+
+    # ==============================
+    # MÉTODO PRINCIPAL
+    # ==============================
+    def calcular_estado_financiero(self, tasa_dividendo=Decimal('0.50')):
+
         if not self.fecha_inicio or not self.fecha_fin:
-            return  # No se puede calcular sin fechas
+            return
 
         ingresos = Ingreso.objects.filter(
-            fecha_devengo__gte=self.fecha_inicio,
-            fecha_devengo__lte=self.fecha_fin
+            fecha_devengo__range=(self.fecha_inicio, self.fecha_fin)
         )
         egresos = Egreso.objects.filter(
-            fecha_devengo__gte=self.fecha_inicio,
-            fecha_devengo__lte=self.fecha_fin
+            fecha_devengo__range=(self.fecha_inicio, self.fecha_fin)
         )
 
-        # Función segura para sumar Money
-        def sumar_money(queryset, campo, currency='USD'):
-            total = Money(0, currency)
-            for obj in queryset:
-                valor = getattr(obj, campo, None)
-                if valor is None:
-                    valor = Money(0, currency)
-                elif isinstance(valor, Money) and valor.currency != currency:
-                    valor = Money(valor.amount, currency)
-                total += valor
+        # ------------------------------
+        # Helpers
+        # ------------------------------
+        def sumar_money(qs, campo):
+            total = Money(0, 'USD')
+            for obj in qs:
+                val = getattr(obj, campo, None)
+                if isinstance(val, Money):
+                    total += Money(val.amount, 'USD')
             return total
 
-        # Calcular totales
+        def d(value):
+            try:
+                return Decimal(value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+            except Exception:
+                return Decimal('0.00')
+
+        def ratio(num, den):
+            if den <= 0:
+                return Decimal('0.00')
+            return (num / den * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+
+        # ------------------------------
+        # Totales
+        # ------------------------------
         self.total_ingresos = sumar_money(ingresos, 'monto_neto')
         self.total_egresos = sumar_money(egresos, 'monto_neto')
 
-        # Calcular utilidades
         self.utilidad_bruta = sumar_money(ingresos, 'utilidad_bruta') - sumar_money(egresos, 'costo_asociado')
         self.utilidad_neta = sumar_money(ingresos, 'utilidad_neta') - sumar_money(egresos, 'utilidad_neta')
 
-        # Convertir a Decimal seguro y redondear a 2 decimales
-        def safe_decimal(value):
-            try:
-                if isinstance(value, Money):
-                    return Decimal(str(value.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-                elif value is None:
-                    return Decimal('0')
-                return Decimal(str(value)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-            except (InvalidOperation, TypeError, ValueError):
-                return Decimal('0')
+        ingresos_v = d(self.total_ingresos.amount if self.total_ingresos else 0)
+        egresos_v = d(self.total_egresos.amount if self.total_egresos else 0)
+        utilidad_bruta_v = d(self.utilidad_bruta.amount if self.utilidad_bruta else 0)
+        utilidad_neta_v = d(self.utilidad_neta.amount if self.utilidad_neta else 0)
 
-        ingresos_valor = safe_decimal(self.total_ingresos)
-        egresos_valor = safe_decimal(self.total_egresos) or Decimal('1')
-        utilidad_bruta_valor = safe_decimal(self.utilidad_bruta)
-        utilidad_neta_valor = safe_decimal(self.utilidad_neta)
+        # ------------------------------
+        # Indicadores
+        # ------------------------------
+        self.margen_utilidad_bruta = ratio(utilidad_bruta_v, ingresos_v)
+        self.margen_utilidad_neta = ratio(utilidad_neta_v, ingresos_v)
+        self.rentabilidad = ratio(utilidad_neta_v, ingresos_v)
+        self.liquidez = ratio(ingresos_v, egresos_v)
 
-        # Calcular factores financieros redondeados a 2 decimales
-        self.margen_utilidad_bruta = (utilidad_bruta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
-        self.margen_utilidad_neta = (utilidad_neta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
-        self.rentabilidad = (utilidad_neta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
-        self.liquidez = (ingresos_valor / egresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if egresos_valor > 0 else Decimal('0')
+        # ------------------------------
+        # Punto de equilibrio
+        # ------------------------------
+        margen_contribucion = ingresos_v - (ingresos_v - utilidad_bruta_v)
+
+        if margen_contribucion > 0:
+            pe = (egresos_v / margen_contribucion * ingresos_v).quantize(
+                Decimal('0.01'), rounding=ROUND_HALF_UP
+            )
+            self.punto_equilibrio = Money(pe, 'USD')
+        else:
+            self.punto_equilibrio = Money(0, 'USD')
+
+        # ------------------------------
+        # Dividendos
+        # ------------------------------
+        if utilidad_neta_v > 0:
+            div = (utilidad_neta_v * tasa_dividendo).quantize(Decimal('0.01'))
+        else:
+            div = Decimal('0.00')
+
+        self.dividendos_accionistas = Money(div, 'USD')
+
+        # ------------------------------
+        # Análisis de activos
+        # ------------------------------
+        activos_totales = ingresos_v + egresos_v
+
+        self.analisis_activos = {
+            "activos_totales": float(activos_totales),
+            "liquidez_pct": float(ratio(ingresos_v, activos_totales)),
+            "egresos_pct": float(ratio(egresos_v, activos_totales)),
+        }
 
         self.save()
 
     class Meta:
-        verbose_name = "Estado Financiero"
-        verbose_name_plural = "Estados Financieros"
         ordering = ["-fecha_inicio"]
 
     def __str__(self):
-        return f"Estado Financiero {self.fecha_inicio} a {self.fecha_fin}"
+        return f"Estado Financiero {self.fecha_inicio} - {self.fecha_fin}"
+
+
 
 
 

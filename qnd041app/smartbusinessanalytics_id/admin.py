@@ -561,15 +561,6 @@ REPORTE_FINANCIERO_PDF.short_description = "Reporte Financiero"
 class EstadoFinancieroAdmin(ModelAdmin):
 
     # ----------------------------------
-    # Componentes visuales
-    # ----------------------------------
-    # Aquí puedes crear tus propios componentes tipo ERP si quieres, ejemplo:
-    list_sections = [
-        # Podrías crear: ResumenComponent, EstadoResultadosComponent, KPIsComponent
-        # Para simplificar por ahora, los campos se muestran en fieldsets
-    ]
-
-    # ----------------------------------
     # Fieldsets (tabs)
     # ----------------------------------
     fieldsets = (
@@ -587,6 +578,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "total_egresos",
                 "utilidad_bruta",
                 "utilidad_neta",
+                "punto_equilibrio",          # NUEVO
+                "dividendos_accionistas",    # NUEVO
             ),
             "classes": ("unfold", "tab-resumen"),
         }),
@@ -600,10 +593,17 @@ class EstadoFinancieroAdmin(ModelAdmin):
             ),
             "classes": ("unfold", "tab-kpis"),
         }),
+
+        ("IV. Análisis de Activos", {
+            "fields": (
+                "analisis_activos",          # NUEVO
+            ),
+            "classes": ("unfold", "tab-activos"),
+        }),
     )
 
     # ----------------------------------
-    # Listado
+    # Listado en tabla
     # ----------------------------------
     list_display = (
         "fecha_inicio",
@@ -611,6 +611,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "total_ingresos",
         "total_egresos",
         "utilidad_neta",
+        "punto_equilibrio",              # NUEVO
+        "dividendos_accionistas",        # NUEVO
         REPORTE_FINANCIERO_PDF,
     )
 
@@ -633,6 +635,9 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "margen_utilidad_neta",
         "rentabilidad",
         "liquidez",
+        "punto_equilibrio",          # NUEVO
+        "dividendos_accionistas",    # NUEVO
+        "analisis_activos",          # NUEVO
     )
 
     unfold_fieldsets = True
