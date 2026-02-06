@@ -512,6 +512,14 @@ UNFOLD = {
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
+            {
+                    "title": _("Analisis Financieros"),
+                    "icon": "inbox",
+                    "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+        },
 
         ],
     },

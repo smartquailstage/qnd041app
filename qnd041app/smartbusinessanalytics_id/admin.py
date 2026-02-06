@@ -531,3 +531,108 @@ class EgresoAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+
+
+from django.contrib import admin
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+from unfold.admin import ModelAdmin
+from .models import EstadoFinanciero
+
+# ================================
+# Objeto PDF para Admin
+# ================================
+def REPORTE_FINANCIERO_PDF(obj):
+    url = reverse("smartbusinessanalytics_id:pdf_reporte_financiero", args=[obj.id])
+    return mark_safe(
+        f'<a href="{url}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span> '
+        f'Reporte Financiero</a>'
+    )
+
+REPORTE_FINANCIERO_PDF.short_description = "Reporte Financiero"
+
+
+# ================================
+# Admin de EstadoFinanciero
+# ================================
+@admin.register(EstadoFinanciero)
+class EstadoFinancieroAdmin(ModelAdmin):
+
+    # ----------------------------------
+    # Componentes visuales
+    # ----------------------------------
+    # Aquí puedes crear tus propios componentes tipo ERP si quieres, ejemplo:
+    list_sections = [
+        # Podrías crear: ResumenComponent, EstadoResultadosComponent, KPIsComponent
+        # Para simplificar por ahora, los campos se muestran en fieldsets
+    ]
+
+    # ----------------------------------
+    # Fieldsets (tabs)
+    # ----------------------------------
+    fieldsets = (
+        ("I. Período", {
+            "fields": (
+                "fecha_inicio",
+                "fecha_fin",
+            ),
+            "classes": ("unfold", "tab-periodo"),
+        }),
+
+        ("II. Resumen Contable", {
+            "fields": (
+                "total_ingresos",
+                "total_egresos",
+                "utilidad_bruta",
+                "utilidad_neta",
+            ),
+            "classes": ("unfold", "tab-resumen"),
+        }),
+
+        ("III. Indicadores Financieros", {
+            "fields": (
+                "margen_utilidad_bruta",
+                "margen_utilidad_neta",
+                "rentabilidad",
+                "liquidez",
+            ),
+            "classes": ("unfold", "tab-kpis"),
+        }),
+    )
+
+    # ----------------------------------
+    # Listado
+    # ----------------------------------
+    list_display = (
+        "fecha_inicio",
+        "fecha_fin",
+        "total_ingresos",
+        "total_egresos",
+        "utilidad_neta",
+        REPORTE_FINANCIERO_PDF,
+    )
+
+    search_fields = (
+        "fecha_inicio",
+        "fecha_fin",
+    )
+
+    list_filter = (
+        "fecha_inicio",
+        "fecha_fin",
+    )
+
+    readonly_fields = (
+        "total_ingresos",
+        "total_egresos",
+        "utilidad_bruta",
+        "utilidad_neta",
+        "margen_utilidad_bruta",
+        "margen_utilidad_neta",
+        "rentabilidad",
+        "liquidez",
+    )
+
+    unfold_fieldsets = True

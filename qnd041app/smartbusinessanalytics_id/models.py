@@ -2,10 +2,20 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from decimal import Decimal
 from django.utils.timezone import now
+from django.db.models import Sum
 
+
+from decimal import Decimal
+from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+
+from decimal import Decimal
+from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 class Ingreso(models.Model):
-
     # ======================================================
     # IDENTIFICACIÓN
     # ======================================================
@@ -72,11 +82,12 @@ class Ingreso(models.Model):
     )
 
     # ======================================================
-    # MONTOS BASE (MoneyField)
+    # MONTOS BASE
     # ======================================================
     monto_bruto = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         verbose_name="Monto bruto",
@@ -86,6 +97,7 @@ class Ingreso(models.Model):
     descuento = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         verbose_name="Descuento",
@@ -106,6 +118,7 @@ class Ingreso(models.Model):
     base_imponible = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -116,6 +129,7 @@ class Ingreso(models.Model):
     iva = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -126,6 +140,7 @@ class Ingreso(models.Model):
     monto_neto = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -139,6 +154,7 @@ class Ingreso(models.Model):
     costo_producto = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         verbose_name="Costo del producto",
@@ -148,6 +164,7 @@ class Ingreso(models.Model):
     gastos_asociados = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         verbose_name="Gastos asociados",
@@ -157,6 +174,7 @@ class Ingreso(models.Model):
     utilidad_bruta = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -167,6 +185,7 @@ class Ingreso(models.Model):
     utilidad_neta = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -185,51 +204,38 @@ class Ingreso(models.Model):
     ]
 
     BANCOS_CHOICES = [
-    # -------------------------
-    # Bancos locales en Ecuador
-    # -------------------------
-    ("banco_pichincha", "Banco Pichincha"),
-    ("banco_guayaquil", "Banco de Guayaquil"),
-    ("produbanco", "Produbanco"),
-    ("banco_internacional", "Banco Internacional"),
-    ("banco_del_austro", "Banco del Austro"),
-    ("banco_provincial", "Banco del Pacífico"),
-    ("coopac", "Cooperativa COOPAC"),
-    ("banco_bolivariano", "Banco Bolivariano"),
-    ("banco_dell_sol", "Banco del Sol"),
-    ("banco_machala", "Banco Machala"),
-    ("banco_farmacias", "Banco de las Farmacias"),
-    ("banco_florencia", "Banco Florencia"),
-    ("banco_ambato", "Banco Ambato"),
-    # -------------------------
-    # Marcas de tarjetas de crédito
-    # -------------------------
-    ("visa", "Visa"),
-    ("mastercard", "Mastercard"),
-    ("amex", "American Express"),
-    ("diners", "Diners Club"),
-    ("discover", "Discover"),
-    ("jcb", "JCB"),
-    ("unionpay", "UnionPay"),
-    # -------------------------
-    # Pasarelas de pago
-    # -------------------------
-    ("paymentez", "Paymentez"),
-    ("datafast", "Datafast"),
-    ("payphone", "PayPhone"),
-    ("banco_pichincha_online", "Banco Pichincha Online"),
-    ("banco_guayaquil_online", "Banco de Guayaquil Online"),
-    ("redeban", "Redeban"),
-    ("paypal", "PayPal"),
-    ("stripe", "Stripe"),
-    ("mercadopago", "MercadoPago"),
-    ("square", "Square"),
-    # -------------------------
-    # Opción general
-    # -------------------------
-    ("otros", "Otro"),
+        ("banco_pichincha", "Banco Pichincha"),
+        ("banco_guayaquil", "Banco de Guayaquil"),
+        ("produbanco", "Produbanco"),
+        ("banco_internacional", "Banco Internacional"),
+        ("banco_del_austro", "Banco del Austro"),
+        ("banco_provincial", "Banco del Pacífico"),
+        ("coopac", "Cooperativa COOPAC"),
+        ("banco_bolivariano", "Banco Bolivariano"),
+        ("banco_dell_sol", "Banco del Sol"),
+        ("banco_machala", "Banco Machala"),
+        ("banco_farmacias", "Banco de las Farmacias"),
+        ("banco_florencia", "Banco Florencia"),
+        ("banco_ambato", "Banco Ambato"),
+        ("visa", "Visa"),
+        ("mastercard", "Mastercard"),
+        ("amex", "American Express"),
+        ("diners", "Diners Club"),
+        ("discover", "Discover"),
+        ("jcb", "JCB"),
+        ("unionpay", "UnionPay"),
+        ("paymentez", "Paymentez"),
+        ("datafast", "Datafast"),
+        ("payphone", "PayPhone"),
+        ("banco_pichincha_online", "Banco Pichincha Online"),
+        ("banco_guayaquil_online", "Banco de Guayaquil Online"),
+        ("redeban", "Redeban"),
+        ("paypal", "PayPal"),
+        ("stripe", "Stripe"),
+        ("mercadopago", "MercadoPago"),
+        ("square", "Square"),
+        ("otros", "Otro"),
     ]
-
 
     banco = models.CharField(
         max_length=30,
@@ -246,9 +252,7 @@ class Ingreso(models.Model):
         blank=True,
         verbose_name="Código de referencia de pago",
         help_text="Número de referencia de la transacción bancaria o comprobante de pago."
-    )   
-
-
+    )
 
     metodo_pago = models.CharField(
         max_length=30,
@@ -256,7 +260,6 @@ class Ingreso(models.Model):
         verbose_name="Método de pago",
         help_text="Forma en la que el cliente realiza el pago."
     )
-
 
     fecha_cobro = models.DateField(
         null=True,
@@ -271,24 +274,31 @@ class Ingreso(models.Model):
         help_text="Indica si el ingreso ya fue cobrado."
     )
 
-
     # ======================================================
-    # CÁLCULOS AUTOMÁTICOS
+    # MÉTODO SAVE CORREGIDO
     # ======================================================
     def save(self, *args, **kwargs):
-        if self.monto_bruto:
-            descuento = self.descuento or 0
-            self.base_imponible = self.monto_bruto - descuento
-            self.iva = self.base_imponible * self.tasa_iva
-            self.monto_neto = self.base_imponible + self.iva
+        moneda = self.monto_bruto.currency if self.monto_bruto else 'USD'
 
-            if self.costo_producto:
-                self.utilidad_bruta = self.base_imponible - self.costo_producto
-                gastos = self.gastos_asociados or 0
-                self.utilidad_neta = self.utilidad_bruta - gastos
+        # Valores seguros
+        monto_bruto = self.monto_bruto or Money(0, moneda)
+        descuento = self.descuento or Money(0, moneda)
+        costo = self.costo_producto or Money(0, moneda)
+        gastos = self.gastos_asociados or Money(0, moneda)
+        tasa = self.tasa_iva or 0
+
+        # Cálculos automáticos
+        self.base_imponible = monto_bruto - descuento
+        self.iva = self.base_imponible * tasa
+        self.monto_neto = self.base_imponible + self.iva
+        self.utilidad_bruta = self.base_imponible - costo
+        self.utilidad_neta = self.utilidad_bruta - gastos
 
         super().save(*args, **kwargs)
 
+    # ======================================================
+    # METADATA Y STR
+    # ======================================================
     class Meta:
         verbose_name = "Ingreso"
         verbose_name_plural = "Ingresos"
@@ -296,6 +306,8 @@ class Ingreso(models.Model):
 
     def __str__(self):
         return f"{self.codigo_referencia} - {self.cliente_nombre}"
+
+
 
 
 
@@ -369,6 +381,7 @@ class Egreso(models.Model):
     # ======================================================
     monto_bruto = MoneyField(
         max_digits=10,
+        default_currency='USD',
         decimal_places=2,
         null=True,
         blank=True,
@@ -378,6 +391,7 @@ class Egreso(models.Model):
 
     descuento = MoneyField(
         max_digits=10,
+        default_currency='USD',
         decimal_places=2,
         null=True,
         blank=True,
@@ -399,6 +413,7 @@ class Egreso(models.Model):
     base_imponible = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -409,6 +424,7 @@ class Egreso(models.Model):
     iva = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -419,6 +435,7 @@ class Egreso(models.Model):
     monto_neto = MoneyField(
         max_digits=10,
         decimal_places=2,
+        default_currency='USD',
         null=True,
         blank=True,
         editable=False,
@@ -434,6 +451,7 @@ class Egreso(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
+        default_currency='USD',
         verbose_name="Costo asociado",
         help_text="Costo directo relacionado con el egreso."
     )
@@ -443,6 +461,7 @@ class Egreso(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
+        default_currency='USD',
         verbose_name="Gastos adicionales",
         help_text="Gastos indirectos relacionados con el egreso."
     )
@@ -452,6 +471,7 @@ class Egreso(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
+        default_currency='USD',
         editable=False,
         verbose_name="Utilidad bruta",
         help_text="Resultado de restar los costos a la base imponible."
@@ -463,6 +483,7 @@ class Egreso(models.Model):
         null=True,
         blank=True,
         editable=False,
+        default_currency='USD',
         verbose_name="Utilidad neta",
         help_text="Utilidad final luego de descontar gastos adicionales."
     )
@@ -521,3 +542,166 @@ class Egreso(models.Model):
 
     def __str__(self):
         return f"{self.codigo_referencia} - {self.proveedor_nombre}"
+
+
+
+
+
+
+
+from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
+from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+from .models import Ingreso, Egreso  # Ajusta según tu app
+
+class EstadoFinanciero(models.Model):
+    """
+    Modelo que consolida información financiera de ingresos y egresos,
+    generando estados de resultados y factores financieros para decisiones.
+    """
+
+    fecha_inicio = models.DateField(
+        null=True, blank=True,
+        verbose_name="Fecha de inicio",
+        help_text="Fecha de inicio del período financiero a analizar."
+    )
+
+    fecha_fin = models.DateField(
+        null=True, blank=True,
+        verbose_name="Fecha de fin",
+        help_text="Fecha de fin del período financiero a analizar."
+    )
+
+    # ==============================
+    # RESULTADOS AGREGADOS
+    # ==============================
+    total_ingresos = MoneyField(
+        max_digits=12, decimal_places=2, default_currency='USD',
+        null=True, blank=True,
+        verbose_name="Total de ingresos",
+        help_text="Suma de todos los ingresos netos dentro del período."
+    )
+
+    total_egresos = MoneyField(
+        max_digits=12, decimal_places=2, default_currency='USD',
+        null=True, blank=True,
+        verbose_name="Total de egresos",
+        help_text="Suma de todos los egresos netos dentro del período."
+    )
+
+    utilidad_bruta = MoneyField(
+        max_digits=12, decimal_places=2, default_currency='USD',
+        null=True, blank=True,
+        verbose_name="Utilidad bruta",
+        help_text="Ingresos netos menos costos directos (sin gastos operativos)."
+    )
+
+    utilidad_neta = MoneyField(
+        max_digits=12, decimal_places=2, default_currency='USD',
+        null=True, blank=True,
+        verbose_name="Utilidad neta",
+        help_text="Resultado final después de todos los egresos y gastos."
+    )
+
+    # ==============================
+    # FACTORES FINANCIEROS
+    # ==============================
+    margen_utilidad_bruta = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal('0'),
+        null=True, blank=True,
+        verbose_name="Margen de utilidad bruta (%)",
+        help_text="Utilidad bruta / total ingresos * 100"
+    )
+
+    margen_utilidad_neta = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal('0'),
+        null=True, blank=True,
+        verbose_name="Margen de utilidad neta (%)",
+        help_text="Utilidad neta / total ingresos * 100"
+    )
+
+    rentabilidad = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal('0'),
+        null=True, blank=True,
+        verbose_name="Rentabilidad (%)",
+        help_text="Indicador general de la rentabilidad de la empresa."
+    )
+
+    liquidez = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal('0'),
+        null=True, blank=True,
+        verbose_name="Liquidez (%)",
+        help_text="Capacidad de cubrir egresos con ingresos del período."
+    )
+
+    # ==============================
+    # MÉTODOS DE CÁLCULO
+    # ==============================
+    def calcular_estado_financiero(self):
+        if not self.fecha_inicio or not self.fecha_fin:
+            return  # No se puede calcular sin fechas
+
+        ingresos = Ingreso.objects.filter(
+            fecha_devengo__gte=self.fecha_inicio,
+            fecha_devengo__lte=self.fecha_fin
+        )
+        egresos = Egreso.objects.filter(
+            fecha_devengo__gte=self.fecha_inicio,
+            fecha_devengo__lte=self.fecha_fin
+        )
+
+        # Función segura para sumar Money
+        def sumar_money(queryset, campo, currency='USD'):
+            total = Money(0, currency)
+            for obj in queryset:
+                valor = getattr(obj, campo, None)
+                if valor is None:
+                    valor = Money(0, currency)
+                elif isinstance(valor, Money) and valor.currency != currency:
+                    valor = Money(valor.amount, currency)
+                total += valor
+            return total
+
+        # Calcular totales
+        self.total_ingresos = sumar_money(ingresos, 'monto_neto')
+        self.total_egresos = sumar_money(egresos, 'monto_neto')
+
+        # Calcular utilidades
+        self.utilidad_bruta = sumar_money(ingresos, 'utilidad_bruta') - sumar_money(egresos, 'costo_asociado')
+        self.utilidad_neta = sumar_money(ingresos, 'utilidad_neta') - sumar_money(egresos, 'utilidad_neta')
+
+        # Convertir a Decimal seguro y redondear a 2 decimales
+        def safe_decimal(value):
+            try:
+                if isinstance(value, Money):
+                    return Decimal(str(value.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                elif value is None:
+                    return Decimal('0')
+                return Decimal(str(value)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+            except (InvalidOperation, TypeError, ValueError):
+                return Decimal('0')
+
+        ingresos_valor = safe_decimal(self.total_ingresos)
+        egresos_valor = safe_decimal(self.total_egresos) or Decimal('1')
+        utilidad_bruta_valor = safe_decimal(self.utilidad_bruta)
+        utilidad_neta_valor = safe_decimal(self.utilidad_neta)
+
+        # Calcular factores financieros redondeados a 2 decimales
+        self.margen_utilidad_bruta = (utilidad_bruta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
+        self.margen_utilidad_neta = (utilidad_neta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
+        self.rentabilidad = (utilidad_neta_valor / ingresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if ingresos_valor else Decimal('0')
+        self.liquidez = (ingresos_valor / egresos_valor * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if egresos_valor > 0 else Decimal('0')
+
+        self.save()
+
+    class Meta:
+        verbose_name = "Estado Financiero"
+        verbose_name_plural = "Estados Financieros"
+        ordering = ["-fecha_inicio"]
+
+    def __str__(self):
+        return f"Estado Financiero {self.fecha_inicio} a {self.fecha_fin}"
+
+
+
