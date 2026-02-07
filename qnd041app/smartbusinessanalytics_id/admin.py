@@ -594,13 +594,36 @@ from django.template.loader import render_to_string
 
 import io
 import base64
-from datetime import datetime
+from datetime import datetime, date
+from calendar import monthrange
 import numpy as np
 import matplotlib
-matplotlib.use("Agg")  # <- importante para que funcione en servidor
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 from django.template.loader import render_to_string
+
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+
+import numpy as np
+import matplotlib.pyplot as plt
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from django.template.loader import render_to_string
+from django.contrib import admin
+from django.db.models import Sum
 
 
 
@@ -620,27 +643,9 @@ class EstadoResumenContableComponent(BaseComponent):
         # Tarjetas KPI
         # --------------------------
         cards = [
-            {
-                "title": "Total Ingresos",
-                "value": e.total_ingresos,
-                "badge": "Período",
-                "badge_color": "primary",
-                "footer": "+ ingresos generados",
-            },
-            {
-                "title": "Total Egresos",
-                "value": e.total_egresos,
-                "badge": "Período",
-                "badge_color": "warning",
-                "footer": "+ costos incurridos",
-            },
-            {
-                "title": "Utilidad Neta",
-                "value": e.utilidad_neta,
-                "badge": "Resultado",
-                "badge_color": "success",
-                "footer": "resultado final",
-            },
+            {"title": "Total Ingresos", "value": e.total_ingresos, "badge": "Período", "badge_color": "primary", "footer": "+ ingresos generados"},
+            {"title": "Total Egresos", "value": e.total_egresos, "badge": "Período", "badge_color": "warning", "footer": "+ costos incurridos"},
+            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": "Resultado", "badge_color": "success", "footer": "resultado final"},
         ]
 
         # --------------------------
@@ -648,7 +653,6 @@ class EstadoResumenContableComponent(BaseComponent):
         # --------------------------
         start = e.fecha_inicio
         end = e.fecha_fin
-
         if isinstance(start, datetime):
             start = start.date()
         if isinstance(end, datetime):
@@ -657,14 +661,25 @@ class EstadoResumenContableComponent(BaseComponent):
         months = []
         ingresos = []
         egresos = []
+        utilidades = []
 
         current = start.replace(day=1)
         while current <= end:
             months.append(current.strftime("%b %Y"))
 
-            # obtener valores por mes
-            ingresos.append(getattr(e, "ingresos_por_mes", lambda d: 0)(current))
-            egresos.append(getattr(e, "egresos_por_mes", lambda d: 0)(current))
+            # calcular primer y último día del mes
+            last_day = monthrange(current.year, current.month)[1]
+            mes_inicio = current
+            mes_fin = current.replace(day=last_day)
+
+            # Sumar ingresos y egresos de ese mes
+            total_ingresos_mes = sum(i.monto_neto.amount for i in Ingreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin)))
+            total_egresos_mes = sum(i.monto_neto.amount for i in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin)))
+            total_utilidad_mes = total_ingresos_mes - total_egresos_mes
+
+            ingresos.append(float(total_ingresos_mes))
+            egresos.append(float(total_egresos_mes))
+            utilidades.append(float(total_utilidad_mes))
 
             # siguiente mes
             next_month = current.month + 1
@@ -675,25 +690,47 @@ class EstadoResumenContableComponent(BaseComponent):
             current = current.replace(year=next_year, month=next_month)
 
         # --------------------------
-        # Crear gráfico con Matplotlib
+        # Crear gráfico Matplotlib (barras apiladas)
         # --------------------------
         fig, ax = plt.subplots(figsize=(8, 4))
         x = np.arange(len(months))
-        width = 0.4
+        width = 0.6
 
-        ax.bar(x - width/2, ingresos, width=width, label="Ingresos", color="#1D4ED8")  # azul
-        ax.bar(x + width/2, egresos, width=width, label="Egresos", color="#F59E0B")      # amarillo
+        # Colores modernos semi-transparentes (RGBA)
+        p1 = ax.bar(x, ingresos, width, label="Ingresos", color=(79/255, 142/255, 247/255, 0.7))      # Azul
+        p2 = ax.bar(x, egresos, width, bottom=ingresos, label="Egresos", color=(242/255, 201/255, 76/255, 0.6))  # Amarillo
+        p3 = ax.bar(x, utilidades, width, bottom=np.array(ingresos)+np.array(egresos), label="Utilidad Neta", color=(111/255, 207/255, 151/255, 0.7))  # Verde
 
+        # Anotar valores dentro de las barras
+        for i in range(len(months)):
+            ax.text(x[i], ingresos[i]/2, f"{ingresos[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
+            ax.text(x[i], ingresos[i]+egresos[i]/2, f"{egresos[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
+            ax.text(x[i], ingresos[i]+egresos[i]+utilidades[i]/2, f"{utilidades[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
+
+        # --------------------------
+        # Estética del gráfico
+        # --------------------------
         ax.set_xticks(x)
         ax.set_xticklabels(months, rotation=45, ha="right")
-        ax.set_ylabel("Monto")
-        ax.set_title("Ingresos vs Egresos por Mes")
+        ax.set_ylabel("Monto (USD)")
+        ax.set_title("Ingresos, Egresos y Utilidad Neta por Mes")
+
+        # Quitar bordes
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+
+        # Grid horizontal gris claro
+        ax.yaxis.grid(True, color="lightgrey", linestyle="--", linewidth=0.7)
+        ax.set_axisbelow(True)
+
         ax.legend()
         plt.tight_layout()
 
+        # --------------------------
         # Convertir figura a base64
+        # --------------------------
         buffer = io.BytesIO()
-        fig.savefig(buffer, format="png")
+        fig.savefig(buffer, format="png", dpi=100, bbox_inches='tight', transparent=True)
         plt.close(fig)
         buffer.seek(0)
         image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -712,6 +749,7 @@ class EstadoResumenContableComponent(BaseComponent):
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
+
 
 
 
@@ -776,6 +814,7 @@ class EstadoAnalisisAvanzadoComponent(BaseComponent):
 
 
 
+
 @admin.register(EstadoFinanciero)
 class EstadoFinancieroAdmin(ModelAdmin):
 
@@ -836,7 +875,11 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "fecha_fin",
         "total_ingresos",
         "total_egresos",
+        "utilidad_bruta",
         "utilidad_neta",
+        "margen_utilidad_neta",
+        "rentabilidad",
+        "liquidez",
     )
 
     list_filter = (
