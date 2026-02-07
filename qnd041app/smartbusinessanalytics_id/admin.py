@@ -627,6 +627,49 @@ from django.db.models import Sum
 
 
 
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from django.template.loader import render_to_string
+from datetime import datetime, timedelta
+
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+from django.template.loader import render_to_string
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+import base64
+from datetime import datetime
+from calendar import monthrange
+from django.template.loader import render_to_string
+
+import io
+import base64
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+from calendar import monthrange
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+from .models import Ingreso, Egreso
+
+
 @register_component
 class EstadoResumenContableComponent(BaseComponent):
     template_name = "admin/banner.html"
@@ -639,118 +682,153 @@ class EstadoResumenContableComponent(BaseComponent):
     def get_context_data(self, **kwargs):
         e = self.instance
 
-        # --------------------------
-        # Tarjetas KPI
-        # --------------------------
+        # ==========================
+        # Helpers seguros
+        # ==========================
+        def money_to_float(m):
+            return float(m.amount) if m else 0.0
+
+        # ==========================
+        # Tabla de fechas
+        # ==========================
+        table_context = {
+            "headers": ["Campo", "Detalle"],
+            "rows": [
+                ["Fecha inicio", e.fecha_inicio],
+                ["Fecha fin", e.fecha_fin],
+            ],
+        }
+
+        # ==========================
+        # KPIs
+        # ==========================
         cards = [
-            {"title": "Total Ingresos", "value": e.total_ingresos, "badge": "Período", "badge_color": "primary", "footer": "+ ingresos generados"},
-            {"title": "Total Egresos", "value": e.total_egresos, "badge": "Período", "badge_color": "warning", "footer": "+ costos incurridos"},
-            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": "Resultado", "badge_color": "success", "footer": "resultado final"},
+            {"title": "Total Ingresos", "value": e.total_ingresos, "badge": "Período", "badge_color": "primary"},
+            {"title": "Total Egresos", "value": e.total_egresos, "badge": "Período", "badge_color": "warning"},
+            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": "Resultado", "badge_color": "success"},
         ]
 
-        # --------------------------
-        # Datos del gráfico por mes
-        # --------------------------
+        # ==========================
+        # Fechas
+        # ==========================
         start = e.fecha_inicio
         end = e.fecha_fin
+        if not start or not end:
+            return {}
+
         if isinstance(start, datetime):
             start = start.date()
         if isinstance(end, datetime):
             end = end.date()
 
-        months = []
-        ingresos = []
-        egresos = []
-        utilidades = []
+        # ==========================
+        # Datos mensuales
+        # ==========================
+        months, ingresos, egresos, utilidades = [], [], [], []
 
         current = start.replace(day=1)
         while current <= end:
             months.append(current.strftime("%b %Y"))
 
-            # calcular primer y último día del mes
             last_day = monthrange(current.year, current.month)[1]
             mes_inicio = current
             mes_fin = current.replace(day=last_day)
 
-            # Sumar ingresos y egresos de ese mes
-            total_ingresos_mes = sum(i.monto_neto.amount for i in Ingreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin)))
-            total_egresos_mes = sum(i.monto_neto.amount for i in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin)))
-            total_utilidad_mes = total_ingresos_mes - total_egresos_mes
+            ing = sum(
+                float(i.monto_neto.amount)
+                for i in Ingreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
+                if i.monto_neto
+            )
 
-            ingresos.append(float(total_ingresos_mes))
-            egresos.append(float(total_egresos_mes))
-            utilidades.append(float(total_utilidad_mes))
+            egr = sum(
+                float(e.monto_neto.amount)
+                for e in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
+                if e.monto_neto
+            )
 
-            # siguiente mes
-            next_month = current.month + 1
-            next_year = current.year
-            if next_month > 12:
-                next_month = 1
-                next_year += 1
-            current = current.replace(year=next_year, month=next_month)
+            ingresos.append(ing)
+            egresos.append(egr)
+            utilidades.append(ing - egr)
 
-        # --------------------------
-        # Crear gráfico Matplotlib (barras apiladas)
-        # --------------------------
-        fig, ax = plt.subplots(figsize=(8, 4))
+            current = current.replace(
+                year=current.year + (current.month // 12),
+                month=(current.month % 12) + 1,
+            )
+
+        # ==========================
+        # GRÁFICO 1 – BARRAS APILADAS
+        # ==========================
+        fig1, ax1 = plt.subplots(figsize=(8, 4))
         x = np.arange(len(months))
-        width = 0.6
 
-        # Colores modernos semi-transparentes (RGBA)
-        p1 = ax.bar(x, ingresos, width, label="Ingresos", color=(79/255, 142/255, 247/255, 0.7))      # Azul
-        p2 = ax.bar(x, egresos, width, bottom=ingresos, label="Egresos", color=(242/255, 201/255, 76/255, 0.6))  # Amarillo
-        p3 = ax.bar(x, utilidades, width, bottom=np.array(ingresos)+np.array(egresos), label="Utilidad Neta", color=(111/255, 207/255, 151/255, 0.7))  # Verde
+        ax1.bar(x, ingresos, label="Ingresos", color=(79/255, 142/255, 247/255, 0.75))
+        ax1.bar(x, egresos, bottom=ingresos, label="Egresos", color=(242/255, 201/255, 76/255, 0.65))
+        ax1.bar(
+            x,
+            utilidades,
+            bottom=np.array(ingresos) + np.array(egresos),
+            label="Utilidad Neta",
+            color=(111/255, 207/255, 151/255, 0.75),
+        )
 
-        # Anotar valores dentro de las barras
-        for i in range(len(months)):
-            ax.text(x[i], ingresos[i]/2, f"{ingresos[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
-            ax.text(x[i], ingresos[i]+egresos[i]/2, f"{egresos[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
-            ax.text(x[i], ingresos[i]+egresos[i]+utilidades[i]/2, f"{utilidades[i]:,.0f}", ha="center", va="center", color="white", fontweight="bold")
+        ax1.set_xticks(x)
+        ax1.set_xticklabels(months, rotation=45, ha="right")
+        ax1.set_ylabel("USD")
 
-        # --------------------------
-        # Estética del gráfico
-        # --------------------------
-        ax.set_xticks(x)
-        ax.set_xticklabels(months, rotation=45, ha="right")
-        ax.set_ylabel("Monto (USD)")
-        ax.set_title("Ingresos, Egresos y Utilidad Neta por Mes")
-
-        # Quitar bordes
-        for spine in ax.spines.values():
+        for spine in ax1.spines.values():
             spine.set_visible(False)
 
-        # Grid horizontal gris claro
-        ax.yaxis.grid(True, color="lightgrey", linestyle="--", linewidth=0.7)
-        ax.set_axisbelow(True)
+        ax1.yaxis.grid(True, linestyle="--", alpha=0.4)
+        ax1.set_axisbelow(True)
+        ax1.legend()
 
-        ax.legend()
-        plt.tight_layout()
+        buffer1 = io.BytesIO()
+        fig1.savefig(buffer1, format="png", dpi=100, transparent=True, bbox_inches="tight")
+        plt.close(fig1)
+        buffer1.seek(0)
+        bar_chart = f"data:image/png;base64,{base64.b64encode(buffer1.getvalue()).decode()}"
 
-        # --------------------------
-        # Convertir figura a base64
-        # --------------------------
-        buffer = io.BytesIO()
-        fig.savefig(buffer, format="png", dpi=100, bbox_inches='tight', transparent=True)
-        plt.close(fig)
-        buffer.seek(0)
-        image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        chart_image = f"data:image/png;base64,{image_base64}"
+        # ==========================
+        # GRÁFICO 2 – DISPERSIÓN FINANCIERA
+        # ==========================
+        fig2, ax2 = plt.subplots(figsize=(6, 4))
 
-        # --------------------------
-        # Contexto
-        # --------------------------
+        x_vals = np.array(ingresos)
+        y_vals = np.array(egresos)
+
+        ax2.scatter(x_vals, y_vals, color="#6366F1", alpha=0.75, s=60)
+
+        # Línea de tendencia SOLO si hay variación suficiente
+        if len(x_vals) > 1 and np.std(x_vals) > 0:
+            m, b = np.polyfit(x_vals, y_vals, 1)
+            ax2.plot(x_vals, m * x_vals + b, "--", color="#EF4444", linewidth=2)
+
+        ax2.set_xlabel("Ingresos (USD)")
+        ax2.set_ylabel("Egresos (USD)")
+        ax2.set_title("Dispersión Financiera Ingresos vs Egresos")
+        ax2.grid(True, linestyle="--", alpha=0.4)
+
+        buffer2 = io.BytesIO()
+        fig2.savefig(buffer2, format="png", dpi=100, transparent=True, bbox_inches="tight")
+        plt.close(fig2)
+        buffer2.seek(0)
+        scatter_chart = f"data:image/png;base64,{base64.b64encode(buffer2.getvalue()).decode()}"
+
+        # ==========================
+        # CONTEXTO FINAL
+        # ==========================
         context = super().get_context_data(**kwargs)
         context.update({
             "title": "Resumen Contable",
+            "table": table_context,
             "cards": cards,
-            "chart_image": chart_image,
+            "chart_image": bar_chart,
+            "scatter_chart_image": scatter_chart,
         })
         return context
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
-
-
 
 
 

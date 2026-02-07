@@ -1,56 +1,4 @@
-<div class="@container px-4 pb-4 grow">
-
- <div class="{% if card_included == 1 %}-m-6{% else %} bg-white flex flex-col grow lg:border lg:border-base-200 lg:overflow-hidden lg:rounded-default lg:shadow-xs{% endif %} lg:dark:border-base-800 dark:bg-base-900">
-        <div {% if height %}style="max-height: {{ height }}px;" data-simplebar{% endif %}>
-
-<div class="bg-white dark:bg-base-900 border border-base-200 rounded-default shadow-xs p-6">
-
-    {% if title %}
-        <h3 class="text-base font-semibold mb-4">{{ title }}: ({{ e.fecha_inicio|date:"d M Y" }} - {{ e.fecha_fin|date:"d M Y" }})</h3>
-    {% endif %}
-
- 
-    {% if cards %}
-        <div class="flex flex-col gap-6 lg:flex-row">
-            {% for card in cards %}
-                <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs
-                            dark:bg-base-900 dark:border-base-800 border border-base-200 lg:w-1/3">
-                    <div class="grow relative">
-                        <p class="leading-relaxed mb-0 text-sm">{{ card.title }} </p>
-                        <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
-                            {{ card.value }} 
-                        </div>
-                        {% if card.badge %}
-                            <div class="absolute right-0 top-0">
-                                <span class="inline-block font-semibold h-6 leading-6 px-2 rounded-default
-                                    text-[11px] uppercase whitespace-nowrap
-                                    {% if card.badge_color == 'success' %}
-                                        bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400
-                                    {% elif card.badge_color == 'warning' %}
-                                        bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400
-                                    {% else %}
-                                        bg-primary-100 text-primary-700 dark:bg-primary-500/20 dark:text-primary-400
-                                    {% endif %}">
-                                    {{ card.badge }}
-                                </span>
-                            </div>
-                        {% endif %}
-                    </div>
-                    {% if card.footer %}
-                        <div class="border-t border-base-200 flex items-center -mb-6 -mx-6 mt-6
-                                    pb-2 pt-2 px-6 text-sm dark:border-base-800">
-                            <span>{{ card.footer }}</span>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-
-</div>
-<div class="bg-white dark:bg-base-900 border border-base-200 rounded-default shadow-xs p-6">
-  <div class="flex flex-col gap-6 lg:flex-row">
+<div class="flex flex-col gap-6 lg:flex-row">
         
             <div class="flex flex-col gap-6 lg:w-1/2">
                 
@@ -60,20 +8,22 @@
 
 <div class="grow relative">
     
- <p class="leading-relaxed mb-0 text-sm">
-    <span class="font-semibold" style="color: #850389;">Ingresos</span>/
-    <span class="font-semibold" style="color: #F2C94C;">Egresos</span>/
-    <span class="font-semibold" style="color: #6FCF97;">Utilidad Neta</span>
+                        <p class="leading-relaxed mb-0 text-sm">
+    
+                            Last week revenue
+                        
 </p>
 
 
-
-
- 
+                        <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-8">
+    
+                            $1,234.56
+                        
+</div>
 
 
                         <div class="relative w-full">
-   <img src="{{ chart_image }}" alt="Ingresos vs Egresos" class="w-full h-auto rounded-default shadow-xs"/>
+  <canvas class="chart" data-type="line" data-value="{&quot;labels&quot;: [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;], &quot;datasets&quot;: [{&quot;data&quot;: [12, 19, 8, 27, 9, 19, 8, 14, 22, 20, 17, 16, 11, 18, 9, 12, 18, 27, 11, 10, 8, 17, 9, 18, 10, 20, 14, 27], &quot;borderColor&quot;: &quot;var(--color-primary-700)&quot;}]}" style="display: block; box-sizing: border-box; height: 150px; width: 432px;" width="864" height="300"></canvas>
 </div>
 
                     
@@ -108,8 +58,7 @@
 
 
                         <div class="relative w-full">
-<img src="{{ scatter_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
-
+  <canvas class="chart" data-type="line" data-value="{&quot;labels&quot;: [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;], &quot;datasets&quot;: [{&quot;data&quot;: [-20, -27, -10, -18, -11, -11, -25, -12, -17, -19, -17, -21, -16, -15, -11, -17, -20, -25, -24, -19, -13, -27, -18, -21, -23, -21, -22, -8], &quot;borderColor&quot;: &quot;var(--color-red-500)&quot;}]}" style="display: block; box-sizing: border-box; height: 150px; width: 432px;" width="864" height="300"></canvas>
 </div>
 
                     
@@ -344,9 +293,7 @@
     
         <div class="bg-base-100 flex flex-row overflow-hidden rounded-default dark:bg-base-800">
             
-                <div class="h-1.5 bg-primary-600 rounded-default z-10 last:rounded-r-default dark:bg-primary-500 " title="Ads revenue: 10%" style="width: 10%">
-
-                </div>
+                <div class="h-1.5 bg-primary-600 rounded-default z-10 last:rounded-r-default dark:bg-primary-500 " title="Ads revenue: 10%" style="width: 10%"></div>
             
         </div>
     
@@ -365,9 +312,3 @@
 </div>
 
     </div>
-</div>
-
-</div>
-
-</div>
-</div>
