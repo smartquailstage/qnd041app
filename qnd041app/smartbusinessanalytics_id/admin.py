@@ -669,6 +669,25 @@ from django.template.loader import render_to_string
 from unfold.components import BaseComponent, register_component
 from .models import Ingreso, Egreso
 
+import io
+import base64
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+from calendar import monthrange
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+from .models import Ingreso, Egreso
+import io
+import base64
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime
+from calendar import monthrange
+from django.template.loader import render_to_string
+from unfold.components import BaseComponent, register_component
+from .models import Ingreso, Egreso
+
 
 @register_component
 class EstadoResumenContableComponent(BaseComponent):
@@ -683,13 +702,13 @@ class EstadoResumenContableComponent(BaseComponent):
         e = self.instance
 
         # ==========================
-        # Helpers seguros
+        # Helper seguro
         # ==========================
         def money_to_float(m):
             return float(m.amount) if m else 0.0
 
         # ==========================
-        # Tabla de fechas
+        # Tabla fechas
         # ==========================
         table_context = {
             "headers": ["Campo", "Detalle"],
@@ -725,27 +744,22 @@ class EstadoResumenContableComponent(BaseComponent):
         # Datos mensuales
         # ==========================
         months, ingresos, egresos, utilidades = [], [], [], []
-
         current = start.replace(day=1)
+
         while current <= end:
             months.append(current.strftime("%b %Y"))
-
             last_day = monthrange(current.year, current.month)[1]
             mes_inicio = current
             mes_fin = current.replace(day=last_day)
 
             ing = sum(
-                float(i.monto_neto.amount)
+                money_to_float(i.monto_neto)
                 for i in Ingreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
-                if i.monto_neto
             )
-
             egr = sum(
-                float(e.monto_neto.amount)
-                for e in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
-                if e.monto_neto
+                money_to_float(x.monto_neto)
+                for x in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
             )
-
             ingresos.append(ing)
             egresos.append(egr)
             utilidades.append(ing - egr)
@@ -760,28 +774,18 @@ class EstadoResumenContableComponent(BaseComponent):
         # ==========================
         fig1, ax1 = plt.subplots(figsize=(8, 4))
         x = np.arange(len(months))
-
         ax1.bar(x, ingresos, label="Ingresos", color=(79/255, 142/255, 247/255, 0.75))
         ax1.bar(x, egresos, bottom=ingresos, label="Egresos", color=(242/255, 201/255, 76/255, 0.65))
-        ax1.bar(
-            x,
-            utilidades,
-            bottom=np.array(ingresos) + np.array(egresos),
-            label="Utilidad Neta",
-            color=(111/255, 207/255, 151/255, 0.75),
-        )
-
+        ax1.bar(x, utilidades, bottom=np.array(ingresos)+np.array(egresos),
+                label="Utilidad Neta", color=(111/255, 207/255, 151/255, 0.75))
         ax1.set_xticks(x)
         ax1.set_xticklabels(months, rotation=45, ha="right")
         ax1.set_ylabel("USD")
-
-        for spine in ax1.spines.values():
-            spine.set_visible(False)
-
         ax1.yaxis.grid(True, linestyle="--", alpha=0.4)
         ax1.set_axisbelow(True)
         ax1.legend()
-
+        for spine in ax1.spines.values():
+            spine.set_visible(False)
         buffer1 = io.BytesIO()
         fig1.savefig(buffer1, format="png", dpi=100, transparent=True, bbox_inches="tight")
         plt.close(fig1)
@@ -789,30 +793,55 @@ class EstadoResumenContableComponent(BaseComponent):
         bar_chart = f"data:image/png;base64,{base64.b64encode(buffer1.getvalue()).decode()}"
 
         # ==========================
-        # GRÁFICO 2 – DISPERSIÓN FINANCIERA
+        # GRÁFICO 2 – DISPERSIÓN
         # ==========================
         fig2, ax2 = plt.subplots(figsize=(6, 4))
-
         x_vals = np.array(ingresos)
         y_vals = np.array(egresos)
-
         ax2.scatter(x_vals, y_vals, color="#6366F1", alpha=0.75, s=60)
-
-        # Línea de tendencia SOLO si hay variación suficiente
         if len(x_vals) > 1 and np.std(x_vals) > 0:
             m, b = np.polyfit(x_vals, y_vals, 1)
-            ax2.plot(x_vals, m * x_vals + b, "--", color="#EF4444", linewidth=2)
-
+            ax2.plot(x_vals, m*x_vals+b, "--", color="#EF4444", linewidth=2)
         ax2.set_xlabel("Ingresos (USD)")
         ax2.set_ylabel("Egresos (USD)")
-        ax2.set_title("Dispersión Financiera Ingresos vs Egresos")
+        ax2.set_title("Dispersión Ingresos vs Egresos")
         ax2.grid(True, linestyle="--", alpha=0.4)
-
         buffer2 = io.BytesIO()
         fig2.savefig(buffer2, format="png", dpi=100, transparent=True, bbox_inches="tight")
         plt.close(fig2)
         buffer2.seek(0)
         scatter_chart = f"data:image/png;base64,{base64.b64encode(buffer2.getvalue()).decode()}"
+
+        # ==========================
+        # GRÁFICO 3 – PIE CHART por tipo
+        # ==========================
+        # Ingresos por tipo
+        ingresos_tipo_dict = {}
+        for i in Ingreso.objects.filter(fecha_devengo__range=(start, end)):
+            key = i.tipo_ingreso
+            ingresos_tipo_dict[key] = ingresos_tipo_dict.get(key, 0) + money_to_float(i.monto_neto)
+        ingresos_labels = list(ingresos_tipo_dict.keys())
+        ingresos_values = list(ingresos_tipo_dict.values())
+
+        # Egresos por tipo
+        egresos_tipo_dict = {}
+        for x in Egreso.objects.filter(fecha_devengo__range=(start, end)):
+            key = x.tipo_egreso
+            egresos_tipo_dict[key] = egresos_tipo_dict.get(key, 0) + money_to_float(x.monto_neto)
+        egresos_labels = list(egresos_tipo_dict.keys())
+        egresos_values = list(egresos_tipo_dict.values())
+
+        fig3, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 5))
+        ax3.pie(ingresos_values, labels=ingresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Blues(np.linspace(0.4, 0.8, len(ingresos_labels))))
+        ax3.set_title("Ingresos por Tipo")
+        ax4.pie(egresos_values, labels=egresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Oranges(np.linspace(0.4, 0.8, len(egresos_labels))))
+        ax4.set_title("Egresos por Tipo")
+        plt.tight_layout()
+        buffer3 = io.BytesIO()
+        fig3.savefig(buffer3, format="png", dpi=100, transparent=True, bbox_inches="tight")
+        plt.close(fig3)
+        buffer3.seek(0)
+        pie_chart = f"data:image/png;base64,{base64.b64encode(buffer3.getvalue()).decode()}"
 
         # ==========================
         # CONTEXTO FINAL
@@ -824,11 +853,13 @@ class EstadoResumenContableComponent(BaseComponent):
             "cards": cards,
             "chart_image": bar_chart,
             "scatter_chart_image": scatter_chart,
+            "pie_chart_image": pie_chart,
         })
         return context
 
     def render(self):
         return render_to_string(self.template_name, self.get_context_data())
+
 
 
 
