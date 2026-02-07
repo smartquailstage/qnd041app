@@ -431,6 +431,10 @@ def REPORTE_EGRESO_PDF(obj):
 REPORTE_EGRESO_PDF.short_description = "Reporte de Egreso"
 
 
+
+
+
+
 @admin.register(Egreso)
 class EgresoAdmin(ModelAdmin):
 
@@ -540,6 +544,8 @@ from django.urls import reverse
 from unfold.admin import ModelAdmin
 from .models import EstadoFinanciero
 
+
+
 # ================================
 # Objeto PDF para Admin
 # ================================
@@ -554,21 +560,241 @@ def REPORTE_FINANCIERO_PDF(obj):
 REPORTE_FINANCIERO_PDF.short_description = "Reporte Financiero"
 
 
-# ================================
-# Admin de EstadoFinanciero
-# ================================
+
+@register_component
+class EstadoPeriodoComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Período Analizado"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        e = self.instance
+        rows = [
+            ["Fecha inicio", e.fecha_inicio],
+            ["Fecha fin", e.fecha_fin],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Período Financiero",
+            "table": {"headers": ["Campo", "Detalle"], "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+import json
+from datetime import datetime
+from django.template.loader import render_to_string
+
+
+
+import io
+import base64
+from datetime import datetime
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")  # <- importante para que funcione en servidor
+import matplotlib.pyplot as plt
+
+from django.template.loader import render_to_string
+
+
+
+@register_component
+class EstadoResumenContableComponent(BaseComponent):
+    template_name = "admin/banner.html"
+    name = "Resumen Contable"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        e = self.instance
+
+        # --------------------------
+        # Tarjetas KPI
+        # --------------------------
+        cards = [
+            {
+                "title": "Total Ingresos",
+                "value": e.total_ingresos,
+                "badge": "Período",
+                "badge_color": "primary",
+                "footer": "+ ingresos generados",
+            },
+            {
+                "title": "Total Egresos",
+                "value": e.total_egresos,
+                "badge": "Período",
+                "badge_color": "warning",
+                "footer": "+ costos incurridos",
+            },
+            {
+                "title": "Utilidad Neta",
+                "value": e.utilidad_neta,
+                "badge": "Resultado",
+                "badge_color": "success",
+                "footer": "resultado final",
+            },
+        ]
+
+        # --------------------------
+        # Datos del gráfico por mes
+        # --------------------------
+        start = e.fecha_inicio
+        end = e.fecha_fin
+
+        if isinstance(start, datetime):
+            start = start.date()
+        if isinstance(end, datetime):
+            end = end.date()
+
+        months = []
+        ingresos = []
+        egresos = []
+
+        current = start.replace(day=1)
+        while current <= end:
+            months.append(current.strftime("%b %Y"))
+
+            # obtener valores por mes
+            ingresos.append(getattr(e, "ingresos_por_mes", lambda d: 0)(current))
+            egresos.append(getattr(e, "egresos_por_mes", lambda d: 0)(current))
+
+            # siguiente mes
+            next_month = current.month + 1
+            next_year = current.year
+            if next_month > 12:
+                next_month = 1
+                next_year += 1
+            current = current.replace(year=next_year, month=next_month)
+
+        # --------------------------
+        # Crear gráfico con Matplotlib
+        # --------------------------
+        fig, ax = plt.subplots(figsize=(8, 4))
+        x = np.arange(len(months))
+        width = 0.4
+
+        ax.bar(x - width/2, ingresos, width=width, label="Ingresos", color="#1D4ED8")  # azul
+        ax.bar(x + width/2, egresos, width=width, label="Egresos", color="#F59E0B")      # amarillo
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(months, rotation=45, ha="right")
+        ax.set_ylabel("Monto")
+        ax.set_title("Ingresos vs Egresos por Mes")
+        ax.legend()
+        plt.tight_layout()
+
+        # Convertir figura a base64
+        buffer = io.BytesIO()
+        fig.savefig(buffer, format="png")
+        plt.close(fig)
+        buffer.seek(0)
+        image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+        chart_image = f"data:image/png;base64,{image_base64}"
+
+        # --------------------------
+        # Contexto
+        # --------------------------
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Resumen Contable",
+            "cards": cards,
+            "chart_image": chart_image,
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+
+
+@register_component
+class EstadoKPIsComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Indicadores Financieros"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        e = self.instance
+        rows = [
+            ["Margen utilidad bruta (%)", e.margen_utilidad_bruta],
+            ["Margen utilidad neta (%)", e.margen_utilidad_neta],
+            ["Rentabilidad (%)", e.rentabilidad],
+            ["Liquidez (%)", e.liquidez],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "KPIs Financieros",
+            "table": {"headers": ["Indicador", "Valor"], "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+@register_component
+class EstadoAnalisisAvanzadoComponent(BaseComponent):
+    template_name = "admin/profile_card.html"
+    name = "Análisis Avanzado"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        e = self.instance
+        activos = e.analisis_activos or {}
+        rows = [
+            ["Punto de equilibrio", e.punto_equilibrio],
+            ["Dividendos a accionistas", e.dividendos_accionistas],
+            ["Activos totales", activos.get("activos_totales", "—")],
+            ["Liquidez sobre activos (%)", activos.get("proporcion_liquidez", "—")],
+            ["Egresos sobre activos (%)", activos.get("proporcion_egresos", "—")],
+        ]
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Análisis Financiero Avanzado",
+            "table": {"headers": ["Métrica", "Resultado"], "rows": rows},
+        })
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
 @admin.register(EstadoFinanciero)
 class EstadoFinancieroAdmin(ModelAdmin):
+
+    # ----------------------------------
+    # Componentes visuales
+    # ----------------------------------
+    list_sections = [
+        EstadoPeriodoComponent,
+        EstadoResumenContableComponent,
+        EstadoKPIsComponent,
+        EstadoAnalisisAvanzadoComponent,
+    ]
 
     # ----------------------------------
     # Fieldsets (tabs)
     # ----------------------------------
     fieldsets = (
         ("I. Período", {
-            "fields": (
-                "fecha_inicio",
-                "fecha_fin",
-            ),
+            "fields": ("fecha_inicio", "fecha_fin"),
             "classes": ("unfold", "tab-periodo"),
         }),
 
@@ -578,8 +804,6 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "total_egresos",
                 "utilidad_bruta",
                 "utilidad_neta",
-                "punto_equilibrio",          # NUEVO
-                "dividendos_accionistas",    # NUEVO
             ),
             "classes": ("unfold", "tab-resumen"),
         }),
@@ -594,16 +818,18 @@ class EstadoFinancieroAdmin(ModelAdmin):
             "classes": ("unfold", "tab-kpis"),
         }),
 
-        ("IV. Análisis de Activos", {
+        ("IV. Análisis Avanzado", {
             "fields": (
-                "analisis_activos",          # NUEVO
+                "punto_equilibrio",
+                "dividendos_accionistas",
+                "analisis_activos",
             ),
-            "classes": ("unfold", "tab-activos"),
+            "classes": ("unfold", "tab-avanzado"),
         }),
     )
 
     # ----------------------------------
-    # Listado en tabla
+    # Listado
     # ----------------------------------
     list_display = (
         "fecha_inicio",
@@ -611,17 +837,14 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "total_ingresos",
         "total_egresos",
         "utilidad_neta",
-        "punto_equilibrio",              # NUEVO
-        "dividendos_accionistas",        # NUEVO
-        REPORTE_FINANCIERO_PDF,
     )
 
-    search_fields = (
+    list_filter = (
         "fecha_inicio",
         "fecha_fin",
     )
 
-    list_filter = (
+    search_fields = (
         "fecha_inicio",
         "fecha_fin",
     )
@@ -635,9 +858,9 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "margen_utilidad_neta",
         "rentabilidad",
         "liquidez",
-        "punto_equilibrio",          # NUEVO
-        "dividendos_accionistas",    # NUEVO
-        "analisis_activos",          # NUEVO
+        "punto_equilibrio",
+        "dividendos_accionistas",
+        "analisis_activos",
     )
 
     unfold_fieldsets = True
