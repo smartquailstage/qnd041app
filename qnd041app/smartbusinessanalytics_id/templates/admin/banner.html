@@ -155,37 +155,42 @@
     <div class="flex flex-col gap-5">
 
 {% for gasto in gastos %}
-<div class="flex flex-col gap-2 relative w-full ">
+<div class="flex flex-col gap-2 relative w-full">
+
     <div class="flex flex-row relative z-20">
-<h3 class="text-font-important-light dark:text-font-important-dark text-sm">
-    {{ gasto.title }}{% if gasto.title == "Ventas" and gasto.porcentaje_venta %} ({{ gasto.porcentaje_venta }} %) {% endif %}
-</h3>
+        <h3 class="text-font-important-light dark:text-font-important-dark text-sm">
+            {{ gasto.title }}
+            {% if gasto.porcentaje_venta %}
+                ({{ gasto.porcentaje_venta }}%)
+            {% endif %}
+        </h3>
 
         <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs dark:text-font-important-light dark:bg-green-100">
-            + ${{ gasto.value.amount|floatformat:2 }}
+            ${{ gasto.value.amount|floatformat:2 }}
         </strong>
     </div>
 
-<div class="bg-base-100 flex flex-row overflow-hidden rounded-default dark:bg-base-800">
-<div class="h-1.5 rounded-default z-10 last:rounded-r-default" 
-     title="{{ gasto.title }}"
-     style="
-        width: {% if gasto.title == 'Ventas' and gasto.porcentaje_venta %}{{ gasto.porcentaje_venta }}{% else %}0{% endif %}%;
-        background-color: {% if gasto.title == 'Ventas' and gasto.porcentaje_venta %}
-            {% if gasto.porcentaje_venta > 100 %} #10B981   /* verde */
-            {% elif gasto.porcentaje_venta >= 30 and gasto.porcentaje_venta <= 50 %} #FBBF24  /* amarillo */
-            {% else %} #EF4444  /* rojo */
-            {% endif %}
-        {% else %} #D1D5DB  /* gris si no es ventas o no hay porcentaje */
-        {% endif %};
-     ">
-</div>
-
-</div>
-
+    <div class="bg-base-100 flex flex-row overflow-hidden rounded-default dark:bg-base-800">
+        <div
+            class="h-1.5 rounded-default z-10 last:rounded-r-default"
+            title="{{ gasto.title }}"
+            style="
+                width: {{ gasto.porcentaje_venta|default:0 }}%;
+                background-color:
+                    {% if gasto.porcentaje_venta > 100 %}
+                        #10B981   /* verde */
+                    {% elif gasto.porcentaje_venta >= 30 %}
+                        #FBBF24   /* amarillo */
+                    {% else %}
+                        #EF4444   /* rojo */
+                    {% endif %};
+            ">
+        </div>
+    </div>
 
 </div>
 {% endfor %}
+
 
 
         <!-- Gráfico de pie -->
