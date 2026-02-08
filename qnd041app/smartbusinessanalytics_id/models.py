@@ -848,45 +848,44 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
-class EstadoFinanciero(models.Model):
+from decimal import Decimal, ROUND_HALF_UP
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+from django.db import models
 
+
+class EstadoFinanciero(models.Model):
     fecha_inicio = models.DateField(null=True, blank=True)
     fecha_fin = models.DateField(null=True, blank=True)
 
-    # ==============================
     # RESULTADOS AGREGADOS
-    # ==============================
     total_ingresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_egresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_bruta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_neta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-    # ==============================
     # INDICADORES
-    # ==============================
     margen_utilidad_bruta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
     margen_utilidad_neta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
     rentabilidad = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
     ratio_cobertura = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
 
-    # ==============================
     # GASTOS
-    # ==============================
     ventas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    porcentaje_ventas = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))  # % sobre utilidad neta
     inversiones = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_fijos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos fijos relacionados con servicios públicos, alquileres, etc.")
-    gastos_operativos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos operativos relacionados con suministros, mantenimiento, etc.")
-    gastos_publicitarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos relacionados con publicidad, marketing y promoción.")
-    gastos_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos relacionados con asesoría legal, honorarios de abogados, etc.")
-    gastos_nomina = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos relacionados con sueldos, salarios, beneficios y cargas sociales.")
-    gastos_tributarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Gastos relacionados con impuestos, tasas y contribuciones.") 
-    declaracion_iva = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Monto pagado por declaración de IVA.")
-    deduccion_gastos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Monto total de gastos deducibles para efectos fiscales.")
-    cuentas_por_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Monto total de cuentas por pagar al cierre del periodo.")
-    cuentas_por_cobrar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True, help_text="Monto total de cuentas por cobrar al cierre del periodo.")
-    # ==============================
+    gastos_fijos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    gastos_operativos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    gastos_publicitarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    gastos_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    gastos_nomina = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    gastos_tributarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    declaracion_iva = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    deduccion_gastos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    cuentas_por_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    cuentas_por_cobrar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+
     # CAMPOS AVANZADOS
-    # ==============================
     punto_equilibrio = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     dividendos_accionistas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     analisis_flujo_financiero = models.JSONField(null=True, blank=True)
@@ -895,7 +894,6 @@ class EstadoFinanciero(models.Model):
     # MÉTODO PRINCIPAL
     # ==============================
     def calcular_estado_financiero(self, tasa_dividendo=Decimal('0.50')):
-
         if not self.fecha_inicio or not self.fecha_fin:
             return
 
@@ -922,11 +920,9 @@ class EstadoFinanciero(models.Model):
                     total += val
             return total
 
-        
-
         def d(value):
             return Decimal(value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) if value else Decimal('0.00')
-        
+
         def sumar_por_categoria(qs, categoria, campo='monto_neto'):
             total = Money(0, 'USD')
             for obj in qs.filter(categoria=categoria):
@@ -934,26 +930,6 @@ class EstadoFinanciero(models.Model):
                 if isinstance(val, Money):
                     total += val
             return total
-            
-        def sumar_egresos_no_confirmados(qs, campo='monto_neto', moneda='USD'):
-            total = Money(0, moneda)
-            for obj in qs.filter(es_egreso=True, confirmado=False):
-                val = getattr(obj, campo, None)
-                if isinstance(val, Money):
-                    total += val
-
-            return total
-
-        def sumar_ingresos_no_confirmados(qs, campo='monto_neto', moneda='USD'):
-            total = Money(0, moneda)
-            for obj in qs.filter(es_ingreso=True, confirmado=False):
-                val = getattr(obj, campo, None)
-                if isinstance(val, Money):
-                    total += val
-
-            return total
-
-
 
         def ratio(num, den):
             if den <= 0:
@@ -961,49 +937,38 @@ class EstadoFinanciero(models.Model):
             return (num / den * Decimal('100')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
         # ------------------------------
-        # Totales
+        # GASTOS y VENTAS primero
         # ------------------------------
-        self.total_ingresos = sumar_money(ingresos, 'monto_neto')
-        self.total_egresos = sumar_money(egresos, 'monto_neto')
-
-        costo_directo_total = sumar_money(egresos, 'costo_directo')
-
-        self.utilidad_bruta = sumar_money(ingresos, 'utilidad_bruta') - costo_directo_total
-        self.utilidad_neta = sumar_money(ingresos, 'utilidad_neta')
-
-        ingresos_v = d(self.total_ingresos.amount)
-        egresos_v = d(self.total_egresos.amount)
-        utilidad_bruta_v = d(self.utilidad_bruta.amount)
-        utilidad_neta_v = d(self.utilidad_neta.amount)
-        costo_directo_v = d(costo_directo_total.amount)
-
-        # ------------------------------
-        # GASTOS
-        # ------------------------------
+        self.ventas = sumar_por_categoria(ingresos, 'ventas')
+        self.inversiones = sumar_por_categoria(egresos, 'inversion')
         self.gastos_operativos = sumar_por_categoria(egresos, 'gastos_operativos')
         self.gastos_nomina = sumar_por_categoria(egresos, 'gastos_nomina')
         self.gastos_tributarios = sumar_por_categoria(egresos, 'gastos_tributarios')
         self.gastos_publicitarios = sumar_por_categoria(egresos, 'gastos_publicitarios')
         self.gastos_legales = sumar_por_categoria(egresos, 'gastos_legales')
-        self.declaracion_iva  = sumar_money(ingresos, 'iva')
-        self.deduccion_gastos = sumar_money(egresos, 'iva')
 
-        self.cuentas_por_pagar = sumar_egresos_no_confirmados(egresos, 'monto_neto')
-        self.cuentas_por_cobrar = sumar_ingresos_no_confirmados(ingresos, 'monto_neto')
-        self.ventas = sumar_por_categoria(ingresos, 'ventas')
-        self.inversiones = sumar_por_categoria(egresos, 'inversion')
-        self.inversiones = sumar_por_categoria(egresos, 'deuda')
+        # ------------------------------
+        # Totales
+        # ------------------------------
+        self.total_ingresos = sumar_money(ingresos, 'monto_neto')
+        self.total_egresos = sumar_money(egresos, 'monto_neto')
+        self.utilidad_bruta = sumar_money(ingresos, 'utilidad_bruta') - sumar_money(egresos, 'costo_directo')
+        self.utilidad_neta = sumar_money(ingresos, 'utilidad_neta')
 
-    # ======================================================
-    # INGRESOS POR CATEGORÍA
-    # ======================================================
+        ingresos_v = d(self.total_ingresos.amount)
+        egresos_v = d(self.total_egresos.amount)
+        utilidad_neta_v = d(self.utilidad_neta.amount)
+        ventas_v = d(self.ventas.amount) if self.ventas else Decimal('0')
 
-
+        # ------------------------------
+        # Porcentaje Ventas / Utilidad Neta
+        # ------------------------------
+        self.porcentaje_ventas = ratio(ventas_v, utilidad_neta_v).quantize(Decimal('1'), rounding=ROUND_HALF_UP)
 
         # ------------------------------
         # Indicadores
         # ------------------------------
-        self.margen_utilidad_bruta = ratio(utilidad_bruta_v, ingresos_v)
+        self.margen_utilidad_bruta = ratio(d(self.utilidad_bruta.amount), ingresos_v)
         self.margen_utilidad_neta = ratio(utilidad_neta_v, ingresos_v)
         self.rentabilidad = ratio(utilidad_neta_v, ingresos_v)
         self.ratio_cobertura = ratio(ingresos_v, egresos_v)
@@ -1011,27 +976,25 @@ class EstadoFinanciero(models.Model):
         # ------------------------------
         # Punto de equilibrio
         # ------------------------------
-        margen_contribucion = ingresos_v - costo_directo_v
-
-        if margen_contribucion > 0:
-            pe = (egresos_v / margen_contribucion * ingresos_v).quantize(
-                Decimal('0.01'), rounding=ROUND_HALF_UP
-            )
-            self.punto_equilibrio = Money(pe, 'USD')
-        else:
-            self.punto_equilibrio = Money(0, 'USD')
+        margen_contribucion = ingresos_v - d(sumar_money(egresos, 'costo_directo').amount)
+        self.punto_equilibrio = Money(
+            (d(sumar_money(egresos, 'monto_neto').amount) / margen_contribucion * ingresos_v).quantize(Decimal('0.01'))
+            if margen_contribucion > 0 else 0,
+            'USD'
+        )
 
         # ------------------------------
         # Dividendos
         # ------------------------------
-        div = (utilidad_neta_v * tasa_dividendo).quantize(Decimal('0.01')) if utilidad_neta_v > 0 else Decimal('0.00')
-        self.dividendos_accionistas = Money(div, 'USD')
+        self.dividendos_accionistas = Money(
+            (utilidad_neta_v * tasa_dividendo).quantize(Decimal('0.01')) if utilidad_neta_v > 0 else 0,
+            'USD'
+        )
 
         # ------------------------------
-        # Análisis de flujo financiero (NO balance)
+        # Flujo financiero
         # ------------------------------
         flujo_total = ingresos_v + egresos_v
-
         self.analisis_flujo_financiero = {
             "ingresos": float(ingresos_v),
             "egresos": float(egresos_v),
@@ -1040,26 +1003,18 @@ class EstadoFinanciero(models.Model):
             "egresos_pct": float(ratio(egresos_v, flujo_total)),
         }
 
-  
-
+    # ==============================
+    # Meta y Métodos
+    # ==============================
     class Meta:
         app_label = "smartbusinessanalytics_id"
         ordering = ["-fecha_inicio"]
 
     def save(self, *args, **kwargs):
-        """
-        Guarda el estado financiero asegurando que
-        todos los valores calculados estén actualizados.
-        """
         recalcular = kwargs.pop("recalcular", True)
-
         if recalcular and self.fecha_inicio and self.fecha_fin:
             self.calcular_estado_financiero()
-
         super().save(*args, **kwargs)
-
 
     def __str__(self):
         return f"Estado Financiero {self.fecha_inicio} - {self.fecha_fin}"
-
-

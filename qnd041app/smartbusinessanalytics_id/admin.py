@@ -923,6 +923,19 @@ from django.template.loader import render_to_string
 from unfold.components import BaseComponent, register_component
 from .models import Ingreso, Egreso
 
+from djmoney.money import Money
+
+import io
+import base64
+from calendar import monthrange
+from datetime import datetime
+import matplotlib.pyplot as plt
+import numpy as np
+from decimal import Decimal
+from djmoney.money import Money
+from django.template.loader import render_to_string
+
+from smartbusinessanalytics_id.models import MovimientoFinanciero, Ingreso, Egreso
 
 @register_component
 class EstadoResumenContableComponent(BaseComponent):
@@ -940,7 +953,7 @@ class EstadoResumenContableComponent(BaseComponent):
         # Helper seguro
         # ==========================
         def money_to_float(m):
-            return float(m.amount) if m else 0.0
+            return float(m.amount) if isinstance(m, Money) else float(m or 0.0)
 
         # ==========================
         # Tabla fechas
@@ -960,6 +973,24 @@ class EstadoResumenContableComponent(BaseComponent):
             {"title": "Total Ingresos", "value": e.total_ingresos, "badge": "Período", "badge_color": "primary"},
             {"title": "Total Egresos", "value": e.total_egresos, "badge": "Período", "badge_color": "warning"},
             {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": "Resultado", "badge_color": "success"},
+        ]
+
+        # ==========================
+        # Lista de gastos
+        # ==========================
+        raw_gastos = [
+            {"title": "Ventas", "value": e.ventas},
+            {"title": "Inversiones", "value": e.inversiones},
+            {"title": "Gastos Fijos", "value": e.gastos_fijos},
+            {"title": "Gastos Operativos", "value": e.gastos_operativos},
+            {"title": "Gastos Publicitarios", "value": e.gastos_publicitarios},
+            {"title": "Gastos Legales", "value": e.gastos_legales},
+            {"title": "Gastos Nómina", "value": e.gastos_nomina},
+            {"title": "Gastos Tributarios", "value": e.gastos_tributarios},
+            {"title": "Declaración IVA", "value": e.declaracion_iva},
+            {"title": "Deducción Gastos", "value": e.deduccion_gastos},
+            {"title": "Cuentas por Pagar", "value": e.cuentas_por_pagar},
+            {"title": "Cuentas por Cobrar", "value": e.cuentas_por_cobrar},
         ]
 
         # ==========================
@@ -1051,7 +1082,6 @@ class EstadoResumenContableComponent(BaseComponent):
         # ==========================
         # GRÁFICO 3 – PIE CHART por tipo
         # ==========================
-        # Ingresos por tipo
         ingresos_tipo_dict = {}
         for i in Ingreso.objects.filter(fecha_devengo__range=(start, end)):
             key = i.tipo_ingreso
@@ -1059,7 +1089,6 @@ class EstadoResumenContableComponent(BaseComponent):
         ingresos_labels = list(ingresos_tipo_dict.keys())
         ingresos_values = list(ingresos_tipo_dict.values())
 
-        # Egresos por tipo
         egresos_tipo_dict = {}
         for x in Egreso.objects.filter(fecha_devengo__range=(start, end)):
             key = x.tipo_egreso
@@ -1068,14 +1097,35 @@ class EstadoResumenContableComponent(BaseComponent):
         egresos_values = list(egresos_tipo_dict.values())
 
         fig3, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 5))
-        ax3.pie(ingresos_values, labels=ingresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Blues(np.linspace(0.4, 0.8, len(ingresos_labels))))
-        ax4.pie(egresos_values, labels=egresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Oranges(np.linspace(0.4, 0.8, len(egresos_labels))))
+        ax3.pie(ingresos_values, labels=ingresos_labels, autopct="%1.1f%%", startangle=90,
+                colors=plt.cm.Blues(np.linspace(0.4, 0.8, len(ingresos_labels))))
+        ax4.pie(egresos_values, labels=egresos_labels, autopct="%1.1f%%", startangle=90,
+                colors=plt.cm.Oranges(np.linspace(0.4, 0.8, len(egresos_labels))))
         plt.tight_layout()
         buffer3 = io.BytesIO()
         fig3.savefig(buffer3, format="png", dpi=100, transparent=True, bbox_inches="tight")
         plt.close(fig3)
         buffer3.seek(0)
         pie_chart = f"data:image/png;base64,{base64.b64encode(buffer3.getvalue()).decode()}"
+
+        # ==========================
+        # CALCULAR PORCENTAJES DE GASTOS RELATIVOS A UTILIDAD NETA
+        # ==========================
+        utilidad_neta_float = money_to_float(e.utilidad_neta)
+        gastos_valores = np.array([money_to_float(g["value"]) for g in raw_gastos], dtype=float)
+
+        if utilidad_neta_float > 0:
+            gastos_porcentajes = np.round((gastos_valores / utilidad_neta_float) * 100).astype(int)
+        else:
+            gastos_porcentajes = np.zeros_like(gastos_valores, dtype=int)
+
+        gastos = []
+        for g, pct in zip(raw_gastos, gastos_porcentajes):
+            gastos.append({
+                "title": g["title"],
+                "value": g["value"],
+                "porcentaje_venta": pct,  # listo para template
+            })
 
         # ==========================
         # CONTEXTO FINAL
@@ -1085,6 +1135,7 @@ class EstadoResumenContableComponent(BaseComponent):
             "title": "Resumen Contable",
             "table": table_context,
             "cards": cards,
+            "gastos": gastos,
             "chart_image": bar_chart,
             "scatter_chart_image": scatter_chart,
             "pie_chart_image": pie_chart,
@@ -1253,6 +1304,7 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "margen_utilidad_neta",
         "rentabilidad",
         "ratio_cobertura",
+        "porcentaje_ventas"
     )
 
     list_filter = (
