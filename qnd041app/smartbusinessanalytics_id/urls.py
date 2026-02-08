@@ -22,7 +22,10 @@ urlpatterns = [
         name="pdf_reporte_financiero"
     ),
 
+    path('reporte/movimiento/<int:pk>/pdf/', views.pdf_reporte_movimiento, name='pdf_reporte_movimiento'),
+
 ]
+
 
 
 

@@ -7,6 +7,241 @@ from .models import Ingreso
 from django.template.loader import render_to_string
 from unfold.components import BaseComponent, register_component
 
+def REPORTE_MOVIMIENTO_FINANCIERO_PDF(obj):
+    # Genera la URL del reporte PDF usando el reverse y el ID del objeto
+    url = reverse("smartbusinessanalytics_id:pdf_reporte_movimiento_financiero", args=[obj.pk])
+    
+    # Retorna un enlace que abrirá el PDF en una nueva pestaña
+    return mark_safe(
+        f'<a href="{url}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span> '
+        f'Reporte de Movimiento Financiero</a>'
+    )
+
+REPORTE_MOVIMIENTO_FINANCIERO_PDF.short_description = "Reporte de Movimiento Financiero"
+
+
+
+import io
+import base64
+import numpy as np
+import matplotlib.pyplot as plt
+
+from datetime import datetime
+from calendar import monthrange
+
+from unfold.components import BaseComponent, register_component
+from django.template.loader import render_to_string
+
+from .models import MovimientoFinanciero
+
+
+from django.template.loader import render_to_string
+from .models import MovimientoFinanciero
+
+@register_component
+class MovimientoFinancieroResumenComponent(BaseComponent):
+    template_name = "admin/movimientos.html"
+    name = "Resumen Movimiento Financiero"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        obj = self.instance
+
+        # ==========================
+        # Helper seguro
+        # ==========================
+        def money(m):
+            return float(m.amount) if m else 0.0
+
+        # ==========================
+        # Validación básica
+        # ==========================
+        if not obj:
+            return {}
+
+        # ==========================
+        # Datos principales según tipo
+        # ==========================
+        ingreso = obj.es_ingreso
+        egreso = obj.es_egreso
+
+        # Montos principales
+        total_ingresos = money(obj.monto_neto) if ingreso else 0
+        total_egresos = money(obj.monto_neto) if egreso else 0
+        utilidad = money(obj.utilidad_neta)
+
+        # ==========================
+        # Cards para mostrar
+        # ==========================
+        cards = []
+
+        if ingreso:
+            cards.append({
+                "title": "Ingreso",
+                "value": total_ingresos,
+                "badge": "USD",
+                "badge_color": "success",
+            })
+
+        if egreso:
+            cards.append({
+                "title": "Egreso",
+                "value": total_egresos,
+                "badge": "USD",
+                "badge_color": "warning",
+            })
+
+        cards.append({
+            "title": "Utilidad Neta",
+            "value": utilidad,
+            "badge": "USD",
+            "badge_color": "primary",
+        })
+
+        # ==========================
+        # Contexto final
+        # ==========================
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "title": "Resumen Movimiento Financiero",
+            "cards": cards,
+            # No gráficos en esta versión
+        })
+
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import MovimientoFinanciero
+
+
+@admin.register(MovimientoFinanciero)
+class MovimientoFinancieroAdmin(ModelAdmin):
+    # ----------------------------------
+    # Componentes visuales
+    # ----------------------------------
+    list_sections = [
+        MovimientoFinancieroResumenComponent,
+    ]
+
+    # ----------------------------------
+    # Fieldsets en tabs
+    # ----------------------------------
+    fieldsets = (
+        ("I. Información General", {
+            "fields": (
+                "fecha_devengo",
+                "codigo_referencia",
+                "descripcion",
+                "categoria",
+                "es_ingreso",
+                "es_egreso",
+                "contraparte_nombre",
+                "contraparte_identificacion_fiscal",
+                "confirmado",
+            ),
+            "classes": ("unfold", "tab-general"),
+        }),
+
+        ("II. Detalle", {
+            "fields": (
+                "monto_bruto",
+                "descuento",
+                "tasa_iva",
+                "costo_directo",
+                "gastos_indirectos",
+            ),
+            "classes": ("unfold", "tab-egreso"),
+        }),
+
+        ("IV. Resultados Calculados", {
+            "fields": (
+                "base_imponible",
+                "iva",
+                "monto_neto",
+                "utilidad_bruta",
+                "utilidad_neta",
+            ),
+            "classes": ("unfold", "tab-resultados"),
+        }),
+
+        ("V. Metadatos", {
+            "fields": (
+                "hash_registro",
+                "created_at",
+                "fecha_registro",
+            ),
+            "classes": ("unfold", "tab-meta"),
+        }),
+    )
+
+    # ----------------------------------
+    # Listado en admin
+    # ----------------------------------
+    list_display = (
+        "fecha_devengo",
+        "tipo_movimiento",
+        "categoria",
+        "monto_principal",
+        "utilidad_neta",
+        "confirmado",
+    )
+
+    list_filter = (
+        "es_ingreso",
+        "es_egreso",
+        "categoria",
+        "fecha_devengo",
+        "confirmado",
+    )
+
+    search_fields = (
+        "codigo_referencia",
+        "descripcion",
+        "contraparte_nombre",
+        "contraparte_identificacion_fiscal",
+    )
+
+    readonly_fields = (
+        "hash_registro",
+        "base_imponible",
+        "iva",
+        "monto_neto",
+        "utilidad_bruta",
+        "utilidad_neta",
+        "created_at",
+        "fecha_registro",
+    )
+
+    unfold_fieldsets = True
+
+    # ----------------------------------
+    # Campos calculados para listado
+    # ----------------------------------
+    def tipo_movimiento(self, obj):
+        return "Ingreso" if obj.es_ingreso else "Egreso"
+    tipo_movimiento.short_description = "Tipo"
+
+    def monto_principal(self, obj):
+        return obj.monto_neto
+    monto_principal.short_description = "Monto Neto"
+
+    # ----------------------------------
+    # Media JS para ocultar tabs dinámicamente según tipo de movimiento
+    # ----------------------------------
+    class Media:
+        js = ('admin/js/movimiento_financiero_toggle.js',)
+
+
 
 
 def REPORTE_INGRESO_PDF(obj):
@@ -754,11 +989,11 @@ class EstadoResumenContableComponent(BaseComponent):
 
             ing = sum(
                 money_to_float(i.monto_neto)
-                for i in Ingreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
+                for i in MovimientoFinanciero.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin), es_ingreso=True)
             )
             egr = sum(
                 money_to_float(x.monto_neto)
-                for x in Egreso.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin))
+                for x in MovimientoFinanciero.objects.filter(fecha_devengo__range=(mes_inicio, mes_fin), es_egreso=True)
             )
             ingresos.append(ing)
             egresos.append(egr)
@@ -804,8 +1039,9 @@ class EstadoResumenContableComponent(BaseComponent):
             ax2.plot(x_vals, m*x_vals+b, "--", color="#EF4444", linewidth=2)
         ax2.set_xlabel("Ingresos (USD)")
         ax2.set_ylabel("Egresos (USD)")
-        ax2.set_title("Dispersión Ingresos vs Egresos")
         ax2.grid(True, linestyle="--", alpha=0.4)
+        for spine in ax2.spines.values():
+            spine.set_visible(False)
         buffer2 = io.BytesIO()
         fig2.savefig(buffer2, format="png", dpi=100, transparent=True, bbox_inches="tight")
         plt.close(fig2)
@@ -833,9 +1069,7 @@ class EstadoResumenContableComponent(BaseComponent):
 
         fig3, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 5))
         ax3.pie(ingresos_values, labels=ingresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Blues(np.linspace(0.4, 0.8, len(ingresos_labels))))
-        ax3.set_title("Ingresos por Tipo")
         ax4.pie(egresos_values, labels=egresos_labels, autopct="%1.1f%%", startangle=90, colors=plt.cm.Oranges(np.linspace(0.4, 0.8, len(egresos_labels))))
-        ax4.set_title("Egresos por Tipo")
         plt.tight_layout()
         buffer3 = io.BytesIO()
         fig3.savefig(buffer3, format="png", dpi=100, transparent=True, bbox_inches="tight")
@@ -879,7 +1113,7 @@ class EstadoKPIsComponent(BaseComponent):
             ["Margen utilidad bruta (%)", e.margen_utilidad_bruta],
             ["Margen utilidad neta (%)", e.margen_utilidad_neta],
             ["Rentabilidad (%)", e.rentabilidad],
-            ["Liquidez (%)", e.liquidez],
+            ["Liquidez (%)", e.ratio_cobertura],
         ]
         context = super().get_context_data(**kwargs)
         context.update({
@@ -903,7 +1137,7 @@ class EstadoAnalisisAvanzadoComponent(BaseComponent):
 
     def get_context_data(self, **kwargs):
         e = self.instance
-        activos = e.analisis_activos or {}
+        activos = e.analisis_flujo_financiero or {}
         rows = [
             ["Punto de equilibrio", e.punto_equilibrio],
             ["Dividendos a accionistas", e.dividendos_accionistas],
@@ -923,6 +1157,9 @@ class EstadoAnalisisAvanzadoComponent(BaseComponent):
 
 
 
+
+
+from .models import EstadoFinanciero
 
 @admin.register(EstadoFinanciero)
 class EstadoFinancieroAdmin(ModelAdmin):
@@ -956,21 +1193,48 @@ class EstadoFinancieroAdmin(ModelAdmin):
             "classes": ("unfold", "tab-resumen"),
         }),
 
-        ("III. Indicadores Financieros", {
+        ("III. Detalle Egresos", {
+            "fields": (
+                "gastos_operativos",
+                "gastos_nomina",
+                "gastos_tributarios",
+                "gastos_publicitarios",
+                "gastos_legales",
+                "declaracion_iva",
+                "cuentas_por_pagar",
+                "cuentas_por_cobrar",
+
+            ),
+            "classes": ("unfold", "tab-egresos"),
+        }),
+
+
+
+        ("IV. Detalle Ingresos", {
+            "fields": (
+                "ventas",
+                "inversiones",
+                "deduccion_gastos",
+            ),
+            "classes": ("unfold", "tab-ingresos"),
+        }),
+
+
+        ("V. Indicadores Financieros", {
             "fields": (
                 "margen_utilidad_bruta",
                 "margen_utilidad_neta",
                 "rentabilidad",
-                "liquidez",
+                "ratio_cobertura",
             ),
             "classes": ("unfold", "tab-kpis"),
         }),
 
-        ("IV. Análisis Avanzado", {
+        ("VI. Análisis Avanzado (Flujo)", {
             "fields": (
                 "punto_equilibrio",
                 "dividendos_accionistas",
-                "analisis_activos",
+                "analisis_flujo_financiero",
             ),
             "classes": ("unfold", "tab-avanzado"),
         }),
@@ -988,7 +1252,7 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "utilidad_neta",
         "margen_utilidad_neta",
         "rentabilidad",
-        "liquidez",
+        "ratio_cobertura",
     )
 
     list_filter = (
@@ -1001,6 +1265,9 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "fecha_fin",
     )
 
+    # ----------------------------------
+    # Campos solo lectura
+    # ----------------------------------
     readonly_fields = (
         "total_ingresos",
         "total_egresos",
@@ -1009,10 +1276,21 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "margen_utilidad_bruta",
         "margen_utilidad_neta",
         "rentabilidad",
-        "liquidez",
+        "ratio_cobertura",
         "punto_equilibrio",
         "dividendos_accionistas",
-        "analisis_activos",
+        "analisis_flujo_financiero",
+        "ventas",
+        "inversiones",
+        "gastos_operativos",
+        "gastos_nomina",
+        "gastos_tributarios",
+        "gastos_publicitarios",
+        "gastos_legales",
+        "declaracion_iva",
+        "deduccion_gastos",
+        "cuentas_por_pagar",
+        "cuentas_por_cobrar",
     )
 
     unfold_fieldsets = True

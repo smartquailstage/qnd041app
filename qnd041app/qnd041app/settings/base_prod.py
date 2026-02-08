@@ -187,6 +187,7 @@ INSTALLED_APPS = [
     "django_social_share",
     "business_customer_projects",
     'smartbusinesslaw',
+    'smartbusinessanalytics_id',
 
              # Apps propias del proyecto
     "usuarios",

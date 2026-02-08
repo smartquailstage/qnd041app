@@ -153,8 +153,7 @@ INSTALLED_APPS = [
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-   'smartcontracts',
-   'smartbusinesslaw',
+    'smartcontracts',
     "djmoney",
     "localflavor",
     "boto3",
@@ -177,8 +176,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "business_customer_projects",
-    "smartbusinessanalytics_id",
-   
+    'smartbusinessanalytics_id',
 
              # Apps propias del proyecto
     "usuarios",
@@ -227,6 +225,7 @@ INSTALLED_APPS = [
     "sbmshop",
     "sbmorders",
     "sbmcoupons",
+    'smartbusinesslaw',
     "sbmpayments",
     #"sbacart",
     #"sbashop",
@@ -495,6 +494,27 @@ UNFOLD = {
         "separator": True,
         "collapsible": True,
         "items": [
+
+            {
+                "title": _("Deudas/Activos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Ingresos/Egresos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
             {
                 "title": _("Ingresos"),
                 "icon": "inbox",

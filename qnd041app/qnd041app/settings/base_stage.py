@@ -144,7 +144,7 @@ INSTALLED_APPS = [
     # Terceros / externos
     "rest_framework",
     "ckeditor",
-   
+    'smartcontracts',
     "djmoney",
     "localflavor",
     "boto3",
@@ -167,7 +167,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_social_share",
     "business_customer_projects",
-   
+    'smartbusinesslaw',
 
              # Apps propias del proyecto
     "usuarios",
@@ -184,6 +184,12 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     #"coupons",
+    #PAAS
+    'paas_shop',
+    'paas_cart',
+    'paas_orders',
+    'paas_coupons',
+    'paas_payment',
     #SAAS
     'saas_shop',
     'saas_orders',
@@ -210,14 +216,17 @@ INSTALLED_APPS = [
     "sbmshop",
     "sbmorders",
     "sbmcoupons",
+    'smartbusinessanalytics_id',
     "sbmpayments",
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+    "services_cart",
+    "services_coupons",
+    "services_payment",
     "rosetta",
     "taggit"
 ]
-
 #LOGINGS REDIRECT
 
 LOGIN_REDIRECT_URL = 'usuarios:perfil'
