@@ -5,16 +5,16 @@ def environment_callback(request):
     env = os.getenv('DJANGO_ENV', 'SmartBusinessAnalytics® ')
 
     if env == 'production':
-        return ["SmartBusinessAnalytics® (I+D)+A", "success"]
+        return ["Version:qnd.0.4.1.0.1", "success"]
     elif env == 'staging':
-        return ["SmartBusinessAnalytics® (I+D)+A ", "warning"]
+        return ["Version: qnd.0.4.1.0.1", "warning"]
     elif env == 'demo':
-        return ["SmartBusinessAnalytics® (I+D)+A", "info"]
+        return ["Version: qnd.0.4.1.0.1", "info"]
     elif env == 'suspention':
-        return ["SmartBusinessAnalytics® (I+D)+A", "danger"]
+        return ["Version: qnd.0.4.1.0.1", "danger"]
     
     else:
-        return ["SmartBusinessAnalytics® (I+D)+A", "info"]
+        return ["Version:qnd.0.4.1.app", "info"]
 
 
 
