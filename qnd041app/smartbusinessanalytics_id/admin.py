@@ -143,6 +143,7 @@ class MovimientoFinancieroAdmin(ModelAdmin):
                 "codigo_referencia",
                 "descripcion",
                 "categoria",
+                "categoria_ingresos",
                 "es_ingreso",
                 "es_egreso",
                 "contraparte_nombre",
@@ -970,17 +971,43 @@ class EstadoResumenContableComponent(BaseComponent):
         # KPIs
         # ==========================
         cards = [
-            {"title": "Total Ingresos", "value": e.total_ingresos, "badge": "Período", "badge_color": "primary"},
-            {"title": "Total Egresos", "value": e.total_egresos, "badge": "Período", "badge_color": "warning"},
-            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": "Resultado", "badge_color": "success"},
+            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": f"Margen: {e.margen_utilidad_neta}%", "badge_color": "secondary"},
+            {"title": "Punto de Equilibrio", "value": e.punto_equilibrio, "badge": f"Liquidez:{e.ratio_cobertura}%", "badge_color": "warning"},
+            {"title": "Dividendos", "value": e.dividendos_accionistas, "badge": f"Rentabilidad: {e.rentabilidad}%", "badge_color": "success"},
         ]
+
+
+        header_stats = [
+        {
+        "title": "Total Ingresos",
+        "value": e.total_ingresos,
+        "badge": "Ingresos",
+        "badge_color": "primary",
+         },
+         {
+        "title": "Total Egresos",
+        "value": e.total_egresos,
+        "badge": "Egresos",
+        "badge_color": "warning",
+         },
+         {
+        "title": "Fecha de inicio",
+        "value": e.fecha_inicio,
+        "badge": "Inicio",
+        "badge_color": "success",
+         },
+         {
+        "title": "Fecha de fin",
+        "value": e.fecha_fin,
+        "badge": "Fin",
+        "badge_color": "success",
+           },
+         ]
 
         # ==========================
         # Lista de gastos
         # ==========================
         raw_gastos = [
-            {"title": "Ventas", "value": e.ventas},
-            {"title": "Inversiones", "value": e.inversiones},
             {"title": "Gastos Fijos", "value": e.gastos_fijos},
             {"title": "Gastos Operativos", "value": e.gastos_operativos},
             {"title": "Gastos Publicitarios", "value": e.gastos_publicitarios},
@@ -988,9 +1015,17 @@ class EstadoResumenContableComponent(BaseComponent):
             {"title": "Gastos Nómina", "value": e.gastos_nomina},
             {"title": "Gastos Tributarios", "value": e.gastos_tributarios},
             {"title": "Declaración IVA", "value": e.declaracion_iva},
+            {"title": "Cuentas por Pagar", "value": e.cuentas_pagar},
+            {"title": "Deudas", "value": e.deudas_pagar},
+            
+        ]
+
+        raw_ingresos = [
+            {"title": "Ventas", "value": e.ventas},
+            {"title": "Inversiones", "value": e.inversiones},
+            {"title": "Acciones Legales", "value": e.acciones_legales},
+            {"title": "Cuentas por Cobrar", "value": e.cuentas_cobrar},
             {"title": "Deducción Gastos", "value": e.deduccion_gastos},
-            {"title": "Cuentas por Pagar", "value": e.cuentas_por_pagar},
-            {"title": "Cuentas por Cobrar", "value": e.cuentas_por_cobrar},
         ]
 
         # ==========================
@@ -1040,10 +1075,10 @@ class EstadoResumenContableComponent(BaseComponent):
         # ==========================
         fig1, ax1 = plt.subplots(figsize=(8, 4))
         x = np.arange(len(months))
-        ax1.bar(x, ingresos, label="Ingresos", color=(79/255, 142/255, 247/255, 0.75))
+        ax1.bar(x, ingresos, label="Ingresos", color=(111/255, 207/255, 151/255, 0.75))
         ax1.bar(x, egresos, bottom=ingresos, label="Egresos", color=(242/255, 201/255, 76/255, 0.65))
         ax1.bar(x, utilidades, bottom=np.array(ingresos)+np.array(egresos),
-                label="Utilidad Neta", color=(111/255, 207/255, 151/255, 0.75))
+                label="Utilidad Neta", color=(79/255, 142/255, 247/255, 0.75) )
         ax1.set_xticks(x)
         ax1.set_xticklabels(months, rotation=45, ha="right")
         ax1.set_ylabel("USD")
@@ -1111,20 +1146,39 @@ class EstadoResumenContableComponent(BaseComponent):
         # ==========================
         # CALCULAR PORCENTAJES DE GASTOS RELATIVOS A UTILIDAD NETA
         # ==========================
+        ingresos_netos_float = money_to_float(e.total_ingresos)
+        egresos_netos_float = money_to_float(e.total_egresos)
         utilidad_neta_float = money_to_float(e.utilidad_neta)
-        gastos_valores = np.array([money_to_float(g["value"]) for g in raw_gastos], dtype=float)
 
-        if utilidad_neta_float > 0:
-            gastos_porcentajes = np.round((gastos_valores / utilidad_neta_float) * 100).astype(int)
+        gastos_valores = np.array([money_to_float(g["value"]) for g in raw_gastos], dtype=float)
+        ingresos_valores = np.array([money_to_float(g["value"]) for g in raw_ingresos], dtype=float)
+
+        if egresos_netos_float > 0:
+            gastos_porcentajes = np.round((gastos_valores / egresos_netos_float ) * 100).astype(int)
         else:
             gastos_porcentajes = np.zeros_like(gastos_valores, dtype=int)
+
+        if ingresos_netos_float > 0:
+            ingresos_porcentajes = np.round((ingresos_valores / ingresos_netos_float ) * 100).astype(int)
+        else:
+            ingresos_porcentajes = np.zeros_like(ingresos_valores, dtype=int)
+
+
 
         gastos = []
         for g, pct in zip(raw_gastos, gastos_porcentajes):
             gastos.append({
                 "title": g["title"],
                 "value": g["value"],
-                "porcentaje_venta": pct,  # listo para template
+                "porcentaje_gasto": pct,  # listo para template
+            })
+
+        ingresos_corrientes = []
+        for g, pct in zip(raw_ingresos, ingresos_porcentajes):
+            ingresos_corrientes.append({
+                "title": g["title"],
+                "value": g["value"],
+                "porcentaje_ingresos": pct,  # listo para template
             })
 
         # ==========================
@@ -1134,8 +1188,10 @@ class EstadoResumenContableComponent(BaseComponent):
         context.update({
             "title": "Resumen Contable",
             "table": table_context,
+            "header_stats": header_stats,
             "cards": cards,
             "gastos": gastos,
+            "ingresos_corrientes": ingresos_corrientes,
             "chart_image": bar_chart,
             "scatter_chart_image": scatter_chart,
             "pie_chart_image": pie_chart,
@@ -1219,7 +1275,6 @@ class EstadoFinancieroAdmin(ModelAdmin):
     # Componentes visuales
     # ----------------------------------
     list_sections = [
-        EstadoPeriodoComponent,
         EstadoResumenContableComponent,
         EstadoKPIsComponent,
         EstadoAnalisisAvanzadoComponent,
@@ -1252,8 +1307,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "gastos_publicitarios",
                 "gastos_legales",
                 "declaracion_iva",
-                "cuentas_por_pagar",
-                "cuentas_por_cobrar",
+                "cuentas_pagar",
+                "cuentas_cobrar",
 
             ),
             "classes": ("unfold", "tab-egresos"),
@@ -1266,6 +1321,7 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "ventas",
                 "inversiones",
                 "deduccion_gastos",
+                "acciones_legales",
             ),
             "classes": ("unfold", "tab-ingresos"),
         }),
@@ -1332,6 +1388,7 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "punto_equilibrio",
         "dividendos_accionistas",
         "analisis_flujo_financiero",
+        "acciones_legales",
         "ventas",
         "inversiones",
         "gastos_operativos",
@@ -1341,8 +1398,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "gastos_legales",
         "declaracion_iva",
         "deduccion_gastos",
-        "cuentas_por_pagar",
-        "cuentas_por_cobrar",
+        "cuentas_pagar",
+        "cuentas_cobrar",
     )
 
     unfold_fieldsets = True

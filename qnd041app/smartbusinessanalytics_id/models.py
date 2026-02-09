@@ -66,14 +66,28 @@ class MovimientoFinanciero(models.Model):
         ("gastos_legales", "Gastos legales"),
         ("gastos_nomina", "Gastos de nómina"),
         ("gastos_tributarios", "Gastos tributarios"),
+        ("pago_deuda", "Pago de Deuda"),
+       
+    ]
+
+    CATEGORIA_INGRESOS_CHOICES = [
         ("ventas", "Ventas"),
+        ("deducciones", "Deducción Tributaria"),
         ("inversion", "Inversión"),
-        ("deuda", "Deuda"),
+        ("acciones_legales", "Acción Legal"),
     ]
 
     categoria = models.CharField(
         max_length=30,
         choices=CATEGORIA_CHOICES,
+        null=True,
+        blank=True,
+        help_text="Clasificación contable del movimiento financiero."
+    )
+
+    categoria_ingresos = models.CharField(
+        max_length=30,
+        choices=CATEGORIA_INGRESOS_CHOICES,
         null=True,
         blank=True,
         help_text="Clasificación contable del movimiento financiero."
@@ -874,21 +888,24 @@ class EstadoFinanciero(models.Model):
     ventas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     porcentaje_ventas = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))  # % sobre utilidad neta
     inversiones = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    acciones_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_fijos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_operativos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_publicitarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_nomina = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     gastos_tributarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    deudas_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     declaracion_iva = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     deduccion_gastos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    cuentas_por_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    cuentas_por_cobrar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    cuentas_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    cuentas_cobrar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     # CAMPOS AVANZADOS
     punto_equilibrio = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     dividendos_accionistas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
     analisis_flujo_financiero = models.JSONField(null=True, blank=True)
+
 
     # ==============================
     # MÉTODO PRINCIPAL
@@ -931,6 +948,75 @@ class EstadoFinanciero(models.Model):
                     total += val
             return total
 
+        def sumar_por_categoria_ingresos(qs, categoria_ingresos, campo='monto_neto'):
+            total = Money(0, 'USD')
+            for obj in qs.filter(categoria_ingresos=categoria_ingresos):
+                val = getattr(obj, campo, None)
+                if isinstance(val, Money):
+                    total += val
+            return total
+
+        def sumar_iva_duduccion(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_egreso=True):
+                if obj.iva:
+                    total += obj.iva
+                    
+            return total
+
+        def sumar_iva_declaracion(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_ingreso=True):
+                if obj.iva:
+                    total += obj.iva
+                    
+            return total
+
+        def sumar_cuentas_pagar(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_egreso=True,confirmado=False):
+                if obj.monto_neto:
+                    total += obj.monto_neto
+                    
+            return total
+
+        def sumar_cuentas_cobrar(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_ingreso=True,confirmado=False):
+                if obj.monto_neto:
+                    total += obj.monto_neto
+                    
+            return total
+
+        def sumar_deudas_pagar(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_egreso=True,categoria='pago_deuda'):
+                if obj.monto_neto:
+                    total += obj.monto_neto
+                    
+            return total
+
+        def sumar_acciones_legales_pagar(qs):
+            total = Money(0, 'USD')
+            
+            for obj in qs.filter(
+                es_ingreso=True,categoria_ingresos='acciones_legales'):
+                if obj.monto_neto:
+                    total += obj.monto_neto
+                    
+            return total
+
+
         def ratio(num, den):
             if den <= 0:
                 return Decimal('0.00')
@@ -939,13 +1025,21 @@ class EstadoFinanciero(models.Model):
         # ------------------------------
         # GASTOS y VENTAS primero
         # ------------------------------
-        self.ventas = sumar_por_categoria(ingresos, 'ventas')
-        self.inversiones = sumar_por_categoria(egresos, 'inversion')
+        self.ventas = sumar_por_categoria_ingresos(ingresos, 'ventas')
+        self.inversiones = sumar_por_categoria_ingresos(ingresos, 'inversion')
+        self.acciones_legales =sumar_acciones_legales_pagar(ingresos)
         self.gastos_operativos = sumar_por_categoria(egresos, 'gastos_operativos')
         self.gastos_nomina = sumar_por_categoria(egresos, 'gastos_nomina')
         self.gastos_tributarios = sumar_por_categoria(egresos, 'gastos_tributarios')
         self.gastos_publicitarios = sumar_por_categoria(egresos, 'gastos_publicitarios')
         self.gastos_legales = sumar_por_categoria(egresos, 'gastos_legales')
+        self.declaracion_iva = sumar_iva_declaracion(ingresos)
+        self.deduccion_gastos = sumar_iva_duduccion(egresos)
+        self.cuentas_pagar = sumar_cuentas_pagar(egresos)
+        self.deudas_pagar = sumar_cuentas_cobrar(egresos)
+        self.cuentas_cobrar = sumar_cuentas_cobrar(ingresos)
+        self.deudas_pagar = sumar_deudas_pagar(egresos)
+
 
         # ------------------------------
         # Totales
