@@ -329,7 +329,7 @@ UNFOLD = {
     ],
     "SITE_URL": "https://www.meddes.com.ec/",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"), "dark": lambda request: static("img/BA-LOGOS/logo.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_smartquailred.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
@@ -516,23 +516,7 @@ UNFOLD = {
             },
 
 
-            {
-                "title": _("Ingresos"),
-                "icon": "inbox",
-                "link": reverse_lazy("admin:smartbusinessanalytics_id_ingreso_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
-                "permission": is_all,
-            },
 
-            {
-                "title": _("Engresos"),
-                "icon": "inbox",
-                "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
-                "permission": is_all,
-            },
             {
                     "title": _("Analisis Financieros"),
                     "icon": "inbox",

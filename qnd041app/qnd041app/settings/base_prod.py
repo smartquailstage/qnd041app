@@ -268,6 +268,7 @@ SERVICES_CART_SESSION_ID = 'services_cart'
 from usuarios.utils import permission_callback 
 
 
+
 def badge_color_callback(request):
     count = 1  # Cambia este valor para probar diferentes colores
 
@@ -292,18 +293,8 @@ def is_financiero(request):
 def is_institucional(request):
     return request.user.groups.filter(name="institucional").exists()
 
-def is_comercial(request):
-    return request.user.groups.filter(name="comercial").exists()
-
 def is_superuser(request):
     return request.user.is_superuser
-
-def is_comercial_o_isuperuser(request):
-    return is_comercial(request) or is_superuser(request)
-
-def is_comercial_o_administrativo(request):
-    return is_comercial(request) or is_administrativo(request) or is_superuser(request)
-
 
 def is_administrativo_o_isuperuser(request):
     return is_administrativo(request) or is_superuser(request)
@@ -322,6 +313,7 @@ def is_admin_o_financiero(request):
 
 def is_all(request):
     return is_administrativo(request) or is_financiero(request) or is_superuser(request) or is_terapeuta(request) or is_institucional(request)
+
 
 
 
@@ -346,7 +338,7 @@ UNFOLD = {
     ],
     "SITE_URL": "https://www.meddes.com.ec/",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"), "dark": lambda request: static("img/BA-LOGOS/logo.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_smartquailred.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
@@ -404,6 +396,7 @@ UNFOLD = {
             "800": "107 33 168",
             "900": "24 85 2",
             "950": "59 7 100",
+            "750": "116, 132, 147",
         },
         "font": {
             "subtle-light": "var(--color-base-500)",
@@ -431,6 +424,119 @@ UNFOLD = {
         "show_search": False,
         "show_all_applications": False,
 "navigation": [
+
+    {
+        "title": _("SmartBusinessLaw® (I+D)+A"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+            {
+                "title": _(" Registros SPDP"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Balances SCVS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvsfinancialreport_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Informes/Actas SCVS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Anexos SRI"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_sri_anexostributarios_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Declaraciones SRI"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_sri_declaracionimpuestos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+            {
+                "title": _("Contratos MT"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_contratolaboral_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Nomina IESS"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+        ],
+    },
+
+    {
+        "title": _("SmartBusinessAnalytics® (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Deudas/Activos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Ingresos/Egresos"),
+                "icon": "inbox",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+
+            {
+                    "title": _("Analisis Financieros"),
+                    "icon": "inbox",
+                    "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+        },
+
+        ],
+    },
 
     {
         "title": _("Comunicaciones"),
@@ -532,7 +638,6 @@ UNFOLD = {
         },
     ],
 }
-
 
 
 
