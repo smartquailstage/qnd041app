@@ -25,3 +25,23 @@
   .h-8 {
     height: 2.8rem;
   }
+
+
+.bg-yellow-600 {
+    background-color: #fbfb24ea !important
+  }
+
+.bg-blues-600 {
+    background-color: #7fcaf0ea !important
+  }
+
+
+.text-yellow-700 {
+    color: rgb(87, 76, 17);
+  }
+
+.text-blue-200 {
+    background-color: #7898cceb !important
+
+}
+

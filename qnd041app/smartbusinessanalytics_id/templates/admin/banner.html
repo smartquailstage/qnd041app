@@ -68,48 +68,6 @@
 </div>
 
 
-    <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200  ">
-
-
-
-<div class="grow relative">
-    
-                <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
-    Efectivo en Bancos: $1,234,567.89
-</div>
-
-                <p class="leading-relaxed mb-0 text-sm">
-    Se presenta el analisis financiero en el período
-    
-            {% for h in header_stats %}
-            {% if h.title == "Fecha de inicio" %}
-                {{ h.value|date:"d M Y" }}
-            {% endif %}
-        {% endfor %}
-        →
-        {% for h in header_stats %}
-            {% if h.title == "Fecha de fin" %}
-                {{ h.value|date:"d M Y" }}
-            {% endif %}
-        {% endfor %}
-        , considerando un error en la conciliación bancaria del +3.14% y +2.1% en ingresos y egresos, respectivamente.
-            
-                
-</p>
-
-
-           
-
-
-            
-
-    
-
-    
-</div>
-
-
-</div>
 
 <div class="bg-white dark:bg-base-900 border border-base-200 rounded-default shadow-xs p-6">
   <div class="flex flex-col gap-6 lg:flex-row">
@@ -124,15 +82,14 @@
 
                               <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
     
-                        Distrubución Financiera
+                        Distrubución Financiera:
+                            <span class="font-semibold  bg-green-100 text-green-700 rounded-default" >+ Ingresos</span> |
+    <span class="font-semibold bg-yellow-600 text-yellow-700 rounded-default" >- Egresos</span> |
+    <span class="font-semibold bg-blue-100 text-blue-700 dark:bg-primary-500/20 dark:text-primary-400" >Utilidad Neta</span>
                     
 </div>
-    
- <p class="leading-relaxed mb-0 text-sm">
-    <span class="font-semibold" style="color: #6FCF97;">Ingresos</span>/
-    <span class="font-semibold" style="color: #F2C94C;">Egresos</span>/
-    <span class="font-semibold" style="color: #3581ce;">Utilidad Neta</span>
-</p>
+
+
 
                         <div class="relative w-full">
    <img src="{{ chart_image }}" alt="Ingresos vs Egresos" class="w-full h-auto rounded-default shadow-xs"/>
@@ -210,15 +167,59 @@
 
 <div class="grow relative">
 
+
+
+    <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
+    {% for h in header_stats %}
+        {% if h.title == "Total Utilidades" %}
+            {{ h.title }}: 
+             <strong class="bg-blue-100 text-blue-700 dark:bg-primary-500/20 dark:text-primary-400 font-semibold text-2xl text-font-info-light tracking-tight dark:text-font-important-dark mb-2">{{ h.value }} </strong>
+        {% endif %}
+    {% endfor %}
+
+        <!-- Texto descriptivo -->
+    <p class="leading-relaxed mb-0 text-sm">
+        Total revenue between 
+        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
+            {{ estado.fecha_inicio }} - {{ estado.fecha_fin }}
+        </strong>. Increase 
+        <span class="text-green-700 font-semibold dark:text-green-400">
+            {% if flujo_financiero.ingresos_pct %}+{{ flujo_financiero.ingresos_pct|floatformat:2 }}%{% else %}0.00%{% endif %}
+        </span> comparing to previous month 
+        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
+            {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
+        </strong>.
+    </p>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
+     <div class="bg-base-200 dark:bg-base-800 dark:border-base-800 h-px my-6"></div>
+
+     
+
+
+
+
+
     <!-- Punto de equilibrio -->
 <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
 {% for h in header_stats %}
     {% if h.title == "Total Ingresos" %}
-        {{ h.title }}: {{ h.value }}
+        {{ h.title }}: 
+            <strong class="bg-green-100 text-green-700 font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
+            + {{ h.value }}
+        </strong>
+        
     {% endif %}
 {% endfor %}
-
-</div>
 
 
     <!-- Texto descriptivo -->
@@ -234,8 +235,11 @@
             {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
         </strong>.
     </p>
+</div>
 
-    <div class="bg-base-200 dark:bg-base-800 dark:border-base-800 h-px my-6"></div>
+
+
+
 
     <!-- Bloques de gastos y cuentas -->
     <div class="flex flex-col gap-5">
@@ -253,7 +257,7 @@
         </h3>
 
         <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs dark:text-font-important-light dark:bg-green-100">
-            {{ ingreso.value }}
+            + {{ ingreso.value }}
         </strong>
     </div>
 
@@ -289,13 +293,37 @@
 </div>
 
 
+
+
+
 <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
     {% for h in header_stats %}
         {% if h.title == "Total Egresos" %}
-            {{ h.title }}: {{ h.value }} 
+            {{ h.title }}:
+            <strong class="bg-yellow-600 text-yellow-700 font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2"> - {{ h.value }} </strong>
+           
         {% endif %}
     {% endfor %}
+
+        <!-- Texto descriptivo -->
+    <p class="leading-relaxed mb-0 text-sm">
+        Total revenue between 
+        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
+            {{ estado.fecha_inicio }} - {{ estado.fecha_fin }}
+        </strong>. Increase 
+        <span class="text-green-700 font-semibold dark:text-green-400">
+            {% if flujo_financiero.ingresos_pct %}+{{ flujo_financiero.ingresos_pct|floatformat:2 }}%{% else %}0.00%{% endif %}
+        </span> comparing to previous month 
+        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
+            {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
+        </strong>.
+    </p>
+
+
+
 </div>
+
+
 
 {% for gasto in gastos %}
 <div class="flex flex-col gap-2 relative w-full">
@@ -306,9 +334,9 @@
             ({{ gasto.porcentaje_gasto }}%)
         </h3>
 
-        <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs
+        <strong class="bg-yellow-600 font-medium text-yellow-700 ml-auto px-1.5 py-1 rounded-default text-xs
                        dark:text-font-important-light dark:bg-green-100">
-            ${{ gasto.value|floatformat:2 }}
+            - {{ gasto.value|floatformat:2 }} US$
         </strong>
     </div>
 

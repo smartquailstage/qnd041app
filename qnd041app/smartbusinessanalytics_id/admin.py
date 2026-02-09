@@ -978,6 +978,14 @@ class EstadoResumenContableComponent(BaseComponent):
 
 
         header_stats = [
+
+        {
+        "title": "Total Utilidades",
+        "value": e.utilidad_neta,
+        "badge": "Utilidades",
+        "badge_color": "sucess",
+         },
+
         {
         "title": "Total Ingresos",
         "value": e.total_ingresos,
@@ -1003,6 +1011,8 @@ class EstadoResumenContableComponent(BaseComponent):
         "badge_color": "success",
            },
          ]
+
+        
 
         # ==========================
         # Lista de gastos
@@ -1162,7 +1172,7 @@ class EstadoResumenContableComponent(BaseComponent):
                 labels=ingresos_labels,
                 autopct="%1.1f%%",
                 startangle=90,
-                colors=plt.cm.Blues(np.linspace(0.4, 0.8, len(ingresos_labels)))
+                colors=plt.cm.Greens(np.linspace(0.4, 0.8, len(ingresos_labels)))
             )
            
 
@@ -1172,9 +1182,10 @@ class EstadoResumenContableComponent(BaseComponent):
                 labels=egresos_labels,
                 autopct="%1.1f%%",
                 startangle=90,
-                colors=plt.cm.Oranges(np.linspace(0.4, 0.8, len(egresos_labels)))
+                colors=plt.cm.YlOrBr(np.linspace(0.4, 0.8, len(egresos_labels)))
             )
           
+
 
         plt.tight_layout()
         buffer3 = io.BytesIO()
