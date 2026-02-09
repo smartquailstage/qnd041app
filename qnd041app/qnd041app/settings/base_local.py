@@ -423,7 +423,7 @@ UNFOLD = {
         "items": [
             {
                 "title": _(" Registros SPDP"),
-                "icon": "inbox",
+                "icon": "create",
                 "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -433,7 +433,7 @@ UNFOLD = {
 
             {
                 "title": _("Balances SCVS"),
-                "icon": "inbox",
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_scvsfinancialreport_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -443,7 +443,7 @@ UNFOLD = {
 
             {
                 "title": _("Informes/Actas SCVS"),
-                "icon": "inbox",
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -453,7 +453,7 @@ UNFOLD = {
 
             {
                 "title": _("Anexos SRI"),
-                "icon": "inbox",
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_sri_anexostributarios_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -463,7 +463,7 @@ UNFOLD = {
 
             {
                 "title": _("Declaraciones SRI"),
-                "icon": "inbox",
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_sri_declaracionimpuestos_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -471,7 +471,7 @@ UNFOLD = {
             },
             {
                 "title": _("Contratos MT"),
-                "icon": "inbox",
+                "icon": "signature",
                 "link": reverse_lazy("admin:smartbusinesslaw_contratolaboral_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -480,7 +480,7 @@ UNFOLD = {
 
             {
                 "title": _("Nomina IESS"),
-                "icon": "inbox",
+                "icon": "people",
                 "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -498,7 +498,7 @@ UNFOLD = {
 
             {
                 "title": _("Deudas/Activos"),
-                "icon": "inbox",
+                "icon": "folder",
                 "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -508,7 +508,7 @@ UNFOLD = {
 
             {
                 "title": _("Ingresos/Egresos"),
-                "icon": "inbox",
+                "icon": "archive",
                 "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -519,7 +519,7 @@ UNFOLD = {
 
             {
                     "title": _("Analisis Financieros"),
-                    "icon": "inbox",
+                    "icon": "analytics",
                     "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
                     "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                     "badge_color": "custom-red-alert",
