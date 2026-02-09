@@ -1,47 +1,6 @@
 <div class="@container px-4 pb-4 grow">
 
-    <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200  ">
 
-
-
-<div class="grow relative">
-    
-                <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
-    Efectivo en Bancos: $1,234,567.89
-</div>
-
-                <p class="leading-relaxed mb-0 text-sm">
-    Se presenta el analisis financiero en el período
-    
-            {% for h in header_stats %}
-            {% if h.title == "Fecha de inicio" %}
-                {{ h.value|date:"d M Y" }}
-            {% endif %}
-        {% endfor %}
-        →
-        {% for h in header_stats %}
-            {% if h.title == "Fecha de fin" %}
-                {{ h.value|date:"d M Y" }}
-            {% endif %}
-        {% endfor %}
-        , considerando un error en la conciliación bancaria del +3.14% y +2.1% en ingresos y egresos, respectivamente.
-            
-                
-</p>
-
-
-           
-
-
-            
-
-    
-
-    
-</div>
-
-
-</div>
 
  <div class="{% if card_included == 1 %}-m-6{% else %} bg-white flex flex-col grow lg:border lg:border-base-200 lg:overflow-hidden lg:rounded-default lg:shadow-xs{% endif %} lg:dark:border-base-800 dark:bg-base-900">
         <div {% if height %}style="max-height: {{ height }}px;" data-simplebar{% endif %}>
@@ -105,6 +64,50 @@
             {% endfor %}
         </div>
     {% endif %}
+
+</div>
+
+
+    <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200  ">
+
+
+
+<div class="grow relative">
+    
+                <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
+    Efectivo en Bancos: $1,234,567.89
+</div>
+
+                <p class="leading-relaxed mb-0 text-sm">
+    Se presenta el analisis financiero en el período
+    
+            {% for h in header_stats %}
+            {% if h.title == "Fecha de inicio" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        →
+        {% for h in header_stats %}
+            {% if h.title == "Fecha de fin" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        , considerando un error en la conciliación bancaria del +3.14% y +2.1% en ingresos y egresos, respectivamente.
+            
+                
+</p>
+
+
+           
+
+
+            
+
+    
+
+    
+</div>
+
 
 </div>
 
@@ -211,7 +214,7 @@
 <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
 {% for h in header_stats %}
     {% if h.title == "Total Ingresos" %}
-        {{ h.title }}: ${{ h.value.amount|floatformat:2 }}
+        {{ h.title }}: {{ h.value }}
     {% endif %}
 {% endfor %}
 
@@ -250,7 +253,7 @@
         </h3>
 
         <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs dark:text-font-important-light dark:bg-green-100">
-            ${{ ingreso.value.amount|floatformat:2 }}
+            {{ ingreso.value }}
         </strong>
     </div>
 
@@ -289,7 +292,7 @@
 <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
     {% for h in header_stats %}
         {% if h.title == "Total Egresos" %}
-            {{ h.title }}(100%): {{ h.value }} 
+            {{ h.title }}: {{ h.value }} 
         {% endif %}
     {% endfor %}
 </div>
