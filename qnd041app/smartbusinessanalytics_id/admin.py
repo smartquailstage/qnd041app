@@ -1211,7 +1211,7 @@ class EstadoResumenContableComponent(BaseComponent):
         for g, pct in zip(raw_gastos, gastos_porcentajes):
             gastos.append({
                 "title": g["title"],
-                "value": g["value"],
+                "value": money_to_float(g["value"]),
                 "porcentaje_gasto": pct,  # listo para template
             })
 

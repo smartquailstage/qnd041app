@@ -11,8 +11,21 @@
 </div>
 
                 <p class="leading-relaxed mb-0 text-sm">
+    Se presenta el analisis financiero en el período
     
-                    Total spending between 1 - 31 October. Increase +3.14% comparing to previous month 1 - 30 September.
+            {% for h in header_stats %}
+            {% if h.title == "Fecha de inicio" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        →
+        {% for h in header_stats %}
+            {% if h.title == "Fecha de fin" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        , considerando un error en la conciliación bancaria del +3.14% y +2.1% en ingresos y egresos, respectivamente.
+            
                 
 </p>
 
@@ -282,22 +295,17 @@
 </div>
 
 {% for gasto in gastos %}
-
-
-
-
 <div class="flex flex-col gap-2 relative w-full">
 
     <div class="flex flex-row relative z-20">
         <h3 class="text-font-important-light dark:text-font-important-dark text-sm">
             {{ gasto.title }}
-            {% if gasto.porcentaje_gasto %}
-                ({{ gasto.porcentaje_gasto }}%)
-            {% endif %}
+            ({{ gasto.porcentaje_gasto }}%)
         </h3>
 
-        <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs dark:text-font-important-light dark:bg-green-100">
-            ${{ gasto.value.amount|floatformat:2 }}
+        <strong class="bg-green-100 font-medium text-green-700 ml-auto px-1.5 py-1 rounded-default text-xs
+                       dark:text-font-important-light dark:bg-green-100">
+            ${{ gasto.value|floatformat:2 }}
         </strong>
     </div>
 
@@ -306,14 +314,14 @@
             class="h-1.5 rounded-default z-10 last:rounded-r-default"
             title="{{ gasto.title }}"
             style="
-                width: {{ gasto.porcentaje_gasto|default:0 }}%;
+                width: {{ gasto.porcentaje_gasto }}%;
                 background-color:
-                    {% if gasto.porcentaje_gasto > 100 %}
-                        #10B981   /* verde */
+                    {% if gasto.porcentaje_gasto > 60 %}
+                        #10B981
                     {% elif gasto.porcentaje_gasto >= 30 %}
-                        #FBBF24   /* amarillo */
+                        #FBBF24
                     {% else %}
-                        #EF4444   /* rojo */
+                        #EF4444
                     {% endif %};
             ">
         </div>
@@ -321,6 +329,7 @@
 
 </div>
 {% endfor %}
+
 
 
 
