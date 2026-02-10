@@ -926,6 +926,8 @@ class EstadoFinanciero(models.Model):
         decimal_places=2,
         default_currency='USD',
         verbose_name="Ingresos bancarios",
+        null=True,
+        blank=True,
         help_text="Escriba el valor total de ingresos registrados e identificados en las cuentas bancarias, Ej: 1000.2"
     )
 
@@ -933,6 +935,8 @@ class EstadoFinanciero(models.Model):
         max_digits=12,
         decimal_places=2,
         default_currency='USD',
+        null=True,
+        blank=True,
         verbose_name="Egresos bancarios",
         help_text="Escriba el valor total de egresos registrados e identificados en las cuentas bancarias, Ej: 1000.2"
     )
