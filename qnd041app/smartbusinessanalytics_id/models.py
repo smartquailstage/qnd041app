@@ -868,43 +868,346 @@ from djmoney.money import Money
 from django.db import models
 
 
+from django.db import models
+from decimal import Decimal
+from djmoney.models.fields import MoneyField
+
+
 class EstadoFinanciero(models.Model):
-    fecha_inicio = models.DateField(null=True, blank=True)
-    fecha_fin = models.DateField(null=True, blank=True)
 
-    # RESULTADOS AGREGADOS
-    total_ingresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    total_egresos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    utilidad_bruta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    utilidad_neta = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    # PERÍODO DE ANÁLISIS
+    fecha_inicio = models.DateField(
+        verbose_name="Elegir fecha de inicio para análisis",
+        help_text="Fecha inicial del período contable analizado"
+    )
 
-    # INDICADORES
-    margen_utilidad_bruta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
-    margen_utilidad_neta = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
-    rentabilidad = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
-    ratio_cobertura = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))
+    fecha_fin = models.DateField(
+        verbose_name="Elegir fecha de inicio para análisis",
+        help_text="Fecha de corte del período contable analizado"
+    )
 
-    # GASTOS
-    ventas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    porcentaje_ventas = models.DecimalField(max_digits=6, decimal_places=2, default=Decimal('0.00'))  # % sobre utilidad neta
-    inversiones = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    acciones_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_fijos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_operativos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_publicitarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_legales = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_nomina = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    gastos_tributarios = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    deudas_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    declaracion_iva = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    deduccion_gastos = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    cuentas_pagar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    cuentas_cobrar = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
+    # MOVIMIENTOS BANCARIOS
+    total_ingresos_bancos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        verbose_name="Ingresos bancarios",
+        help_text="Escriba el valor total de ingresos registrados e identificados en las cuentas bancarias, Ej: 1000.2"
+    )
+
+    total_egresos_bancos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        verbose_name="Egresos bancarios",
+        help_text="Escriba el valor total de egresos registrados e identificados en las cuentas bancarias, Ej: 1000.2"
+    )
+
+    # RESULTADOS CONTABLES AGREGADOS
+    total_efectivo_bancos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Efectivo Bancos",
+        help_text="Total efectivo en bancos registrados"
+    )
+
+    total_efectivo = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Efectivo Contable",
+        help_text="Total de Efectivo  contable"
+    )
+
+    total_ingresos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Ingresos contables",
+        help_text="Total de ingresos registrados en la contabilidad"
+    )
+
+    total_egresos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Egresos contables",
+        help_text="Total de egresos registrados en la contabilidad"
+    )
+
+    utilidad_bruta = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Utilidad bruta",
+        help_text="Resultado de ingresos menos costos directos"
+    )
+
+    utilidad_neta = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Utilidad neta",
+        help_text="Resultado final después de impuestos y gastos"
+    )
+
+    # CONCILIACIÓN BANCARIA
+    diferencia_ingresos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Diferencia de ingresos",
+        help_text="Diferencia absoluta entre ingresos bancarios y contables"
+    )
+
+    error_conciliacion_porcentaje = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Error de conciliación (%)",
+        help_text="Porcentaje de error entre ingresos bancarios y contables"
+    )
+
+    umbral_conciliacion = models.DecimalField(
+    max_digits=5,
+    decimal_places=2,
+    default=Decimal('1.00'),
+    verbose_name="Umbral de conciliación (%)",
+    help_text="Porcentaje máximo permitido para considerar conciliado"
+    )
+
+
+    conciliado = models.BooleanField(
+        default=False,
+        verbose_name="Conciliado",
+        help_text="Indica si la conciliación bancaria es aceptable"
+    )
+
+    # INDICADORES FINANCIEROS
+    margen_utilidad_bruta = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Margen de utilidad bruta (%)",
+        help_text="Porcentaje de utilidad bruta sobre los ingresos totales"
+    )
+
+    margen_utilidad_neta = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Margen de utilidad neta (%)",
+        help_text="Porcentaje de utilidad neta sobre los ingresos totales"
+    )
+
+    rentabilidad = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Rentabilidad (%)",
+        help_text="Indicador de rendimiento financiero del período"
+    )
+
+    ratio_cobertura = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Ratio de cobertura",
+        help_text="Capacidad de cubrir obligaciones financieras"
+    )
+
+    # GASTOS Y APLICACIONES
+    ventas = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Ventas",
+        help_text="Total de ingresos por ventas"
+    )
+
+    porcentaje_ventas = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Porcentaje de ventas (%)",
+        help_text="Porcentaje de ventas sobre la utilidad neta"
+    )
+
+    inversiones = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Inversiones",
+        help_text="Monto destinado a inversiones"
+    )
+
+    acciones_legales = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Acciones legales",
+        help_text="Gastos asociados a procesos legales"
+    )
+
+    gastos_fijos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos fijos",
+        help_text="Gastos recurrentes y permanentes"
+    )
+
+    gastos_operativos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos operativos",
+        help_text="Gastos necesarios para la operación del negocio"
+    )
+
+    gastos_publicitarios = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos publicitarios",
+        help_text="Inversión en publicidad y marketing"
+    )
+
+    gastos_legales = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos legales",
+        help_text="Honorarios y costos legales"
+    )
+
+    gastos_nomina = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos de nómina",
+        help_text="Costos salariales y prestaciones"
+    )
+
+    gastos_tributarios = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Gastos tributarios",
+        help_text="Impuestos y obligaciones fiscales"
+    )
+
+    deudas_pagar = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Deudas por pagar",
+        help_text="Obligaciones financieras pendientes"
+    )
+
+    declaracion_iva = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Declaración de IVA",
+        help_text="Monto correspondiente al impuesto al valor agregado"
+    )
+
+    deduccion_gastos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Deducción de gastos",
+        help_text="Gastos deducibles para efectos fiscales"
+    )
+
+    cuentas_pagar = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Cuentas por pagar",
+        help_text="Obligaciones pendientes con proveedores"
+    )
+
+    cuentas_cobrar = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Cuentas por cobrar",
+        help_text="Montos pendientes de cobro a clientes"
+    )
 
     # CAMPOS AVANZADOS
-    punto_equilibrio = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    dividendos_accionistas = MoneyField(max_digits=12, decimal_places=2, default_currency='USD', null=True, blank=True)
-    analisis_flujo_financiero = models.JSONField(null=True, blank=True)
+    punto_equilibrio = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Punto de equilibrio",
+        help_text="Nivel de ingresos donde no hay pérdidas ni ganancias"
+    )
+
+    dividendos_accionistas = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Dividendos a accionistas",
+        help_text="Monto distribuido a los accionistas"
+    )
+
+    analisis_flujo_financiero = models.JSONField(
+        null=True,
+        blank=True,
+        verbose_name="Análisis de flujo financiero",
+        help_text="Información detallada del flujo de caja en formato estructurado"
+    )
 
 
     # ==============================
@@ -1096,6 +1399,53 @@ class EstadoFinanciero(models.Model):
             "ingresos_pct": float(ratio(ingresos_v, flujo_total)),
             "egresos_pct": float(ratio(egresos_v, flujo_total)),
         }
+
+
+        # ------------------------------
+        # CONCILIACIÓN BANCARIA
+        # ------------------------------
+
+        # Efectivo contable
+        self.total_efectivo = Money(
+            (ingresos_v - egresos_v).quantize(Decimal('0.01')),
+            'USD'
+        )
+
+        # Efectivo bancario
+        bancos_ing = d(self.total_ingresos_bancos.amount) if self.total_ingresos_bancos else Decimal('0')
+        bancos_egr = d(self.total_egresos_bancos.amount) if self.total_egresos_bancos else Decimal('0')
+
+        self.total_efectivo_bancos = Money(
+            (bancos_ing - bancos_egr).quantize(Decimal('0.01')),
+            'USD'
+        )
+
+        # Diferencia absoluta de ingresos
+        diferencia = abs(bancos_ing - ingresos_v)
+
+        self.diferencia_ingresos = Money(
+            diferencia.quantize(Decimal('0.01')),
+            'USD'
+        )
+
+        # Error de conciliación (%)
+        if ingresos_v > 0:
+            self.error_conciliacion_porcentaje = (
+                (diferencia / ingresos_v) * Decimal('100')
+            ).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        else:
+            self.error_conciliacion_porcentaje = Decimal('0.00')
+
+        umbral = (
+            self.umbral_conciliacion
+            if self.umbral_conciliacion is not None
+            else Decimal('1.00')
+        )
+
+        self.conciliado = (
+            self.error_conciliacion_porcentaje <= umbral
+        )
+
 
     # ==============================
     # Meta y Métodos

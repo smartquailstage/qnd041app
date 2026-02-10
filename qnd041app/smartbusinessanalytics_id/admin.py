@@ -971,7 +971,7 @@ class EstadoResumenContableComponent(BaseComponent):
         # KPIs
         # ==========================
         cards = [
-            {"title": "Utilidad Neta", "value": e.utilidad_neta, "badge": f"Margen: {e.margen_utilidad_neta}%", "badge_color": "secondary"},
+            {"title": "Efectivo Bancos", "value": e.total_efectivo_bancos, "badge": f"Conciliación: {e.error_conciliacion_porcentaje}%", "badge_color": "secondary", "footer": f"Discrepancia: {e.diferencia_ingresos}"},
             {"title": "Punto de Equilibrio", "value": e.punto_equilibrio, "badge": f"Liquidez:{e.ratio_cobertura}%", "badge_color": "warning"},
             {"title": "Dividendos", "value": e.dividendos_accionistas, "badge": f"Rentabilidad: {e.rentabilidad}%", "badge_color": "success"},
         ]
@@ -980,20 +980,20 @@ class EstadoResumenContableComponent(BaseComponent):
         header_stats = [
 
         {
-        "title": "Total Utilidades",
+        "title": "Utilidades Netas",
         "value": e.utilidad_neta,
         "badge": "Utilidades",
         "badge_color": "sucess",
          },
 
         {
-        "title": "Total Ingresos",
+        "title": "Ingresos",
         "value": e.total_ingresos,
         "badge": "Ingresos",
         "badge_color": "primary",
          },
          {
-        "title": "Total Egresos",
+        "title": "Egresos",
         "value": e.total_egresos,
         "badge": "Egresos",
         "badge_color": "warning",
@@ -1106,13 +1106,41 @@ class EstadoResumenContableComponent(BaseComponent):
         # ==========================
         # GRÁFICO 2 – DISPERSIÓN
         # ==========================
-        fig2, ax2 = plt.subplots(figsize=(6, 4))
+
+
+        fig2, ax2, = plt.subplots(figsize=(6, 4))
+
         x_vals = np.array(ingresos)
         y_vals = np.array(egresos)
-        ax2.scatter(x_vals, y_vals, color="#e82b0c", alpha=0.75, s=60)
+        # Valores bancarios
+        x_bank = money_to_float(e.total_ingresos_bancos)
+        y_bank = money_to_float(e.total_egresos_bancos)
+
+# Error relativo = (bancos - contable) / contable
+        # Error relativo pequeño para visualización
+        x_err = np.array([abs(x_bank - x_vals[0]) * 0.5 if x_vals[0] != 0 else 0])
+        y_err = np.array([abs(y_bank - y_vals[0]) * 0.5 if y_vals[0] != 0 else 0])
+
+
+
+        ax2.errorbar(
+            x_vals,
+            y_vals,
+            xerr=x_err,
+            yerr=y_err,
+            fmt="s",              # marcador cuadrado
+            markersize=8,         # tamaño del rectángulo
+            color="#e82b0c",
+            ecolor="#e82b0c",
+            elinewidth=2,
+            capsize=6,
+            alpha=0.85
+            )
+
+
         if len(x_vals) > 1 and np.std(x_vals) > 0:
             m, b = np.polyfit(x_vals, y_vals, 1)
-            ax2.plot(x_vals, m*x_vals+b, "-", color="#e82b0c", linewidth=3)
+            ax2.plot(x_vals, m*x_vals+b, "--", color="gray", linewidth=3)
         ax2.set_xlabel("Ingresos (USD)")
         ax2.set_ylabel("Egresos (USD)")
         ax2.grid(True, linestyle="--", alpha=0.4)
@@ -1337,9 +1365,11 @@ class EstadoFinancieroAdmin(ModelAdmin):
     # Fieldsets (tabs)
     # ----------------------------------
     fieldsets = (
-        ("I. Período", {
-            "fields": ("fecha_inicio", "fecha_fin"),
+        ("I. Crear Analítica", {
+            "fields": ("fecha_inicio", "fecha_fin", 
+            "total_ingresos_bancos","total_egresos_bancos"),
             "classes": ("unfold", "tab-periodo"),
+
         }),
 
         ("II. Resumen Contable", {
@@ -1398,6 +1428,19 @@ class EstadoFinancieroAdmin(ModelAdmin):
             ),
             "classes": ("unfold", "tab-avanzado"),
         }),
+
+        ("VII. Concliliación Bancaria", {
+            "fields": (
+                "total_efectivo_bancos",
+                "total_efectivo",
+                "diferencia_ingresos",
+                "error_conciliacion_porcentaje",
+                "umbral_conciliacion",
+                "conciliado",
+
+            ),
+            "classes": ("unfold", "tab-avanzado"),
+        }),
     )
 
     # ----------------------------------
@@ -1408,12 +1451,6 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "fecha_fin",
         "total_ingresos",
         "total_egresos",
-        "utilidad_bruta",
-        "utilidad_neta",
-        "margen_utilidad_neta",
-        "rentabilidad",
-        "ratio_cobertura",
-        "porcentaje_ventas"
     )
 
     list_filter = (
@@ -1453,6 +1490,12 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "deduccion_gastos",
         "cuentas_pagar",
         "cuentas_cobrar",
+        "total_efectivo_bancos",
+        "total_efectivo",
+        "diferencia_ingresos",
+        "error_conciliacion_porcentaje",
+        "umbral_conciliacion",
+
     )
 
     unfold_fieldsets = True
