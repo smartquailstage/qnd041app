@@ -15,23 +15,48 @@ NODE_NAME="qnd041app"
 DJANGO_SETTINGS_MODULE="qnd041app.settings.pro"
 APP_PORT=${PORT:-9000}
 SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"support@smartquail.io"}
+SUPERUSER_NAME=${DJANGO_SUPERUSER_NAME:-"C.O.T: Mauricio Silva"}
+SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
 
+# =============================
 # Migraciones
-echo "Realizando migraciones..."
-python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
+# =============================
+echo "Generando migraciones si faltan..."
+python3 manage.py makemigrations --noinput || true
 
-# Crear superusuario
+echo "Aplicando migraciones..."
+python3 manage.py migrate --noinput
+
+# =============================
+# Crear superusuario si no existe
+# =============================
 echo "Creando superusuario si no existe..."
-python3 manage.py createsuperuser --email $SUPERUSER_EMAIL --noinput || true
+# Intentamos crear superusuario solo si no existe
+python3 manage.py shell << END
+from django.contrib.auth import get_user_model
+User = get_user_model()
+if not User.objects.filter(email="$SUPERUSER_EMAIL").exists():
+    User.objects.create_superuser(
+        username="$SUPERUSER_NAME",
+        email="$SUPERUSER_EMAIL",
+        password="$SUPERUSER_PASSWORD"
+    )
+END
 
+# =============================
 # Recolectar archivos estáticos
+# =============================
 echo "Recolectando archivos estáticos..."
-python3 manage.py collectstatic --settings=$NODE_NAME.settings.pro --noinput
+python3 manage.py collectstatic --noinput
 
-# 🚀 Arrancar Celery en segundo plano
+# =============================
+# Arrancar Celery en segundo plano (opcional)
+# =============================
 #echo "Iniciando Celery worker..."
-#celery -A $NODE_NAME worker -l info &  # el & lo ejecuta en segundo plano
+#celery -A $NODE_NAME worker -l info &
 
-# ⬇️ Arrancar uWSGI (bloqueante)
+# =============================
+# Arrancar uWSGI (bloqueante)
+# =============================
 echo "Iniciando uWSGI..."
-uwsgi --http :9000 --master --enable-threads --module $NODE_NAME.wsgi --ini uwsgi_pro.ini
+uwsgi --http :$APP_PORT --master --enable-threads --module $NODE_NAME.wsgi --ini uwsgi_pro.ini
