@@ -13,7 +13,10 @@ from wagtail.admin.panels import (
     InlinePanel,
     MultiFieldPanel,
 )
-from streams import blocks
+from wagtail import blocks
+# from streams import blocks
+# from wagtail.core import blocks
+
 #from wagtail.core import blocks
 from wagtail.models import Page,Orderable
 from wagtail.snippets.models import register_snippet
