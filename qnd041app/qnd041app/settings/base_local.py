@@ -417,7 +417,7 @@ UNFOLD = {
 "navigation": [
 
     {
-        "title": _("[SBL-(I+D)]"),
+        "title": _("Recursos Legales (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
@@ -442,7 +442,7 @@ UNFOLD = {
 
 
             {
-                "title": _("Informes/Actas (SCVS)"),
+                "title": _("Informes (SCVS)"),
                 "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
@@ -491,7 +491,7 @@ UNFOLD = {
     },
 
     {
-        "title": _("[SBA-(I+D)] "),
+        "title": _("Recursos Financieros (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
