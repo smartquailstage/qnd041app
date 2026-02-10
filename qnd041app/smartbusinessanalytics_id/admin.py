@@ -1357,8 +1357,6 @@ class EstadoFinancieroAdmin(ModelAdmin):
     # ----------------------------------
     list_sections = [
         EstadoResumenContableComponent,
-        EstadoKPIsComponent,
-        EstadoAnalisisAvanzadoComponent,
     ]
 
     # ----------------------------------
