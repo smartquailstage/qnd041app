@@ -318,11 +318,11 @@ def is_all(request):
 
 
 UNFOLD = {
-    "SITE_TITLE": "SmartBusinessAnalytics® (I+D), (+A) ,(AI)     Planificador de Recursos Empresariales.",
-    "SITE_HEADER": "MEDDES",
+    "SITE_TITLE": "SmartQuail IT Cloud Business (I+D)®      Planificador de Recursos Empresariales",
+    "SITE_HEADER": "SmartQuail",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",
-    "SITE_DESCRIPTION": "SmartBusinessAnalytics® (I+D)+A",
+    "SITE_DESCRIPTION": "SmartQuail.S.A.S (I+D)",
     "SITE_COPYRIGHT": "Copyright © 2025 SmartQuail S.A.S Todos los derechos reservados.",
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "SITE_DROPDOWN": [
@@ -338,7 +338,7 @@ UNFOLD = {
     ],
     "SITE_URL": "https://www.meddes.com.ec/",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_smartquailred.png"), "dark": lambda request: static("logo_smartquailred.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_sq_header.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
@@ -354,7 +354,7 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
-    "LOGIN": {  "image": lambda request: static("img/login_analytics2.png"),
+    "LOGIN": {  "image": lambda request: static("img/login_sq_bg.png"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
                 },
@@ -373,15 +373,15 @@ UNFOLD = {
 
         "base": {
             "50": "255 255 255",
-            "100": "202 196 196",
+            "100": "206 200 200",
             "200": "211 213 205",
             "300": "209 213 219",
-            "400": "41 168 80",
+            "400": "181 15 21",
             "500": "51 55 53",
             "600": "75 85 99",
             "700": "7 121 176",
             "800": "4 168 79",
-            "900": "60 59 59",
+            "900": "49 46 46",
             "950": "3 7 18",
         },
         "primary": {
@@ -391,7 +391,7 @@ UNFOLD = {
             "300": "216 180 254",
             "400": "192 132 252",
             "500": "229 234 231",
-            "600": "61 61 56",
+            "600": "30 29 29",
             "700": "126 34 206",
             "800": "107 33 168",
             "900": "24 85 2",
@@ -426,13 +426,13 @@ UNFOLD = {
 "navigation": [
 
     {
-        "title": _("SmartBusinessLaw® (I+D)+A"),
+        "title": _("[SBL-(I+D)]"),
         "separator": True,
         "collapsible": True,
         "items": [
             {
-                "title": _(" Registros SPDP"),
-                "icon": "inbox",
+                "title": _(" Registros (SPDP)"),
+                "icon": "create",
                 "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -441,8 +441,8 @@ UNFOLD = {
 
 
             {
-                "title": _("Balances SCVS"),
-                "icon": "inbox",
+                "title": _("Balances (SCVS)"),
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_scvsfinancialreport_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -451,8 +451,8 @@ UNFOLD = {
 
 
             {
-                "title": _("Informes/Actas SCVS"),
-                "icon": "inbox",
+                "title": _("Informes/Actas (SCVS)"),
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -461,8 +461,8 @@ UNFOLD = {
 
 
             {
-                "title": _("Anexos SRI"),
-                "icon": "inbox",
+                "title": _("Anexos (SRI)"),
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_sri_anexostributarios_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -471,16 +471,16 @@ UNFOLD = {
 
 
             {
-                "title": _("Declaraciones SRI"),
-                "icon": "inbox",
+                "title": _("Declaraciones (SRI)"),
+                "icon": "edit",
                 "link": reverse_lazy("admin:smartbusinesslaw_sri_declaracionimpuestos_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
             {
-                "title": _("Contratos MT"),
-                "icon": "inbox",
+                "title": _("Contratos (MT)"),
+                "icon": "signature",
                 "link": reverse_lazy("admin:smartbusinesslaw_contratolaboral_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -488,8 +488,8 @@ UNFOLD = {
             },
 
             {
-                "title": _("Nomina IESS"),
-                "icon": "inbox",
+                "title": _("Nomina (IESS)"),
+                "icon": "people",
                 "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -500,15 +500,15 @@ UNFOLD = {
     },
 
     {
-        "title": _("SmartBusinessAnalytics® (I+D)"),
+        "title": _("[SBA-(I+D)] "),
         "separator": True,
         "collapsible": True,
         "items": [
 
             {
                 "title": _("Deudas/Activos"),
-                "icon": "inbox",
-                "link": reverse_lazy("admin:smartbusinessanalytics_id_egreso_changelist"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
@@ -517,7 +517,7 @@ UNFOLD = {
 
             {
                 "title": _("Ingresos/Egresos"),
-                "icon": "inbox",
+                "icon": "archive",
                 "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
@@ -528,7 +528,7 @@ UNFOLD = {
 
             {
                     "title": _("Analisis Financieros"),
-                    "icon": "inbox",
+                    "icon": "analytics",
                     "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
                     "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                     "badge_color": "custom-red-alert",
@@ -538,92 +538,7 @@ UNFOLD = {
         ],
     },
 
-    {
-        "title": _("Comunicaciones"),
-        "separator": True,
-        "collapsible": True,
-        "items": [
-            {
-                "title": _("Bandeja de Entrada"),
-                "icon": "inbox",
-                "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
-                "permission": is_all,
-            },
-        ],
-    },
 
-    {
-        "title": _("Registros Administrativos"),
-        "separator": True,
-        "collapsible": True,
-        "items": [
-            {
-                "title": _("Prospecciones"),
-                "icon": "edit",
-                "link": reverse_lazy("admin:usuarios_prospeccion_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_meddes",
-                "badge_color": "colors-primary-500",
-                "permission": is_administrativo_o_isuperuser,
-            },
-            {
-                "title": _("Instituciones"),
-                "icon": "school",
-                "link": reverse_lazy("admin:usuarios_prospecion_administrativa_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_prospeccion",
-                "badge_color": "custom-green-success",
-                "permission": is_institucional_o_administrativo,
-            },
-            {
-                "title": _("Pacientes"),
-                "icon": "book",
-                "link": reverse_lazy("admin:usuarios_profile_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_terapeutico",
-                "badge_color": "success",
-                "permission":  is_institucional_o_terapeuta_o_administrativo,
-            },
-            {
-                "title": _("Agenda"),
-                "icon": "calendar_today",
-                "link": reverse_lazy("admin:usuarios_cita_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_citas",
-                "badge_color": "font-subtle-light",
-                "permission": is_administrativo_o_isuperuser,
-            },
-            {
-                "title": _("Pagos"),
-                "icon": "payment",
-                "link": reverse_lazy("admin:usuarios_pagos_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_pagos",
-                "badge_color": "custom-red-alert",
-                "permission": is_admin_o_financiero,
-            },
-        ],
-    },
-    {
-        "title": _("Registros Terapéuticos"),
-        "separator": True,
-        "collapsible": True,
-        "items": [
-            {
-                "title": _("Valoraciones"),
-                "icon": "download",
-                "link": reverse_lazy("admin:usuarios_valoracionterapia_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_valoracion",
-                "badge_color": "custom-red-alert",
-                "permission": is_institucional_o_terapeuta_o_administrativo,
-            },
-            {
-                "title": _("Terapias"),
-                "icon": "task",
-                "link": reverse_lazy("admin:usuarios_tareas_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_tareas",
-                "badge_color": "custom-red-alert",
-                "permission": is_institucional_o_terapeuta_o_administrativo,
-            },
-        ],
-    },
 
 ],
 
@@ -638,6 +553,7 @@ UNFOLD = {
         },
     ],
 }
+
 
 
 

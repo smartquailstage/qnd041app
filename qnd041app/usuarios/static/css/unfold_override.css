@@ -45,4 +45,10 @@
 
 }
 
+.checked\:bg-green-500:checked {
+    background-color: #b50f15;
+  }
 
+.bg-red-600 {
+  background-color: #b50f15 !important;
+}
