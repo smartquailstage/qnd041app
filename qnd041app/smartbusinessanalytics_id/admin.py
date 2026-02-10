@@ -139,18 +139,18 @@ class MovimientoFinancieroAdmin(ModelAdmin):
     fieldsets = (
         ("I. Información General", {
             "fields": (
+                "es_ingreso",
+                "es_egreso",
+                "categoria_ingresos",
+                "categoria",
                 "fecha_devengo",
                 "codigo_referencia",
                 "descripcion",
-                "categoria",
-                "categoria_ingresos",
-                "es_ingreso",
-                "es_egreso",
                 "contraparte_nombre",
                 "contraparte_identificacion_fiscal",
                 "confirmado",
             ),
-            "classes": ("unfold", "tab-general"),
+            'classes': ('collapse',),
         }),
 
         ("II. Detalle", {
@@ -161,7 +161,7 @@ class MovimientoFinancieroAdmin(ModelAdmin):
                 "costo_directo",
                 "gastos_indirectos",
             ),
-            "classes": ("unfold", "tab-egreso"),
+           'classes': ('collapse',),
         }),
 
         ("IV. Resultados Calculados", {
@@ -172,7 +172,7 @@ class MovimientoFinancieroAdmin(ModelAdmin):
                 "utilidad_bruta",
                 "utilidad_neta",
             ),
-            "classes": ("unfold", "tab-resultados"),
+         'classes': ('collapse',),
         }),
 
         ("V. Metadatos", {
@@ -181,13 +181,24 @@ class MovimientoFinancieroAdmin(ModelAdmin):
                 "created_at",
                 "fecha_registro",
             ),
-            "classes": ("unfold", "tab-meta"),
+          'classes': ('collapse',),
         }),
     )
 
     # ----------------------------------
     # Listado en admin
     # ----------------------------------
+    conditional_fields = {
+
+    "categoria_ingresos": "es_ingreso",
+
+    # Se muestra si es egreso
+    "categoria": "es_egreso",
+   
+    }
+
+
+
     list_display = (
         "fecha_devengo",
         "tipo_movimiento",
@@ -971,8 +982,16 @@ class EstadoResumenContableComponent(BaseComponent):
         # KPIs
         # ==========================
         cards = [
-            {"title": "Efectivo Bancos", "value": e.total_efectivo_bancos, "badge": f"Conciliación: {e.error_conciliacion_porcentaje}%", "badge_color": "secondary", "footer": f"Discrepancia: {e.diferencia_ingresos}"},
-            {"title": "Punto de Equilibrio", "value": e.punto_equilibrio, "badge": f"Liquidez:{e.ratio_cobertura}%", "badge_color": "warning"},
+            {
+            "title": "Efectivo Bancos",
+            "value": e.total_efectivo_bancos, 
+            "badge": f"Error: {e.error_conciliacion_porcentaje}%",
+            "badge_color": "secondary","nombre_banco": e.nombre_banco, 
+            "footer": f"Discrepancia: {e.diferencia_ingresos}"
+            },
+
+            {"title": "Punto de Equilibrio", "value": e.punto_equilibrio,
+             "badge": f"Liquidez:{e.ratio_cobertura}%", "badge_color": "warning"},
             {"title": "Dividendos", "value": e.dividendos_accionistas, "badge": f"Rentabilidad: {e.rentabilidad}%", "badge_color": "success"},
         ]
 
@@ -984,6 +1003,7 @@ class EstadoResumenContableComponent(BaseComponent):
         "value": e.utilidad_neta,
         "badge": "Utilidades",
         "badge_color": "sucess",
+        "porcentaje": f"{e.margen_utilidad_neta}",
          },
 
         {
@@ -991,12 +1011,14 @@ class EstadoResumenContableComponent(BaseComponent):
         "value": e.total_ingresos,
         "badge": "Ingresos",
         "badge_color": "primary",
+        "discrepancia":f"{e.diferencia_ingresos}"
          },
          {
         "title": "Egresos",
         "value": e.total_egresos,
         "badge": "Egresos",
         "badge_color": "warning",
+        "discrepancia": f"{ e.diferencia_egresos }"
          },
          {
         "title": "Fecha de inicio",
@@ -1359,13 +1381,15 @@ class EstadoFinancieroAdmin(ModelAdmin):
         EstadoResumenContableComponent,
     ]
 
+   
     # ----------------------------------
     # Fieldsets (tabs)
     # ----------------------------------
     fieldsets = (
         ("I. Crear Analítica", {
-            "fields": ("fecha_inicio", "fecha_fin", 
-            "total_ingresos_bancos","total_egresos_bancos"),
+            
+            "fields": ("nombre_banco","total_ingresos_bancos","total_egresos_bancos","fecha_inicio", "fecha_fin", 
+            ),
             "classes": ("unfold", "tab-periodo"),
 
         }),
@@ -1429,9 +1453,11 @@ class EstadoFinancieroAdmin(ModelAdmin):
 
         ("VII. Concliliación Bancaria", {
             "fields": (
+               
                 "total_efectivo_bancos",
                 "total_efectivo",
                 "diferencia_ingresos",
+                "diferencia_egresos",
                 "error_conciliacion_porcentaje",
                 "umbral_conciliacion",
                 "conciliado",
@@ -1440,6 +1466,10 @@ class EstadoFinancieroAdmin(ModelAdmin):
             "classes": ("unfold", "tab-avanzado"),
         }),
     )
+
+
+
+
 
     # ----------------------------------
     # Listado
@@ -1450,6 +1480,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "total_ingresos",
         "total_egresos",
     )
+
+    search_fields = ["nombre_banco",]
 
     list_filter = (
         "fecha_inicio",
@@ -1491,8 +1523,10 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "total_efectivo_bancos",
         "total_efectivo",
         "diferencia_ingresos",
+        "diferencia_egresos",
         "error_conciliacion_porcentaje",
         "umbral_conciliacion",
+      
 
     )
 

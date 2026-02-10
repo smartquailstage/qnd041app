@@ -875,6 +875,40 @@ from djmoney.models.fields import MoneyField
 
 class EstadoFinanciero(models.Model):
 
+    BANCOS_CHOICES = [
+        ("banco_pichincha", "Banco Pichincha"),
+        ("Banco Guayaquil", "Banco de Guayaquil"),
+        ("produbanco", "Produbanco"),
+        ("banco_internacional", "Banco Internacional"),
+        ("banco_del_austro", "Banco del Austro"),
+        ("banco_provincial", "Banco del Pacífico"),
+        ("coopac", "Cooperativa COOPAC"),
+        ("banco_bolivariano", "Banco Bolivariano"),
+        ("banco_dell_sol", "Banco del Sol"),
+        ("banco_machala", "Banco Machala"),
+        ("banco_farmacias", "Banco de las Farmacias"),
+        ("banco_florencia", "Banco Florencia"),
+        ("banco_ambato", "Banco Ambato"),
+        ("visa", "Visa"),
+        ("mastercard", "Mastercard"),
+        ("amex", "American Express"),
+        ("diners", "Diners Club"),
+        ("discover", "Discover"),
+        ("jcb", "JCB"),
+        ("unionpay", "UnionPay"),
+        ("paymentez", "Paymentez"),
+        ("datafast", "Datafast"),
+        ("payphone", "PayPhone"),
+        ("banco_pichincha_online", "Banco Pichincha Online"),
+        ("banco_guayaquil_online", "Banco de Guayaquil Online"),
+        ("redeban", "Redeban"),
+        ("paypal", "PayPal"),
+        ("stripe", "Stripe"),
+        ("mercadopago", "MercadoPago"),
+        ("square", "Square"),
+        ("otros", "Otro"),
+    ]
+
     # PERÍODO DE ANÁLISIS
     fecha_inicio = models.DateField(
         verbose_name="Elegir fecha de inicio para análisis",
@@ -901,6 +935,16 @@ class EstadoFinanciero(models.Model):
         default_currency='USD',
         verbose_name="Egresos bancarios",
         help_text="Escriba el valor total de egresos registrados e identificados en las cuentas bancarias, Ej: 1000.2"
+    )
+
+    nombre_banco =  models.CharField(
+        max_length=30,
+        choices=BANCOS_CHOICES,
+        default ="banco_guayaquil",
+        null=True,
+        blank=True,
+        verbose_name="Institución Bancaria",
+        help_text="Identifique el banco correspondiente para analizar."
     )
 
     # RESULTADOS CONTABLES AGREGADOS
@@ -973,6 +1017,17 @@ class EstadoFinanciero(models.Model):
         blank=True,
         verbose_name="Diferencia de ingresos",
         help_text="Diferencia absoluta entre ingresos bancarios y contables"
+    )
+
+
+    diferencia_egresos = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Diferencia de egresos",
+        help_text="Diferencia absoluta entre egresos bancarios y contables"
     )
 
     error_conciliacion_porcentaje = models.DecimalField(
@@ -1425,6 +1480,14 @@ class EstadoFinanciero(models.Model):
 
         self.diferencia_ingresos = Money(
             diferencia.quantize(Decimal('0.01')),
+            'USD'
+        )
+
+        # Diferencia absoluta de ingresos
+        diferencia_egresos = abs(bancos_egr - egresos_v)
+
+        self.diferencia_egresos = Money(
+            diferencia_egresos.quantize(Decimal('0.01')),
             'USD'
         )
 

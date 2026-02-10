@@ -9,52 +9,70 @@
 
 
 
-    {% if cards %}
-        <div class="flex flex-col gap-6 lg:flex-row">
-            {% for card in cards %}
-                <div class="block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs
-                            border border-base-200 lg:w-1/3
-                            {% if card.badge_color == 'success' %}
-                                bg-green-50 dark:bg-green-900
-                            {% elif card.badge_color == 'warning' %}
-                                bg-yellow-50 dark:bg-yellow-900
-                            {% elif card.badge_color == 'secondary' %}
-                                bg-gray-50 dark:bg-gray-900
-                            {% else %}
-                                bg-white dark:bg-base-900
-                            {% endif %}">
-                    <div class="grow relative">
-                        <p class="leading-relaxed mb-0 text-sm">{{ card.title }} </p>
-                        <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
-                            {{ card.value }} 
-                        </div>
-                        <p>{{ card.footer }}</p>
-{% if card.badge %}
-<div class="absolute right-0 top-0">
-    <span class="inline-block font-semibold h-6 leading-6 px-2 rounded-default
-        text-[11px] uppercase whitespace-nowrap
-        {% if card.badge_value < 1 %}
-            bg-primary-100 text-green-700 dark:bg-green-500/20 dark:text-green-400
-        {% elif card.badge_value <= 10 %}
-            bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400
-        {% else %}
-            bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400
-        {% endif %}
-    ">
+
+{% if cards %}
+<div class="flex flex-col gap-6 lg:flex-row">
+
+    {% for card in cards %}
 
 
-        {{ card.badge }}
-    </span>
-</div>
-{% endif %}
+        <div class="block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs
+                    border border-base-200 lg:w-1/3 bg-white dark:bg-base-900">
 
+            <div class="grow relative">
+                <p class="leading-relaxed mb-1 text-sm text-font-secondary-light dark:text-font-secondary-dark">
+                    {{ card.title }}
+                    {% if card.title == "Efectivo Bancos" %}
+                        · {{ card.nombre_banco }}
+                    {% endif %}
+                </p>
 
-                    </div>
-
+                <div class="font-semibold text-2xl tracking-tight text-font-important-light dark:text-font-important-dark">
+                    {{ card.value }}
                 </div>
-            {% endfor %}
+
+                {% if card.footer %}
+                    <p class="text-xs mt-2 opacity-80">
+                        {{ card.footer }}
+                    </p>
+                {% endif %}
+            </div>
+
+            {% if card.badge %}
+            <div class="absolute right-2 top-2">
+                <span class="inline-flex items-center gap-1 font-semibold h-6 leading-6 px-2 rounded-default
+                    text-[11px] uppercase whitespace-nowrap
+                    {% if pct < 1 %}
+                        bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400
+                    {% elif pct <= 10 %}
+                        bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400
+                    {% else %}
+                        bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400
+                    {% endif %}
+                ">
+                    {{ card.badge }}
+                </span>
+            </div>
+            {% endif %}
+
         </div>
-    {% endif %}
+
+      
+     
+    {% endfor %}
+
+</div>
+
+
+
+
+{% endif %}
+</div>
+
+
+
+
+
 
 </div>
 
@@ -170,24 +188,44 @@
 
         <!-- Texto descriptivo -->
     <p class="leading-relaxed mb-0 text-sm">
-        Total revenue between 
+        Total de utilidades netas en el rango de tiempo,
         <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ estado.fecha_inicio }} - {{ estado.fecha_fin }}
-        </strong>. Increase 
-        <span class="text-green-700 font-semibold dark:text-green-400">
-            {% if flujo_financiero.ingresos_pct %}+{{ flujo_financiero.ingresos_pct|floatformat:2 }}%{% else %}0.00%{% endif %}
-        </span> comparing to previous month 
-        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
+                    {% for h in header_stats %}
+            {% if h.title == "Fecha de inicio" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        →
+        {% for h in header_stats %}
+            {% if h.title == "Fecha de fin" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
         </strong>.
+    
     </p>
+
+        <p class="leading-relaxed mb-0 text-sm">
+      <strong> Se encontró un margen neto del 
+        <span class="text-blue-700 font-semibold dark:text-green-400">
+            {% for h in header_stats %}
+            {% if h.title == "Utilidades Netas" %}
+            {{ h.porcentaje }} %
+            {% endif %}
+
+            
+            {% endfor %}
+        </span> 
+</strong>
+    
+    </p>
+
 
 
 
 </div>
 
-
-
+ 
 
 
 
@@ -215,16 +253,35 @@
 
     <!-- Texto descriptivo -->
     <p class="leading-relaxed mb-0 text-sm">
-        Total revenue between 
+        Total de ingresos identificados en el rango de tiempo,
         <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ estado.fecha_inicio }} - {{ estado.fecha_fin }}
-        </strong>. Increase 
-        <span class="text-green-700 font-semibold dark:text-green-400">
-            {% if flujo_financiero.ingresos_pct %}+{{ flujo_financiero.ingresos_pct|floatformat:2 }}%{% else %}0.00%{% endif %}
-        </span> comparing to previous month 
-        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
+                    {% for h in header_stats %}
+            {% if h.title == "Fecha de inicio" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        →
+        {% for h in header_stats %}
+            {% if h.title == "Fecha de fin" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
         </strong>.
+
+    <p class="leading-relaxed mb-0 text-sm">
+      <strong> Se encontró una discrepancia de  
+        <span class="text-green-700 font-semibold dark:text-green-400">
+            {% for h in header_stats %}
+            {% if h.title == "Ingresos" %}
+            {{ h.discrepancia }} 
+            {% endif %}
+
+            
+            {% endfor %}
+            respecto al valor de ingresos bancarios reales.
+        </span> 
+</strong>
+    
     </p>
 </div>
 
@@ -297,17 +354,37 @@
     {% endfor %}
 
         <!-- Texto descriptivo -->
+    <!-- Texto descriptivo -->
     <p class="leading-relaxed mb-0 text-sm">
-        Total revenue between 
+        Total de Egresos identificados en el rango de tiempo,
         <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ estado.fecha_inicio }} - {{ estado.fecha_fin }}
-        </strong>. Increase 
-        <span class="text-green-700 font-semibold dark:text-green-400">
-            {% if flujo_financiero.ingresos_pct %}+{{ flujo_financiero.ingresos_pct|floatformat:2 }}%{% else %}0.00%{% endif %}
-        </span> comparing to previous month 
-        <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white">
-            {{ fecha_prev_inicio }} - {{ fecha_prev_fin }}
+                    {% for h in header_stats %}
+            {% if h.title == "Fecha de inicio" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
+        →
+        {% for h in header_stats %}
+            {% if h.title == "Fecha de fin" %}
+                {{ h.value|date:"d M Y" }}
+            {% endif %}
+        {% endfor %}
         </strong>.
+
+    <p class="leading-relaxed mb-0 text-sm">
+      <strong> Se encontró una discrepancia de   
+        <span class="bg-yellow-600 text-yellow-700 font-semibold dark:text-green-400">
+            {% for h in header_stats %}
+            {% if h.title == "Egresos" %}
+            {{ h.discrepancia}} 
+            {% endif %}
+
+            
+            {% endfor %}
+            respecto al valor de ingresos bancarios reales.
+        </span> 
+</strong>
+    
     </p>
 
 
