@@ -503,7 +503,7 @@ UNFOLD = {
         "items": [
 
             {
-                "title": _("Deudas/Activos"),
+                "title": _("Pasivos/Activos"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:smartbusinessanalytics_id_activos_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
