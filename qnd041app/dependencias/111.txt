@@ -13,7 +13,7 @@ pandas
 numpy
 
 # Wagtail
-wagtail==7.2.0
+wagtail==7.0.0
 wagtailmedia
 wagtail_localize
 wagtailgmaps
