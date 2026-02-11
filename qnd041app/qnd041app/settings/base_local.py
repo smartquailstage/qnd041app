@@ -527,7 +527,7 @@ UNFOLD = {
                     "title": _("Analisis Financieros"),
                     "icon": "analytics",
                     "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
-                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge": "usuarios.unfold_config.badge_callback_analisis",
                     "badge_color": "custom-red-alert",
                     "permission": is_all,
         },

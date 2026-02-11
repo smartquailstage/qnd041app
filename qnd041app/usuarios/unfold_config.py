@@ -9,7 +9,7 @@ from usuarios.models import AsistenciaTerapeuta
 from django.utils import timezone
 from usuarios.models import Mensaje
 from usuarios.models import Prospeccion
-
+from smartbusinessanalytics_id.models import EstadoFinanciero
 
 
 
@@ -23,19 +23,92 @@ def badge_callback_meddes(request):
 
 def badge_callback_notificaciones(request):
     try:
-        hoy = timezone.now().date()
-        mensajes_hoy = Mensaje.objects.filter(creado__date=hoy).count()
+                # Filtramos los registros conciliados
+        registros_conciliados = EstadoFinanciero.objects.filter(conciliado=True).order_by('id')
+
+        # Contamos la cantidad de registros conciliados
+        total_registros = registros_conciliados.count()
+
+        # Obtenemos el valor de total_efectivo_bancos del último registro
+        ultimo_total_efectivo = registros_conciliados.last().total_efectivo_bancos if total_registros > 0 else 0
 
         asistencias = {
-            "No leídas (Mensajes)": Mensaje.objects.filter(leido=False).count(),
-            "Leídas (Asistencias)": Mensaje.objects.filter(leido=True).count(),
+            "Analisis": total_registros,
+            "Total Efectivo Bancos": ultimo_total_efectivo
         }
 
         resumen = " | ".join(f"{value}" for key, value in asistencias.items())
-        return f"{mensajes_hoy} | {resumen}"
+        return f"{resumen}"
 
     except Exception:
         return "0"
+
+
+from django.utils import timezone
+from smartbusinessanalytics_id.models import MovimientoFinanciero
+
+def badge_callback_ingresos_egresos(request):
+    try:
+        hoy = timezone.now().date()
+
+        # Contamos movimientos de hoy
+        total_ingresos = MovimientoFinanciero.objects.filter(
+            es_ingreso=True,
+            fecha_devengo=hoy
+        ).count()
+
+        total_egresos = MovimientoFinanciero.objects.filter(
+            es_egreso=True,
+            fecha_devengo=hoy
+        ).count()
+
+        # Diccionario de resultados
+        resultados = {
+            "Ingresos Hoy": total_ingresos,
+            "Egresos Hoy": total_egresos,
+        }
+
+        # Formateamos la salida
+        resumen = " | ".join(f"{key}: {value}" for key, value in resultados.items())
+        return resumen
+
+    except Exception as e:
+        # Opcional: loggear el error
+        return "0"
+
+
+from django.utils import timezone
+
+def badge_callback_analisis(request):
+    try:
+        # Fecha actual
+        hoy = timezone.now().date()
+
+        # Obtenemos el último registro conciliado del día de hoy
+        ultimo_registro = EstadoFinanciero.objects.filter(
+            conciliado=True,
+            fecha_inicio=hoy
+        ).order_by('fecha_inicio').last()
+
+        # Valor de ingresos del último registro
+        total_ingresos_ultimo = (
+            float(ultimo_registro.total_ingresos.amount)
+            if ultimo_registro and ultimo_registro.total_ingresos
+            else 0.0
+        )
+
+        # Construimos el diccionario de resultados
+        asistencias = {
+            "Total Ingresos Último Registro Hoy": total_ingresos_ultimo,
+        }
+
+        resumen = " | ".join(f"{value} USD$" for key, value in asistencias.items())
+        return resumen
+
+    except Exception as e:
+        # Opcional: loggear el error
+        return "0"
+
 
 
 def badge_callback_asistencias(request):
