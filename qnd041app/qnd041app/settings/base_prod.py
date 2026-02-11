@@ -337,9 +337,9 @@ UNFOLD = {
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
          {"icon": "support", "title": _("Soporte"), "link": reverse_lazy("admin:usuarios_cliente_changelist")},
     ],
-    "SITE_URL": "https://www.meddes.com.ec/",
+    "SITE_URL": "https://ec.smartquail.io",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_sq_header.png"), "dark": lambda request: static("img/login_sq_bg.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/logo_sq_header.png"), "dark": lambda request: static("img/login_sq_bg.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
