@@ -340,7 +340,7 @@ UNFOLD = {
     ],
     "SITE_URL": "https://ec.smartquail.io",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/logo_sq_header.png"), "dark": lambda request: static("img/login_sq_bg.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_sq_header.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
