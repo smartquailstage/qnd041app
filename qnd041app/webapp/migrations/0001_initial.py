@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0095_formsubmission'),
+        ('wagtailcore', '0096_formsubmission'),
         ('wagtailimages', '0027_image_description'),
     ]
 
