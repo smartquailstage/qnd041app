@@ -1,61 +1,28 @@
 #!/bin/sh
-
 set -e
 
-# Mostrar ASCII opcional
-if command -v screenfetch > /dev/null 2>&1; then
-    screenfetch --ascii qnode_art.txt
-else
-    echo "screenfetch no está instalado, omitiendo la visualización ASCII."
-fi
-
-# Variables
-SETTINGS_MODULE="qnd041app.settings.pro"
 NODE_NAME="qnd041app"
-DJANGO_SETTINGS_MODULE="qnd041app.settings.pro"
 APP_PORT=${PORT:-9000}
 SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"support@smartquail.io"}
-SUPERUSER_NAME=${DJANGO_SUPERUSER_NAME:-"support@smartquail.io"}
-SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD:-"changeme"}
 
-# =============================
 # Migraciones
-# =============================
-
 echo "Aplicando migraciones..."
 python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
 
 
-# =============================
-# Crear superusuario si no existe
-# =============================
-echo "Creando superusuario si no existe..."
-# Intentamos crear superusuario solo si no existe
-python3 manage.py shell << END
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(email="$SUPERUSER_EMAIL").exists():
-    User.objects.create_superuser(
-        username="$SUPERUSER_NAME",
-        email="$SUPERUSER_EMAIL",
-        password="$SUPERUSER_PASSWORD"
-    )
-END
+# Realiza las migraciones de la base de datos (sin necesidad de intervención del usuario)
+echo "Realizando migraciones..."
+python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
 
-# =============================
-# Recolectar archivos estáticos
-# =============================
+# Crea el superusuario si no existe. Si ya existe, no causa un error
+echo "Creando superusuario si no existe..."
+python3 manage.py createsuperuser --email $SUPERUSER_EMAIL --noinput || true
+
+# Recolectar estáticos
 echo "Recolectando archivos estáticos..."
 python3 manage.py collectstatic --noinput
 
-# =============================
-# Arrancar Celery en segundo plano (opcional)
-# =============================
-#echo "Iniciando Celery worker..."
-#celery -A $NODE_NAME worker -l info &
-
-# =============================
-# Arrancar uWSGI (bloqueante)
-# =============================
+# Iniciar uWSGI
 echo "Iniciando uWSGI..."
 uwsgi --http :$APP_PORT --master --enable-threads --module $NODE_NAME.wsgi --ini uwsgi_pro.ini
