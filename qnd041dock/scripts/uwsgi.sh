@@ -21,8 +21,6 @@ SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
 # =============================
 # Migraciones
 # =============================
-echo "Generando migraciones si faltan..."
-python3 manage.py makemigrations --noinput || true
 
 echo "Aplicando migraciones..."
 python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
