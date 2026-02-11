@@ -412,7 +412,7 @@ class info(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels = Page.content_panels + [
 
 
     #Panel sliders
@@ -588,7 +588,7 @@ class info_2(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels =  Page.content_panels + [
 
 
     #Panel sliders
@@ -747,7 +747,7 @@ class smartbusinessmedia_info(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels = Page.content_panels + [
 
 
     #Panel sliders
@@ -927,7 +927,7 @@ class smartbusinessanalytics_info(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels =  Page.content_panels + [
 
 
     #Panel sliders
@@ -1103,7 +1103,7 @@ class smartbusinesslaw_info(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels = Page.content_panels + [
 
 
     #Panel sliders
@@ -1279,7 +1279,7 @@ class smartbusinesstechnologies_info(Page):
     thank_you_text = RichTextField(blank=True)
     # galeria de imagenes barner de presentacion
 
-    content_panels = AbstractEmailForm.content_panels + Page.content_panels + [
+    content_panels = Page.content_panels + [
 
 
     #Panel sliders
