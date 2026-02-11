@@ -15,7 +15,7 @@ NODE_NAME="qnd041app"
 DJANGO_SETTINGS_MODULE="qnd041app.settings.pro"
 APP_PORT=${PORT:-9000}
 SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"support@smartquail.io"}
-SUPERUSER_NAME=${DJANGO_SUPERUSER_NAME:-"C.O.T: Mauricio Silva"}
+SUPERUSER_NAME=${DJANGO_SUPERUSER_NAME:-"support@smartquail.io"}
 SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
 
 # =============================
