@@ -505,7 +505,7 @@ UNFOLD = {
             {
                 "title": _("Deudas/Activos"),
                 "icon": "folder",
-                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_activos_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,

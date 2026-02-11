@@ -1160,3 +1160,304 @@ class EstadoFinancieroAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+
+
+from django.template.loader import render_to_string
+
+from django.template.loader import render_to_string
+from decimal import Decimal
+
+@register_component
+class ActivoPasivoResumenComponent(BaseComponent):
+    template_name = "admin/activos_resumen.html"
+    name = "Resumen Financiero"
+
+    def __init__(self, request, instance=None):
+        self.request = request
+        self.instance = instance
+
+    def get_context_data(self, **kwargs):
+        obj = self.instance
+
+        if not obj:
+            return {}
+
+        def safe(v):
+            return float(v) if v else 0.0
+
+        context = super().get_context_data(**kwargs)
+
+        # ===============================
+        # ======== ACTIVO ==========
+        # ===============================
+        if obj.es_activo:
+
+            cards = [
+                {
+                    "title": "Valor en Libros",
+                    "value": safe(obj.net_book_value),
+                    "badge": "USD",
+                    "badge_color": "primary",
+                },
+                {
+                    "title": "Costo Capitalizado",
+                    "value": safe(obj.total_capitalized_cost),
+                    "badge": "USD",
+                    "badge_color": "success",
+                },
+                {
+                    "title": "Depreciación Acumulada",
+                    "value": safe(obj.depreciation_accumulated),
+                    "badge": "USD",
+                    "badge_color": "warning",
+                },
+                {
+                    "title": "Acciones Equivalentes",
+                    "value": safe(obj.shares_equivalent_nominal),
+                    "badge": "ACC",
+                    "badge_color": "success",
+                },
+                {
+                    "title": "% Capital Social",
+                    "value": safe(obj.percentage_of_share_capital),
+                    "badge": "%",
+                    "badge_color": "primary",
+                },
+            ]
+
+            context.update({
+                "title": "Resumen del Activo",
+                "cards": cards,
+                "tipo": "activo",
+                "extra_data": {
+                    "Capital Social": obj.total_share_capital,
+                    "Total Acciones": obj.total_shares_issued,
+                    "Valor Nominal Acción": obj.nominal_value_per_share,
+                }
+            })
+
+        # ===============================
+        # ======== PASIVO ==========
+        # ===============================
+        elif obj.es_pasivo:
+
+            cards = [
+                {
+                    "title": "Saldo Pendiente",
+                    "value": safe(obj.saldo_pendiente),
+                    "badge": "USD",
+                    "badge_color": "primary",
+                },
+                {
+                    "title": "Interés Calculado",
+                    "value": safe(obj.interes_calculado),
+                    "badge": "USD",
+                    "badge_color": "warning",
+                },
+                {
+                    "title": "Total Adeudado",
+                    "value": safe(obj.total_adeudado),
+                    "badge": "USD",
+                    "badge_color": "danger",
+                },
+                {
+                    "title": "Acciones Potenciales",
+                    "value": safe(obj.acciones_potenciales),
+                    "badge": "ACC",
+                    "badge_color": "success",
+                },
+                {
+                    "title": "% Dilución Potencial",
+                    "value": safe(obj.porcentaje_dilucion_potencial),
+                    "badge": "%",
+                    "badge_color": "warning",
+                },
+            ]
+
+            context.update({
+                "title": "Resumen del Pasivo",
+                "cards": cards,
+                "tipo": "pasivo",
+                "extra_data": {
+                    "Acreedor": obj.creditor,
+                    "Fecha Vencimiento": obj.due_date,
+                    "Tasa Interés": obj.interest_rate,
+                }
+            })
+
+        else:
+            return {}
+
+        return context
+
+    def render(self):
+        return render_to_string(self.template_name, self.get_context_data())
+
+
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import activos
+
+
+@admin.register(activos)
+class ActivosAdmin(ModelAdmin):
+
+    # =============================
+    # COMPONENTE VISUAL
+    # =============================
+    list_sections = [
+        ActivoPasivoResumenComponent,
+    ]
+
+    # =============================
+    # FIELDSETS
+    # =============================
+    fieldsets = (
+
+        ("I. Tipo de Registro", {
+            "fields": (
+                "es_activo",
+                "es_pasivo",
+            ),
+        }),
+
+        # -----------------------------
+        # ACTIVO
+        # -----------------------------
+        ("II. Información del Activo", {
+            "fields": (
+                "asset_code",
+                "name",
+                "description",
+                "category",
+                "serial_number",
+                "brand",
+                "model",
+                "status",
+            ),
+            "classes": ("collapse",),
+        }),
+
+        ("III. Finanzas del Activo", {
+            "fields": (
+                "acquisition_date",
+                "acquisition_cost",
+                "additional_costs",
+                "useful_life_years",
+                "residual_value",
+                "depreciation_accumulated",
+                "book_value",
+            ),
+            "classes": ("collapse",),
+        }),
+
+        ("IV. Información Societaria Activo", {
+            "fields": (
+                "total_share_capital",
+                "total_shares_issued",
+                "nominal_value_per_share",
+                "book_value_per_share",
+                "market_value_per_share",
+            ),
+            "classes": ("collapse",),
+        }),
+
+        # -----------------------------
+        # PASIVO
+        # -----------------------------
+        ("V. Información del Pasivo", {
+            "fields": (
+                "code",
+                "liability_type",
+                "origin_date",
+                "due_date",
+                "initial_amount",
+                "payments_made",
+                "interest_rate",
+                "penalties",
+                "financial_expenses",
+                "creditor",
+                "conversion_price",
+            ),
+            "classes": ("collapse",),
+        }),
+
+        ("VI. Metadatos", {
+            "fields": (
+                "created_at",
+                "updated_at",
+            ),
+            "classes": ("collapse",),
+        }),
+    )
+
+    unfold_fieldsets = True
+
+    # =============================
+    # CAMPOS CONDICIONALES
+    # =============================
+    conditional_fields = {
+        "asset_code": "es_activo",
+        "acquisition_cost": "es_activo",
+        "code": "es_pasivo",
+        "initial_amount": "es_pasivo",
+    }
+
+    # =============================
+    # LIST DISPLAY
+    # =============================
+    list_display = (
+        "tipo_registro",
+        "nombre_display",
+        "valor_display",
+        "status_display",
+    )
+
+    list_filter = (
+        "es_activo",
+        "es_pasivo",
+        "status",
+        "liability_type",
+    )
+
+    search_fields = (
+        "asset_code",
+        "code",
+        "name",
+        "creditor",
+    )
+
+    readonly_fields = (
+        "book_value",
+        "created_at",
+        "updated_at",
+    )
+
+    # =============================
+    # MÉTODOS PARA LISTADO
+    # =============================
+
+    def tipo_registro(self, obj):
+        if obj.es_activo:
+            return "Activo"
+        if obj.es_pasivo:
+            return "Pasivo"
+        return "-"
+    tipo_registro.short_description = "Tipo"
+
+    def nombre_display(self, obj):
+        return obj.name or obj.asset_code or obj.code
+    nombre_display.short_description = "Nombre"
+
+    def valor_display(self, obj):
+        if obj.es_activo:
+            return obj.net_book_value
+        if obj.es_pasivo:
+            return obj.total_adeudado
+        return "-"
+    valor_display.short_description = "Valor"
+
+    def status_display(self, obj):
+        return obj.status
+    status_display.short_description = "Estado"

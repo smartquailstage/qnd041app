@@ -1529,3 +1529,590 @@ class EstadoFinanciero(models.Model):
 
     def __str__(self):
         return f"Estado Financiero {self.fecha_inicio} - {self.fecha_fin}"
+
+
+
+from django.db import models
+from decimal import Decimal
+
+
+class activos(models.Model):
+
+    es_activo = models.BooleanField(default=True,
+        help_text="Indica si el movimiento corresponde a un activo")
+    # =========================
+    # 1. IDENTIFICACIÓN
+    # =========================
+    asset_code = models.CharField(
+        max_length=50,
+        unique=True,
+        null=True,
+        blank=True,
+        verbose_name="Código del activo",
+        help_text="Identificador único interno del activo."
+    )
+
+    name = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Nombre del activo",
+        help_text="Nombre descriptivo del activo."
+    )
+
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Descripción",
+        help_text="Descripción detallada del activo."
+    )
+
+    category = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Categoría",
+        help_text="Clasificación del activo (maquinaria, equipo, vehículo, etc.)."
+    )
+
+    serial_number = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Número de serie",
+        help_text="Número de serie proporcionado por el fabricante."
+    )
+
+    brand = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Marca",
+        help_text="Marca comercial del activo."
+    )
+
+    model = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Modelo",
+        help_text="Modelo específico del activo."
+    )
+
+    # =========================
+    # 2. INFORMACIÓN FINANCIERA
+    # =========================
+    acquisition_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de adquisición",
+        help_text="Fecha en que el activo fue adquirido."
+    )
+
+    acquisition_cost = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Costo de adquisición",
+        help_text="Costo inicial pagado por el activo."
+    )
+
+    additional_costs = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Costos adicionales",
+        help_text="Costos adicionales capitalizables (transporte, instalación, impuestos no recuperables)."
+    )
+
+    useful_life_years = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Vida útil (años)",
+        help_text="Número estimado de años de vida útil del activo."
+    )
+
+    residual_value = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor residual",
+        help_text="Valor estimado del activo al final de su vida útil."
+    )
+
+    depreciation_accumulated = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Depreciación acumulada",
+        help_text="Monto total depreciado hasta la fecha."
+    )
+
+    book_value = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor en libros",
+        help_text="Valor contable actual del activo (costo menos depreciación)."
+    )
+
+    # =========================
+    # 3. VALORACIÓN
+    # =========================
+    fair_value = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor razonable",
+        help_text="Valor determinado mediante avalúo técnico independiente."
+    )
+
+    market_value = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor de mercado",
+        help_text="Valor estimado del activo según condiciones actuales del mercado."
+    )
+
+    valuation_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de valoración",
+        help_text="Fecha en que se realizó la última valoración del activo."
+    )
+
+    # =========================
+    # 4. DATOS SOCIETARIOS
+    # =========================
+    total_share_capital = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Capital social total",
+        help_text="Monto total del capital social suscrito de la empresa."
+    )
+
+    total_shares_issued = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Total de acciones emitidas",
+        help_text="Número total de acciones emitidas por la sociedad."
+    )
+
+    nominal_value_per_share = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor nominal por acción",
+        help_text="Valor nominal asignado a cada acción."
+    )
+
+    book_value_per_share = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor contable por acción",
+        help_text="Valor contable actual de cada acción."
+    )
+
+    market_value_per_share = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor de mercado por acción",
+        help_text="Precio de mercado actual de cada acción."
+    )
+
+    # =========================
+    # 5. ESTADO
+    # =========================
+    STATUS_CHOICES = [
+        ('active', 'Activo'),
+        ('maintenance', 'En mantenimiento'),
+        ('disposed', 'Dado de baja'),
+        ('sold', 'Vendido'),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        null=True,
+        blank=True,
+        verbose_name="Estado",
+        help_text="Estado actual del activo dentro de la empresa."
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        null=True,
+        blank=True,
+        verbose_name="Fecha de creación",
+        help_text="Fecha en que el registro fue creado en el sistema."
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        null=True,
+        blank=True,
+        verbose_name="Fecha de actualización",
+        help_text="Fecha de la última actualización del registro."
+    )
+
+
+
+
+    # ==============================
+    # 1.Pasivos
+    # ==============================
+
+    es_pasivo = models.BooleanField(default=True,
+        help_text="Indica si el movimiento corresponde a un activo")
+    code = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        unique=True,
+        verbose_name="Código del pasivo",
+        help_text="Identificador único interno del pasivo."
+    )
+
+    name = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Nombre del pasivo",
+        help_text="Nombre descriptivo del pasivo."
+    )
+
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Descripción",
+        help_text="Detalle o explicación adicional del pasivo."
+    )
+
+    LIABILITY_TYPES = [
+        ('current', 'Corriente'),
+        ('non_current', 'No corriente'),
+        ('financial', 'Financiero'),
+        ('tax', 'Fiscal'),
+        ('labor', 'Laboral'),
+        ('commercial', 'Comercial'),
+        ('contingent', 'Contingente'),
+        ('convertible', 'Convertible'),
+    ]
+
+    liability_type = models.CharField(
+        max_length=20,
+        choices=LIABILITY_TYPES,
+        null=True,
+        blank=True,
+        verbose_name="Tipo de pasivo",
+        help_text="Clasificación contable del pasivo."
+    )
+
+    # ==============================
+    # 2. INFORMACIÓN FINANCIERA
+    # ==============================
+
+    origin_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de origen",
+        help_text="Fecha en que se generó la obligación."
+    )
+
+    due_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de vencimiento",
+        help_text="Fecha límite para cumplir la obligación."
+    )
+
+    initial_amount = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Monto inicial",
+        help_text="Monto original de la obligación."
+    )
+
+    currency = models.CharField(
+        max_length=10,
+        null=True,
+        blank=True,
+        verbose_name="Moneda",
+        help_text="Moneda en la que está expresado el pasivo."
+    )
+
+    exchange_rate = models.DecimalField(
+        max_digits=18,
+        decimal_places=6,
+        null=True,
+        blank=True,
+        verbose_name="Tipo de cambio",
+        help_text="Tipo de cambio aplicado si la moneda es extranjera."
+    )
+
+    payments_made = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Pagos realizados",
+        help_text="Monto total pagado hasta la fecha."
+    )
+
+    interest_rate = models.DecimalField(
+        max_digits=8,
+        decimal_places=4,
+        null=True,
+        blank=True,
+        verbose_name="Tasa de interés",
+        help_text="Tasa de interés nominal anual expresada en porcentaje."
+    )
+
+    interest_accrued_manual = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Intereses acumulados manuales",
+        help_text="Intereses acumulados registrados manualmente (si aplica)."
+    )
+
+    penalties = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Penalidades",
+        help_text="Multas o penalidades acumuladas."
+    )
+
+    financial_expenses = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Gastos financieros",
+        help_text="Costos financieros adicionales asociados."
+    )
+
+    # ==============================
+    # 3. INFORMACIÓN CONTRACTUAL
+    # ==============================
+
+    creditor = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Acreedor",
+        help_text="Entidad o persona a quien se le debe la obligación."
+    )
+
+    contract_number = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Número de contrato",
+        help_text="Número identificador del contrato asociado."
+    )
+
+    guarantee_value = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Valor de la garantía",
+        help_text="Valor estimado de la garantía asociada al pasivo."
+    )
+
+    # ==============================
+    # 4. CONVERTIBLE A ACCIONES
+    # ==============================
+
+    conversion_price = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Precio de conversión",
+        help_text="Precio por acción en caso de conversión a capital."
+    )
+
+    total_shares_issued = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Total de acciones emitidas",
+        help_text="Total de acciones actualmente emitidas por la sociedad."
+    )
+
+    total_share_capital = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Capital social total",
+        help_text="Capital social actual de la empresa."
+    )
+
+    # ==============================
+    # 5. ESTADO
+    # ==============================
+
+    STATUS_CHOICES = [
+        ('active', 'Vigente'),
+        ('paid', 'Pagado'),
+        ('refinanced', 'Refinanciado'),
+        ('default', 'En mora'),
+        ('cancelled', 'Cancelado'),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        null=True,
+        blank=True,
+        verbose_name="Estado",
+        help_text="Estado actual del pasivo."
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        null=True,
+        blank=True,
+        verbose_name="Fecha de creación",
+        help_text="Fecha de registro en el sistema."
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        null=True,
+        blank=True,
+        verbose_name="Fecha de actualización",
+        help_text="Última fecha de modificación del registro."
+    )
+
+    # ==========================================================
+    # ================= PROPIEDADES DE CÁLCULO ==================
+    # ==========================================================
+
+    @property
+    def saldo_pendiente(self):
+        if self.initial_amount:
+            pagos = self.payments_made or Decimal(0)
+            return self.initial_amount - pagos
+        return None
+
+    @property
+    def interes_calculado(self):
+        if self.saldo_pendiente and self.interest_rate and self.origin_date:
+            dias = (timezone.now().date() - self.origin_date).days
+            tasa_decimal = self.interest_rate / Decimal(100)
+            return self.saldo_pendiente * tasa_decimal * Decimal(dias) / Decimal(365)
+        return self.interest_accrued_manual
+
+    @property
+    def total_adeudado(self):
+        saldo = self.saldo_pendiente or Decimal(0)
+        interes = self.interes_calculado or Decimal(0)
+        penal = self.penalties or Decimal(0)
+        gastos = self.financial_expenses or Decimal(0)
+        return saldo + interes + penal + gastos
+
+    @property
+    def acciones_potenciales(self):
+        if self.conversion_price and self.total_adeudado:
+            if self.conversion_price > 0:
+                return self.total_adeudado / self.conversion_price
+        return None
+
+    @property
+    def porcentaje_dilucion_potencial(self):
+        if self.acciones_potenciales and self.total_shares_issued:
+            if self.total_shares_issued > 0:
+                return (self.acciones_potenciales / self.total_shares_issued) * 100
+        return None
+
+    @property
+    def porcentaje_sobre_capital(self):
+        if self.total_adeudado and self.total_share_capital:
+            if self.total_share_capital > 0:
+                return (self.total_adeudado / self.total_share_capital) * 100
+        return None
+
+    def __str__(self):
+        return f"{self.code or ''} - {self.name or ''}"
+
+
+    # =====================================================
+    # PROPIEDADES DE CÁLCULO
+    # =====================================================
+
+    @property
+    def total_capitalized_cost(self):
+        if self.acquisition_cost and self.additional_costs:
+            return self.acquisition_cost + self.additional_costs
+        return self.acquisition_cost or Decimal(0)
+
+    @property
+    def net_book_value(self):
+        if self.total_capitalized_cost and self.depreciation_accumulated:
+            return self.total_capitalized_cost - self.depreciation_accumulated
+        return self.total_capitalized_cost or Decimal(0)
+
+    @property
+    def shares_equivalent_nominal(self):
+        if self.nominal_value_per_share and self.net_book_value:
+            if self.nominal_value_per_share > 0:
+                return self.net_book_value / self.nominal_value_per_share
+        return None
+
+    @property
+    def shares_equivalent_book(self):
+        if self.book_value_per_share and self.net_book_value:
+            if self.book_value_per_share > 0:
+                return self.net_book_value / self.book_value_per_share
+        return None
+
+    @property
+    def shares_equivalent_market(self):
+        if self.market_value and self.market_value_per_share:
+            if self.market_value_per_share > 0:
+                return self.market_value / self.market_value_per_share
+        return None
+
+    @property
+    def percentage_of_share_capital(self):
+        if self.total_share_capital and self.net_book_value:
+            if self.total_share_capital > 0:
+                return (self.net_book_value / self.total_share_capital) * 100
+        return None
+
+    @property
+    def percentage_of_total_shares(self):
+        if self.total_shares_issued and self.shares_equivalent_nominal:
+            if self.total_shares_issued > 0:
+                return (self.shares_equivalent_nominal / self.total_shares_issued) * 100
+        return None
+
+    def save(self, *args, **kwargs):
+        self.book_value = self.net_book_value
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.asset_code or ''} - {self.name or ''}"
