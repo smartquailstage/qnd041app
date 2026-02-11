@@ -127,6 +127,9 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'multiselectfield',
     #'citas_regulares',
+    "core",
+    "webapp",
+
 
     'wagtail.embeds',
     'wagtail.sites',
@@ -158,8 +161,6 @@ INSTALLED_APPS = [
     "wagtailgmaps",
     "wagtailmenus",
     # "wagtail_modeltranslation",  # Descomentar si se usa
-    "core",
-    "webapp",
 
     # Terceros / externos
     "rest_framework",

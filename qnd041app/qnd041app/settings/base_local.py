@@ -118,6 +118,9 @@ INSTALLED_APPS = [
     'multiselectfield',
     #'citas_regulares',
 
+    "core",
+    "webapp",
+
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -149,8 +152,7 @@ INSTALLED_APPS = [
     "wagtailgmaps",
     "wagtailmenus",
     # "wagtail_modeltranslation",  # Descomentar si se usa
-    "core",
-    "webapp",
+ 
 
     # Terceros / externos
     "rest_framework",
