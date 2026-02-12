@@ -13,6 +13,37 @@ from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from unfold.components import BaseComponent, register_component
 
+
+from .models import Regulacion
+
+@admin.register(Regulacion)
+class RegulacionAdmin(ModelAdmin):
+    # Campos a mostrar en la lista de registros
+    list_display = (
+        "nombre_registro",
+        "fecha_creacion",
+        "vigente",
+        "nombre_SCVS",
+        "nombre_SPDP",
+        "nombre_SRI",
+        "nombre_MIN_TRABAJO",
+        "nombre_IESS",
+    )
+
+    # Filtros en la barra lateral
+    list_filter = ("vigente", "fecha_creacion")
+
+    # Campos por los que se puede buscar
+    search_fields = ("nombre_registro", "nombre_SCVS", "nombre_SPDP", "nombre_SRI", "nombre_MIN_TRABAJO", "nombre_IESS")
+
+    # Campos de solo lectura
+    readonly_fields = ("fecha_creacion",)
+
+    # Orden por defecto
+    ordering = ("-fecha_creacion",)
+
+    
+
 @register_component
 class BalanceGeneralComponent(BaseComponent):
     template_name = "admin/profile_card.html"

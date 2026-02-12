@@ -334,13 +334,13 @@ UNFOLD = {
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
         
         
-        {"icon": "map", "title": _("Sucursales"), "link": reverse_lazy("admin:usuarios_sucursal_changelist")},
+        {"icon": "map", "title": _("Regulaciones"), "link": reverse_lazy("admin:smartbusinesslaw_regulacion_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
          {"icon": "support", "title": _("Soporte"), "link": reverse_lazy("admin:usuarios_cliente_changelist")},
     ],
     "SITE_URL": "https://ec.smartquail.io",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/BA-LOGOS/logo_sq_header.png"), "dark": lambda request: static("logo_smartquailred.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-logos/logo_sq_header.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
@@ -359,6 +359,8 @@ UNFOLD = {
     "LOGIN": {  "image": lambda request: static("img/login_sq_bg.png"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
+                },
+    "LOGOUT": {  "image": lambda request: static("img/login_sq_bg.png"),
                 },
                
     "STYLES": [
@@ -508,9 +510,9 @@ UNFOLD = {
         "items": [
 
             {
-                "title": _("Deudas/Activos"),
+                "title": _("Pasivos/Activos"),
                 "icon": "folder",
-                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_activos_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
@@ -532,7 +534,7 @@ UNFOLD = {
                     "title": _("Analisis Financieros"),
                     "icon": "analytics",
                     "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
-                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge": "usuarios.unfold_config.badge_callback_analisis",
                     "badge_color": "custom-red-alert",
                     "permission": is_all,
         },
@@ -555,6 +557,7 @@ UNFOLD = {
         },
     ],
 }
+
 
 
 

@@ -52,3 +52,11 @@
 .bg-red-600 {
   background-color: #b50f15 !important;
 }
+
+.bg-green-100 {
+    background-color: rgb(181, 15, 21);
+  }
+
+.text-green-700 {
+    color: rgb(255, 255, 255);
+  }
