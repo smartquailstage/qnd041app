@@ -60,3 +60,11 @@
 .text-green-700 {
     color: rgb(255, 255, 255);
   }
+
+
+.text-green-light-700 {
+  color: rgb(19, 85, 5);
+}
+.bg-green-light-100 {
+  background-color: rgb(148, 220, 178);
+}
