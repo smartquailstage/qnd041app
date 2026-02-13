@@ -3,6 +3,9 @@
     <div class="{% if card_included == 1 %}-m-6{% else %} bg-white flex flex-col grow lg:border lg:border-base-200 lg:overflow-hidden lg:rounded-default lg:shadow-xs{% endif %} lg:dark:border-base-800 dark:bg-base-900">
         <div {% if height %}style="max-height: {{ height }}px;" data-simplebar{% endif %}>
 
+            <!-- ============================= -->
+            <!-- CARDS DE RESUMEN (IVA) -->
+            <!-- ============================= -->
             <div class="bg-white dark:bg-base-900 border border-base-200 rounded-default shadow-xs p-6">
 
                 {% if title %}
@@ -14,27 +17,40 @@
                         {% for card in cards %}
                             <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs
                                         dark:bg-base-900 dark:border-base-800 border border-base-200 lg:w-1/3">
+                                
                                 <div class="grow relative">
-                                    <p class="leading-relaxed mb-0 text-sm">{{ card.title }} </p>
+                                    <p class="leading-relaxed mb-0 text-sm">
+                                        {{ card.title }}
+                                    </p>
+
                                     <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark">
-                                        {{ card.value }} 
+                                        ${{ card.value|floatformat:2 }}
                                     </div>
+
                                     {% if card.badge %}
                                         <div class="absolute right-0 top-0">
                                             <span class="inline-block font-semibold h-6 leading-6 px-2 rounded-default
                                                 text-[11px] uppercase whitespace-nowrap
+
                                                 {% if card.badge_color == 'success' %}
-                                                    bg-green-light-100 text-green-light-700 dark:bg-green-500/20 dark:text-green-400
+                                                    bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400
+
                                                 {% elif card.badge_color == 'warning' %}
                                                     bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-400
+
+                                                {% elif card.badge_color == 'danger' %}
+                                                    bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400
+
                                                 {% else %}
                                                     bg-primary-100 text-primary-700 dark:bg-primary-500/20 dark:text-primary-400
-                                                {% endif %}">
+                                                {% endif %}
+                                            ">
                                                 {{ card.badge }}
                                             </span>
                                         </div>
                                     {% endif %}
                                 </div>
+
                                 {% if card.footer %}
                                     <div class="border-t border-base-200 flex items-center -mb-6 -mx-6 mt-6 pb-2 pt-2 px-6 text-sm dark:border-base-800">
                                         <span>{{ card.footer }}</span>
@@ -46,80 +62,7 @@
                 {% endif %}
             </div>
 
-            <div class="bg-white dark:bg-base-900 border border-base-200 rounded-default shadow-xs p-6">
-                <div class="flex flex-col gap-6 lg:flex-row">
-                    <!-- Gráfico de Ingresos, Egresos y Utilidad Neta -->
-                    <div class="flex flex-col gap-6 lg:w-1/2">
-                        <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200">
-                            <div class="grow relative">
-                                <p class="leading-relaxed mb-0 text-sm">
-                                    <span class="font-semibold" style="color: #850389;">Ingresos</span>/
-                                    <span class="font-semibold" style="color: #F2C94C;">Egresos</span>/
-                                    <span class="font-semibold" style="color: #6FCF97;">Utilidad Neta</span>
-                                </p>
-                                <div class="relative w-full">
-                                    <img src="{{ chart_image }}" alt="Ingresos vs Egresos" class="w-full h-auto rounded-default shadow-xs"/>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Gráfico de dispersión Ingresos vs Egresos -->
-                        <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200">
-                            <div class="grow relative">
-                                <div class="relative w-full">
-                                    <img src="{{ scatter_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Información adicional y punto de equilibrio -->
-                    <div class="bg-white block flex flex-col grow overflow-hidden p-6 relative rounded-default shadow-xs dark:bg-base-900 dark:border-base-800 border border-base-200 lg:w-1/2">
-                        <div class="border-b border-base-200 flex flex-row items-center mb-6 -mt-6 -mx-6 py-4 px-6 dark:border-base-800">
-                       
-                                <h2 class="font-semibold text-[15px] text-important">
-                                    <span class="material-symbols-outlined">download</span> Estado de Resultados
-                                </h2>
-                      
-                        </div>
-
-                        <div class="grow relative">
-                            <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark mb-2">
-                                Punto de equilibrio: {{ punto_equilibrio }} USD
-                            </div>
-
-                            <p class="leading-relaxed mb-0 text-sm">
-                                Total de ingresos entre <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white"></strong> y <strong class="font-semibold text-font-important-light dark:text-font-important-dark dark:text-white"></strong>. 
-                                Incremento de <span class="text-green-700 font-semibold dark:text-green-400">{{ porcentaje_incremento }}%</span> comparado con el mes anterior.
-                            </p>
-
-                            <div class="bg-base-200 dark:bg-base-800 dark:border-base-800 h-px my-6"></div>
-
-                            <!-- Barras por categoría de gastos -->
-                            <div class="flex flex-col gap-5">
-                                {% for categoria in categorias %}
-                                    <div class="flex flex-col gap-2 relative w-full">
-                                        <div class="flex flex-row relative z-20">
-                                            <h3 class="text-font-important-light dark:text-font-important-dark text-sm">{{ categoria.nombre }}</h3>
-                                            <strong class="bg-base-100 font-medium text-font-important-light ml-auto px-1.5 py-1 rounded-default text-xs dark:text-font-important-dark dark:bg-base-800">
-                                                ${{ categoria.valor }}
-                                            </strong>
-                                        </div>
-                                        <div class="bg-base-100 flex flex-row overflow-hidden rounded-default dark:bg-base-800">
-                                            <div class="h-1.5 bg-primary-600 rounded-default z-10 last:rounded-r-default dark:bg-primary-500" style="width: {{ categoria.porcentaje }}%"></div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-                            <!-- Pie chart de categorías -->
-                            <div class="relative w-full">
-                                <img src="{{ pie_chart_image }}" alt="Gráfico de Categorías" class="w-full h-auto" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

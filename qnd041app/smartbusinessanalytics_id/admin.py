@@ -36,8 +36,11 @@ from django.template.loader import render_to_string
 from .models import MovimientoFinanciero
 
 
+from django.db.models import Sum
 from django.template.loader import render_to_string
+from decimal import Decimal
 from .models import MovimientoFinanciero
+
 
 @register_component
 class MovimientoFinancieroResumenComponent(BaseComponent):
@@ -49,75 +52,56 @@ class MovimientoFinancieroResumenComponent(BaseComponent):
         self.instance = instance
 
     def get_context_data(self, **kwargs):
-        obj = self.instance
 
-        # ==========================
-        # Helper seguro
-        # ==========================
-        def money(m):
-            return float(m.amount) if m else 0.0
+        iva_ingresos = (
+            MovimientoFinanciero.objects
+            .filter(es_ingreso=True)
+            .aggregate(total=Sum("iva"))["total"]
+            or Decimal("0.00")
+        )
 
-        # ==========================
-        # Validación básica
-        # ==========================
-        if not obj:
-            return {}
+        iva_egresos = (
+            MovimientoFinanciero.objects
+            .filter(es_egreso=True)
+            .aggregate(total=Sum("iva"))["total"]
+            or Decimal("0.00")
+        )
 
-        # ==========================
-        # Datos principales según tipo
-        # ==========================
-        ingreso = obj.es_ingreso
-        egreso = obj.es_egreso
+        iva_por_pagar = iva_ingresos - iva_egresos
 
-        # Montos principales
-        total_ingresos = money(obj.monto_neto) if ingreso else 0
-        total_egresos = money(obj.monto_neto) if egreso else 0
-        utilidad = money(obj.utilidad_neta)
-
-        # ==========================
-        # Cards para mostrar
-        # ==========================
-        cards = []
-
-        if ingreso:
-            cards.append({
-                "title": "Ingreso",
-                "value": total_ingresos,
+        cards = [
+            {
+                "title": "IVA Ingresos",
+                "value": float(iva_ingresos),
                 "badge": "USD",
                 "badge_color": "success",
-            })
-
-        if egreso:
-            cards.append({
-                "title": "Egreso",
-                "value": total_egresos,
+            },
+            {
+                "title": "IVA Egresos",
+                "value": float(iva_egresos),
                 "badge": "USD",
                 "badge_color": "warning",
-            })
+            },
+            {
+                "title": "IVA por Pagar",
+                "value": float(iva_por_pagar),
+                "badge": "USD",
+                "badge_color": "success" if iva_por_pagar >= 0 else "danger",
+                "footer": "Ingresos - Egresos",
+            },
+        ]
 
-        cards.append({
-            "title": "Utilidad Neta",
-            "value": utilidad,
-            "badge": "USD",
-            "badge_color": "primary",
-        })
-
-        # ==========================
-        # Contexto final
-        # ==========================
-        context = super().get_context_data(**kwargs)
-        context.update({
-            "title": "Resumen Movimiento Financiero",
+        return {
+            "title": "Resumen IVA Global",
             "cards": cards,
-            # No gráficos en esta versión
-        })
-
-        return context
+        }
 
     def render(self):
-        return render_to_string(self.template_name, self.get_context_data())
-
-
+        return render_to_string(
+            self.template_name,
+            self.get_context_data(),
+            request=self.request
+        )
 
 from django.contrib import admin
 from unfold.admin import ModelAdmin
