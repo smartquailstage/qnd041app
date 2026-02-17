@@ -10,6 +10,10 @@ class Contrato(models.Model):
         ('LAB', 'Contrato laboral'),
         ('ASA', 'Acta de asamblea'),
         ('ALI', 'Alianza estratégica'),
+        ('DES', 'DECISIÓN DEL ACCIONISTA ÚNICO'),
+        ('ACE', 'ACEPTACIÓN DE LOS CARGOS DE PRESIDENTE Y GERENTE GENERAL'),
+        ('NON', 'NOMBRAMIENTO DE GERENTE GENERAL Y PRESIDENTE'),
+
     ]
 
 

@@ -18,22 +18,18 @@
 </header>
 <hr>
 <div class="titulos">
-    <h2> {{ contrato.get_tipo_contrato_display|upper }}</h2>
+    <h2> {{ contrato.get_tipo_contrato_display|upper }} <br>
+    <strong>DE LA COMPAÑÍA SMARTQUAIL S.A.S. </strong></h2>
 </div>
 
 <div class="preambulo">
     <p>
 
-       <strong>ENTRE:</strong> 
+{{ contrato.objeto_contrato }}
+    </p>
 
-SMARTQUAIL S.A.S., sociedad legalmente constituida conforme a las leyes de la República del Ecuador, con RUC 179320653001, debidamente representada por <strong>SANTIAGO MAURICIO SILVA DOMINGUEZ</strong>, en adelante “SMARTQUAIL”;
-
-y
-
-<strong>{{ contrato.partes_contratantes }}</strong>, portadora de la cédula de identidad N.° 1722252713, mayor de edad, en adelante “LA CLIENTE”, según corresponda;
-
-conjuntamente denominadas “LAS PARTES”, quienes libre y voluntariamente convienen celebrar el presente {{ contrato.get_tipo_contrato_display|upper }}, sujeto a las siguientes cláusulas:
-
+    <p>
+    {{ contrato.partes_contratantes }}
     </p>
 </div>
 
@@ -42,12 +38,10 @@ conjuntamente denominadas “LAS PARTES”, quienes libre y voluntariamente conv
         <h3>{{ clausula.get_clausula_display }}: {{ clausula.titulo_clausura }} </h3>
         <p>{{ clausula.detalle }}</p>
     {% empty %}
-        <p>No se han definido cláusulas para este contrato.</p>
+       
     {% endfor %}
 </div>
 
-<hr>
-<h3><strong>CERTIFICACIÓN DE CONTRATO</strong></h3>
 <div class="certificaciones">
 
     <div class="cert-left">
@@ -60,18 +54,14 @@ conjuntamente denominadas “LAS PARTES”, quienes libre y voluntariamente conv
         <div class="cert-sign">
             <!-- Cuadrado para la firma -->
             <div class="signature-box"></div>
-            <p><strong>LA CLIENTE</strong></p>
+            <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong></p>
+            <p>CI: 1719183830</p>
         </div>
     </div>
 
 </div>
-<hr>
-<div class="contract-note">
-    <strong>TOKEN ID CONTRACT: {{ contrato.contract_hash }}</strong><br>
-</div>
 
 <footer>
-    <hr>
     <p>
         SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
         Web: ec.smartquail.io | Tel: +593 (96) 352-1262<br>

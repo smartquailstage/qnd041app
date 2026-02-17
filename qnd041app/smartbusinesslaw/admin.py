@@ -1290,14 +1290,28 @@ def ZIP_Conciliacion(obj):
 ZIP_Conciliacion.short_description = "Conciliación Tributaria"
 
 
+from django.utils.safestring import mark_safe
+from django.urls import reverse
+
 def ZIP_BENEFICIARIOS(obj):
-    url_zip = reverse('smartbusinesslaw:zip_beneficiarios_finales', args=[obj.ruc, obj.ejercicio_fiscal, obj.mes])
-    display_value = f"{obj.dividendo_pagado or 0}"  # mostrar dividendo pagado como valor principal
+    """
+    Genera un link para descargar el REBEFICS (beneficiarios finales) en ZIP.
+    Funciona de manera anual (no depende del mes).
+    """
+    # Construir URL del ZIP REBEFICS
+    url_zip = reverse(
+        'smartbusinesslaw:zip_beneficiarios_finales',
+        args=[obj.ruc, obj.ejercicio_fiscal]
+    )
+
+    # Retornar link HTML seguro
     return mark_safe(
         f'<a href="{url_zip}" target="_blank">'
-        f'<span class="material-symbols-outlined">download</span>Descargar</a>'
+        f'<span class="material-symbols-outlined">download</span> Descargar</a>'
     )
+
 ZIP_BENEFICIARIOS.short_description = "REBEFICS"
+
 
 
 

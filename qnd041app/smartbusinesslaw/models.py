@@ -1407,6 +1407,8 @@ from django.db import models
 from django.db import models
 from django.contrib.postgres.fields import JSONField  # Si usas PostgreSQL
 
+from django.db import models
+
 class SRI_AnexosTributarios(models.Model):
     """
     MODELO ÚNICO DE ANEXOS TRIBUTARIOS SRI – ECUADOR
@@ -1421,133 +1423,304 @@ class SRI_AnexosTributarios(models.Model):
     ruc = models.CharField(
         max_length=13,
         verbose_name="RUC",
-        help_text="Registro Único de Contribuyentes de la sociedad, 13 dígitos."
+        help_text="Registro Único de Contribuyentes de la sociedad, debe contener 13 dígitos sin guiones."
     )
     razon_social = models.CharField(
         max_length=255,
         verbose_name="Razón social",
-        help_text="Nombre legal completo de la sociedad o contribuyente."
+        help_text="Nombre legal completo registrado ante el SRI."
     )
     ejercicio_fiscal = models.PositiveIntegerField(
         verbose_name="Ejercicio fiscal",
-        help_text="Año fiscal al que corresponde la información."
+        help_text="Año fiscal al que corresponde la información reportada (formato YYYY)."
     )
     mes = models.PositiveIntegerField(
         choices=[(i, f"{i:02d}") for i in range(1, 13)],
         verbose_name="Mes",
-        help_text="Mes correspondiente a los anexos (01=Enero, 12=Diciembre)."
+        help_text="Mes al que corresponde el anexo (01=Enero, 12=Diciembre)."
     )
     obligado_contabilidad = models.BooleanField(
         default=True,
         verbose_name="Obligado a llevar contabilidad",
-        help_text="Indica si la sociedad está obligada a llevar contabilidad completa."
+        help_text="Indica si el contribuyente está obligado a llevar contabilidad conforme normativa vigente."
     )
 
     # ==================================================
     # II. ATS – COMPRAS
     # ==================================================
-    compras_tipo_comprobante = models.CharField(max_length=2, null=True, blank=True)
-    compras_tipo_id_proveedor = models.CharField(max_length=2, null=True, blank=True)
-    compras_id_proveedor = models.CharField(max_length=13, null=True, blank=True)
-    compras_razon_social_proveedor = models.CharField(max_length=255, null=True, blank=True)
-    compras_fecha_emision = models.DateField(null=True, blank=True)
-    compras_establecimiento = models.CharField(max_length=3, null=True, blank=True)
-    compras_punto_emision = models.CharField(max_length=3, null=True, blank=True)
-    compras_secuencial = models.CharField(max_length=9, null=True, blank=True)
-    compras_autorizacion = models.CharField(max_length=49, null=True, blank=True)
-    compras_base_no_objeto_iva = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    compras_base_iva_0 = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    compras_base_iva = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    compras_monto_iva = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    compras_total = models.DecimalField(max_digits=18, decimal_places=2, default=0)
+    compras_tipo_comprobante = models.CharField(
+        max_length=2, null=True, blank=True,
+        help_text="Código del tipo de comprobante según catálogo del SRI (ej: 01=Factura, 04=Nota de Crédito)."
+    )
+    compras_tipo_id_proveedor = models.CharField(
+        max_length=2, null=True, blank=True,
+        help_text="Tipo de identificación del proveedor (04=RUC, 05=Cédula, 06=Pasaporte, etc.)."
+    )
+    compras_id_proveedor = models.CharField(
+        max_length=13, null=True, blank=True,
+        help_text="Número de identificación del proveedor sin guiones."
+    )
+    compras_razon_social_proveedor = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Razón social o nombres completos del proveedor."
+    )
+    compras_fecha_emision = models.DateField(
+        null=True, blank=True,
+        help_text="Fecha de emisión del comprobante de compra."
+    )
+    compras_establecimiento = models.CharField(
+        max_length=3, null=True, blank=True,
+        help_text="Código de establecimiento del comprobante (3 dígitos)."
+    )
+    compras_punto_emision = models.CharField(
+        max_length=3, null=True, blank=True,
+        help_text="Código de punto de emisión del comprobante (3 dígitos)."
+    )
+    compras_secuencial = models.CharField(
+        max_length=9, null=True, blank=True,
+        help_text="Número secuencial del comprobante (9 dígitos)."
+    )
+    compras_autorizacion = models.CharField(
+        max_length=49, null=True, blank=True,
+        help_text="Número de autorización electrónica del comprobante."
+    )
+    compras_base_no_objeto_iva = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Base imponible no objeto de IVA."
+    )
+    compras_base_iva_0 = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Base imponible gravada con tarifa 0% de IVA."
+    )
+    compras_base_iva = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Base imponible gravada con tarifa diferente de 0%."
+    )
+    compras_monto_iva = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Valor del IVA pagado en la compra."
+    )
+    compras_total = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Valor total del comprobante de compra (incluye impuestos)."
+    )
 
     # ==================================================
     # III. ATS – RETENCIONES
     # ==================================================
-    retencion_ir_codigo = models.CharField(max_length=3, null=True, blank=True)
-    retencion_ir_porcentaje = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    retencion_ir_valor = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    retencion_iva_codigo = models.CharField(max_length=3, null=True, blank=True)
-    retencion_iva_porcentaje = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    retencion_iva_valor = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
+    retencion_ir_codigo = models.CharField(
+        max_length=3, null=True, blank=True,
+        help_text="Código de retención en la fuente de Impuesto a la Renta según tabla del SRI."
+    )
+    retencion_ir_porcentaje = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True,
+        help_text="Porcentaje aplicado de retención en la fuente de Impuesto a la Renta."
+    )
+    retencion_ir_valor = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor retenido por concepto de Impuesto a la Renta."
+    )
+    retencion_iva_codigo = models.CharField(
+        max_length=3, null=True, blank=True,
+        help_text="Código de retención de IVA según catálogo del SRI."
+    )
+    retencion_iva_porcentaje = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True,
+        help_text="Porcentaje de retención de IVA aplicado."
+    )
+    retencion_iva_valor = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor retenido por concepto de IVA."
+    )
 
     # ==================================================
     # IV. ATS – VENTAS
     # ==================================================
-    ventas_tipo_id_cliente = models.CharField(max_length=2, null=True, blank=True)
-    ventas_id_cliente = models.CharField(max_length=13, null=True, blank=True)
-    ventas_razon_social_cliente = models.CharField(max_length=255, null=True, blank=True)
-    ventas_base_iva_0 = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    ventas_base_iva = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    ventas_monto_iva = models.DecimalField(max_digits=18, decimal_places=2, default=0)
-    ventas_total = models.DecimalField(max_digits=18, decimal_places=2, default=0)
+    ventas_tipo_id_cliente = models.CharField(
+        max_length=2, null=True, blank=True,
+        help_text="Tipo de identificación del cliente (04=RUC, 05=Cédula, etc.)."
+    )
+    ventas_id_cliente = models.CharField(
+        max_length=13, null=True, blank=True,
+        help_text="Número de identificación del cliente."
+    )
+    ventas_razon_social_cliente = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Razón social o nombres completos del cliente."
+    )
+    ventas_base_iva_0 = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Base imponible de ventas gravadas con tarifa 0% de IVA."
+    )
+    ventas_base_iva = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Base imponible de ventas gravadas con tarifa diferente de 0%."
+    )
+    ventas_monto_iva = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Valor total de IVA generado en las ventas."
+    )
+    ventas_total = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Valor total facturado al cliente, incluyendo impuestos."
+    )
 
     # ==================================================
     # V. RDEP – RELACIÓN DE DEPENDENCIA
     # ==================================================
-    tiene_empleados = models.BooleanField(default=False)
-    empleado_tipo_id = models.CharField(max_length=2, null=True, blank=True)
-    empleado_identificacion = models.CharField(max_length=13, null=True, blank=True)
-    empleado_nombres = models.CharField(max_length=255, null=True, blank=True)
-    empleado_cargo = models.CharField(max_length=255, null=True, blank=True)
-    empleado_sueldo_anual = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    empleado_aporte_iess = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    empleado_ir_retenido = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
+    tiene_empleados = models.BooleanField(
+        default=False,
+        help_text="Indica si la empresa tuvo empleados en relación de dependencia durante el ejercicio fiscal."
+    )
+    empleado_tipo_id = models.CharField(
+        max_length=2, null=True, blank=True,
+        help_text="Tipo de identificación del empleado."
+    )
+    empleado_identificacion = models.CharField(
+        max_length=13, null=True, blank=True,
+        help_text="Número de identificación del empleado."
+    )
+    empleado_nombres = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Nombres completos del empleado."
+    )
+    empleado_cargo = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Cargo o puesto desempeñado por el empleado."
+    )
+    empleado_sueldo_anual = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Total de ingresos gravados percibidos por el empleado en el año."
+    )
+    empleado_aporte_iess = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Valor total aportado al IESS por el empleado."
+    )
+    empleado_ir_retenido = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Impuesto a la Renta retenido al empleado durante el ejercicio fiscal."
+    )
 
     # ==================================================
     # VI. DIVIDENDOS
     # ==================================================
-    distribuyo_dividendos = models.BooleanField(default=False)
-    socio_tipo_id = models.CharField(max_length=2, null=True, blank=True)
-    socio_identificacion = models.CharField(max_length=13, null=True, blank=True)
-    socio_nombre = models.CharField(max_length=255, null=True, blank=True)
-    socio_porcentaje_participacion = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    dividendo_pagado = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    impuesto_dividendo = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
+    distribuyo_dividendos = models.BooleanField(
+        default=False,
+        help_text="Indica si la sociedad distribuyó dividendos a sus socios."
+    )
+    socio_tipo_id = models.CharField(
+        max_length=2, null=True, blank=True,
+        help_text="Tipo de identificación del socio/accionista."
+    )
+    socio_identificacion = models.CharField(
+        max_length=13, null=True, blank=True,
+        help_text="Número de identificación del socio/accionista."
+    )
+    socio_nombre = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Nombre completo del socio/accionista."
+    )
+    socio_porcentaje_participacion = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True,
+        help_text="Porcentaje de participación del socio/accionista."
+    )
+    dividendo_pagado = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto total de dividendos pagados al socio."
+    )
+    impuesto_dividendo = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Impuesto retenido sobre los dividendos distribuidos."
+    )
 
     # ==================================================
     # VII. PARTES RELACIONADAS
     # ==================================================
-    tiene_partes_relacionadas = models.BooleanField(default=False)
-    parte_relacionada_identificacion = models.CharField(max_length=13, null=True, blank=True)
-    parte_relacionada_nombre = models.CharField(max_length=255, null=True, blank=True)
-    monto_operacion_parte_relacionada = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    tipo_operacion = models.CharField(max_length=100, null=True, blank=True)
+    tiene_partes_relacionadas = models.BooleanField(
+        default=False,
+        help_text="Indica si la sociedad realizó operaciones con partes relacionadas."
+    )
+    parte_relacionada_identificacion = models.CharField(
+        max_length=13, null=True, blank=True,
+        help_text="Número de identificación de la parte relacionada."
+    )
+    parte_relacionada_nombre = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text="Nombre de la parte relacionada."
+    )
+    monto_operacion_parte_relacionada = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto total de operaciones realizadas con la parte relacionada."
+    )
+    tipo_operacion = models.CharField(
+        max_length=100, null=True, blank=True,
+        help_text="Tipo de operación realizada con la parte relacionada."
+    )
 
     # ==================================================
     # VIII. CONCILIACIÓN TRIBUTARIA
     # ==================================================
-    utilidad_contable = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    gastos_no_deducibles = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    ingresos_exentos = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    base_imponible = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
-    impuesto_renta_causado = models.DecimalField(max_digits=18, decimal_places=2, null=True, blank=True)
+    utilidad_contable = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Resultado contable antes de ajustes fiscales."
+    )
+    gastos_no_deducibles = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Total de gastos contables no deducibles fiscalmente."
+    )
+    ingresos_exentos = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Ingresos que están exentos del Impuesto a la Renta."
+    )
+    base_imponible = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Base imponible determinada para el cálculo del Impuesto a la Renta."
+    )
+    impuesto_renta_causado = models.DecimalField(
+        max_digits=18, decimal_places=2, null=True, blank=True,
+        help_text="Monto del Impuesto a la Renta causado según la base imponible."
+    )
 
     # ==================================================
     # IX. FIRMAS Y RESPONSABILIDAD
     # ==================================================
-    representante_legal = models.CharField(max_length=255)
-    contador = models.CharField(max_length=255)
-    fecha_certificacion = models.DateField()
+    representante_legal = models.CharField(
+        max_length=255,
+        help_text="Nombre completo del representante legal de la sociedad."
+    )
+    contador = models.CharField(
+        max_length=255,
+        help_text="Nombre completo del contador responsable."
+    )
+    fecha_certificacion = models.DateField(
+        help_text="Fecha en la que se certifica la información reportada."
+    )
 
     # ==================================================
     # X. REBEFICS – BENEFICIARIOS FINALES Y SOCIOS
     # ==================================================
-    beneficiarios_finales = models.CharField(max_length=255,
+    beneficiarios_finales = models.CharField(
+        max_length=255,
         verbose_name="Beneficiarios Finales", null=True, blank=True,
         help_text="Lista de beneficiarios finales con todos sus datos: nombre, ID, nacionalidad, fecha de nacimiento, porcentaje y control indirecto."
     )
-
-    socios = models.CharField(max_length=255,
-        verbose_name="Socios/Accionistas",null=True, blank=True,
+    socios = models.CharField(
+        max_length=255,
+        verbose_name="Socios/Accionistas", null=True, blank=True,
         help_text="Lista de socios o accionistas con sus datos: nombre, ID, porcentaje de participación y tipo de participación."
     )
 
     # ==================================================
     # XI. METADATA
     # ==================================================
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Fecha y hora de creación del registro."
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="Fecha y hora de la última actualización del registro."
+    )
 
     class Meta:
         verbose_name = "Anexo: Servicios De Rentas Internas (SRI)"
@@ -1559,6 +1732,7 @@ class SRI_AnexosTributarios(models.Model):
 
     def __str__(self):
         return f"{self.ruc} – Anexos SRI {self.ejercicio_fiscal}-{self.mes:02d}"
+
 
 
 # ===========================

@@ -10,7 +10,7 @@
 
 @page {
   size: A4;
-  margin: 1.5cm 1cm 2cm 1cm;
+  margin: 0.5cm 1cm 0.5cm 1cm;
 
   @top-left {
     content: element(page-header);
@@ -105,7 +105,7 @@ p {
 
 
 .preambulo {
-  margin-top: 9mm;
+  margin-top: 5mm;
   margin-bottom: 10mm;
   background-color: #d7d7d7;
 }
@@ -273,7 +273,7 @@ span.pageNumber::before {
 }
 
 .cert-left p {
-  margin-top: 2mm;
+  margin-top: 0.5mm;
   font-family: "soon", sans-serif;
   font-size: 10pt;
   font-weight: bold;
@@ -295,7 +295,7 @@ span.pageNumber::before {
   align-items: right;           /* alinea verticalmente */
   width: 35%;
   font-family: "soon", sans-serif;
-  font-size: 10pt;
+  font-size: 5pt;
 }
 
 .cert-info {
@@ -325,6 +325,10 @@ span.pageNumber::before {
   border: 1px dashed #000;        /* borde del cuadrado */
   margin-bottom: 2mm;
   background-color: #ffffff;   /* fondo blanco */
+}
+
+.signature-box p {                   /* tamaño del cuadrado */
+  height: 0.5cm;
 }
 
 
