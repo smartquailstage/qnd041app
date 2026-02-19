@@ -630,7 +630,7 @@ class SCVSFinancialReport(models.Model):
 
     company_type = models.CharField(
         "Tipo de sociedad",
-        max_length=2,  # Cambié el max_length a 2, ya que en el catálogo se indica que son 2 caracteres
+        max_length=250,  # Cambié el max_length a 2, ya que en el catálogo se indica que son 2 caracteres
         choices=[
             ('01', 'Sociedades en General'),
             ('02', 'Sociedades que Cotizan sus Acciones en Bolsa de Valores'),
