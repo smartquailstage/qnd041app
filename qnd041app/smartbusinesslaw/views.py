@@ -737,9 +737,7 @@ def generar_respuesta_xml(xml_tree, filename="anexo.xml"):
 
 
 
-
 def xml_ats(request, ruc, ejercicio, mes):
-
     anexo = get_object_or_404(
         SRI_AnexosTributarios,
         ruc=ruc,
@@ -758,20 +756,29 @@ def xml_ats(request, ruc, ejercicio, mes):
     ET.SubElement(root, "Anio").text = str(anexo.ejercicio_fiscal)
     ET.SubElement(root, "Mes").text = f"{anexo.mes:02d}"
     ET.SubElement(root, "numEstabRuc").text = "001"
-    ET.SubElement(root, "totalVentas").text = str(anexo.ventas_total or 0)
+
+    # =========================
+    # CALCULO DE MONTOS
+    # =========================
+    base_no_gravada = 0.00
+    base_imponible = 0.00
+    base_gravada = float(anexo.ventas_base_iva or 0)
+    monto_iva = round(base_gravada * 0.12, 2)  # IVA 12%
+    monto_ice = 0.00
+    total_ventas = base_no_gravada + base_imponible + base_gravada + monto_iva + monto_ice
+    ET.SubElement(root, "totalVentas").text = f"{total_ventas:.2f}"
+
     ET.SubElement(root, "codigoOperativo").text = "IVA"
 
     # =========================
     # COMPRAS (VACÍO SI NO HAY)
     # =========================
-    compras = ET.SubElement(root, "compras")
-    # Si no hubo compras, no agregas detalleCompras
+    ET.SubElement(root, "compras")
 
     # =========================
     # VENTAS
     # =========================
     ventas = ET.SubElement(root, "ventas")
-
     detalle = ET.SubElement(ventas, "detalleVentas")
 
     ET.SubElement(detalle, "tpIdCliente").text = anexo.ventas_tipo_id_cliente or "06"
@@ -780,23 +787,23 @@ def xml_ats(request, ruc, ejercicio, mes):
     ET.SubElement(detalle, "tipoComprobante").text = "18"
     ET.SubElement(detalle, "tipoEmision").text = "E"
     ET.SubElement(detalle, "numeroComprobantes").text = "1"
-    ET.SubElement(detalle, "baseNoGraIva").text = "0.00"
-    ET.SubElement(detalle, "baseImponible").text = "0.00"
-    ET.SubElement(detalle, "baseImpGrav").text = str(anexo.ventas_base_iva or 0)
-    ET.SubElement(detalle, "montoIva").text = str(anexo.ventas_monto_iva or 0)
-    ET.SubElement(detalle, "montoIce").text = "0.00"
+    ET.SubElement(detalle, "baseNoGraIva").text = f"{base_no_gravada:.2f}"
+    ET.SubElement(detalle, "baseImponible").text = f"{base_imponible:.2f}"
+    ET.SubElement(detalle, "baseImpGrav").text = f"{base_gravada:.2f}"
+    ET.SubElement(detalle, "montoIva").text = f"{monto_iva:.2f}"
+    ET.SubElement(detalle, "montoIce").text = f"{monto_ice:.2f}"
     ET.SubElement(detalle, "valorRetIva").text = "0.00"
     ET.SubElement(detalle, "valorRetRenta").text = "0.00"
 
     # =========================
-    # VENTAS POR ESTABLECIMIENTO (OBLIGATORIO)
+    # VENTAS POR ESTABLECIMIENTO
     # =========================
     ventas_est = ET.SubElement(root, "ventasEstablecimiento")
     det_est = ET.SubElement(ventas_est, "ventaEst")
 
     ET.SubElement(det_est, "codEstab").text = "001"
-    ET.SubElement(det_est, "ventasEstab").text = str(anexo.ventas_total or 0)
-    ET.SubElement(det_est, "ivaComp").text = str(anexo.ventas_monto_iva or 0)
+    ET.SubElement(det_est, "ventasEstab").text = f"{base_no_gravada + base_imponible + base_gravada + monto_ice:.2f}"
+    ET.SubElement(det_est, "ivaComp").text = "0.00"  # cero porque no hay compensación
 
     return generar_respuesta_xml(
         root,
@@ -879,70 +886,224 @@ def xml_partes_relacionadas(request, ruc, ejercicio, mes):
     return generar_respuesta_xml(root, filename=f"PR_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml")
 
 
-import xml.etree.ElementTree as ET
-import re
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from io import BytesIO
-import zipfile
 
+
+
+
+import re
+import zipfile
+from io import BytesIO
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+
+from .models import SRI_AnexosTributarios
+import xml.etree.ElementTree as ET
+
+import re
+import xml.etree.ElementTree as ET
+from .models import SRI_AnexosTributarios  # Ajusta tu modelo si es necesario
+
+
+# -----------------------
+# Funciones auxiliares
+# -----------------------
 def limpiar_texto(texto):
+    """
+    Limpia y normaliza texto para XML: mayúsculas, sin caracteres especiales.
+    Reemplaza Ñ por N, devuelve 'NA' si está vacío.
+    """
     if not texto:
-        return ""
-    texto = texto.upper().strip()
-    texto = re.sub(r"[^\w\s]", "", texto)
+        return "NA"
+    texto = texto.upper().replace("Ñ", "N").strip()
+    texto = ''.join(c for c in texto if c.isalnum() or c.isspace())
     return " ".join(texto.split())
 
+
+def map_ubicacion(provincia, canton, parroquia):
+    """
+    Convierte nombres de ubicación a códigos válidos para SRI.
+    Si es None o no existe en el diccionario, devuelve "NA".
+    """
+    provincia = (provincia or "").upper()
+    canton = (canton or "").upper()
+    parroquia = (parroquia or "").upper()
+
+    cod_provincia = {
+        "PICHINCHA": "201",
+        "GUAYAS": "202",
+        # Agregar todas las provincias necesarias...
+    }.get(provincia, "NA")
+
+    cod_canton = {
+        "QUITO": "20115",
+        "GUAYAQUIL": "20201",
+        # Agregar todos los cantones necesarios...
+    }.get(canton, "NA")
+
+    cod_parroquia = {
+        "INAQUITO": "2011550",
+        "GUAYAS1": "2020101",
+        # Agregar todas las parroquias necesarias...
+    }.get(parroquia, "NA")
+
+    return cod_provincia, cod_canton, cod_parroquia
+
+
 def indent(elem, level=0):
-    i = "\n" + level*"  "
+    """
+    Aplica sangría bonita para el XML.
+    """
+    i = "\n" + level * "  "
     if len(elem):
         if not elem.text or not elem.text.strip():
             elem.text = i + "  "
         for e in elem:
-            indent(e, level+1)
+            indent(e, level + 1)
         if not elem[-1].tail or not elem[-1].tail.strip():
             elem[-1].tail = i
-    if level and (not elem.tail or not elem.tail.strip()):
-        elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
 
-def xml_beneficiarios_finales(request, ruc, ejercicio):
-    anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio)
 
-    # RAIZ
-    root = ET.Element("reporteBeneficiariosFinales")
+# -----------------------
+# Función principal
+# -----------------------
+def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
+    """
+    Genera XML REBEFICS compatible con SRI.
+    """
+    root = ET.Element("aps")
+
+    # -----------------------
+    # INFORMANTE
+    # -----------------------
+    ruc_str = str(anexo.ruc).zfill(13)
+
     ET.SubElement(root, "TipoIDInformante").text = "R"
-    ET.SubElement(root, "IdInformante").text = anexo.ruc
-    ET.SubElement(root, "RazonSocial").text = limpiar_texto(anexo.razon_social)
+    ET.SubElement(root, "IdInformante").text = ruc_str
+    ET.SubElement(root, "TipoSociedad").text = (anexo.tipo_sociedad or "01").zfill(2)
     ET.SubElement(root, "Anio").text = str(anexo.ejercicio_fiscal)
+    ET.SubElement(root, "Mes").text = f"{anexo.mes:02d}" if anexo.mes else "00"
+    ET.SubElement(root, "PorcentajeAccionarioNoBolsa").text = f"{float(anexo.porcentaje_accionario_no_bolsa or 0):.2f}"
+    ET.SubElement(root, "codigoOperativo").text = anexo.codigo_operativo or "APS"
+    ET.SubElement(root, "PorcentajeAccionarioBolsa").text = f"{float(anexo.porcentaje_accionario_bolsa or 0):.2f}"
+    ET.SubElement(root, "Anticipada").text = "SI" if anexo.anticipada else "NO"
+    ET.SubElement(root, "TipoDeclaracion").text = (anexo.tipo_declaracion or "01")[:2]
 
-    # BENEFICIARIOS
-    beneficiarios = ET.SubElement(root, "beneficiariosFinales")
-    if anexo.socio_identificacion:
+    # -----------------------
+    # ACCIONISTAS
+    # -----------------------
+    # Solo crear <accionistas> si hay al menos un accionista
+    if anexo.socio_identificacion_rebefics:
+        accionistas = ET.SubElement(root, "accionistas")
+        s = ET.SubElement(accionistas, "accionista")
+        ET.SubElement(s, "tipoSujeto").text = (anexo.socio_tipo_sujeto or "01")[:2]
+        ET.SubElement(s, "tipoIdentificacion").text = (anexo.socio_tipo_identificacion or "R")[:1]
+        ET.SubElement(s, "identificacionInformantePadre").text = ruc_str
+        ET.SubElement(s, "numeroIdentificacion").text = anexo.socio_identificacion_rebefics
+
+        # Desglosar nombre completo
+        nombres = (anexo.socio_nombre_rebefics or "").split()
+        ET.SubElement(s, "primerNombre").text = nombres[0] if len(nombres) > 0 else "NA"
+        ET.SubElement(s, "segundoNombre").text = nombres[1] if len(nombres) > 1 else "NA"
+        ET.SubElement(s, "primerApellido").text = nombres[2] if len(nombres) > 2 else "NA"
+        ET.SubElement(s, "segundoApellido").text = nombres[3] if len(nombres) > 3 else "NA"
+        ET.SubElement(s, "nombresRazonSocial").text = "NA"
+        ET.SubElement(s, "tipoRegimenFiscal").text = "01"
+        ET.SubElement(s, "tipoSociedadExt").text = "NA"
+        ET.SubElement(s, "figuraJuridicaExt").text = "NA"
+        ET.SubElement(s, "figuraJuridicaOtroExt").text = "NA"
+        ET.SubElement(s, "esSociedadPublicaExt").text = "NO"
+        ET.SubElement(s, "Menor10porc").text = "NA"
+        ET.SubElement(s, "porcentajeAccionarioNoBolsaExt").text = "0.00"
+        ET.SubElement(s, "porcentajeAccionarioBolsaExt").text = "0.00"
+        ET.SubElement(s, "esBeneficiarioFinal").text = "SI"
+
+        # infoParticipacionAccionaria
+        info = ET.SubElement(s, "infoParticipacionAccionaria")
+        ET.SubElement(info, "codigoNivel").text = "1"
+        ET.SubElement(info, "tipoRelacionadoSociedad").text = "05"
+        ET.SubElement(info, "porcentajeParticipacion").text = f"{float(anexo.socio_porcentaje_rebefics or 0):.2f}"
+        ET.SubElement(info, "parteRelacionadaInformante").text = "NO"
+
+        # ubicacionResidenciaFiscal
+        ubic = ET.SubElement(s, "ubicacionResidenciaFiscal")
+        ET.SubElement(ubic, "paisResidenciaFiscal").text = "593"
+
+    # -----------------------
+    # BENEFICIARIOS FINALES
+    # -----------------------
+    # Solo crear <beneficiarios> si hay al menos un beneficiario
+    if anexo.bf_identificacion:
+        beneficiarios = ET.SubElement(root, "beneficiarios")
         b = ET.SubElement(beneficiarios, "beneficiario")
-        ET.SubElement(b, "tipoIdentificacion").text = anexo.socio_tipo_id or "R"
-        ET.SubElement(b, "identificacion").text = anexo.socio_identificacion
-        ET.SubElement(b, "nombreCompleto").text = limpiar_texto(anexo.socio_nombre)
-        ET.SubElement(b, "porcentajeParticipacion").text = f"{(anexo.socio_porcentaje_participacion or 0):.2f}"
+        ET.SubElement(b, "tipoIdentificacion").text = (anexo.bf_tipo_identificacion or "C")[:1]
+        ET.SubElement(b, "numeroIdentificacion").text = anexo.bf_identificacion
+        ET.SubElement(b, "primerNombre").text = anexo.bf_primer_nombre or "NA"
+        ET.SubElement(b, "segundoNombre").text = anexo.bf_segundo_nombre or "NA"
+        ET.SubElement(b, "primerApellido").text = anexo.bf_primer_apellido or "NA"
+        ET.SubElement(b, "segundoApellido").text = anexo.bf_segundo_apellido or "NA"
+        ET.SubElement(b, "fechaNacimiento").text = "01/01/1900"
+        ET.SubElement(b, "porPropiedad").text = "NO"
+        ET.SubElement(b, "porcentajePropiedad").text = "0.00"
+        ET.SubElement(b, "porOtrosMotivos").text = "09"
+        ET.SubElement(b, "porOtrosRelacionados").text = "NA"
+        ET.SubElement(b, "porAdministracion").text = "SI"
+        ET.SubElement(b, "nacionalidadUno").text = "593"
+        ET.SubElement(b, "nacionalidadDos").text = "NA"
+        ET.SubElement(b, "nacionalidadTres").text = "NA"
+        ET.SubElement(b, "residenciaFiscal").text = anexo.bf_residencia_fiscal or "593"
+        ET.SubElement(b, "jurisdiccion").text = "NA"
 
-    # Indentar XML
+        # Mapeo de ubicación a códigos válidos
+        prov, cant, parr = map_ubicacion(anexo.bf_provincia, anexo.bf_canton, anexo.bf_parroquia)
+        ET.SubElement(b, "provincia").text = prov
+        ET.SubElement(b, "ciudad").text = "NA"
+        ET.SubElement(b, "canton").text = cant
+        ET.SubElement(b, "parroquia").text = parr
+        ET.SubElement(b, "calle").text = anexo.bf_calle or "NA"
+        ET.SubElement(b, "numero").text = anexo.bf_numero or "SN"
+        ET.SubElement(b, "interseccion").text = anexo.bf_calle or "NA"
+        ET.SubElement(b, "codigoPostal").text = anexo.bf_codigo_postal or "0000"
+        ET.SubElement(b, "referencia").text = "NA"
+
+    # -----------------------
+    # Sangría y retorno
+    # -----------------------
     indent(root)
+    return ET.tostring(root, encoding="UTF-8", xml_declaration=True)
 
-    # Escribimos el XML en BytesIO primero
-    xml_buffer = BytesIO()
-    tree = ET.ElementTree(root)
-    tree.write(xml_buffer, encoding="utf-8", xml_declaration=True)
-    xml_buffer.seek(0)
 
-    # Creamos ZIP con un solo archivo
+
+def zip_beneficiarios_finales(request, ruc, ejercicio):
+    """
+    Genera y descarga el XML en ZIP.
+    """
+    anexo = get_object_or_404(
+        SRI_AnexosTributarios,
+        ruc=ruc,
+        ejercicio_fiscal=ejercicio
+    )
+
+    xml_bytes = generar_xml_beneficiarios(anexo)
+
     zip_buffer = BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-        zip_file.writestr(f"REBEFICS_{anexo.ruc}_{anexo.ejercicio_fiscal}.xml", xml_buffer.read())
-    zip_buffer.seek(0)
+    with zipfile.ZipFile(zip_buffer, "w", compression=zipfile.ZIP_DEFLATED) as zip_file:
+        zip_file.writestr(
+            f"REBEFICS_{anexo.ruc}_{anexo.ejercicio_fiscal}.xml",
+            xml_bytes
+        )
 
-    # Respuesta HTTP
+    zip_buffer.seek(0)
     response = HttpResponse(zip_buffer.getvalue(), content_type="application/zip")
-    response["Content-Disposition"] = f'attachment; filename="REBEFICS_{anexo.ruc}_{anexo.ejercicio_fiscal}.zip"'
+    response["Content-Disposition"] = (
+        f'attachment; filename="REBEFICS_{anexo.ruc}_{anexo.ejercicio_fiscal}.zip"'
+    )
+
     return response
+
 
 
 
@@ -1041,14 +1202,6 @@ def zip_conciliacion(request, ruc, ejercicio, mes):
     filename_zip = f"CONC_{ruc}_{ejercicio}_{mes:02d}.zip"
     return generar_zip_desde_xml(xml_resp, filename_zip)
 
-# ----------------------------
-# ZIP Beneficiarios Finales
-# ----------------------------
-def zip_beneficiarios_finales(request, ruc, ejercicio):
-    anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio)
-    xml_resp = xml_beneficiarios_finales(request, ruc, ejercicio)
-    filename_zip = f"REBEFICS_{ruc}_{ejercicio}.zip"
-    return generar_zip_desde_xml(xml_resp, filename_zip)
 
 
 # views.py

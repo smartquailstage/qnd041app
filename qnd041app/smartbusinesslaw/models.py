@@ -1534,7 +1534,7 @@ class SRI_AnexosTributarios(models.Model):
     )
 
     # ==================================================
-    # IV. ATS – VENTAS
+    # IV. ATS – VENTAS (CORREGIDO)
     # ==================================================
     ventas_tipo_id_cliente = models.CharField(
         max_length=2, null=True, blank=True,
@@ -1556,14 +1556,43 @@ class SRI_AnexosTributarios(models.Model):
         max_digits=18, decimal_places=2, default=0,
         help_text="Base imponible de ventas gravadas con tarifa diferente de 0%."
     )
+    ventas_porcentaje_iva = models.DecimalField(
+        max_digits=5, decimal_places=2, default=12,
+        help_text="Porcentaje de IVA aplicado sobre la base imponible gravada (ej: 12%)."
+    )
     ventas_monto_iva = models.DecimalField(
         max_digits=18, decimal_places=2, default=0,
-        help_text="Valor total de IVA generado en las ventas."
+        help_text="Valor total de IVA generado en las ventas. Debe ser igual a ventas_base_iva * porcentaje_iva."
     )
     ventas_total = models.DecimalField(
-        max_digits=18, decimal_places=2, default=0,
-        help_text="Valor total facturado al cliente, incluyendo impuestos."
+        max_digits=18, decimal_places=2, default=0,null=True,blank=True,
+        help_text="Valor total facturado al cliente, incluyendo impuestos. Debe ser ventas_base_iva_0 + ventas_base_iva + ventas_monto_iva."
     )
+
+
+    FORMA_COBRO_CHOICES = [
+        ('01', 'Efectivo'),       # ATS código 01 = Efectivo
+        ('02', 'Cheque'),         # ATS código 02 = Cheque
+        ('03', 'Transferencia'),  # ATS código 03 = Transferencia
+        ('04', 'Tarjeta'),        # ATS código 04 = Tarjeta
+        ('05', 'Otros'),          # ATS código 05 = Otros
+    ]
+
+    ventas_forma_cobro = models.CharField(
+        max_length=2,
+        choices=FORMA_COBRO_CHOICES,
+        null=True,
+        blank=True,
+        help_text="Forma de cobro utilizada en la venta. Obligatorio desde junio-2016. "
+                  "Debe usar los códigos ATS: 01=Efectivo, 02=Cheque, 03=Transferencia, 04=Tarjeta, 05=Otros."
+    )
+
+    ventas_compensacion_ley_solidaridad = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0,
+        help_text="Valor de compensaciones de ventas por Ley de Solidaridad aplicado al establecimiento."
+    )
+
+
 
     # ==================================================
     # V. RDEP – RELACIÓN DE DEPENDENCIA
@@ -1696,19 +1725,216 @@ class SRI_AnexosTributarios(models.Model):
         help_text="Fecha en la que se certifica la información reportada."
     )
 
-    # ==================================================
-    # X. REBEFICS – BENEFICIARIOS FINALES Y SOCIOS
-    # ==================================================
-    beneficiarios_finales = models.CharField(
-        max_length=255,
-        verbose_name="Beneficiarios Finales", null=True, blank=True,
-        help_text="Lista de beneficiarios finales con todos sus datos: nombre, ID, nacionalidad, fecha de nacimiento, porcentaje y control indirecto."
+    tipo_sociedad = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        verbose_name="Tipo de Sociedad",
+        help_text="Código de tipo de sociedad según Tabla 1 del SRI (2 caracteres)."
     )
-    socios = models.CharField(
-        max_length=255,
-        verbose_name="Socios/Accionistas", null=True, blank=True,
-        help_text="Lista de socios o accionistas con sus datos: nombre, ID, porcentaje de participación y tipo de participación."
+
+    porcentaje_accionario_no_bolsa = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True, blank=True,
+        verbose_name="Porcentaje Accionario No Bolsa",
+        help_text="Porcentaje accionario que NO negocia en bolsa (hasta 3 enteros y 6 decimales)."
     )
+
+    codigo_operativo = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        verbose_name="Código Operativo",
+        help_text="Código operativo de 3 caracteres según instructivo REBEFICS."
+    )
+
+    porcentaje_accionario_bolsa = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True, blank=True,
+        verbose_name="Porcentaje Accionario Bolsa",
+        help_text="Porcentaje accionario que negocia en bolsa (hasta 3 enteros y 6 decimales)."
+    )
+
+    anticipada = models.CharField(
+        max_length=4,
+        null=True, blank=True,
+        verbose_name="Anticipada",
+        help_text="Año de declaración anticipada en formato YYYY."
+    )
+
+    tipo_declaracion = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        verbose_name="Tipo de Declaración",
+        help_text="Código según Tabla 8 del SRI (2 caracteres)."
+    )
+
+    # ==================================================
+    # BENEFICIARIO FINAL (REBEFICS)
+    # ==================================================
+    bf_tipo_identificacion = models.CharField(
+        max_length=1,
+        null=True, blank=True,
+        help_text="Tipo de identificación del beneficiario final."
+    )
+
+    bf_identificacion = models.CharField(
+        max_length=13,
+        null=True, blank=True,
+        help_text="Número de identificación del beneficiario final."
+    )
+
+    bf_nombre_completo = models.CharField(
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del beneficiario final."
+    )
+
+    bf_porcentaje_participacion = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True, blank=True,
+        help_text="Porcentaje de participación del beneficiario final (hasta 6 decimales)."
+    )
+
+    bf_tipo_sujeto = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Tipo de sujeto del beneficiario final (PN=Persona Natural, PJ=Persona Jurídica)."
+    )
+
+    bf_identificacion_informante_padre = models.CharField(
+        max_length=13,
+        null=True, blank=True,
+        help_text="Número de identificación del contribuyente que reporta al SRI."
+    )
+
+    bf_es_beneficiario_final = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Indica si es beneficiario final (SI/NO)."
+    )
+
+    bf_primer_nombre = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Primer nombre del beneficiario final."
+    )
+
+    bf_segundo_nombre = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Segundo nombre del beneficiario final."
+    )
+
+    bf_primer_apellido = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Primer apellido del beneficiario final."
+    )
+
+    bf_segundo_apellido = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Segundo apellido del beneficiario final."
+    )
+
+    bf_provincia = models.CharField(
+        max_length=50,
+        null=True, blank=True,
+        help_text="Provincia del beneficiario final."
+    )
+
+    bf_canton = models.CharField(
+        max_length=50,
+        null=True, blank=True,
+        help_text="Cantón del beneficiario final."
+    )
+
+    bf_parroquia = models.CharField(
+        max_length=50,
+        null=True, blank=True,
+        help_text="Parroquia del beneficiario final."
+    )
+
+    bf_calle = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Calle del beneficiario final."
+    )
+
+    bf_numero = models.CharField(
+        max_length=20,
+        null=True, blank=True,
+        help_text="Número de la dirección del beneficiario final."
+    )
+
+    bf_codigo_postal = models.CharField(
+        max_length=10,
+        null=True, blank=True,
+        help_text="Código postal del beneficiario final."
+    )
+
+    bf_residencia_fiscal = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        help_text="País de residencia fiscal del beneficiario final."
+    )
+
+    distribuyo_dividendos = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Indica si distribuyó dividendos (SI/NO)."
+    )
+
+    dividendo_pagado = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        null=True, blank=True,
+        help_text="Monto de dividendos pagados al beneficiario."
+    )
+
+    impuesto_dividendo = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        null=True, blank=True,
+        help_text="Impuesto retenido sobre los dividendos."
+    )
+
+    # ==================================================
+    # COMPOSICIÓN SOCIETARIA (REBEFICS)
+    # ==================================================
+    socio_tipo_identificacion = models.CharField(
+        max_length=1,
+        null=True, blank=True,
+        help_text="Tipo de identificación del socio/accionista."
+    )
+
+    socio_identificacion_rebefics = models.CharField(
+        max_length=13,
+        null=True, blank=True,
+        help_text="Número de identificación del socio/accionista."
+    )
+
+    socio_nombre_rebefics = models.CharField(
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre completo del socio/accionista."
+    )
+
+    socio_porcentaje_rebefics = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True, blank=True,
+        help_text="Porcentaje de participación del socio/accionista (hasta 6 decimales)."
+    )
+
+    socio_tipo_sujeto = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Tipo de sujeto del socio/accionista (PN=Persona Natural, PJ=Persona Jurídica)."
+    )
+
 
     # ==================================================
     # XI. METADATA
@@ -1721,6 +1947,12 @@ class SRI_AnexosTributarios(models.Model):
         auto_now=True,
         help_text="Fecha y hora de la última actualización del registro."
     )
+
+    def calcular_totales_ventas(self):
+        if self.ventas_base_iva is not None and self.ventas_porcentaje_iva is not None:
+            self.ventas_monto_iva = round(self.ventas_base_iva * (self.ventas_porcentaje_iva / 100), 2)
+            self.ventas_total = round(
+                (self.ventas_base_iva_0 or 0) + (self.ventas_base_iva or 0) + (self.ventas_monto_iva or 0),2)
 
     class Meta:
         verbose_name = "Anexo: Servicios De Rentas Internas (SRI)"
