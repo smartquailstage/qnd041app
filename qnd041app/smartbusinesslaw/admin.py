@@ -1614,6 +1614,7 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
             ),
             "classes": ("unfold", "tab-conciliacion"),
         }),
+
         ("VIII. Beneficiarios Finales", {
             "fields": (
                 "bf_tipo_identificacion",
@@ -1625,12 +1626,24 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
                 "bf_segundo_nombre",
                 "bf_primer_apellido",
                 "bf_segundo_apellido",
+                "bf_fecha_nacimiento",         # nuevo
+                "bf_por_propiedad",            # nuevo
+                "bf_por_otros_motivos",       # nuevo
+                "bf_por_otros_relacionados",  # nuevo
+                "bf_por_administracion",      # nuevo
+                "bf_nacionalidad_uno",        # nuevo
+                "bf_nacionalidad_dos",        # nuevo
+                "bf_nacionalidad_tres",       # nuevo
+                "bf_jurisdiccion",            # nuevo
                 "bf_provincia",
+                "bf_ciudad",                   # nuevo
                 "bf_canton",
                 "bf_parroquia",
                 "bf_calle",
                 "bf_numero",
+                "bf_interseccion",            # nuevo
                 "bf_codigo_postal",
+                "bf_referencia",              # nuevo
                 "bf_residencia_fiscal",
                 "socio_tipo_identificacion",
                 "socio_identificacion_rebefics",
@@ -1640,9 +1653,10 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
                 "distribuyo_dividendos",
                 "dividendo_pagado",
                 "impuesto_dividendo",
-                ),
-            "classes": ("unfold", "tab-beneficiarios"),
+            ),
+        "classes": ("unfold", "tab-beneficiarios"),
         }),
+
 
 
         ("IX. Firmas y responsabilidad", {

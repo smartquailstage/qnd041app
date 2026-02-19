@@ -627,16 +627,25 @@ class SCVSFinancialReport(models.Model):
         null=True, blank=True,
         help_text="Nombre legal completo de la compañía registrado ante la Superintendencia de Compañías."
     )
+
     company_type = models.CharField(
         "Tipo de sociedad",
-        max_length=10,
+        max_length=2,  # Cambié el max_length a 2, ya que en el catálogo se indica que son 2 caracteres
         choices=[
-            ('SA', 'Sociedad Anónima'),
-            ('LTDA', 'Compañía Limitada'),
-            ('SAS', 'SAS'),
+            ('01', 'Sociedades en General'),
+            ('02', 'Sociedades que Cotizan sus Acciones en Bolsa de Valores'),
+            ('03', 'Fideicomisos'),
+            ('04', 'Sociedades sin Fines de Lucro'),
+            ('05', 'Sector Económico Popular y Solidario'),
+            ('06', 'Sector Financiero Popular y Solidario'),
+            ('07', 'Fondos de Inversión, Complementarios y Otros'),
+            ('08', 'Sucesión Indivisa'),
+            ('09', 'Junta de Agua'),
+            ('10', 'Fideicomisos y Similares Extranjeros'),
         ],
-        null=True, blank=True,
-        help_text="Tipo legal de la sociedad según registro mercantil."
+        null=True,
+        blank=True,
+        help_text="Tipo de sociedad según el catálogo del SRI."
     )
     fiscal_year = models.PositiveIntegerField(
         "Año fiscal",
@@ -1420,6 +1429,7 @@ class SRI_AnexosTributarios(models.Model):
     # ==================================================
     # I. IDENTIFICACIÓN DEL CONTRIBUYENTE
     # ==================================================
+
     ruc = models.CharField(
         max_length=13,
         verbose_name="RUC",
@@ -1571,21 +1581,38 @@ class SRI_AnexosTributarios(models.Model):
 
 
     FORMA_COBRO_CHOICES = [
-        ('01', 'Efectivo'),       # ATS código 01 = Efectivo
-        ('02', 'Cheque'),         # ATS código 02 = Cheque
-        ('03', 'Transferencia'),  # ATS código 03 = Transferencia
-        ('04', 'Tarjeta'),        # ATS código 04 = Tarjeta
-        ('05', 'Otros'),          # ATS código 05 = Otros
+    ('01', 'Sin utilización del sistema financiero'),
+    ('15', 'Compensación'),
+    ('16', 'Tarjeta de débito'),
+    ('17', 'Dinero electrónico'),
+    ('18', 'Tarjeta prepago'),
+    ('19', 'Tarjeta de crédito'),
+    ('20', 'Transferencia bancaria'),
+    ('21', 'Cheque'),
+    ('24', 'Otros con utilización del sistema financiero'),
     ]
-
+    
     ventas_forma_cobro = models.CharField(
         max_length=2,
         choices=FORMA_COBRO_CHOICES,
         null=True,
         blank=True,
-        help_text="Forma de cobro utilizada en la venta. Obligatorio desde junio-2016. "
-                  "Debe usar los códigos ATS: 01=Efectivo, 02=Cheque, 03=Transferencia, 04=Tarjeta, 05=Otros."
+        help_text=(
+        "Forma de cobro utilizada en la venta según catálogo ATS del SRI. "
+        "Obligatorio desde junio 2016 cuando el comprobante es electrónico. "
+        "Códigos válidos: "
+        "01=Sin sistema financiero, "
+        "15=Compensación, "
+        "16=Tarjeta débito, "
+        "17=Dinero electrónico, "
+        "18=Tarjeta prepago, "
+        "19=Tarjeta crédito, "
+        "20=Transferencia bancaria, "
+        "21=Cheque, "
+        "24=Otros con sistema financiero."
+        )
     )
+
 
     ventas_compensacion_ley_solidaridad = models.DecimalField(
         max_digits=18, decimal_places=2, default=0,
@@ -1880,6 +1907,79 @@ class SRI_AnexosTributarios(models.Model):
         null=True, blank=True,
         help_text="País de residencia fiscal del beneficiario final."
     )
+
+    bf_fecha_nacimiento = models.DateField(
+        null=True, blank=True,
+        help_text="Fecha de nacimiento del beneficiario final (YYYY-MM-DD)."
+    )
+
+    bf_por_propiedad = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Indica si es beneficiario por propiedad (SI/NO)."
+    )
+    
+    bf_por_otros_motivos = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Código de otros motivos según tabla SRI."
+        )
+        
+    bf_por_otros_relacionados = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Código de otros motivos relacionados (si aplica)."
+        )
+        
+    bf_por_administracion = models.CharField(
+        max_length=2,
+        null=True, blank=True,
+        help_text="Indica si es beneficiario por administración (SI/NO)."
+    )
+    
+    bf_nacionalidad_uno = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        help_text="Código país de primera nacionalidad (ISO numérico, ej: 593)."
+    )
+    
+    bf_nacionalidad_dos = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        help_text="Código país segunda nacionalidad."
+    )
+    
+    bf_nacionalidad_tres = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        help_text="Código país tercera nacionalidad."
+    )
+    
+    bf_jurisdiccion = models.CharField(
+        max_length=3,
+        null=True, blank=True,
+        help_text="Código país de jurisdicción si es no residente."
+    )
+    
+    bf_ciudad = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Ciudad del beneficiario final."
+    )
+    
+    bf_interseccion = models.CharField(
+        max_length=100,
+        null=True, blank=True,
+        help_text="Intersección de la dirección."
+    )
+    
+    bf_referencia = models.CharField(
+        max_length=255,
+        null=True, blank=True,
+        help_text="Referencia adicional de dirección."
+    )
+
+
 
     distribuyo_dividendos = models.CharField(
         max_length=2,

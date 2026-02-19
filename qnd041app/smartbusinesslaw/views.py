@@ -726,6 +726,7 @@ from .models import SRI_AnexosTributarios
 import xml.etree.ElementTree as ET
 
 
+
 # ==================================================
 # Helper: Función para crear respuesta XML
 # ==================================================
@@ -737,6 +738,7 @@ def generar_respuesta_xml(xml_tree, filename="anexo.xml"):
 
 
 
+
 def xml_ats(request, ruc, ejercicio, mes):
     anexo = get_object_or_404(
         SRI_AnexosTributarios,
@@ -745,33 +747,46 @@ def xml_ats(request, ruc, ejercicio, mes):
         mes=mes
     )
 
+    def d(value):
+        """Convierte a Decimal seguro"""
+        return Decimal(value or 0).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
     root = ET.Element("iva")
 
     # =========================
-    # CABECERA OBLIGATORIA
+    # CABECERA
     # =========================
     ET.SubElement(root, "TipoIDInformante").text = "R"
     ET.SubElement(root, "IdInformante").text = anexo.ruc
-    ET.SubElement(root, "razonSocial").text = anexo.razon_social
+    ET.SubElement(root, "razonSocial").text = anexo.razon_social or ""
     ET.SubElement(root, "Anio").text = str(anexo.ejercicio_fiscal)
-    ET.SubElement(root, "Mes").text = f"{anexo.mes:02d}"
+    ET.SubElement(root, "Mes").text = f"{int(anexo.mes):02d}"
     ET.SubElement(root, "numEstabRuc").text = "001"
 
     # =========================
-    # CALCULO DE MONTOS
+    # CÁLCULO DE MONTOS
     # =========================
-    base_no_gravada = 0.00
-    base_imponible = 0.00
-    base_gravada = float(anexo.ventas_base_iva or 0)
-    monto_iva = round(base_gravada * 0.12, 2)  # IVA 12%
-    monto_ice = 0.00
-    total_ventas = base_no_gravada + base_imponible + base_gravada + monto_iva + monto_ice
-    ET.SubElement(root, "totalVentas").text = f"{total_ventas:.2f}"
+    base_no_gravada = d(0)
+    base_imponible = d(0)
+    base_gravada = d(anexo.ventas_base_iva)
+    monto_iva = (base_gravada * Decimal("0.12")).quantize(
+        Decimal("0.01"), rounding=ROUND_HALF_UP
+    )
+    monto_ice = d(0)
 
+    total_ventas = (
+        base_no_gravada +
+        base_imponible +
+        base_gravada +
+        monto_iva +
+        monto_ice
+    )
+
+    ET.SubElement(root, "totalVentas").text = f"{total_ventas:.2f}"
     ET.SubElement(root, "codigoOperativo").text = "IVA"
 
     # =========================
-    # COMPRAS (VACÍO SI NO HAY)
+    # COMPRAS (VACÍO PERO OBLIGATORIO)
     # =========================
     ET.SubElement(root, "compras")
 
@@ -779,21 +794,33 @@ def xml_ats(request, ruc, ejercicio, mes):
     # VENTAS
     # =========================
     ventas = ET.SubElement(root, "ventas")
-    detalle = ET.SubElement(ventas, "detalleVentas")
 
-    ET.SubElement(detalle, "tpIdCliente").text = anexo.ventas_tipo_id_cliente or "06"
-    ET.SubElement(detalle, "idCliente").text = anexo.ventas_id_cliente or "9999999999999"
-    ET.SubElement(detalle, "parteRelVtas").text = "NO"
-    ET.SubElement(detalle, "tipoComprobante").text = "18"
-    ET.SubElement(detalle, "tipoEmision").text = "E"
-    ET.SubElement(detalle, "numeroComprobantes").text = "1"
-    ET.SubElement(detalle, "baseNoGraIva").text = f"{base_no_gravada:.2f}"
-    ET.SubElement(detalle, "baseImponible").text = f"{base_imponible:.2f}"
-    ET.SubElement(detalle, "baseImpGrav").text = f"{base_gravada:.2f}"
-    ET.SubElement(detalle, "montoIva").text = f"{monto_iva:.2f}"
-    ET.SubElement(detalle, "montoIce").text = f"{monto_ice:.2f}"
-    ET.SubElement(detalle, "valorRetIva").text = "0.00"
-    ET.SubElement(detalle, "valorRetRenta").text = "0.00"
+    # Solo crear detalle si hay ventas
+    if total_ventas > 0:
+
+        detalle = ET.SubElement(ventas, "detalleVentas")
+
+        ET.SubElement(detalle, "tpIdCliente").text = anexo.ventas_tipo_id_cliente or "06"
+        ET.SubElement(detalle, "idCliente").text = anexo.ventas_id_cliente or "9999999999999"
+        ET.SubElement(detalle, "parteRelVtas").text = "NO"
+        ET.SubElement(detalle, "tipoComprobante").text = "18"
+        ET.SubElement(detalle, "tipoEmision").text = "E"
+        ET.SubElement(detalle, "numeroComprobantes").text = "1"
+
+        ET.SubElement(detalle, "baseNoGraIva").text = f"{base_no_gravada:.2f}"
+        ET.SubElement(detalle, "baseImponible").text = f"{base_imponible:.2f}"
+        ET.SubElement(detalle, "baseImpGrav").text = f"{base_gravada:.2f}"
+        ET.SubElement(detalle, "montoIva").text = f"{monto_iva:.2f}"
+        ET.SubElement(detalle, "montoIce").text = f"{monto_ice:.2f}"
+        ET.SubElement(detalle, "valorRetIva").text = "0.00"
+        ET.SubElement(detalle, "valorRetRenta").text = "0.00"
+
+        # =========================
+        # FORMAS DE PAGO (OBLIGATORIO)
+        # =========================
+        forma_pago_codigo = anexo.ventas_forma_cobro or "20"
+        formas_pago = ET.SubElement(detalle, "formasDePago")
+        ET.SubElement(formas_pago, "formaPago").text = forma_pago_codigo
 
     # =========================
     # VENTAS POR ESTABLECIMIENTO
@@ -802,14 +829,13 @@ def xml_ats(request, ruc, ejercicio, mes):
     det_est = ET.SubElement(ventas_est, "ventaEst")
 
     ET.SubElement(det_est, "codEstab").text = "001"
-    ET.SubElement(det_est, "ventasEstab").text = f"{base_no_gravada + base_imponible + base_gravada + monto_ice:.2f}"
-    ET.SubElement(det_est, "ivaComp").text = "0.00"  # cero porque no hay compensación
+    ET.SubElement(det_est, "ventasEstab").text = f"{total_ventas:.2f}"
+    ET.SubElement(det_est, "ivaComp").text = "0.00"
 
     return generar_respuesta_xml(
         root,
-        filename=f"ATS_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml"
+        filename=f"ATS_{anexo.ruc}_{anexo.ejercicio_fiscal}_{int(anexo.mes):02d}.xml"
     )
-
 
 
 # ==================================================
@@ -1059,15 +1085,15 @@ def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
 
         # Mapeo de ubicación a códigos válidos
         prov, cant, parr = map_ubicacion(anexo.bf_provincia, anexo.bf_canton, anexo.bf_parroquia)
-        ET.SubElement(b, "provincia").text = prov
-        ET.SubElement(b, "ciudad").text = "NA"
-        ET.SubElement(b, "canton").text = cant
-        ET.SubElement(b, "parroquia").text = parr
-        ET.SubElement(b, "calle").text = anexo.bf_calle or "NA"
+        ET.SubElement(b, "provincia").text = anexo.bf_provincia or "01"
+        ET.SubElement(b, "ciudad").text = anexo.bf_ciudad or "NA"
+        ET.SubElement(b, "canton").text = anexo.bf_canton or "01"
+        ET.SubElement(b, "parroquia").text = anexo.bf_parroquia or "01"
+        ET.SubElement(b, "calle").text = limpiar_texto(anexo.bf_calle)
         ET.SubElement(b, "numero").text = anexo.bf_numero or "SN"
-        ET.SubElement(b, "interseccion").text = anexo.bf_calle or "NA"
+        ET.SubElement(b, "interseccion").text = limpiar_texto(anexo.bf_interseccion)
         ET.SubElement(b, "codigoPostal").text = anexo.bf_codigo_postal or "0000"
-        ET.SubElement(b, "referencia").text = "NA"
+        ET.SubElement(b, "referencia").text = limpiar_texto(anexo.bf_referencia)
 
     # -----------------------
     # Sangría y retorno
