@@ -42,17 +42,10 @@
           {% endfor %}
 
           <ul class="project-detail-box">
-            <li><strong>{% trans "Author" %}:</strong> {{ page.author_name }}</li>
-            <li>{{ page.business_title }}</li>
-            <li>{{ page.business_activiy }}</li>
-            <li>
-              <strong>{% trans "Experience" %}:</strong>
-              {{ page.business_experience }} {% trans "years" %}
-            </li>
-            <li>
+           
               <strong>{% trans "Updated" %}:</strong>
               {{ page.updated }}
-            </li>
+        
           </ul>
 
           {% for item in page.galleria_3.all %}
@@ -62,7 +55,7 @@
             {% endif %}
           {% endfor %}
 
-          <p class="mt-30">{{ page.bio2|richtext }}</p>
+          <p style="color: #EAEBEE;" class="mt-30">{{ page.bio2|richtext }}</p>
 
         </div>
 
