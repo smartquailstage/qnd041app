@@ -27,7 +27,8 @@ from django.template.loader import render_to_string
 import weasyprint
 
 from .models import SPDP_ActaDelegado
-
+from decimal import Decimal, ROUND_HALF_UP
+from datetime import date
 
 @staff_member_required
 def incidente_pdf(request, delegado_id):
@@ -777,10 +778,8 @@ def xml_ats(request, ruc, ejercicio, mes):
     total_ventas = (
         base_no_gravada +
         base_imponible +
-        base_gravada +
-        monto_iva +
-        monto_ice
-    )
+        base_gravada).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
 
     ET.SubElement(root, "totalVentas").text = f"{total_ventas:.2f}"
     ET.SubElement(root, "codigoOperativo").text = "IVA"
@@ -1071,7 +1070,12 @@ def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
         ET.SubElement(b, "segundoNombre").text = anexo.bf_segundo_nombre or "NA"
         ET.SubElement(b, "primerApellido").text = anexo.bf_primer_apellido or "NA"
         ET.SubElement(b, "segundoApellido").text = anexo.bf_segundo_apellido or "NA"
-        ET.SubElement(b, "fechaNacimiento").text = "01/01/1900"
+        fecha_nac = anexo.bf_fecha_nacimiento
+        if fecha_nac:
+            ET.SubElement(b, "fechaNacimiento").text = fecha_nac.strftime("%d/%m/%Y")
+        else:
+            ET.SubElement(b, "fechaNacimiento").text = "1900-01-01"
+
         ET.SubElement(b, "porPropiedad").text = "NO"
         ET.SubElement(b, "porcentajePropiedad").text = "0.00"
         ET.SubElement(b, "porOtrosMotivos").text = "09"

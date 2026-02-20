@@ -6,7 +6,7 @@ import uuid
 import hashlib
 from django.utils import timezone
 from django.conf import settings
-
+from decimal import Decimal, ROUND_HALF_UP
 
 
 # Opciones de documentación por entidad
@@ -2048,11 +2048,16 @@ class SRI_AnexosTributarios(models.Model):
         help_text="Fecha y hora de la última actualización del registro."
     )
 
+ 
+
     def calcular_totales_ventas(self):
-        if self.ventas_base_iva is not None and self.ventas_porcentaje_iva is not None:
-            self.ventas_monto_iva = round(self.ventas_base_iva * (self.ventas_porcentaje_iva / 100), 2)
-            self.ventas_total = round(
-                (self.ventas_base_iva_0 or 0) + (self.ventas_base_iva or 0) + (self.ventas_monto_iva or 0),2)
+        base_0 = Decimal(self.ventas_base_iva_0 or 0)
+        base_12 = Decimal(self.ventas_base_iva or 0)
+        porcentaje = Decimal(self.ventas_porcentaje_iva or 0)
+        
+        self.ventas_monto_iva = (base_12 * porcentaje / Decimal("100")).quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)
+        self.ventas_total = (base_0 + base_12).quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)
+
 
     class Meta:
         verbose_name = "Anexo: Servicios De Rentas Internas (SRI)"
