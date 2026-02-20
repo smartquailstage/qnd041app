@@ -19,7 +19,7 @@
               {% image item.logo_slide original as logo_slide %}
               <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:580px;">
             {% endif %}
-            <h3 style="color:#c7c7c7;">{{ page.title }}</h3>
+            <h3 style="color:#c7c7c7; margin-left: 54px;">{{ page.title }}</h3>
           </div>
         </div>
       </section>
@@ -41,12 +41,7 @@
             {% endif %}
           {% endfor %}
 
-          <ul class="project-detail-box">
-           
-              <strong>{% trans "Updated" %}:</strong>
-              {{ page.updated }}
-        
-          </ul>
+
 
           {% for item in page.galleria_3.all %}
             {% if item.profile_pic %}
