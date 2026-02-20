@@ -1173,7 +1173,7 @@ input.search-bar-top:-moz-placeholder { color: #fff!important; }
 .border-radius-25 {border-radius:25px;}
 .remove-padding {padding: 0!important;}
 .remove-margin {margin: 0!important;}
-.img-responsive, .full-width{width:100%;}
+.img-responsive, .full-width{width:100%; border-radius: 5%;}
 
 .btn,
 .form-control,
@@ -3114,7 +3114,7 @@ a.readmore > span {
   width: 35px;
   height: 35px;
   line-height: 35px;
-  background-color: rgba(23, 23, 23, 0.5);
+  background-color: rgba(23, 23, 23, 0);
   border-radius: 100%;
   text-align: center;
   margin-top: -15px;

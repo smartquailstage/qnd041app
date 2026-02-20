@@ -31,7 +31,6 @@
     <div class="container">
       <div class="row">
 
-        {# ===== SIDEBAR ===== #}
         <div class="col-md-3">
 
           {% for item in page.galleria_3.all %}
@@ -61,8 +60,7 @@
           <h4 style="color: #fff;">{{ page.TS_info6 }}</h4>
           <div style="color: #fff;">{{ page.info_title9|richtext }}</div>
 
-          {# ===== SLIDER 1 ===== #}
-          <div class="portfolio-slider owl-carousel mt-30">
+          <div class="portfolio-slider  mt-30">
             {% for item in page.galleria_3.all %}
               {% if item.image_1 %}
                 {% image item.image_1 original as img %}
