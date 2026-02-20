@@ -88,13 +88,16 @@
             {% endfor %}
           </div>
 
-          <h3 style="color: #fff;">{{ page.banner_title10|richtext }}</h3>
-          <h4 style="color: #fff;">{{ page.TS_info7 }}</h4>
-          <div>{{ page.info_title10|richtext }}</div>
+          <h3 style="color: #fff;text-align: justify;">{{ page.banner_title10|richtext }}</h3>
+          <h4 style="color: #fff;text-align: justify;">{{ page.TS_info7 }}</h4>
+          <div style="text-align: justify; letter-spacing: normal;
+  line-height: 21px;
+  color: #96979B;
+  font-weight: 300;">{{ page.info_title10|richtext }}</div>
 
-          <h3 style="color: #fff;">{{ page.banner_title11|richtext }}</h3>
-          <h4 style="color: #fff;">{{ page.TS_info8 }}</h4>
-          <div>{{ page.info_title11|richtext }}</div>
+          <h3 style="color: #fff;text-align: justify;">{{ page.banner_title11|richtext }}</h3>
+          <h4 style="color: #fff;text-align: justify;">{{ page.TS_info8 }}</h4>
+          <div style="text-align: justify;">{{ page.info_title11|richtext }}</div>
 
           {% if settings.webapp.GlobalLinksSettings.start_project_SBM %}
             <p class="mt-40">
