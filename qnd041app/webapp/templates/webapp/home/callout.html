@@ -1,5 +1,5 @@
 {% load i18n wagtailcore_tags wagtailimages_tags %}
-<section class="first-ico-box">
+<section class="first-ico-box" style="background-color: #ffff;">
     <div class="dn-bg-lines">
       <div></div>
       <div></div>
@@ -38,13 +38,13 @@
            <i class="icofont icofont-people  font-50px default-icon"></i>
          
           <h4 class="text-uppercase">{% trans 'Tecnologías Sociales' %}</h4>
-          <p>{{page.info8}} <a href="{% slugurl 'social' %}">{% trans 'Learn more' %}</a></p>
+          <p style="color: #4F4F4F;">{{page.info8}} <a href="{% slugurl 'social' %}">{% trans 'Learn more' %}</a></p>
         </div>
         <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.3s"> 
           <i class="icofont icofont-shield-alt font-50px default-icon"></i>
           <i class="icofont-privacy"></i>
           <h4 class="text-uppercase">{% trans 'Ciberseguridad' %}</h4>
-          <p>{{page.info9}} <a href="{% slugurl 'sos' %}">{% trans 'Learn more' %}</a></p>
+          <p style="color: #4F4F4F;">{{page.info9}} <a href="{% slugurl 'sos' %}">{% trans 'Learn more' %}</a></p>
         </div>
       </div>
     </div>
