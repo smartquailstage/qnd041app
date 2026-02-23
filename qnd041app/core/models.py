@@ -29,3 +29,46 @@ class SocialAutomationPost(models.Model):
 
     def __str__(self):
         return f"Post #{self.id}"
+
+
+
+# core/models.py
+
+from django.db import models
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+from wagtail.images import get_image_model_string
+
+
+@register_snippet
+class GeneratedSocialAsset(models.Model):
+
+    social_post = models.ForeignKey(
+        "core.SocialAutomationPost",
+        on_delete=models.CASCADE,
+        related_name="generated_assets"
+    )
+
+    caption = models.TextField(blank=True)
+
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+"
+    )
+
+    meta_post_id = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=50, default="generated")
+
+    panels = [
+        FieldPanel("social_post"),
+        FieldPanel("caption"),
+        FieldPanel("image"),
+        FieldPanel("meta_post_id"),
+        FieldPanel("status"),
+    ]
+
+    def __str__(self):
+        return f"Asset for Post #{self.social_post.id}"
