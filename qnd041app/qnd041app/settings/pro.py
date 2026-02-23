@@ -33,7 +33,8 @@ CORS_ALLOWED_ORIGINS = [
 
 
 
-
+N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL ")
+N8N_SECRET =os.environ.get("N8N_SECRET")
 
 
 DATABASES = {
