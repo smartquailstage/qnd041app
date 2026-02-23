@@ -32,9 +32,6 @@ def register_custom_menu_item():
     )
 
 
-
-
-
 @hooks.register("after_publish_page")
 def trigger_social_automation(request, page):
     """
