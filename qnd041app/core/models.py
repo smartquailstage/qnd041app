@@ -34,6 +34,8 @@ class SocialAutomationPost(models.Model):
 
 # core/models.py
 
+# core/models.py
+
 from django.db import models
 from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
@@ -69,6 +71,11 @@ class GeneratedSocialAsset(models.Model):
         FieldPanel("meta_post_id"),
         FieldPanel("status"),
     ]
+
+    class Meta:
+        verbose_name = "Generated Social Asset"
+        verbose_name_plural = "Generated Social Assets"
+        ordering = ["-id"]
 
     def __str__(self):
         return f"Asset for Post #{self.social_post.id}"
