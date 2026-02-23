@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0095_formsubmission'),
         ('webapp', '0002_alter_galeriadeimagenes_image_1_and_more'),
     ]
 
