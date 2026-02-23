@@ -36,6 +36,10 @@ from usuarios.forms import LoginForm  # importa tu formulario
 from datetime import datetime, timezone
 from django.utils.timezone import now
 
+
+
+
+
 class ProximamentePage(Page):
     descripcion = RichTextField(blank=True, verbose_name="Descripción")
     imagen_destacada = models.ForeignKey(

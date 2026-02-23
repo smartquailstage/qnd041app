@@ -736,6 +736,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# URL de tu webhook n8n
+N8N_WEBHOOK_URL = "https://n8n.smartquail.io/webhook/social-post"
+N8N_SECRET = "super-secret-key"
 
 
 
