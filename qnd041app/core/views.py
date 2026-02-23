@@ -1,38 +1,56 @@
-# views.py
+# core/views.py
 
+import json
+import requests
+from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
-from .models import SocialAutomationPost
+from django.conf import settings
+
+from wagtail.images import get_image_model
+
+from core.models import SocialAutomationPost, GeneratedSocialAsset
 
 
 @csrf_exempt
 def social_callback(request):
-    """
-    Endpoint que recibe el callback de n8n después de generar contenido.
-    """
+    data = json.loads(request.body)
+
+    # 🔐 Seguridad
+    if data.get("secret") != settings.N8N_SECRET:
+        return JsonResponse({"error": "Unauthorized"}, status=403)
+
     try:
-        data = json.loads(request.body)
+        post = SocialAutomationPost.objects.get(id=data["id"])
 
-        post_id = data.get("id")
-        if not post_id:
-            return JsonResponse({"error": "Missing post id"}, status=400)
+        image_url = data.get("image_url")
 
-        post = SocialAutomationPost.objects.get(id=post_id)
+        # 1️⃣ Descargar imagen
+        response = requests.get(image_url)
+        response.raise_for_status()
 
-        # Actualizamos campos si vienen
-        post.generated_caption = data.get("caption", post.generated_caption)
-        post.generated_image_url = data.get("image_url", post.generated_image_url)
-        post.meta_post_id = data.get("meta_post_id", post.meta_post_id)
-        post.status = data.get("status", post.status)
+        # 2️⃣ Crear imagen en Wagtail
+        ImageModel = get_image_model()
 
+        image = ImageModel.objects.create(
+            title=f"Generated Post {post.id}",
+            file=ContentFile(response.content, name=f"generated_post_{post.id}.jpg"),
+        )
+
+        # 3️⃣ Crear nuevo asset
+        GeneratedSocialAsset.objects.create(
+            social_post=post,
+            caption=data.get("caption"),
+            image=image,
+            meta_post_id=data.get("meta_post_id"),
+            status=data.get("status", "generated"),
+        )
+
+        # 4️⃣ Actualizar post principal
+        post.status = "completed"
         post.save()
 
         return JsonResponse({"ok": True})
 
-    except SocialAutomationPost.DoesNotExist:
-        return JsonResponse({"error": "Post not found"}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({"error": "Invalid JSON"}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
