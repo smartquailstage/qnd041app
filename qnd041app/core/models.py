@@ -3,6 +3,10 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
 
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+from django.db import models
+
 @register_snippet
 class SocialAutomationPost(models.Model):
     """
@@ -10,14 +14,32 @@ class SocialAutomationPost(models.Model):
     para generar contenido con Gemini y Canva.
     """
 
+    title = models.CharField(max_length=255, help_text="Título del post",null=True,blank=True)
     prompt = models.TextField(help_text="Prompt para generar el contenido con Gemini")
     brand_voice = models.CharField(max_length=255, blank=True)
+    brand_text = models.TextField(blank=True, help_text="Texto de la marca")
+    reference_image = models.ImageField(
+        upload_to="social_automation/references/",
+        blank=True,
+        null=True,
+        help_text="Imagen de referencia para el contenido"
+    )
+    logo = models.ImageField(
+        upload_to="social_automation/logos/",
+        blank=True,
+        null=True,
+        help_text="Logotipo de la marca"
+    )
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=50, default="pending")
 
     panels = [
+        FieldPanel("title"),
         FieldPanel("prompt"),
         FieldPanel("brand_voice"),
+        FieldPanel("brand_text"),
+        FieldPanel("reference_image"),
+        FieldPanel("logo"),
         FieldPanel("scheduled_datetime"),
         FieldPanel("status"),
     ]
@@ -28,8 +50,7 @@ class SocialAutomationPost(models.Model):
         ordering = ["-scheduled_datetime"]
 
     def __str__(self):
-        return f"Post #{self.id}"
-
+        return f"{self.title or f'Post #{self.id}'}"
 
 
 # core/models.py
