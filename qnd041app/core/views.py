@@ -30,7 +30,7 @@ def social_callback(request):
     data = json.loads(request.body)
 
     # Seguridad
-    if data.get("secret") != settings.N8N_SECRET:
+    if data.get("secret") != settings.N8N_GEMINI_SECRET:
         return JsonResponse({"error": "Unauthorized"}, status=403)
 
     try:
