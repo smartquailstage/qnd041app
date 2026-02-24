@@ -79,3 +79,54 @@ class GeneratedSocialAsset(models.Model):
 
     def __str__(self):
         return f"Asset for Post #{self.social_post.id}"
+
+
+
+from django.db import models
+from wagtail.admin.panels import FieldPanel, PageChooserPanel
+from wagtail.snippets.models import register_snippet
+from django.utils import timezone
+
+
+@register_snippet
+class SocialPostSchedule(models.Model):
+    """
+    Snippet para programar publicaciones en Meta usando
+    imágenes generadas previamente.
+    """
+
+    STATUS_CHOICES = [
+        ("pending", "Pendiente"),
+        ("scheduled", "Programado"),
+        ("posted", "Publicado"),
+        ("error", "Error"),
+    ]
+
+    PLATFORM_CHOICES = [
+        ("instagram", "Instagram"),
+        ("facebook", "Facebook"),
+        ("both", "Ambos"),
+    ]
+
+    image = models.ForeignKey(
+        GeneratedSocialAsset,
+        on_delete=models.CASCADE,
+        related_name="scheduled_posts",
+        help_text="Selecciona la imagen generada previamente"
+    )
+    scheduled_datetime = models.DateTimeField(default=timezone.now)
+    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES, default="both")
+    caption = models.TextField(blank=True)
+    meta_post_id = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+
+    panels = [
+        FieldPanel("image"),
+        FieldPanel("scheduled_datetime"),
+        FieldPanel("platform"),
+        FieldPanel("caption"),
+        FieldPanel("status"),
+    ]
+
+    def __str__(self):
+        return f"Scheduled Post #{self.id} - {self.status}"
