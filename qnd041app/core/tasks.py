@@ -9,6 +9,12 @@ from core.models import SocialAutomationPost
 import requests
 from django.conf import settings
 
+import requests
+from celery import shared_task
+from django.conf import settings
+from .models import SocialAutomationPost
+
+
 @shared_task(bind=True, max_retries=5, default_retry_delay=60)
 def send_post_to_n8n(self, post_id):
     post = SocialAutomationPost.objects.get(id=post_id)
@@ -19,10 +25,13 @@ def send_post_to_n8n(self, post_id):
 
     payload = {
         "id": post.id,
-        "title": post.prompt[:50],  # snippets no tienen title
+        "title": post.title or post.prompt[:50],
         "prompt": post.prompt,
         "brand_voice": post.brand_voice,
-        "platform": "both",  # o agrega un campo platform en tu modelo
+        "brand_text": post.brand_text,
+        "logo": post.logo_url,  # ✅ URL HTTPS del bucket
+        "reference_image": post.reference_image_url,  # ✅ URL HTTPS
+        "platform": "both",
         "go_live_at": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
         "secret": settings.N8N_SECRET,
     }
@@ -33,11 +42,14 @@ def send_post_to_n8n(self, post_id):
             json=payload,
             timeout=15
         )
+
         if response.status_code == 200:
             post.status = "processing"
         else:
             post.status = "error"
+
         post.save()
+
     except Exception as exc:
         post.status = "error"
         post.save()

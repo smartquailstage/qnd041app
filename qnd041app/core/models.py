@@ -7,31 +7,43 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from django.db import models
 
+from django.utils.functional import cached_property
+
 @register_snippet
 class SocialAutomationPost(models.Model):
-    """
-    Snippet que almacena prompts de SocialAutomation
-    para generar contenido con Gemini y Canva.
-    """
 
-    title = models.CharField(max_length=255, help_text="Título del post",null=True,blank=True)
+    title = models.CharField(max_length=255, help_text="Título del post", null=True, blank=True)
     prompt = models.TextField(help_text="Prompt para generar el contenido con Gemini")
     brand_voice = models.CharField(max_length=255, blank=True)
     brand_text = models.TextField(blank=True, help_text="Texto de la marca")
+
     reference_image = models.ImageField(
         upload_to="social_automation/references/",
         blank=True,
         null=True,
-        help_text="Imagen de referencia para el contenido"
     )
+
     logo = models.ImageField(
         upload_to="social_automation/logos/",
         blank=True,
         null=True,
-        help_text="Logotipo de la marca"
     )
+
     scheduled_datetime = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=50, default="pending")
+
+    # ✅ PROPIEDAD DINÁMICA
+    @property
+    def logo_url(self):
+        if self.logo:
+            return self.logo.url
+        return None
+
+    @property
+    def reference_image_url(self):
+        if self.reference_image:
+            return self.reference_image.url
+        return None
 
     panels = [
         FieldPanel("title"),
