@@ -132,7 +132,7 @@ N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el call
 N8N_META_WEBHOOK_URL = os.environ.get("N8N_META_WEBHOOK_URL")
 N8N_PUBLISH_WEBHOOK_URL = os.environ.get("N8N_PUBLISH_WEBHOOK_URL")
 
-
+N8N_EDIT_WEBHOOK_URL = os.environ.get("N8N_EDIT_WEBHOOK_URL")
 # settings.py
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
