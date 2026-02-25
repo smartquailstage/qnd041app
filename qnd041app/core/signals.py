@@ -16,6 +16,17 @@ def trigger_n8n_on_snippet_save(sender, instance, created, **kwargs):
         send_post_to_n8n.delay(instance.id)
 
 
+@receiver(post_save, sender=GeneratedSocialAsset)
+def trigger_n8n_on_asset_save(sender, instance, created, **kwargs):
+    """
+    Dispara el webhook hacia n8n cuando el asset está listo
+    """
+
+    # Solo cuando está generado y no ha sido enviado
+    if instance.status == "generated":
+        send_asset_to_n8n.delay(instance.id)
+
+        
 
 @receiver(post_save, sender=SocialPostSchedule)
 def send_to_meta(sender, instance, created, **kwargs):
@@ -42,13 +53,3 @@ from django.dispatch import receiver
 from core.models import GeneratedSocialAsset
 from core.tasks import send_asset_to_n8n
 
-
-@receiver(post_save, sender=GeneratedSocialAsset)
-def trigger_n8n_on_asset_save(sender, instance, created, **kwargs):
-    """
-    Dispara el webhook hacia n8n cuando el asset está listo
-    """
-
-    # Solo cuando está generado y no ha sido enviado
-    if instance.status == "generated":
-        send_asset_to_n8n.delay(instance.id)
