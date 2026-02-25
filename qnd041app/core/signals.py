@@ -9,11 +9,18 @@ from django.conf import settings
 import requests
 import json
 
-@receiver(post_save, sender=SocialAutomationPost)
-def trigger_n8n_on_snippet_save(sender, instance, created, **kwargs):
+# core/signals.py
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from core.models import GeneratedSocialAsset  # IMPORTAR EL MODELO PRIMERO
+from core.tasks import send_asset_to_n8n
+
+@receiver(post_save, sender=GeneratedSocialAsset)
+def trigger_n8n_on_asset_save(sender, instance, created, **kwargs):
     # Solo si es nuevo o pendiente
-    if instance.status == "pending":
-        send_post_to_n8n.delay(instance.id)
+    if instance.status in ["generated", "pending"]:
+        send_asset_to_n8n.delay(instance.id)
 
 
 @receiver(post_save, sender=GeneratedSocialAsset)
@@ -26,7 +33,7 @@ def trigger_n8n_on_asset_save(sender, instance, created, **kwargs):
     if instance.status == "generated":
         send_asset_to_n8n.delay(instance.id)
 
-        
+
 
 @receiver(post_save, sender=SocialPostSchedule)
 def send_to_meta(sender, instance, created, **kwargs):

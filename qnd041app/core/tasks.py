@@ -15,6 +15,8 @@ from django.conf import settings
 from .models import SocialAutomationPost
 
 
+
+
 @shared_task(bind=True, max_retries=5, default_retry_delay=60)
 def send_post_to_n8n(self, post_id):
     post = SocialAutomationPost.objects.get(id=post_id)
