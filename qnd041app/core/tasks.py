@@ -1,55 +1,46 @@
-import requests
-from celery import shared_task
-from django.conf import settings
-from .models import SocialAutomationPost
-
-
-from celery import shared_task
-from core.models import SocialAutomationPost
-import requests
-from django.conf import settings
+# core/tasks.py
 
 import requests
 from celery import shared_task
 from django.conf import settings
-from .models import SocialAutomationPost
+from core.models import SocialAutomationPost, GeneratedSocialAsset
 
 
-
-
+# --------------------------------------------------
+# Task: crear imagen en Gemini desde SocialAutomationPost
+# --------------------------------------------------
 @shared_task(bind=True, max_retries=5, default_retry_delay=60)
 def send_post_to_n8n(self, post_id):
-    post = SocialAutomationPost.objects.get(id=post_id)
-
-    # Idempotencia
-    if post.status not in ["pending", "error"]:
-        return "Already processed"
-
-    payload = {
-        "id": post.id,
-        "title": post.title or post.prompt[:50],
-        "prompt": post.prompt,
-        "brand_voice": post.brand_voice,
-        "brand_text": post.brand_text,
-        "logo": post.logo_url,  # ✅ URL HTTPS del bucket
-        "reference_image": post.reference_image_url,  # ✅ URL HTTPS
-        "platform": "both",
-        "go_live_at": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
-        "secret": settings.N8N_SECRET,
-    }
-
     try:
+        post = SocialAutomationPost.objects.get(id=post_id)
+
+        # Evitar doble envío
+        if post.status not in ["pending", "error"]:
+            return "Already processed"
+
+        # Payload para n8n
+        payload = {
+            "id": post.id,
+            "title": post.title or post.prompt[:50],
+            "prompt": post.prompt,
+            "brand_voice": post.brand_voice,
+            "brand_text": post.brand_text,
+            "scheduled_datetime": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
+            "secret": settings.N8N_SECRET,
+        }
+
+        # Enviar POST a n8n
         response = requests.post(
             settings.N8N_WEBHOOK_URL,
             json=payload,
             timeout=15
         )
 
+        # Actualizar estado
         if response.status_code == 200:
             post.status = "processing"
         else:
             post.status = "error"
-
         post.save()
 
     except Exception as exc:
@@ -58,12 +49,9 @@ def send_post_to_n8n(self, post_id):
         raise self.retry(exc=exc)
 
 
-import requests
-from celery import shared_task
-from django.conf import settings
-from core.models import GeneratedSocialAsset
-
-
+# --------------------------------------------------
+# Task: editar imagen en Gemini desde GeneratedSocialAsset
+# --------------------------------------------------
 @shared_task(bind=True, max_retries=5, default_retry_delay=60)
 def send_asset_to_n8n(self, asset_id):
     try:
@@ -71,13 +59,14 @@ def send_asset_to_n8n(self, asset_id):
             "social_post", "image", "logo", "reference_image"
         ).get(id=asset_id)
 
-        # Idempotencia
+        # Evitar doble envío
         if asset.status not in ["generated", "error"]:
             return "Already processed"
 
-        if not settings.N8N_PUBLISH_WEBHOOK_URL:
-            raise Exception("N8N_PUBLISH_WEBHOOK_URL not configured")
+        if not hasattr(settings, "N8N_EDIT_WEBHOOK_URL") or not settings.N8N_EDIT_WEBHOOK_URL:
+            raise Exception("N8N_EDIT_WEBHOOK_URL not configurada")
 
+        # Payload para n8n
         payload = {
             "asset_id": asset.id,
             "post_id": asset.social_post.id,
@@ -91,7 +80,7 @@ def send_asset_to_n8n(self, asset_id):
         }
 
         response = requests.post(
-            settings.N8N_META_WEBHOOK_URL,
+            settings.N8N_EDIT_WEBHOOK_URL,
             json=payload,
             timeout=20
         )
@@ -101,7 +90,7 @@ def send_asset_to_n8n(self, asset_id):
             asset.save(update_fields=["status"])
             return "Sent successfully"
 
-        raise Exception(f"Bad response: {response.text}")
+        raise Exception(f"Bad response: {response.status_code} {response.text}")
 
     except Exception as exc:
         asset.status = "error"
