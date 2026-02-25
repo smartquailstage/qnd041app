@@ -35,11 +35,6 @@ CORS_ALLOWED_ORIGINS = [
 
 # settings.py
 
-N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL")         # Para enviar desde Django a n8n
-N8N_SECRET = os.environ.get("N8N_SECRET")                   # Para validar callbacks iniciales
-N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el callback de Gemini
-N8N_META_WEBHOOK_URL = os.environ.get("N8N_META_WEBHOOK_URL")
-
 
 DATABASES = {
     'default': {
@@ -131,6 +126,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SEC
 
 
 
+N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL")         # Para enviar desde Django a n8n
+N8N_SECRET = os.environ.get("N8N_SECRET")                   # Para validar callbacks iniciales
+N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el callback de Gemini
+N8N_META_WEBHOOK_URL = os.environ.get("N8N_META_WEBHOOK_URL")
+N8N_PUBLISH_WEBHOOK_URL = os.environ.get("N8N_PUBLISH_WEBHOOK_URL")
 
 
 # settings.py
