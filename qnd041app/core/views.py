@@ -66,3 +66,35 @@ def social_callback(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+
+
+# views.py
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import SocialAutomationPost
+
+@csrf_exempt  # si no usas token CSRF
+def update_generated_image(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            # 1️⃣ Buscar el post por ID
+            post = SocialAutomationPost.objects.get(id=data["id"])
+
+            # 2️⃣ Actualizar URL de la imagen y estado
+            post.generated_image_url = data["generated_image_url"]
+            post.status = data.get("status", "completed")
+            post.save()
+
+            return JsonResponse({"success": True, "message": "Post actualizado"})
+        except SocialAutomationPost.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Post no encontrado"}, status=404)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=500)
+    return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
