@@ -21,8 +21,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from wagtail.images import get_image_model
-from rest_framework.decorators import api_view
-from rest_framework.response import response
+
 from core.models import SocialAutomationPost, GeneratedSocialAsset
 
 
@@ -73,29 +72,33 @@ def social_callback(request):
 
 
 
-# views.py
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .models import SocialAutomationPost
 
 @api_view(['POST'])
 def update_generated_image(request):
-    if request.method == "POST":
-        try:
-            data = request.data.get("generated_image_url")
+    try:
+        data = request.data
 
-            # 1️⃣ Buscar el post por ID
-            post = SocialAutomationPost.objects.get(id=data["id"])
+        # 1️⃣ Buscar el post por ID
+        post = SocialAutomationPost.objects.get(id=data["id"])
 
-            # 2️⃣ Actualizar URL de la imagen y estado
-            post.generated_image_url = data["generated_image_url"]
-            post.status = data.get("status", "completed")
-            post.save()
+        # 2️⃣ Actualizar URL de la imagen y estado
+        post.generated_image_url = data["generated_image_url"]
+        post.status = data.get("status", "completed")
+        post.save()
 
-            return JsonResponse({"success": True, "message": "Post actualizado"})
-        except SocialAutomationPost.DoesNotExist:
-            return JsonResponse({"success": False, "message": "Post no encontrado"}, status=404)
-        except Exception as e:
-            return JsonResponse({"success": False, "message": str(e)}, status=500)
-    return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
+        return Response({"success": True, "message": "Post actualizado"})
+
+    except SocialAutomationPost.DoesNotExist:
+        return Response(
+            {"success": False, "message": "Post no encontrado"},
+            status=404
+        )
+
+    except Exception as e:
+        return Response(
+            {"success": False, "message": str(e)},
+            status=500
+        )
