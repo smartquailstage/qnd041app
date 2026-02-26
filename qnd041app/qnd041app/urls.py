@@ -27,6 +27,7 @@ urlpatterns = [
 
 # Rutas traducibles (contenido Wagtail y tus apps de frontend)
 urlpatterns += i18n_patterns(
+    path('core/', include('core.urls', namespace='core')),
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
     path('smartbusinessanalytics_id/', include('smartbusinessanalytics_id.urls', namespace='smartbusinessanalytics_id')),
     path('smartbusinesslaw/', include('smartbusinesslaw.urls', namespace='smartbusinesslaw')),
