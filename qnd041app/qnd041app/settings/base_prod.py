@@ -63,9 +63,9 @@ class JSONLogFormatter(logging.Formatter):
         }
         return json.dumps(log_record)
 
-SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000') 
+SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 
-from usuarios.utils import permission_callback 
+from usuarios.utils import permission_callback
 
 
 LOGGING = {
@@ -106,7 +106,7 @@ LOGGING = {
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
- 
+
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -121,8 +121,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    'django.contrib.sites', 
- 
+    'django.contrib.sites',
+
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
@@ -139,17 +139,17 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-     
+
     'wagtail',
    # 'cart',
    # 'orders',
    # 'shop',
-    
+
 
   #  "wagtail.search",
   #  "wagtail.sites",
   #  "wagtail.locales",
-    "wagtail_localize", 
+    "wagtail_localize",
     "wagtail_localize.locales",
     "wagtailmedia",
 #    "wagtail.contrib.forms",
@@ -197,8 +197,8 @@ INSTALLED_APPS = [
     #"SQOrders",
     #"SQShop",
     'chatbot_ai',
-   
-   
+
+
     "serviceapp",
     'billing',
     #"citas_regulares",
@@ -229,7 +229,7 @@ INSTALLED_APPS = [
     "sblorders",
     'sbpshop',
 
-    #SmartBusinessTechonologies 
+    #SmartBusinessTechonologies
     "sbtcart",
     "sbtshop",
     "sbtorders",
@@ -267,7 +267,7 @@ PAAS_CART_SESSION_ID = 'paas_cart'
 
 SERVICES_CART_SESSION_ID = 'services_cart'
 
-from usuarios.utils import permission_callback 
+from usuarios.utils import permission_callback
 
 
 
@@ -332,8 +332,8 @@ UNFOLD = {
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
-        
-        
+
+
         {"icon": "map", "title": _("Regulaciones"), "link": reverse_lazy("admin:smartbusinesslaw_regulacion_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
          {"icon": "support", "title": _("Soporte"), "link": reverse_lazy("admin:usuarios_cliente_changelist")},
@@ -362,7 +362,7 @@ UNFOLD = {
                 },
     "LOGOUT": {  "image": lambda request: static("img/login_sq_bg.png"),
                 },
-               
+
     "STYLES": [
         lambda request: static("unfold/css/style.css"),        # archivo original
         lambda request: static("css/unfold_override.css"),     # tu override personalizado
@@ -607,6 +607,8 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+
 #Redis Setup
 
 
@@ -693,7 +695,7 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": [BASE_DIR /  "qnd041app","templates"], 
+        "DIRS": [BASE_DIR /  "qnd041app","templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -703,11 +705,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                # 'usuarios.context_processors.mensajes_nuevos_processor',
-               # 'usuarios.context_processors.datos_panel_usuario', 
+               # 'usuarios.context_processors.datos_panel_usuario',
                # 'usuarios.context_processors.user_profile_data',
                # 'usuarios.context_processors.citas_context',
                # 'usuarios.context_processors.tareas_context',
-               # 'usuarios.context_processors.pagos_context',  
+               # 'usuarios.context_processors.pagos_context',
                # 'usuarios.context_processors.profile_uploads_context',
                # 'usuarios.context_processors.ultima_cita',
                # 'usuarios.context_processors.ultima_tarea',
@@ -719,7 +721,7 @@ TEMPLATES = [
                 "business_customer_projects.context_processors.tamano_empresa_context",
                 "services_cart.context_processors.cart",
                 'billing.context_processors.all_business_billing',
-                
+
             ],
         },
     },

@@ -80,7 +80,11 @@ import requests
 from django.core.files.base import ContentFile
 from wagtail.images import get_image_model
 
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
+
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def update_generated_image(request):
     try:
         data = request.data
