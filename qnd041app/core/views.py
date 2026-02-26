@@ -71,17 +71,14 @@ def social_callback(request):
 
 
 
-
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from .models import SocialAutomationPost
-
-import requests
-from django.core.files.base import ContentFile
-from wagtail.images import get_image_model
-
-from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+from .models import SocialAutomationPost
+from wagtail.images import get_image_model
+from django.core.files.base import ContentFile
+import requests
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -89,26 +86,23 @@ def update_generated_image(request):
     try:
         data = request.data
         post = SocialAutomationPost.objects.get(id=data["id"])
-
         image_url = data["generated_image_url"]
 
-        # 1️⃣ Descargar imagen
-        response = requests.get(image_url)
-        if response.status_code != 200:
+        # 1️⃣ Descargar la imagen desde tu bucket
+        r = requests.get(image_url)
+        if r.status_code != 200:
             return Response({"success": False, "message": "No se pudo descargar la imagen"}, status=400)
 
-        # 2️⃣ Crear imagen en Wagtail
+        # 2️⃣ Crear la imagen en Wagtail
         Image = get_image_model()
-
-        image = Image(
+        wagtail_image = Image(
             title=f"Post {post.id} generated image",
-            file=ContentFile(response.content, name=f"post_{post.id}.jpg"),
+            file=ContentFile(r.content, name=f"post_{post.id}.png")
         )
+        wagtail_image.save()
 
-        image.save()
-
-        # 3️⃣ Guardar referencia en tu modelo si quieres
-        post.generated_image_url = image.file.url
+        # 3️⃣ Guardar referencia en tu modelo
+        post.generated_image_url = wagtail_image.file.url  # Ahora apunta a Wagtail
         post.status = data.get("status", "completed")
         post.save()
 
