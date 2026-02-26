@@ -160,6 +160,14 @@ class SocialAutomationPost(models.Model):
         help_text="Fecha programada para el posteo (opcional)"
     )
 
+        # URL de la imagen generada por n8n / Gemini
+    generated_image_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="URL de la imagen generada por la IA y almacenada en el bucket"
+    )
+
+
     panels = [
         FieldPanel("title"),
         FieldPanel("brand_voice"),
@@ -173,6 +181,7 @@ class SocialAutomationPost(models.Model):
         FieldPanel("company_logo"),
         FieldPanel("scheduled_datetime"),
         FieldPanel("status"),
+        FieldPanel("generated_image_url"),  # Panel para la URL generada
     ]
 
     class Meta:

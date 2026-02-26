@@ -36,6 +36,7 @@ def send_post_to_n8n(self, post_id):
             "company_logo_url": logo_url,
             "scheduled_datetime": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
             "secret": settings.N8N_SECRET,
+            "generated_image_url": post.generated_image_url or None,
         }
 
         # Enviar POST a n8n
