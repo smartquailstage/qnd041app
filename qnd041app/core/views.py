@@ -76,29 +76,42 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import SocialAutomationPost
 
+import requests
+from django.core.files.base import ContentFile
+from wagtail.images import get_image_model
+
 @api_view(['POST'])
 def update_generated_image(request):
     try:
         data = request.data
-
-        # 1️⃣ Buscar el post por ID
         post = SocialAutomationPost.objects.get(id=data["id"])
 
-        # 2️⃣ Actualizar URL de la imagen y estado
-        post.generated_image_url = data["generated_image_url"]
+        image_url = data["generated_image_url"]
+
+        # 1️⃣ Descargar imagen
+        response = requests.get(image_url)
+        if response.status_code != 200:
+            return Response({"success": False, "message": "No se pudo descargar la imagen"}, status=400)
+
+        # 2️⃣ Crear imagen en Wagtail
+        Image = get_image_model()
+
+        image = Image(
+            title=f"Post {post.id} generated image",
+            file=ContentFile(response.content, name=f"post_{post.id}.jpg"),
+        )
+
+        image.save()
+
+        # 3️⃣ Guardar referencia en tu modelo si quieres
+        post.generated_image_url = image.file.url
         post.status = data.get("status", "completed")
         post.save()
 
-        return Response({"success": True, "message": "Post actualizado"})
+        return Response({"success": True, "message": "Imagen guardada en Wagtail"})
 
     except SocialAutomationPost.DoesNotExist:
-        return Response(
-            {"success": False, "message": "Post no encontrado"},
-            status=404
-        )
+        return Response({"success": False, "message": "Post no encontrado"}, status=404)
 
     except Exception as e:
-        return Response(
-            {"success": False, "message": str(e)},
-            status=500
-        )
+        return Response({"success": False, "message": str(e)}, status=500)
