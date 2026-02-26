@@ -21,7 +21,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from wagtail.images import get_image_model
-
+from rest_framework.decorators import api_view
+from rest_framework.response import response
 from core.models import SocialAutomationPost, GeneratedSocialAsset
 
 
@@ -78,11 +79,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import SocialAutomationPost
 
-@csrf_exempt  # si no usas token CSRF
+@api_view(['POST'])
 def update_generated_image(request):
     if request.method == "POST":
         try:
-            data = json.loads(request.body)
+            data = request.data.get("generated_image_url")
 
             # 1️⃣ Buscar el post por ID
             post = SocialAutomationPost.objects.get(id=data["id"])
