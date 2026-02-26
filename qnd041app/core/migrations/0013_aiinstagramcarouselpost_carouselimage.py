@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('wagtailimages', '0027_image_description'),
-        ('wagtailcore', '0095_formsubmission'),
         ('core', '0012_aiinstagrampostpublished_celery_task_id'),
     ]
 
