@@ -18,13 +18,22 @@ def send_post_to_n8n(self, post_id):
         if post.status not in ["pending", "error"]:
             return "Already processed"
 
-        # Payload para n8n
+        # Preparar URL del logo si existe
+        logo_url = post.company_logo.url if post.company_logo else None
+
+        # Payload actualizado para n8n
         payload = {
             "id": post.id,
-            "title": post.title or post.prompt[:50],
-            "prompt": post.prompt,
+            "title": post.title_text or post.title or "",
             "brand_voice": post.brand_voice,
+            "style": post.style,
+            "color_palette": post.color_palette,
+            "font_style": post.font_style,
+            "format": post.format,
+            "title_text": post.title_text,
             "brand_text": post.brand_text,
+            "company_info_text": post.company_info_text,
+            "company_logo_url": logo_url,
             "scheduled_datetime": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
             "secret": settings.N8N_SECRET,
         }
@@ -47,7 +56,6 @@ def send_post_to_n8n(self, post_id):
         post.status = "error"
         post.save()
         raise self.retry(exc=exc)
-
 
 # --------------------------------------------------
 # Task: editar imagen en Gemini desde GeneratedSocialAsset
