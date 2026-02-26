@@ -95,7 +95,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REDIS_HOST=os.environ.get('REDIS_HOST')
 REDIS_PORT=os.environ.get('REDIS_PORT')
-REDIS_DB =os.environ.get('REDIS_DB')  
+REDIS_DB =os.environ.get('REDIS_DB')
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -103,7 +103,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60 
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'deactivate_old_orders': {
@@ -131,6 +131,9 @@ N8N_SECRET = os.environ.get("N8N_SECRET")                   # Para validar callb
 N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el callback de Gemini
 N8N_META_WEBHOOK_URL = os.environ.get("N8N_META_WEBHOOK_URL")
 N8N_PUBLISH_WEBHOOK_URL = os.environ.get("N8N_PUBLISH_WEBHOOK_URL")
+
+N8N_POST_INSTAGRAM_WEBHOOK_URL = os.os.environ.get("N8N_POST_INSTAGRAM_WEBHOOK_URL")
+N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL = os.os.environ.get("N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL")
 
 N8N_EDIT_WEBHOOK_URL = os.environ.get("N8N_EDIT_WEBHOOK_URL")
 # settings.py
@@ -188,7 +191,7 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")  # Ej: https://qnd031-static.s3.amazonaws.com
 
 AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400", 
+    "CacheControl": "max-age=86400",
     "ACL": "public-read"  # Cambia a 'private' si los archivos deben ser privados
 }
 
@@ -202,7 +205,3 @@ STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
 MEDIA_URL =  f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
 DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE")
 STATICFILES_STORAGE =  os.environ.get("STATICFILES_STORAGE")
-
-
-
-

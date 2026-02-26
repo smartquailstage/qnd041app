@@ -93,3 +93,41 @@ def send_to_meta(sender, instance, created, **kwargs):
         except Exception as e:
             instance.status = "error"
             instance.save(update_fields=["status"])
+
+
+
+
+
+# signals.py
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
+from celery.result import AsyncResult
+from .models import AIInstagramCarouselPost
+from .tasks import send_carousel_post_to_n8n
+
+
+@receiver(post_save, sender=AIInstagramCarouselPost)
+def schedule_carousel_post(sender, instance, **kwargs):
+    # Revocar tarea anterior si existe
+    if instance.celery_task_id:
+        try:
+            AsyncResult(instance.celery_task_id).revoke()
+        except Exception as e:
+            print("No se pudo revocar la tarea anterior:", e)
+
+    # Programar nueva tarea si scheduled_for existe
+    if instance.scheduled_for:
+        if instance.scheduled_for > timezone.now():
+            result = send_carousel_post_to_n8n.apply_async(
+                args=[instance.id],
+                eta=instance.scheduled_for
+            )
+            instance.celery_task_id = result.id
+            instance.save(update_fields=["celery_task_id"])
+        else:
+            # Fecha pasada → enviar inmediatamente
+            send_carousel_post_to_n8n.delay(instance.id)
+            instance.celery_task_id = None
+            instance.save(update_fields=["celery_task_id"])

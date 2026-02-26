@@ -146,3 +146,55 @@ def send_instagram_post_to_n8n(post_id):
 
     except Exception as e:
         print("Error sending post to n8n:", e)
+
+
+
+
+
+# tasks.py
+
+import requests
+from celery import shared_task
+from django.conf import settings
+from .models import AIInstagramCarouselPost
+
+
+@shared_task(bind=True, max_retries=3)
+def send_carousel_post_to_n8n(self, post_id):
+    try:
+        post = AIInstagramCarouselPost.objects.get(id=post_id)
+
+        # Construir payload
+        payload = {
+            "id": post.id,
+            "title": post.title,
+            "caption": post.caption,
+            "hashtags": post.hashtags,
+            "call_to_action": post.call_to_action,
+            "post_type": post.post_type,
+            "tone": post.tone,
+            "objective": post.objective,
+            "ai_context": post.ai_context,
+            "scheduled_for": str(post.scheduled_for),
+            "images": [
+                img.image.file.url if img.image else None
+                for img in post.carousel_images.all()
+            ],
+            "image_captions": [
+                img.caption for img in post.carousel_images.all()
+            ]
+        }
+
+        requests.post(
+            settings.N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL,
+            json=payload,
+            timeout=30
+        )
+
+        # Marcar como publicado
+        post.status = "published"
+        post.save(update_fields=["status"])
+
+    except Exception as e:
+        # Reintentar en caso de error
+        raise self.retry(exc=e, countdown=60)
