@@ -319,3 +319,199 @@ class SocialPostSchedule(models.Model):
 
     def __str__(self):
         return f"Scheduled Post #{self.id} - {self.status}"
+
+
+# models.py
+
+from django.db import models
+from wagtail.models import DraftStateMixin, RevisionMixin
+from wagtail.snippets.models import register_snippet
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.images import get_image_model_string
+from wagtail.search import index
+
+
+@register_snippet
+class AIInstagramPostPublished(DraftStateMixin, RevisionMixin, models.Model):
+
+    # =========================
+    # CHOICES
+    # =========================
+
+    POST_TYPE_CHOICES = [
+        ("educational", "Educativo"),
+        ("sales", "Venta"),
+        ("engagement", "Engagement"),
+        ("storytelling", "Storytelling"),
+        ("personal_brand", "Marca Personal"),
+    ]
+
+    TONE_CHOICES = [
+        ("casual", "Casual"),
+        ("professional", "Profesional"),
+        ("friendly", "Amigable"),
+        ("authoritative", "Autoridad"),
+        ("inspirational", "Inspirador"),
+    ]
+
+    OBJECTIVE_CHOICES = [
+        ("increase_sales", "Aumentar ventas"),
+        ("generate_leads", "Generar leads"),
+        ("increase_engagement", "Aumentar engagement"),
+        ("educate", "Educar audiencia"),
+        ("brand_awareness", "Reconocimiento de marca"),
+    ]
+
+    STATUS_CHOICES = [
+        ("draft", "Borrador"),
+        ("ready", "Listo para publicar"),
+        ("scheduled", "Programado"),
+        ("published", "Publicado"),
+    ]
+
+    # =========================
+    # INFORMACIÓN BASE
+    # =========================
+
+    title = models.CharField(max_length=255, null=True, blank=True)
+
+    slug = models.SlugField(
+        unique=True,
+        null=True,
+        blank=True
+    )
+
+    post_type = models.CharField(
+        max_length=50,
+        choices=POST_TYPE_CHOICES,
+        null=True,
+        blank=True
+    )
+
+    tone = models.CharField(
+        max_length=50,
+        choices=TONE_CHOICES,
+        null=True,
+        blank=True
+    )
+
+    objective = models.CharField(
+        max_length=50,
+        choices=OBJECTIVE_CHOICES,
+        null=True,
+        blank=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        null=True,
+        blank=True
+    )
+
+    # =========================
+    # CONTEXTO PARA IA
+    # =========================
+
+    ai_context = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Describe aquí todo el contexto para que la IA genere el copy."
+    )
+
+    # =========================
+    # CONTENIDO GENERADO
+    # =========================
+
+    caption = models.TextField(
+        null=True,
+        blank=True
+    )
+
+    hashtags = models.TextField(
+        null=True,
+        blank=True
+    )
+
+    call_to_action = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True
+    )
+
+    # =========================
+    # IMAGEN
+    # =========================
+
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+"
+    )
+
+    # =========================
+    # AUTOMATIZACIÓN
+    # =========================
+
+    scheduled_for = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    ai_generated = models.BooleanField(
+        null=True,
+        blank=True
+    )
+
+    # =========================
+    # WAGTAIL ADMIN PANELS
+    # =========================
+
+    panels = [
+
+        MultiFieldPanel([
+            FieldPanel("title"),
+            FieldPanel("slug"),
+        ], heading="Información básica"),
+
+        MultiFieldPanel([
+            FieldPanel("post_type"),
+            FieldPanel("tone"),
+            FieldPanel("objective"),
+            FieldPanel("status"),
+        ], heading="Configuración estratégica"),
+
+        MultiFieldPanel([
+            FieldPanel("ai_context"),
+        ], heading="Contexto para IA"),
+
+        MultiFieldPanel([
+            FieldPanel("image"),
+        ], heading="Imagen del Post"),
+
+        MultiFieldPanel([
+            FieldPanel("caption"),
+            FieldPanel("hashtags"),
+            FieldPanel("call_to_action"),
+        ], heading="Contenido Generado"),
+
+        MultiFieldPanel([
+            FieldPanel("scheduled_for"),
+            FieldPanel("ai_generated"),
+        ], heading="Automatización"),
+    ]
+
+    search_fields = [
+        index.SearchField("title"),
+        index.SearchField("caption"),
+        index.SearchField("ai_context"),
+    ]
+
+    class Meta:
+        verbose_name = "AI Instagram Post Published"
+        verbose_name_plural = "AI Instagram Posts Published"
+
+    def __str__(self):
+        return self.title or "AI Instagram Post"
