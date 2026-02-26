@@ -465,6 +465,15 @@ class AIInstagramPostPublished(DraftStateMixin, RevisionMixin, models.Model):
         blank=True
     )
 
+    # models.py (añadir al modelo AIInstagramPostPublished)
+
+    celery_task_id = models.CharField(
+      max_length=255,
+      null=True,
+      blank=True,
+      help_text="Track ID de la tarea programada"
+    )
+
     # =========================
     # WAGTAIL ADMIN PANELS
     # =========================
@@ -500,6 +509,7 @@ class AIInstagramPostPublished(DraftStateMixin, RevisionMixin, models.Model):
         MultiFieldPanel([
             FieldPanel("scheduled_for"),
             FieldPanel("ai_generated"),
+            FieldPanel("celery_task_id"),
         ], heading="Automatización"),
     ]
 

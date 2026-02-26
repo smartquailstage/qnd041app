@@ -105,3 +105,44 @@ def send_asset_to_n8n(self, asset_id):
         asset.status = "error"
         asset.save(update_fields=["status"])
         raise self.retry(exc=exc)
+
+
+
+# tasks.py
+
+import requests
+from celery import shared_task
+from django.conf import settings
+from .models import AIInstagramPostPublished
+
+
+@shared_task
+def send_instagram_post_to_n8n(post_id):
+    try:
+        post = AIInstagramPostPublished.objects.get(id=post_id)
+
+        payload = {
+            "id": post.id,
+            "title": post.title,
+            "caption": post.caption,
+            "hashtags": post.hashtags,
+            "call_to_action": post.call_to_action,
+            "image_url": post.image.file.url if post.image else None,
+            "post_type": post.post_type,
+            "tone": post.tone,
+            "objective": post.objective,
+            "ai_context": post.ai_context,
+            "scheduled_for": str(post.scheduled_for),
+        }
+
+        requests.post(
+            settings.N8N_POST_INSTAGRAM_WEBHOOK_URL,
+            json=payload,
+            timeout=30
+        )
+
+        post.status = "published"
+        post.save(update_fields=["status"])
+
+    except Exception as e:
+        print("Error sending post to n8n:", e)

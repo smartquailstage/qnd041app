@@ -9,6 +9,46 @@ from core.models import SocialAutomationPost, GeneratedSocialAsset, SocialPostSc
 from core.tasks import send_post_to_n8n, send_asset_to_n8n
 
 
+# signals.py
+
+# signals.py
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
+from .models import AIInstagramPostPublished
+from .tasks import send_instagram_post_to_n8n
+from celery.result import AsyncResult
+
+
+@receiver(post_save, sender=AIInstagramPostPublished)
+def schedule_instagram_post(sender, instance, **kwargs):
+
+    # Revocar tarea anterior si existe
+    if instance.celery_task_id:
+        try:
+            AsyncResult(instance.celery_task_id).revoke()
+        except Exception as e:
+            print("No se pudo revocar tarea anterior:", e)
+
+    # Programar nueva tarea si hay fecha
+    if instance.scheduled_for:
+        if instance.scheduled_for > timezone.now():
+            result = send_instagram_post_to_n8n.apply_async(
+                args=[instance.id],
+                eta=instance.scheduled_for
+            )
+            # Guardar el task_id para control futuro
+            instance.celery_task_id = result.id
+            instance.save(update_fields=["celery_task_id"])
+        else:
+            # Fecha pasada → enviar inmediatamente
+            send_instagram_post_to_n8n.delay(instance.id)
+            instance.celery_task_id = None
+            instance.save(update_fields=["celery_task_id"])
+
+
+
 # 1️⃣ Signal para crear imagen desde SocialAutomationPost
 @receiver(post_save, sender=SocialAutomationPost)
 def trigger_n8n_on_post_save(sender, instance, created, **kwargs):
