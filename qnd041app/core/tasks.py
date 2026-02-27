@@ -1,9 +1,7 @@
-# core/tasks.py
-
 import requests
 from celery import shared_task
 from django.conf import settings
-from core.models import SocialAutomationPost, GeneratedSocialAsset
+from core.models import SocialAutomationPost
 
 
 # --------------------------------------------------
@@ -25,16 +23,24 @@ def send_post_to_n8n(self, post_id):
         payload = {
             "id": post.id,
             "title": post.title_text or post.title or "",
-            "brand_voice": post.brand_voice,
-            "style": post.style,
-            "color_palette": post.color_palette,
-            "font_style": post.font_style,
-            "format": post.format,
-            "title_text": post.title_text,
-            "brand_text": post.brand_text,
-            "company_info_text": post.company_info_text,
+            "brand_voice": post.brand_voice or None,
+            "style": post.style or None,
+            "color_palette": post.color_palette or None,
+            "font_style": post.font_style or None,
+            "format": post.format or None,
+
+            # ✅ NUEVOS CAMPOS
+            "image_type": post.image_type or None,
+            "image_context": post.image_context or None,
+
+            "title_text": post.title_text or None,
+            "brand_text": post.brand_text or None,
+            "company_info_text": post.company_info_text or None,
             "company_logo_url": logo_url,
-            "scheduled_datetime": post.scheduled_datetime.isoformat() if post.scheduled_datetime else None,
+            "scheduled_datetime": (
+                post.scheduled_datetime.isoformat()
+                if post.scheduled_datetime else None
+            ),
             "secret": settings.N8N_SECRET,
             "generated_image_url": post.generated_image_url or None,
         }
@@ -43,21 +49,26 @@ def send_post_to_n8n(self, post_id):
         response = requests.post(
             settings.N8N_WEBHOOK_URL,
             json=payload,
-            timeout=15
+            timeout=30  # aumenté a 30 por seguridad
         )
 
-        # Actualizar estado
+        # Actualizar estado según respuesta
         if response.status_code == 200:
             post.status = "processing"
         else:
             post.status = "error"
+
         post.save()
+
+        return response.status_code
+
+    except SocialAutomationPost.DoesNotExist:
+        return "Post not found"
 
     except Exception as exc:
         post.status = "error"
         post.save()
         raise self.retry(exc=exc)
-
 # --------------------------------------------------
 # Task: editar imagen en Gemini desde GeneratedSocialAsset
 # --------------------------------------------------
