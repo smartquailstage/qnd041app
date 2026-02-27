@@ -16,9 +16,11 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.images import get_image_model_string
 
-# ----------------------------------------
-# 1️⃣ Snippet: crea la imagen con Gemini
-# ----------------------------------------
+from django.db import models
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+
+
 @register_snippet
 class SocialAutomationPost(models.Model):
     """
@@ -26,7 +28,9 @@ class SocialAutomationPost(models.Model):
     y soporte de logo de la empresa.
     """
 
-    # Opciones para el título del post
+    # ----------------------------------------
+    # Tipo de post
+    # ----------------------------------------
     TITLE_CHOICES = [
         ("launch", "Lanzamiento de producto"),
         ("promotion", "Promoción / Oferta"),
@@ -35,6 +39,7 @@ class SocialAutomationPost(models.Model):
         ("educational", "Educativo / Tips"),
         ("fun", "Contenido divertido / meme"),
     ]
+
     title = models.CharField(
         max_length=255,
         choices=TITLE_CHOICES,
@@ -43,7 +48,9 @@ class SocialAutomationPost(models.Model):
         blank=True
     )
 
-    # Tono de la marca
+    # ----------------------------------------
+    # Tono de marca
+    # ----------------------------------------
     BRAND_VOICE_CHOICES = [
         ("friendly", "Amigable"),
         ("professional", "Profesional"),
@@ -52,6 +59,7 @@ class SocialAutomationPost(models.Model):
         ("luxury", "Lujoso / Premium"),
         ("techy", "Tecnológico / Innovador"),
     ]
+
     brand_voice = models.CharField(
         max_length=50,
         choices=BRAND_VOICE_CHOICES,
@@ -59,7 +67,9 @@ class SocialAutomationPost(models.Model):
         help_text="Tono de la marca"
     )
 
+    # ----------------------------------------
     # Estilo visual
+    # ----------------------------------------
     STYLE_CHOICES = [
         ("minimal", "Minimalista"),
         ("modern", "Moderno"),
@@ -68,6 +78,7 @@ class SocialAutomationPost(models.Model):
         ("photorealistic", "Fotorealista"),
         ("cinematic", "Cinemático / Dramático"),
     ]
+
     style = models.CharField(
         max_length=50,
         choices=STYLE_CHOICES,
@@ -75,7 +86,9 @@ class SocialAutomationPost(models.Model):
         help_text="Estilo visual de la imagen"
     )
 
-    # Paleta de colores (categorías generales)
+    # ----------------------------------------
+    # Paleta de colores
+    # ----------------------------------------
     COLOR_PALETTE_CHOICES = [
         ("pastel", "Tonos pastel"),
         ("vibrant", "Colores vibrantes"),
@@ -83,92 +96,133 @@ class SocialAutomationPost(models.Model):
         ("dark_mode", "Tonos oscuros"),
         ("light_mode", "Tonos claros"),
     ]
+
     color_palette = models.CharField(
         max_length=50,
         choices=COLOR_PALETTE_CHOICES,
         blank=True,
-        help_text="Categoría de paleta de colores de la imagen"
+        help_text="Categoría de paleta de colores"
     )
 
+    # ----------------------------------------
     # Tipografía
+    # ----------------------------------------
     FONT_STYLE_CHOICES = [
         ("sans_serif", "Sans-serif moderna"),
         ("serif", "Serif clásica"),
         ("handwritten", "Estilo manuscrito"),
         ("display", "Tipografía llamativa / Display"),
     ]
+
     font_style = models.CharField(
         max_length=50,
         choices=FONT_STYLE_CHOICES,
         blank=True,
-        help_text="Tipo de tipografía para el texto de la imagen"
+        help_text="Tipo de tipografía"
     )
 
-    # Formato de imagen
+    # ----------------------------------------
+    # Formato técnico de imagen
+    # ----------------------------------------
     FORMAT_CHOICES = [
         ("square", "Cuadrado 1080x1080px"),
         ("portrait", "Vertical 1080x1350px"),
         ("landscape", "Horizontal 1080x566px"),
         ("story", "Historia de Instagram 1080x1920px"),
     ]
+
     format = models.CharField(
         max_length=50,
         choices=FORMAT_CHOICES,
         blank=True,
-        help_text="Formato de imagen para publicación"
+        help_text="Formato técnico de la imagen"
     )
 
-    # Textos para la imagen
+    # ----------------------------------------
+    # NUEVO: Tipo estratégico de imagen
+    # ----------------------------------------
+    IMAGE_TYPE_CHOICES = [
+        ("web_landing", "Web Landing Page"),
+        ("instagram_carousel", "Instagram Carrusel"),
+        ("instagram_post", "Instagram Post"),
+        ("instagram_story", "Instagram Stories"),
+    ]
+
+    image_type = models.CharField(
+        max_length=50,
+        choices=IMAGE_TYPE_CHOICES,
+        blank=True,
+        help_text="Destino estratégico de la imagen"
+    )
+
+    # ----------------------------------------
+    # NUEVO: Contexto de imagen
+    # ----------------------------------------
+    image_context = models.TextField(
+        blank=True,
+        help_text="Contexto adicional para la generación de la imagen (mensaje, campaña, audiencia, etc.)"
+    )
+
+    # ----------------------------------------
+    # Textos
+    # ----------------------------------------
     title_text = models.TextField(
         blank=True,
-        help_text="Texto principal / título que aparecerá en la imagen"
-    )
-    brand_text = models.TextField(
-        blank=True,
-        help_text="Texto de la marca que aparecerá en la imagen (slogan o mensaje)"
-    )
-    company_info_text = models.TextField(
-        blank=True,
-        help_text="Información adicional de la empresa para la imagen (website, contacto, descriptor)"
+        help_text="Texto principal que aparecerá en la imagen"
     )
 
-    # Logo de la empresa
+    brand_text = models.TextField(
+        blank=True,
+        help_text="Texto de la marca (slogan o mensaje)"
+    )
+
+    company_info_text = models.TextField(
+        blank=True,
+        help_text="Información adicional (website, descriptor, contacto)"
+    )
+
+    # ----------------------------------------
+    # Logo
+    # ----------------------------------------
     company_logo = models.ImageField(
         upload_to="company_logos/",
         blank=True,
         null=True,
-        help_text="Logo de la empresa para incluir en la imagen"
+        help_text="Logo de la empresa"
     )
 
-    # Estado del post
+    # ----------------------------------------
+    # Estado
+    # ----------------------------------------
     STATUS_CHOICES = [
         ("pending", "Pendiente"),
         ("processing", "Procesando"),
         ("completed", "Completado"),
         ("error", "Error"),
     ]
+
     status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
-        default="pending",
-        help_text="Estado del post"
+        default="pending"
     )
 
     scheduled_datetime = models.DateTimeField(
         null=True,
         blank=True,
-        help_text="Fecha programada para el posteo (opcional)"
+        help_text="Fecha programada para el posteo"
     )
 
-        # URL de la imagen generada por n8n / Gemini
     generated_image_url = models.URLField(
         blank=True,
         null=True,
         max_length=1000,
-        help_text="URL de la imagen generada por la IA y almacenada en el bucket"
+        help_text="URL de la imagen generada por IA"
     )
 
-
+    # ----------------------------------------
+    # Wagtail Panels
+    # ----------------------------------------
     panels = [
         FieldPanel("title"),
         FieldPanel("brand_voice"),
@@ -176,13 +230,15 @@ class SocialAutomationPost(models.Model):
         FieldPanel("color_palette"),
         FieldPanel("font_style"),
         FieldPanel("format"),
+        FieldPanel("image_type"),      # NUEVO
+        FieldPanel("image_context"),   # NUEVO
         FieldPanel("title_text"),
         FieldPanel("brand_text"),
         FieldPanel("company_info_text"),
         FieldPanel("company_logo"),
         FieldPanel("scheduled_datetime"),
         FieldPanel("status"),
-        FieldPanel("generated_image_url"),  # Panel para la URL generada
+        FieldPanel("generated_image_url"),
     ]
 
     class Meta:
@@ -191,8 +247,7 @@ class SocialAutomationPost(models.Model):
         ordering = ["-scheduled_datetime"]
 
     def __str__(self):
-        return f"{self.title or f'Brand Post #{self.id}'}"
-
+        return self.title or f"Brand Post #{self.id}"
 # ----------------------------------------
 # 2️⃣ Snippet: guarda la imagen final editada
 # ----------------------------------------
