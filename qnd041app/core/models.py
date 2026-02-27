@@ -164,6 +164,7 @@ class SocialAutomationPost(models.Model):
     generated_image_url = models.URLField(
         blank=True,
         null=True,
+        max_length=1000,
         help_text="URL de la imagen generada por la IA y almacenada en el bucket"
     )
 
