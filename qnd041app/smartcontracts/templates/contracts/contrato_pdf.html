@@ -17,6 +17,8 @@
     </div>
 </header>
 <hr>
+
+
 <div class="titulos">
     <h2> {{ contrato.get_tipo_contrato_display|upper }} <br>
     <strong>DE LA COMPAÑÍA SMARTQUAIL S.A.S. </strong></h2>
@@ -38,7 +40,7 @@
         <h3>{{ clausula.get_clausula_display }}: {{ clausula.titulo_clausura }} </h3>
         <p>{{ clausula.detalle }}</p>
     {% empty %}
-       
+
     {% endfor %}
 </div>
 
@@ -54,17 +56,29 @@
         <div class="cert-sign">
             <!-- Cuadrado para la firma -->
             <div class="signature-box"></div>
-            <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong></p>
-            <p>CI: 1719183830</p>
+            <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong><br>
+              <strong>REPRESENTANTE LEGAL INTERINO</strong><br>
+              <strong>SMARTQUAIL.S.A.S</strong>
+
+            </p>
         </div>
     </div>
 
+
+
 </div>
+
+<div class="contract-note code">
+  <p><strong>TOKEN:<strong> {{ contrato.contract_hash }} <br>
+    <strong>ID:<strong> {{ contrato.numero_contrato }}
+  </p>
+</div>
+
 
 <footer>
     <p>
         SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
-        Web: ec.smartquail.io | Tel: +593 (96) 352-1262<br>
+        Web: ec.smartquail.io | Tel: +593 (96) 352-1262 | Mail: smartquail.dev@gmail.com <br>
         © 2026 SmartQuail, Inc. Todos los derechos reservados.
     </p>
 </footer>

@@ -13,7 +13,7 @@ class Contrato(models.Model):
         ('DES', 'DECISIÓN DEL ACCIONISTA ÚNICO'),
         ('ACE', 'ACEPTACIÓN DE LOS CARGOS DE PRESIDENTE Y GERENTE GENERAL'),
         ('NON', 'NOMBRAMIENTO DE GERENTE GENERAL Y PRESIDENTE'),
-
+        ('DE-MIT', 'DECLARACIÓN FORMAL ANTE EL MINISTERIO DE TRABAJO'),
     ]
 
 
@@ -34,9 +34,9 @@ class Contrato(models.Model):
     )
 
     tipo_contrato = models.CharField(
-        max_length=4,
+        max_length=200,
         choices=TIPO_CONTRATO_CHOICES,
-        verbose_name="Tipo de contrato"
+        verbose_name="Tipo de contrato",
     )
 
     fecha_firma = models.DateField(verbose_name="Fecha de firma")

@@ -10,7 +10,7 @@
 
 @page {
   size: A4;
-  margin: 0.5cm 1cm 0.5cm 1cm;
+  margin: 1.5cm 1cm 1.5cm 1cm;
 
   @top-left {
     content: element(page-header);
@@ -117,7 +117,7 @@ p {
   text-align: justify;
   text-justify: inter-word;
   margin-top: 0.5mm;
-  margin-bottom: 0.5mm; 
+  margin-bottom: 0.5mm;
 }
 
 .preambulo strong {
@@ -212,7 +212,7 @@ footer.page-footer {
   font-family: "soon", sans-serif;
   color: #666;
   padding: 2mm 0;
-  border-top: 1px solid #ccc;   
+  border-top: 1px solid #ccc;
   margin-bottom: 1px;
   width: 100%;
 }
@@ -339,8 +339,8 @@ span.pageNumber::before {
   background-color: #f6f6f4; /* color amarillo suave para alerta */
   border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
   font-family: "soon", sans-serif;
-  font-size: 7.5pt;
-  line-height: 12pt;
+  font-size: 5pt;
+  line-height: 11pt;
   color: #000000;
   text-align: justify;
   border-radius: 5px;
