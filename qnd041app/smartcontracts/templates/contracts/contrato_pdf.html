@@ -20,8 +20,8 @@
 
 
 <div class="titulos">
-    <h2> {{ contrato.get_tipo_contrato_display|upper }} <br>
-    <strong>DE LA COMPAÑÍA SMARTQUAIL S.A.S. </strong></h2>
+    <h3> {{ contrato.get_tipo_contrato_display|upper }} <br>
+    <strong>DE LA COMPAÑÍA SMARTQUAIL S.A.S. </strong></h3>
 </div>
 
 <div class="preambulo">
@@ -57,7 +57,7 @@
             <!-- Cuadrado para la firma -->
             <div class="signature-box"></div>
             <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong><br>
-              <strong>REPRESENTANTE LEGAL INTERINO</strong><br>
+              <strong>REPRESENTANTE LEGAL</strong><br>
               <strong>SMARTQUAIL.S.A.S</strong>
 
             </p>
@@ -69,9 +69,8 @@
 </div>
 
 <div class="contract-note code">
-  <p><strong>TOKEN:<strong> {{ contrato.contract_hash }} <br>
+  <strong>TOKEN AUTH:<strong> {{ contrato.contract_hash }} <br>
     <strong>ID:<strong> {{ contrato.numero_contrato }}
-  </p>
 </div>
 
 

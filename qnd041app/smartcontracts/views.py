@@ -9,6 +9,8 @@ import weasyprint
 
 from .models import Contrato
 
+from django.db.models import IntegerField
+from django.db.models.functions import Cast, Substr
 
 @staff_member_required
 def admin_contract_pdf(request, contrato_id):
@@ -27,6 +29,16 @@ def admin_contract_pdf(request, contrato_id):
         contrato.save(update_fields=["contract_hash"])
 
     # ------------------------------
+    # ORDENAR CLÁUSULAS NUMÉRICAMENTE
+    # ------------------------------
+    clausulas = contrato.clausulas.annotate(
+        clausula_num=Cast(
+            Substr('clausula', 10),  # Extrae número después de "CLAUSULA_"
+            IntegerField()
+        )
+    ).order_by('clausula_num')
+
+    # ------------------------------
     # URL de verificación
     # ------------------------------
     verification_url = (
@@ -35,7 +47,7 @@ def admin_contract_pdf(request, contrato_id):
     )
 
     # ------------------------------
-    # Generar QR con información del contrato
+    # Generar QR
     # ------------------------------
     qr_data = (
         "SANTIAGO SILVA DOMINGUEZ MAURICIO\n"
@@ -45,7 +57,6 @@ def admin_contract_pdf(request, contrato_id):
         "UIO-EC\n"
         f"CONTRATO: {contrato.numero_contrato}\n"
         f"ID TOKEN CONTRACT: {contrato.contract_hash}\n"
-      #  f"Validar contrato: {verification_url}"
     )
 
     qr = qrcode.QRCode(version=1, box_size=1, border=2)
@@ -62,18 +73,17 @@ def admin_contract_pdf(request, contrato_id):
     # Renderizar HTML para PDF
     # ------------------------------
     html = render_to_string(
-        "contracts/contrato_pdf.html",  # Plantilla que debes crear
+        "contracts/contrato_pdf.html",
         {
             "contrato": contrato,
-            "clausulas": contrato.clausulas.all(),
+            "clausulas": clausulas,  # 👈 usamos el queryset ordenado
             "qr_url": qr_data_url,
             "contract_hash": contrato.contract_hash,
-           # "verification_url": verification_url,
         }
     )
 
     # ------------------------------
-    # Generar PDF con WeasyPrint
+    # Generar PDF
     # ------------------------------
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f"attachment; filename=contrato_{contrato.id}.pdf"

@@ -339,7 +339,7 @@ span.pageNumber::before {
   background-color: #f6f6f4; /* color amarillo suave para alerta */
   border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
   font-family: "soon", sans-serif;
-  font-size: 5pt;
+  font-size: 9pt;
   line-height: 11pt;
   color: #000000;
   text-align: justify;
@@ -351,6 +351,10 @@ span.pageNumber::before {
   background-color: #f1f1f1;
   padding: 1px 3px;
   border-radius: 3px;
+}
+
+.contract-note code .p {
+  font-size: 12pt;
 }
 
 
