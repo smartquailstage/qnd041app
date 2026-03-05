@@ -165,3 +165,76 @@ def update_generated_image(request):
             {"success": False, "message": str(e)},
             status=500
         )
+
+
+
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+from .models import SocialAutomationVideo
+
+from django.core.files.base import ContentFile
+from django.conf import settings
+
+from io import BytesIO
+import requests
+import os
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def update_generated_video(request):
+    try:
+        data = request.data
+        video = SocialAutomationVideo.objects.get(id=data["id"])
+        video_url = data["generated_video_url"]
+
+        # 1️⃣ Descargar video generado
+        r = requests.get(video_url, stream=True)
+
+        if r.status_code != 200:
+            return Response(
+                {"success": False, "message": "No se pudo descargar el video"},
+                status=400
+            )
+
+        buffer = BytesIO()
+
+        for chunk in r.iter_content(chunk_size=8192):
+            buffer.write(chunk)
+
+        buffer.seek(0)
+
+        # 2️⃣ Guardar video en storage (media/videos/)
+        file_name = f"video_{video.id}.mp4"
+
+        video.generated_video.save(
+            file_name,
+            ContentFile(buffer.read()),
+            save=False
+        )
+
+        # 3️⃣ Actualizar estado
+        video.status = data.get("status", "completed")
+        video.generated_video_url = video.generated_video.url
+        video.save()
+
+        return Response({
+            "success": True,
+            "message": "Video guardado correctamente",
+            "video_url": video.generated_video_url
+        })
+
+    except SocialAutomationVideo.DoesNotExist:
+        return Response(
+            {"success": False, "message": "Video no encontrado"},
+            status=404
+        )
+
+    except Exception as e:
+        return Response(
+            {"success": False, "message": str(e)},
+            status=500
+        )
