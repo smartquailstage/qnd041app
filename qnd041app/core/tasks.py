@@ -125,7 +125,47 @@ import requests
 from celery import shared_task
 from django.conf import settings
 from .models import AIInstagramPostPublished
+import requests
 
+from celery import shared_task
+from django.conf import settings
+
+from .models import SocialAutomationVideo
+
+
+@shared_task
+def send_video_to_n8n(video_id):
+    try:
+        video = SocialAutomationVideo.objects.get(id=video_id)
+
+        payload = {
+            "id": video.id,
+            "topic": video.topic,
+            "platform": video.platform,
+            "hook": video.hook,
+            "video_context": video.video_context,
+            "script": video.script,
+            "call_to_action": video.call_to_action,
+            "duration": video.duration,
+            "style": video.style,
+            "music_style": video.music_style,
+            "subtitles": video.subtitles,
+            "logo_url": video.company_logo.file.url if video.company_logo else None,
+            "scheduled_datetime": str(video.scheduled_datetime),
+        }
+
+        requests.post(
+            settings.N8N_VIDEO_WEBHOOK_URL,
+            json=payload,
+            timeout=30
+        )
+
+        video.status = "processing"
+        video.save(update_fields=["status"])
+
+    except Exception as e:
+        print("Error sending video to n8n:", e)
+        
 
 @shared_task
 def send_instagram_post_to_n8n(post_id):

@@ -21,6 +21,232 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
 
+from django.db import models
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+
+
+@register_snippet
+class SocialAutomationVideo(models.Model):
+    """
+    Snippet para generación automática de videos empresariales
+    optimizados para Instagram Reels, TikTok y YouTube Shorts.
+    Diseñado para automatización con n8n + IA.
+    """
+
+    # ----------------------------------------
+    # Tipo de contenido
+    # ----------------------------------------
+    VIDEO_TOPIC_CHOICES = [
+        ("product_demo", "Demostración de producto"),
+        ("tip", "Tip / Educativo"),
+        ("story", "Historia / storytelling"),
+        ("promotion", "Promoción / oferta"),
+        ("behind_scenes", "Behind the scenes"),
+        ("testimonial", "Testimonio cliente"),
+        ("trend", "Trend / contenido viral"),
+    ]
+
+    topic = models.CharField(
+        max_length=100,
+        choices=VIDEO_TOPIC_CHOICES,
+        help_text="Tipo estratégico de video"
+    )
+
+    # ----------------------------------------
+    # Plataforma
+    # ----------------------------------------
+    PLATFORM_CHOICES = [
+        ("instagram_reels", "Instagram Reels"),
+        ("tiktok", "TikTok"),
+        ("youtube_shorts", "YouTube Shorts"),
+        ("multi_platform", "Multi plataforma"),
+    ]
+
+    platform = models.CharField(
+        max_length=100,
+        choices=PLATFORM_CHOICES,
+        default="multi_platform"
+    )
+
+    # ----------------------------------------
+    # Hook inicial (clave para viralidad)
+    # ----------------------------------------
+    hook = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Frase de apertura que captura la atención en los primeros 3 segundos"
+    )
+
+    # ----------------------------------------
+    # Contexto del video
+    # ----------------------------------------
+    video_context = models.TextField(
+        blank=True,
+        help_text="Contexto del video: producto, audiencia, campaña, etc."
+    )
+
+    # ----------------------------------------
+    # Guion
+    # ----------------------------------------
+    script = models.TextField(
+        blank=True,
+        help_text="Guion del video generado o editado manualmente"
+    )
+
+    # ----------------------------------------
+    # Call to Action
+    # ----------------------------------------
+    CTA_CHOICES = [
+        ("visit_website", "Visitar website"),
+        ("buy_now", "Comprar ahora"),
+        ("follow", "Seguir cuenta"),
+        ("comment", "Comentar"),
+        ("share", "Compartir"),
+        ("link_bio", "Link en bio"),
+    ]
+
+    call_to_action = models.CharField(
+        max_length=100,
+        choices=CTA_CHOICES,
+        blank=True
+    )
+
+    # ----------------------------------------
+    # Duración
+    # ----------------------------------------
+    DURATION_CHOICES = [
+        ("7s", "7 segundos"),
+        ("15s", "15 segundos"),
+        ("30s", "30 segundos"),
+        ("45s", "45 segundos"),
+        ("60s", "60 segundos"),
+    ]
+
+    duration = models.CharField(
+        max_length=20,
+        choices=DURATION_CHOICES,
+        default="15s"
+    )
+
+    # ----------------------------------------
+    # Estilo visual
+    # ----------------------------------------
+    STYLE_CHOICES = [
+        ("cinematic", "Cinemático"),
+        ("ugc", "UGC estilo usuario"),
+        ("minimal", "Minimalista"),
+        ("corporate", "Corporativo"),
+        ("dynamic", "Dinámico / viral"),
+        ("ai_generated", "AI generado"),
+    ]
+
+    style = models.CharField(
+        max_length=100,
+        choices=STYLE_CHOICES,
+        blank=True
+    )
+
+    # ----------------------------------------
+    # Mood / música
+    # ----------------------------------------
+    MUSIC_STYLE_CHOICES = [
+        ("upbeat", "Energética"),
+        ("corporate", "Corporativa"),
+        ("inspirational", "Inspiracional"),
+        ("trendy", "Trendy TikTok"),
+        ("ambient", "Ambiental"),
+    ]
+
+    music_style = models.CharField(
+        max_length=100,
+        choices=MUSIC_STYLE_CHOICES,
+        blank=True
+    )
+
+    # ----------------------------------------
+    # Subtítulos automáticos
+    # ----------------------------------------
+    subtitles = models.BooleanField(
+        default=True,
+        help_text="Generar subtítulos automáticos"
+    )
+
+    # ----------------------------------------
+    # Logo
+    # ----------------------------------------
+    company_logo = models.ImageField(
+        upload_to="company_logos/",
+        blank=True,
+        null=True
+    )
+
+    # ----------------------------------------
+    # Estado
+    # ----------------------------------------
+    STATUS_CHOICES = [
+        ("pending", "Pendiente"),
+        ("processing", "Procesando"),
+        ("completed", "Completado"),
+        ("error", "Error"),
+    ]
+
+    status = models.CharField(
+        max_length=50,
+        choices=STATUS_CHOICES,
+        default="pending"
+    )
+
+    # ----------------------------------------
+    # Fecha programada
+    # ----------------------------------------
+    scheduled_datetime = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha programada para publicación"
+    )
+
+    # ----------------------------------------
+    # Resultado del video
+    # ----------------------------------------
+    generated_video_url = models.URLField(
+        blank=True,
+        null=True,
+        max_length=1000,
+        help_text="URL del video generado"
+    )
+
+    # ----------------------------------------
+    # Wagtail Panels
+    # ----------------------------------------
+    panels = [
+        FieldPanel("topic"),
+        FieldPanel("platform"),
+        FieldPanel("hook"),
+        FieldPanel("video_context"),
+        FieldPanel("script"),
+        FieldPanel("call_to_action"),
+        FieldPanel("duration"),
+        FieldPanel("style"),
+        FieldPanel("music_style"),
+        FieldPanel("subtitles"),
+        FieldPanel("company_logo"),
+        FieldPanel("scheduled_datetime"),
+        FieldPanel("status"),
+        FieldPanel("generated_video_url"),
+    ]
+
+    class Meta:
+        verbose_name = "AI Video Creator"
+        verbose_name_plural = "AI Video Creators"
+        ordering = ["-scheduled_datetime"]
+
+    def __str__(self):
+        return f"{self.topic} - {self.platform}"
+
+
+
+
 @register_snippet
 class SocialAutomationPost(models.Model):
     """
