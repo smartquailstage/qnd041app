@@ -216,6 +216,13 @@ class SocialAutomationVideo(models.Model):
         help_text="URL del video generado"
     )
 
+    celery_task_id = models.CharField(
+      max_length=255,
+      null=True,
+      blank=True,
+      help_text="Track ID de la tarea programada"
+    )
+
     # ----------------------------------------
     # Wagtail Panels
     # ----------------------------------------
@@ -234,6 +241,7 @@ class SocialAutomationVideo(models.Model):
         FieldPanel("scheduled_datetime"),
         FieldPanel("status"),
         FieldPanel("generated_video_url"),
+        FieldPanel("celery_task_id"),
     ]
 
     class Meta:
