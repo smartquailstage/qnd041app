@@ -21,6 +21,11 @@ from celery.result import AsyncResult
 
 from .models import SocialAutomationVideo
 from .tasks import send_video_to_n8n
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from .models import AIInstagramCarouselPost
+from .tasks import send_instagram_carousel_to_n8n
 
 
 @receiver(post_save, sender=SocialAutomationVideo)
@@ -97,6 +102,20 @@ def trigger_n8n_on_post_save(sender, instance, created, **kwargs):
         send_post_to_n8n.delay(instance.id)
 
 
+
+
+
+@receiver(post_save, sender=AIInstagramCarouselPost)
+def trigger_n8n_on_carousel_save(sender, instance, created, **kwargs):
+    """
+    Dispara la generación del carrusel en n8n solo cuando
+    el objeto está listo para generarse.
+    """
+
+    if instance.status == "ready":
+        send_instagram_carousel_to_n8n.delay(instance.id)
+
+        
 # 2️⃣ Signal para editar imagen desde GeneratedSocialAsset
 @receiver(post_save, sender=GeneratedSocialAsset)
 def trigger_n8n_on_asset_save(sender, instance, created, **kwargs):

@@ -238,3 +238,103 @@ def update_generated_video(request):
             {"success": False, "message": str(e)},
             status=500
         )
+
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from wagtail.images import get_image_model
+
+from django.core.files.base import ContentFile
+
+from io import BytesIO
+from PIL import Image as PILImage
+
+import requests
+
+from .models import AIInstagramCarouselPost
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def update_carousel_generated_images(request):
+    try:
+        data = request.data
+
+        carousel = AIInstagramCarouselPost.objects.get(id=data["id"])
+        slides = data.get("slides", [])
+
+        ImageModel = get_image_model()
+
+        saved_slides = []
+
+        for slide in slides:
+
+            slide_number = int(sl.get("slide_number"))
+            image_url = slide.get("generated_image_url")
+
+            if slide_number < 1 or slide_number > 10:
+                continue
+
+            if not image_url:
+                continue
+
+            # 1️⃣ Descargar imagen
+            r = requests.get(image_url)
+
+            if r.status_code != 200:
+                continue
+
+            base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
+
+            # 2️⃣ Guardar imagen en memoria
+            buffer = BytesIO()
+            base_image.save(buffer, format="PNG")
+            buffer.seek(0)
+
+            # 3️⃣ Crear imagen en Wagtail
+            wagtail_image = ImageModel(
+                title=f"Carousel {carousel.id} Slide {slide_number}",
+                file=ContentFile(
+                    buffer.read(),
+                    name=f"carousel_{carousel.id}_slide_{slide_number}.png"
+                )
+            )
+
+            wagtail_image.save()
+
+            # 4️⃣ Asignar imagen al campo dinámicamente
+            setattr(carousel, f"slide{slide_number}_image", wagtail_image)
+
+            saved_slides.append({
+                "slide": slide_number,
+                "image_url": wagtail_image.file.url
+            })
+
+        # 5️⃣ actualizar estado
+        if "status" in data:
+            carousel.status = data["status"]
+        else:
+            carousel.status = "completed"
+
+        carousel.ai_generated = True
+        carousel.save()
+
+        return Response({
+            "success": True,
+            "message": "Imágenes del carrusel guardadas correctamente",
+            "saved_slides": saved_slides
+        })
+
+    except AIInstagramCarouselPost.DoesNotExist:
+        return Response(
+            {"success": False, "message": "Carousel no encontrado"},
+            status=404
+        )
+
+    except Exception as e:
+        return Response(
+            {"success": False, "message": str(e)},
+            status=500
+        )

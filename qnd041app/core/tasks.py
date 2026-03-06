@@ -249,3 +249,61 @@ def send_carousel_post_to_n8n(self, post_id):
     except Exception as e:
         # Reintentar en caso de error
         raise self.retry(exc=e, countdown=60)
+
+
+
+from celery import shared_task
+import requests
+from django.conf import settings
+from .models import AIInstagramCarouselPost
+
+
+@shared_task
+def send_instagram_carousel_to_n8n(carousel_id):
+    try:
+        carousel = AIInstagramCarouselPost.objects.get(id=carousel_id)
+
+        slides = []
+
+        for i in range(1, 11):
+            headline = getattr(carousel, f"slide{i}_headline", None)
+            subheadline = getattr(carousel, f"slide{i}_subheadline", None)
+            prompt = getattr(carousel, f"slide{i}_prompt", None)
+            negative_prompt = getattr(carousel, f"slide{i}_negative_prompt", None)
+            image = getattr(carousel, f"slide{i}_image", None)
+
+            if headline or prompt:
+                slides.append({
+                    "slide_number": i,
+                    "headline": headline,
+                    "subheadline": subheadline,
+                    "prompt": prompt,
+                    "negative_prompt": negative_prompt,
+                    "image_url": image.file.url if image else None,
+                })
+
+        payload = {
+            "id": carousel.id,
+            "title": carousel.title,
+            "slug": carousel.slug,
+            "post_type": carousel.post_type,
+            "tone": carousel.tone,
+            "status": carousel.status,
+            "slides_to_generate": carousel.slides_to_generate,
+            "ai_context": carousel.ai_context,
+            "visual_style": carousel.visual_style,
+            "layout_style": carousel.layout_style,
+            "slides": slides,
+        }
+
+        requests.post(
+            settings.N8N_CAROUSEL_GENERATION_WEBHOOK_URL,
+            json=payload,
+            timeout=60
+        )
+
+        carousel.status = "generating"
+        carousel.save(update_fields=["status"])
+
+    except Exception as e:
+        print("Error sending carousel to n8n:", e)
