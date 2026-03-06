@@ -832,7 +832,7 @@ from modelcluster.models import ClusterableModel
 
 # Modelo para imágenes del carrusel
 class CarouselImage(models.Model):
-    post = ParentalKey('AIInstagramCarouselPost', on_delete=models.CASCADE, related_name='carousel_images')
+    post = ParentalKey('AIInstagramCarouselPosted', on_delete=models.CASCADE, related_name='carousel_images')
     image = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -852,7 +852,7 @@ class CarouselImage(models.Model):
 
 
 @register_snippet
-class AIInstagramCarouselPost(ClusterableModel, DraftStateMixin, RevisionMixin, models.Model):
+class AIInstagramCarouselPosted(ClusterableModel, DraftStateMixin, RevisionMixin, models.Model):
 
     # =========================
     # CHOICES
