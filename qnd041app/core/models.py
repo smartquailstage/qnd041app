@@ -971,3 +971,335 @@ class AIInstagramCarouselPost(ClusterableModel, DraftStateMixin, RevisionMixin, 
 
 
 
+
+
+from django.db import models
+from wagtail.snippets.models import register_snippet
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.search import index
+from wagtail.images import get_image_model_string
+
+
+@register_snippet
+class AIInstagramCarouselPost(models.Model):
+
+    # =========================
+    # CHOICES
+    # =========================
+
+    POST_TYPE_CHOICES = [
+        ("educational", "Educativo"),
+        ("sales", "Venta"),
+        ("engagement", "Engagement"),
+        ("storytelling", "Storytelling"),
+        ("personal_brand", "Marca Personal"),
+    ]
+
+    TONE_CHOICES = [
+        ("casual", "Casual"),
+        ("professional", "Profesional"),
+        ("friendly", "Amigable"),
+        ("authoritative", "Autoridad"),
+        ("inspirational", "Inspirador"),
+    ]
+
+    VISUAL_STYLE_CHOICES = [
+        ("minimalist", "Minimalista"),
+        ("bold_typography", "Tipografía fuerte"),
+        ("illustration", "Ilustración"),
+        ("3d", "3D"),
+        ("photorealistic", "Fotorealista"),
+        ("flat_design", "Flat design"),
+    ]
+
+    LAYOUT_STYLE_CHOICES = [
+        ("centered", "Texto centrado"),
+        ("split", "Texto + imagen"),
+        ("top_text", "Texto arriba"),
+        ("big_number", "Número grande"),
+        ("quote", "Quote layout"),
+    ]
+
+    STATUS_CHOICES = [
+        ("draft", "Borrador"),
+        ("ready", "Listo para generar"),
+        ("generating", "Generando imágenes"),
+        ("completed", "Completado"),
+        ("failed", "Error"),
+    ]
+
+    # =========================
+    # INFORMACIÓN BASE
+    # =========================
+
+    title = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Nombre interno del carrusel. No aparece en las imágenes."
+    )
+
+    slug = models.SlugField(
+        unique=True,
+        blank=True,
+        null=True,
+        help_text="Identificador único usado por APIs y automatizaciones."
+    )
+
+    post_type = models.CharField(
+        max_length=50,
+        choices=POST_TYPE_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Tipo de contenido del carrusel."
+    )
+
+    tone = models.CharField(
+        max_length=50,
+        choices=TONE_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Tono del contenido generado por IA."
+    )
+
+    status = models.CharField(
+        max_length=50,
+        choices=STATUS_CHOICES,
+        default="draft",
+        help_text="Estado del proceso de generación."
+    )
+
+    slides_to_generate = models.IntegerField(
+        default=5,
+        help_text="Cantidad de slides que se generarán (1-10)."
+    )
+
+    # =========================
+    # CONTEXTO PARA IA
+    # =========================
+
+    ai_context = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""
+Describe el contexto del carrusel:
+- tema principal
+- público objetivo
+- problema que se quiere explicar
+- tipo de contenido (tips, errores, guía, etc.)
+
+La IA usará este contexto para construir los prompts de imagen.
+"""
+    )
+
+    visual_style = models.CharField(
+        max_length=50,
+        choices=VISUAL_STYLE_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Estilo visual general de las imágenes."
+    )
+
+    layout_style = models.CharField(
+        max_length=50,
+        choices=LAYOUT_STYLE_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Distribución del contenido dentro del slide."
+    )
+
+    # =========================
+    # SLIDE 1
+    # =========================
+
+    slide1_headline = models.CharField(max_length=255, blank=True, null=True, help_text="Texto principal del slide.")
+    slide1_subheadline = models.CharField(max_length=255, blank=True, null=True, help_text="Texto secundario opcional.")
+    slide1_prompt = models.TextField(blank=True, null=True, help_text="Prompt visual para generar la imagen.")
+    slide1_negative_prompt = models.TextField(blank=True, null=True, help_text="Elementos que la IA debe evitar.")
+    slide1_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+", help_text="Imagen generada por IA.")
+
+    # =========================
+    # SLIDE 2
+    # =========================
+
+    slide2_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide2_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide2_prompt = models.TextField(blank=True, null=True)
+    slide2_negative_prompt = models.TextField(blank=True, null=True)
+    slide2_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 3
+    # =========================
+
+    slide3_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide3_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide3_prompt = models.TextField(blank=True, null=True)
+    slide3_negative_prompt = models.TextField(blank=True, null=True)
+    slide3_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 4
+    # =========================
+
+    slide4_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide4_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide4_prompt = models.TextField(blank=True, null=True)
+    slide4_negative_prompt = models.TextField(blank=True, null=True)
+    slide4_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 5
+    # =========================
+
+    slide5_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide5_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide5_prompt = models.TextField(blank=True, null=True)
+    slide5_negative_prompt = models.TextField(blank=True, null=True)
+    slide5_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 6
+    # =========================
+
+    slide6_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide6_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide6_prompt = models.TextField(blank=True, null=True)
+    slide6_negative_prompt = models.TextField(blank=True, null=True)
+    slide6_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 7
+    # =========================
+
+    slide7_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide7_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide7_prompt = models.TextField(blank=True, null=True)
+    slide7_negative_prompt = models.TextField(blank=True, null=True)
+    slide7_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 8
+    # =========================
+
+    slide8_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide8_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide8_prompt = models.TextField(blank=True, null=True)
+    slide8_negative_prompt = models.TextField(blank=True, null=True)
+    slide8_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 9
+    # =========================
+
+    slide9_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide9_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide9_prompt = models.TextField(blank=True, null=True)
+    slide9_negative_prompt = models.TextField(blank=True, null=True)
+    slide9_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # SLIDE 10
+    # =========================
+
+    slide10_headline = models.CharField(max_length=255, blank=True, null=True)
+    slide10_subheadline = models.CharField(max_length=255, blank=True, null=True)
+    slide10_prompt = models.TextField(blank=True, null=True)
+    slide10_negative_prompt = models.TextField(blank=True, null=True)
+    slide10_image = models.ForeignKey(get_image_model_string(), null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    # =========================
+    # AUTOMATIZACIÓN
+    # =========================
+
+    ai_generated = models.BooleanField(
+        default=False,
+        help_text="Indica si las imágenes ya fueron generadas."
+    )
+
+    celery_task_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="ID de tarea para procesos async."
+    )
+
+    # =========================
+    # ADMIN PANELS
+    # =========================
+
+    panels = [
+
+        MultiFieldPanel(
+            [
+                FieldPanel("title"),
+                FieldPanel("slug"),
+            ],
+            heading="Información básica",
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("post_type"),
+                FieldPanel("tone"),
+                FieldPanel("status"),
+                FieldPanel("slides_to_generate"),
+            ],
+            heading="Configuración estratégica",
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("ai_context"),
+                FieldPanel("visual_style"),
+                FieldPanel("layout_style"),
+            ],
+            heading="Contexto para IA",
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("slide1_headline"),
+                FieldPanel("slide1_subheadline"),
+                FieldPanel("slide1_prompt"),
+                FieldPanel("slide1_negative_prompt"),
+                FieldPanel("slide1_image"),
+            ],
+            heading="Slide 1 — Hook",
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("slide2_headline"),
+                FieldPanel("slide2_subheadline"),
+                FieldPanel("slide2_prompt"),
+                FieldPanel("slide2_negative_prompt"),
+                FieldPanel("slide2_image"),
+            ],
+            heading="Slide 2",
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("slide3_headline"),
+                FieldPanel("slide3_subheadline"),
+                FieldPanel("slide3_prompt"),
+                FieldPanel("slide3_negative_prompt"),
+                FieldPanel("slide3_image"),
+            ],
+            heading="Slide 3",
+        ),
+
+    ]
+
+    search_fields = [
+        index.SearchField("title"),
+        index.SearchField("ai_context"),
+    ]
+
+    class Meta:
+        verbose_name = "AI Instagram Carousel"
+        verbose_name_plural = "AI Instagram Carousels"
+
+    def __str__(self):
+        return self.title or "AI Instagram Carousel"
