@@ -8,7 +8,6 @@ import modelcluster.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0095_formsubmission'),
         ('wagtailimages', '0027_image_description'),
         ('core', '0017_socialautomationvideo_celery_task_id'),
     ]
