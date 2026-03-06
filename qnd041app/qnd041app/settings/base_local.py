@@ -41,7 +41,7 @@ ADMINS = [
 # Retrieve the Django secret key from environment variables.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-ALLOWED_HOSTS = ['tusitio.com', '127.0.0.1'] 
+ALLOWED_HOSTS = ['tusitio.com', '127.0.0.1']
 
 # Configura DEBUG usando variable de entorno o por defecto False
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -54,7 +54,7 @@ else:
         ("Soporte SmartQuail", "support@smartquail.io"),
     ]
 
-    
+
 
 
 # Variable que define si estás en entorno local
@@ -96,7 +96,7 @@ SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')  # Cambia e
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
- 
+
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -111,8 +111,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    'django.contrib.sites', 
- 
+    'django.contrib.sites',
+
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
@@ -129,18 +129,18 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-    
-     
+
+
     'wagtail',
    # 'cart',
    # 'orders',
    # 'shop',
-    
+
 
   #  "wagtail.search",
   #  "wagtail.sites",
   #  "wagtail.locales",
-    "wagtail_localize", 
+    "wagtail_localize",
     "wagtail_localize.locales",
     "wagtailmedia",
 #    "wagtail.contrib.forms",
@@ -152,7 +152,7 @@ INSTALLED_APPS = [
     "wagtailgmaps",
     "wagtailmenus",
     # "wagtail_modeltranslation",  # Descomentar si se usa
- 
+
 
     # Terceros / externos
     "rest_framework",
@@ -188,8 +188,8 @@ INSTALLED_APPS = [
     #"SQOrders",
     #"SQShop",
     'chatbot_ai',
-   
-   
+
+
     "serviceapp",
     'billing',
     #"citas_regulares",
@@ -220,7 +220,7 @@ INSTALLED_APPS = [
     "sblorders",
     'sbpshop',
 
-    #SmartBusinessTechonologies 
+    #SmartBusinessTechonologies
     "sbtcart",
     "sbtshop",
     "sbtorders",
@@ -231,6 +231,7 @@ INSTALLED_APPS = [
     "sbmcoupons",
     'smartbusinesslaw',
     "sbmpayments",
+    "whatsappbot",
     #"sbacart",
     #"sbashop",
     #"sbaorders",
@@ -325,8 +326,8 @@ UNFOLD = {
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
         {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
          {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
-        
-        
+
+
         {"icon": "map", "title": _("Regulaciones"), "link": reverse_lazy("admin:smartbusinesslaw_regulacion_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
          {"icon": "support", "title": _("Soporte"), "link": reverse_lazy("admin:usuarios_cliente_changelist")},
@@ -355,7 +356,7 @@ UNFOLD = {
                 },
     "LOGOUT": {  "image": lambda request: static("img/login_sq_bg.png"),
                 },
-               
+
     "STYLES": [
         lambda request: static("unfold/css/style.css"),        # archivo original
         lambda request: static("css/unfold_override.css"),     # tu override personalizado
@@ -584,7 +585,7 @@ PARLER_SHOW_EXCLUDED_LANGUAGE_TABS = False
 MIDDLEWARE = [
     #'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.security.SecurityMiddleware',
-   
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -597,7 +598,7 @@ MIDDLEWARE = [
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-   # 'shop.middleware.LocaleRedirectMiddleware', 
+   # 'shop.middleware.LocaleRedirectMiddleware',
 ]
 
 
@@ -650,7 +651,7 @@ AUTHENTICATION_BACKENDS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": [BASE_DIR /  "qnd041app","templates"], 
+        "DIRS": [BASE_DIR /  "qnd041app","templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -660,11 +661,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                # 'usuarios.context_processors.mensajes_nuevos_processor',
-               # 'usuarios.context_processors.datos_panel_usuario', 
+               # 'usuarios.context_processors.datos_panel_usuario',
                # 'usuarios.context_processors.user_profile_data',
                # 'usuarios.context_processors.citas_context',
                # 'usuarios.context_processors.tareas_context',
-               # 'usuarios.context_processors.pagos_context',  
+               # 'usuarios.context_processors.pagos_context',
                # 'usuarios.context_processors.profile_uploads_context',
                # 'usuarios.context_processors.ultima_cita',
                # 'usuarios.context_processors.ultima_tarea',
@@ -705,7 +706,7 @@ WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
 REDIS_HOST=os.environ.get('REDIS_HOST')
 REDIS_PORT=os.environ.get('REDIS_PORT')
-REDIS_DB =os.environ.get('REDIS_DB')  
+REDIS_DB =os.environ.get('REDIS_DB')
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -713,7 +714,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60 
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
 
@@ -748,11 +749,6 @@ N8N_SECRET = "super-secret-key"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
-STATICFILES_DIRS = [BASE_DIR / "staticfiles"]  
+STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
 STATIC_URL = "/static/"
 STATIC_ROOT = STATIC_ROOT = BASE_DIR / "static"
-
-
-
-
-

@@ -239,6 +239,7 @@ INSTALLED_APPS = [
     "sbmorders",
     "sbmcoupons",
     "sbmpayments",
+    "whatsappbot",
     #"sbacart",
     #"sbashop",
     #"sbaorders",
