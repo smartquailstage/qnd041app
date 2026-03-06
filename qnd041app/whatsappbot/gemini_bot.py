@@ -6,11 +6,11 @@ from .models import Conversacion
 
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 # Prompts iniciales opcionales (para darle personalidad)
 PROMPT_INICIAL = """
-Eres un asistente virtual para la empresa "TechSoluciones S.A.", una compañía que ofrece servicios de desarrollo web, soporte técnico y soluciones en la nube para pequeñas y medianas empresas.
+Eres un asistente virtual para la empresa "SmartQuail,Inc", una compañía que ofrece servicios de desarrollo web, soporte técnico y soluciones en la nube para pequeñas y medianas empresas.
 
 🕒 Horarios de atención: Lunes a Viernes de 9:00 a 18:00.
 📍 Ubicación: Bogotá, Colombia.

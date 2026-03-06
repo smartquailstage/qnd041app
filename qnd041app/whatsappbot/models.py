@@ -1,7 +1,10 @@
 # myapp/models.py
 
 from django.db import models
+from wagtail.snippets.models import register_snippet
+from wagtail.admin.panels import FieldPanel
 
+@register_snippet
 class Conversacion(models.Model):
     telefono = models.CharField(max_length=20)
     mensaje_usuario = models.TextField()
