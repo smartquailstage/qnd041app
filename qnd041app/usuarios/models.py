@@ -73,7 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(unique=True, verbose_name="Correo Electrónico")
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Nombres")
-    last_name = models.CharField(max_length=150, blank=True, verbose_name="Apellidos") 
+    last_name = models.CharField(max_length=150, blank=True, verbose_name="Apellidos")
     sector_negocios = models.CharField(max_length=100, choices=SECTORES,null=True, blank=True)
 
     phone_regex = RegexValidator(
@@ -230,7 +230,7 @@ class SmartQuailCrew(models.Model):
 
 
     # ... [resto del modelo] ...
- 
+
 
     class Meta:
         verbose_name = "Miembro del equipo SmartQuail"
@@ -291,7 +291,7 @@ class AdministrativeProfile(models.Model):
         # Gerencia
         ('gerente_general', 'Gerente General'),
         ('gerente_comercial', 'Ejecutivo Comercial'),
-        
+
         # Administración
         ('tecnico_administrativo', 'Técnico Administrativo'),
         ('asistente_administrativo', 'Asistente Administrativo'),
@@ -349,15 +349,15 @@ class AdministrativeProfile(models.Model):
         return f"{self.user.first_name} {self.user.last_name} - {self.get_job_title_display()}"
 
 
-    
-    
+
+
     @property
     def comision_total_calculada(self):
         if self.num_pacientes_captados is None or self.valor_por_paciente is None:
             return Decimal('0.00')
         return self.num_pacientes_captados * self.valor_por_paciente.amount
-    
-    
+
+
     @property
     def age(self):
         today = date.today()
@@ -616,7 +616,7 @@ class Perfil_Terapeuta(models.Model):
     ]
 
     nombres_completos = models.CharField(max_length=200, null=True, blank=True)
-    
+
     sucursal = models.ForeignKey(
         Sucursal,
         on_delete=models.CASCADE,
@@ -728,16 +728,16 @@ class Perfil_Terapeuta(models.Model):
         ('VALORACIÓN', 'Valoración'),
         ('TERAPIA_OCUPACIONAL', 'Terapia Ocupacional'),
     ]
-        
+
     tipos = models.JSONField(
         default=list,
         verbose_name="Tipo de servicio (múltiples opciones)",
         help_text="Selecciona uno o más tipos"
     )
 
-    
-    
-    
+
+
+
 
     activo = models.BooleanField(default=True, verbose_name="¿Terapeuta activo?")
     class Meta:
@@ -1279,7 +1279,7 @@ class Cita(models.Model):
         null=True,
     )
 
-    
+
 
     creador = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -1403,7 +1403,7 @@ class Cita(models.Model):
         elif self.fecha < hoy:
             return "Fecha pasada"
         else:
-            return self.fecha.strftime("%d/%m/%Y") 
+            return self.fecha.strftime("%d/%m/%Y")
 
     def __str__(self):
         fecha_str = self.fecha.strftime('%d/%m/%Y') if self.fecha else 'Sin fecha'
@@ -1461,18 +1461,18 @@ class tareas(models.Model):
     )
     asistire = models.BooleanField(default=False, verbose_name="¿Asistió? No/Si")
     envio_tarea = models.BooleanField(default=False, verbose_name="¿Se envía tarea? No/Si")
-    titulo = models.CharField(max_length=255, blank=True, null=True, verbose_name="Título de Actividad") 
+    titulo = models.CharField(max_length=255, blank=True, null=True, verbose_name="Título de Actividad")
     descripcion_actividad =  HTMLField(null=True, blank=True, verbose_name="Describa la actividad a realizar")
     media_terapia =  models.FileField(upload_to='Videos/%Y/%m/%d/', blank=True, verbose_name="Video Multimedia de actividad ")
     fecha_actividad = models.DateTimeField(auto_now=True, verbose_name="Fecha de Actividad")
 
     actividad_realizada = models.BooleanField(default=False, verbose_name="¿Realizó la terea?")
     descripcion_tarea =  HTMLField(null=True, blank=True, verbose_name="Describa la tarea a realizar")
-   
+
     fecha_entrega = models.DateField(blank=True, null=True, verbose_name="Fecha de entrega de tarea")
     material_adjunto =  models.FileField(upload_to='materiales/%Y/%m/%d/', blank=True, verbose_name="Material adjunto")
-   
-    
+
+
     tarea_realizada = models.BooleanField(default=False, verbose_name="¿Tiene Alta Terapéutica? No/Si")
 
     def get_duracion(self):
@@ -1517,13 +1517,13 @@ class TareaComentario(models.Model):
 
     def __str__(self):
         return f"Corregir Tarea  {self.autor.username} - {self.tarea.titulo}"
-    
+
 
 
 class Mensaje(models.Model):
     ASUNTOS_CHOICES = [
         ('Consulta', 'Consulta'),
-        ('Sugerencia', 'Sugerencia'),   
+        ('Sugerencia', 'Sugerencia'),
         ('Informativo', 'Informativo'),
         ('Terapéutico', 'Terapéutico'),
         ('Solicitud de pago vencido', 'Solicitud de pago vencido'),
@@ -1550,12 +1550,12 @@ class Mensaje(models.Model):
     )
 
 
-    asunto = models.CharField(max_length=50, choices=ASUNTOS_CHOICES, default='Consulta')  
+    asunto = models.CharField(max_length=50, choices=ASUNTOS_CHOICES, default='Consulta')
     cuerpo = HTMLField(null=True, blank=True, verbose_name="Cuerpo del mensaje")
     adjunto = models.FileField(
-        upload_to='mensajes_adjuntos/', 
-        null=True, 
-        blank=True, 
+        upload_to='mensajes_adjuntos/',
+        null=True,
+        blank=True,
         verbose_name="Archivo adjunto"
     )
     leido = models.BooleanField(default=False)
@@ -1762,7 +1762,7 @@ class BitacoraDesarrollo(models.Model):
     tipo_tecnologia = models.CharField(max_length=200, choices=TIPO_TECHNOLOGIAS_CHOICES)
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField()
-    progreso = models.PositiveIntegerField(default=0) 
+    progreso = models.PositiveIntegerField(default=0)
     estado =  models.CharField(blank=True, null=True, max_length=200, choices=STATE, verbose_name="ESTADO",default="Revisión")
 
     minutos_empleados = models.PositiveIntegerField(default=0, verbose_name="Minutos Empleados")
@@ -1805,7 +1805,7 @@ class Cliente(models.Model):
     class Meta:
         verbose_name = "ticket de soporte - SmartQuail, Inc."
         verbose_name_plural = " ticket de soporte - SmartQuail, Inc"
-    
+
 
     def __str__(self):
         return f"{self.nombre} ({self.empresa})" if self.empresa else self.nombre
@@ -1849,7 +1849,7 @@ class PreguntaFrecuente(models.Model):
 
 # Ticket de soporte actualizado
 class TicketSoporte(models.Model):
-    
+
     ESTADO_CHOICES = [
         ('abierto', 'Abierto'),
         ('en_proceso', 'En proceso'),
@@ -1907,14 +1907,6 @@ class RegistroActividad(models.Model):
         ("alta", "Alta"),
     ]
 
-    Usuario  = models.ForeignKey(
-       'Profile',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='mensajes_perfil_paciente',
-        verbose_name="Destinatario Paciente"
-    )
 
     tipo_registro = models.CharField(
         max_length=20,
@@ -1943,12 +1935,7 @@ class RegistroActividad(models.Model):
         help_text="Descripción detallada de la actividad, tarea o acción."
     )
 
-    usuario = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        help_text="Usuario responsable o que registró la actividad."
-    )
+
 
     estado = models.CharField(
         max_length=20,
