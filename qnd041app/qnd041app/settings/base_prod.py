@@ -544,7 +544,7 @@ UNFOLD = {
     },
 
     {
-        "title": _("Project Management slack (I+D)"),
+        "title": _("Project Management (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
@@ -556,7 +556,7 @@ UNFOLD = {
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
-            },        
+            },
 
         ],
     },
