@@ -24,7 +24,7 @@ from .sites import custom_admin_site
 from django.contrib.auth.admin import UserAdmin
 from unfold.sites import UnfoldAdminSite
 #from schedule.models import Calendar, Event, Rule, Occurrence
-#from schedule.admin import CalendarAdmin 
+#from schedule.admin import CalendarAdmin
 from django.utils.timezone import localtime
 from django.utils.timezone import make_aware
 from django import forms
@@ -93,7 +93,7 @@ def redirect_auth_user_changelist(request):
     return HttpResponseRedirect(reverse('admin:usuarios_customuser_changelist'))
 
 # Agregar URL personalizada al admin
-admin.site.get_urls = (lambda get_urls: 
+admin.site.get_urls = (lambda get_urls:
     lambda: [
         path('auth/user/', redirect_auth_user_changelist, name='auth_user_changelist'),
     ] + get_urls()
@@ -261,8 +261,8 @@ class CitasComentariosInline(admin.TabularInline):
 class ComentariosCitaSection(TableSection):
     verbose_name = "Comentarios de la cita"
     height = 300
-    fields = ["notas"] 
-    
+    fields = ["notas"]
+
     # Custom field
     def custom_field(self, instance):
         return instance.pk
@@ -278,30 +278,30 @@ class ComentariosCitaSection(TableSection):
 #        reverse('usuarios:admin_profile_pdf', args=[obj.id])))
 #profile_pdf.short_description = 'Perfil de usuario'
 
- 
-def export_to_csv(modeladmin, request, queryset): 
-    opts = modeladmin.model._meta 
-    response = HttpResponse(content_type='text/csv') 
-    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name}.csv' 
-    writer = csv.writer(response) 
-     
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name}.csv'
+    writer = csv.writer(response)
+
     # Solo campos concretos del modelo
-    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many] 
+    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
 
     # Escribir encabezados
-    writer.writerow([field.verbose_name for field in fields]) 
+    writer.writerow([field.verbose_name for field in fields])
 
     # Escribir datos
-    for obj in queryset: 
-        data_row = [] 
-        for field in fields: 
-            value = getattr(obj, field.name) 
-            if isinstance(value, datetime): 
-                value = value.strftime('%d/%m/%Y') 
-            data_row.append(value) 
-        writer.writerow(data_row) 
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
 
-    return response 
+    return response
 
 export_to_csv.short_description = 'Exportar a CSV'
 
@@ -385,7 +385,7 @@ class ValoracionComponent(BaseComponent):
         p = self.instance  # Solo la instancia actual
 
         headers = [
-            "Edad",'servicio', "Institución",    
+            "Edad",'servicio', "Institución",
             'fecha de asesoria','Valoracion/Archivo Adjunto'
         ]
 
@@ -561,7 +561,7 @@ class PerfilInstitucionalAdmin(ModelAdmin):
     def get_colegio(self, obj):
         return obj.colegio.nombre_institucion if obj.colegio else "Sin colegio"
     get_colegio.short_description = 'Colegio'
-    
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
 
@@ -638,13 +638,13 @@ class ValoracionTerapiaAdmin(ModelAdmin):
         user = request.user
         if user.is_superuser or user.groups.filter(name='administrativo').exists():
             return qs
-            
+
         if qs.model.objects.filter(perfil_terapeuta=user).exists():
             return qs.filter(perfil_terapeuta=user)
-            
+
         if qs.model.objects.filter(Insitucional_a_cargo__usuario=user).exists():
             return qs.filter(Insitucional_a_cargo__usuario=user)
-            
+
         return qs.none()
 
 
@@ -674,16 +674,16 @@ class TerapeutaComponent(BaseComponent):
         p = self.instance  # Solo la instancia actual
 
         headers = [
-            "Nombres Completos","Fecha de Ingreso","edad", "Sexo", 
+            "Nombres Completos","Fecha de Ingreso","edad", "Sexo",
         ]
 
         row = [
             p.user.first_name + " " + p.user.last_name,
-            p.fecha_ingreso, 
+            p.fecha_ingreso,
             p.edad,
             p.sexo,
-            
-            
+
+
         ]
 
         context.update({
@@ -694,7 +694,7 @@ class TerapeutaComponent(BaseComponent):
             }
         })
         return context
-    
+
 
 
     def render(self):
@@ -724,7 +724,7 @@ class TerapeutaContactoComponent(BaseComponent):
             p.correo,
             p.telefono,
             p.sucursal,
-            
+
         ]
 
         context.update({
@@ -735,7 +735,7 @@ class TerapeutaContactoComponent(BaseComponent):
             }
         })
         return context
-    
+
 
 
     def render(self):
@@ -767,7 +767,7 @@ class TerapeutaBancariaComponent(BaseComponent):
             p.tipo_cuenta,
             p.numero_cuenta,
             p.pago_por_hora
-          
+
         ]
 
         context.update({
@@ -778,7 +778,7 @@ class TerapeutaBancariaComponent(BaseComponent):
             }
         })
         return context
-    
+
 
 
     def render(self):
@@ -801,7 +801,7 @@ class Perfil_TerapeutaAdmin(ModelAdmin):
     ]
 
     list_display = [
-        'get_full_name', 'especialidad', 'activo', 
+        'get_full_name', 'especialidad', 'activo',
         'servicio_domicilio', 'servicio_institucion', 'servicio_consulta'
     ]
     list_editable = ['activo', 'servicio_domicilio', 'servicio_institucion', 'servicio_consulta']
@@ -814,7 +814,7 @@ class Perfil_TerapeutaAdmin(ModelAdmin):
     ]
 
     search_fields = (
-        'user__first_name', 
+        'user__first_name',
         'user__last_name',
         'nombres_completos',
         'correo',
@@ -926,7 +926,7 @@ class AsistenciaTerapeutaAdmin(ModelAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
-        
+
         # Filtrar asistencias donde el evento tiene como profile_terapeuta al usuario actual
         return qs.filter(evento__profile_terapeuta__user=request.user)
 
@@ -1020,7 +1020,7 @@ class BitacoraDesarrolloAdmin(ModelAdmin):
     }
 
 
-    
+
 
 class TareasComentariosInline(TabularInline):
     model = TareaComentario
@@ -1029,7 +1029,7 @@ class TareasComentariosInline(TabularInline):
     readonly_fields = ('fecha',)
     show_change_link = False
     tab = True
-    
+
 
 
 
@@ -1511,7 +1511,7 @@ class prospecion_administrativaAdmin(ModelAdmin):
     )
 
     list_editable = [
-        'es_en_cita', 'es_convenio_firmado', 
+        'es_en_cita', 'es_convenio_firmado',
         'es_inactivo', 'es_valoracion', 'es_finalizado'
     ]
 
@@ -1691,22 +1691,22 @@ class MensajeAdmin(ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         user = request.user
-        
+
         if user.is_superuser or user.groups.filter(name='administrativo').exists():
             return qs  # Admins y superusers ven todo
-            
+
         if hasattr(user, 'perfil_terapeuta'):
             return qs.filter(perfil_terapeuta__user=user)
-            
+
         if hasattr(user, 'perfilinstitucional'):
             return qs.filter(institucion_a_cargo__usuario=user)
-            
+
         if hasattr(user, 'profile'):
             return qs.filter(receptor__user=user)
-            
+
         return qs.none()  # Ningún perfil asociado → acceso denegado
 
-    
+
 
 
     def estado_tarea_coloreado(self, obj):
@@ -1759,7 +1759,7 @@ class PagosComponent(BaseComponent):
             }
         })
         return context
-    
+
 
 
     def render(self):
@@ -1889,10 +1889,10 @@ class CitasComponent(BaseComponent):
             rows.append([
                 cita.fecha.strftime("%d/%m/%Y") if cita.fecha else "Sin fecha",
                 cita.hora.strftime("%H:%M") if cita.hora else "Sin hora",
-               
+
                 (cita.notas[:50] + "...") if cita.notas else "Sin notas",
                 str(cita.sucursal) if cita.sucursal else "N/A",
-       
+
                 estado,
                 str(cita.profile_terapeuta) if cita.profile_terapeuta else "N/A",
             ])
@@ -2007,7 +2007,7 @@ class CitasCohortComponent(BaseComponent):
         context = self.get_context_data()
         return render_to_string(self.template_name, context, request=self.request)
 
-        
+
 
 class CardSection(TemplateSection):
     template_name = "admin/test2.html"
@@ -2053,7 +2053,7 @@ class CitaAdmin(ModelAdmin):  # Asumo que ModelAdmin es de django.contrib.admin
         elif obj.tipo_cita == "particular":
             return obj.nombre_paciente or "—"
         return "—"
-    
+
     formfield_overrides = {
         models.DateField: {'widget': CustomDatePickerWidget()},
         models.TimeField: {'widget': CustomTimePickerWidget()},
@@ -2061,7 +2061,7 @@ class CitaAdmin(ModelAdmin):  # Asumo que ModelAdmin es de django.contrib.admin
 
     list_sections = [CitasComponent, CitasCohortComponent]
     list_sections_layout = "horizontal"
-    
+
 
     list_per_page = 20
     compressed_fields = True
@@ -2127,7 +2127,7 @@ class CitaAdmin(ModelAdmin):  # Asumo que ModelAdmin es de django.contrib.admin
     def ver_en_calendario(self, obj):
         return format_html('<a href="{}">Ver</a>', obj.get_calendar_url())
 
-    
+
 
 
 
@@ -2380,7 +2380,6 @@ from .models import RegistroActividad
 @admin.register(RegistroActividad)
 class RegistroActividadAdmin(ModelAdmin):
 
-    autocomplete_fields = ['usuario']
 
     compressed_fields = True
 
@@ -2398,7 +2397,6 @@ class RegistroActividadAdmin(ModelAdmin):
         'proyecto',
         'objetivo',
         'tarea',
-        'usuario',
         'estado',
         'prioridad',
         'porcentaje_progreso',
@@ -2426,12 +2424,6 @@ class RegistroActividadAdmin(ModelAdmin):
             ),
         }),
 
-        ('Responsable', {
-            'fields': (
-                'usuario',
-            ),
-            'classes': ('collapse',),
-        }),
 
         ('Estado y Progreso', {
             'fields': (
