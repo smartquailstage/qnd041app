@@ -1875,3 +1875,169 @@ class TicketSoporte(models.Model):
 
     def __str__(self):
         return f"[#{self.id}] {self.titulo}"
+
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+class RegistroActividad(models.Model):
+
+    TIPOS_REGISTRO = [
+        ("proyecto", "Proyecto"),
+        ("objetivo", "Objetivo"),
+        ("tarea", "Tarea"),
+        ("accion", "Acción"),
+        ("comentario", "Comentario"),
+    ]
+
+    ESTADOS = [
+        ("pendiente", "Pendiente"),
+        ("en_progreso", "En progreso"),
+        ("bloqueado", "Bloqueado"),
+        ("completado", "Completado"),
+    ]
+
+    PRIORIDADES = [
+        ("baja", "Baja"),
+        ("media", "Media"),
+        ("alta", "Alta"),
+    ]
+
+    Usuario  = models.ForeignKey(
+       'Profile',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='mensajes_perfil_paciente',
+        verbose_name="Destinatario Paciente"
+    )
+
+    tipo_registro = models.CharField(
+        max_length=20,
+        choices=TIPOS_REGISTRO,
+        help_text="Tipo de registro dentro del sistema: proyecto, objetivo, tarea, acción o comentario."
+    )
+
+    proyecto = models.CharField(
+        max_length=255,
+        help_text="Nombre del proyecto al que pertenece esta actividad."
+    )
+
+    objetivo = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Objetivo del proyecto relacionado con la actividad."
+    )
+
+    tarea = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Nombre de la tarea o actividad específica."
+    )
+
+    descripcion = models.TextField(
+        help_text="Descripción detallada de la actividad, tarea o acción."
+    )
+
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        help_text="Usuario responsable o que registró la actividad."
+    )
+
+    estado = models.CharField(
+        max_length=20,
+        choices=ESTADOS,
+        default="pendiente",
+        help_text="Estado actual de la tarea o actividad."
+    )
+
+    prioridad = models.CharField(
+        max_length=10,
+        choices=PRIORIDADES,
+        default="media",
+        help_text="Nivel de prioridad de la actividad."
+    )
+
+    porcentaje_progreso = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        help_text="Porcentaje de avance de la tarea u objetivo (0 a 100)."
+    )
+
+    objetivo_cumplido = models.BooleanField(
+        default=False,
+        help_text="Indica si el objetivo o tarea fue completado exitosamente."
+    )
+
+    fecha_inicio = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha en la que inicia la tarea o actividad."
+    )
+
+    fecha_limite = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha límite para completar la tarea."
+    )
+
+    fecha_completado = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Fecha en la que se completó la tarea o actividad."
+    )
+
+    canal_slack = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Canal de Slack relacionado con la actividad."
+    )
+
+    usuario_slack = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Identificador del usuario en Slack que generó la acción."
+    )
+
+    timestamp_slack = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Timestamp del mensaje en Slack para rastrear el hilo de conversación."
+    )
+
+    metadatos = models.JSONField(
+        null=True,
+        blank=True,
+        help_text="Información adicional en formato JSON para registrar cambios, estados anteriores u otros datos."
+    )
+
+    fecha_creacion = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Fecha y hora en que se registró la actividad."
+    )
+
+    fecha_actualizacion = models.DateTimeField(
+        auto_now=True,
+        help_text="Fecha de la última actualización del registro."
+    )
+
+    def save(self, *args, **kwargs):
+        """
+        Si el progreso llega a 100%, marcar automáticamente el objetivo como cumplido.
+        """
+        if self.porcentaje_progreso == 100:
+            self.objetivo_cumplido = True
+            if not self.fecha_completado:
+                from django.utils import timezone
+                self.fecha_completado = timezone.now()
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.proyecto} - {self.tarea} ({self.estado})"
