@@ -543,6 +543,24 @@ UNFOLD = {
         ],
     },
 
+    {
+        "title": _("Project Management slack (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Actividades"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:usuarios_registroactividad_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },        
+
+        ],
+    },
+
 
 
 ],

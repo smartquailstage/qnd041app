@@ -2372,3 +2372,105 @@ class ProfileAdmin(ModelAdmin):
 
 
 
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import RegistroActividad
+
+
+@admin.register(RegistroActividad)
+class RegistroActividadAdmin(ModelAdmin):
+
+    autocomplete_fields = ['usuario']
+
+    compressed_fields = True
+
+    search_fields = [
+        'proyecto',
+        'objetivo',
+        'tarea',
+        'descripcion',
+        'usuario__username',
+        'usuario_slack',
+        'canal_slack',
+    ]
+
+    list_display = [
+        'proyecto',
+        'objetivo',
+        'tarea',
+        'usuario',
+        'estado',
+        'prioridad',
+        'porcentaje_progreso',
+        'objetivo_cumplido',
+        'fecha_limite',
+    ]
+
+    list_filter = [
+        'tipo_registro',
+        'estado',
+        'prioridad',
+        'objetivo_cumplido',
+        'fecha_creacion',
+    ]
+
+    fieldsets = (
+
+        ('Información del Proyecto', {
+            'fields': (
+                'tipo_registro',
+                'proyecto',
+                'objetivo',
+                'tarea',
+                'descripcion',
+            ),
+        }),
+
+        ('Responsable', {
+            'fields': (
+                'usuario',
+            ),
+            'classes': ('collapse',),
+        }),
+
+        ('Estado y Progreso', {
+            'fields': (
+                'estado',
+                'prioridad',
+                'porcentaje_progreso',
+                'objetivo_cumplido',
+            ),
+        }),
+
+        ('Gestión de Fechas', {
+            'fields': (
+                'fecha_inicio',
+                'fecha_limite',
+                'fecha_completado',
+            ),
+            'classes': ('collapse',),
+        }),
+
+        ('Integración Slack', {
+            'fields': (
+                'canal_slack',
+                'usuario_slack',
+                'timestamp_slack',
+            ),
+            'classes': ('collapse',),
+        }),
+
+        ('Datos Adicionales', {
+            'fields': (
+                'metadatos',
+                'fecha_creacion',
+                'fecha_actualizacion',
+            ),
+            'classes': ('collapse',),
+        }),
+    )
+
+    readonly_fields = [
+        'fecha_creacion',
+        'fecha_actualizacion',
+    ]

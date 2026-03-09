@@ -533,6 +533,26 @@ UNFOLD = {
                     "permission": is_all,
         },
 
+        
+
+        ],
+    },
+
+    {
+        "title": _("Project Management (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Project Management (I+D)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:usuarios_registroactividad_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },        
+
         ],
     },
 
