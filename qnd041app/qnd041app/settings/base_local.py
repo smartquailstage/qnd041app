@@ -437,6 +437,15 @@ UNFOLD = {
                 "permission": is_all,
             },
 
+            {
+                "title": _("Nombramientos (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_cartanombramiento_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
 
             {
                 "title": _("Balances (SCVS)"),
@@ -456,6 +465,8 @@ UNFOLD = {
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
+
+
 
 
             {

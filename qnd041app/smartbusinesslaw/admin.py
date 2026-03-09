@@ -16,6 +16,94 @@ from unfold.components import BaseComponent, register_component
 
 from .models import Regulacion
 
+
+
+
+from .models import CartaNombramiento
+
+
+def NOMBRAMIENTO_PDF(obj):
+    url = reverse("smartbusinesslaw:carta_nombramiento_pdf", args=[obj.id])
+    return mark_safe(
+        f'<a href="{url}" target="_blank">'
+        f'<span class="material-symbols-outlined">download</span>'
+        f'Nombramiento</a>'
+    )
+
+NOMBRAMIENTO_PDF.short_description = "Nombramiento"
+
+
+
+@admin.register(CartaNombramiento)
+class CartaNombramientoAdmin(ModelAdmin):
+
+    conditional_fields = {
+        "duracion_anos": "cargo_designado == 'Presidente'",
+        "domicilio_designado": "nacionalidad_designado == 'ecuatoriana'",
+    }
+
+    # ==========================================================
+    # Fieldsets
+    # ==========================================================
+    fieldsets = (
+        ("I. Datos de la Sociedad", {
+            "fields": ("nombre_sociedad", "fecha_constitutiva"),
+            "classes": ("unfold", "tab-sociedad"),
+        }),
+        ("II. Accionista Fundador", {
+            "fields": ("nombre_accionista", "cargo_accionista"),
+            "classes": ("unfold", "tab-accionista"),
+        }),
+        ("III. Datos del Designado", {
+            "fields": (
+                "nombre_designado",
+                "cargo_designado",
+                "numero_identificacion",
+                "nacionalidad_designado",
+                "domicilio_designado",
+                "duracion_anos",
+            ),
+            "classes": ("unfold", "tab-designado"),
+        }),
+        ("IV. Fechas y Control", {
+            "fields": ("fecha_emision", "hash_nombramiento"),
+            "classes": ("unfold", "tab-fechas"),
+        }),
+    )
+
+    # ==========================================================
+    # Listado
+    # ==========================================================
+    list_display = (
+        "nombre_designado",
+        "cargo_designado",
+        "nombre_sociedad",
+        "fecha_constitutiva",
+        "duracion_anos",
+        "fecha_emision",
+        NOMBRAMIENTO_PDF,
+    )
+
+    search_fields = (
+        "nombre_designado",
+        "nombre_accionista",
+        "nombre_sociedad",
+    )
+
+    list_filter = (
+        "cargo_designado",
+        "fecha_emision",
+    )
+
+    readonly_fields = (
+        "fecha_emision",
+    )
+
+    unfold_fieldsets = True
+
+
+
+
 @admin.register(Regulacion)
 class RegulacionAdmin(ModelAdmin):
     # Campos a mostrar en la lista de registros
@@ -42,7 +130,7 @@ class RegulacionAdmin(ModelAdmin):
     # Orden por defecto
     ordering = ("-fecha_creacion",)
 
-    
+
 
 @register_component
 class BalanceGeneralComponent(BaseComponent):
@@ -503,7 +591,7 @@ from unfold.components import BaseComponent, register_component
 class ActaDelegadoComponent(BaseComponent):
     template_name = "admin/profile_card.html"
     name = "Delegado de Protección de Datos (DPD)"
-    
+
 
     def __init__(self, request, instance=None):
         self.request = request
@@ -701,7 +789,7 @@ class SPDP_ActaDelegadoAdmin(ModelAdmin):
                 'funciones_delegado',
                 'declaracion_independencia',
                 'declaracion_confidencialidad',
-       
+
             ),
             'classes': ('unfold', 'tab-dpd'),
         }),
@@ -772,7 +860,7 @@ class SPDP_ActaDelegadoAdmin(ModelAdmin):
         VENCIMIENTO,
         delegado_pdf_link,       # Enlace PDF DPD
         rat_pdf_link,            # Enlace PDF RAT
-        incidente_pdf_link, 
+        incidente_pdf_link,
         'legalizado_spd',
     )
 
@@ -864,7 +952,7 @@ from .models import SCVS_ActasAsamblea
 
 @register_component
 class ActaJuntaGeneralComponent(BaseComponent):
-    template_name = "admin/profile_card.html"
+    template_name = "scvs/pdf_acta_junta.html"
     name = "Acta de Junta General"
 
     def __init__(self, request, instance=None):
@@ -1576,7 +1664,7 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
                 "compras_razon_social_proveedor", "compras_fecha_emision", "compras_establecimiento",
                 "compras_punto_emision", "compras_secuencial", "compras_autorizacion",
                 "compras_base_no_objeto_iva", "compras_base_iva_0", "compras_base_iva",
-                "compras_monto_iva", "compras_total", 
+                "compras_monto_iva", "compras_total",
                 "ventas_tipo_id_cliente", "ventas_id_cliente", "ventas_razon_social_cliente",
                 "ventas_base_iva_0", "ventas_base_iva", "ventas_porcentaje_iva",
                 "ventas_monto_iva", "ventas_total", "ventas_forma_cobro",
@@ -1664,11 +1752,11 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
             "classes": ("unfold", "tab-firmas"),
         }),
     )
-    
+
     list_display = (
         "ejercicio_fiscal",
         mes,
-      
+
         ZIP_ATS,
         ZIP_Dividendos,
         ZIP_RDEP,
@@ -1893,7 +1981,7 @@ class SRI_DeclaracionImpuestosAdmin(ModelAdmin):
         "renta_a_pagar",
         "isd_causado",
         "creado_en",
-        "actualizado_en",      
+        "actualizado_en",
     )
 
     fieldsets = (
@@ -1941,7 +2029,7 @@ class SRI_DeclaracionImpuestosAdmin(ModelAdmin):
         "declarado",
     )
     list_display = (
-        
+
         "ejercicio_fiscal",
         "mes",
         "iva_a_pagar",
@@ -2446,7 +2534,7 @@ from .models import Nomina
 from django.db.models import Sum, Count
 
 def periodo(obj):
-    return f"{obj.mes}-{obj.anio}" 
+    return f"{obj.mes}-{obj.anio}"
 periodo.short_description = "Período"
 
 
