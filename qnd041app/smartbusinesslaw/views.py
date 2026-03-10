@@ -37,6 +37,11 @@ def carta_nombramiento_pdf(request, carta_id):
     # Obtener la carta
     carta = get_object_or_404(CartaNombramiento, id=carta_id)
 
+        # Generar hash único para incidente si aún no existe
+    if not carta.hash_nombramiento:
+        carta.hash_nombramiento = get_random_string(32)
+        carta.save()
+
     # Generar QR opcional basado en la ID de la carta
     qr = qrcode.QRCode(
         version=1,
