@@ -102,6 +102,18 @@ def trigger_n8n_on_post_save(sender, instance, created, **kwargs):
         send_post_to_n8n.delay(instance.id)
 
 
+# 1️⃣ Signal para crear imagen desde SocialAutomationPost
+@receiver(post_save, sender=AIInstagramPostPublished)
+def trigger_n8n_on_post_video_save(sender, instance, created, **kwargs):
+    """
+    Dispara la tarea de creación de imagen en n8n
+    cuando se crea un SocialAutomationPost nuevo o está pendiente.
+    """
+    if created or instance.status == "pending":
+        send_post_to_n8n.delay(instance.id)
+
+
+
 
 
 
