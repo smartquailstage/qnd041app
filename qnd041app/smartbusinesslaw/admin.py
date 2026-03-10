@@ -82,6 +82,7 @@ class CartaNombramientoAdmin(ModelAdmin):
                 "nombre_designado",
                 "cargo_designado",
                 "numero_identificacion",
+                "codigo_dactilar",
                 "nacionalidad_designado",
                 "domicilio_designado",
                 "duracion_anos",

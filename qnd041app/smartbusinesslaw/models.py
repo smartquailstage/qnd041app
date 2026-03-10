@@ -24,6 +24,7 @@ class CartaNombramiento(models.Model):
     # Datos del designado
     nombre_designado = models.CharField(max_length=100)
     numero_identificacion = models.CharField(max_length=100,null=True, blank=True)
+    codigo_dactilar = models.CharField(max_length=100,null=True, blank=True)
     cargo_designado = models.CharField(max_length=50, default="Presidente")
     nacionalidad_designado = models.CharField(max_length=50, default="ecuatoriana")
     domicilio_designado = models.CharField(max_length=100, default="cantón Quito")
