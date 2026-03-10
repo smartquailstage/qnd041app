@@ -1,0 +1,117 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+      NOMBRAMIENTO No. {{ carta.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito, {{ carta.fecha_emision|date:"d" }} de
+            {{ carta.fecha_emision|date:"F" }} de
+            {{ carta.fecha_emision|date:"Y" }}
+        </strong>
+    </div>
+</header>
+<hr>
+<div class="titulos">
+    <h2>NOMBRAMIENTO DE {{ carta.cargo_designado }} </h2>
+    <p><strong>{{ carta.nombre_sociedad|default:"SMARTQUAIL S.A.S." }}</strong></p>
+</div>
+
+<div class="preambulo">
+    <p>
+        Señor.<br>
+        <strong>{{ carta.nombre_designado }}</strong> <br>
+        Presente. <br> <br>
+        De mi consideración:<br><br>
+        Informo a usted que, conforme a la Cláusula Quinta del documento constitutivo de la
+        sociedad por acciones simplificada denominada <strong>{{ carta.nombre_sociedad }}</strong>,
+        suscrito el {{ carta.fecha_constitutiva|date:"d" }} de {{ carta.fecha_constitutiva|date:"F" }} de {{ carta.fecha_constitutiva|date:"Y" }},
+        los accionistas fundadores la han designado como <strong>{{ carta.cargo_designado }}</strong> de la referida sociedad,
+        por un período de <strong>{{ carta.duracion_anos }} años</strong>, con los deberes y atribuciones que señala
+        el Estatuto Social que consta en el aludido documento.
+    </p>
+
+    <p>
+        En el ejercicio de sus atribuciones, de conformidad al literal {% if carta.cargo_designado == "PRESIDENTE" %}a) del artículo 28 del contrato constitutivo,
+        en caso de ausencia temporal o definitiva del Gerente General, ya sea por vacaciones, enfermedad, ausencia del país,
+        cualquiera otra circunstancia similar; o, por separación, remoción o renuncia; le corresponderá en su calidad de
+        <strong>{{ carta.cargo_designado }}</strong>, subrogar al Gerente General y ejercer la representación legal de la compañía,
+        durante el período que dure dicha ausencia.
+        {% elif carta.cargo_designado == "GERENTE GENERAL" %}
+        En el ejercicio de sus atribuciones, le corresponderá ejercer la representación legal, judicial
+y extrajudicial de la sociedad, de manera individual conforme lo establecido en el literal a)
+del artículo 25 del Estatuto Social, en concordancia con la cláusula quinta del referido
+estatuto.
+
+        {% endif %}
+    </p>
+</div>
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+      <div class="signature-box"></div>
+      <p>
+          <strong>ACCIONISTA FUNDADOR</strong><br>
+          SANTIAGO MAURICIO SILVA DOMINGUEZ
+      </p>
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="clausulas">
+    <p>
+        En la ciudad de Quito D.M., el {{ carta.fecha_emision|date:"d" }} de {{ carta.fecha_emision|date:"F" }} de {{ carta.fecha_emision|date:"Y" }}, acepto el cargo de <strong>{{ carta.cargo_designado }}</strong> de la sociedad por acciones simplificada denominada
+        <strong>{{ carta.nombre_sociedad }}</strong> para el cual he sido elegida, siendo mi nacionalidad
+        <strong>{{ carta.nacionalidad_designado }}</strong>, y mi domicilio <strong>{{ carta.domicilio_designado }}</strong>.
+    </p>
+
+
+</div>
+
+
+
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+      <div class="signature-box"></div>
+      <p style="align-content: left;">
+
+
+          <strong>{{ carta.nombre_designado }}</strong><br>
+          CC: {{ carta.numero_identificacion }}<br>
+          Código Dactilar: {{ carta.numero_dactilar}}
+
+      </p>
+    </div>
+</div>
+
+
+<hr>
+
+<div class="contract-note">
+    <strong>TOKEN ID :</strong> {{ carta.hash_nombramiento }}
+</div>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        https://ec.smartquail.io | phys.mauricio.silva@gmail.com | Tel: +593 (96) 352-1262<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>

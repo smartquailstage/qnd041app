@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.contrib.admin.views.decorators import staff_member_required
 import weasyprint
 from .models import SPDP_ActaDelegado
-from .models import SCVS_ActasAsamblea
+from .models import SCVS_ActasAsamblea, ClausulaContrato
 
 
 import qrcode
@@ -29,6 +29,58 @@ import weasyprint
 from .models import SPDP_ActaDelegado
 from decimal import Decimal, ROUND_HALF_UP
 from datetime import date
+
+from .models import CartaNombramiento
+
+@staff_member_required
+def carta_nombramiento_pdf(request, carta_id):
+    # Obtener la carta
+    carta = get_object_or_404(CartaNombramiento, id=carta_id)
+
+        # Generar hash único para incidente si aún no existe
+    if not carta.hash_nombramiento:
+        carta.hash_nombramiento = get_random_string(32)
+        carta.save()
+
+    # Generar QR opcional basado en la ID de la carta
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=3,
+        border=4,
+    )
+    qr_data = f"CARTA-{carta.id}"
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_url = f"data:image/png;base64,{qr_base64}"
+
+    # Renderizar plantilla HTML con los datos de la carta
+    html = render_to_string('scvs/pdf_carta_nombramiento.html', {
+        'carta': carta,
+        'qr_url': qr_url,
+    })
+
+    # Crear respuesta PDF con WeasyPrint
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=carta_nombramiento_{carta.id}.pdf'
+
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('smartbusinesslaw/static/css/pdf.css')],
+        presentational_hints=True
+    )
+
+    return response
+
+
 
 @staff_member_required
 def incidente_pdf(request, delegado_id):
@@ -109,7 +161,7 @@ import weasyprint
 @staff_member_required
 def delegado_pdf(request, delegado_id):
     delegado = get_object_or_404(SPDP_ActaDelegado, id=delegado_id)
-    
+
     # -------------------------------
     # 1. Generar hash único si no existe
     # -------------------------------
@@ -168,7 +220,7 @@ from .models import Regulacion
 @staff_member_required
 def regulacion_pdf(request, regulacion_id):
     regulacion = get_object_or_404(Regulacion, id=regulacion_id)
-    
+
     html = render_to_string('spdp/regulacion/pdf.html', {'regulacion': regulacion})
 
     response = HttpResponse(content_type='application/pdf')
@@ -196,6 +248,9 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from .models import SPDP_ActaDelegado
+
+
+
 
 @staff_member_required
 def rat_pdf(request, delegado_id):
@@ -230,7 +285,7 @@ def rat_pdf(request, delegado_id):
     # 🔄 Traer todos los registros de RAT asociados
     # -----------------------------
     rat_registros = SPDP_ActaDelegado.objects.all()
-    
+
 
 
 
@@ -555,11 +610,24 @@ def pdf_anexos(request, pk):
     )
     return response
 
-
+from django.db.models.functions import Cast, Substr
+from django.db.models import IntegerField
 
 @staff_member_required
 def pdf_acta_junta(request, pk):
     acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    # Generar hash único para incidente si aún no existe
+    if not acta.acta_hash:
+        acta.acta_hash = get_random_string(32)
+        acta.save()
+
+    clausulas = acta.clausulas.annotate(
+            clausula_num=Cast(
+                Substr('clausula', 10),  # Extrae número después de "CLAUSULA_"
+                IntegerField()
+            )
+    ).order_by('clausula_num')
 
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
     qr_data = f"SCVS-ACTA-{acta.ejercicio_fiscal}-{acta.fecha_asamblea}"
@@ -573,7 +641,7 @@ def pdf_acta_junta(request, pk):
 
     html = render_to_string(
         'scvs/pdf_acta_junta.html',
-        {'acta': acta, 'qr_url': qr_url}
+        {'acta': acta, 'qr_url': qr_url,"clausulas": clausulas,"acta_hash": acta.acta_hash}
     )
 
     response = HttpResponse(content_type='application/pdf')
@@ -842,14 +910,14 @@ def xml_ats(request, ruc, ejercicio, mes):
 # ==================================================
 def xml_rdep(request, ruc, ejercicio, mes):
     anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio, mes=mes)
-    
+
     root = ET.Element("rdep", attrib={"id": "rdep", "version": "1.0.0"})
     contribuyente = ET.SubElement(root, "contribuyente")
     ET.SubElement(contribuyente, "ruc").text = anexo.ruc
     ET.SubElement(contribuyente, "razonSocial").text = anexo.razon_social
     ET.SubElement(contribuyente, "anio").text = str(anexo.ejercicio_fiscal)
     ET.SubElement(contribuyente, "mes").text = f"{anexo.mes:02d}"
-    
+
     # Empleados
     empleados = ET.SubElement(root, "empleados")
     if anexo.tiene_empleados:
@@ -860,7 +928,7 @@ def xml_rdep(request, ruc, ejercicio, mes):
         ET.SubElement(empleado, "sueldoAnual").text = str(anexo.empleado_sueldo_anual or 0)
         ET.SubElement(empleado, "aporteIESS").text = str(anexo.empleado_aporte_iess or 0)
         ET.SubElement(empleado, "irRetenido").text = str(anexo.empleado_ir_retenido or 0)
-    
+
     return generar_respuesta_xml(root, filename=f"RDEP_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml")
 
 
@@ -869,14 +937,14 @@ def xml_rdep(request, ruc, ejercicio, mes):
 # ==================================================
 def xml_dividendos(request, ruc, ejercicio, mes):
     anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio, mes=mes)
-    
+
     root = ET.Element("dividendos", attrib={"id": "dividendos", "version": "1.0.0"})
     contribuyente = ET.SubElement(root, "contribuyente")
     ET.SubElement(contribuyente, "ruc").text = anexo.ruc
     ET.SubElement(contribuyente, "razonSocial").text = anexo.razon_social
     ET.SubElement(contribuyente, "anio").text = str(anexo.ejercicio_fiscal)
     ET.SubElement(contribuyente, "mes").text = f"{anexo.mes:02d}"
-    
+
     if anexo.distribuyo_dividendos:
         socio = ET.SubElement(root, "socio")
         ET.SubElement(socio, "identificacion").text = anexo.socio_identificacion or ""
@@ -884,7 +952,7 @@ def xml_dividendos(request, ruc, ejercicio, mes):
         ET.SubElement(socio, "porcentajeParticipacion").text = str(anexo.socio_porcentaje_participacion or 0)
         ET.SubElement(socio, "dividendoPagado").text = str(anexo.dividendo_pagado or 0)
         ET.SubElement(socio, "impuestoDividendos").text = str(anexo.impuesto_dividendo or 0)
-    
+
     return generar_respuesta_xml(root, filename=f"DIV_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml")
 
 
@@ -893,21 +961,21 @@ def xml_dividendos(request, ruc, ejercicio, mes):
 # ==================================================
 def xml_partes_relacionadas(request, ruc, ejercicio, mes):
     anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio, mes=mes)
-    
+
     root = ET.Element("partesRelacionadas", attrib={"id": "partes", "version": "1.0.0"})
     contribuyente = ET.SubElement(root, "contribuyente")
     ET.SubElement(contribuyente, "ruc").text = anexo.ruc
     ET.SubElement(contribuyente, "razonSocial").text = anexo.razon_social
     ET.SubElement(contribuyente, "anio").text = str(anexo.ejercicio_fiscal)
     ET.SubElement(contribuyente, "mes").text = f"{anexo.mes:02d}"
-    
+
     if anexo.tiene_partes_relacionadas:
         parte = ET.SubElement(root, "parteRelacionada")
         ET.SubElement(parte, "identificacion").text = anexo.parte_relacionada_identificacion or ""
         ET.SubElement(parte, "nombre").text = anexo.parte_relacionada_nombre or ""
         ET.SubElement(parte, "montoOperacion").text = str(anexo.monto_operacion_parte_relacionada or 0)
         ET.SubElement(parte, "tipoOperacion").text = anexo.tipo_operacion or ""
-    
+
     return generar_respuesta_xml(root, filename=f"PR_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml")
 
 
@@ -1145,17 +1213,17 @@ from django.shortcuts import get_object_or_404
 # ==================================================
 def xml_conciliacion(request, ruc, ejercicio, mes):
     anexo = get_object_or_404(SRI_AnexosTributarios, ruc=ruc, ejercicio_fiscal=ejercicio, mes=mes)
-    
+
     # Nodo raíz
     root = ET.Element("conciliacionTributaria", attrib={"id": "conciliacion", "version": "1.0.0"})
-    
+
     # Información del contribuyente
     contribuyente = ET.SubElement(root, "contribuyente")
     ET.SubElement(contribuyente, "ruc").text = anexo.ruc
     ET.SubElement(contribuyente, "razonSocial").text = anexo.razon_social
     ET.SubElement(contribuyente, "anio").text = str(anexo.ejercicio_fiscal)
     ET.SubElement(contribuyente, "mes").text = f"{anexo.mes:02d}"
-    
+
     # ==================================================
     # Conciliación tributaria
     # ==================================================
@@ -1164,12 +1232,12 @@ def xml_conciliacion(request, ruc, ejercicio, mes):
     ET.SubElement(root, "ingresosExentos").text = str(anexo.ingresos_exentos or 0)
     ET.SubElement(root, "baseImponible").text = str(anexo.base_imponible or 0)
     ET.SubElement(root, "impuestoRentaCausado").text = str(anexo.impuesto_renta_causado or 0)
-    
+
     # ==================================================
     # Generar la respuesta XML
     # ==================================================
     return generar_respuesta_xml(
-        root, 
+        root,
         filename=f"CONC_{anexo.ruc}_{anexo.ejercicio_fiscal}_{anexo.mes:02d}.xml"
     )
 
@@ -1519,4 +1587,3 @@ def pdf_cheque_sueldo(request, pk):
     )
 
     return response
-

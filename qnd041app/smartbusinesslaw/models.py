@@ -9,6 +9,58 @@ from django.conf import settings
 from decimal import Decimal, ROUND_HALF_UP
 
 
+
+from django.db import models
+
+class CartaNombramiento(models.Model):
+    # Datos de la sociedad
+    nombre_sociedad = models.CharField(max_length=100, default="SMARTQUAIL S.A.S.")
+    fecha_constitutiva = models.DateField(default="2020-10-20")
+
+    # Datos del accionista fundador
+    nombre_accionista = models.CharField(max_length=100, default="Santiago Mauricio Silva Domínguez")
+    cargo_accionista = models.CharField(max_length=50, default="Accionista fundador")
+
+    # Datos del designado
+    nombre_designado = models.CharField(max_length=100)
+    numero_identificacion = models.CharField(max_length=100,null=True, blank=True)
+    cargo_designado = models.CharField(max_length=50, default="Presidente")
+    nacionalidad_designado = models.CharField(max_length=50, default="ecuatoriana")
+    domicilio_designado = models.CharField(max_length=100, default="cantón Quito")
+
+    # Duración del cargo
+    duracion_anos = models.PositiveIntegerField(default=5)
+
+    # Fecha de emisión de la carta
+    fecha_emision = models.DateField(auto_now_add=True)
+
+    hash_nombramiento = models.CharField(max_length=64, unique=True, null=True, blank=True) # Incidente
+
+    # =====================================================
+    # 🔐 MÉTODOS DE GENERACIÓN DE HASH
+    # =====================================================
+    def _generate_hash(self, doc_type: str) -> str:
+        """
+        Genera un hash SHA-256 único para cada documento.
+        Incluye id del registro, tipo de documento, UUID y timestamp.
+        """
+        raw = f"{self.id}|{doc_type}|{uuid.uuid4()}|{timezone.now().isoformat()}"
+        return hashlib.sha256(raw.encode()).hexdigest()
+
+    def generate_hash_nombramiento(self):
+        self.hash_nombramiento = self._generate_hash("DPD")
+        self.save(update_fields=["hash_nombramiento"])
+        return self.hash_nombramiento
+
+    def __str__(self):
+        return f"Carta de nombramiento de {self.nombre_designado} como {self.cargo_designado}"
+
+    class Meta:
+        verbose_name = "Nombramiento"
+        verbose_name_plural = "Nombramientos"
+
+
+
 # Opciones de documentación por entidad
 DOC_SCVS = [
     ('ESTATUTOS', 'Estatutos de la compañía'),
@@ -98,6 +150,9 @@ class SCVS_Estatutos(models.Model):
 
 from django.db import models
 
+
+
+
 class SCVS_ActasAsamblea(models.Model):
 
     # =========================
@@ -125,6 +180,20 @@ class SCVS_ActasAsamblea(models.Model):
         null=True, blank=True,
         help_text="Tipo de Junta General celebrada según la Ley de Compañías."
     )
+
+
+    title = models.CharField(
+            "Tema a tratar",
+            max_length=20,
+            choices=[
+                ('NOMBRAMIENTOS', 'NOMBRAMIENTOS'),
+                ('FINANCIERO', 'FINANCIERO'),
+                ('ACCIONISTAS', 'ACCIONISTAS'),
+            ],
+            null=True, blank=True,
+            help_text="Ttema a tratar."
+        )
+
 
     fecha_asamblea = models.DateField(
         "Fecha de la asamblea",
@@ -591,6 +660,8 @@ class SCVS_ActasAsamblea(models.Model):
         help_text="Fecha de emisión del informe del gerente."
     )
 
+    acta_hash = models.CharField(max_length=255, blank=True, null=True)
+
 
     # =====================================================
     # METADATA
@@ -601,6 +672,19 @@ class SCVS_ActasAsamblea(models.Model):
     def get_document_name(self):
         return f"ActaJuntaSCVS_{self.fecha_asamblea.strftime('%Y%m%d') if self.fecha_asamblea else 'SIN_FECHA'}"
 
+    def _generate_hash(self, doc_type: str) -> str:
+        """
+        Genera un hash SHA-256 único para cada documento.
+        Incluye id del registro, tipo de documento, UUID y timestamp.
+        """
+        raw = f"{self.id}|{doc_type}|{uuid.uuid4()}|{timezone.now().isoformat()}"
+        return hashlib.sha256(raw.encode()).hexdigest()
+
+    def generate_hash_delegado(self):
+        self.acta_hash = self._generate_hash("DPD")
+        self.save(update_fields=["acta_hash"])
+        return self.acta_hash
+
     class Meta:
         verbose_name = "Acta de Junta General SCVS"
         verbose_name_plural = "Actas de Junta General SCVS"
@@ -608,6 +692,78 @@ class SCVS_ActasAsamblea(models.Model):
     def __str__(self):
         return self.get_document_name()
 
+
+
+class ClausulaContrato(models.Model):
+
+    CLAUSULA_CHOICES = [
+        ('CLAUSULA_1', 'CLÁUSULA PRIMERA'),
+        ('CLAUSULA_2', 'CLÁUSULA SEGUNDA'),
+        ('CLAUSULA_3', 'CLÁUSULA TERCERA'),
+        ('CLAUSULA_4', 'CLÁUSULA CUARTA'),
+        ('CLAUSULA_5', 'CLÁUSULA QUINTA'),
+        ('CLAUSULA_6', 'CLÁUSULA SEXTA'),
+        ('CLAUSULA_7', 'CLÁUSULA SÉPTIMA'),
+        ('CLAUSULA_8', 'CLÁUSULA OCTAVA'),
+        ('CLAUSULA_9', 'CLÁUSULA NOVENA'),
+        ('CLAUSULA_10', 'CLÁUSULA DÉCIMA'),
+        ('CLAUSULA_11', 'CLÁUSULA UNDÉCIMA'),
+        ('CLAUSULA_12', 'CLÁUSULA DUODÉCIMA'),
+        ('CLAUSULA_13', 'CLÁUSULA DECIMOTERCERA'),
+        ('CLAUSULA_14', 'CLÁUSULA DECIMOCUARTA'),
+        ('CLAUSULA_15', 'CLÁUSULA DECIMOQUINTA'),
+        ('CLAUSULA_16', 'CLÁUSULA DECIMOSEXTA'),
+        ('CLAUSULA_17', 'CLÁUSULA DECIMOSÉPTIMA'),
+        ('CLAUSULA_18', 'CLÁUSULA DECIMOCTAVA'),
+        ('CLAUSULA_19', 'CLÁUSULA DECIMONOVENA'),
+        ('CLAUSULA_20', 'CLÁUSULA VIGÉSIMA'),
+        ('CLAUSULA_21', 'CLÁUSULA VIGESIMOPRIMERA'),
+        ('CLAUSULA_22', 'CLÁUSULA VIGESIMOSEGUNDA'),
+        ('CLAUSULA_23', 'CLÁUSULA VIGESIMOTERCERA'),
+        ('CLAUSULA_24', 'CLÁUSULA VIGESIMOCUARTA'),
+        ('CLAUSULA_25', 'CLÁUSULA VIGESIMOQUINTA'),
+        ('CLAUSULA_26', 'CLÁUSULA VIGESIMOSEXTA'),
+        ('CLAUSULA_27', 'CLÁUSULA VIGESIMOSÉPTIMA'),
+        ('CLAUSULA_28', 'CLÁUSULA VIGESIMOCTAVA'),
+        ('CLAUSULA_29', 'CLÁUSULA VIGESIMONOVENA'),
+        ('CLAUSULA_30', 'CLÁUSULA TRIGÉSIMA'),
+    ]
+
+    titulo_clausura = models.CharField(
+        max_length=260,
+        verbose_name="titulo de clausura",
+        null = 'True',
+        blank = 'True',
+    )
+
+    contrato = models.ForeignKey(
+        SCVS_ActasAsamblea,
+        on_delete=models.CASCADE,
+        related_name='clausulas',
+        verbose_name="Contrato"
+    )
+
+    clausula = models.CharField(
+        max_length=16,
+        choices=CLAUSULA_CHOICES,
+        verbose_name="CLÁUSULA",
+        null = 'True',
+        blank = 'True',
+    )
+
+
+    detalle = models.TextField(
+        verbose_name="Detalle de la cláusula"
+    )
+
+    class Meta:
+        verbose_name = "Cláusula de contrato"
+        verbose_name_plural = "Cláusulas de contrato"
+
+
+
+    def __str__(self):
+        return f"Cláusula {self.clausula}"
 
 
 
@@ -1051,7 +1207,7 @@ class SPDP_ActaDelegado(models.Model):
     related_name='rat_tratamientos',
     help_text="Usuario titular de los datos personales",
     verbose_name="Titulares (DPD)"
-    
+
     )
 
 
@@ -1087,7 +1243,7 @@ class SPDP_ActaDelegado(models.Model):
     ("salud", "Datos de salud"),
     ("laborales", "Datos laborales"),
     ]
-    
+
     RAT_CATEGORIA_TITULARES_CHOICES = [
     ("clientes", "Clientes"),
     ("empleados", "Empleados"),
@@ -1110,7 +1266,7 @@ class SPDP_ActaDelegado(models.Model):
     choices=RAT_BASE_LEGAL_CHOICES,
     help_text=(
         "Base(s) legal(es) del tratamiento conforme a la LOPDP. "
- 
+
     )
     )
 
@@ -1159,7 +1315,7 @@ class SPDP_ActaDelegado(models.Model):
     rat_medidas_tecnicas = models.TextField(
         help_text="Medidas técnicas de seguridad aplicadas",
         blank=True,
-        null=True   
+        null=True
     )
 
     rat_medidas_organizativas = models.TextField(
@@ -1172,16 +1328,16 @@ class SPDP_ActaDelegado(models.Model):
         max_length=255,
         help_text="Responsable del tratamiento",
         blank=True,
-        null=True   
+        null=True
     )
 
- 
+
 
     rat_categoria_titulares = models.ManyToManyField(
     Group,
     blank=True,
     help_text="Grupos de usuarios que actúan como titulares de los datos",
-   
+
     )
 
     # =====================================================
@@ -1371,7 +1527,7 @@ class SPDP_ActaDelegado(models.Model):
 
 
 
-    
+
 
     class Meta:
         verbose_name = "Registro: Superintendencia de Protección de Datos Personales (SPDP)"
@@ -1591,7 +1747,7 @@ class SRI_AnexosTributarios(models.Model):
     ('21', 'Cheque'),
     ('24', 'Otros con utilización del sistema financiero'),
     ]
-    
+
     ventas_forma_cobro = models.CharField(
         max_length=2,
         choices=FORMA_COBRO_CHOICES,
@@ -1918,61 +2074,61 @@ class SRI_AnexosTributarios(models.Model):
         null=True, blank=True,
         help_text="Indica si es beneficiario por propiedad (SI/NO)."
     )
-    
+
     bf_por_otros_motivos = models.CharField(
         max_length=2,
         null=True, blank=True,
         help_text="Código de otros motivos según tabla SRI."
         )
-        
+
     bf_por_otros_relacionados = models.CharField(
         max_length=2,
         null=True, blank=True,
         help_text="Código de otros motivos relacionados (si aplica)."
         )
-        
+
     bf_por_administracion = models.CharField(
         max_length=2,
         null=True, blank=True,
         help_text="Indica si es beneficiario por administración (SI/NO)."
     )
-    
+
     bf_nacionalidad_uno = models.CharField(
         max_length=3,
         null=True, blank=True,
         help_text="Código país de primera nacionalidad (ISO numérico, ej: 593)."
     )
-    
+
     bf_nacionalidad_dos = models.CharField(
         max_length=3,
         null=True, blank=True,
         help_text="Código país segunda nacionalidad."
     )
-    
+
     bf_nacionalidad_tres = models.CharField(
         max_length=3,
         null=True, blank=True,
         help_text="Código país tercera nacionalidad."
     )
-    
+
     bf_jurisdiccion = models.CharField(
         max_length=3,
         null=True, blank=True,
         help_text="Código país de jurisdicción si es no residente."
     )
-    
+
     bf_ciudad = models.CharField(
         max_length=100,
         null=True, blank=True,
         help_text="Ciudad del beneficiario final."
     )
-    
+
     bf_interseccion = models.CharField(
         max_length=100,
         null=True, blank=True,
         help_text="Intersección de la dirección."
     )
-    
+
     bf_referencia = models.CharField(
         max_length=255,
         null=True, blank=True,
@@ -2048,13 +2204,13 @@ class SRI_AnexosTributarios(models.Model):
         help_text="Fecha y hora de la última actualización del registro."
     )
 
- 
+
 
     def calcular_totales_ventas(self):
         base_0 = Decimal(self.ventas_base_iva_0 or 0)
         base_12 = Decimal(self.ventas_base_iva or 0)
         porcentaje = Decimal(self.ventas_porcentaje_iva or 0)
-        
+
         self.ventas_monto_iva = (base_12 * porcentaje / Decimal("100")).quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)
         self.ventas_total = (base_0 + base_12).quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)
 
@@ -2906,7 +3062,7 @@ class Nomina(models.Model):
         verbose_name="Razón de descuento",
         help_text="Motivo del descuento aplicado al trabajador."
     )
-    
+
     descuentos = MoneyField(max_digits=10, decimal_places=2, null=True, blank=True,
         default_currency='USD',
         verbose_name="Descuentos",

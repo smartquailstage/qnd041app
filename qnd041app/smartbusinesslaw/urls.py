@@ -8,6 +8,12 @@ urlpatterns = [
     # PDF Delegado (DPD)
     # ----------------------------
     path(
+        'nombramiento/<int:carta_id>/pdf/',
+        views.carta_nombramiento_pdf,
+        name='carta_nombramiento_pdf'
+    ),
+
+    path(
         'delegado/<int:delegado_id>/pdf/',
         views.delegado_pdf,
         name='admin_delegado_pdf'
@@ -148,14 +154,3 @@ urlpatterns = [
         name="pdf_cheque_sueldo"
     ),
 ]
-
-    
-
-
-
-
-
-
-
-
-

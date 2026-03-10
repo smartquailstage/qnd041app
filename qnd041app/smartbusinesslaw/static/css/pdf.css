@@ -107,7 +107,7 @@ p {
 .preambulo {
   margin-top: 9mm;
   margin-bottom: 10mm;
-  background-color: #d7d7d7;
+  background-color: #ffff;
 }
 
 .preambulo p {
@@ -117,7 +117,7 @@ p {
   text-align: justify;
   text-justify: inter-word;
   margin-top: 1mm;
-  margin-bottom: 1mm; 
+  margin-bottom: 1mm;
 }
 
 .preambulo strong {
@@ -212,7 +212,7 @@ footer.page-footer {
   font-family: "soon", sans-serif;
   color: #666;
   padding: 2mm 0;
-  border-top: 1px solid #ccc;   
+  border-top: 1px solid #ccc;
   margin-bottom: 1px;
   width: 100%;
 }
@@ -265,7 +265,7 @@ span.pageNumber::before {
 .cert-left {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
 }
 
 .cert-left img {
@@ -277,7 +277,7 @@ span.pageNumber::before {
   font-family: "soon", sans-serif;
   font-size: 10pt;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
 }
 
 
@@ -395,4 +395,3 @@ span.pageNumber::before {
     font-size: 6pt;
     color: #333;
 }
-
