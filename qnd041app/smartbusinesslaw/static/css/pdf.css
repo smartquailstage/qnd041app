@@ -112,7 +112,7 @@ p {
 
 .preambulo p {
   font-family: "soon", sans-serif;
-  font-size: 9pt;
+  font-size: 8pt;
   line-height: 10pt;
   text-align: justify;
   text-justify: inter-word;
@@ -132,7 +132,7 @@ p {
 /* Títulos de cláusulas */
 .clausulas h3 {
   font-family: "soon", sans-serif;
-  font-size: 9pt;
+  font-size: 8pt;
   font-weight: 600;
   margin-top: 1mm;
   margin-bottom: 1mm;
@@ -327,6 +327,10 @@ span.pageNumber::before {
   background-color: #ffffff;   /* fondo blanco */
 }
 
+
+.signature-box p {
+  font-size: 7pt;
+}
 
 /* BLOQUE DE NOTA DE VALIDACIÓN */
 .contract-note {
