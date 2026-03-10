@@ -4,7 +4,7 @@ from .models import *
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.contrib import admin
-from .models import SPDP_ActaDelegado, Regulacion
+from .models import SPDP_ActaDelegado, Regulacion ,ClausulaContrato
 
 
 #SCVS_Estatutos, SRI_RUC, MT_Contratos, IESS_Aportes
@@ -15,9 +15,11 @@ from unfold.components import BaseComponent, register_component
 
 
 from .models import Regulacion
+from unfold.admin import ModelAdmin, TabularInline
 
 
-
+from django.db.models import IntegerField
+from django.db.models.functions import Cast, Substr
 
 from .models import CartaNombramiento
 
@@ -32,6 +34,27 @@ def NOMBRAMIENTO_PDF(obj):
 
 NOMBRAMIENTO_PDF.short_description = "Nombramiento"
 
+class ClausulaContratoInline(TabularInline):
+    model = ClausulaContrato
+    extra = 1
+    min_num = 0
+    can_delete = True
+    show_change_link = True
+
+    fields = (
+        'clausula',
+        'titulo_clausura',
+        'detalle',
+    )
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.annotate(
+            clausula_num=Cast(
+                Substr('clausula', 10),  # Extrae el número después de "CLAUSULA_"
+                IntegerField()
+            )
+        ).order_by('clausula_num')
 
 
 @admin.register(CartaNombramiento)
@@ -98,6 +121,7 @@ class CartaNombramientoAdmin(ModelAdmin):
     readonly_fields = (
         "fecha_emision",
     )
+
 
     unfold_fieldsets = True
 
@@ -1159,6 +1183,8 @@ class SCVS_ActasAsambleaAdmin(ModelAdmin):
         NominaAdministradoresComponent,
         InformeGerenteComponent,
     ]
+
+    inlines = [ClausulaContratoInline]
 
     fieldsets = (
 

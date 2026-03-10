@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.contrib.admin.views.decorators import staff_member_required
 import weasyprint
 from .models import SPDP_ActaDelegado
-from .models import SCVS_ActasAsamblea
+from .models import SCVS_ActasAsamblea, ClausulaContrato
 
 
 import qrcode
@@ -243,6 +243,9 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from .models import SPDP_ActaDelegado
+
+
+
 
 @staff_member_required
 def rat_pdf(request, delegado_id):
@@ -602,11 +605,24 @@ def pdf_anexos(request, pk):
     )
     return response
 
-
+from django.db.models.functions import Cast, Substr
+from django.db.models import IntegerField
 
 @staff_member_required
 def pdf_acta_junta(request, pk):
     acta = get_object_or_404(SCVS_ActasAsamblea, pk=pk)
+
+    # Generar hash único para incidente si aún no existe
+    if not acta.acta_hash:
+        acta.acta_hash = get_random_string(32)
+        acta.save()
+
+    clausulas = acta.clausulas.annotate(
+            clausula_num=Cast(
+                Substr('clausula', 10),  # Extrae número después de "CLAUSULA_"
+                IntegerField()
+            )
+    ).order_by('clausula_num')
 
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
     qr_data = f"SCVS-ACTA-{acta.ejercicio_fiscal}-{acta.fecha_asamblea}"
@@ -620,7 +636,7 @@ def pdf_acta_junta(request, pk):
 
     html = render_to_string(
         'scvs/pdf_acta_junta.html',
-        {'acta': acta, 'qr_url': qr_url}
+        {'acta': acta, 'qr_url': qr_url,"clausulas": clausulas,"acta_hash": acta.acta_hash}
     )
 
     response = HttpResponse(content_type='application/pdf')
