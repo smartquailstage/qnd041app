@@ -1071,6 +1071,10 @@ class Noticia(models.Model):
         null=True
     )
 
+    refencia_1 = models.CharField(max_length=150,null=True, blank=True)
+    refencia_2 = models.CharField(max_length=150,null=True, blank=True)
+    refencia_3 = models.CharField(max_length=150,null=True, blank=True)
+    refencia_4 = models.CharField(max_length=150,null=True, blank=True)
     # =========================
     # METADATOS
     # =========================

@@ -19,11 +19,11 @@ class BusinessProcessAdmin(ModelAdmin):
     autocomplete_fields = ['project', 'assigned_developer']
     search_fields = ['name', 'project__name']
     list_display = [
-        'name', 'project', 'assigned_developer', 'progress', 
+        'name', 'project', 'assigned_developer', 'progress',
         'has_automation', 'has_ai', 'approved_by_client'
     ]
     list_filter = [
-        'has_automation', 'has_ai', 'approved_by_client', 
+        'has_automation', 'has_ai', 'approved_by_client',
         'process_type', 'process_class', 'technology_type'
     ]
     list_fullwidth = True
@@ -31,8 +31,8 @@ class BusinessProcessAdmin(ModelAdmin):
     change_form_show_cancel_button = True
     warn_unsaved_form = True
     readonly_fields = [
-        'total_development_days', 
-        'memory_consumption', 'cpu_consumption', 
+        'total_development_days',
+        'memory_consumption', 'cpu_consumption',
         'total_memory_available', 'total_cpu_available',
         'memory_percent_used', 'cpu_percent_used'
     ]
@@ -41,15 +41,15 @@ class BusinessProcessAdmin(ModelAdmin):
     fieldsets = (
         ('Información del Proceso de Negocio', {
             'fields': (
-                'project', 'name', 'assigned_developer', 
-                'description', 'numero_maximo_procesos', 
+                'project', 'name', 'assigned_developer',
+                'description', 'numero_maximo_procesos',
                 'technology_type', 'progress'
             ),
             'classes': ('unfold', 'tab-general'),
         }),
         ('Fechas y Aprobación', {
             'fields': (
-                'start_date', 'delivery_date', 
+                'start_date', 'delivery_date',
                 'total_development_days', 'approved_by_client', 'final_url'
             ),
             'classes': ('unfold', 'tab-dates'),
@@ -86,10 +86,10 @@ from .models import BusinessContracts
 
 @admin.register(BusinessContracts)
 class BusinessContractsAdmin(ModelAdmin):
-    
+
     autocomplete_fields = ['project']
     search_fields = ['titulo', 'project__name']
-    
+
     list_display = [
         'titulo',
         'project',
@@ -98,21 +98,21 @@ class BusinessContractsAdmin(ModelAdmin):
         'created_at',
         'updated_at',
     ]
-    
+
     list_filter = [
         'tipo',
         'project',
         'created_at',
         'updated_at',
     ]
-    
+
     readonly_fields = ['created_at', 'updated_at']
-    
+
     change_form_show_cancel_button = True
     warn_unsaved_form = True
     list_fullwidth = True
     list_filter_sheet = True
-    
+
     fieldsets = (
         ('📄 Información General', {
             'fields': (
@@ -136,14 +136,14 @@ class BusinessContractsAdmin(ModelAdmin):
             'classes': ('tab-dates',),
         }),
     )
-    
+
     def archivo_link(self, obj):
         if obj.archivo:
             return f"<a href='{obj.archivo.url}' target='_blank'>Descargar</a>"
         return "No disponible"
     archivo_link.allow_tags = True
     archivo_link.short_description = "Archivo"
-    
+
     def get_tipo_display(self, obj):
         return obj.get_tipo_display()
     get_tipo_display.short_description = "Tipo de Contrato"
@@ -154,7 +154,7 @@ class BusinessAutomationAdmin(ModelAdmin):
 
     autocomplete_fields = ['project', 'assigned_developer']
     search_fields = ['title', 'project__name']
-    
+
     list_display = [
         'title',
         'project',
@@ -544,8 +544,13 @@ class NoticiaAdmin(ModelAdmin):
 
         ('⚙️ Publicación', {
             'fields': (
+                'refencia_1',
+                'refencia_2',
+                'refencia_3',
+                'refencia_4',
                 'activa',
                 'fecha_publicacion',
+
             ),
             'classes': ('unfold', 'tab-publish'),
         }),
@@ -693,4 +698,3 @@ class MonthlySystemMetricsAdmin(ModelAdmin):
             ),
         }),
     )
-
