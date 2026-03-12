@@ -1088,17 +1088,15 @@ def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
     # -----------------------
     # ACCIONISTAS
     # -----------------------
-    # Solo crear <accionistas> si hay al menos un accionista
-    if anexo.socio_identificacion_rebefics:
+    if anexo.socio_identificacion:
         accionistas = ET.SubElement(root, "accionistas")
         s = ET.SubElement(accionistas, "accionista")
         ET.SubElement(s, "tipoSujeto").text = (anexo.socio_tipo_sujeto or "01")[:2]
         ET.SubElement(s, "tipoIdentificacion").text = (anexo.socio_tipo_identificacion or "R")[:1]
         ET.SubElement(s, "identificacionInformantePadre").text = ruc_str
-        ET.SubElement(s, "numeroIdentificacion").text = anexo.socio_identificacion_rebefics
+        ET.SubElement(s, "numeroIdentificacion").text = anexo.socio_identificacion
 
-        # Desglosar nombre completo
-        nombres = (anexo.socio_nombre_rebefics or "").split()
+        nombres = (anexo.socio_nombre or "").split()
         ET.SubElement(s, "primerNombre").text = nombres[0] if len(nombres) > 0 else "NA"
         ET.SubElement(s, "segundoNombre").text = nombres[1] if len(nombres) > 1 else "NA"
         ET.SubElement(s, "primerApellido").text = nombres[2] if len(nombres) > 2 else "NA"
@@ -1114,21 +1112,18 @@ def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
         ET.SubElement(s, "porcentajeAccionarioBolsaExt").text = "0.00"
         ET.SubElement(s, "esBeneficiarioFinal").text = "SI"
 
-        # infoParticipacionAccionaria
         info = ET.SubElement(s, "infoParticipacionAccionaria")
         ET.SubElement(info, "codigoNivel").text = "1"
         ET.SubElement(info, "tipoRelacionadoSociedad").text = "05"
-        ET.SubElement(info, "porcentajeParticipacion").text = f"{float(anexo.socio_porcentaje_rebefics or 0):.2f}"
+        ET.SubElement(info, "porcentajeParticipacion").text = f"{float(anexo.socio_porcentaje or 0):.2f}"
         ET.SubElement(info, "parteRelacionadaInformante").text = "NO"
 
-        # ubicacionResidenciaFiscal
         ubic = ET.SubElement(s, "ubicacionResidenciaFiscal")
         ET.SubElement(ubic, "paisResidenciaFiscal").text = "593"
 
     # -----------------------
     # BENEFICIARIOS FINALES
     # -----------------------
-    # Solo crear <beneficiarios> si hay al menos un beneficiario
     if anexo.bf_identificacion:
         beneficiarios = ET.SubElement(root, "beneficiarios")
         b = ET.SubElement(beneficiarios, "beneficiario")
@@ -1138,27 +1133,23 @@ def generar_xml_beneficiarios(anexo: SRI_AnexosTributarios):
         ET.SubElement(b, "segundoNombre").text = anexo.bf_segundo_nombre or "NA"
         ET.SubElement(b, "primerApellido").text = anexo.bf_primer_apellido or "NA"
         ET.SubElement(b, "segundoApellido").text = anexo.bf_segundo_apellido or "NA"
+
         fecha_nac = anexo.bf_fecha_nacimiento
-        if fecha_nac:
-            ET.SubElement(b, "fechaNacimiento").text = fecha_nac.strftime("%d/%m/%Y")
-        else:
-            ET.SubElement(b, "fechaNacimiento").text = "1900-01-01"
+        ET.SubElement(b, "fechaNacimiento").text = fecha_nac.strftime("%d/%m/%Y") if fecha_nac else "1900-01-01"
 
-        ET.SubElement(b, "porPropiedad").text = "NO"
-        ET.SubElement(b, "porcentajePropiedad").text = "0.00"
-        ET.SubElement(b, "porOtrosMotivos").text = "09"
-        ET.SubElement(b, "porOtrosRelacionados").text = "NA"
-        ET.SubElement(b, "porAdministracion").text = "SI"
-        ET.SubElement(b, "nacionalidadUno").text = "593"
-        ET.SubElement(b, "nacionalidadDos").text = "NA"
-        ET.SubElement(b, "nacionalidadTres").text = "NA"
+        ET.SubElement(b, "porPropiedad").text = anexo.bf_por_propiedad or "NO"
+        ET.SubElement(b, "porcentajePropiedad").text = f"{float(anexo.bf_porcentaje_participacion or 0):.2f}"
+        ET.SubElement(b, "porOtrosMotivos").text = anexo.bf_por_otros_motivos or "09"
+        ET.SubElement(b, "porOtrosRelacionados").text = "NA"  # <- agregado
+        ET.SubElement(b, "porAdministracion").text = anexo.bf_por_administracion or "SI"
+        ET.SubElement(b, "nacionalidadUno").text = anexo.bf_nacionalidad_uno or "593"
+        ET.SubElement(b, "nacionalidadDos").text = anexo.bf_nacionalidad_dos or "NA"
         ET.SubElement(b, "residenciaFiscal").text = anexo.bf_residencia_fiscal or "593"
-        ET.SubElement(b, "jurisdiccion").text = "NA"
+        ET.SubElement(b, "jurisdiccion").text = getattr(anexo, "bf_jurisdiccion", "NA")
 
-        # Mapeo de ubicación a códigos válidos
-        prov, cant, parr = map_ubicacion(anexo.bf_provincia, anexo.bf_canton, anexo.bf_parroquia)
+
         ET.SubElement(b, "provincia").text = anexo.bf_provincia or "01"
-        ET.SubElement(b, "ciudad").text = anexo.bf_ciudad or "NA"
+        ET.SubElement(b, "ciudad").text = anexo.bf_ciudad or "QUITO"
         ET.SubElement(b, "canton").text = anexo.bf_canton or "01"
         ET.SubElement(b, "parroquia").text = anexo.bf_parroquia or "01"
         ET.SubElement(b, "calle").text = limpiar_texto(anexo.bf_calle)

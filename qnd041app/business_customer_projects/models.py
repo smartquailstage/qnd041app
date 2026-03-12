@@ -31,7 +31,7 @@ class BusinessSystemProject(models.Model):
     is_domain_configured = models.BooleanField(default=False, verbose_name='¿Dispone de dominio privado?')
     domain_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
     public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
-    velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')   
+    velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')
 
     saas_order = models.OneToOneField(
         SaaSOrder,
@@ -130,7 +130,7 @@ class BusinessSystemProject(models.Model):
         blank=True,
         verbose_name="Procesamiento total aproximado (millicore)",
         help_text="Procesamiento total estimado en millicore"
-    )      
+    )
     memoria_aproximada_gb = models.IntegerField(
         null=True,
         blank=True,
@@ -139,7 +139,7 @@ class BusinessSystemProject(models.Model):
     )
     memoria_total = models.IntegerField(
         null=True,
-        blank=True,     
+        blank=True,
         verbose_name="Memoria total (MB)",
         help_text="Memoria total en MB"
     )
@@ -155,7 +155,7 @@ class BusinessSystemProject(models.Model):
         blank=True,
         verbose_name="Almacenamiento total (GB)",
         help_text="Almacenamiento total en GB"
-    )   
+    )
     active_processes_aproximados = models.IntegerField(
         null=True,
         blank=True,
@@ -263,7 +263,7 @@ class BusinessProcess(models.Model):
     memory_consumption = models.FloatField("Consumo de memoria (MB)", default=0)
     cpu_consumption = models.FloatField("Consumo de procesamiento (Cores)", default=0)
     store_consumption = models.FloatField("Consumo de Almacenamiento (GB)", default=0)
-    
+
     total_memory_available = models.FloatField("Memoria total disponible (MB)", default=1024)
     total_cpu_available = models.FloatField("Procesamiento total disponible (Cores)", default=8)
     total_storege_available =  models.FloatField("Almacenamiento total disponible (GB)", default=8)
@@ -736,7 +736,7 @@ class QATest(models.Model):
     TPUs_used = models.CharField(max_length=100, help_text="Tensor usadas milicore",null=True,blank=True)
     update_resources_used_pocentage = models.FloatField(help_text="Porcentaje de uso de recursos durante la prueba",null=True,blank=True)
     latency_ms = models.FloatField(help_text="Latencia en milisegundos",null=True,blank=True)
-    uptime_percentage = models.FloatField(help_text="Porcentaje de tiempo activo durante la prueba",null=True,blank=True) 
+    uptime_percentage = models.FloatField(help_text="Porcentaje de tiempo activo durante la prueba",null=True,blank=True)
     SERVER_CHOICE = [
         ('dedicated', 'Servidor privado Dedicado'),
         ('shared', 'Servidor hibrido Compartido'),
@@ -756,7 +756,7 @@ class QATest(models.Model):
 
 class CloudResource(models.Model):
     project = models.ForeignKey(BusinessSystemProject, on_delete=models.CASCADE, related_name='cloud_resources')
-    
+
     RESOURCE_TYPES = [
         ('compute', 'Compute (VM, EC2, etc.)'),
         ('storage', 'Almacenamiento'),
@@ -1019,6 +1019,12 @@ class Noticia(models.Model):
 
     imagen_datos_estadisticos = models.ImageField(
         upload_to='noticias/estadisticas/',
+        blank=True,
+        null=True
+    )
+
+    imagen_informativo = models.ImageField(
+        upload_to='noticias/informativo/',
         blank=True,
         null=True
     )

@@ -515,6 +515,24 @@ UNFOLD = {
         "items": [
 
             {
+                "title": _("Pagos Mensuales"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_paymentorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Ordenes/Ventas"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_orders_saasorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
                 "title": _("Pasivos/Activos"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:smartbusinessanalytics_id_activos_changelist"),
@@ -564,8 +582,98 @@ UNFOLD = {
                 "permission": is_all,
             },
 
+            {
+                "title": _("Proyectos ITC"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businesssystemproject_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Recursos ITC "),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_monthlysystemmetrics_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("DeV (I+D) ITC "),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessprocess_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
         ],
     },
+
+
+    {
+        "title": _("Product Management (SaaP)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Categorías"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_shop_category_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_shop_product_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+
+        ],
+    },
+
+
+        {
+            "title": _("Ebooks ITC"),
+            "separator": True,
+            "collapsible": True,
+            "items": [
+
+                {
+                    "title": _("Ebook Categorías"),
+                    "icon": "folder",
+                    "link": reverse_lazy("admin:business_customer_projects_categorianoticia_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+                },
+
+                {
+                    "title": _("Crear Ebook"),
+                    "icon": "folder",
+                    "link": reverse_lazy("admin:business_customer_projects_noticia_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+                },
+
+
+
+
+
+            ],
+        },
 
 
 

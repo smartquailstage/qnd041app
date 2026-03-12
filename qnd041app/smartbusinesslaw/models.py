@@ -1575,6 +1575,64 @@ from django.contrib.postgres.fields import JSONField  # Si usas PostgreSQL
 
 from django.db import models
 
+
+TIPO_IDENTIFICACION_CHOICES = [
+    ("C", "Cédula"),
+    ("R", "RUC"),
+    ("P", "Pasaporte"),
+    ("I", "Identificación exterior"),
+]
+
+SI_NO_CHOICES = [
+    ("SI", "Sí"),
+    ("NO", "No"),
+]
+
+TIPO_SUJETO_CHOICES = [
+    ("01", "Persona Natural"),
+    ("02", "Persona Jurídica"),
+]
+
+OTROS_MOTIVOS_CHOICES = [
+    ("01", "Influencia significativa"),
+    ("02", "Control indirecto"),
+    ("03", "Relación contractual"),
+    ("04", "Acuerdo de accionistas"),
+    ("05", "Control familiar"),
+    ("06", "Control indirecto de sociedad"),
+    ("07", "Fideicomiso"),
+    ("08", "Protector"),
+    ("09", "Administrador o directivo"),
+]
+
+PROVINCIA_CHOICES = [
+    ("001", "Azuay"),
+    ("002", "Bolívar"),
+    ("003", "Cañar"),
+    ("004", "Carchi"),
+    ("005", "Cotopaxi"),
+    ("006", "Chimborazo"),
+    ("007", "El Oro"),
+    ("008", "Esmeraldas"),
+    ("009", "Guayas"),
+    ("010", "Imbabura"),
+    ("011", "Loja"),
+    ("012", "Los Ríos"),
+    ("013", "Manabí"),
+    ("014", "Morona Santiago"),
+    ("015", "Napo"),
+    ("016", "Pastaza"),
+    ("017", "Pichincha"),
+    ("018", "Tungurahua"),
+    ("019", "Zamora Chinchipe"),
+    ("020", "Galápagos"),
+    ("021", "Sucumbíos"),
+    ("022", "Orellana"),
+    ("023", "Santo Domingo de los Tsáchilas"),
+    ("024", "Santa Elena"),
+]
+
+
 class SRI_AnexosTributarios(models.Model):
     """
     MODELO ÚNICO DE ANEXOS TRIBUTARIOS SRI – ECUADOR
@@ -1954,244 +2012,283 @@ class SRI_AnexosTributarios(models.Model):
     )
 
     # ==================================================
-    # BENEFICIARIO FINAL (REBEFICS)
+    # BENEFICIARIO FINAL
     # ==================================================
+
     bf_tipo_identificacion = models.CharField(
+        "Tipo de identificación del beneficiario final",
         max_length=1,
-        null=True, blank=True,
-        help_text="Tipo de identificación del beneficiario final."
+        choices=TIPO_IDENTIFICACION_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Tipo de documento de identificación del beneficiario final (cédula, RUC, pasaporte o identificación exterior).",
     )
 
     bf_identificacion = models.CharField(
+        "Número de identificación del beneficiario final",
         max_length=13,
-        null=True, blank=True,
-        help_text="Número de identificación del beneficiario final."
-    )
-
-    bf_nombre_completo = models.CharField(
-        max_length=255,
-        null=True, blank=True,
-        help_text="Nombre completo del beneficiario final."
-    )
-
-    bf_porcentaje_participacion = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
-        null=True, blank=True,
-        help_text="Porcentaje de participación del beneficiario final (hasta 6 decimales)."
-    )
-
-    bf_tipo_sujeto = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Tipo de sujeto del beneficiario final (PN=Persona Natural, PJ=Persona Jurídica)."
-    )
-
-    bf_identificacion_informante_padre = models.CharField(
-        max_length=13,
-        null=True, blank=True,
-        help_text="Número de identificación del contribuyente que reporta al SRI."
-    )
-
-    bf_es_beneficiario_final = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Indica si es beneficiario final (SI/NO)."
+        blank=True,
+        null=True,
+        help_text="Número de identificación del beneficiario final conforme al tipo seleccionado."
     )
 
     bf_primer_nombre = models.CharField(
+        "Primer nombre",
         max_length=100,
-        null=True, blank=True,
+        blank=True,
+        null=True,
         help_text="Primer nombre del beneficiario final."
     )
 
     bf_segundo_nombre = models.CharField(
+        "Segundo nombre",
         max_length=100,
-        null=True, blank=True,
-        help_text="Segundo nombre del beneficiario final."
+        blank=True,
+        null=True,
+        help_text="Segundo nombre del beneficiario final, si aplica."
     )
 
     bf_primer_apellido = models.CharField(
+        "Primer apellido",
         max_length=100,
-        null=True, blank=True,
+        blank=True,
+        null=True,
         help_text="Primer apellido del beneficiario final."
     )
 
     bf_segundo_apellido = models.CharField(
+        "Segundo apellido",
         max_length=100,
-        null=True, blank=True,
-        help_text="Segundo apellido del beneficiario final."
-    )
-
-    bf_provincia = models.CharField(
-        max_length=50,
-        null=True, blank=True,
-        help_text="Provincia del beneficiario final."
-    )
-
-    bf_canton = models.CharField(
-        max_length=50,
-        null=True, blank=True,
-        help_text="Cantón del beneficiario final."
-    )
-
-    bf_parroquia = models.CharField(
-        max_length=50,
-        null=True, blank=True,
-        help_text="Parroquia del beneficiario final."
-    )
-
-    bf_calle = models.CharField(
-        max_length=100,
-        null=True, blank=True,
-        help_text="Calle del beneficiario final."
-    )
-
-    bf_numero = models.CharField(
-        max_length=20,
-        null=True, blank=True,
-        help_text="Número de la dirección del beneficiario final."
-    )
-
-    bf_codigo_postal = models.CharField(
-        max_length=10,
-        null=True, blank=True,
-        help_text="Código postal del beneficiario final."
-    )
-
-    bf_residencia_fiscal = models.CharField(
-        max_length=3,
-        null=True, blank=True,
-        help_text="País de residencia fiscal del beneficiario final."
+        blank=True,
+        null=True,
+        help_text="Segundo apellido del beneficiario final, si aplica."
     )
 
     bf_fecha_nacimiento = models.DateField(
-        null=True, blank=True,
-        help_text="Fecha de nacimiento del beneficiario final (YYYY-MM-DD)."
+        "Fecha de nacimiento",
+        blank=True,
+        null=True,
+        help_text="Fecha de nacimiento del beneficiario final."
     )
 
-    bf_por_propiedad = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Indica si es beneficiario por propiedad (SI/NO)."
-    )
-
-    bf_por_otros_motivos = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Código de otros motivos según tabla SRI."
-        )
-
-    bf_por_otros_relacionados = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Código de otros motivos relacionados (si aplica)."
-        )
-
-    bf_por_administracion = models.CharField(
-        max_length=2,
-        null=True, blank=True,
-        help_text="Indica si es beneficiario por administración (SI/NO)."
+    bf_residencia_fiscal = models.CharField(
+        "País de residencia fiscal",
+        max_length=3,
+        blank=True,
+        null=True,
+        help_text="Código numérico del país de residencia fiscal según estándar ISO (por ejemplo: 593 para Ecuador)."
     )
 
     bf_nacionalidad_uno = models.CharField(
+        "Primera nacionalidad",
         max_length=3,
-        null=True, blank=True,
-        help_text="Código país de primera nacionalidad (ISO numérico, ej: 593)."
+        blank=True,
+        null=True,
+        help_text="Código numérico del país correspondiente a la nacionalidad principal del beneficiario final."
     )
 
     bf_nacionalidad_dos = models.CharField(
+        "Segunda nacionalidad",
         max_length=3,
-        null=True, blank=True,
-        help_text="Código país segunda nacionalidad."
+        blank=True,
+        null=True,
+        help_text="Código numérico del país correspondiente a una segunda nacionalidad, si aplica."
     )
 
-    bf_nacionalidad_tres = models.CharField(
-        max_length=3,
-        null=True, blank=True,
-        help_text="Código país tercera nacionalidad."
-    )
+    # ==================================================
+    # DOMICILIO
+    # ==================================================
 
-    bf_jurisdiccion = models.CharField(
-        max_length=3,
-        null=True, blank=True,
-        help_text="Código país de jurisdicción si es no residente."
+    bf_provincia = models.CharField(
+        "Provincia de residencia",
+        max_length=5,
+        choices=PROVINCIA_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Provincia del domicilio del beneficiario final dentro del Ecuador."
     )
 
     bf_ciudad = models.CharField(
+            "Ciudad",
+            max_length=5,
+            blank=True,
+            null=True,
+            help_text="Código de ciudad según la división política administrativa del Ecuador."
+    )
+
+    bf_canton = models.CharField(
+        "Cantón",
+        max_length=5,
+        blank=True,
+        null=True,
+        help_text="Código del cantón según la división política administrativa del Ecuador."
+    )
+
+    bf_parroquia = models.CharField(
+        "Parroquia",
+        max_length=7,
+        blank=True,
+        null=True,
+        help_text="Código de parroquia conforme al catálogo territorial del INEC."
+    )
+
+    bf_calle = models.CharField(
+        "Calle principal",
         max_length=100,
-        null=True, blank=True,
-        help_text="Ciudad del beneficiario final."
+        blank=True,
+        null=True,
+        help_text="Nombre de la calle principal del domicilio del beneficiario final."
+    )
+
+    bf_numero = models.CharField(
+        "Número de domicilio",
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Número de casa, edificio o lote del domicilio."
     )
 
     bf_interseccion = models.CharField(
+        "Intersección",
         max_length=100,
-        null=True, blank=True,
-        help_text="Intersección de la dirección."
+        blank=True,
+        null=True,
+        help_text="Nombre de la calle transversal o intersección."
+    )
+
+    bf_codigo_postal = models.CharField(
+        "Código postal",
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Código postal correspondiente al domicilio."
     )
 
     bf_referencia = models.CharField(
+        "Referencia de ubicación",
         max_length=255,
-        null=True, blank=True,
-        help_text="Referencia adicional de dirección."
+        blank=True,
+        null=True,
+        help_text="Referencia adicional para ubicar el domicilio (ejemplo: edificio, oficina, referencia cercana)."
     )
 
+    # ==================================================
+    # CONTROL DEL BENEFICIARIO FINAL
+    # ==================================================
 
+    bf_porcentaje_participacion = models.DecimalField(
+        "Porcentaje de participación",
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+        help_text="Porcentaje de participación directa o indirecta del beneficiario final en la sociedad."
+    )
+
+    bf_por_propiedad = models.CharField(
+        "Control por propiedad",
+        max_length=2,
+        choices=SI_NO_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Indica si el beneficiario final ejerce control a través de participación accionaria."
+    )
+
+    bf_por_administracion = models.CharField(
+        "Control por administración",
+        max_length=2,
+        choices=SI_NO_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Indica si el beneficiario final ejerce control mediante funciones de administración o dirección."
+    )
+
+    bf_por_otros_motivos = models.CharField(
+        "Otros motivos de control",
+        max_length=2,
+        choices=OTROS_MOTIVOS_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Código que identifica otros motivos por los cuales se considera beneficiario final."
+    )
+
+    # ==================================================
+    # DIVIDENDOS
+    # ==================================================
 
     distribuyo_dividendos = models.CharField(
+        "Distribución de dividendos",
         max_length=2,
-        null=True, blank=True,
-        help_text="Indica si distribuyó dividendos (SI/NO)."
+        choices=SI_NO_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Indica si durante el ejercicio fiscal se distribuyeron dividendos al beneficiario final."
     )
 
     dividendo_pagado = models.DecimalField(
+        "Monto de dividendos pagados",
         max_digits=15,
         decimal_places=2,
-        null=True, blank=True,
-        help_text="Monto de dividendos pagados al beneficiario."
+        blank=True,
+        null=True,
+        help_text="Monto total de dividendos pagados al beneficiario final durante el ejercicio fiscal."
     )
 
     impuesto_dividendo = models.DecimalField(
+        "Impuesto retenido por dividendos",
         max_digits=15,
         decimal_places=2,
-        null=True, blank=True,
-        help_text="Impuesto retenido sobre los dividendos."
+        blank=True,
+        null=True,
+        help_text="Valor del impuesto retenido sobre los dividendos distribuidos."
     )
 
     # ==================================================
-    # COMPOSICIÓN SOCIETARIA (REBEFICS)
+    # COMPOSICIÓN SOCIETARIA
     # ==================================================
+
     socio_tipo_identificacion = models.CharField(
+        "Tipo de identificación del socio",
         max_length=1,
-        null=True, blank=True,
-        help_text="Tipo de identificación del socio/accionista."
+        choices=TIPO_IDENTIFICACION_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Tipo de identificación del socio o accionista de la compañía."
     )
 
-    socio_identificacion_rebefics = models.CharField(
+    socio_identificacion = models.CharField(
+        "Identificación del socio",
         max_length=13,
-        null=True, blank=True,
-        help_text="Número de identificación del socio/accionista."
+        blank=True,
+        null=True,
+        help_text="Número de identificación del socio o accionista."
     )
 
-    socio_nombre_rebefics = models.CharField(
+    socio_nombre = models.CharField(
+        "Nombre o razón social del socio",
         max_length=255,
-        null=True, blank=True,
-        help_text="Nombre completo del socio/accionista."
-    )
-
-    socio_porcentaje_rebefics = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
-        null=True, blank=True,
-        help_text="Porcentaje de participación del socio/accionista (hasta 6 decimales)."
+        blank=True,
+        null=True,
+        help_text="Nombre completo o razón social del socio o accionista."
     )
 
     socio_tipo_sujeto = models.CharField(
+        "Tipo de sujeto",
         max_length=2,
-        null=True, blank=True,
-        help_text="Tipo de sujeto del socio/accionista (PN=Persona Natural, PJ=Persona Jurídica)."
+        choices=TIPO_SUJETO_CHOICES,
+        blank=True,
+        null=True,
+        help_text="Tipo de sujeto del socio: persona natural o persona jurídica."
     )
 
+    socio_porcentaje = models.DecimalField(
+        "Porcentaje de participación del socio",
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+        help_text="Porcentaje de participación accionaria del socio o accionista dentro de la compañía."
+    )
 
     # ==================================================
     # XI. METADATA
