@@ -6,7 +6,7 @@ from django.conf import settings
 import requests
 
 from core.models import SocialAutomationPost, GeneratedSocialAsset, SocialPostSchedule
-from core.tasks import send_post_to_n8n, send_asset_to_n8n
+from core.tasks import send_post_to_n8n, send_asset_to_n8n, send_video_to_n8n
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -113,7 +113,15 @@ def trigger_n8n_on_post_video_save(sender, instance, created, **kwargs):
         send_post_to_n8n.delay(instance.id)
 
 
-
+# 1️⃣ Signal para crear imagen desde VIDEO
+@receiver(post_save, sender=SocialAutomationVideo)
+def trigger_n8n_on_video_save(sender, instance, created, **kwargs):
+    """
+    Dispara la tarea de creación de imagen en n8n
+    cuando se crea un SocialAutomationPost nuevo o está pendiente.
+    """
+    if created or instance.status == "pending":
+        send_video_to_n8n.delay(instance.id)
 
 
 
