@@ -28,40 +28,7 @@ from .models import AIInstagramCarouselPost
 from .tasks import send_instagram_carousel_to_n8n
 
 
-@receiver(post_save, sender=SocialAutomationVideo)
-def schedule_social_video(sender, instance, **kwargs):
 
-    # ---------------------------------------
-    # Revocar tarea anterior si existe
-    # ---------------------------------------
-    if instance.celery_task_id:
-        try:
-            AsyncResult(instance.celery_task_id).revoke()
-        except Exception as e:
-            print("No se pudo revocar tarea anterior:", e)
-
-    # ---------------------------------------
-    # Programar nueva tarea si hay fecha
-    # ---------------------------------------
-    if instance.scheduled_datetime:
-
-        if instance.scheduled_datetime > timezone.now():
-
-            result = send_video_to_n8n.apply_async(
-                args=[instance.id],
-                eta=instance.scheduled_datetime
-            )
-
-            # Guardar task id
-            instance.celery_task_id = result.id
-            instance.save(update_fields=["celery_task_id"])
-
-        else:
-            # Si la fecha ya pasó → ejecutar inmediato
-            send_video_to_n8n.delay(instance.id)
-
-            instance.celery_task_id = None
-            instance.save(update_fields=["celery_task_id"])
 
 @receiver(post_save, sender=AIInstagramPostPublished)
 def schedule_instagram_post(sender, instance, **kwargs):
