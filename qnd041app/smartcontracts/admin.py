@@ -92,6 +92,10 @@ class ContratoAdmin(ModelAdmin):
         'updated_at',
     ]
 
+    editable_fields = [
+        'created_at',
+        'updated_at',
+    ]
     # 🔹 Inline incluido
     inlines = [ClausulaContratoInline]
 

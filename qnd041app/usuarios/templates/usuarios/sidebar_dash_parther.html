@@ -14,7 +14,7 @@
             <a href="{% url 'usuarios:dashboard_pather' %}">
               <img src="{% static 'assets/images/QUAIL.png' %}" class="logo-icon"  width="9px" alt="logo icon">
             </a>
-                                 
+
 
         </div>
 
@@ -30,7 +30,7 @@
 
     </div>
 
-    
+
     <!--navigation-->
     <ul class="metismenu" id="menu">
 
@@ -52,7 +52,7 @@ Coorp & Industrial
     No se ha definido el tamaño de la empresa.
 {% endif %}
 
-    
+
           </p>
       </li>
 {% if all_projects or projects_in_progress %}
@@ -88,7 +88,7 @@ Coorp & Industrial
     {% endfor %}
 
     {# 🔥 Crear proyecto solo si hay orden activa #}
-    {% if projects_in_progress or all_projects %}
+    {% if  all_projects %}
       <li>
         <a href="{% url 'business_customer_projects:create_project' %}">
           <ion-icon name="add-circle-outline"></ion-icon>
@@ -108,12 +108,12 @@ Coorp & Industrial
   <a href="javascript:;" class="has-arrow" aria-expanded="false">
     <div class="parent-icon">
        <ion-icon name="cloud-upload-outline"></ion-icon>
-      
+
     </div>
     <div style="font-size: 10pt;" class="menu-title">Soluciones ITC </div>
   </a>
   <ul class="mm-collapse" style="height: auto;">
-  
+
             <li>
                <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
               <ion-icon name="browsers-outline"></ion-icon>
@@ -135,7 +135,7 @@ Coorp & Industrial
             <div style="font-size: 10pt;"  class="menu-title">Infraestructura</div>
           </a>
         </li>
-  
+
 
   </ul>
 
@@ -149,7 +149,7 @@ Coorp & Industrial
 
             <li class="menu-label">
                  <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
-           NEGOCIOS ITC 
+           NEGOCIOS ITC
           </p>
       </li>
 
@@ -157,7 +157,7 @@ Coorp & Industrial
       <li class="">
 
 
-{% if all_projects or projects_in_progress %} 
+{% if all_projects or projects_in_progress %}
 
             <a href="{% url 'business_customer_projects:paymentorder_list' %}">
             <div class="parent-icon">
@@ -204,10 +204,8 @@ Coorp & Industrial
 
 
 
-  
+
     <!--end navigation-->
 
 
 </aside>
-
-
