@@ -16,9 +16,12 @@
     content: element(page-header);
   }
 
-  @bottom-center {
-    content: element(page-footer);
+  @bottom-right {
+    content: "Página " counter(page) " de " counter(pages);
   }
+
+  /* Inicializa contadores de página */
+  counter-increment: page;
 }
 
 
@@ -204,6 +207,7 @@ footer p {
 }
 
 
+
 /* PIE DE PÁGINA */
 footer.page-footer {
   position: running(page-footer);
@@ -213,13 +217,16 @@ footer.page-footer {
   color: #666;
   padding: 2mm 0;
   border-top: 1px solid #ccc;
-  margin-bottom: 1px;
   width: 100%;
 }
 
-/* Para mostrar número de página en PDF con WeasyPrint */
+/* Para mostrar número de página con span dentro del footer si lo deseas */
 span.pageNumber::before {
   content: counter(page);
+}
+
+span.totalPages::before {
+  content: counter(pages);
 }
 
 
