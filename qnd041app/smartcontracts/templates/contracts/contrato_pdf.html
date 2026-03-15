@@ -20,15 +20,18 @@
 
 
 <div class="titulos">
-    <h3> {{ contrato.get_tipo_contrato_display|upper }} <br>
-    <strong>DE LA COMPAÑÍA SMARTQUAIL S.A.S. </strong></h3>
+    <h4> {{ contrato.get_tipo_contrato_display|upper }}
+    DE LA COMPAÑÍA <strong>SMARTQUAIL S.A.S. </strong></h4>
 </div>
 
 <div class="preambulo">
     <p>
 
-{{ contrato.objeto_contrato }}
-    </p>
+<strong>{{ contrato.objeto_contrato }}</strong>
+  </p>
+  <p> Inspector del Ministerio de Trabajo de Pichincha</p>
+<p><strong>Presente.</strong></p>
+
 
     <p>
     {{ contrato.partes_contratantes }}
@@ -68,9 +71,9 @@
 
 </div>
 
+
+
 <hr>
-
-
 <footer>
     <p>
         SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
