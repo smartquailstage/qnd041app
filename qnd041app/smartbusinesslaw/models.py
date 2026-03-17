@@ -16,6 +16,8 @@ class CartaNombramiento(models.Model):
     # Datos de la sociedad
     nombre_sociedad = models.CharField(max_length=100, default="SMARTQUAIL S.A.S.")
     fecha_constitutiva = models.DateField(default="2020-10-20")
+    fecha_acta = models.DateField(null=True, blank= True)
+    fecha_inscripcion = models.DateField(null=True, blank= True)
 
     # Datos del accionista fundador
     nombre_accionista = models.CharField(max_length=100, default="Santiago Mauricio Silva Domínguez")

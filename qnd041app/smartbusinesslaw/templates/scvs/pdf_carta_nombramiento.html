@@ -32,26 +32,30 @@
         <strong>{{ carta.nombre_designado }}</strong> <br>
         Presente. <br> <br>
         De mi consideración:<br><br>
-        Informo a usted que, conforme a la Cláusula Quinta del documento constitutivo de la
-        sociedad por acciones simplificada denominada <strong>{{ carta.nombre_sociedad }}</strong>,
-        suscrito el {{ carta.fecha_constitutiva|date:"d" }} de {{ carta.fecha_constitutiva|date:"F" }} de {{ carta.fecha_constitutiva|date:"Y" }},
-        los accionistas fundadores la han designado como <strong>{{ carta.cargo_designado }}</strong> de la referida sociedad,
-        por un período de <strong>{{ carta.duracion_anos }} años</strong>, con los deberes y atribuciones que señala
-        el Estatuto Social que consta en el aludido documento.
+        En mi calidad de accionista de la sociedad por acciones simplificada denominada
+        <strong>{{ carta.nombre_sociedad }}</strong>, me permito informarle que, conforme al
+        Acta de Asamblea de Accionistas de fecha {{ carta.fecha_acta|date:"d" }} de {{ carta.fecha_acta|date:"F" }} de {{ carta.fecha_acta|date:"Y" }},
+        debidamente celebrada para el efecto, ha sido designado como
+        <strong>{{ carta.cargo_designado }}</strong> de la referida sociedad, por un período de
+        <strong>{{ carta.duracion_anos }} años</strong>, con los deberes y atribuciones que señala
+        el Estatuto Social.
+
+        La compañía fue constituida mediante documento constitutivo suscrito el
+        {{ carta.fecha_constitutiva|date:"d" }} de {{ carta.fecha_constitutiva|date:"F" }} de {{ carta.fecha_constitutiva|date:"Y" }},
+        e inscrita en el Registro de la Superintendencia de Compañías, Valores y Seguros el
+        {{ carta.fecha_inscripcion|date:"d" }} de {{ carta.fecha_inscripcion|date:"F" }} de {{ carta.fecha_inscripcion|date:"Y" }}.
     </p>
 
     <p>
-        En el ejercicio de sus atribuciones, de conformidad al literal {% if carta.cargo_designado == "PRESIDENTE" %}a) del artículo 28 del contrato constitutivo,
+        {% if carta.cargo_designado == "PRESIDENTE" %}
+        En el ejercicio de sus atribuciones, de conformidad al literal a) del artículo 28 del contrato constitutivo,
         en caso de ausencia temporal o definitiva del Gerente General, ya sea por vacaciones, enfermedad, ausencia del país,
         cualquiera otra circunstancia similar; o, por separación, remoción o renuncia; le corresponderá en su calidad de
         <strong>{{ carta.cargo_designado }}</strong>, subrogar al Gerente General y ejercer la representación legal de la compañía,
         durante el período que dure dicha ausencia.
         {% elif carta.cargo_designado == "GERENTE GENERAL" %}
         En el ejercicio de sus atribuciones, le corresponderá ejercer la representación legal, judicial
-y extrajudicial de la sociedad, de manera individual conforme lo establecido en el literal a)
-del artículo 25 del Estatuto Social, en concordancia con la cláusula quinta del referido
-estatuto.
-
+        y extrajudicial de la sociedad, de manera individual conforme lo establecido en el Estatuto Social.
         {% endif %}
     </p>
 </div>

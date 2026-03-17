@@ -90,7 +90,7 @@ class CartaNombramientoAdmin(ModelAdmin):
             "classes": ("unfold", "tab-designado"),
         }),
         ("IV. Fechas y Control", {
-            "fields": ("fecha_emision", "hash_nombramiento"),
+            "fields": ("fecha_emision", "hash_nombramiento", "fecha_acta", "fecha_inscripcion"),
             "classes": ("unfold", "tab-fechas"),
         }),
     )
