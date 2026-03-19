@@ -39,10 +39,10 @@
               </div>
             {% endif %}
             <div class="form-group">
-            
+
                     {% for field in form.visible_fields %}
                     {{ field.label_tag }}
-              
+
                     {% if form.is_bound %}
                       {% if field.errors %}
                         {% render_field field class="form-control is-invalid" %}
@@ -57,13 +57,13 @@
                     {% else %}
                       {% render_field field class="form-control" %}
                     {% endif %}
-              
+
                     {% if field.help_text %}
                       <small class="form-text text-muted">{{ field.help_text }}</small>
-              
+
                     {% endif %}
-                    {% endfor %}   
-               
+                    {% endfor %}
+
               </div>
             <p class="form-submit">
                 <input name="submit" type="submit" id="submit-btn" class="btn btn-color btn-square" value="{% trans 'Submit your aplication' %}">

@@ -349,7 +349,7 @@ class info(Page):
     # Empieza Barner de Inicio
     template = "webapp/info/introduccion.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -409,7 +409,7 @@ class info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -455,11 +455,11 @@ class info(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -515,8 +515,8 @@ class GlobalLinksSettings(BaseSiteSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -527,7 +527,7 @@ class info_2(Page):
     # Empieza Barner de Inicio
     template = "webapp/info/mision_vision.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -587,7 +587,7 @@ class info_2(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -633,11 +633,11 @@ class info_2(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3_1', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -680,7 +680,7 @@ class smartbusinessmedia_info(Page):
     # Empieza Barner de Inicio
     template = "webapp/products/smartbusinessmedia/info/info.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -746,7 +746,7 @@ class smartbusinessmedia_info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -796,11 +796,11 @@ class smartbusinessmedia_info(Page):
         FieldPanel('banner_title17', classname="full"),
         FieldPanel('info_title17', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_SBM', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -854,8 +854,8 @@ class GlobalLinksSettingsSBM(BaseSiteSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -866,7 +866,7 @@ class smartbusinessanalytics_info(Page):
     # Empieza Barner de Inicio
     template = "webapp/products/smartbusinessanalytics/info/info.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -926,7 +926,7 @@ class smartbusinessanalytics_info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -972,11 +972,11 @@ class smartbusinessanalytics_info(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -1030,8 +1030,8 @@ class GlobalLinksSettingsSBA(BaseSiteSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -1042,7 +1042,7 @@ class smartbusinesslaw_info(Page):
     # Empieza Barner de Inicio
     template = "webapp/products/smartbusinesslaw/info/info.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -1102,7 +1102,7 @@ class smartbusinesslaw_info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -1148,11 +1148,11 @@ class smartbusinesslaw_info(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -1206,8 +1206,8 @@ class GlobalLinksSettingsSBL(BaseSiteSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -1218,7 +1218,7 @@ class smartbusinesstechnologies_info(Page):
     # Empieza Barner de Inicio
     template = "webapp/products/smartbusinesstechnologies/info/info.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -1278,7 +1278,7 @@ class smartbusinesstechnologies_info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -1324,11 +1324,11 @@ class smartbusinesstechnologies_info(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -1382,8 +1382,8 @@ class GlobalLinksSettingsSBT(BaseSiteSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -1420,6 +1420,27 @@ from wagtail import blocks
 from modelcluster.fields import ParentalKey
 
 
+# ------------------------------------------------------------------
+# CHOICES
+# ------------------------------------------------------------------
+
+
+
+
+from os.path import splitext
+import json
+
+from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
+
+from wagtail.models import Page, Collection
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images import get_image_model
+from wagtail.admin.panels import FieldPanel
+
+from django import forms
 # ------------------------------------------------------------------
 # CHOICES
 # ------------------------------------------------------------------
@@ -1482,22 +1503,9 @@ TIMEJOBS = (
 class JobsListingOpeningPage(Page):
     template = "webapp/joblistingopening.html"
 
-    custom_title = models.CharField(
-        max_length=100,
-        help_text="Overwrites the default title",
-    )
-
-    jobs_category = models.CharField(
-        max_length=100,
-        choices=JOBS,
-        blank=True,
-        null=True,
-    )
-
-    benefits = RichTextField(
-        blank=True,
-        verbose_name="Beneficios"
-    )
+    custom_title = models.CharField(max_length=100, help_text="Overwrites the default title")
+    jobs_category = models.CharField(max_length=100, choices=JOBS, blank=True, null=True)
+    benefits = RichTextField(blank=True, verbose_name="Beneficios")
 
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
@@ -1507,16 +1515,118 @@ class JobsListingOpeningPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
+        # Trae todas las páginas de detalle de trabajo
         context["posts"] = JobsFormDetailOpeningPage.objects.live().public()
         return context
 
 
 # ------------------------------------------------------------------
-# FORM FIELD (CUSTOM IMAGE FIELD)
+# CUSTOM FORM BUILDER (opcional para campos de imagen)
 # ------------------------------------------------------------------
 
+class CustomFormBuilder:
+    def create_image_field(self, field, options):
+        from wagtail.images.form_fields import WagtailImageField
+        return WagtailImageField(**options)
 
 
+class JobApplicationForm(forms.Form):
+    name = forms.CharField(max_length=255)
+    email = forms.EmailField()
+    cv = forms.FileField(required=False)
+    comment = forms.CharField(widget=forms.Textarea, required=False)
+
+
+# ------------------------------------------------------------------
+# JOB DETAIL PAGE (CON PAGE, NO AbstractEmailForm)
+# ------------------------------------------------------------------
+
+class JobsFormDetailOpeningPage(Page):
+    template = "webapp/jobdetailopening.html"
+
+    # CAMPOS
+    jobs_category = models.CharField(max_length=100, choices=JOBS_CATEGORY, blank=True, null=True)
+    city = models.CharField(max_length=100, choices=CITIES, blank=True, null=True)
+    country = models.CharField(max_length=100, choices=COUNTRIES, blank=True, null=True)
+    timejobs = models.CharField(max_length=100, choices=TIMEJOBS, blank=True, null=True)
+    description = RichTextField(blank=True, verbose_name="Descripción corta")
+    uploadcv = models.FileField(upload_to="CV_file/%Y/%m/%d", blank=True, null=True)
+    uploaded_image_collection = models.ForeignKey(Collection, blank=True, null=True, on_delete=models.SET_NULL)
+    comments = RichTextField(blank=True, verbose_name="Mensaje para que nos dejen un comentario")
+    thank_you_text = RichTextField(blank=True)
+
+    # STREAMFIELD
+    content = StreamField(
+        [
+            ("heading", blocks.CharBlock(form_classname="full title")),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+            ("quote", blocks.BlockQuoteBlock()),
+            ("list", blocks.ListBlock(blocks.CharBlock(label="Item"))),
+        ],
+        null=True,
+        blank=True,
+        use_json_field=True,
+    )
+
+    # MÉTODOS
+    def get_uploaded_image_collection(self):
+        return self.uploaded_image_collection or Collection.get_first_root_node()
+
+    @staticmethod
+    def get_image_title(filename):
+        if filename:
+            result = splitext(filename)[0].replace("-", " ").replace("_", " ")
+            return result.title()
+        return ""
+
+    def process_form_submission(self, form):
+        """
+        Procesa manualmente un formulario (archivos, CV, imágenes)
+        """
+        cleaned_data = form.cleaned_data
+        for name, field in form.fields.items():
+            if hasattr(field.widget, "input_type") and field.widget.input_type == "file":
+                file_data = cleaned_data.get(name)
+                if file_data:
+                    ImageModel = get_image_model()
+                    image = ImageModel(
+                        file=file_data,
+                        title=self.get_image_title(file_data.name),
+                        collection=self.get_uploaded_image_collection(),
+                    )
+                    image.save()
+                    cleaned_data[name] = image.pk
+        return cleaned_data
+
+    # PANELS
+    content_panels = Page.content_panels + [
+        FieldPanel("jobs_category"),
+        FieldPanel("city"),
+        FieldPanel("country"),
+        FieldPanel("timejobs"),
+        FieldPanel("description"),
+        FieldPanel("uploadcv"),
+        FieldPanel("uploaded_image_collection"),
+        FieldPanel("content"),
+        FieldPanel("comments"),
+        FieldPanel("thank_you_text"),
+    ]
+
+    # --- Pass form to template ---
+    def get_context(self, request):
+        context = super().get_context(request)
+        if request.method == "POST":
+            form = JobApplicationForm(request.POST, request.FILES)
+            if form.is_valid():
+                # Aquí puedes guardar en DB, enviar correo, etc.
+                context["form_submitted"] = True
+                context["form_data"] = form.cleaned_data
+            else:
+                context["form"] = form
+        else:
+            context["form"] = JobApplicationForm()
+        return context
 
 
 from django.db import models
@@ -1662,4 +1772,3 @@ PORTFOLIO = (
 # -------------------
 # Resume Form Fields
 # -------------------
-
