@@ -21,21 +21,23 @@
 <!-- ================= HERO ================= -->
 <section class="pt-0 pb-0" id="home">
   <div class="full-screen-bg">
-    {% image page.hero_background  scale-100 as hero_bg %}
-    <div class="parallax-img"
-         style="background: url('{{ hero_bg.url }}') center center / cover no-repeat;">
-    </div>
+    {% if page.image %}
+      {% image page.image scale-100 as hero_bg %}
+      <div class="parallax-img"
+           style="background: url('{{ hero_bg.url }}') center center / cover no-repeat;">
+      </div>
+    {% endif %}
 
     <canvas></canvas>
 
     <div class="hero-text-wrap">
       <div class="hero-text white-color">
         <div class="container text-center">
-          <h1 class="white-color font-700">{{ page.hero_name }}</h1>
+          <h1 class="white-color font-700">{{ page.custom_title }}</h1>
 
           <div class="animate-caption">
             <h2 class="white-color mt-30">
-              <span class="rotate">{{ page.hero_rotating_text }}</span>
+              <span class="rotate">{{ page.porfolio_1 }}</span>
             </h2>
           </div>
 
@@ -60,37 +62,23 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-8 section-heading">
-        <h1 class="text-uppercase font-700">{{ page.about_title }}</h1>
+        <h1 class="text-uppercase font-700">{{ page.custom_title }}</h1>
         <div class="mt-30">
-          {{ page.about_text|richtext }}
+          {{ page.aboutus|richtext }}
         </div>
       </div>
     </div>
 
     <div class="row mt-50">
-      <!-- SKILLS -->
+      <!-- SKILLS (NO EXISTEN → USAMOS TEXTOS) -->
       <div class="col-md-6 resume-bar">
-        {% for skill in page.skills.all %}
-        <div class="progress-bar-title">{{ skill.title }}</div>
-        <div class="progress">
-          <div class="progress-bar" data-width="{{ skill.percent }}">
-            <span>{{ skill.percent }}%</span>
-          </div>
-        </div>
-        {% endfor %}
+        {{ page.aboutus_1|richtext }}
+        {{ page.aboutus_2|richtext }}
+        {{ page.aboutus_3|richtext }}
       </div>
 
-      <!-- COUNTERS -->
+      <!-- COUNTERS (NO EXISTEN → VACÍO) -->
       <div class="col-md-6">
-        <div class="row">
-          {% for counter in page.counters.all %}
-          <div class="col-md-6 counter text-center col-sm-6 {% if forloop.counter > 2 %}mt-30{% endif %}">
-            <i class="icofont {{ counter.icon }} default-icon font-30px"></i>
-            <h2 class="count font-700">{{ counter.number }}</h2>
-            <h3 class="dark-color">{{ counter.label }}</h3>
-          </div>
-          {% endfor %}
-        </div>
       </div>
     </div>
   </div>
@@ -103,16 +91,16 @@
       <div class="portfolio-container text-center">
 
         <ul id="portfolio-grid" class="three-column hover-two">
-          {% for item in page.portfolio_items.all %}
-          {% image item.image scale-100 as img %}
-          <li class="portfolio-item" data-groups='["all","{{ item.category }}"]'>
+          {% for item in page.porfolio_items.all %}
+          {% image item.image_1 scale-100 as img %}
+          <li class="portfolio-item" data-groups='["all","{{ item.porfolio }}"]'>
             <div class="portfolio gallery-image-hover">
               <div class="dark-overlay"></div>
-              <img src="{{ img.url }}" alt="{{ item.title }}">
+              <img src="{{ img.url }}" alt="{{ item.porfolio_title }}">
               <div class="portfolio-wrap">
                 <div class="portfolio-description">
-                  <h3 class="portfolio-title">{{ item.title }}</h3>
-                  <span class="links">{{ item.category }}</span>
+                  <h3 class="portfolio-title">{{ item.porfolio_title }}</h3>
+                  <span class="links">{{ item.porfolio }}</span>
                 </div>
               </div>
             </div>
@@ -133,17 +121,17 @@
     <div class="row">
       <div class="col-sm-8 section-heading white-color">
         <h1 class="text-uppercase font-700">{% trans "My Resume" %}</h1>
-        {{ page.experience_message|richtext }}
+        {{ page.experience_message }}
       </div>
     </div>
 
     <ul class="resume-slider owl-carousel mt-50">
-      {% for exp in page.experiences.all %}
+      {% for exp in page.experience_items.all %}
       <li>
-        <h3><i class="icofont icofont-calendar"></i> {{ exp.period }}</h3>
-        <h3><i class="icofont icofont-briefcase"></i> {{ exp.company }}</h3>
-        <h2>{{ exp.role }}</h2>
-        {{ exp.description|richtext }}
+        <h3><i class="icofont icofont-calendar"></i> {{ exp.fecha }}</h3>
+        <h3><i class="icofont icofont-briefcase"></i> {{ exp.business_title }}</h3>
+        <h2>{{ exp.business_charge }}</h2>
+        <p>{{ exp.business_activity }}</p>
       </li>
       {% endfor %}
     </ul>
@@ -151,14 +139,14 @@
     <!-- EDUCATION -->
     <div class="row mt-50">
       <div class="col-md-12">
-        {{ page.education_message|richtext }}
+        {{ page.educational_message }}
         <ul class="resume-slider owl-carousel">
-          {% for edu in page.education_items.all %}
+          {% for edu in page.educational_items.all %}
           <li>
-            <h3><i class="icofont icofont-calendar"></i> {{ edu.period }}</h3>
-            <h3><i class="icofont icofont-university"></i> {{ edu.institution }}</h3>
-            <h2>{{ edu.degree }}</h2>
-            {{ edu.description|richtext }}
+            <h3><i class="icofont icofont-calendar"></i> {{ edu.fecha }}</h3>
+            <h3><i class="icofont icofont-university"></i> {{ edu.academy_title }}</h3>
+            <h2>{{ edu.title }}</h2>
+            <p>{{ edu.academy_activity }}</p>
           </li>
           {% endfor %}
         </ul>
@@ -212,8 +200,8 @@
 
 {% include "webapp/home/footer_section.html" %}
 
-
 <script>
+/* TODO TU SCRIPT EXACTO SIN CAMBIOS */
 var canvas = document.querySelector("canvas");
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
@@ -310,11 +298,7 @@ function draw() {
   }
 }
 
-// Start
 loop();
-//# sourceURL=pen.js
 </script>
-
-
 
 {% endblock %}

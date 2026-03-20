@@ -1769,6 +1769,268 @@ PORTFOLIO = (
     ("Artificial Intelligence", "Artificial Intelligence"),
 )
 
-# -------------------
-# Resume Form Fields
-# -------------------
+
+
+
+from django.db import models
+from wagtail.models import Page, Orderable
+from wagtail.fields import RichTextField
+from wagtail.admin.panels import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    FieldRowPanel,
+)
+from wagtail.images import get_image_model_string
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from modelcluster.fields import ParentalKey
+
+
+# --------------------------------------------------
+# CHOICES
+# --------------------------------------------------
+
+PORFOLIO = (
+    ("Landscapes", "Landscapes"),
+    ("Visual Production", "Visual Production"),
+    ("Web Content", "Web Content"),
+    ("Social Networks Content", "Social Networks Content"),
+    ("Web Design", "Web Design"),
+    ("Artificial Intelligence", "Artificial Intelligence"),
+)
+
+
+# --------------------------------------------------
+# FORM FIELDS (Wagtail Forms)
+# --------------------------------------------------
+
+class ContactFormResumePage(AbstractFormField):
+    page = ParentalKey(
+        "ResumePage",
+        on_delete=models.CASCADE,
+        related_name="form_fields"
+    )
+
+
+# --------------------------------------------------
+# PAGE
+# --------------------------------------------------
+
+class ResumePage(AbstractEmailForm):
+
+    template = "webapp/resume.html"
+
+    custom_title = models.CharField(
+        max_length=100,
+        help_text="Nombre",
+    )
+
+    porfolio_1 = models.CharField(max_length=100, choices=PORFOLIO, blank=True, null=True)
+    porfolio_2 = models.CharField(max_length=100, choices=PORFOLIO, blank=True, null=True)
+    porfolio_3 = models.CharField(max_length=100, choices=PORFOLIO, blank=True, null=True)
+    porfolio_4 = models.CharField(max_length=100, choices=PORFOLIO, blank=True, null=True)
+
+    aboutus = RichTextField(blank=True, verbose_name="Acerca de mi")
+    aboutus_1 = RichTextField(blank=True, verbose_name="mensaje 1")
+    aboutus_2 = RichTextField(blank=True, verbose_name="mensaje 2")
+    aboutus_3 = RichTextField(blank=True, verbose_name="mensaje 3")
+
+    experience_message = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Describir un mensaje de experiencia",
+    )
+
+    educational_message = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Describir un mensaje de la educación",
+    )
+
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Foto de perfil",
+    )
+
+    comments = RichTextField(
+        blank=True,
+        verbose_name="Mensaje para comentarios"
+    )
+
+    thank_you_text = RichTextField(blank=True)
+
+    resume_url = models.URLField(blank=True, null=True)
+
+    # --------------------------------------------------
+    # PANELS
+    # --------------------------------------------------
+
+    content_panels = Page.content_panels + [
+        FieldPanel("custom_title"),
+
+        FieldPanel("aboutus"),
+        FieldPanel("aboutus_1"),
+        FieldPanel("aboutus_2"),
+        FieldPanel("aboutus_3"),
+
+        FieldPanel("porfolio_1"),
+        FieldPanel("porfolio_2"),
+        FieldPanel("porfolio_3"),
+        FieldPanel("porfolio_4"),
+
+        FieldPanel("resume_url"),
+        FieldPanel("experience_message"),
+        FieldPanel("educational_message"),
+
+        FieldPanel("image"),
+
+        InlinePanel("porfolio_items", label="Portfolio"),
+        InlinePanel("experience_items", label="Experience"),
+        InlinePanel("educational_items", label="Education"),
+
+        InlinePanel("form_fields", label="Formulario"),
+
+        FieldPanel("thank_you_text", classname="full"),
+
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("from_address", classname="col6"),
+                        FieldPanel("to_address", classname="col6"),
+                    ]
+                ),
+                FieldPanel("subject"),
+            ],
+            heading="Email",
+        ),
+    ]
+
+
+# --------------------------------------------------
+# PORTFOLIO
+# --------------------------------------------------
+
+class PorfolioPage(Orderable):
+    page = ParentalKey(
+        ResumePage,
+        on_delete=models.CASCADE,
+        related_name="porfolio_items"
+    )
+
+    porfolio_title = models.CharField(
+        max_length=100,
+        help_text="Título de portfolio",
+        blank=True,
+        null=True,
+    )
+
+    porfolio = models.CharField(
+        max_length=100,
+        choices=PORFOLIO,
+        blank=True,
+        null=True
+    )
+
+    image_1 = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Imagen",
+    )
+
+    panels = [
+        FieldPanel("porfolio_title"),
+        FieldPanel("porfolio"),
+        FieldPanel("image_1"),
+    ]
+
+
+# --------------------------------------------------
+# EXPERIENCE
+# --------------------------------------------------
+
+class ExperiencePage(Orderable):
+    page = ParentalKey(
+        ResumePage,
+        on_delete=models.CASCADE,
+        related_name="experience_items"
+    )
+
+    business_title = models.CharField(
+        max_length=100,
+        help_text="Empresa",
+        blank=True,
+        null=True,
+    )
+
+    business_charge = models.CharField(
+        max_length=100,
+        help_text="Cargo",
+        blank=True,
+        null=True,
+    )
+
+    business_activity = models.TextField(
+        help_text="Descripción",
+        blank=True,
+        null=True,
+    )
+
+    fecha = models.DateField(blank=True, null=True)
+
+    panels = [
+        FieldPanel("business_title"),
+        FieldPanel("business_charge"),
+        FieldPanel("business_activity"),
+        FieldPanel("fecha"),
+    ]
+
+
+# --------------------------------------------------
+# EDUCATION
+# --------------------------------------------------
+
+class EducationalPage(Orderable):
+    page = ParentalKey(
+        ResumePage,
+        on_delete=models.CASCADE,
+        related_name="educational_items"
+    )
+
+    academy_title = models.CharField(
+        max_length=100,
+        help_text="Institución",
+        blank=True,
+        null=True,
+    )
+
+    title = models.CharField(
+        max_length=100,
+        help_text="Título",
+        blank=True,
+        null=True,
+    )
+
+    academy_activity = models.TextField(
+        help_text="Descripción",
+        blank=True,
+        null=True,
+    )
+
+    fecha = models.DateField(blank=True, null=True)
+
+    panels = [
+        FieldPanel("academy_title"),
+        FieldPanel("title"),
+        FieldPanel("academy_activity"),
+        FieldPanel("fecha"),
+    ]
