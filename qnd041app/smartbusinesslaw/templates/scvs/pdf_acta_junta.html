@@ -88,7 +88,7 @@
 
 <div class="clausulas">
     {% for clausula in clausulas %}
-        <h3>{{ clausula.get_clausula_display }}: {{ clausula.titulo_clausura }} </h3>
+        <strong><h3>{{ clausula.get_clausula_display }}: {{ clausula.titulo_clausura }} </h3></strong>
         <p>{{ clausula.detalle }}</p>
     {% empty %}
 
