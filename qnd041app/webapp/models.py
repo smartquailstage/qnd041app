@@ -1796,7 +1796,24 @@ PORFOLIO = (
     ("Web Content", "Web Content"),
     ("Social Networks Content", "Social Networks Content"),
     ("Web Design", "Web Design"),
-    ("Artificial Intelligence", "Artificial Intelligence"),
+    ("Artificial Intelligence Engineer", "Artificial Intelligence Engineer"),
+    ("Site Reliability Engineer (SRE)", "Site Reliability Engineer (SRE)"),
+    ("Full-Stack Developer", "Full-Stack Developer"),
+    ("PhD Candidate in Physics and Data Science", "PhD Candidate in Physics and Data Science"),
+    ("Co-Founder", "Co-Founder"),
+
+    ("Chief Technology Officer", "Chief Technology Officer"),
+    ("Chief Administrative Officer", "Chief Administrative Officer"),
+
+    ("Senior Project Manager", "Senior Project Manager"),
+    ("Junior Project Manager", "Junior Project Manager"),
+    ("Frontend Software Developer", "Frontend Software Developer"),
+    ("Backend Software Developer", "Backend Software Developer"),
+    ("Senior Data Scientist", "Senior Data Scientist"),
+    ("Junior Data Scientist", "Junior Data Scientist"),
+
+    ("Community Manager", "Community Manager"),
+    ("Content Creator", "Content Creator"),
 )
 
 

@@ -14,6 +14,19 @@
   justify-content: center;
   align-items: center;
 }
+
+.rotate-item {
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.rotate-item.active {
+  opacity: 1;
+  position: relative;
+}
 </style>
 
 {% main_menu template="webapp/home/header.html" %}
@@ -37,9 +50,14 @@
 
           <div class="animate-caption">
             <h2 class="white-color mt-30">
-              <span class="rotate">{{ page.porfolio_1 }}</span>
+              {% if page.porfolio_1 %}<span class="rotate-item active">{{ page.porfolio_1 }}</span>{% endif %}
+              {% if page.porfolio_2 %}<span class="rotate-item">{{ page.porfolio_2 }}</span>{% endif %}
+              {% if page.porfolio_3 %}<span class="rotate-item">{{ page.porfolio_3 }}</span>{% endif %}
+              {% if page.porfolio_4 %}<span class="rotate-item">{{ page.porfolio_4 }}</span>{% endif %}
             </h2>
           </div>
+
+
 
           <p class="text-center mt-30">
             {% if page.resume_url %}
@@ -199,6 +217,22 @@
 </section>
 
 {% include "webapp/home/footer_section.html" %}
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".rotate-item");
+  let index = 0;
+
+  function showNext() {
+    items[index].classList.remove("active");
+    index = (index + 1) % items.length;
+    items[index].classList.add("active");
+  }
+
+  setInterval(showNext, 2500); // velocidad (2.5s)
+});
+</script>
 
 <script>
 /* TODO TU SCRIPT EXACTO SIN CAMBIOS */
