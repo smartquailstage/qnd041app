@@ -28,48 +28,41 @@
 </div>
 
 <div class="preambulo">
-    <p>
-        En la ciudad de <strong>{{ acta.lugar_asamblea }}</strong>, a los
-        {{ acta.fecha_asamblea|date:"d" }} días del mes de
-        {{ acta.fecha_asamblea|date:"F" }} de
-        {{ acta.fecha_asamblea|date:"Y" }},
-        siendo las {{ acta.hora_inicio }},
-        en las oficinas de la compañía, se reúne la totalidad del capital social,
-        conformado por el accionista único, conforme consta en el libro de acciones
-        de la compañía.
-    </p>
+  <p>
+      En la ciudad de <strong>{{ acta.lugar_asamblea|default:"Quito" }}</strong>, a los
+      {{ acta.fecha_asamblea|date:"d" }} días del mes de
+      {{ acta.fecha_asamblea|date:"F" }} de
+      {{ acta.fecha_asamblea|date:"Y" }},
+      siendo las {{ acta.hora_inicio }},
+      el señor <strong>{{ acta.presidente_junta }}</strong>,
+      en su calidad de Accionista Único de la compañía,
+      titular del <strong>100% del capital social suscrito y pagado</strong>,
+      adopta la presente decisión conforme a la Ley de Compañías y el estatuto social vigente.
+  </p>
 
-    <p>
-        Comparece el accionista único <strong>{{ acta.presidente_junta }}</strong>,
-        propietario del <strong>100% del capital social suscrito y pagado</strong>,
-        quien resuelve celebrar la presente
-        <strong>Asamblea Unipersonal de Accionista</strong>.
-    </p>
+  <p>
+      El Accionista Único deja constancia de que sus decisiones se adoptan por escrito,
+      de conformidad con la normativa aplicable.
+  </p>
 </div>
 
 <div class="clausulas">
 
     <h3>Instalación de la Asamblea</h3>
+
     <p>
-        El accionista único de la compañía procede a designar, conforme a derecho,
-        como <strong>Presidente y Secretario Ad–Hoc</strong> de la Asamblea a
-        <strong>{{ acta.presidente_junta }}</strong>, quien acepta el encargo
-        y asume sus funciones de conformidad con lo dispuesto en la Ley de Compañías
-        y el estatuto social vigente.
+        El accionista único de la compañía, <strong>{{ acta.presidente_junta }}</strong>,
+        se constituye como titular del <strong>100% del capital social suscrito y pagado</strong>
+        y asume, conforme a derecho, las funciones de Presidente y Secretario Ad–Hoc
+        de la presente <strong>Asamblea Unipersonal de Accionista</strong>, en cumplimiento
+        de la Ley de Compañías y del estatuto social vigente.
     </p>
 
-
-
     <p>
-        Acto seguido, la Presidencia solicita a la Secretaría certificar la hora
-        y verificar el quórum de instalación, frente a lo cual la Secretaría deja
-        constancia que siendo las {{ acta.hora_inicio }},
-        se encuentra presente el accionista único que representa el
-        <strong>cien por ciento (100%) del capital social suscrito y pagado</strong>
-        de la compañía, por lo que se declara válidamente instalada la
-        <strong>Asamblea Unipersonal de Accionista</strong>,
-        con plena capacidad para deliberar y resolver sobre los asuntos sometidos
-        a su conocimiento.
+        La Secretaría certifica la hora de inicio siendo las {{ acta.hora_inicio }},
+        constatando la presencia del accionista único. Por lo tanto, se declara válidamente
+        instalada la <strong>Asamblea Unipersonal de Accionista</strong>,
+        con plena capacidad para deliberar y resolver sobre los asuntos sometidos a su conocimiento.
     </p>
 
 </div>
@@ -140,9 +133,7 @@
 
 <hr>
 
-<div class="contract-note">
-    <strong>TOKEN ID:</strong> {{ acta.acta_hash }}
-</div>
+
 
 
 <footer>
