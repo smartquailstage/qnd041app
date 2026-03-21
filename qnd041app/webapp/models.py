@@ -1799,7 +1799,7 @@ PORFOLIO = (
     ("Artificial Intelligence Engineer", "Artificial Intelligence Engineer"),
     ("Site Reliability Engineer (SRE)", "Site Reliability Engineer (SRE)"),
     ("Full-Stack Developer", "Full-Stack Developer"),
-    ("PhD Candidate in Physics and Data Science", "PhD Candidate in Physics and Data Science"),
+    ("Physicist and Data Scientist", "Physicist and Data Scientist"),
     ("Co-Founder", "Co-Founder"),
 
     ("Chief Technology Officer", "Chief Technology Officer"),
