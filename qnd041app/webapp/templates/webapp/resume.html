@@ -37,7 +37,7 @@
     {% if page.image %}
       {% image page.image scale-100 as hero_bg %}
       <div class="parallax-img"
-           style="background: url('{{ hero_bg.url }}') center center / cover no-repeat;">
+           style="background: url('{{ hero_bg.url }}') center center / cover no-repeat; opacity: 40%;">
       </div>
     {% endif %}
 
