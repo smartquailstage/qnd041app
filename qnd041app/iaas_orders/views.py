@@ -36,11 +36,11 @@ def accept_terms(request):
             # Guardamos en sesión que aceptó los términos
             request.session['terms_accepted'] = True
             # Redirige a order_create
-            return redirect('saas_orders:order_create')
+            return redirect('iaas_orders:order_create')
     else:
         form = AcceptTermsForm()
 
-    return render(request, 'saas_orders/accept_terms.html', {'form': form})
+    return render(request, 'iaas_orders/accept_terms.html', {'form': form})
 
 
 @login_required
@@ -50,7 +50,7 @@ def order_create(request):
 
     # Verificamos si aceptó los términos
     if not request.session.get('terms_accepted'):
-        return redirect('saas_orders:accept_terms')
+        return redirect('iaas_orders:accept_terms')
 
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -83,14 +83,14 @@ def order_create(request):
             # Limpiamos la sesión de términos aceptados
             del request.session['terms_accepted']
 
-            return redirect('saas_orders:order_detail', order_id=order.id)
+            return redirect('iaas_orders:order_detail', order_id=order.id)
         else:
             print("Formulario no válido")
             print(form.errors)
     else:
         form = OrderCreateForm()
 
-    return render(request, 'saas_orders/order/create.html', {'cart': cart, 'form': form})
+    return render(request, 'iaas_orders/order/create.html', {'cart': cart, 'form': form})
 
 
 
@@ -99,7 +99,7 @@ def order_create(request):
 def order_detail(request, order_id):
     order = get_object_or_404(IaaSOrder, id=order_id, user=request.user)
 
-    return render(request, 'saas_orders/order/detail.html', {
+    return render(request, 'iaas_orders/order/detail.html', {
         'order': order
     })
 
@@ -117,7 +117,7 @@ def admin_order_detail(request, order_id):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(IaaSOrder, id=order_id)
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order})
+    html = render_to_string('iaas_orders/order/pdf2.html', {'order': order})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=order_{order.id}.pdf"'
@@ -127,7 +127,7 @@ def admin_order_pdf(request, order_id):
         base_url=request.build_absolute_uri()
     ).write_pdf(
         response,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/pdf.css')],
+        stylesheets=[weasyprint.CSS('iaas_orders/static/css/pdf.css')],
         presentational_hints=True
     )
 
@@ -147,7 +147,7 @@ def admin_ebook_pdf(request, order_id):
     order = get_object_or_404(IaaSOrder, id=order_id)
 
     # Renderizamos la plantilla del eBook
-    html = render_to_string('saas_orders/ebook/ebook_template.html', {'order': order, 'domain': 'ec.smartquail.io'})
+    html = render_to_string('iaas_orders/ebook/ebook_template.html', {'order': order, 'domain': 'ec.smartquail.io'})
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=ebook_{order.id}.pdf'
@@ -158,7 +158,7 @@ def admin_ebook_pdf(request, order_id):
         base_url=request.build_absolute_uri()
     ).write_pdf(
         response,
-        stylesheets=[weasyprint.CSS('saas_orders/static/css/ebook.css')],
+        stylesheets=[weasyprint.CSS('iaas_orders/static/css/ebook.css')],
         presentational_hints=True
     )
 
@@ -216,7 +216,7 @@ def admin_contract_ip_pdf(request, order_id):
     qr_data_url = f"data:image/png;base64,{qr_base64}"
 
     html = render_to_string(
-        "saas_orders/contracts/contract_ip.html",
+        "iaas_orders/contracts/contract_ip.html",
         {
             "order": order,
             "domain": "ec.smartquail.io",
@@ -235,7 +235,7 @@ def admin_contract_ip_pdf(request, order_id):
         base_url=request.build_absolute_uri()
     ).write_pdf(
         response,
-        stylesheets=[weasyprint.CSS("saas_orders/static/css/contract_ip.css")],
+        stylesheets=[weasyprint.CSS("iaas_orders/static/css/contract_ip.css")],
         presentational_hints=True
     )
 
@@ -280,7 +280,7 @@ def admin_contract_development_pdf(request, order_id):
     qr_data_url = f"data:image/png;base64,{qr_base64}"
 
     html = render_to_string(
-        "saas_orders/contracts/contract_development.html",
+        "iaas_orders/contracts/contract_development.html",
         {
             "order": order,
             "domain": "ec.smartquail.io",
@@ -299,7 +299,7 @@ def admin_contract_development_pdf(request, order_id):
         base_url=request.build_absolute_uri()
     ).write_pdf(
         response,
-        stylesheets=[weasyprint.CSS("saas_orders/static/css/contract_dev.css")],
+        stylesheets=[weasyprint.CSS("iaas_orders/static/css/contract_dev.css")],
         presentational_hints=True
     )
 
@@ -344,7 +344,7 @@ def admin_contract_cloud_pdf(request, order_id):
     qr_data_url = f"data:image/png;base64,{qr_base64}"
 
     html = render_to_string(
-        "saas_orders/contracts/contract_cloud_rent.html",
+        "iaas_orders/contracts/contract_cloud_rent.html",
         {
             "order": order,
             "domain": "ec.smartquail.io",
@@ -364,7 +364,7 @@ def admin_contract_cloud_pdf(request, order_id):
     ).write_pdf(
         response,
         stylesheets=[
-            weasyprint.CSS("saas_orders/static/css/contratct_resources.css")
+            weasyprint.CSS("iaas_orders/static/css/contratct_resources.css")
         ],
         presentational_hints=True
     )

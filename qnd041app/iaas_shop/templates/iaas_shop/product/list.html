@@ -19,7 +19,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                     <ion-icon name="grid-outline"></ion-icon> Infraestructura Tecnologica para Negocios
+                       <ion-icon name="cube-outline"></ion-icon> Infraestructura Tecnologica para Negocios
                   </li>
                 </ol>
               </nav>
@@ -32,7 +32,7 @@
     <li class="nav-item" role="presentation">
       <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500"><ion-icon name="bar-chart-outline"></ion-icon></div>
+          <div class="tab-title text-uppercase fw-500"><i class="fadeIn animated bx bx-droplet"></i></div>
         </div>
       </a>
     </li>
@@ -60,7 +60,7 @@
 
   <div class="card-body p-0" style="background-color: #2e2e2e;">
     {% for c in categories %}
-      {% if c.slug == "cloud-server" %}
+      {% if c.slug == "smart-droplet" %}
         {% if c.products.all %}
 
           <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
@@ -71,8 +71,8 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
- , maximo {{ product.numero_procesos }}  Procesos </h2>
+                                        <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-droplet"></i>{{ product.name }}
+ {% if product.numero_procesos == '5' %}Fundación {% elif product.numero_procesos == '40'  %}Multi-Cloud & Estabilidad{% endif %} </h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
 
                       </div>
@@ -106,16 +106,15 @@
   background-color: #2e2e2e;
   border-radius: 25px;">
     <p>
-      <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
+      <strong> SmartDrop®</strong>
+     automatiza toda tu infraestructura desde cero: levanta tu arquitectura, configura microservicios, migra tu base de datos y despliega tu aplicación web en segundos.
+
+  Sin fricción. Sin complejidad. Sin esperas.
     </p>
     <p>
-      Gracias a su ecosistema modular y altamente personalizable,
-       los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
-        desarrollar sus propios flujos de información, adaptándolos a las necesidades
-         específicas de su negocio o institución. SmartBusinessAnalytics®
-         integra tecnologías de última generación como inteligencia artificial,
-         analítica predictiva, automatización de procesos (RPA) y big data,
-         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+      SmartDrop transforma la forma en que despliegas tus aplicaciones. En lugar de pasar horas o días configurando infraestructura, SmartDrop automatiza todo: crea tu arquitectura, levanta los microservicios necesarios, migra tu base de datos y despliega tu web app en segundos.
+
+      Reduce costos, elimina errores y acelera tu salida al mercado. Con SmartDrop, tu equipo se enfoca en lo que realmente importa: construir producto.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
 
   </div>

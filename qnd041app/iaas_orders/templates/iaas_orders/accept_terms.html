@@ -106,7 +106,7 @@
 </p>
 
 <p>
-  Sin perjuicio de lo anterior, SmartQuail, Inc. <strong>sí mantiene la trazabilidad de la transacción</strong> —como número de orden, referencia emitida por la pasarela, fecha, hora, estado del pago y dirección IP— exclusivamente para fines de <strong>seguridad, auditoría, prevención de fraudes, validación operativa y soporte al Usuario</strong>.  
+  Sin perjuicio de lo anterior, SmartQuail, Inc. <strong>sí mantiene la trazabilidad de la transacción</strong> —como número de orden, referencia emitida por la pasarela, fecha, hora, estado del pago y dirección IP— exclusivamente para fines de <strong>seguridad, auditoría, prevención de fraudes, validación operativa y soporte al Usuario</strong>.
   Esta información no contiene datos financieros sensibles y se maneja bajo estrictos protocolos de protección, controles de acceso y cumplimiento normativo.
 </p>
 
@@ -134,7 +134,7 @@
             <p><strong>10. Legislación y jurisdicción</strong></p>
             <p>Estos términos se rigen por las leyes de la República del Ecuador. Cualquier controversia será resuelta por los tribunales del Distrito Metropolitano de Quito.</p>
 
-<form method="post" action="{% url 'saas_orders:accept_terms' %}">
+<form method="post" action="{% url 'iaas_orders:accept_terms' %}">
     {% csrf_token %}
     <div class="form-check">
         {{ form.terms_accepted }}
@@ -261,9 +261,9 @@ document.addEventListener("DOMContentLoaded", function() {
 													<div class="my-3 border-bottom"></div>
 <div class="form-body">
   <form action="." method="post" class="order-form row g-3">
-    
+
     {% csrf_token %}
-    
+
     <!-- RUC -->
     <div class="col-md-6">
       <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function() {
   <div class="card-body">
     <p class="fs-5">Detalle de Compra</p>
     <div class="my-3 border-top"></div>
-    
+
     <!-- Mostrar cada producto en el carrito -->
     <ul class="list-unstyled">
       {% for item in cart %}
@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
       <div class="my-3 border-top"></div>
     {% endif %}
-    
+
     <!-- Totales -->
 
 
@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
 				</section>
 				<!--end shop cart-->
-             
+
 
           </div>
           <!-- end page content-->

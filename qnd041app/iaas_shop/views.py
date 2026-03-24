@@ -51,7 +51,7 @@ def product_detail(request, id, slug):
     recommended_products = r.suggest_products_for([product], 4)
 
     return render(request,
-                  'paas_shop/product/detail.html',
+                  'iaas_shop/product/detail.html',
                   {
                       'product': product,
                       'cart_product_form': cart_product_form,

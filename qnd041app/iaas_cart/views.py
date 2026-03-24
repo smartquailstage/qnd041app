@@ -22,14 +22,14 @@ def cart_add(request, product_id):
         cart.add(product=product,
                  quantity=cd['quantity'],
                  update_quantity=cd['update'])
-    return redirect('paas_cart:cart_detail')
+    return redirect('iaas_cart:cart_detail')
 
 
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
-    return redirect('paas_cart:cart_detail')
+    return redirect('iaas_cart:cart_detail')
 
 
 from django.contrib.messages import get_messages
@@ -64,7 +64,7 @@ def cart_detail(request):
     discount = float(cart.get_discount())
     total_after_discount = float(cart.get_total_price_after_discount())
 
-    return render(request, 'paas_cart/detail.html', {
+    return render(request, 'iaas_cart/detail.html', {
         'cart': cart,
         'total': total,
         'discount': discount,

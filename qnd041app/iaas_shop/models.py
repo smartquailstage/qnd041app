@@ -10,7 +10,7 @@ from decimal import Decimal, InvalidOperation
 
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
-    
+
     slug = models.SlugField(max_length=200, db_index=True, unique=True, null=True, blank=True)
 
     sector = models.CharField(
@@ -140,7 +140,7 @@ class Product(models.Model):
         related_name='products'
     )
 
-    
+
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
@@ -243,22 +243,22 @@ class Product(models.Model):
     # === Kushki / Pasarela de pagos ===
     kushki_credit_percentage = models.DecimalField(
     max_digits=5, decimal_places=2, default=6.30, verbose_name="Kushki % Crédito",null=True, blank=True)
-    
+
     kushki_credit_fixed = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     default=Money(0.50, 'USD'), verbose_name="Kushki fijo Crédito",null=True, blank=True)
 
     kushki_debit_percentage = models.DecimalField(
     max_digits=5, decimal_places=2, default=4.04, verbose_name="Kushki % Débito",null=True, blank=True)
-    
+
     kushki_debit_fixed = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     default=Money(0.50, 'USD'), verbose_name="Kushki fijo Débito",null=True, blank=True)
-    
+
     kushki_credit_cost = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     null=True, blank=True, editable=False)
-    
+
     kushki_debit_cost = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     null=True, blank=True, editable=False)
@@ -268,17 +268,17 @@ class Product(models.Model):
     ('credit', 'Tarjeta de Crédito'),
     ('debit', 'Tarjeta de Débito'),
     ]
-    
+
     payment_method = models.CharField(
     max_length=10, choices=PAYMENT_METHODS, default='credit'
     )
 
-    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True) 
+    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     inversion_marketing = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-    
+
 
 
     def get_totals(self):
@@ -356,29 +356,29 @@ class Product(models.Model):
         total_arch_val = costo_arch_total + Decimal(self.margen_sq_arch or 0)
         self.total_arch = Money(total_arch_val, 'USD')
         self.total_arch_iva = Money(total_arch_val * (1 + iva_factor), 'USD')
-        
+
         base_price = sum([
             self._safe_money(self.total_iva).amount,      # Desarrollo + Implementación
             self._safe_money(self.total_n8n_iva).amount,  # Automatizaciones n8n
             self._safe_money(self.total_ml_iva).amount,   # IA / ML
             ], Decimal('0'))
-            
+
         if self.payment_method == 'debit':
             kushki_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
             kushki_fixed = self._safe_money(self.kushki_debit_fixed).amount
         else:  # credit (default)
             kushki_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
             kushki_fixed = self._safe_money(self.kushki_credit_fixed).amount
-            
+
         kushki_cost = (base_price * kushki_percent) + kushki_fixed
-            
+
         final_price = base_price + kushki_cost
         self.price = Money(final_price, 'USD')
         self.price_amount = final_price
-            
+
         self.price = Money(base_price, 'USD')
         self.price_amount = base_price
-            
+
 
         # 5) Utilidad Bruta (suma de márgenes)
         total_margen = Decimal(self.margen_sq or 0) + Decimal(self.margen_sq_nube or 0) + Decimal(self.margen_sq_arch or 0)
@@ -394,19 +394,19 @@ class Product(models.Model):
 
         # === 4) Costos Kushki (pasarela de pago) ===
         # Base: total antes de Kushki
-        
+
         base_amount = base_price
         # Crédito
-        
+
         kushki_credit_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
         kushki_credit_cost_val = (
             base_amount * kushki_credit_percent
             + self._safe_money(self.kushki_credit_fixed).amount
             )
         self.kushki_credit_cost = Money(kushki_credit_cost_val, 'USD')
-        
+
         # Débito
-        
+
         kushki_debit_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
         kushki_debit_cost_val = (
             base_amount * kushki_debit_percent
@@ -431,4 +431,4 @@ class Product(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('paas_shop:product_detail', args=[self.id, self.slug])
+        return reverse('iaas_shop:product_detail', args=[self.id, self.slug])
