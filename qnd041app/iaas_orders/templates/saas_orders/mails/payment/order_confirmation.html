@@ -1,0 +1,15 @@
+{% extends "saas_orders/mails/base_mail.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block content %}
+<div class="email-body">
+
+   <p>Hola {{ order.first_name }} {{ order.last_name }},</p>
+  <p>Gracias por apoyar el desarrollo tecnológico en Ecuador. Su compra ha sido procesada exitosamente.</p>
+  <p>Adjunto encontrará los contratos relacionados con su pedido.</p>
+  <p>Saludos cordiales,</p>
+  <p>Equipo de SaaS</p>
+
+</div>
+
+{% endblock %}

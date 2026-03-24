@@ -1,6 +1,7 @@
 import csv
 import datetime
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from django.http import HttpResponse
 from sbmorders.models import Order, OrderItem, BankTransfer
 from .models import SBMStaffItem,SBMTechnologiesItem
@@ -12,10 +13,10 @@ from .models import Category,SBMProduct,SBMProductManual,ManualItem, SBMStaffIte
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
- 
+
 
 class SBMStaffItemInline(admin.TabularInline):
     model = SBMStaffItem
@@ -25,7 +26,7 @@ class SBMTechnologiesItemInline(admin.TabularInline):
 
 
 @admin.register(SBMProduct)
-class SBMProductAdmin(admin.ModelAdmin):
+class SBMProductAdmin(ModelAdmin):
     list_display = ['name', 'slug', 'price',
                     'available', 'created', 'updated']
     list_filter = ['available', 'created', 'updated']
@@ -37,14 +38,14 @@ class SBMProductAdmin(admin.ModelAdmin):
 
 
 @admin.register(SBMTechnologiesItem)
-class SBMTechnologiesItemAdmin(admin.ModelAdmin):
+class SBMTechnologiesItemAdmin(ModelAdmin):
     list_display = ['id', ]
 
 @admin.register(SBMStaffItem)
-class SBMStaffItemAdmin(admin.ModelAdmin):
+class SBMStaffItemAdmin(ModelAdmin):
     list_display = ['id', ]
- 
-    
+
+
 
 
 
@@ -52,19 +53,13 @@ class SBMStaffItemAdmin(admin.ModelAdmin):
 def manual_pdf(obj):
     return mark_safe('<a href="{}">PDF</a>'.format(
         reverse('sbmshop:admin_product_manual_pdf', args=[obj.id])))
-manual_pdf.short_description = 'Manual' 
+manual_pdf.short_description = 'Manual'
 
 class ManualItemInline(admin.TabularInline):
     model = ManualItem
- 
+
 
 @admin.register(SBMProductManual)
 class SBMProductManualAdmin(admin.ModelAdmin):
     list_display = ['product', 'category',manual_pdf]
     inlines = [ManualItemInline]
-
-
-
-
-
-

@@ -1,0 +1,119 @@
+{% load static %}
+{% load qr_code %}
+{% load humanize %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link href="{% static 'pdf.css' %}" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+
+    <style>
+      .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        width: 50%;
+      }
+
+      .company-info {
+        width: 65%;
+        text-align: right;
+        margin-top: 20px;
+      }
+
+      hr {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table, th, td {
+        border: 1px solid #ffffff;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f0f0f0;
+      }
+
+      footer {
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo">
+    </div>
+
+    <dl id="informations">
+      <dt>Invoice number</dt>
+      <dd>#{{ order.id }}</dd>
+      <dt>Date</dt>
+      <dd>{{ order.created|date:"F j, Y" }}</dd>
+    </dl>
+
+    <hr>
+
+    <address id="to">
+      {{ order.first_name }} {{ order.last_name }}<br>
+      {{ order.razon_social }}<br>
+      Email: {{ order.email }}<br>
+      Phone: {{ order.telefono }}<br>
+      Sector: {{ order.get_sector_display }}
+    </address>
+
+    <hr>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.items.all %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>${{ item.price.amount|floatformat:2 }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ item.get_cost.amount|floatformat:2|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <footer>
+      <table id="total">
+        <thead>
+          <tr>
+            <th>Due by</th>
+            <th>Account number</th>
+            <th>Total due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ order.created|date:"F j, Y" }}</td>
+            <td>{{ order.braintree_id|default:"-" }}</td>
+            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </footer>
+  </body>
+</html>

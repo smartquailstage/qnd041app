@@ -197,6 +197,12 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     #"coupons",
+    #TAAS
+    'iaas_shop',
+    'iaas_cart',
+    'iaas_orders',
+    'iaas_coupons',
+    'iaas_payment',
     #PAAS
     'paas_shop',
     'paas_cart',
@@ -515,7 +521,7 @@ UNFOLD = {
         "items": [
 
             {
-                "title": _("Pagos Mensuales"),
+                "title": _("Ingresos Mensuales"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:business_customer_projects_paymentorder_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
@@ -524,13 +530,23 @@ UNFOLD = {
             },
 
             {
-                "title": _("Ordenes/Ventas"),
+                "title": _("Ordenes (SaaP)"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:saas_orders_saasorder_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
+
+            {
+                "title": _("Ordenes (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_orders_paasorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
 
             {
                 "title": _("Pasivos/Activos"),
@@ -615,30 +631,119 @@ UNFOLD = {
 
 
     {
-        "title": _("Product Management (SaaP)"),
+        "title": _("Product Management (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
 
             {
-                "title": _("Categorías"),
+                "title": _("Categorías (SaaP)"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:saas_shop_category_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
 
             {
-                "title": _("Productos"),
+                "title": _("Productos (SaaP)"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:saas_shop_product_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías (IaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:iaas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (IaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:iaas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+        ],
+    },
+
+
+    {
+        "title": _("Catalogos de Productos (Web)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Categorías SBM"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbmshop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBA"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbashop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBL"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sblshop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBT"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbtshop_category_changelist"),
                 "permission": is_all,
             },
 
 
+            {
+                "title": _("Productos SBM"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbmshop_sbmproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBA"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbashop_sbaproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBL"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sblshop_sblproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBT"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbtshop_sbtproduct_changelist"),
+                "permission": is_all,
+            },
 
         ],
     },

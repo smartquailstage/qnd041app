@@ -6,7 +6,7 @@ class smartbusinessmedia(AbstractEmailForm):
     # Empieza Barner de Inicio
     template = "webapp/products/smartbusinessmedia/index/smartbusinesmedia.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -42,10 +42,10 @@ class smartbusinessmedia(AbstractEmailForm):
     info7 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business analytics')
     info8 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business cloud DevOps')
     info9 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business Media')
-    
+
     # Empieza Banner de Products
 
-  
+
     product_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-1')
     product_description_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Descripcion Product-1')
     product_2 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-2')
@@ -77,13 +77,13 @@ class smartbusinessmedia(AbstractEmailForm):
     banner_title = models.CharField(max_length=150, null=True, blank=True,verbose_name='Call Action Title')
     slogan = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan')
     slogan_descriptcion = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan Description')
-    
+
 
 
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -148,7 +148,7 @@ class smartbusinessmedia(AbstractEmailForm):
         FieldPanel('slogan_descriptcion', classname="full"),
 
 
-#panel 
+#panel
         FieldPanel('consulta', classname="full"),
 
         InlinePanel('galleria_2', label="Imagen de Fondo Barner"),
@@ -264,7 +264,7 @@ class info(Page):
     # Empieza Barner de Inicio
     template = "webapp/info.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -324,7 +324,7 @@ class info(Page):
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -370,11 +370,11 @@ class info(Page):
         FieldPanel('banner_title15', classname="full"),
         FieldPanel('info_title15', classname="full"),
         FieldPanel('TS_info8', classname="full"),
-        
+
         FieldPanel('link1', classname="full"),
         FieldPanel('link2', classname="full"),
-   
-#panel 
+
+#panel
         FieldPanel('consulta', classname="full"),
         InlinePanel('galleria_3', label="Imagen de Fondo Barner"),
 #Panel capo de noticas
@@ -430,9 +430,9 @@ class SocialMediaSettings(BaseSetting):
             FieldPanel("facebook"),
             FieldPanel("twitter"),
             FieldPanel("instagram"),
-            FieldPanel("youtube"),  
+            FieldPanel("youtube"),
          #   FieldPanel("behance"),
-            FieldPanel("linkedin"),         
+            FieldPanel("linkedin"),
             ]
         ,heading= "Social Media Settings")
     ]
@@ -452,8 +452,8 @@ class GlobalLinksSettings(BaseSetting):
             FieldPanel("contacus"),
             FieldPanel("start_project_SBM"),
             FieldPanel("start_project_SBL"),
-            FieldPanel("start_project_SBA"),  
-            FieldPanel("start_project_SBT"),         
+            FieldPanel("start_project_SBA"),
+            FieldPanel("start_project_SBT"),
             ]
         ,heading= "Global Links Settings")
     ]
@@ -467,7 +467,7 @@ class contactus(AbstractEmailForm):
     # Empieza Barner de Inicio
     template = "webapp/home/contactus.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -503,10 +503,10 @@ class contactus(AbstractEmailForm):
     info7 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business analytics')
     info8 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business cloud DevOps')
     info9 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business Media')
-    
+
     # Empieza Banner de Products
 
-  
+
     product_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-1')
     product_description_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Descripcion Product-1')
     product_2 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-2')
@@ -538,13 +538,13 @@ class contactus(AbstractEmailForm):
     banner_title = models.CharField(max_length=150, null=True, blank=True,verbose_name='Call Action Title')
     slogan = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan')
     slogan_descriptcion = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan Description')
-    
+
 
 
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -609,7 +609,7 @@ class contactus(AbstractEmailForm):
         FieldPanel('slogan_descriptcion', classname="full"),
 
 
-#panel 
+#panel
         FieldPanel('consulta', classname="full"),
 
         InlinePanel('galleria_contacus', label="Imagen de Fondo Barner"),
@@ -688,14 +688,14 @@ class GaleriaContactus(Orderable):
         ImageChooserPanel('image_26'),
     ]
 
-# Pagina para datos de clientes 
+# Pagina para datos de clientes
 class consultascreateitbusiness(AbstractFormField):
     page = ParentalKey('createitbusiness', on_delete=models.CASCADE, related_name='form_fields')
 class createitbusiness(AbstractEmailForm):
     # Empieza Barner de Inicio
     template = "webapp/createitbusiness/createitbusiness.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -731,10 +731,10 @@ class createitbusiness(AbstractEmailForm):
     info7 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business analytics')
     info8 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business cloud DevOps')
     info9 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business Media')
-    
+
     # Empieza Banner de Products
 
-  
+
     product_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-1')
     product_description_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Descripcion Product-1')
     product_2 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-2')
@@ -766,13 +766,13 @@ class createitbusiness(AbstractEmailForm):
     banner_title = models.CharField(max_length=150, null=True, blank=True,verbose_name='Call Action Title')
     slogan = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan')
     slogan_descriptcion = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan Description')
-    
+
 
 
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -837,7 +837,7 @@ class createitbusiness(AbstractEmailForm):
         FieldPanel('slogan_descriptcion', classname="full"),
 
 
-#panel 
+#panel
         FieldPanel('consulta', classname="full"),
 
         InlinePanel('galleria_contacus', label="Imagen de Fondo Barner"),
@@ -917,14 +917,14 @@ class Galeriacreateitbusiness(Orderable):
     ]
 
 
-# Pagina para datos de clientes 
+# Pagina para datos de clientes
 class consultascreateprojects(AbstractFormField):
     page = ParentalKey('createprojects', on_delete=models.CASCADE, related_name='form_fields')
 class createprojects(AbstractEmailForm):
     # Empieza Barner de Inicio
     template = "webapp/createitbusiness/createprojects.html"
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -960,10 +960,10 @@ class createprojects(AbstractEmailForm):
     info7 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business analytics')
     info8 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business cloud DevOps')
     info9 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business Media')
-    
+
     # Empieza Banner de Products
 
-  
+
     product_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-1')
     product_description_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Descripcion Product-1')
     product_2 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-2')
@@ -995,13 +995,13 @@ class createprojects(AbstractEmailForm):
     banner_title = models.CharField(max_length=150, null=True, blank=True,verbose_name='Call Action Title')
     slogan = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan')
     slogan_descriptcion = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan Description')
-    
+
 
 
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -1066,7 +1066,7 @@ class createprojects(AbstractEmailForm):
         FieldPanel('slogan_descriptcion', classname="full"),
 
 
-#panel 
+#panel
         FieldPanel('consulta', classname="full"),
 
         InlinePanel('galleria_contacus', label="Imagen de Fondo Barner"),
@@ -1157,7 +1157,7 @@ class solutions_categories(Page):
     ]
 
 
-# Pagina para datos de clientes 
+# Pagina para datos de clientes
 class consultassolutions(AbstractFormField):
     page = ParentalKey('solutions', on_delete=models.CASCADE, related_name='form_fields')
 class solutions(AbstractEmailForm):
@@ -1165,7 +1165,7 @@ class solutions(AbstractEmailForm):
     template = "webapp/solutions/solutions.html"
 
     #cliente_Navbar = RichTextField(blank=True,verbose_name='Cliente-url')
-    
+
    # banner_title1 = RichTextField(blank=True,verbose_name='Titulo del primer banner ')
    # banner_info1 = RichTextField(blank=True,verbose_name='Informacion del primer banner ')
    # banner_title2 = RichTextField(blank=True,verbose_name='Titulo del segundo banner ')
@@ -1203,10 +1203,10 @@ class solutions(AbstractEmailForm):
     info7 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business analytics')
     info8 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business cloud DevOps')
     info9 = models.CharField(max_length=150, null=True, blank=True,verbose_name='IT business Media')
-    
+
     # Empieza Banner de Products
 
-  
+
     product_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-1')
     product_description_1 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Descripcion Product-1')
     product_2 = models.CharField(max_length=150, null=True, blank=True,verbose_name='Product-2')
@@ -1238,13 +1238,13 @@ class solutions(AbstractEmailForm):
     banner_title = models.CharField(max_length=150, null=True, blank=True,verbose_name='Call Action Title')
     slogan = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan')
     slogan_descriptcion = models.CharField(max_length=150, null=True, blank=True,verbose_name='slogan Description')
-    
+
 
 
     custom_title = models.CharField(max_length=100,blank=True,null=True,help_text="Reescribe el  Titulo de la publicacion ")
 
 
-    
+
     # Campos de consulta
 
     consulta= RichTextField(blank=True,verbose_name='Mensaje para que nos consulten por el formulario')
@@ -1256,7 +1256,7 @@ class solutions(AbstractEmailForm):
 
     #Panel sliders
         FieldPanel('bio', classname="full"),
-        
+
         FieldPanel('category', classname="full"),
         FieldPanel('TS_info1', classname="full"),
         FieldPanel('info1', classname="full"),
@@ -1310,7 +1310,7 @@ class solutions(AbstractEmailForm):
         FieldPanel('slogan_descriptcion', classname="full"),
 
 
-#panel 
+#panel
         FieldPanel('consulta', classname="full"),
 
         InlinePanel('galleria_contacus', label="Imagen de Fondo Barner"),
@@ -1410,7 +1410,7 @@ class ArticleListingPage(Page):
         context = super().get_context(request, *args, **kwargs)
         context["posts"] = ArticleDetailPage.objects.live().public()
         return context
-    
+
 class comments_ArticleDetailPage(AbstractFormField):
     page = ParentalKey('ArticleDetailPage', on_delete=models.CASCADE, related_name='form_fields')
 
@@ -1546,14 +1546,14 @@ class ArticleDetailPage(AbstractEmailForm):
             'results': results,
         })
         return context
-    
+
 class galleria_article_Page(Orderable):
-    page = ParentalKey(ArticleDetailPage, on_delete=models.CASCADE, related_name='galleria_article_Page')    
+    page = ParentalKey(ArticleDetailPage, on_delete=models.CASCADE, related_name='galleria_article_Page')
     image_1 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Banner')
     image_2 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Author picture')
     image_3 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='imagen 2')
-    
-    
+
+
     panels = [
         ImageChooserPanel('image_1'),
         ImageChooserPanel('image_2'),
@@ -1575,18 +1575,18 @@ class SocialMediaArticleSettings(BaseSetting):
             FieldPanel("facebook"),
             FieldPanel("twitter"),
             FieldPanel("instagram"),
-            FieldPanel("youtube"),  
+            FieldPanel("youtube"),
             FieldPanel("pinterest"),
-            FieldPanel("linkedin"),         
+            FieldPanel("linkedin"),
             ]
         ,heading= "Social Media Settings Article")
     ]
 
-JOBS= ( 
-    ("Marketing & Publishing", "Marketing & Publishing"), 
-    ("UI/UX Developer","UI/UX Developer"), 
-    ("Python/Django Developer","Python/Django Developer"), 
-    ("Docker Developer", "Docker Developer"), 
+JOBS= (
+    ("Marketing & Publishing", "Marketing & Publishing"),
+    ("UI/UX Developer","UI/UX Developer"),
+    ("Python/Django Developer","Python/Django Developer"),
+    ("Docker Developer", "Docker Developer"),
     ("Kubernetes Developer", "Kubernetes Developer"),
     ("FullStack Developer","FullStack Developer"),
     ("Chief Officer Technologies","Chief Officer Technologies"),
@@ -1619,11 +1619,11 @@ class JobsListingOpeningPage(Page):
         context["posts"] = JobsFormDetailOpeningPage.objects.live().public()
         return context
 
-JOBS_CATEGORY= ( 
-    ("Community Manager senior", "Community Manager senior"), 
-    ("Community Manager Junior","Community Manager Juniorr"), 
-    ("Content Designer senior","Content Designer senior"), 
-    ("Content Designer junior", "Docker Developer junior"), 
+JOBS_CATEGORY= (
+    ("Community Manager senior", "Community Manager senior"),
+    ("Community Manager Junior","Community Manager Juniorr"),
+    ("Content Designer senior","Content Designer senior"),
+    ("Content Designer junior", "Docker Developer junior"),
     ("Project Manager senior", "Project Manager senior"),
     ("Project Manager junior","Project Manager junior"),
     ("UI/UX Desinger senior","UI/UX Desinger senior"),
@@ -1635,37 +1635,37 @@ JOBS_CATEGORY= (
 )
 
 
-CITIES= ( 
-    ("Quito", "Quito"), 
-    ("Guayaquil","Guayaquil"), 
-    ("Cuenca","Cuenca"), 
-    ("Buenos Aires", "Buenos Aires"), 
+CITIES= (
+    ("Quito", "Quito"),
+    ("Guayaquil","Guayaquil"),
+    ("Cuenca","Cuenca"),
+    ("Buenos Aires", "Buenos Aires"),
     ("Mendoza", "Mendoza"),
     ("Paris","Paris"),
     ("Lausanne","Lausanne"),
     ("New York","New York"),
 )
 
-COUNTRY= ( 
-    ("Ecuador", "Ecuador"), 
-    ("Switzerland","Switzerland"), 
-    ("Argentina","Argentina"), 
-    ("France", "France"), 
+COUNTRY= (
+    ("Ecuador", "Ecuador"),
+    ("Switzerland","Switzerland"),
+    ("Argentina","Argentina"),
+    ("France", "France"),
     ("United States", "United States"),
 )
 
-TIMEJOBS= ( 
-    ("Part Time", "Part Time"), 
-    ("Full Time","Ful Time"), 
+TIMEJOBS= (
+    ("Part Time", "Part Time"),
+    ("Full Time","Ful Time"),
 )
-    
+
 class JobsFormOpeningPage(AbstractFormField):
     field_type = models.CharField(
         verbose_name='field type',
         max_length=16,
         choices=list(FORM_FIELD_CHOICES) + [('image', 'Upload Image')]
     )
-    
+
     page = ParentalKey('JobsFormDetailOpeningPage', on_delete=models.CASCADE, related_name='form_fields')
 
 
@@ -1759,7 +1759,7 @@ class JobsFormDetailOpeningPage(AbstractEmailForm):
 
         return submission
 
-        
+
     comments = RichTextField(blank=True,verbose_name='Mensaje para que nos dejen un comentario')
     thank_you_text = RichTextField(blank=True)
 
@@ -1816,7 +1816,7 @@ class ResourceslistingPage(Page):
         return context
 
 class galleria_resources_Page(Orderable):
-    page = ParentalKey(ResourceslistingPage, on_delete=models.CASCADE, related_name='galleria_resources_Page')    
+    page = ParentalKey(ResourceslistingPage, on_delete=models.CASCADE, related_name='galleria_resources_Page')
     image = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Banner')
 
     panels = [
@@ -1827,12 +1827,12 @@ class galleria_resources_Page(Orderable):
 class comments_ResourcesDetailPage(AbstractFormField):
     page = ParentalKey('ResourcesDetailPage', on_delete=models.CASCADE, related_name='form_fields')
 
-TAGS= ( 
-    ("Big Data", "Big Data"), 
-    ("Data Science","Data Science"), 
-    ("Machine Learning","Machine Learning"), 
-    ("Cloud Infrastructure","Cloud Infrastructure"), 
-    ("Intelligence Artificial","Intelligence Artificial"), 
+TAGS= (
+    ("Big Data", "Big Data"),
+    ("Data Science","Data Science"),
+    ("Machine Learning","Machine Learning"),
+    ("Cloud Infrastructure","Cloud Infrastructure"),
+    ("Intelligence Artificial","Intelligence Artificial"),
 )
 
 class ResourcesDetailPage(AbstractEmailForm):
@@ -1969,14 +1969,14 @@ class ResourcesDetailPage(AbstractEmailForm):
             'results': results,
         })
         return context
-    
+
 class galleria_resourcedetail_Page(Orderable):
-    page = ParentalKey(ResourcesDetailPage, on_delete=models.CASCADE, related_name='galleria_resourcedetail_Page')    
+    page = ParentalKey(ResourcesDetailPage, on_delete=models.CASCADE, related_name='galleria_resourcedetail_Page')
     image_1 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Banner')
     image_2 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Author picture')
     image_3 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='imagen 2')
-    
-    
+
+
     panels = [
         ImageChooserPanel('image_1'),
         ImageChooserPanel('image_2'),
@@ -2000,13 +2000,13 @@ class parnersPage(Page):
     ]
 
 class partners_Page(Orderable):
-    page = ParentalKey(parnersPage, on_delete=models.CASCADE, related_name='partners_item_Page')    
+    page = ParentalKey(parnersPage, on_delete=models.CASCADE, related_name='partners_item_Page')
     partner_name = models.CharField(max_length=100,blank=False,null=True,help_text='Partner Name')
     partner_description = RichTextField(blank=True,verbose_name='Descripción del partner')
     partner_image = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Partner logo')
 
-    
-    
+
+
     panels = [
         FieldPanel("partner_name"),
         FieldPanel("partner_description"),
@@ -2032,7 +2032,7 @@ class aboutusPage(Page):
     ]
 
 class aboutus_Page(Orderable):
-    page = ParentalKey(aboutusPage, on_delete=models.CASCADE, related_name='aboutus_item_Page')    
+    page = ParentalKey(aboutusPage, on_delete=models.CASCADE, related_name='aboutus_item_Page')
     image_1 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='banner')
     image_2 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='profile_picture_1')
     image_3 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='profile_picture_2')
@@ -2068,13 +2068,13 @@ class aboutus_Page(Orderable):
     ]
 
 
-PORFOLIO = ( 
-    ("Landscapes", "Landscapes"), 
-    ("Visual Production","Visual Production"), 
-    ("web content","web content"), 
-    ("Social Networks content","Social Networks content"), 
-    ("Web Desing","Web Desing"), 
-    ("Intelligence Artificial","Intelligence Artificial"), 
+PORFOLIO = (
+    ("Landscapes", "Landscapes"),
+    ("Visual Production","Visual Production"),
+    ("web content","web content"),
+    ("Social Networks content","Social Networks content"),
+    ("Web Desing","Web Desing"),
+    ("Intelligence Artificial","Intelligence Artificial"),
 )
 
 class contact_form_resume_Page(AbstractFormField):
@@ -2092,7 +2092,7 @@ class ResumePage(AbstractEmailForm):
         help_text='Nombre',
     )
 
-    
+
     porfolio_1 = models.CharField(max_length=100, choices = PORFOLIO, null=True)
     porfolio_2 = models.CharField(max_length=100, choices = PORFOLIO, null=True)
     porfolio_3 = models.CharField(max_length=100, choices = PORFOLIO, null=True)
@@ -2137,11 +2137,11 @@ class ResumePage(AbstractEmailForm):
     ]
 
 class Porfolio_Page(Orderable):
-    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='porfolio_item_Page')    
+    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='porfolio_item_Page')
     porfolio_title = models.CharField( max_length=100, blank=False, null=True,help_text='Titulo de porfolio',)
     porfolio = models.CharField(max_length=100, choices = PORFOLIO, null=True)
     image_1 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen 1')
- 
+
 
     panels = [
         FieldPanel("porfolio_title"),
@@ -2151,12 +2151,12 @@ class Porfolio_Page(Orderable):
     ]
 
 class Experience_Page(Orderable):
-    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='experiece_item_Page')    
+    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='experiece_item_Page')
     business_title = models.CharField( max_length=100, blank=False, null=True,help_text='Nombre de la empresa donde trabajo',)
     business_chage = models.CharField( max_length=100, blank=False, null=True,help_text='Nombre del cargo que ocupo',)
     business_activity = models.CharField( max_length=1000, blank=False, null=True,help_text='Descripcion de la actividad realizada',)
     Fecha = models.DateTimeField()
- 
+
 
     panels = [
         FieldPanel("business_title"),
@@ -2166,12 +2166,12 @@ class Experience_Page(Orderable):
     ]
 
 class Educational_Page(Orderable):
-    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='educational_item_Page')    
+    page = ParentalKey(ResumePage, on_delete=models.CASCADE, related_name='educational_item_Page')
     academy_title = models.CharField( max_length=100, blank=False, null=True,help_text='Nombre de la institución educativa',)
     title = models.CharField( max_length=100, blank=False, null=True,help_text='Nombre del titulo',)
     academy_activity = models.CharField( max_length=1000, blank=False, null=True,help_text='Descripcion de la formación',)
     Fecha = models.DateTimeField()
- 
+
 
     panels = [
         FieldPanel("academy_title"),
@@ -2201,9 +2201,9 @@ class SocialMediaTeam1Settings(BaseSetting):
             FieldPanel("facebook"),
             FieldPanel("twitter"),
             FieldPanel("instagram"),
-            FieldPanel("youtube"),  
+            FieldPanel("youtube"),
             FieldPanel("pinterest"),
-            FieldPanel("linkedin"),         
+            FieldPanel("linkedin"),
             ]
         ,heading= "Social Media Settings-1")
     ]
@@ -2223,9 +2223,9 @@ class SocialMediaTeam2Settings(BaseSetting):
             FieldPanel("facebook"),
             FieldPanel("twitter"),
             FieldPanel("instagram"),
-            FieldPanel("youtube"),  
+            FieldPanel("youtube"),
             FieldPanel("pinterest"),
-            FieldPanel("linkedin"),         
+            FieldPanel("linkedin"),
             ]
         ,heading= "Social Media Settings-2")
     ]
@@ -2245,12 +2245,170 @@ class SocialMediaTeam3Settings(BaseSetting):
             FieldPanel("facebook"),
             FieldPanel("twitter"),
             FieldPanel("instagram"),
-            FieldPanel("youtube"),  
+            FieldPanel("youtube"),
             FieldPanel("pinterest"),
-            FieldPanel("linkedin"),         
+            FieldPanel("linkedin"),
             ]
         ,heading= "Social Media Settings-3")
     ]
 
 @register_setting
 class SocialMediaTeam4Settings(BaseSetting):
+
+
+
+
+
+
+
+
+# models.py
+from django import forms
+from wagtail.models import Page, Collection
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images import get_image_model
+from wagtail.admin.panels import FieldPanel
+from os.path import splitext
+
+# --- Choices ---
+JOBS_CATEGORY = (
+    ("Community Manager Senior", "Community Manager Senior"),
+    ("Community Manager Junior", "Community Manager Junior"),
+    # etc...
+)
+CITIES = (("Quito", "Quito"), ("Guayaquil", "Guayaquil"))
+COUNTRIES = (("Ecuador", "Ecuador"), ("Switzerland", "Switzerland"))
+TIMEJOBS = (("Part Time", "Part Time"), ("Full Time", "Full Time"))
+
+# --- Form for the Page ---
+class JobApplicationForm(forms.Form):
+    name = forms.CharField(max_length=255)
+    email = forms.EmailField()
+    cv = forms.FileField(required=False)
+    comment = forms.CharField(widget=forms.Textarea, required=False)
+
+
+# --- Page Model ---
+class JobsFormDetailOpeningPage(Page):
+    template = "webapp/jobdetailopening.html"
+
+    jobs_category = models.CharField(max_length=100, choices=JOBS_CATEGORY, blank=True, null=True)
+    city = models.CharField(max_length=100, choices=CITIES, blank=True, null=True)
+    country = models.CharField(max_length=100, choices=COUNTRIES, blank=True, null=True)
+    timejobs = models.CharField(max_length=100, choices=TIMEJOBS, blank=True, null=True)
+    description = RichTextField(blank=True)
+    uploadcv = models.FileField(upload_to="CV_file/%Y/%m/%d", null=True, blank=True)
+
+    content = StreamField(
+        [
+            ("heading", blocks.CharBlock(form_classname="full title")),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("jobs_category"),
+        FieldPanel("city"),
+        FieldPanel("country"),
+        FieldPanel("timejobs"),
+        FieldPanel("description"),
+        FieldPanel("uploadcv"),
+        FieldPanel("content"),
+    ]
+
+    # --- Pass form to template ---
+    def get_context(self, request):
+        context = super().get_context(request)
+        if request.method == "POST":
+            form = JobApplicationForm(request.POST, request.FILES)
+            if form.is_valid():
+                # Aquí puedes guardar en DB, enviar correo, etc.
+                context["form_submitted"] = True
+                context["form_data"] = form.cleaned_data
+            else:
+                context["form"] = form
+        else:
+            context["form"] = JobApplicationForm()
+        return context
+
+
+
+
+
+from django import forms
+from wagtail.models import Page, Collection
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images import get_image_model
+from wagtail.admin.panels import FieldPanel
+from os.path import splitext
+
+# --- Choices ---
+JOBS_CATEGORY = (
+    ("Community Manager Senior", "Community Manager Senior"),
+    ("Community Manager Junior", "Community Manager Junior"),
+    # etc...
+)
+CITIES = (("Quito", "Quito"), ("Guayaquil", "Guayaquil"))
+COUNTRIES = (("Ecuador", "Ecuador"), ("Switzerland", "Switzerland"))
+TIMEJOBS = (("Part Time", "Part Time"), ("Full Time", "Full Time"))
+
+# --- Form for the Page ---
+class JobApplicationForm(forms.Form):
+    name = forms.CharField(max_length=255)
+    email = forms.EmailField()
+    cv = forms.FileField(required=False)
+    comment = forms.CharField(widget=forms.Textarea, required=False)
+
+
+# --- Page Model ---
+class JobsFormDetailOpeningPage(Page):
+    template = "webapp/jobdetailopening.html"
+
+    jobs_category = models.CharField(max_length=100, choices=JOBS_CATEGORY, blank=True, null=True)
+    city = models.CharField(max_length=100, choices=CITIES, blank=True, null=True)
+    country = models.CharField(max_length=100, choices=COUNTRIES, blank=True, null=True)
+    timejobs = models.CharField(max_length=100, choices=TIMEJOBS, blank=True, null=True)
+    description = RichTextField(blank=True)
+    uploadcv = models.FileField(upload_to="CV_file/%Y/%m/%d", null=True, blank=True)
+
+    content = StreamField(
+        [
+            ("heading", blocks.CharBlock(form_classname="full title")),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("jobs_category"),
+        FieldPanel("city"),
+        FieldPanel("country"),
+        FieldPanel("timejobs"),
+        FieldPanel("description"),
+        FieldPanel("uploadcv"),
+        FieldPanel("content"),
+    ]
+
+    # --- Pass form to template ---
+    def get_context(self, request):
+        context = super().get_context(request)
+        if request.method == "POST":
+            form = JobApplicationForm(request.POST, request.FILES)
+            if form.is_valid():
+                # Aquí puedes guardar en DB, enviar correo, etc.
+                context["form_submitted"] = True
+                context["form_data"] = form.cleaned_data
+            else:
+                context["form"] = form
+        else:
+            context["form"] = JobApplicationForm()
+        return context
