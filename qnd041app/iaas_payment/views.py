@@ -26,21 +26,21 @@ from django.template.loader import render_to_string
 import weasyprint
 import braintree
 
-from paas_orders.models import PaaSOrder
-from paas_payment.tasks import send_contracts
+from iaas_orders.models import IaaSOrder
+from iaas_payment.tasks import send_contracts
 
 
 @login_required
 def payment_process_1(request):
     order_id = request.session.get('order_id')
-    order = get_object_or_404(PaaSOrder, id=order_id)
+    order = get_object_or_404(IaaSOrder, id=order_id)
 
     if request.method == 'POST':
         # Obtener nonce de Braintree
         nonce = request.POST.get('payment_method_nonce')
 
         if not nonce:
-            return redirect('paas_payment:canceled')
+            return redirect('iaas_payment:canceled')
 
         # Crear transacción en Braintree
         result = braintree.Transaction.sale({
@@ -69,7 +69,7 @@ def payment_process_1(request):
 
             # Renderizar HTML del PDF
             html = render_to_string(
-                'paas_orders/order/pdf.html',
+                'iaas_orders/order/pdf.html',
                 {'order': order}
             )
 
@@ -80,7 +80,7 @@ def payment_process_1(request):
                 string=html,
                 base_url=request.build_absolute_uri()
                 ).write_pdf(out,
-                stylesheets=[weasyprint.CSS('paas_orders/static/css/pdf.css')])
+                stylesheets=[weasyprint.CSS('iaas_orders/static/css/pdf.css')])
 
 
             # Adjuntar PDF
@@ -96,9 +96,9 @@ def payment_process_1(request):
             # Enviar contratos con Celery
             send_contracts.delay(order.id)
 
-            return redirect('paas_payment:done')
+            return redirect('iaas_payment:done')
 
-        return redirect('paas_payment:canceled')
+        return redirect('iaas_payment:canceled')
 
     # GET → mostrar formulario y generar token
     client_token = braintree.ClientToken.generate()
@@ -119,13 +119,13 @@ def payment_process_1(request):
 @login_required
 def payment_process(request):
     order_id = request.session.get('order_id')
-    order = get_object_or_404(PaaSOrder, id=order_id)
+    order = get_object_or_404(IaaSOrder, id=order_id)
 
     if request.method == 'POST':
         token = request.POST.get('token')
 
         if not token:
-            return redirect('paas_payment:canceled')
+            return redirect('iaas_payment:canceled')
 
         # 💡 Usa tu PRIVATE KEY real de Kushki
         private_key = settings.KUSHKI_PRIVATE_KEY
@@ -159,20 +159,20 @@ def payment_process(request):
             message = 'Please find attached your receipt.'
             email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
 
-            html = render_to_string('paas_orders/order/pdf.html', {'order': order})
+            html = render_to_string('iaas_orders/order/pdf.html', {'order': order})
             out = BytesIO()
 
             weasyprint.HTML(
                 string=html,
                 base_url=request.build_absolute_uri()
-            ).write_pdf(out, stylesheets=[weasyprint.CSS('paas_orders/static/css/pdf.css')])
+            ).write_pdf(out, stylesheets=[weasyprint.CSS('iaas_orders/static/css/pdf.css')])
 
             email.attach(f'order_{order.id}.pdf', out.getvalue(), 'application/pdf')
             email.send()
 
-            return redirect('paas_payment:done')
+            return redirect('iaas_payment:done')
 
-        return redirect('paas_payment:canceled')
+        return redirect('iaas_payment:canceled')
 
     # GET → Renderizar página con formulario de Kushki
     return render(request, 'payment/process.html', {'order': order})
