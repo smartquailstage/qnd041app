@@ -7,7 +7,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200,
                             db_index=True)
     slug = models.SlugField(max_length=200,
-                            unique=True)
+                            unique=True,null=True, blank=True)
     logo = models.ImageField(upload_to='logo/%Y/%m/%d',
                               blank=True,null=True)
     title = models.CharField(max_length=250, null=True, blank=True)
@@ -49,7 +49,7 @@ class SBPProduct(models.Model):
     ("icofont-list", "icofont-list"),
     ("icofont-key", "icofont-key"),
     )
-    
+
     COLORS_CHOICE = (
     ("rgb(133, 54, 140)", "SBM-CRM+AI+I+D"),
     ("#262625", "SBM-CRM"),
@@ -60,7 +60,7 @@ class SBPProduct(models.Model):
     ("#388e86", "SBM-CRM+A+AI"),
     ("#251f25", "SBM-CRM+A+AI+I+D"),
     )
-  
+
 
     category = models.ForeignKey(Category,
                                  related_name='products',
@@ -69,7 +69,7 @@ class SBPProduct(models.Model):
                                  related_name='coupon',
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
-    slug = models.SlugField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     image = models.ImageField(upload_to='products/smartbusinessmedia/bannering/%Y/%m/%d',
                               blank=True)
     image1 = models.ImageField(upload_to='products/smartbusinessmedia/scren1/%Y/%m/%d',
@@ -84,7 +84,7 @@ class SBPProduct(models.Model):
                                  related_name='coupon_sbp',
                                  on_delete=models.CASCADE,null=True,blank=True)
 
-    
+
     item1 = models.TextField(blank=True,null=True)
     item2 = models.TextField(blank=True,null=True)
     item3 = models.TextField(blank=True,null=True)
@@ -176,7 +176,7 @@ class SBPTechnologiesItem(models.Model):
     storge_resourse = models.CharField(max_length=200, db_index=True,null=True,blank=True)
 
 
- 
+
 
     def __str__(self):
         return '{}'.format(self.Node_name)
@@ -196,7 +196,7 @@ class SBPProductManual(models.Model):
     ("#388e86", "SBM-CRM+A+AI"),
     ("#251f25", "SBM-CRM+A+AI+I+D"),
     )
-    
+
     product  = models.ForeignKey(SBPProduct,
                                  related_name='products',
                                  on_delete=models.CASCADE)
@@ -230,5 +230,3 @@ class ManualItem(models.Model):
 
     def __str__(self):
         return '{}'.format(self.id)
-
-

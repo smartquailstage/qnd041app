@@ -5,7 +5,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200,
                             db_index=True)
     slug = models.SlugField(max_length=200,
-                            unique=True)
+                            unique=True,null=True, blank=True)
     logo = models.ImageField(upload_to='logo/%Y/%m/%d',
                               blank=True,null=True)
 
@@ -31,16 +31,16 @@ class SBTProduct(models.Model):
     ("icofont-list", "icofont-list"),
     ("icofont-key", "icofont-key"),
     )
-  
+
 
     category = models.ForeignKey(Category,
                                  related_name='products',
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
-    slug = models.SlugField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True,null=True, blank=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d',
                               blank=True)
-    
+
     item1 = models.CharField(max_length=200, db_index=True,null=True,blank=True)
     item2 = models.CharField(max_length=200, db_index=True,null=True,blank=True)
     item3 = models.CharField(max_length=200, db_index=True,null=True,blank=True)
