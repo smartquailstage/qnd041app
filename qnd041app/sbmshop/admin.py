@@ -10,12 +10,30 @@ from django.utils.safestring import mark_safe
 from .models import Category,SBMProduct,SBMProductManual,ManualItem, SBMStaffItem,SBMTechnologiesItem
 
 
+from unfold.decorators import action
+
+@admin.action(description="Duplicar Categorias seleccionados")
+def duplicar_mensajes(modeladmin, request, queryset):
+    for sbmshop_category in queryset:
+        sbmshop_category.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        sbmshop_category.slug = None
+        sbmshop_category.save()
+
+
+@admin.action(description="Duplicar Productos seleccionados")
+def duplicar_productos(modeladmin, request, queryset):
+    for sbmproduct in queryset:
+        sbmproduct.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        sbmproduct.slug = None
+        sbmproduct.save()
+
 
 
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
+    actions = [duplicar_mensajes,]
 
 
 class SBMStaffItemInline(admin.TabularInline):
@@ -27,6 +45,7 @@ class SBMTechnologiesItemInline(admin.TabularInline):
 
 @admin.register(SBMProduct)
 class SBMProductAdmin(ModelAdmin):
+    actions = [duplicar_productos,]
     list_display = ['name', 'slug', 'price',
                     'available', 'created', 'updated']
     list_filter = ['available', 'created', 'updated']

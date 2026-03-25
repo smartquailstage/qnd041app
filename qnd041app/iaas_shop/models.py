@@ -8,6 +8,8 @@ from djmoney.money import Money
 from decimal import Decimal, InvalidOperation
 
 
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
 

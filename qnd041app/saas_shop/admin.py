@@ -1,12 +1,28 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from .models import Category, Product
+from unfold.decorators import action
 
+@admin.action(description="Duplicar Categorias seleccionados")
+def duplicar_mensajes(modeladmin, request, queryset):
+    for category in queryset:
+        category.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        category.slug = None
+        category.save()
+
+
+@admin.action(description="Duplicar Productos seleccionados")
+def duplicar_productos(modeladmin, request, queryset):
+    for product in queryset:
+        product.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        product.slug = None
+        product.save()
 
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
+    actions = [duplicar_mensajes,]
 
 
 @admin.register(Product)
@@ -18,6 +34,8 @@ class ProductAdmin(ModelAdmin):
         'price',
         'available',
     )
+
+    actions = [duplicar_productos,]
 
     prepopulated_fields = {
         "slug": ("name",)
