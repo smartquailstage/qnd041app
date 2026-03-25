@@ -87,8 +87,7 @@ Coorp & Industrial
       </li>
     {% endfor %}
 
-    {# 🔥 Crear proyecto solo si hay orden activa #}
-    {% if  all_projects %}
+    {% if can_create_project %}
       <li>
         <a href="{% url 'business_customer_projects:create_project' %}">
           <ion-icon name="add-circle-outline"></ion-icon>

@@ -1,5 +1,7 @@
 from .models import BusinessSystemProject
 from saas_orders.models import SaaSOrder
+from paas_orders.models import PaaSOrder
+from iaas_orders.models import IaaSOrder
 
 
 from usuarios.models import Profile
@@ -32,22 +34,24 @@ def business_projects_context(request):
     if not request.user.is_authenticated:
         return {
             'order': None,
-            'all_projects': [], 
-            'projects_in_progress': [],
-        }
-
-    # Orden activa
-    order = SaaSOrder.objects.filter(
-        user=request.user,
-        is_active=True
-    ).first()
-
-    if not order:
-        return {
-            'order': None,
+            'can_create_project': False,
             'all_projects': [],
             'projects_in_progress': [],
         }
+
+    # ✅ Orden activa (puede crear proyecto)
+    active_order = SaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True,
+        is_progress=False
+    ).first()
+
+    # ✅ Orden en progreso (NO puede crear)
+    progress_order = SaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True,
+        is_progress=True
+    ).first()
 
     user_projects = BusinessSystemProject.objects.filter(user=request.user)
 
@@ -55,12 +59,11 @@ def business_projects_context(request):
     in_progress_projects = user_projects.exclude(progress=100)
 
     return {
-        'order': order,  # 👈 ahora el template puede usar `order`
+        'order': active_order or progress_order,
+        'can_create_project': True if active_order else False,  # 🔥 clave
         'all_projects': completed_projects,
         'projects_in_progress': in_progress_projects,
     }
-
-
 
 from django.db.models import Sum
 from .models import PaymentOrder

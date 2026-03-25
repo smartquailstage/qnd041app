@@ -49,7 +49,7 @@ class SaaSOrder(models.Model):
         on_delete=models.CASCADE,
         related_name='saas_orders',
         null=True,
-        blank=True  
+        blank=True
     )
     first_name = models.CharField(_('first name'), max_length=150, null=True, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, null=True, blank=True)
@@ -111,6 +111,7 @@ class SaaSOrder(models.Model):
     # Nuevos campos
     terms_accepted = models.BooleanField(default=False, verbose_name="Acepta términos y condiciones")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
+    is_progress = models.BooleanField(default=False, verbose_name="Esta en Progreso")
     email_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
 
     # ==================================================
@@ -148,7 +149,7 @@ class SaaSOrder(models.Model):
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
         return total_cost - total_cost * (self.discount / Decimal('100'))
-        
+
 
     def check_active_status(self):
         """Actualiza el estado a inactivo si han pasado más de 15 días desde la creación."""
@@ -156,7 +157,7 @@ class SaaSOrder(models.Model):
             self.is_active = False
             self.save()
 
- 
+
 class SaaSOrderItem(models.Model):
     order = models.ForeignKey(SaaSOrder,
                               related_name='items',
