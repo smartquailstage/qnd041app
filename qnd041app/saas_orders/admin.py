@@ -13,28 +13,28 @@ def order_detail(obj):
     return mark_safe('<a href="{}">View</a>'.format(
         reverse('saas_orders:admin_order_detail', args=[obj.id])))
 
- 
-def export_to_csv(modeladmin, request, queryset): 
-    opts = modeladmin.model._meta 
-    response = HttpResponse(content_type='text/csv') 
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment;' \
-        'filename={}.csv'.format(opts.verbose_name) 
-    writer = csv.writer(response) 
-     
-    fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many] 
-    # Write a first row with header information 
-    writer.writerow([field.verbose_name for field in fields]) 
-    # Write data rows 
-    for obj in queryset: 
-        data_row = [] 
-        for field in fields: 
-            value = getattr(obj, field.name) 
-            if isinstance(value, datetime.datetime): 
-                value = value.strftime('%d/%m/%Y') 
-            data_row.append(value) 
-        writer.writerow(data_row) 
-    return response 
-export_to_csv.short_description = 'Export to CSV' 
+        'filename={}.csv'.format(opts.verbose_name)
+    writer = csv.writer(response)
+
+    fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
+    # Write a first row with header information
+    writer.writerow([field.verbose_name for field in fields])
+    # Write data rows
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime.datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+    return response
+export_to_csv.short_description = 'Export to CSV'
 
 
 class OrderItemInline(admin.TabularInline):
@@ -337,7 +337,7 @@ class SaaSOrderAdmin(ModelAdmin):
         }),
         ('Términos y Estado', {
             'fields': (
-                'terms_accepted', 'is_active', 'email_sent'
+                'terms_accepted', 'is_active','is_progress', 'email_sent'
             ),
             'classes': ('unfold', 'tab-status'),
         }),
@@ -349,4 +349,3 @@ class SaaSOrderAdmin(ModelAdmin):
 
     # Permite collapse/expand dentro de cada tab
     unfold_fieldsets = True
-

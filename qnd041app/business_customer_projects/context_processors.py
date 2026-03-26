@@ -39,19 +39,21 @@ def business_projects_context(request):
             'projects_in_progress': [],
         }
 
-    # ✅ Orden activa (puede crear proyecto)
+    # 🔴 Orden activa
     active_order = SaaSOrder.objects.filter(
         user=request.user,
-        is_active=True,
-        is_progress=False
+        is_active=True
     ).first()
 
-    # ✅ Orden en progreso (NO puede crear)
-    progress_order = SaaSOrder.objects.filter(
+    # 🔴 Verificar si hay alguna en progreso
+    has_order_in_progress = SaaSOrder.objects.filter(
         user=request.user,
         is_active=True,
         is_progress=True
-    ).first()
+    ).exists()
+
+    # ✅ Lógica correcta
+    can_create_project = active_order is not None and not has_order_in_progress
 
     user_projects = BusinessSystemProject.objects.filter(user=request.user)
 
@@ -59,8 +61,8 @@ def business_projects_context(request):
     in_progress_projects = user_projects.exclude(progress=100)
 
     return {
-        'order': active_order or progress_order,
-        'can_create_project': True if active_order else False,  # 🔥 clave
+        'order': active_order,
+        'can_create_project': can_create_project,
         'all_projects': completed_projects,
         'projects_in_progress': in_progress_projects,
     }

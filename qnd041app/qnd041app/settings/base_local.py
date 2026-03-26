@@ -616,14 +616,53 @@ UNFOLD = {
                 "permission": is_all,
             },
 
+
+        ],
+    },
+
+    {
+        "title": _("Develop Management (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
             {
-                "title": _("DeV (I+D) ITC "),
+                "title": _("Quantity Testing"),
                 "icon": "folder",
-                "link": reverse_lazy("admin:business_customer_projects_businessprocess_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
-                "badge_color": "custom-red-alert",
+                "link": reverse_lazy("admin:business_customer_projects_qatest_changelist"),
                 "permission": is_all,
             },
+
+            {
+                "title": _("Cloud Resources"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_cloudresource_changelist"),
+                "permission": is_all,
+            },
+
+
+
+            {
+                "title": _("Investigación & Desarollo"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessprocess_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Automatizaciones"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessautomation_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Inteligencia Artificial"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessintelligent_changelist"),
+                "permission": is_all,
+            },
+
 
 
         ],

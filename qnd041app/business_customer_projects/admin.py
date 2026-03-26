@@ -14,73 +14,120 @@ class BusinessSystemProjectAdmin(ModelAdmin):
 
 
 
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import BusinessProcess
+
+
 @admin.register(BusinessProcess)
 class BusinessProcessAdmin(ModelAdmin):
+
     autocomplete_fields = ['project', 'assigned_developer']
     search_fields = ['name', 'project__name']
+
     list_display = [
-        'name', 'project', 'assigned_developer', 'progress',
-        'has_automation', 'has_ai', 'approved_by_client'
+        'name',
+        'project',
+        'assigned_developer',
+        'progress',
+        'memory_percent_used',
+        'cpu_percent_used',
+        'storage_percent_used',
+        'approved_by_client'
     ]
+
     list_filter = [
-        'has_automation', 'has_ai', 'approved_by_client',
-        'process_type', 'process_class', 'technology_type'
+        'has_automation',
+        'has_ai',
+        'approved_by_client',
+        'process_type',
+        'process_class',
+        'technology_type'
     ]
+
+    readonly_fields = [
+        'total_development_days',
+        'memory_percent_used',
+        'cpu_percent_used',
+        'storage_percent_used'
+    ]
+
     list_fullwidth = True
     list_filter_sheet = True
     change_form_show_cancel_button = True
     warn_unsaved_form = True
-    readonly_fields = [
-        'total_development_days',
-        'memory_consumption', 'cpu_consumption',
-        'total_memory_available', 'total_cpu_available',
-        'memory_percent_used', 'cpu_percent_used'
-    ]
 
-    # 🔹 Fieldsets completos con todos los campos y tabs
     fieldsets = (
-        ('Información del Proceso de Negocio', {
+
+        ("📌 Información general", {
             'fields': (
-                'project', 'name', 'assigned_developer',
-                'description', 'numero_maximo_procesos',
-                'technology_type', 'progress'
-            ),
-            'classes': ('unfold', 'tab-general'),
+                'project',
+                'name',
+                'description',
+                'numero_maximo_procesos',
+                'process_type',
+                'process_class',
+                'technology_type',
+                'process_event',
+            )
         }),
-        ('Fechas y Aprobación', {
+
+        ("⚙️ Progreso y asignación", {
             'fields': (
-                'start_date', 'delivery_date',
-                'total_development_days', 'approved_by_client', 'final_url'
-            ),
-            'classes': ('unfold', 'tab-dates'),
+                'progress',
+                'assigned_developer',
+                'approved_by_client',
+            )
         }),
-        ('Clasificación', {
+
+        ("🤖 Automatización e IA", {
             'fields': (
-                'process_type', 'process_class', 'process_event'
-            ),
-            'classes': ('unfold', 'tab-classification'),
+                'has_automation',
+                'automation_description',
+                'has_ai',
+                'ai_model_description',
+            )
         }),
-        ('Automatización', {
-            'fields': ('has_automation', 'automation_description'),
-            'classes': ('unfold', 'tab-automation'),
-        }),
-        ('Inteligencia Artificial', {
-            'fields': ('has_ai', 'ai_model_description'),
-            'classes': ('unfold', 'tab-ai'),
-        }),
-        ('Recursos del Proceso', {
+
+        ("🖥️ Consumo de recursos", {
             'fields': (
-                'memory_consumption', 'cpu_consumption',
-                'total_memory_available', 'total_cpu_available',
-                'memory_percent_used', 'cpu_percent_used'
-            ),
-            'classes': ('unfold', 'tab-resources'),
+                'memory_consumption',
+                'cpu_consumption',
+                'storage_consumption',
+            )
+        }),
+
+        ("📊 Recursos disponibles", {
+            'fields': (
+                'total_memory_available',
+                'total_cpu_available',
+
+            )
+        }),
+
+        ("📈 Porcentajes (auto calculado)", {
+            'fields': (
+                'memory_percent_used',
+                'cpu_percent_used',
+                'storage_percent_used',
+                'total_storage_available',
+            )
+        }),
+
+        ("📅 Fechas", {
+            'fields': (
+                'start_date',
+                'delivery_date',
+                'total_development_days',
+            )
+        }),
+
+        ("🌐 Entrega", {
+            'fields': (
+                'final_url',
+            )
         }),
     )
-
-    # Permite expandir/collapse dentro de cada tab
-    unfold_fieldsets = True
-
 
 from .models import BusinessContracts
 

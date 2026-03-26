@@ -243,11 +243,8 @@ class MonthlySystemMetrics(models.Model):
 
 
 
-from usuarios.models import SmartQuailCrew  # Asegúrate de que esta importación es correcta
-
 from django.db import models
-from usuarios.models import SmartQuailCrew
-from datetime import date
+
 
 class BusinessProcess(models.Model):
     project = models.ForeignKey(
@@ -255,24 +252,27 @@ class BusinessProcess(models.Model):
         on_delete=models.CASCADE,
         related_name='processes'
     )
+
     name = models.CharField(max_length=200)
     description = models.TextField()
     numero_maximo_procesos = models.IntegerField(default=1)
 
-    # Campos de memoria y CPU
+    # ✅ Consumo de recursos
     memory_consumption = models.FloatField("Consumo de memoria (MB)", default=0)
     cpu_consumption = models.FloatField("Consumo de procesamiento (Cores)", default=0)
-    store_consumption = models.FloatField("Consumo de Almacenamiento (GB)", default=0)
+    storage_consumption = models.FloatField("Consumo de almacenamiento (GB)", default=0)
 
+    # ✅ Recursos disponibles
     total_memory_available = models.FloatField("Memoria total disponible (MB)", default=1024)
     total_cpu_available = models.FloatField("Procesamiento total disponible (Cores)", default=8)
-    total_storege_available =  models.FloatField("Almacenamiento total disponible (GB)", default=8)
+    total_storage_available = models.FloatField("Almacenamiento total disponible (GB)", default=8)
 
+    # ✅ Porcentajes
     memory_percent_used = models.FloatField("Porcentaje de memoria usada (%)", editable=False, default=0)
     cpu_percent_used = models.FloatField("Porcentaje de CPU usada (%)", editable=False, default=0)
-    storage_percent_used = models.FloatField("Porcentaje de CPU usada (%)", editable=False, default=0)
+    storage_percent_used = models.FloatField("Porcentaje de almacenamiento usado (%)", editable=False, default=0)
 
-    # Resto de campos existentes...
+    # ✅ Tipos
     PROCESS_TYPE_CHOICES = [
         ('Administrativo', 'Administrativo'),
         ('Financiero', 'Financiero'),
@@ -280,17 +280,33 @@ class BusinessProcess(models.Model):
         ('Ventas', 'Ventas'),
         ('Marketing', 'Marketing'),
         ('Operaciones', 'Operaciones'),
-        ('Cadena de Suministros','Cadena de Suministros'),
-        ('Productos y Servicios','Productos y Servicios'),
+        ('Cadena de Suministros', 'Cadena de Suministros'),
+        ('Productos y Servicios', 'Productos y Servicios'),
     ]
-    process_type = models.CharField("Tipo de proceso", max_length=32, choices=PROCESS_TYPE_CHOICES, blank=True, null=True)
+
+    process_type = models.CharField(
+        "Tipo de proceso",
+        max_length=32,
+        choices=PROCESS_TYPE_CHOICES,
+        blank=True,
+        null=True
+    )
+
     progress = models.IntegerField(help_text="Progreso del 0 al 100 (%)")
+
     has_automation = models.BooleanField(default=False)
     automation_description = models.TextField(blank=True, null=True)
+
     has_ai = models.BooleanField(default=False)
-    ai_model_description = models.TextField(blank=True, null=True, help_text="Describe el modelo de IA y su implementación en el proceso")
+    ai_model_description = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Describe el modelo de IA y su implementación en el proceso"
+    )
+
+    # ✅ 🔥 CORREGIDO (sin error de carga)
     assigned_developer = models.ForeignKey(
-        SmartQuailCrew,
+        'usuarios.SmartQuailCrew',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -298,13 +314,22 @@ class BusinessProcess(models.Model):
         verbose_name="Desarrollador asignado"
     )
 
-    # Fechas y aprobación
+    # ✅ Fechas
     start_date = models.DateField("Fecha de inicio", null=True, blank=True)
     delivery_date = models.DateField("Fecha de entrega", null=True, blank=True)
+
+    total_development_days = models.PositiveIntegerField(
+        "Días de desarrollo",
+        null=True,
+        blank=True,
+        editable=False
+    )
+
     approved_by_client = models.BooleanField("¿Aprobado por cliente?", default=False)
 
+    # ✅ Clasificación
     process_class = models.CharField(
-        "Tipo de proceso",
+        "Clase del proceso",
         max_length=20,
         choices=[('Investigación', 'Investigación'), ('Desarrollo', 'Desarrollo')],
         blank=True,
@@ -320,7 +345,7 @@ class BusinessProcess(models.Model):
     )
 
     process_event = models.CharField(
-        "Clase del proceso",
+        "Evento del proceso",
         max_length=120,
         choices=[
             ('Entrevistas', 'Entrevistas'),
@@ -334,31 +359,33 @@ class BusinessProcess(models.Model):
     )
 
     final_url = models.URLField("URL final", blank=True, null=True)
-    total_development_days = models.PositiveIntegerField("Días de desarrollo", null=True, blank=True, editable=False)
 
     def save(self, *args, **kwargs):
-        # Calcular días de desarrollo
+
+        # ✅ Días de desarrollo
         if self.start_date and self.delivery_date:
             delta = self.delivery_date - self.start_date
-            self.total_development_days = delta.days if delta.days >= 0 else 0
+            self.total_development_days = max(delta.days, 0)
         else:
             self.total_development_days = None
 
-        # Calcular porcentaje de uso de memoria y CPU
-        if self.total_memory_available > 0:
-            self.memory_percent_used = round((self.memory_consumption / self.total_memory_available) * 100, 2)
-        else:
-            self.memory_percent_used = 0
+        # ✅ % memoria
+        self.memory_percent_used = (
+            round((self.memory_consumption / self.total_memory_available) * 100, 2)
+            if self.total_memory_available > 0 else 0
+        )
 
-        if self.total_cpu_available > 0:
-            self.cpu_percent_used = round((self.cpu_consumption / self.total_cpu_available) * 100, 2)
-        else:
-            self.cpu_percent_used = 0
+        # ✅ % CPU
+        self.cpu_percent_used = (
+            round((self.cpu_consumption / self.total_cpu_available) * 100, 2)
+            if self.total_cpu_available > 0 else 0
+        )
 
-        if self.total_storage_available > 0:
-            self.storage_percent_used = round((self.storage_consumption / self.total_storage_available) * 100, 2)
-        else:
-            self.storage_percent_used = 0
+        # ✅ % almacenamiento
+        self.storage_percent_used = (
+            round((self.storage_consumption / self.total_storage_available) * 100, 2)
+            if self.total_storage_available > 0 else 0
+        )
 
         super().save(*args, **kwargs)
 
