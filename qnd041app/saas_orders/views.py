@@ -124,7 +124,7 @@ def admin_order_pdf(request, order_id):
         version=3,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=2,
-        border=3,
+        border=1,
     )
     qr_data = (
     f"Orden N.{order.id}, "
@@ -136,7 +136,7 @@ def admin_order_pdf(request, order_id):
     qr.add_data(qr_data)
     qr.make(fit=True)
 
-    img = qr.make_image(fill_color="#4d4d4d", back_color="white")
+    img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()

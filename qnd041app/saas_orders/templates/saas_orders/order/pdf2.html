@@ -58,21 +58,25 @@
     </div>
 
     <dl id="informations">
-      <dt></dt>
+      <dt># Proforma</dt>
       <dd>SQ-INV021-0203{{ order.id }}</dd>
-      <dt></dt>
+      <dt>Fecha de orden</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
+      <dt>Razón social</dt>
+      <dd>SMARTQUAIL.S.A.S</dd>
+      <dt>Registro fiscal</dt>
+      <dd>1793206532001</dd>
     </dl>
 
 <hr>
 <h3><strong>Información de Cliente</strong></h3>
   <aside>
     <address id="to">
-      <strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
-      <strong>{{ order.razon_social }}</strong><br>
-      {{ order.ruc }}<br>
-      {{ order.email }}<br>
-      {{ order.telefono }}
+      Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+      Razón Social:<strong>{{ order.razon_social }}</strong><br>
+      Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
+      Correo Electrónico:<strong>{{ order.email }}</strong><br>
+      Teléfono de Contacto<strong>{{ order.telefono }}</strong>
 
     </address>
 
@@ -98,7 +102,7 @@
     <tbody>
       {% for item in order.items.all %}
       <tr>
-        <td>{{ item.product.name }}</td>
+        <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px"></td>
 
         <!-- I+D -->
         <td>
@@ -132,7 +136,6 @@
 Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a la optimización de procesos</strong>  mediante el envío automatizado de correos electrónicos, <strong>abarcando hasta dos (2) procesos operativos</strong>, financieros o administrativos. El tiempo máximo de entrega para esta implementación es de <strong>diez (10) horas</strong>.
 
 Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong> enfocado en la predicción y análisis de patrones en procesos de información operativa. Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas, con un tiempo estimado de implementación de <strong>cinco (5) horas.</strong></p>
-  <hr>
 </div>
 
   <h3><strong>Recursos dedicados de Nube</strong></h3>
@@ -189,11 +192,16 @@ Para este proyecto, la configuración de recursos computacionales incluye: <stro
     <hr>
   </div>
 
-    <h3>Terminos y condiciones</h3>
-  <div contract-note class="code">
+    <h3>Términos y condiciones</h3>
+  <div contract-note class="code" style="background-color:#E5E1E1;">
 
-    <p>SmartBusinessAnalytics es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión .</p>
-    <hr>
+    <p style="font-size:5pt; text-align:justify;"><strong>La presente proforma tiene una validez de quince (15) días calendario a partir de la fecha de creación de la orden. Transcurrido este período sin haberse efectuado el pago correspondiente, SmartQuail Inc. se reserva el derecho de actualizar, modificar o cancelar la propuesta económica.
+
+El aprovisionamiento de recursos en la nube, así como la configuración, dimensionamiento y despliegue de los aplicativos y plataformas, se realizará únicamente una vez confirmado el pago total de la presente proforma. Posteriormente, en un plazo de pocas horas, uno de nuestros profesionales se pondrá en contacto con el cliente para iniciar el proceso de levantamiento de información, investigación, desarrollo, implementación y despliegue en ambiente de producción.
+
+Los tiempos estimados de desarrollo e implementación corresponden a dieciséis (16) horas efectivas de trabajo. No obstante, estos plazos podrán variar en función de la disponibilidad del cliente, la entrega oportuna de información requerida y la complejidad específica del proyecto.<br>
+SmartQuail Inc. se reserva el derecho de rechazar, suspender o cancelar la prestación del servicio en caso de que el sistema de información solicitado esté destinado a actividades que contravengan los derechos humanos, las libertades fundamentales o la legislación vigente aplicable; en tales casos, se notificará de manera inmediata al cliente, se gestionará la devolución de los valores pagados y se formalizará la cancelación del pedido de software. Asimismo, SmartQuail Inc. se reserva el derecho de admisión y prestación de servicios conforme a sus políticas internas, estándares éticos, criterios técnicos y lineamientos operativos, incluyendo la facultad de evaluar la viabilidad del proyecto, la naturaleza del uso del sistema y el cumplimiento de buenas prácticas tecnológicas y legales, pudiendo rechazar o discontinuar servicios cuando estos no se alineen con dichos principios. </strong></p>
+
     </div>
 
     <footer>
