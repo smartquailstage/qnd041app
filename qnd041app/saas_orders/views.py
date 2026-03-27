@@ -12,8 +12,11 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from django.contrib.auth.decorators import login_required
-from usuarios.models import Profile  
+from usuarios.models import Profile
 
+import qrcode
+import io
+import base64
 
 
 from django.shortcuts import render, redirect
@@ -117,8 +120,30 @@ def admin_order_detail(request, order_id):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(SaaSOrder, id=order_id)
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order})
-    
+    qr = qrcode.QRCode(
+        version=3,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=2,
+        border=3,
+    )
+    qr_data = (
+    f"Orden N.{order.id}, "
+    "C.O.T: Ms. Silva Mauricio<br>"
+    "SMARTQUAIL S.A.S<br>"
+    "info@smartquail.io<br>"
+    "R.U.C: 1793206532001"
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="#4d4d4d", back_color="white")
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_url = f"data:image/png;base64,{qr_base64}"
+
+    html = render_to_string('saas_orders/order/pdf2.html', {'order': order,'qr_url': qr_url})
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=order_{order.id}.pdf"'
 

@@ -43,7 +43,7 @@
       }
 
       th {
-        background-color: #f0f0f0;
+        background-color: #b50f15;
       }
 
       footer {
@@ -58,59 +58,145 @@
     </div>
 
     <dl id="informations">
-      <dt>Invoice number</dt>
+      <dt>Track number</dt>
       <dd>#{{ order.id }}</dd>
-      <dt>Date</dt>
+      <dt></dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
     </dl>
 
-    <hr>
-
+<hr>
+<h3><strong>Información de Cliente</strong></h3>
+  <aside>
     <address id="to">
       {{ order.first_name }} {{ order.last_name }}<br>
       {{ order.razon_social }}<br>
-      Email: {{ order.email }}<br>
-      Phone: {{ order.telefono }}<br>
-      Sector: {{ order.get_sector_display }}
+      {{ order.ruc }}<br>
+      {{ order.email }}<br>
+      {{ order.telefono }}
+
     </address>
 
-    <hr>
+    <address id="from">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in order.items.all %}
-        <tr>
-          <td>{{ item.product.name }}</td>
-          <td>${{ item.price.amount|floatformat:2 }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>${{ item.get_cost.amount|floatformat:2|intcomma }}</td>
-        </tr>
+        <img src="{{ qr_url }}" alt="QR de certificación">
+
+    </address>
+  </aside>
+
+
+  <h3><strong>Software como Producto (SaaP)</strong></h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Licencia</th>
+        <th>(I+D)</th>
+        <th>(+A)</th>
+        <th>(+AI)</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order.items.all %}
+      <tr>
+        <td>{{ item.product.name }}</td>
+
+        <!-- I+D -->
+        <td>
+          ${{ item.product.total_iva.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- Automatización -->
+        <td>
+          ${{ item.product.total_n8n_iva.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- IA -->
+        <td>
+          ${{ item.product.total_ml_iva.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- Subtotal -->
+        <td>${{ item.product.total_iva.amount |add:item.product.total_n8n_iva|default:0|add:item.product.total_ml_iva|default:0 }}
+  </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+
+  </table>
+<div contract-note class="code">
+  <p>SmartBusinessAnalytics es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real, facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.</p>
+  <hr>
+  </div>
+  <h3><strong>Recursos dedicados de Nube</strong></h3>
+  <table>
+  {% for item in order.items.all %}
+    <thead>
+      <tr>
+        <th>CPU: {{ item.product.cpu.amount|default:0|floatformat:2|intcomma }} m</th>
+        <th>SSD:{{ item.product.almacenamiento.amount|default:0|floatformat:2|intcomma }} GB </th>
+        <th>RAM: {{ item.product.memoria.amount|default:0|floatformat:2|intcomma }} GB</th>
+        <th>LB: {{ item.product.ancho_banda.amount|default:0|floatformat:2|intcomma }} Kb/Sec </th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+
+        <!-- CPU -->
+        <td>
+          ${{ item.product.costo_cpu_mes.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- Storage -->
+        <td>
+          ${{ item.product.costo_bucket_mes.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- RAM -->
+        <td>
+          ${{ item.product.costo_balanceador_mes.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- (+AI) opcional -->
+        <td>
+          ${{ item.product.costo_total_ml.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- Subtotal -->
+        <td>
+          ${{ item.product.total_nube_iva.amount|default:0|floatformat:2|intcomma }}
+        </td>
+
+      </tr>
+
+    </tbody>
         {% endfor %}
-      </tbody>
-    </table>
+  </table>
+    <h3>Terminos y condiciones</h3>
+  <div contract-note class="code">
+
+    <p>SmartBusinessAnalytics es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión .</p>
+    <hr>
+    </div>
 
     <footer>
       <table id="total">
         <thead>
           <tr>
-            <th>Due by</th>
-            <th>Account number</th>
-            <th>Total due</th>
+            <th>Codigo</th>
+            <th>Descuento (%)</th>
+
+            <th>Valor Total</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ order.created|date:"F j, Y" }}</td>
-            <td>{{ order.braintree_id|default:"-" }}</td>
+            <td>{{ order.coupon|default:"-" }}</td>
+            <td>{{ order.discount|default:"-" }}</td>
             <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
+
           </tr>
         </tbody>
       </table>
