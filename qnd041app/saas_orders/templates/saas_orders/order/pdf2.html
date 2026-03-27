@@ -58,8 +58,8 @@
     </div>
 
     <dl id="informations">
-      <dt>Track number</dt>
-      <dd>#{{ order.id }}</dd>
+      <dt></dt>
+      <dd>SQ-INV021-0203{{ order.id }}</dd>
       <dt></dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
     </dl>
@@ -127,7 +127,8 @@
 <div contract-note class="code">
   <p>SmartBusinessAnalytics es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real, facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.</p>
   <hr>
-  </div>
+</div>
+
   <h3><strong>Recursos dedicados de Nube</strong></h3>
   <table>
   {% for item in order.items.all %}
@@ -174,6 +175,12 @@
     </tbody>
         {% endfor %}
   </table>
+
+  <div contract-note class="code">
+    <p>SmartBusinessAnalytics es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real, facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.</p>
+    <hr>
+  </div>
+  
     <h3>Terminos y condiciones</h3>
   <div contract-note class="code">
 
