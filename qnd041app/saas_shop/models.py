@@ -275,112 +275,153 @@ class Product(models.Model):
             return Money(0, 'USD')
 
     def save(self, *args, **kwargs):
-        # 1) Desarrollo e implementación
-        costo_dev = Decimal(self.tiempo_desarrollo or 0) * self._safe_money(self.costo_hora_desarrollo).amount
-        self.costo_total_desarrollo = Money(costo_dev, 'USD')
+        iva_factor = Decimal(self.iva or 0) / Decimal('100')
 
+        # =========================
+        # 1) DESARROLLO
+        # =========================
+        costo_dev = Decimal(self.tiempo_desarrollo or 0) * self._safe_money(self.costo_hora_desarrollo).amount
         costo_impl = Decimal(self.tiempo_implementacion or 0) * self._safe_money(self.costo_hora_implementacion).amount
+
+        self.costo_total_desarrollo = Money(costo_dev, 'USD')
         self.costo_project_management = Money(costo_impl, 'USD')
 
         margen_dev = costo_dev * Decimal('0.15')
         margen_impl = costo_impl * Decimal('0.10')
+
         self.margen_sq = round(margen_dev + margen_impl, 2)
 
-        total_devimpl = costo_dev + costo_impl + Decimal(self.margen_sq or 0)
-        self.total = Money(total_devimpl, 'USD')
+        total_dev = costo_dev + costo_impl + Decimal(self.margen_sq or 0)
+        self.total = Money(total_dev, 'USD')
+        self.total_iva = Money(total_dev * (1 + iva_factor), 'USD')
 
-        iva_factor = Decimal(self.iva or 0) / Decimal('100')
-        self.total_iva = Money(total_devimpl * (1 + iva_factor), 'USD')
 
-        # 2) Nube
-        costo_nube = (
-            self._safe_money(self.costo_cpu_mes).amount +
-            self._safe_money(self.costo_bucket_mes).amount +
-            self._safe_money(self.costo_balanceador_mes).amount
+            # =========================
+            # 2) AUTOMATIZACIÓN (n8n)
+            # =========================
+        costo_auto = (
+                self._safe_money(self.costo_nodos).amount +
+                self._safe_money(self.costo_orquestacion).amount +
+                self._safe_money(self.costo_conectores_terceros).amount
         )
+
+        self.costo_total_n8n = Money(costo_auto, 'USD')
+
+        self.margen_sq_n8n = round(costo_auto * Decimal('0.20'), 2)
+
+        total_n8n_val = costo_auto + Decimal(self.margen_sq_n8n or 0)
+
+        self.total_n8n = Money(total_n8n_val, 'USD')
+        self.total_n8n_iva = Money(total_n8n_val * (1 + iva_factor), 'USD')
+
+        costo_ml = (
+        self._safe_money(self.costo_entrenamiento).amount +
+        self._safe_money(self.costo_inferencia).amount +
+        self._safe_money(self.costo_mantenimiento_ml).amount
+        )
+
+        self.costo_total_ml = Money(costo_ml, 'USD')
+
+        self.margen_sq_ml = round(costo_ml * Decimal('0.25'), 2)
+
+        total_ml_val = costo_ml + Decimal(self.margen_sq_ml or 0)
+
+        self.total_ml = Money(total_ml_val, 'USD')
+        self.total_ml_iva = Money(total_ml_val * (1 + iva_factor), 'USD')
+
+        costo_nube = (
+        self._safe_money(self.costo_cpu_mes).amount +
+        self._safe_money(self.costo_bucket_mes).amount +
+        self._safe_money(self.costo_memory_mes).amount +
+        self._safe_money(self.costo_balanceador_mes).amount +
+        self._safe_money(self.costo_gpu_mes).amount
+        )
+
         self.costo_total_nube = Money(costo_nube, 'USD')
         self.margen_sq_nube = round(costo_nube * Decimal('0.20'), 2)
         total_nube_val = costo_nube + Decimal(self.margen_sq_nube or 0)
+
         self.total_nube = Money(total_nube_val, 'USD')
         self.total_nube_iva = Money(total_nube_val * (1 + iva_factor), 'USD')
 
-        # 3) Arquitectura
+    # =========================
+    # 5) ARQUITECTURA
+    # =========================
         costo_arch = Decimal(self.tiempo_arquitectura or 0) * self._safe_money(self.costo_hora_arquitectura).amount
         costo_sre_val = self._safe_money(self.costo_sre).amount
-        costo_arch_total = costo_arch + costo_sre_val
 
-        self.margen_sq_arch = round(costo_arch_total * Decimal('0.10'), 2)
-        total_arch_val = costo_arch_total + Decimal(self.margen_sq_arch or 0)
+        total_arch_cost = costo_arch + costo_sre_val
+
+        self.margen_sq_arch = round(total_arch_cost * Decimal('0.10'), 2)
+
+        total_arch_val = total_arch_cost + Decimal(self.margen_sq_arch or 0)
+
         self.total_arch = Money(total_arch_val, 'USD')
         self.total_arch_iva = Money(total_arch_val * (1 + iva_factor), 'USD')
 
+    # =========================
+    # 6) BASE PRICE (SUMA REAL)
+    # =========================
         base_price = sum([
-            self._safe_money(self.total_iva).amount,      # Desarrollo + Implementación
-            self._safe_money(self.total_n8n_iva).amount,  # Automatizaciones n8n
-            self._safe_money(self.total_ml_iva).amount,   # IA / ML
-            ], Decimal('0'))
+        self._safe_money(self.total_iva).amount,
+        self._safe_money(self.total_n8n_iva).amount,
+        self._safe_money(self.total_ml_iva).amount,
+        self._safe_money(self.total_arch_iva).amount,
+        ], Decimal('0'))
 
+    # =========================
+    # 7) KUSHKI
+    # =========================
         if self.payment_method == 'debit':
-            kushki_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
-            kushki_fixed = self._safe_money(self.kushki_debit_fixed).amount
-        else:  # credit (default)
-            kushki_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
-            kushki_fixed = self._safe_money(self.kushki_credit_fixed).amount
+            percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
+            fixed = self._safe_money(self.kushki_debit_fixed).amount
+        else:
+            percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
+            fixed = self._safe_money(self.kushki_credit_fixed).amount
 
-        kushki_cost = (base_price * kushki_percent) + kushki_fixed
+        kushki_cost = (base_price * percent) + fixed
 
+        self.kushki_credit_cost = Money(
+        (base_price * (Decimal(self.kushki_credit_percentage or 0) / 100)) +
+        self._safe_money(self.kushki_credit_fixed).amount,
+        'USD'
+        )
+
+        self.kushki_debit_cost = Money(
+        (base_price * (Decimal(self.kushki_debit_percentage or 0) / 100)) +
+        self._safe_money(self.kushki_debit_fixed).amount,
+        'USD'
+        )
+
+    # =========================
+    # 8) PRECIO FINAL ✅
+    # =========================
         final_price = base_price + kushki_cost
+
         self.price = Money(final_price, 'USD')
         self.price_amount = final_price
 
-        self.price = Money(base_price, 'USD')
-        self.price_amount = base_price
+    # =========================
+    # 9) UTILIDAD
+    # =========================
+        total_margen = (
+        Decimal(self.margen_sq or 0) +
+        Decimal(self.margen_sq_n8n or 0) +
+        Decimal(self.margen_sq_ml or 0) +
+        Decimal(self.margen_sq_nube or 0) +
+        Decimal(self.margen_sq_arch or 0)
+        )
 
-
-        # 5) Utilidad Bruta (suma de márgenes)
-        total_margen = Decimal(self.margen_sq or 0) + Decimal(self.margen_sq_nube or 0) + Decimal(self.margen_sq_arch or 0)
         self.utilidad_bruta = total_margen
 
-        # 6) Valor deducible de impuestos (total_iva - 15%)
         iva_deducible = self._safe_money(self.total_iva).amount * Decimal('0.85')
         self.valor_deducible_iva = Money(iva_deducible, 'USD')
 
-        # 7) Utilidad líquida = utilidad_bruta - inversion_marketing
         utilidad_liquida_val = total_margen - self._safe_money(self.inversion_marketing).amount
         self.utilidad_liquida = Money(utilidad_liquida_val, 'USD')
-
-        # === 4) Costos Kushki (pasarela de pago) ===
-        # Base: total antes de Kushki
-
-        base_amount = base_price
-        # Crédito
-
-        kushki_credit_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
-        kushki_credit_cost_val = (
-            base_amount * kushki_credit_percent
-            + self._safe_money(self.kushki_credit_fixed).amount
-            )
-        self.kushki_credit_cost = Money(kushki_credit_cost_val, 'USD')
-
-        # Débito
-
-        kushki_debit_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
-        kushki_debit_cost_val = (
-            base_amount * kushki_debit_percent
-            + self._safe_money(self.kushki_debit_fixed).amount
-            )
-        self.kushki_debit_cost = Money(kushki_debit_cost_val, 'USD')
-
-
-        self.price_amount = self.price.amount if self.price else None
-
-        # Precio final según medio de pago
-        price_with_credit = base_amount + kushki_credit_cost_val
-        price_with_debit = base_amount + kushki_debit_cost_val
-
-
-
         super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return f"Name: {self.name}, Usuarios: {self.usuarios_simultaneos}, Price: {self.price}"

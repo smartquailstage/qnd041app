@@ -94,46 +94,58 @@
       <tr>
         <th>Licencia</th>
         <th>(I+D)</th>
-        {% if item.product.is_automatitation  %}
-        <th>(+A)</th>
+
+        {% if item.product.is_automatitation %}
+          <th>(+A)</th>
         {% endif %}
-        {% if item.product.is_intelligent  %}
-        <th>(+AI)</th>
+
+        {% if item.product.is_intelligent %}
+          <th>(+AI)</th>
         {% endif %}
-        <th>Subtotal</th>
+
+        <th>Subtotal<sup>+(15% I.V.A)</sup></th>
       </tr>
     </thead>
-    <tbody>
 
+    <tbody>
       <tr>
-        <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px"></td>
+
+        <!-- Imagen -->
+        <td>
+          {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
+          {% endif %}
+        </td>
 
         <!-- I+D -->
         <td>
-          ${{ item.product.total_iva.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.total_iva.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
 
-        {% if item.product.is_automatitation  %}<!-- Automatización -->
+        <!-- Automatización -->
+        {% if item.product.is_automatitation %}
         <td>
-          ${{ item.product.total_n8n_iva.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.total_n8n_iva.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
         {% endif %}
+
         <!-- IA -->
-        {% if item.product.is_intelligent  %}
+        {% if item.product.is_intelligent %}
         <td>
-          ${{ item.product.total_ml_iva.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.total_ml_iva.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
         {% endif %}
 
-        <!-- Subtotal -->
-        <td>${{ item.product.total_iva.amount |add:item.product.total_n8n_iva|default:0|add:item.product.total_ml_iva|default:0 }}
-  </td>
+        <!-- SUBTOTAL CORRECTO -->
+        <td>
+          ${{ item.product.total_iva.amount|default_if_none:0 |add:item.product.total_n8n_iva.amount|default_if_none:0|add:item.product.total_ml_iva.amount|default_if_none:0|floatformat:2|intcomma }}
+        </td>
+
       </tr>
-
     </tbody>
-  {% endfor %}
-
   </table>
+
+    {% endfor %}
 
 {% for item in order.items.all %}
 <div contract-note code>
@@ -179,63 +191,65 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% endfor %}
 
   <h3><strong>Recursos dedicados de Nube</strong></h3>
+
+{% for item in order.items.all %}
   <table>
 
     <thead style="background-color:#4d4d4d;">
       <tr>
-        <th>CPU: {{ item.product.cpu.amount|default:0|floatformat:0|intcomma }} m</th>
-        <th>SSD:{{ item.product.almacenamiento.amount|default:0|floatformat:0|intcomma }} GB </th>
-        <th>RAM: {{ item.product.memoria.amount|default:0|floatformat:0|intcomma }} GB</th>
-        <th>LB: {{ item.product.ancho_banda.amount|default:0|floatformat:0|intcomma }} Kb/Sec </th>
+        <th>CPU: {{ item.product.cpu|default:0|floatformat:0|intcomma }} Core</th>
+        <th>SSD: {{ item.product.almacenamiento|default:0|floatformat:0|intcomma }} GB</th>
+        <th>RAM: {{ item.product.memoria|default:0|floatformat:0|intcomma }} GB</th>
+        <th>LB: {{ item.product.ancho_banda|default:0|floatformat:0|intcomma }} Kb/Sec</th>
+
         {% if item.product.is_gpu %}
-        <th>GPU: {{ item.product.ancho_banda.amount|default:0|floatformat:0|intcomma }} m </th>
+          <th>GPU: {{ item.product.gpu|default:"-" }}</th>
         {% endif %}
+
         <th>Subtotal</th>
       </tr>
     </thead>
-    <tbody>
 
+    <tbody>
       <tr>
 
         <!-- CPU -->
         <td>
-          ${{ item.product.costo_cpu_mes.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.costo_cpu_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
 
         <!-- Storage -->
         <td>
-          ${{ item.product.costo_bucket_mes.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.costo_bucket_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
 
         <!-- RAM -->
-
         <td>
-          ${{ item.product.costo_memory_mes.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.costo_memory_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
 
+        <!-- Load Balancer -->
         <td>
-          ${{ item.product.costo_balanceador_mes.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.costo_balanceador_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
 
-        <!-- (+AI) opcional -->
-          {% if item.product.is_gpu %}
+        <!-- GPU -->
+        {% if item.product.is_gpu %}
         <td>
-          ${{ item.product.costo_gpu_mes.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.costo_gpu_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
         {% endif %}
 
-        <!-- Subtotal -->
+        <!-- Subtotal Nube -->
         <td>
-          ${{ item.product.total_nube_iva.amount|default:0|floatformat:2|intcomma }}/mes
+          ${{ item.product.total_nube_iva.amount|default_if_none:0|floatformat:2|intcomma }}/mes
         </td>
 
-
       </tr>
-
     </tbody>
 
   </table>
-
+{% endfor %}
   <div contract-note class="code">
     <p style="text-align:justify;">
       <strong>El uso de recursos de computación en la nube es obligatorio</strong> para el despliegue de
