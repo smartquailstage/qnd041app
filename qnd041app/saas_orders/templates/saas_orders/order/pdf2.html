@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <link href="{% static 'pdf.css' %}" media="print" rel="stylesheet">
-    <title>Invoice</title>
+    <title>SQ-INV021-0203{{ order.id }}</title>
     <meta name="description" content="Invoice demo sample">
 
     <style>
@@ -87,20 +87,24 @@
     </address>
   </aside>
 
-
+    {% for item in order.items.all %}
   <h3><strong>Software como Producto (SaaP)</strong></h3>
   <table>
     <thead>
       <tr>
         <th>Licencia</th>
         <th>(I+D)</th>
+        {% if item.product.is_automatitation  %}
         <th>(+A)</th>
+        {% endif %}
+        {% if item.product.is_intelligent  %}
         <th>(+AI)</th>
+        {% endif %}
         <th>Subtotal</th>
       </tr>
     </thead>
     <tbody>
-      {% for item in order.items.all %}
+
       <tr>
         <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px"></td>
 
@@ -109,44 +113,83 @@
           ${{ item.product.total_iva.amount|default:0|floatformat:2|intcomma }}
         </td>
 
-        <!-- Automatización -->
+        {% if item.product.is_automatitation  %}<!-- Automatización -->
         <td>
           ${{ item.product.total_n8n_iva.amount|default:0|floatformat:2|intcomma }}
         </td>
-
+        {% endif %}
         <!-- IA -->
+        {% if item.product.is_intelligent  %}
         <td>
           ${{ item.product.total_ml_iva.amount|default:0|floatformat:2|intcomma }}
         </td>
+        {% endif %}
 
         <!-- Subtotal -->
         <td>${{ item.product.total_iva.amount |add:item.product.total_n8n_iva|default:0|add:item.product.total_ml_iva|default:0 }}
   </td>
       </tr>
-      {% endfor %}
-    </tbody>
 
+    </tbody>
+  {% endfor %}
 
   </table>
+
+{% for item in order.items.all %}
 <div contract-note code>
-  <p style ="text-align:justify;"><strong>SmartBusinessAnalytics</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real, facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.
+  <p style ="text-align:justify;">
+{% if item.product.name == 'SmartBusinessAnalytics' %}
+    <strong>SmartBusinessAnalytics®</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc.,
+     diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento,
+     monitoreo y análisis de datos financieros y operativos en tiempo real,
+     facilitando la toma de decisiones basada en información confiable.
+     Incorpora estándares avanzados de seguridad, incluyendo mecanismos
+      de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad,
+       confidencialidad y disponibilidad de la información.
+{% elif item.product.name == 'SmartBusinessMedia' %}
+<strong>SmartBusinessMedia</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc.,
+ diseñado para la gestión integral de analítica empresarial.
+ La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real,
+  facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.
+{% elif item.product.name == 'SmartBusinessLaw' %}
+<strong>SmartBusinessLaw</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc., diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento, monitoreo y análisis de datos financieros y operativos en tiempo real, facilitando la toma de decisiones basada en información confiable. Incorpora estándares avanzados de seguridad, incluyendo mecanismos de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad, confidencialidad y disponibilidad de la información.
+{% endif %}
 
-<strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> , mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco <strong>(5) procesos operativos o financieros críticos</strong>, ejecutados por profesionales especializados en cada área. El tiempo máximo estimado para esta implementación es de doce <strong>(12) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
+{% if item.product.is_reaserch  %}
+<strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
+mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco
+ <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos operativos o financieros críticos</strong>,
+ ejecutados por profesionales especializados en cada área.
+ El tiempo máximo estimado para esta implementación es de doce <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
+{% endif %}
 
-Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a la optimización de procesos</strong>  mediante el envío automatizado de correos electrónicos, <strong>abarcando hasta dos (2) procesos operativos</strong>, financieros o administrativos. El tiempo máximo de entrega para esta implementación es de <strong>diez (10) horas</strong>.
+{% if item.product.is_automatitation  %}
+Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a la optimización de procesos</strong>
+ mediante el {{ item.product.automatizacion }},
+ <strong>abarcando hasta dos ({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos operativos</strong>, financieros o administrativos.
+ El tiempo máximo de entrega para esta implementación es de <strong>diez ({{ item.product.tiempo_implementacion_a|floatformat:0|intcomma  }}) horas</strong>.
+ {% endif %}
 
-Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong> enfocado en la predicción y análisis de patrones en procesos de información operativa. Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas, con un tiempo estimado de implementación de <strong>cinco (5) horas.</strong></p>
+{% if item.product.is_intelligent  %}
+Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong>
+enfocado en la predicción y análisis de patrones en procesos de información operativa.
+Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }} , con un tiempo estimado de implementación de <strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma  }}) horas.</strong></p>
 </div>
+{% endif %}
+{% endfor %}
 
   <h3><strong>Recursos dedicados de Nube</strong></h3>
   <table>
-  {% for item in order.items.all %}
+
     <thead style="background-color:#4d4d4d;">
       <tr>
-        <th>CPU: {{ item.product.cpu.amount|default:0|floatformat:2|intcomma }} m</th>
-        <th>SSD:{{ item.product.almacenamiento.amount|default:0|floatformat:2|intcomma }} GB </th>
-        <th>RAM: {{ item.product.memoria.amount|default:0|floatformat:2|intcomma }} GB</th>
-        <th>LB: {{ item.product.ancho_banda.amount|default:0|floatformat:2|intcomma }} Kb/Sec </th>
+        <th>CPU: {{ item.product.cpu.amount|default:0|floatformat:0|intcomma }} m</th>
+        <th>SSD:{{ item.product.almacenamiento.amount|default:0|floatformat:0|intcomma }} GB </th>
+        <th>RAM: {{ item.product.memoria.amount|default:0|floatformat:0|intcomma }} GB</th>
+        <th>LB: {{ item.product.ancho_banda.amount|default:0|floatformat:0|intcomma }} Kb/Sec </th>
+        {% if item.product.is_gpu %}
+        <th>GPU: {{ item.product.ancho_banda.amount|default:0|floatformat:0|intcomma }} m </th>
+        {% endif %}
         <th>Subtotal</th>
       </tr>
     </thead>
@@ -156,46 +199,62 @@ Finalmente, el sistema incorpora un componente de <strong>inteligencia artificia
 
         <!-- CPU -->
         <td>
-          ${{ item.product.costo_cpu_mes.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.costo_cpu_mes.amount|default:0|floatformat:2|intcomma }}/mes
         </td>
 
         <!-- Storage -->
         <td>
-          ${{ item.product.costo_bucket_mes.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.costo_bucket_mes.amount|default:0|floatformat:2|intcomma }}/mes
         </td>
 
         <!-- RAM -->
+
         <td>
-          ${{ item.product.costo_balanceador_mes.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.costo_memory_mes.amount|default:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <td>
+          ${{ item.product.costo_balanceador_mes.amount|default:0|floatformat:2|intcomma }}/mes
         </td>
 
         <!-- (+AI) opcional -->
+          {% if item.product.is_gpu %}
         <td>
-          ${{ item.product.costo_total_ml.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.costo_gpu_mes.amount|default:0|floatformat:2|intcomma }}/mes
         </td>
+        {% endif %}
 
         <!-- Subtotal -->
         <td>
-          ${{ item.product.total_nube_iva.amount|default:0|floatformat:2|intcomma }}
+          ${{ item.product.total_nube_iva.amount|default:0|floatformat:2|intcomma }}/mes
         </td>
+
 
       </tr>
 
     </tbody>
-        {% endfor %}
+
   </table>
 
   <div contract-note class="code">
-    <p style="text-align:justify;"><strong>El uso de recursos de computación en la nube es obligatorio</strong> para el despliegue de los aplicativos y plataformas desarrollados por SmartQuail Inc. Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real, garantizando alta disponibilidad y rendimiento. Los recursos son provisionados bajo un esquema de alquiler mensual, ajustado a las necesidades específicas del sistema de información contratado y dimensionado de forma precisa para acompañar el crecimiento del proyecto.
+    <p style="text-align:justify;">
+      <strong>El uso de recursos de computación en la nube es obligatorio</strong> para el despliegue de
+      los aplicativos y plataformas desarrollados por SmartQuail Inc.
+       Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real,
+        garantizando alta disponibilidad y rendimiento.
+        Los recursos son provisionados bajo un esquema de alquiler mensual, ajustado a las necesidades específicas del sistema de información contratado y dimensionado de forma precisa para acompañar el crecimiento del proyecto.
 
-Para este proyecto, la configuración de recursos computacionales incluye: <strong>capacidad de procesamiento (CPU) basada en un procesador AMD de 8 hilos y 1 milicores (M)</strong>, 512 GB de memoria RAM, almacenamiento en bucket de 25 GB, y un balanceador de carga con un rendimiento máximo garantizado de 512 KB/s. Adicionalmente, se incorpora una unidad de procesamiento gráfico (GPU) NVIDIA, destinada al procesamiento de datos, ejecución de redes neuronales y soporte a procesos de inteligencia artificial orientados a investigación y desarrollo.</p>
+Para este proyecto, la configuración de recursos computacionales incluye: <strong>capacidad de procesamiento (CPU) basada en un procesador AMD de 8 hilos y {{ item.product.cpu }} milicores (M)</strong>, {{ item.product.memoria }} GB de memoria RAM, almacenamiento en bucket de {{ item.product.almacenamiento }} GB, y un balanceador de carga con un rendimiento máximo garantizado de {{ item.product.ancho_banda }} KB/s.
+{% if item.pduct.is_gpu  %}
+Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <strong> {{ item.product.gpu }} NVIDIA</strong>, destinada al procesamiento de datos, ejecución de redes neuronales y soporte a procesos de inteligencia artificial orientados a investigación y desarrollo.</p>
+ {% endif %}
     <hr>
   </div>
 
     <h3>Términos y condiciones</h3>
   <div contract-note class="code" style="background-color:#E5E1E1;">
 
-    <p style="font-size:5pt; text-align:justify;"><strong>La presente proforma tiene una validez de quince (15) días calendario a partir de la fecha de creación de la orden. Transcurrido este período sin haberse efectuado el pago correspondiente, SmartQuail Inc. se reserva el derecho de actualizar, modificar o cancelar la propuesta económica.
+    <p style="font-size:6pt; text-align:justify;"><strong>La presente proforma tiene una validez de quince (15) días calendario a partir de la fecha de creación de la orden. Transcurrido este período sin haberse efectuado el pago correspondiente, SmartQuail Inc. se reserva el derecho de actualizar, modificar o cancelar la propuesta económica.
 
 El aprovisionamiento de recursos en la nube, así como la configuración, dimensionamiento y despliegue de los aplicativos y plataformas, se realizará únicamente una vez confirmado el pago total de la presente proforma. Posteriormente, en un plazo de pocas horas, uno de nuestros profesionales se pondrá en contacto con el cliente para iniciar el proceso de levantamiento de información, investigación, desarrollo, implementación y despliegue en ambiente de producción.
 
@@ -212,12 +271,16 @@ SmartQuail Inc. se reserva el derecho de rechazar, suspender o cancelar la prest
             <th>Descuento (%)</th>
 
             <th>Valor Total</th>
+              <th>Pago Mensual</th>
+              <th>Tiempo para Entrega</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{{ order.coupon|default:"-" }}</td>
             <td>{{ order.discount|default:"-" }}</td>
+            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
+            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
             <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
 
           </tr>
