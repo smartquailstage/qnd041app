@@ -144,12 +144,34 @@ class SaaSOrder(models.Model):
         verbose_name_plural = 'SaaS Orders'
 
     def __str__(self):
-        return 'SaaS Order {}'.format(self.id)
+        return 'SaaP Pedido {}'.format(self.id)
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
         return total_cost - total_cost * (self.discount / Decimal('100'))
 
+
+
+    def get_subtotal(self):
+        return sum(
+        (item.get_cost() for item in self.items.all()),
+        Money(0, 'USD')  # 👈 CLAVE
+        )
+
+    def get_discount_value(self):
+        subtotal = self.get_subtotal()
+        return subtotal * (Decimal(self.discount) / Decimal('100'))
+
+
+
+    def get_total_iva(self):
+        subtotal = self.get_total_cost()
+        return subtotal*Decimal('0.15')
+
+    def get_total_with_discount(self):
+        subtotal = self.get_total_cost()
+        iva = self.get_total_iva()
+        return subtotal + iva
 
     def check_active_status(self):
         """Actualiza el estado a inactivo si han pasado más de 15 días desde la creación."""
@@ -177,6 +199,9 @@ class SaaSOrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    def get_iva_cost(self):
+        return (self.price) * Decimal('0.15')
 
     # Rentabilidad por ítem
     @property

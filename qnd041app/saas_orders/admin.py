@@ -294,7 +294,7 @@ class SaaSOrderAdmin(ModelAdmin):
     readonly_fields = [
         'contract_hash_ip', 'contract_hash_dev', 'contract_hash_cloud',
         'contract_signed_at_ip', 'contract_signed_at_dev', 'contract_signed_at_cloud',
-        'created', 'updated'
+        'created', 'updated',
     ]
 
     # -------------------------------
@@ -331,7 +331,7 @@ class SaaSOrderAdmin(ModelAdmin):
         }),
         ('Pagos y Descuentos', {
             'fields': (
-                'paid', 'force_paid', 'braintree_id', 'coupon', 'discount'
+                'paid', 'force_paid', 'braintree_id', 'coupon', 'discount',
             ),
             'classes': ('unfold', 'tab-payment'),
         }),

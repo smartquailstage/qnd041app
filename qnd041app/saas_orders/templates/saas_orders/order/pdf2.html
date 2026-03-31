@@ -54,7 +54,7 @@
 
   <body>
     <div class="header">
-      <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo">
+      <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo" height="50px">
     </div>
 
     <dl id="informations">
@@ -119,28 +119,29 @@
 
         <!-- I+D -->
         <td>
-          ${{ item.product.total_iva.amount|default_if_none:0|floatformat:2|intcomma }}
+          ${{ item.product.total.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
 
         <!-- Automatización -->
         {% if item.product.is_automatitation %}
         <td>
-          ${{ item.product.total_n8n_iva.amount|default_if_none:0|floatformat:2|intcomma }}
+          ${{ item.product.total_n8n.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
         {% endif %}
 
         <!-- IA -->
         {% if item.product.is_intelligent %}
         <td>
-          ${{ item.product.total_ml_iva.amount|default_if_none:0|floatformat:2|intcomma }}
+          ${{ item.product.total_ml.amount|default_if_none:0|floatformat:2|intcomma }}
         </td>
         {% endif %}
 
         <!-- SUBTOTAL CORRECTO -->
+        {% for item in order.items.all %}
         <td>
-          ${{ item.product.total_iva.amount|default_if_none:0 |add:item.product.total_n8n_iva.amount|default_if_none:0|add:item.product.total_ml_iva.amount|default_if_none:0|floatformat:2|intcomma }}
+          ${{ item.product.subtotal.amount|floatformat:2|intcomma}}
         </td>
-
+        {% endfor %}
       </tr>
     </tbody>
   </table>
@@ -207,6 +208,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
         {% endif %}
 
         <th>Subtotal</th>
+          <th>total</th>
       </tr>
     </thead>
 
@@ -240,6 +242,10 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
         </td>
         {% endif %}
 
+        <td>
+          ${{ item.product.total_nube.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
         <!-- Subtotal Nube -->
         <td>
           ${{ item.product.total_nube_iva.amount|default_if_none:0|floatformat:2|intcomma }}/mes
@@ -250,6 +256,8 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 
   </table>
 {% endfor %}
+
+{% for item in order.items.all %}
   <div contract-note class="code">
     <p style="text-align:justify;">
       <strong>El uso de recursos de computación en la nube es obligatorio</strong> para el despliegue de
@@ -258,12 +266,13 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
         garantizando alta disponibilidad y rendimiento.
         Los recursos son provisionados bajo un esquema de alquiler mensual, ajustado a las necesidades específicas del sistema de información contratado y dimensionado de forma precisa para acompañar el crecimiento del proyecto.
 
-Para este proyecto, la configuración de recursos computacionales incluye: <strong>capacidad de procesamiento (CPU) basada en un procesador AMD de 8 hilos y {{ item.product.cpu }} milicores (M)</strong>, {{ item.product.memoria }} GB de memoria RAM, almacenamiento en bucket de {{ item.product.almacenamiento }} GB, y un balanceador de carga con un rendimiento máximo garantizado de {{ item.product.ancho_banda }} KB/s.
+Para este proyecto, la configuración de recursos computacionales incluye: <strong>{{ item.product.cpu|default:0|floatformat:0|intcomma }} core de capacidad de procesamiento (CPU) basada en un procesador AMD de 8 hilos </strong>, {{ item.product.memoria }} GB de memoria RAM, almacenamiento en bucket de {{ item.product.almacenamiento }} GB, y un balanceador de carga con un rendimiento máximo garantizado de {{ item.product.ancho_banda }} KB/s.
 {% if item.pduct.is_gpu  %}
 Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <strong> {{ item.product.gpu }} NVIDIA</strong>, destinada al procesamiento de datos, ejecución de redes neuronales y soporte a procesos de inteligencia artificial orientados a investigación y desarrollo.</p>
  {% endif %}
     <hr>
   </div>
+{% endfor %}
 
     <h3>Términos y condiciones</h3>
   <div contract-note class="code" style="background-color:#E5E1E1;">
@@ -282,20 +291,30 @@ SmartQuail Inc. se reserva el derecho de rechazar, suspender o cancelar la prest
         <thead>
           <tr>
             <th>Codigo</th>
-            <th>Descuento (%)</th>
-
-            <th>Valor Total</th>
-              <th>Pago Mensual</th>
+            <th>Descuento ({{ order.discount|default:"0" }} %)</th>
+            <th>Valor IVA</th>
+              <th>Total a Pagar</th>
               <th>Tiempo para Entrega</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ order.coupon|default:"-" }}</td>
-            <td>{{ order.discount|default:"-" }}</td>
-            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
-            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
-            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
+            <tbody>
+              <tr>
+                <td>{{ order.coupon|default:"-" }}</td>
+
+                <!-- % descuento -->
+                <td>${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
+
+                <td>${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
+
+                  <td>${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+
+              {% for item in order.items.all %}
+            <td>{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs</td>
+            {% endfor %}
+              </tr>
+            </tbody>
 
           </tr>
         </tbody>

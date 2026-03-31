@@ -196,6 +196,9 @@ class Product(models.Model):
     total_arch = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_arch_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
+    total_tiempo = models.DecimalField(
+    max_digits=5, decimal_places=2, default=6.30, verbose_name="Tiempo de Entrega",null=True, blank=True)
+
     # Nuevos campos
     # === Kushki / Pasarela de pagos ===
     kushki_credit_percentage = models.DecimalField(
@@ -232,9 +235,12 @@ class Product(models.Model):
 
     utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    valor_total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     inversion_marketing = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_horas_entrega =  models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    subtotal = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
 
 
 
@@ -283,6 +289,8 @@ class Product(models.Model):
         costo_dev = Decimal(self.tiempo_desarrollo or 0) * self._safe_money(self.costo_hora_desarrollo).amount
         costo_impl = Decimal(self.tiempo_implementacion or 0) * self._safe_money(self.costo_hora_implementacion).amount
 
+
+
         self.costo_total_desarrollo = Money(costo_dev, 'USD')
         self.costo_project_management = Money(costo_impl, 'USD')
 
@@ -299,11 +307,23 @@ class Product(models.Model):
             # =========================
             # 2) AUTOMATIZACIÓN (n8n)
             # =========================
+        tiempo_total =(
+           Decimal(self.tiempo_desarrollo or 0) +
+           Decimal(self.tiempo_implementacion or 0)+
+           Decimal(self.tiempo_implementacion_a or 0)+
+           Decimal(self.tiempo_implementacion_ai or 0) +
+           Decimal(self.tiempo_arquitectura or 0)
+        )
+
+        self.total_tiempo = tiempo_total
+
         costo_auto = (
                 self._safe_money(self.costo_nodos).amount +
                 self._safe_money(self.costo_orquestacion).amount +
                 self._safe_money(self.costo_conectores_terceros).amount
         )
+
+
 
         self.costo_total_n8n = Money(costo_auto, 'USD')
 
@@ -337,9 +357,16 @@ class Product(models.Model):
         self._safe_money(self.costo_gpu_mes).amount
         )
 
+        costo_id_a_ai = (
+        self._safe_money(self.total_ml).amount +
+        self._safe_money(self.total_n8n).amount +
+        self._safe_money(self.total).amount )
+
         self.costo_total_nube = Money(costo_nube, 'USD')
         self.margen_sq_nube = round(costo_nube * Decimal('0.20'), 2)
         total_nube_val = costo_nube + Decimal(self.margen_sq_nube or 0)
+
+        self.subtotal =  Money(costo_id_a_ai, 'USD')
 
         self.total_nube = Money(total_nube_val, 'USD')
         self.total_nube_iva = Money(total_nube_val * (1 + iva_factor), 'USD')
@@ -363,10 +390,9 @@ class Product(models.Model):
     # 6) BASE PRICE (SUMA REAL)
     # =========================
         base_price = sum([
-        self._safe_money(self.total_iva).amount,
-        self._safe_money(self.total_n8n_iva).amount,
-        self._safe_money(self.total_ml_iva).amount,
-        self._safe_money(self.total_arch_iva).amount,
+        self._safe_money(self.total).amount,
+        self._safe_money(self.total_n8n).amount,
+        self._safe_money(self.total_ml).amount,
         ], Decimal('0'))
 
     # =========================
@@ -396,7 +422,7 @@ class Product(models.Model):
     # =========================
     # 8) PRECIO FINAL ✅
     # =========================
-        final_price = base_price + kushki_cost
+        final_price = base_price
 
         self.price = Money(final_price, 'USD')
         self.price_amount = final_price
@@ -420,6 +446,7 @@ class Product(models.Model):
         utilidad_liquida_val = total_margen - self._safe_money(self.inversion_marketing).amount
         self.utilidad_liquida = Money(utilidad_liquida_val, 'USD')
         super().save(*args, **kwargs)
+
 
 
 

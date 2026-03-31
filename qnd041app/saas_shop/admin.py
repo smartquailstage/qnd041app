@@ -45,6 +45,7 @@ class ProductAdmin(ModelAdmin):
     readonly_fields = [
         'created',
         'updated',
+        'total_tiempo',
 
         'price',
         'price_amount',
@@ -319,7 +320,7 @@ class ProductAdmin(ModelAdmin):
             'Tiempo de Entrega',
             {
                 'fields': (
-                    'total_horas_entrega',
+                    'total_tiempo',
                 ),
                 'classes': ('tab', 'tab-tiempo'),
             },
@@ -334,6 +335,7 @@ class ProductAdmin(ModelAdmin):
                 'fields': (
                     'price',
                     'price_amount',
+                    'subtotal',
                 ),
                 'classes': ('tab', 'tab-precio'),
             },
