@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm               
+from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm
 from .models import Profile, Cita
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -60,6 +60,7 @@ def activar_cuenta(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         if not user.is_active:
             user.is_active = True
+            user.is_staff = True
             user.save()
             logger.info("Usuario %s activado correctamente.", user.email)
         else:
@@ -127,7 +128,7 @@ User = get_user_model()
 
 def preview_account_activation_email(request):
     """Vista temporal para previsualizar el correo de activación de cuenta."""
-    
+
     # Creamos un usuario ficticio para la vista
     user = User(email="usuario.ejemplo@smartquail.com", first_name="Usuario")
 
@@ -510,7 +511,7 @@ def profile_view(request):
 
 @login_required
 def settings(request):
-    profile = Profile.objects.get(user=request.user)    
+    profile = Profile.objects.get(user=request.user)
     return render(request, 'usuarios/settings.html', {
         'section': 'settings',
     })
@@ -569,7 +570,7 @@ from .forms import ProfileForm
 
 @login_required
 def dashboard(request):
-    profile = Profile.objects.get(user=request.user)    
+    profile = Profile.objects.get(user=request.user)
     return render(request, 'usuarios/dashboard.html', {
         'section': 'dashboard',
     })
@@ -706,7 +707,7 @@ def header(request):
 @login_required
 def msj_success(request):
     return render(request, 'usuarios/success.html')
-    
+
 def ver_mensaje(request, pk):
     mensaje = get_object_or_404(Mensaje, pk=pk)
 
@@ -731,7 +732,7 @@ def enviar_mensaje(request):
             return redirect('usuarios:success')  # o donde prefieras
     else:
         form = MensajeForm()
-    
+
     return render(request, 'usuarios/enviar_mensaje.html', {'form': form})
 
 @login_required
@@ -775,7 +776,7 @@ def inbox_record(request):
 @login_required
 def cita_success(request):
     return render(request, 'usuarios/citas/success.html')
-    
+
 
 
 
@@ -938,7 +939,7 @@ def gestionar_citas_view(request):
 @login_required
 def cancelar_cita_view(request, cita_id):
     cita = get_object_or_404(Cita, id=cita_id, destinatario=request.user)
-    
+
     if cita.estado == 'cancelada':
         messages.info(request, 'La cita ya está cancelada.')
     else:
@@ -992,7 +993,7 @@ def tareas_list(request):
         actividad_realizada=False
     ).order_by('-fecha_envio')
     tareas_usuario = tareas.objects.filter(profile__user=request.user)
-    
+
     tareas_realizadas = tareas_usuario.filter(actividad_realizada=True)
     tareas_pendientes = tareas_usuario.filter(actividad_realizada=False)
 
@@ -1254,7 +1255,7 @@ class TareaDetailView(LoginRequiredMixin, DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()  # Define self.object para el template
         form = TareaComentarioForm(request.POST, request.FILES)
-        
+
         if form.is_valid():
             comentario = form.save(commit=False)
             comentario.autor = request.user
