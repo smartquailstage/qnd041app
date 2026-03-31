@@ -186,8 +186,8 @@ table#total td:last-child {
   background-color: #f6f6f4; /* color amarillo suave para alerta */
   border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
   font-family: "soon", sans-serif;
-  font-size: 8pt;
-  line-height: 11pt;
+  font-size: 6pt;
+  line-height: 7pt;
   color: #000000;
   text-align: justify;
   border-radius: 5px;
