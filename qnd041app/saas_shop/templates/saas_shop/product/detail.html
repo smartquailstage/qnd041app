@@ -187,13 +187,13 @@
                     {% if product.category.name == "Business Law" %}
                   <ion-icon name="albums-outline"></ion-icon> Planificador de Recursos Legales
                     {% endif %}
-                    {% if product.category.name == "Business Media" %} 
+                    {% if product.category.name == "Business Media" %}
                     <ion-icon name="play-outline"></ion-icon>  Administrador de contenidos Multimedia (CRM)
                       {% endif %}
                       {% if product.category.name == "Business Analytics" %}
                       <ion-icon name="bar-chart-outline"></ion-icon> Panificador de Recursos Empresariales (ERP)
                       {% endif %}
-                  
+
                   </li>
                 </ol>
               </nav>
@@ -372,7 +372,7 @@
               </div>
 
               <!-- CONTROLES DEL CAROUSEL -->
- 
+
 
               <!-- INDICADORES -->
 <div class="carousel-indicators mt-3 indicators-circle">
@@ -397,10 +397,10 @@
             <div class="d-flex gap-2">
 
       <!-- Botón para ver demo -->
-    <a href="{{ product.demo_url }}" 
-       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2" 
+    <a href="{{ product.demo_url }}"
+       class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2"
        target="_blank">
-       
+
         Explorar Demo
     </a>
 
@@ -410,7 +410,7 @@
         {{ cart_product_form.update }}     <!-- Campo oculto -->
 
         <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
-          
+
             {% trans 'Ordenar Software' %}
         </button>
     </form>
@@ -426,7 +426,7 @@
 
       <!-- Información del producto -->
       <div class="col-12 col-lg-7">
-        
+
         <div class="product-info-section p-3">
 
           {% if product.image_2 %}
@@ -437,28 +437,27 @@
     <!-- Precio -->
     <div class="d-flex align-items-center gap-2">
         <h4 class="mb-0" style="color:#fff"><strong>{{ product.price }}</strong></h4>
-        <h6 class="mb-0">Incluido 15 % I.V.A</h6>
     </div>
 
     <!-- Logo a la derecha -->
      {% if product.category.slug == 'business analytics' %}
-    <img src="{% static 'img/smartbusinessanalytics.png' %}" 
-         alt="Logo del proveedor" 
+    <img src="{% static 'img/smartbusinessanalytics.png' %}"
+         alt="Logo del proveedor"
          style="width:290px;">
       {% endif %}
       {% if product.category.slug == 'business-media' %}
-      <img src="{% static 'img/smartbusinessmedia.png' %}" 
-         alt="Logo del proveedor" 
+      <img src="{% static 'img/smartbusinessmedia.png' %}"
+         alt="Logo del proveedor"
          style="width:290px;">
        {% endif %}
        {% if product.category.slug == 'business-law' %}
-      <img src="{% static 'img/SmartBusinessLaw.png' %}" 
-         alt="Logo del proveedor" 
+      <img src="{% static 'img/SmartBusinessLaw.png' %}"
+         alt="Logo del proveedor"
          style="width:290px;">
 
        {% endif %}
 
-       
+
 
 
 
@@ -466,7 +465,7 @@
           <div class="mt-3">
             <p style="color:#d4d0d0"><strong>{{ product.name }}</strong></p>
             <h6>Descripción</h6>
-            <p class="mb-0">{{ product.description|linebreaks }}</p>
+            <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
           </div>
 
 
@@ -487,7 +486,7 @@
   <!-- ============================= -->
   <!--     CARACTERÍSTICAS DEL SISTEMA -->
   <!-- ============================= -->
-  
+
 
 
   <dt><ion-icon name="rocket-outline"></ion-icon> Latencia</dt>
@@ -526,7 +525,7 @@
   <dd>{{ product.ancho_banda }} Mbps </dd>
 
 
- 
+
 
 
 
@@ -536,7 +535,7 @@
   <!-- ============================= -->
 
   <dt><ion-icon name="code-slash-outline"></ion-icon> Desarrollo (I+D)</dt>
-  <dd>{{ product.total_nube_iva }} </dd>
+  <dd>{{ product.total}} </dd>
 
   {% if product.is_automatitation %}
   <dt><ion-icon name="terminal-outline"></ion-icon> Automatización(+A)</dt>
@@ -557,15 +556,15 @@
 
   </div>
 
-  
+
 
   <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
  <div class="col-md-6" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
 
 
       <!-- RECUADRO DE GARANTÍAS -->
-  <div class="card" 
-       style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; 
+  <div class="card"
+       style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
               border-radius: 8px; padding: 20px; text-align: left;">
 
     <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Garantías</h4>
@@ -575,8 +574,8 @@
     </p>
 
     <a href="https://ec.smartquail.io" class="text-blue-600 hover:underline">
-      <img src="{% static 'assets/images/powered.png' %}" 
-           alt="Logo del proveedor" 
+      <img src="{% static 'assets/images/powered.png' %}"
+           alt="Logo del proveedor"
            style="width: 250px;" />
     </a>
 
@@ -589,15 +588,14 @@
 
 
   <!-- RECUADRO DE INFORMACIÓN DEL SERVICIO -->
-<div class="card" 
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; 
+<div class="card"
+     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
             border-radius: 8px; padding: 20px; text-align: left;">
     <h4><ion-icon name="card-outline"></ion-icon> Costos Mensuales</h4>
 
   <p>
-  
-    Infraestructura en la nube: <strong>{{ product.total_nube_iva }}</strong><br>
-    Soporte técnico: <strong>{{ product.total_arch_iva }}</strong>
+
+    Alquiler de recursos de nube : <strong>{{ product.total_nube_iva }}/mes</strong><br>
   </p>
 
 </div>
@@ -614,7 +612,7 @@
 
 
 
-          
+
 
 
 
@@ -636,13 +634,13 @@
       <div class="card">
 <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
   <h5 class="mt-3">
-    <ion-icon name="hardware-chip-outline"></ion-icon> 
+    <ion-icon name="hardware-chip-outline"></ion-icon>
     Infraestructura en la Nube, Seguridad y Rendimiento
   </h5>
 
   <p>
-    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para 
-    <strong>{{ product.name }}</strong>.  
+    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para
+    <strong>{{ product.name }}</strong>.
     Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización, con disponibilidad:
     <strong>{{ product.get_software_display }}</strong>.
   </p>
@@ -661,7 +659,7 @@
 
     <li>
       <strong>Subdominio personalizado incluido:</strong>
-      Asignamos una URL con el siguiente formato:  
+      Asignamos una URL con el siguiente formato:
       <code>{{ product.slug }}.smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
     </li>
 
@@ -672,7 +670,7 @@
 
     <li>
       <strong>Almacenamiento:</strong>
-      Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio.  
+      Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio.
       El almacenamiento asignado para este producto es:
       <strong>{{ product.almacenamiento }} GB</strong>.
       <ul>
@@ -683,7 +681,7 @@
 
     <li>
       <strong>Memoria (RAM):</strong>
-      La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones.  
+      La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones.
       RAM asignada al cliente:
       <strong>{{ product.memoria }} GB</strong>.
       <ul>
@@ -694,7 +692,7 @@
 
     <li>
       <strong>vCPU (Unidad Central de Procesamiento Virtual):</strong>
-      Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas.  
+      Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas.
       Configuración asignada:
       <strong>{{ product.cpu }} vCPU</strong>.
       <ul>
@@ -717,7 +715,7 @@
     </li>
 
     <li>
-      <strong>Costos de Infraestructura:</strong>  
+      <strong>Costos de Infraestructura:</strong>
       Durante el primer mes de implementación y desarrollo, los <strong>costos de infraestructura</strong> (almacenamiento, vCPU, memoria, etc.) están <strong>cubiertos</strong> sin costo adicional.
       <br><br>
       <strong>A partir del segundo mes:</strong>
@@ -733,7 +731,7 @@
   </ul>
 
   <p class="mb-1">
-    Esta arquitectura de infraestructura garantiza que cada instancia del ERP, incluyendo 
+    Esta arquitectura de infraestructura garantiza que cada instancia del ERP, incluyendo
     <strong>{{ product.name }}</strong>, esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
   </p>
 
@@ -747,11 +745,11 @@
       <div class="card">
 <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
   <h5 class="mt-3"> (I+D) Investigación & Desarrollo</h5>
-  
+
   <p>
     Lo que distingue a <strong>{{ product.name }}</strong> es su enfoque centrado en la <strong>investigación y desarrollo (I+D)</strong> aplicado directamente a los procesos empresariales, permitiendo una evolución constante en tiempo real.
   </p>
-  
+
   <p>
     Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
   </p>
@@ -764,7 +762,7 @@
     </li>
     <li>
       <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
-      Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.  
+      Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.
       <br>
       Tiempo estimado de desarrollo: <strong>{{ product.tiempo_desarrollo }} horas</strong>, con costo por hora: <strong>{{ product.costo_hora_desarrollo }}</strong>.
     </li>
@@ -801,7 +799,7 @@
     </li>
     <li>
       <strong>9. Despliegue final en entorno de producción:</strong>
-      El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.  
+      El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.
       Total estimado de desarrollo + implementación: <strong>{{ product.total }}</strong>, Total con IVA: <strong>{{ product.total_iva }}</strong>.
     </li>
   </ul>
@@ -818,11 +816,11 @@
       <div class="card">
 <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
   <h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
-  
+
   <p>
     En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
   </p>
-  
+
   <ul>
     <li>
       <strong>Análisis de ciclos y tiempos:</strong>
@@ -898,7 +896,7 @@
   <ul>
     <li>
       <strong>Modelos de ML aplicados a los procesos:</strong>
-      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).  
+      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
       <p>
         Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
       </p>
@@ -929,7 +927,7 @@
     </li>
     <li>
       <strong>Análisis predictivo + toma de decisiones:</strong>
-      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.  
+      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
       <p>
         Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del ERP. Esto garantiza:
         <ul>
@@ -940,7 +938,7 @@
       </p>
     </li>
     <li>
-      <strong>Costos de IA:</strong>  
+      <strong>Costos de IA:</strong>
       Costo del módulo IA: <strong>{{ product.total_ml }}</strong><br>
       Total con IVA: <strong>{{ product.total_ml_iva }}</strong>.
     </li>
@@ -968,28 +966,28 @@
 
   <ul>
     <li>
-      <strong>Monitoreo de Infraestructura:</strong> 
-      Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.  
+      <strong>Monitoreo de Infraestructura:</strong>
+      Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.
       <p>
         Recursos monitoreados: CPU {{ product.vcpu }}, RAM {{ product.ram }} GB, Almacenamiento {{ product.almacenamiento }} GB.
       </p>
     </li>
     <li>
-      <strong>Monitoreo de eventos transaccionales:</strong> 
-      Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.  
+      <strong>Monitoreo de eventos transaccionales:</strong>
+      Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.
       <p>
         Logs activados: {% if product.monitoring_logs %}Sí{% else %}No{% endif %}
       </p>
     </li>
     <li>
-      <strong>Alertas automatizadas:</strong> 
-      El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.  
+      <strong>Alertas automatizadas:</strong>
+      El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.
       <p>
         Tipos de alertas activas: {% for alerta in product.alertas %}{{ alerta }}{% if not forloop.last %}, {% endif %}{% empty %}No hay alertas configuradas{% endfor %}.
       </p>
     </li>
     <li>
-      <strong>Analítica operacional profunda:</strong> 
+      <strong>Analítica operacional profunda:</strong>
       Se generan dashboards e informes automáticos con <strong>métricas clave de desempeño</strong>, como:
       <ul>
         {% if product.metricas %}
@@ -1002,8 +1000,8 @@
       </ul>
     </li>
     <li>
-      <strong>Auditoría y cumplimiento:</strong> 
-      Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.  
+      <strong>Auditoría y cumplimiento:</strong>
+      Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.
       <p>
         Nivel de auditoría activado: {{ product.audit_level|default:"Básico" }}.
       </p>
@@ -1029,32 +1027,32 @@
 
   <ul>
     <li>
-      <strong>Tokenización de datos sensibles:</strong> 
+      <strong>Tokenización de datos sensibles:</strong>
       Utilizamos técnicas avanzadas de tokenización y encriptación para proteger los datos desde el origen, asegurando que <strong>ni siquiera nuestros servidores almacenen información en texto plano</strong>.
     </li>
     <li>
-      <strong>Certificados SSL de seguridad:</strong> 
-      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo: 
+      <strong>Certificados SSL de seguridad:</strong>
+      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo:
       <code>[organizacion].smartquail.io</code>.
     </li>
     <li>
-      <strong>DNS privado y aislamiento por cliente:</strong> 
+      <strong>DNS privado y aislamiento por cliente:</strong>
       Cada instancia del ERP cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
     </li>
     <li>
-      <strong>Firewalls y monitoreo activo:</strong> 
+      <strong>Firewalls y monitoreo activo:</strong>
       Implementamos firewalls de aplicación web (WAF) y monitoreo constante de intentos de acceso no autorizados o comportamientos sospechosos.
     </li>
     <li>
-      <strong>Autenticación reforzada:</strong> 
+      <strong>Autenticación reforzada:</strong>
       Integramos mecanismos de autenticación segura como <strong>verificación en dos pasos (2FA)</strong>, y políticas de contraseñas robustas para todos los usuarios del sistema.
     </li>
     <li>
-      <strong>Backups automáticos y resiliencia:</strong> 
+      <strong>Backups automáticos y resiliencia:</strong>
       Todos los datos son respaldados automáticamente en intervalos programados y almacenados en ubicaciones seguras, permitiendo <strong>recuperación inmediata ante cualquier incidente</strong>.
     </li>
     <li>
-      <strong>Cumplimiento normativo:</strong> 
+      <strong>Cumplimiento normativo:</strong>
       Nos alineamos con normas internacionales de seguridad como <strong>ISO/IEC 27001, GDPR y OWASP</strong>, brindando confianza y cumplimiento legal a nuestros clientes.
     </li>
   </ul>
@@ -1153,7 +1151,7 @@
           <!--end breadcrumb-->
 
 
-         
+
 
           <!--start product detail-->
           <section class="shop-page">
@@ -1177,7 +1175,7 @@
 >
 </div>
 
-                   
+
                   <div class="product-detail-card">
                     <div class="product-detail-body">
                       <div class="row g-0">
@@ -1216,20 +1214,20 @@
                         <div class="col-12 col-lg-7">
                           <div class="product-info-section p-3">
                              <img src="{{ product.image_2.url }}" class="img-fluid" alt="Imagen 1 del producto">
-                           
-       
+
+
                             <div class="d-flex align-items-center mt-3 gap-2">
                               <h4 class="mb-0" style="color:#cb0404"><strong>{{ product.price }}</strong>  </h4>
                               <h6>Incluido 15 % I.V.A</h6>
-                             
+
                             </div>
                             <div class="mt-3">
                                <p>{{ product.name }}</p>
                               <h6>Descripción:</h6>
                               <p class="mb-0">{{ product.description|linebreaks }}</p>
                             </div>
-                            <dl class="row mt-3">	
-                              <dt class="col-sm-3">Latencia</dt> <dd class="col-sm-9">{{ product.latencia_aproximada}} Transaciones/ms </dd>	
+                            <dl class="row mt-3">
+                              <dt class="col-sm-3">Latencia</dt> <dd class="col-sm-9">{{ product.latencia_aproximada}} Transaciones/ms </dd>
                               <dt class="col-sm-3">Capacidad Max</dt> <dd class="col-sm-9">{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
                                <dt class="col-sm-3">Balanceo de Carga</dt> <dd class="col-sm-9"><ion-icon name="checkmark-outline"></ion-icon></dd>
                                <dt class="col-sm-3">Disponibilidad</dt> <dd class="col-sm-9">{{ product.software }}</dd>
@@ -1242,11 +1240,11 @@
       {% csrf_token %}
       <input type="submit" class="btn btn-primary btn-ecomm" value="{% trans "Add to cart" %}">
     </form>
-                  
+
                             </div>
                             <!--end row-->
                               <div class="d-flex gap-2 mt-3">
-                            
+
                             <hr/>
                           </div>
                         </div>
@@ -1259,7 +1257,7 @@
                   <!--start product more info-->
                   <div class="product-more-info mt-4">
                     <h3>El Software Incluye</h3>
-                  
+
 
 <ul class="nav nav-tabs mb-0" role="tablist">
 
@@ -1337,7 +1335,7 @@
 
 
 
-        
+
 <div class="tab-content pt-3">
   <div class="tab-pane fade" id="discription" role="tabpanel">
     <h5 class="mt-3"> (I+D) Investigación & Desarollo</h5>
@@ -1474,7 +1472,7 @@
   <p>
     En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
   </p>
-  
+
   <ul>
     <li>
       <strong>Análisis de ciclos y tiempos:</strong>
@@ -1568,19 +1566,19 @@
 
   <ul>
     <li>
-      <strong>Monitoreo de Infraestructura:</strong> 
+      <strong>Monitoreo de Infraestructura:</strong>
       Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.
     </li>
     <li>
-      <strong>Monitoreo de eventos transaccionales:</strong> 
+      <strong>Monitoreo de eventos transaccionales:</strong>
       Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.
     </li>
     <li>
-      <strong>Alertas automatizadas:</strong> 
+      <strong>Alertas automatizadas:</strong>
       El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.
     </li>
     <li>
-      <strong>Analítica operacional profunda:</strong> 
+      <strong>Analítica operacional profunda:</strong>
       Se generan dashboards e informes automáticos con <strong>métricas clave de desempeño</strong>, como:
       <ul>
         <li>Frecuencia de uso por módulo</li>
@@ -1590,7 +1588,7 @@
       </ul>
     </li>
     <li>
-      <strong>Auditoría y cumplimiento:</strong> 
+      <strong>Auditoría y cumplimiento:</strong>
       Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.
     </li>
   </ul>
@@ -1609,32 +1607,32 @@
 
   <ul>
     <li>
-      <strong>Tokenización de datos sensibles:</strong> 
+      <strong>Tokenización de datos sensibles:</strong>
       Utilizamos técnicas avanzadas de tokenización y encriptación para proteger los datos desde el origen, asegurando que <strong>ni siquiera nuestros servidores almacenen información en texto plano</strong>.
     </li>
     <li>
-      <strong>Certificados SSL de seguridad:</strong> 
-      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo: 
+      <strong>Certificados SSL de seguridad:</strong>
+      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo:
       <code>[organizacion].smartquail.io</code>.
     </li>
     <li>
-      <strong>DNS privado y aislamiento por cliente:</strong> 
+      <strong>DNS privado y aislamiento por cliente:</strong>
       Cada instancia del ERP cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
     </li>
     <li>
-      <strong>Firewalls y monitoreo activo:</strong> 
+      <strong>Firewalls y monitoreo activo:</strong>
       Implementamos firewalls de aplicación web (WAF) y monitoreo constante de intentos de acceso no autorizados o comportamientos sospechosos.
     </li>
     <li>
-      <strong>Autenticación reforzada:</strong> 
+      <strong>Autenticación reforzada:</strong>
       Integramos mecanismos de autenticación segura como <strong>verificación en dos pasos (2FA)</strong>, y políticas de contraseñas robustas para todos los usuarios del sistema.
     </li>
     <li>
-      <strong>Backups automáticos y resiliencia:</strong> 
+      <strong>Backups automáticos y resiliencia:</strong>
       Todos los datos son respaldados automáticamente en intervalos programados y almacenados en ubicaciones seguras, permitiendo <strong>recuperación inmediata ante cualquier incidente</strong>.
     </li>
     <li>
-      <strong>Cumplimiento normativo:</strong> 
+      <strong>Cumplimiento normativo:</strong>
       Nos alineamos con normas internacionales de seguridad como <strong>ISO/IEC 27001, GDPR y OWASP</strong>, brindando confianza y cumplimiento legal a nuestros clientes.
     </li>
   </ul>
@@ -1690,10 +1688,10 @@
               <!--start similar products-->
 
                   <!--end similar products-->
-                  
+
                 </div>
               </div>
-						
+
 					</div>
 				</section>
 				<!--end product detail-->
@@ -1703,7 +1701,7 @@
           </div>
           <!-- end page content-->
          </div>
-         
+
 
 <script>
   $(document).ready(function(){
@@ -1718,4 +1716,3 @@
     });
   });
 </script>
-

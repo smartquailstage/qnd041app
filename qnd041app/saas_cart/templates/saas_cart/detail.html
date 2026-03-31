@@ -24,7 +24,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                  Verificación de Orden 
+                  Verificación de Orden
                   </li>
                 </ol>
               </nav>
@@ -45,7 +45,7 @@
       <div class="shop-cart" style="background-color: #2e2e2e;">
 
 
-                    										
+
                     <div class="row">
 
                         <div class="col-12 col-xl-8">
@@ -56,22 +56,22 @@
 													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
 														<div class="step-progress"><span class="step-count">1</span>
 														</div>
-														
+
 													</a>
 													<a class="step-item  current" href="#">
 														<div class="step-progress"><span class="step-count">2</span>
 														</div>
-													
+
 													</a>
 													<a class="step-item" href="#">
 														<div class="step-progress"><span class="step-count">3</span>
 														</div>
-													
+
 													</a>
 													<a class="step-item" href="#">
 														<div class="step-progress"><span class="step-count">4</span>
 														</div>
-														
+
 													</a>
 												</div>
 											</div>
@@ -98,9 +98,6 @@
                                                             ${{ item.price|floatformat:2 }}
                                                         </h5>
 
-                                                        <p class="mb-0">
-                                                           Usted esta ordenado {{ item.quantity }} licencia(s)
-                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,22 +108,12 @@
                                                     <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
                                                         {% csrf_token %}
 
-                                                       
+
                                                     </form>
                                                 </div>
                                             </div>
 
-                                            <!-- Acciones: eliminar, favorito -->
-                                            <div class="col-12 col-lg-3">
-                                                <div class="text-center">
-                                                    <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
-                                                            <i class='bx bx-x-circle'></i>Eliminar Orden
-                                                        </a>
-                                                    </div>
 
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -136,11 +123,7 @@
                                 <!-- Acciones globales del carrito -->
                                 <div class="card" style="background-color: #2e2e2e;">
                                     <div class="card-body" style="color:#fff; background-attachment: #2e2e2e;">
-                                        <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
-                                                <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -157,9 +140,9 @@
                                                 <div class="input-group">
                                                     <input type="text" name="code" class="form-control" placeholder="Aplicar Código Convenio" required>
                                                     <button type="submit" class="btn btn-warning"><ion-icon name="arrow-redo-outline"></ion-icon></button>
-                                                    
+
                                                 </div>
-                                                
+
                                             </form>
                                             <p style="font-size: 9px; margin-top: 5px;">* Si dispone de convenio con SmartQuail,Inc, escriba su codigo aquí</p>
                                             {% if message %}
@@ -180,7 +163,7 @@
                                 </div>
                             </div>
 
-                          
+
                             <div class="card mb-0" style="background-color: #2e2e2e;">
                                 <div class="card-body" style="color:#fff">
                                     <!-- Mostrar Subtotal, IVA, y Totales -->
@@ -200,48 +183,30 @@
                 <p class="mb-2">
                     Subtotal:
                     <span class="float-end">
-                        ${{ totals.subtotal|floatformat:2 }}
+                        ${{ product.subtotal.amount|floatformat:2 }}
                     </span>
                 </p>
 
-                <p class="mb-2">
-                    IVA ({{ product.iva|floatformat:2 }}%):
-                    <span class="float-end">
-                        ${{ totals.iva_value|floatformat:2 }}
-                    </span>
-                </p>
 
-                <p class="mb-2">
-                    Total con IVA:
-                    <span class="float-end">
-                        ${{ totals.total_with_iva|floatformat:2 }}
-                    </span>
-                </p>
+
+
             </div>
         {% endwith %}
     {% endwith %}
 {% endfor %}
-                <p class="mb-2">
-                    Número de licencias:
-                    <span class="float-end">
-                        {% for item in cart %}
 
-                        {{ item.quantity }}
-                        {% endfor %}
-                    </span>
-                </p>
 
                                     {% if discount > 0 %}
                                     <p class="mb-2 text-success">
-                                        Descuento: 
+                                        Descuento:
                                         <span class="float-end">
                                             -${{ discount|floatformat:2 }}
                                         </span>
-                                        
+
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                       Valor Total: 
+                                       Valor Total:
                                         <span class="float-end">
                                             ${{ total_after_discount|floatformat:2 }}
                                         </span>
@@ -253,7 +218,7 @@
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                        Valor Total: 
+                                        Valor Total:
                                         <span class="float-end">
                                             ${{ total|floatformat:2 }}
                                         </span>
@@ -263,11 +228,37 @@
                                     <div class="my-4"></div>
 
                                     <!-- Botón para ir al checkout -->
+                                    {% for item in cart %}
+                                        {% with product=item.product %}
+                                    {% if item.quantity == 1 %}
                                     <div class="d-grid">
                                         <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
                                           Realizar Orden<ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
+                                      <div class="my-4"></div>
+                                        <div class="d-grid">
+                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
+                                                <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
+                                            </a>
+                                        </div>
+
+                                    {% else %}
+                                    <div class="d-grid">
+<p>Usted ha elegido más de un producto en esta orden. Por seguridad de la transacción, solo se permite un producto por orden de compra. Por favor, elimine la orden y continúe explorando más opciones.</p>
+                                      <div class="text-center">
+
+                                              <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
+                                                  <i class='bx bx-x-circle'></i>Eliminar Orden
+                                              </a>
+
+
+                                      </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endwith %}
+                                    {% endfor %}
+
                                 </div>
                             </div>
 
@@ -305,7 +296,7 @@
         <div class="card shadow-sm border-0">
             <div class="card-body">
                 <div class="shop-cart">
-                    										
+
                     <div class="row">
 
                         <div class="col-12 col-xl-8">
@@ -415,7 +406,7 @@
                                 <div class="card-body">
                                     <div class="card">
                                         <div class="card-body">
-                                        
+
                                             <form method="POST" action=".">
                                                 {% csrf_token %}
                                                 <div class="input-group">
@@ -441,7 +432,7 @@
                                 </div>
                             </div>
 
-                          
+
                             <div class="card mb-0">
                                 <div class="card-body">
                                     <!-- Mostrar Subtotal, IVA, y Totales -->
@@ -481,14 +472,14 @@
 
                                     {% if discount > 0 %}
                                     <p class="mb-2 text-success">
-                                        Discount: 
+                                        Discount:
                                         <span class="float-end">
                                             -${{ discount|floatformat:2 }}
                                         </span>
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                        Order Total: 
+                                        Order Total:
                                         <span class="float-end">
                                             ${{ total_after_discount|floatformat:2 }}
                                         </span>
@@ -500,7 +491,7 @@
                                     </p>
                                     <div class="my-3 border-top"></div>
                                     <h5 class="mb-0">
-                                        Order Total: 
+                                        Order Total:
                                         <span class="float-end">
                                             ${{ total|floatformat:2 }}
                                         </span>
@@ -512,7 +503,7 @@
                                     <!-- Botón para ir al checkout -->
                                     <div class="d-grid">
                                         <a href="{% url 'saas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
-                                           <ion-icon name="cart-outline"></ion-icon> Realizar Orden 
+                                           <ion-icon name="cart-outline"></ion-icon> Realizar Orden
                                         </a>
                                     </div>
                                 </div>

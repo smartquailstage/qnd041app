@@ -29,7 +29,7 @@ def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
-    return redirect('saas_cart:cart_detail')
+    return redirect('saas_shop:product_list')
 
 
 from django.contrib.messages import get_messages

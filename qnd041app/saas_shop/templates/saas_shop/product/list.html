@@ -19,7 +19,7 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
                   <li class="breadcrumb-item">
-                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)                
+                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)
                   </li>
                 </ol>
               </nav>
@@ -57,12 +57,12 @@
 
       <!-- Carrusel SmartBusinessAnalytics -->
 <div class="card" style="background-color: #2e2e2e;">
-  
+
   <div class="card-body p-0" style="background-color: #2e2e2e;">
     {% for c in categories %}
       {% if c.slug == "business-analytics" %}
         {% if c.products.all %}
-        
+
           <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               {% for product in c.products.all %}
@@ -71,10 +71,10 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
+                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% elif product.is_intelligent %} +AI {% endif %}</sup>
  , maximo {{ product.numero_procesos }}  Procesos </h2>
-                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
-                
+                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }}  </p>
+
                       </div>
                     </div>
                   </a>
@@ -112,9 +112,9 @@
       Gracias a su ecosistema modular y altamente personalizable,
        los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
         desarrollar sus propios flujos de información, adaptándolos a las necesidades
-         específicas de su negocio o institución. SmartBusinessAnalytics® 
-         integra tecnologías de última generación como inteligencia artificial, 
-         analítica predictiva, automatización de procesos (RPA) y big data, 
+         específicas de su negocio o institución. SmartBusinessAnalytics®
+         integra tecnologías de última generación como inteligencia artificial,
+         analítica predictiva, automatización de procesos (RPA) y big data,
          ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
 
@@ -130,7 +130,7 @@
     </div>
 
     <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
-    
+
        <div class="card-body p-0">
 
 
@@ -148,7 +148,7 @@
                                         <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="play-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
  , maximo {{ product.numero_procesos }}  Procesos </h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
-                
+
                       </div>
                     </div>
                   </a>
@@ -201,19 +201,19 @@
       {% if c.slug == "business-law" %}
         {% if c.products.all %}
 
-        
+
         <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             {% for product in c.products.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                
+
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
                   <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
  , maximo {{ product.numero_procesos }}  Procesos </h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
-                
+
                 </div>
               </div>
               </a>
@@ -250,7 +250,7 @@
         estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
        garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
-   
+
   </div>
 </div>
 
@@ -302,7 +302,7 @@
           </div>
           <!--end breadcrumb-->
 
-          
+
 
 
           <!-- BLOQUE 1: Introducción SaaP -->
@@ -378,7 +378,7 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
 </div>
 
 
- 
+
 
 
 <!-- Carrusel SmartBusinessAnalytics -->
@@ -539,5 +539,3 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
     {% endfor %}
   </div>
 </div>
-
-

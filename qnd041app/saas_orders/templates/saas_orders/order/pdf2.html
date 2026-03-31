@@ -103,7 +103,7 @@
           <th>(+AI)</th>
         {% endif %}
 
-        <th>Subtotal<sup>+(15% I.V.A)</sup></th>
+        <th>Subtotal</th>
       </tr>
     </thead>
 
@@ -169,7 +169,7 @@
 <strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
 mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco
  <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos personalizados operativos o financieros críticos</strong>,
- ejecutados por profesionales especializados en cada área.
+ implementados por profesionales especializados en cada área.
  El tiempo máximo estimado para esta implementación es de doce <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
 {% endif %}
 
@@ -188,7 +188,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% endif %}
 {% endfor %}
 
-  <h3><strong>Recursos dedicados de Nube</strong></h3>
+  <h3><strong>Alquiler Mensual de Recursos de Nube</strong></h3>
 
 {% for item in order.items.all %}
   <table>
@@ -205,7 +205,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
         {% endif %}
 
         <th>Subtotal</th>
-          <th>total</th>
+          <th>total<sup>+(15% I.V.A)</sup></th>
       </tr>
     </thead>
 
@@ -257,7 +257,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% for item in order.items.all %}
   <div contract-note class="code">
     <p style="text-align:justify;">
-      <strong>El uso de recursos de computación en la nube es obligatorio</strong> para el despliegue de
+      <strong>El alquiler de recursos de computación en la nube es obligatorio</strong> para el despliegue de
       los aplicativos y plataformas desarrollados por SmartQuail Inc.
        Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real,
         garantizando alta disponibilidad y rendimiento.
@@ -289,7 +289,7 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
           <tr>
             <th>Codigo</th>
             <th>Descuento ({{ order.discount|default:"0" }} %)</th>
-            <th>Valor IVA</th>
+            <th>Valor IVA (15%)</th>
               <th>Total a Pagar</th>
               <th>Tiempo para Entrega</th>
           </tr>
