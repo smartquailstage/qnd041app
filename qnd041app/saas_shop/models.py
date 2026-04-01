@@ -8,7 +8,7 @@ from decimal import Decimal, InvalidOperation
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
 
-    slug = models.SlugField(max_length=200, db_index=True, unique=True, null=True, blank=True)
+    slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
 
     tamano_empresa = models.CharField(
         max_length=255,

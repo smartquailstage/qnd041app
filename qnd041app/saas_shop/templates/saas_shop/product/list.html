@@ -71,8 +71,16 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% elif product.is_intelligent %} +AI {% endif %}</sup>
- , maximo {{ product.numero_procesos }}  Procesos </h2>
+                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
+                                          Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
+                                          {% if product.is_automatitation %}
+                                          Además, incorpora un módulo de automatización (+A) para optimizar procesos.
+                                          {% endif %}
+                                          {% if product.is_intelligent %}
+                                          Finalmente, integra módulos de inteligencia artificial (+AI).
+                                          {% endif %}
+
+</h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }}  </p>
 
                       </div>
@@ -145,9 +153,15 @@
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                     <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="play-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
- , maximo {{ product.numero_procesos }}  Procesos </h2>
-                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="play-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
+                                          Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) en marketing digital y soporta un máximo de 10 usuarios simultáneos.
+                                          {% if product.is_automatitation %}
+                                          Además, incorpora un módulo de automatización (+A) para optimizar procesos.
+                                          {% endif %}
+                                          {% if product.is_intelligent %}
+                                          Finalmente, integra módulos de inteligencia artificial (+AI).
+                                          {% endif %}
+                                          </h2>
 
                       </div>
                     </div>
@@ -210,8 +224,15 @@
               <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
 
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
-                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}<sup>I+D</sup>
- , maximo {{ product.numero_procesos }}  Procesos </h2>
+                  <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
+                    Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) en procesos regulatorio y legales y soporta un máximo de 10 usuarios simultáneos.
+                    {% if product.is_automatitation %}
+                    Además, incorpora un módulo de automatización (+A) para optimizar procesos.
+                    {% endif %}
+                    {% if product.is_intelligent %}
+                    Finalmente, integra módulos de inteligencia artificial (+AI).
+                    {% endif %}
+                    </h2>
                    <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
 
                 </div>
