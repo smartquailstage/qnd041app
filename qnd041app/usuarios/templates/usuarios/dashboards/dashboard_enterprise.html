@@ -79,139 +79,138 @@
     <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones Negocios ITC</h2>
     <p>Ingresa a cada opción para explorar las demostraciones y conocer en detalle la metodología que utilizamos para diseñar e implementar soluciones personalizadas para tu proyecto o negocio. </p>
     <p>Si deseas acceder a opciones avanzadas, ingresa a tu <a href="{% url 'usuarios:editar_perfil' %}"><ion-icon name="person-circle-outline"></ion-icon> perfil de usuario</a>  y asegúrate de configurar o actualizar el tamaño de tu empresa, para habilitar más funcionalidades.</p>
-  </div>  
-
-
-
-  
-    <div class="card radius-10">
-      <div class="card-body">
-<div class="row row-cols-1 row-cols-lg-3">
-
-<a href="{% url 'saas_shop:product_list' %}">
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                    <ion-icon name="browsers-outline"></ion-icon>
-                   </div>
-                   <h5>Software</h5>
-                   <p class="mb-0">
-                   Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
-                   Relaciones con Clientes (CRM).
-                   </p>
-                </div>
-              </div>
-            </div>
-</a>
-
-<a href="{% url 'saas_shop:product_list' %}">
-
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                   <ion-icon name="grid-outline"></ion-icon>
-                   </div>
-                   <h5>Plataformas </h5>
-                   <p class="mb-0">
-                    Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
-                   </p>
-                </div>
-              </div>
-            </div>
-</a>
-
-<a href="{% url 'saas_shop:product_list' %}">
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                    <ion-icon name="cube-outline"></ion-icon>
-                   </div>
-                   <h5>Infraestructura</h5>
-                   <p class="mb-0">
-                    Adquiere independencia y soberanía digital con tu propia infraestructura en la nube, totalmente configurada para gestionar tus procesos sin depender de servidores públicos dedicados.
-                    </p>
-                </div>
-              </div>
-            </div>
-</a>
-
-
-         </div>
-  <hr>
-  <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación ITC </h2>
-    <p>Accede a la documentación especializada sobre Negocios Inteligentes ITC, con información relevante para Ecuador y mercados internacionales. Consulta además la documentación técnica y funcional de todas  soluciones tecnológicas de SmartQuail, Inc., disponible desde la plataforma.</p>
   </div>
+
+
+
+
+  <div class="card radius-10">
+    <div class="card-body">
+      <div class="row row-cols-1 row-cols-lg-3">
+
+      <a href="{% url 'saas_shop:product_list' %}">
+                  <div class="col">
+                    <div class="card radius-10 bg-primary">
+                      <div class="card-body text-white">
+                         <div class="service-box bg-white text-primary">
+                          <ion-icon name="browsers-outline"></ion-icon>
+                         </div>
+                         <h5>Software como producto (SaaP)</h5>
+                         <p class="mb-0">
+                         Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y
+                         Relaciones con Clientes (CRM).
+                         </p>
+                      </div>
+                    </div>
+                  </div>
+      </a>
+
+      <a href="{% url 'paas_shop:product_list' %}">
+
+                  <div class="col">
+                    <div class="card radius-10 bg-primary">
+                      <div class="card-body text-white">
+                         <div class="service-box bg-white text-primary">
+                         <ion-icon name="grid-outline"></ion-icon>
+                         </div>
+                         <h5>Plataforma como producto (PaaP) </h5>
+                         <p class="mb-0">
+                          Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
+                         </p>
+                      </div>
+                    </div>
+                  </div>
+      </a>
+
+      <a href="{% url 'iaas_shop:product_list' %}">
+                  <div class="col">
+                    <div class="card radius-10 bg-primary">
+                      <div class="card-body text-white">
+                         <div class="service-box bg-white text-primary">
+                          <ion-icon name="cube-outline"></ion-icon>
+                         </div>
+                         <h5>Infraestructura como producto (IaaP)</h5>
+                         <p class="mb-0">
+                          Adquiere independencia y soberanía digital con tu propia infraestructura en la nube, totalmente configurada para gestionar tus procesos sin depender de servidores públicos dedicados.
+                          </p>
+                      </div>
+                    </div>
+                  </div>
+      </a>
+
+
+               </div>
+<hr>
+<div class="col-md-8">
+  <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación ITC </h2>
+
+</div>
 
 
 <div class="row row-cols-1 row-cols-lg-3 g-4">
 
-  {% for noticia in noticias|slice:":3" %}
-  <div class="col">
+{% for noticia in noticias|slice:":3" %}
+<div class="col">
 
-    <div class="card radius-10 h-100 position-relative overflow-hidden">
+  <div class="card radius-10 h-100 position-relative overflow-hidden">
 
-      <!-- Imagen -->
-      {% if noticia.imagen_portada %}
-        <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-          <img src="{{ noticia.imagen_portada.url }}"
-               class="img-fluid radius-10 w-100"
-               style="object-fit: cover; min-height: 260px;"
-               alt="{{ noticia.titulo_1 }}">
-        </a>
-      {% else %}
-        <img src="{% static 'assets/images/placeholder.png' %}"
+    <!-- Imagen -->
+    {% if noticia.imagen_portada %}
+      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+        <img src="{{ noticia.imagen_portada.url }}"
              class="img-fluid radius-10 w-100"
              style="object-fit: cover; min-height: 260px;"
-             alt="Sin imagen">
-      {% endif %}
-
-      <!-- Overlay -->
-      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-        <div class="position-absolute top-50 start-0 translate-middle-y
-                    text-white p-4 w-100"
-             style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
-
-          <h5 class="card-title mb-2">
-            {{ noticia.titulo_1 }}
-          </h5>
-
-          <p class="mb-1" style="font-size: 11px;">
-            {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
-          </p>
-
-          {% if noticia.categoria %}
-            <p class="mb-1 text-uppercase" style="font-size: 11px;">
-              {{ noticia.categoria }}
-            </p>
-          {% endif %}
-
-          {% if noticia.cuerpo_1 %}
-            <p class="card-text mt-2">
-              {{ noticia.cuerpo_1|truncatewords:20 }}
-            </p>
-          {% endif %}
-
-        </div>
+             alt="{{ noticia.titulo_1 }}">
       </a>
+    {% else %}
+      <img src="{% static 'assets/images/placeholder.png' %}"
+           class="img-fluid radius-10 w-100"
+           style="object-fit: cover; min-height: 260px;"
+           alt="Sin imagen">
+    {% endif %}
+
+    <!-- Overlay -->
+    <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+      <div class="position-absolute top-50 start-0 translate-middle-y
+                  text-white p-4 w-100"
+           style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
+
+        <h5 class="card-title mb-2">
+          {{ noticia.titulo_1 }}
+        </h5>
+
+        <p class="mb-1" style="font-size: 11px;">
+          {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
+        </p>
+
+        {% if noticia.categoria %}
+          <p class="mb-1 text-uppercase" style="font-size: 11px;">
+            {{ noticia.categoria }}
+          </p>
+        {% endif %}
+
+        {% if noticia.cuerpo_1 %}
+          <p class="card-text mt-2">
+            {{ noticia.cuerpo_1|truncatewords:20 }}
+          </p>
+        {% endif %}
+
+      </div>
+    </a>
+
+  </div>
+</div>
+{% empty %}
+  <div class="col-12 text-center">
+    <p>No hay noticias disponibles en este momento.</p>
+  </div>
+{% endfor %}
+
+</div>
+<hr>
 
     </div>
   </div>
-  {% empty %}
-    <div class="col-12 text-center">
-      <p>No hay noticias disponibles en este momento.</p>
-    </div>
-  {% endfor %}
-
-</div>
-  <hr>
-
-      </div>
-    </div>
-
 
   </div>
   <!-- end page content-->
@@ -234,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
         type();
     }
 
-   
+
     const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
     typeWriterEffect("typewriter", text_start, 35);
 
@@ -265,5 +264,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
- 
+
 {% endblock %}
