@@ -2,287 +2,719 @@
 {% load qr_code %}
 {% load humanize %}
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <link href="{% static 'css/ebook.css' %}" rel="stylesheet">
-    <title>Guía de Usuario — {{ product.nombre }}</title>
-    <meta name="description" content="Ebook técnico del producto SaaS SmartQuail">
-  </head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Guía de Usuario — {{ order.id }}</title>
+  <meta name="description" content="Ebook técnico del producto SaaS SmartQuail">
+</head>
 
   <body>
-
-    <!-- Página 1 — PORTADA -->
     <article id="cover">
-      <h1>SmartBusinessPlatforms®</h1>
-      <h2>Guía de Usuario</h2>
-      <p>Software Overview</p>
 
+      <h1>  <img src="{% static 'img/BA-LOGOS/SmartBusinessAnalytics.png' %}"
+             width="250px"
+             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></h1>
+    {% for item in order.items.all %}
+     {% if item.product.category.name == "Business Analytics" %}
       <address>
-        Santiago Silva Mauricio<br>
-        CEO & Founder<br>
-        SmartQuail, Inc<br>
+        SmartBusinessAnalytics<sup>(I+D+A+AI)</sup>
+        Enterprise Financial Planning (ERP)
+        Guía de Usuario
+        Plataforma Empresarial Nativa en la Nube
       </address>
-
+    {% elif item.product.category.name == "Business Media"  %}
+    <address>
+      SmartBusinessMedia®
+      Enterprise Financial Planning (ERP)
+      Guía de Usuario
+      Plataforma Empresarial Nativa en la Nube
+    </address>
+    {% elif item.product.category.name == "Business Law" %}
       <address>
-        info@smartquail.io<br>
-        https://ec.smartquail.com<br>
-        +593 96 352 1262<br>
+        SmartBusinessLaws®
+        Enterprise Financial Planning (ERP)
+        Guía de Usuario
+        Plataforma Empresarial Nativa en la Nube
       </address>
+    {% endif %}
+  {% endfor %}
+  <address>
+    Phd. Santiago Mauricio Silva
+    Jefe de Tecnologías
+    SmartQuail,Inc.
+    https://ec.smartquail.io
+  </address>
     </article>
-
-
-
-
-    <!-- Página 2 — CONTENIDOS EXACTAMENTE COMO ESTABA -->
+    {% for item in order.items.all %}
+     {% if item.product.category.name == "Business Analytics" %}
     <article id="contents">
-      <h2>Contenido</h2>
+      <h2>SmartBusinessAnalytics<sup>(I+D+A+AI)</sup></h2>
+      <h3>Enterprise Financial Planning (ERP)</h3>
       <ul>
-        <li><a href="#cliente-title">1. Información del Cliente</a></li>
-        <li><a href="#ebook-title">2. Ebook Técnico del Producto</a></li>
-        <li><a href="#terms-title">3. Términos y Condiciones</a></li>
-        <li><a href="#sre-title">4. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</a></li>
+        <li><a href="#columns-title"></a></li>
+        <li><a href="#columns-title-2"></a></li>
+      </ul>
+
+      <h3>Implementación y Desarollo  [ERP + (I+D)]</h3>
+      <ul>
+        <li><a href="#columns-title-3"></a></li>
+        <li><a href="#columns-title-4"></a></li>
+
+      </ul>
+
+      <h3>Automatización de procesos [ERP + (I+D+A)]</h3>
+      <ul>
+        <li><a href="#columns-title-5"></a></li>
+        <li><a href="#columns-title-6"></a></li>
+      </ul>
+      <h3>Agente de Inteligencia artifical finaciera [ ERP + (I+D+A+AI)]</h3>
+      <ul>
+        <li><a href="#columns-title-7"></a></li>
+        <li><a href="#columns-title-8"></a></li>
+      </ul>
+
+      <h3>Computación nativa en la nube  </h3>
+      <ul>
+        <li><a href="#columns-title-9"></a></li>
+        <li><a href="#columns-title-10"></a></li>
+      </ul>
+
+      <h3>Certificaciones & Normativa (ISO/LODP)  </h3>
+      <ul>
+        <li><a href="#skills-title"></a></li>
+        <li><a href="#columns-title-10"></a></li>
+      </ul>
+
+
+    </article>
+    {% elif item.product.category.name == "Business Media"  %}
+    <article id="contents">
+
+      <h2>Indice de Contenidos</h2>
+      <h3>Part one</h3>
+      <ul>
+        <li><a href="#columns-title"></a></li>
+        <li><a href="#skills-title"></a></li>
+      </ul>
+
+      <h3>Part two</h3>
+      <ul>
+        <li><a href="#offers-title"></a></li>
+        <li><a href="#chapter-title"></a></li>
+        <li><a href="#typography-title"></a></li>
+      </ul>
+    </article>
+    {% elif item.product.category.name == "Business Law" %}
+    <article id="contents">
+
+      <h2>Indice de Contenidos</h2>
+      <h3>Part one</h3>
+      <ul>
+        <li><a href="#columns-title"></a></li>
+        <li><a href="#skills-title"></a></li>
+      </ul>
+
+      <h3>Part two</h3>
+      <ul>
+        <li><a href="#offers-title"></a></li>
+        <li><a href="#chapter-title"></a></li>
+        <li><a href="#typography-title"></a></li>
       </ul>
     </article>
 
+    {% endif %}
+  {% endfor %}
 
+    <article id="columns">
+      <h2 id="columns-title">Tecnologías finacieras (FinTechs).</h2>
 
-
-
-    <!-- Página 3 — INFORMACIÓN DEL CLIENTE -->
-    <article id="cliente">
-      <h2 id="cliente-title">1. Información del Cliente</h2>
-      <section>
-        <p><strong>Nombre:</strong> {{ order.first_name }} {{ order.last_name }}</p>
-        <p><strong>Email:</strong> {{ order.email }}</p>
-        <p><strong>Teléfono:</strong> {{ order.telefono }}</p>
-        <p><strong>R.U.C/C.I:</strong> {{ order.ruc }}</p>
-        <p><strong>Razón Social:</strong> {{ order.razon_social }}</p>
-        <p><strong>Sector de Negocios:</strong> {{ order.get_sector_display }}</p>
-        <p><strong>Fecha de creación:</strong> {{ order.created|date:"d/m/Y H:i" }}</p>
-        <p><strong>Estado de pago:</strong> {% if order.paid %}Pagado{% else %}Pendiente{% endif %}</p>
-        <p><strong>Acepta términos:</strong> {% if order.terms_accepted %}Sí{% else %}No{% endif %}</p>
-        <p><strong>Activo:</strong> {% if order.is_active %}Sí{% else %}No{% endif %}</p>
-      </section>
-    </article>
-
-
-
-
-
-    <!-- Página 4 — EBOOK TÉCNICO (SRE + PRODUCTO) -->
-    <article id="ebook">
-      <h2 id="ebook-title">2. Ebook Técnico del Producto — {{ product.nombre }}</h2>
+      <h3>Las FinTechs en Ecuador</h3>
 
       <section>
-
-        <h3>Visión General</h3>
         <p>
-          {{ product.nombre }} es un Sistema de Información y Comunicación empresarial basado completamente en la nube. 
-          Su propósito central es brindar una plataforma unificada que permita la gestión de operaciones, comunicación interna, 
-          automatización de procesos, análisis predictivo y administración de datos bajo un enfoque altamente confiable y escalable.
+          En <strong>SmartQuail, Inc</strong>. consideramos que un sistema de información contable no debe limitarse únicamente al registro de operaciones bajo un enfoque de contabilidad técnica orientado al cumplimiento normativo.</p>
+
+<p>Desde una perspectiva moderna de tecnologías financieras (FinTech),
+estos sistemas deben evolucionar hacia plataformas capaces de generar información analítica
+y financiera en tiempo real, integrando datos operativos, contables y estratégicos en un solo entorno.
+
+Esto permite que gerentes, directivos y órganos de gobierno cuenten con una visión clara, oportuna y basada en datos del desempeño económico de la organización, facilitando la toma de decisiones informadas, la identificación de riesgos y la optimización continua de los procesos financieros.
         </p>
-
         <p>
-          Desde una perspectiva de ingeniería de confiabilidad (SRE), el sistema está diseñado para operar bajo estándares que 
-          priorizan la disponibilidad, la resiliencia, la tolerancia a fallos y la autosanación. Se apoya en arquitecturas 
-          cloud-native que permiten que cada módulo funcione como un componente independiente pero coordinado dentro de un 
-          entorno distribuido y seguro.
+          En Ecuador, el ecosistema FinTech ha crecido de manera significativa, promoviendo la inclusión financiera, facilitando el acceso a crédito, pagos digitales y servicios de financiamiento alternativo, especialmente para segmentos tradicionalmente excluidos. Esta digitalización de los servicios financieros ha optimizado la eficiencia operativa de las empresas, automatizando procesos contables y administrativos, reduciendo costos, mejorando la trazabilidad y fortaleciendo el cumplimiento regulatorio. La adopción de analítica financiera avanzada permite proyectar flujos de caja, controlar presupuestos y evaluar riesgos con mayor precisión, transformando la función financiera de un rol operativo a uno estratégico y predictivo.
+
+          Las perspectivas futuras del sector FinTech en Ecuador apuntan hacia la consolidación de un ecosistema digital híbrido entre banca tradicional y plataformas innovadoras, la implementación de marcos regulatorios inteligentes que fomenten la innovación y la incorporación de tecnologías emergentes como Inteligencia Artificial, Big Data y Blockchain. Estos desarrollos permitirán a las organizaciones acceder a sistemas financieros automatizados, personalizados y basados en datos en tiempo real, potenciando su competitividad en mercados cada vez más dinámicos.
+
+          En este contexto, integrar soluciones FinTech dentro de la arquitectura operativa de una empresa no es solo una ventaja tecnológica, sino un factor estratégico crítico para la gestión financiera eficiente, la toma de decisiones ágil y la creación de valor sostenible
         </p>
-
-
-        <h3>Arquitectura Cloud-Native sobre Kubernetes</h3>
         <p>
-          El corazón operativo del sistema se ejecuta en un clúster Kubernetes de alta disponibilidad. 
-          Cada módulo del producto —incluyendo automatización, comunicación, inteligencia artificial, 
-          gestión documental, flujos internos y API gateway— se encapsula en contenedores Docker que permiten 
-          un despliegue aislado, reproducible y completamente portable.
-        </p>
-
-        <p>
-          Kubernetes administra estos contenedores mediante:
-          <br>• Autoscaling Horizontal (HPA)  
-          <br>• Monitoreo de salud (Liveness y Readiness Probes)  
-          <br>• Rolling Updates para despliegues sin interrupciones  
-          <br>• Pods distribuidos en múltiples zonas de disponibilidad  
-        </p>
-
-        <p>
-          Esta infraestructura asegura que {{ product.nombre }} pueda manejar aumentos significativos de carga, 
-          brindar disponibilidad constante y recuperarse automáticamente ante fallas, incluso durante picos extremos de uso.
-        </p>
-
-
-        <h3>Infraestructura como Código con Terraform</h3>
-        <p>
-          Toda la infraestructura detrás de {{ product.nombre }} se define utilizando Terraform. 
-          Esto incluye redes, balanceadores, bases de datos, máquinas virtuales, volúmenes persistentes, 
-          certificados, firewalls y componentes de seguridad.
-        </p>
-
-        <p>
-          El enfoque declarativo de Terraform garantiza ambientes reproducibles, control de versiones 
-          y despliegues consistentes en múltiples regiones sin intervención manual. 
-          Esta práctica elimina discrepancias entre entornos y permite escalar infraestructura 
-          según el crecimiento operativo del cliente.
-        </p>
-
-
-        <h3>Automatización Empresarial mediante n8n</h3>
-        <p>
-          {{ product.nombre }} incluye una capa nativa de automatización basada en n8n. 
-          Esto permite conectar servicios internos y externos, orquestar flujos empresariales 
-          y ejecutar tareas automatizadas según reglas predefinidas.
-        </p>
-
-        <p>
-          La integración con n8n habilita:
-          <br>— Automatización avanzada entre sistemas internos  
-          <br>— Conexiones API bidireccionales con servicios externos  
-          <br>— Procesos event-driven  
-          <br>— Reducción de trabajo manual  
-        </p>
-
-        <p>
-          Gracias a esta integración, el sistema se adapta a procesos dinámicos sin requerir 
-          desarrollos personalizados, ofreciendo flexibilidad total para el crecimiento operacional.
-        </p>
-
-
-        <h3>Módulo de Inteligencia Artificial con Scikit-Learn</h3>
-        <p>
-          La capa analítica del sistema incorpora modelos desarrollados con Scikit-Learn. 
-          Estos algoritmos procesan datos históricos y operacionales del cliente para generar:
-        </p>
-
-        <p>
-          — Modelos de predicción de demanda  
-          — Segmentación automatizada de usuarios  
-          — Clasificación de eventos  
-          — Detección de anomalías  
-          — Análisis de patrones financieros o administrativos  
-        </p>
-
-        <p>
-          Los modelos operan dentro de pipelines entrenados, validados y versionados, 
-          garantizando precisión y consistencia en el procesamiento.
-        </p>
-
-
-        <h3>Seguridad Avanzada Zero Trust</h3>
-        <p>
-          El producto implementa un modelo Zero Trust, bajo el cual cada componente debe 
-          autenticar, autorizar y validar cada solicitud sin asumir confianza previa. 
-          La seguridad se implementa con:
-        </p>
-
-        <p>
-          • RBAC en Kubernetes  
-          • Cifrado AES-256 en reposo  
-          • Cifrado TLS 1.3 en tránsito  
-          • Control de acceso segmentado por microservicio  
-          • Escaneo de vulnerabilidades automático en CI/CD  
-        </p>
-
-
-        <h3>Observabilidad y Monitoreo</h3>
-        <p>
-          Como plataforma administrada bajo principios SRE, {{ product.nombre }} integra herramientas 
-          de monitoreo que permiten diagnosticar problemas antes de que afecten al usuario final:
-        </p>
-
-        <p>
-          • Prometheus: recolección de métricas<br>
-          • Grafana: visualización en tiempo real<br>
-          • Loki: logs distribuidos<br>
-          • Jaeger: trazabilidad completa de microservicios  
-        </p>
-
-        <p>
-          La plataforma aplica análisis de tendencias basado en métricas SLO/SLA, 
-          alertas dinámicas, manejo de presupuestos de error y mecanismos de autorrecuperación.
-        </p>
-
-
-        <h3>Características del Producto (desde el modelo)</h3>
-
-        <p><strong>Infraestructura:</strong> {{ product.infraestructura_descripcion }}</p>
-        <p><strong>I+D aplicado:</strong> {{ product.id_descripcion }}</p>
-        <p><strong>Automatización:</strong> {{ product.automatizacion_descripcion }}</p>
-        <p><strong>Inteligencia Artificial:</strong> {{ product.ai_descripcion }}</p>
-        <p><strong>Monitoreo:</strong> {{ product.monitoreo_descripcion }}</p>
-        <p><strong>Usuarios Simultáneos:</strong> {{ product.usuarios_simultaneos }} concurrentes</p>
-
-
-        <h3>Conclusión Final</h3>
-        <p>
-          {{ product.nombre }} constituye una plataforma cloud empresarial diseñada con los más altos 
-          estándares de ingeniería, integrando automatización, inteligencia artificial, 
-          sistemas de comunicación y procesamiento en tiempo real dentro de una arquitectura 
-          resiliente, segura y altamente escalable.
+      En resumen, la integración de soluciones FinTech en Ecuador
+      no solo moderniza la gestión financiera de las empresas,
+      sino que también transforma la información contable en un activo estratégico.
+      Esto permite a los directivos tomar decisiones informadas en tiempo real, optimizar la eficiencia
+      operativa y fortalecer la competitividad en un entorno económico cada vez más digitalizado y dinámico.
         </p>
 
       </section>
     </article>
 
+    <article id="columns">
+      <h2 id="columns-title-2">SmartBusinessAnalytics<sup>®</sup> (ERP) </h2>
 
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
 
-
-
-
-    <!-- Página 5 — TÉRMINOS Y CONDICIONES (SIN CAMBIOS) -->
-    <article id="terms">
-      <h2 id="terms-title">3. Términos y Condiciones de Compra</h2>
       <section>
-        <p>Los presentes <strong>Términos y Condiciones</strong> regulan la adquisición, desarrollo, implementación y uso de soluciones tecnológicas...</p>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
 
-        <h3>4.1 Proceso de compra</h3>
-        <p>La compra se considera finalizada tras iniciar la fase de Investigación y Desarrollo (I+D)...</p>
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
 
-        <h3>4.2 Servicios en la nube</h3>
-        <p>El primer mes de uso es gratuito...</p>
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
 
-        <h3>4.3 Desarrollo Open Source</h3>
-        <p>El desarrollo se realiza sobre código abierto...</p>
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
 
-        <h3>4.4 Protección de datos</h3>
-        <p>SmartQuail cumple la Ley Orgánica de Protección de Datos...</p>
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
 
-        <h3>4.5 Legislación aplicable</h3>
-        <p>Estos términos se rigen por las leyes de Ecuador...</p>
+El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
       </section>
     </article>
 
+    <article id="columns">
+      <h2 id="columns-title-3">Integración & Despliegue Continuo (CI/CD)</h2>
 
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
 
-
-
-
-    <!-- Página 6 — SRE TECHNICAL DESCRIPTION (SIN CAMBIOS) -->
-    <article id="sre">
-      <h2 id="sre-title">4. Descripción Técnica del Sistema de Respaldo de Empresas (SRE)</h2>
       <section>
-        <p>El Sistema de Respaldo de Empresas (SRE) es una solución integral que asegura la continuidad...</p>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
 
-        <h3>Componentes Clave del SRE</h3>
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-4">Metodología DeSecOps [ERP+ (I+D)] </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-5"> Integración a terceros (API-ResFull) </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-6"> Validación automatica de registros  </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+  El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+  A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+  Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-7"> Agente IA de prediccion (Machine Learning,Deep Learning) </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+  El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+  A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+  Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-8"> Agente IA de desición (Large Language Model) </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+  El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+  A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+  Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-9"> Monitoreo y alertas en tiempo real </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+  El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+  A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+  Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="columns">
+      <h2 id="columns-title-10"> Disponibilidad,Escalabilidad, Accesibilidad & Resiliencia </h2>
+
+      <h3> Una solución FinTech inteligente, desarollada por SmartQuail,INC</h3>
+
+      <section>
+        <h4>Arquitectura tecnologica</h4>
+        <p>
+        SmartBusinessAnalytics (ERP) es una solución inteligente desarrollada de
+        manera nativa en la nube por SmartQuail, Inc., diseñada bajo principios de arquitectura moderna orientada
+        a la escalabilidad, resiliencia y alto rendimiento. La plataforma está construida principalmente en lenguaje Python,
+         lo que permite una alta flexibilidad, integración y capacidad de evolución tecnológica.
+
+          El sistema soporta el procesamiento de más de 1.000.000 de entradas de datos, con tiempos de respuesta de hasta 800 milisegundos, permitiendo gestionar, analizar y distribuir información de manera eficiente y descentralizada. Gracias a su arquitectura basada en tecnología blockchain, se garantiza la integridad, trazabilidad y seguridad de los datos, reduciendo riesgos de manipulación y fortaleciendo la confianza en los procesos financieros y operativos.
+
+          SmartBusinessAnalytics (ERP) ha sido diseñado para soportar altos volúmenes de transacciones concurrentes, asegurando estabilidad tanto en la cantidad de peticiones como en la velocidad de respuesta para múltiples usuarios simultáneos. Esto lo convierte en una solución robusta, ágil, escalable y altamente disponible.
+
+          Adicionalmente, la plataforma incorpora mecanismos avanzados de automatización para la detección temprana de fallos, así como planes de contingencia y recuperación ante desastres, garantizando la continuidad operativa. Su arquitectura cumple con estándares internacionales de calidad y seguridad, alineándose con normativas como:
+
+          ISO 27001: Gestión de la seguridad de la información, asegurando la confidencialidad, integridad y disponibilidad de los datos.
+          ISO 22301: Gestión de la continuidad del negocio, garantizando la resiliencia ante interrupciones.
+          ISO 9001: Gestión de la calidad, enfocada en la mejora continua de los procesos y servicios.
+          ISO 20000: Gestión de servicios de TI, asegurando eficiencia en la entrega y soporte tecnológico.
+          <h4>Funcionalidades</h4>
+          <p>
+            SmartBusinessAnalytics (ERP) ha sido concebido como una plataforma empresarial de nueva generación, diseñada para alinear la operación contable con la toma de decisiones estratégicas a nivel directivo. Su arquitectura funcional permite que los C-level executives (CEO, CFO, Directorio) accedan a información crítica en tiempo real, sin comprometer el cumplimiento de los principios contables, normativos y regulatorios vigentes.
+
+  El sistema implementa una clara segmentación de responsabilidades: mientras los usuarios del área contable gestionan el registro estructurado de transacciones financieras —incluyendo ingresos, egresos, activos y pasivos— bajo estándares técnicos de precisión y control, la alta dirección dispone de un entorno avanzado de Business Intelligence (BI) orientado al análisis y la interpretación del desempeño financiero.
+
+  A través de un motor analítico robusto, SmartBusinessAnalytics (ERP) integra capacidades de Big Data Analytics, permitiendo la generación de reportes ejecutivos exportables (PDF), dashboards interactivos y visualizaciones de alto nivel. Estas herramientas incorporan modelos estadísticos, matemáticos y analíticos que facilitan la evaluación del flujo económico, la proyección de escenarios y la identificación de patrones clave dentro de la organización.
+
+  Como resultado, la plataforma transforma los datos financieros en inteligencia accionable, proporcionando a los tomadores de decisión una visión integral, precisa y en tiempo real del estado del negocio. Esto fortalece la capacidad estratégica de la organización, optimiza la planificación financiera y permite una toma de decisiones ágil, fundamentada y orientada a la generación de valor sostenible.
+
+          </p>
+          <p>En conjunto, SmartBusinessAnalytics (ERP) representa una plataforma empresarial de última generación, orientada a la toma de decisiones basada en datos, con altos estándares de seguridad, rendimiento y confiabilidad en entornos corporativos exigentes.
+          </p>
+      </section>
+    </article>
+
+    <article id="skills">
+      <h2 id="skills-title">International Organization for Standardization en TICS (ISO)</h2>
+
+      <h3>We present you some of WeasyPrint's features.</h3>
+
+      <section id="table-content">
+        <h4>ISO/IEC 27000</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
+          sed, vehicula sed augue. Cras eget ante turpis.
+        </p>
+      </section>
+
+      <section id="heading">
+        <h4>ISO/IEC 20000-1</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
+          sed, vehicula sed augue. Cras eget ante turpis.
+        </p>
+      </section>
+
+      <section id="multi-columns">
+        <h4>ISO/IEC 25000</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
+          sed, vehicula sed augue. Cras eget ante turpis.
+        </p>
+      </section>
+
+      <section id="internal-links">
+        <h4>ISO/IEC 12207</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
+          sed, vehicula sed augue. Cras eget ante turpis.
+        </p>
+      </section>
+
+      <section id="style">
+        <h4>ISO/IEC 38500</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mi ante, tincidunt quis vehicula
+          sed, vehicula sed augue. Cras eget ante turpis.
+        </p>
+      </section>
+
+      <hr>
+
+      <div class="certificaciones">
+
+      <div class="cert-left">
+          <div class="cert-sign">
+        <!-- QR: puede ser una imagen generada con Django o un SVG -->
+           <div class="signature-box"></div>
+           <p><strong>PhD. Mauricio Silva</strong><br>
+          <strong>Jefe de Tecnologías</strong><br>
+         <strong>SMARTQUAIL.S.A.S</strong></p>
+</div>
+      </div>
+    <div class="cert-right">
+
+      <div class="cert-sign">
+        <!-- Cuadrado para la firma -->
+        <div class="signature-box"></div>
+        <p><strong>CONTRATANTE</strong></p>
+      </div>
+    </div>
+
+    </div>
+
+    </article>
+
+    <article id="offers">
+      <h2 id="offers-title">Big title on the first right page</h2>
+
+      <h3>Display offers using flex layout</h3>
+
+      <section>
+        <h4>Offer #1</h4>
+        <p>€135</p>
         <ul>
-          <li><strong>Almacenamiento Seguro:</strong> redundante en la nube...</li>
-          <li><strong>Automatización de Backups:</strong> programación automática...</li>
-          <li><strong>Recuperación Rápida:</strong> minimiza tiempos de inactividad...</li>
-          <li><strong>Monitoreo y Notificaciones:</strong> paneles de control...</li>
-          <li><strong>Escalabilidad:</strong> capacidad de crecimiento continuo...</li>
+          <li>Lorem ipsum dolor sit amet.</li>
+          <li>Nullam at diam eget urna consequat.</li>
+          <li>Sed fringilla quam at augue semper aliquam.</li>
+          <li>Cras nec lacus eu turpis finibus vulputate.</li>
         </ul>
+      </section>
 
-        <h3>Beneficios del SRE</h3>
+      <section>
+        <h4>Offer #2</h4>
+        <p>€175</p>
         <ul>
-          <li><strong>Seguridad:</strong> protección de datos sensibles...</li>
-          <li><strong>Reducción de Riesgos:</strong> prevención de pérdida de datos...</li>
-          <li><strong>Rendimiento:</strong> rápida recuperación...</li>
-          <li><strong>Conformidad:</strong> cumplimiento normativo...</li>
+          <li>Lorem ipsum dolor sit amet.</li>
+          <li>Nullam at diam eget urna consequat.</li>
+          <li>Sed fringilla quam at augue semper aliquam.</li>
+          <li>Mauris viverra nulla vel semper mollis.</li>
+          <li>Nulla quis massa eu urna suscipit vehicula.</li>
+          <li>Curabitur a odio id risus pharetra iaculis.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Offer #3</h4>
+        <p>€200</p>
+        <ul>
+          <li>Lorem ipsum dolor sit amet.</li>
+          <li>Nullam at diam eget urna consequat.</li>
+          <li>Sed fringilla quam at augue semper aliquam.</li>
+          <li>Mauris viverra nulla vel semper mollis.</li>
+          <li>Cras nec lacus eu turpis finibus vulputate.</li>
+          <li>Nulla quis massa eu urna suscipit vehicula.</li>
+          <li>Curabitur a odio id risus pharetra iaculis.</li>
+          <li>Mauris viverra nulla vel semper mollis.</li>
+          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
         </ul>
       </section>
     </article>
 
+    <article id="chapter">
+      <h2 id="chapter-title">This is a chapter of a new section</h2>
+    </article>
 
+    <article id="typography">
+      <h2 id="typography-title">About some typography features</h2>
+
+      <h3>Here is a showcase of several typography features</h3>
+
+      <section>
+        <h4>Italic and Bold Text</h4>
+        <p>
+          Lorem ipsum dolor <em>sit amet, consectetur adipiscing elit.</em> Ut
+          pulvinar dolor <strong>ac orci finibus elementum. Praesent</strong>
+          sit amet ligula turpis.
+        </p>
+      </section>
+
+      <section id="small-caps">
+        <h4>Small Caps Text</h4>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pulvinar
+          dolor ac orci finibus elementum.
+        </p>
+      </section>
+
+      <section id="ligatures">
+        <h4>Ligatures</h4>
+        <dl>
+          <dt>Classical</dt>
+          <dd><span class="none">Offer</span> → <span class="common">Offer</span></dd>
+          <dt>Discretionary</dt>
+          <dd><span class="none">Often</span> → <span class="discretionary">Often</span></dd>
+          <dt>Contextual</dt>
+          <dd><span class="none">#&amp;</span> → <span class="contextual">#&amp;</span></dd>
+        </dl>
+      </section>
+
+      <section id="numbers">
+        <h4>Numbers</h4>
+        <dl>
+          <dt>Fractions</dt>
+          <dd>421/42 → <span id="fractions">421/42</span></dd>
+          <dt>Ordinals</dt>
+          <dd>2a 3o → <span id="ordinals">2a 3o</span></dd>
+          <dt>Slashed zero</dt>
+          <dd>1000 → <span id="slashed">1000</span></dd>
+          <dt>Superscript</dt>
+          <dd>a2 → <span id="super">a2</span></dd>
+          <dt>Subscript</dt>
+          <dd>C8H10N4O2 → <span id="sub">C8H10N4O2</span></dd>
+        </dl>
+      </section>
+
+      <section id="figures">
+        <h4>Figures</h4>
+        <dl>
+          <dt>Lining</dt>
+          <dd>
+            <ul>
+              <li>409,280</li>
+              <li>367,112</li>
+            </ul>
+          </dd>
+          <dt>Old-Style</dt>
+          <dd>
+            <ul id="oldstyle">
+              <li>409,280</li>
+              <li>367,112</li>
+            </ul>
+          </dd>
+          <dt>Tabular</dt>
+          <dd>
+            <ul id="tabular">
+              <li>409,280</li>
+              <li>367,112</li>
+            </ul>
+          </dd>
+          <dt>Old &amp; Tab.</dt>
+          <dd>
+            <ul id="old-tabular">
+              <li>409,280</li>
+              <li>367,112</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+    </article>
   </body>
 </html>

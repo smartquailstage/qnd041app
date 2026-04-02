@@ -78,116 +78,116 @@
 
         <h3>Visión General</h3>
         <p>
-          {{ product.nombre }} es un Sistema de Información y Comunicación empresarial basado completamente en la nube. 
-          Su propósito central es brindar una plataforma unificada que permita la gestión de operaciones, comunicación interna, 
+          {{ product.nombre }} es un Sistema de Información y Comunicación empresarial basado completamente en la nube.
+          Su propósito central es brindar una plataforma unificada que permita la gestión de operaciones, comunicación interna,
           automatización de procesos, análisis predictivo y administración de datos bajo un enfoque altamente confiable y escalable.
         </p>
 
         <p>
-          Desde una perspectiva de ingeniería de confiabilidad (SRE), el sistema está diseñado para operar bajo estándares que 
-          priorizan la disponibilidad, la resiliencia, la tolerancia a fallos y la autosanación. Se apoya en arquitecturas 
-          cloud-native que permiten que cada módulo funcione como un componente independiente pero coordinado dentro de un 
+          Desde una perspectiva de ingeniería de confiabilidad (SRE), el sistema está diseñado para operar bajo estándares que
+          priorizan la disponibilidad, la resiliencia, la tolerancia a fallos y la autosanación. Se apoya en arquitecturas
+          cloud-native que permiten que cada módulo funcione como un componente independiente pero coordinado dentro de un
           entorno distribuido y seguro.
         </p>
 
 
         <h3>Arquitectura Cloud-Native sobre Kubernetes</h3>
         <p>
-          El corazón operativo del sistema se ejecuta en un clúster Kubernetes de alta disponibilidad. 
-          Cada módulo del producto —incluyendo automatización, comunicación, inteligencia artificial, 
-          gestión documental, flujos internos y API gateway— se encapsula en contenedores Docker que permiten 
+          El corazón operativo del sistema se ejecuta en un clúster Kubernetes de alta disponibilidad.
+          Cada módulo del producto —incluyendo automatización, comunicación, inteligencia artificial,
+          gestión documental, flujos internos y API gateway— se encapsula en contenedores Docker que permiten
           un despliegue aislado, reproducible y completamente portable.
         </p>
 
         <p>
           Kubernetes administra estos contenedores mediante:
-          <br>• Autoscaling Horizontal (HPA)  
-          <br>• Monitoreo de salud (Liveness y Readiness Probes)  
-          <br>• Rolling Updates para despliegues sin interrupciones  
-          <br>• Pods distribuidos en múltiples zonas de disponibilidad  
+          <br>• Autoscaling Horizontal (HPA)
+          <br>• Monitoreo de salud (Liveness y Readiness Probes)
+          <br>• Rolling Updates para despliegues sin interrupciones
+          <br>• Pods distribuidos en múltiples zonas de disponibilidad
         </p>
 
         <p>
-          Esta infraestructura asegura que {{ product.nombre }} pueda manejar aumentos significativos de carga, 
+          Esta infraestructura asegura que {{ product.nombre }} pueda manejar aumentos significativos de carga,
           brindar disponibilidad constante y recuperarse automáticamente ante fallas, incluso durante picos extremos de uso.
         </p>
 
 
         <h3>Infraestructura como Código con Terraform</h3>
         <p>
-          Toda la infraestructura detrás de {{ product.nombre }} se define utilizando Terraform. 
-          Esto incluye redes, balanceadores, bases de datos, máquinas virtuales, volúmenes persistentes, 
+          Toda la infraestructura detrás de {{ product.nombre }} se define utilizando Terraform.
+          Esto incluye redes, balanceadores, bases de datos, máquinas virtuales, volúmenes persistentes,
           certificados, firewalls y componentes de seguridad.
         </p>
 
         <p>
-          El enfoque declarativo de Terraform garantiza ambientes reproducibles, control de versiones 
-          y despliegues consistentes en múltiples regiones sin intervención manual. 
-          Esta práctica elimina discrepancias entre entornos y permite escalar infraestructura 
+          El enfoque declarativo de Terraform garantiza ambientes reproducibles, control de versiones
+          y despliegues consistentes en múltiples regiones sin intervención manual.
+          Esta práctica elimina discrepancias entre entornos y permite escalar infraestructura
           según el crecimiento operativo del cliente.
         </p>
 
 
         <h3>Automatización Empresarial mediante n8n</h3>
         <p>
-          {{ product.nombre }} incluye una capa nativa de automatización basada en n8n. 
-          Esto permite conectar servicios internos y externos, orquestar flujos empresariales 
+          {{ product.nombre }} incluye una capa nativa de automatización basada en n8n.
+          Esto permite conectar servicios internos y externos, orquestar flujos empresariales
           y ejecutar tareas automatizadas según reglas predefinidas.
         </p>
 
         <p>
           La integración con n8n habilita:
-          <br>— Automatización avanzada entre sistemas internos  
-          <br>— Conexiones API bidireccionales con servicios externos  
-          <br>— Procesos event-driven  
-          <br>— Reducción de trabajo manual  
+          <br>— Automatización avanzada entre sistemas internos
+          <br>— Conexiones API bidireccionales con servicios externos
+          <br>— Procesos event-driven
+          <br>— Reducción de trabajo manual
         </p>
 
         <p>
-          Gracias a esta integración, el sistema se adapta a procesos dinámicos sin requerir 
+          Gracias a esta integración, el sistema se adapta a procesos dinámicos sin requerir
           desarrollos personalizados, ofreciendo flexibilidad total para el crecimiento operacional.
         </p>
 
 
         <h3>Módulo de Inteligencia Artificial con Scikit-Learn</h3>
         <p>
-          La capa analítica del sistema incorpora modelos desarrollados con Scikit-Learn. 
+          La capa analítica del sistema incorpora modelos desarrollados con Scikit-Learn.
           Estos algoritmos procesan datos históricos y operacionales del cliente para generar:
         </p>
 
         <p>
-          — Modelos de predicción de demanda  
-          — Segmentación automatizada de usuarios  
-          — Clasificación de eventos  
-          — Detección de anomalías  
-          — Análisis de patrones financieros o administrativos  
+          — Modelos de predicción de demanda
+          — Segmentación automatizada de usuarios
+          — Clasificación de eventos
+          — Detección de anomalías
+          — Análisis de patrones financieros o administrativos
         </p>
 
         <p>
-          Los modelos operan dentro de pipelines entrenados, validados y versionados, 
+          Los modelos operan dentro de pipelines entrenados, validados y versionados,
           garantizando precisión y consistencia en el procesamiento.
         </p>
 
 
         <h3>Seguridad Avanzada Zero Trust</h3>
         <p>
-          El producto implementa un modelo Zero Trust, bajo el cual cada componente debe 
-          autenticar, autorizar y validar cada solicitud sin asumir confianza previa. 
+          El producto implementa un modelo Zero Trust, bajo el cual cada componente debe
+          autenticar, autorizar y validar cada solicitud sin asumir confianza previa.
           La seguridad se implementa con:
         </p>
 
         <p>
-          • RBAC en Kubernetes  
-          • Cifrado AES-256 en reposo  
-          • Cifrado TLS 1.3 en tránsito  
-          • Control de acceso segmentado por microservicio  
-          • Escaneo de vulnerabilidades automático en CI/CD  
+          • RBAC en Kubernetes
+          • Cifrado AES-256 en reposo
+          • Cifrado TLS 1.3 en tránsito
+          • Control de acceso segmentado por microservicio
+          • Escaneo de vulnerabilidades automático en CI/CD
         </p>
 
 
         <h3>Observabilidad y Monitoreo</h3>
         <p>
-          Como plataforma administrada bajo principios SRE, {{ product.nombre }} integra herramientas 
+          Como plataforma administrada bajo principios SRE, {{ product.nombre }} integra herramientas
           de monitoreo que permiten diagnosticar problemas antes de que afecten al usuario final:
         </p>
 
@@ -195,11 +195,11 @@
           • Prometheus: recolección de métricas<br>
           • Grafana: visualización en tiempo real<br>
           • Loki: logs distribuidos<br>
-          • Jaeger: trazabilidad completa de microservicios  
+          • Jaeger: trazabilidad completa de microservicios
         </p>
 
         <p>
-          La plataforma aplica análisis de tendencias basado en métricas SLO/SLA, 
+          La plataforma aplica análisis de tendencias basado en métricas SLO/SLA,
           alertas dinámicas, manejo de presupuestos de error y mecanismos de autorrecuperación.
         </p>
 
@@ -216,9 +216,9 @@
 
         <h3>Conclusión Final</h3>
         <p>
-          {{ product.nombre }} constituye una plataforma cloud empresarial diseñada con los más altos 
-          estándares de ingeniería, integrando automatización, inteligencia artificial, 
-          sistemas de comunicación y procesamiento en tiempo real dentro de una arquitectura 
+          {{ product.nombre }} constituye una plataforma cloud empresarial diseñada con los más altos
+          estándares de ingeniería, integrando automatización, inteligencia artificial,
+          sistemas de comunicación y procesamiento en tiempo real dentro de una arquitectura
           resiliente, segura y altamente escalable.
         </p>
 
