@@ -828,92 +828,3013 @@ class SCVSFinancialReport(models.Model):
     # =========================
     # BALANCE GENERAL
     # =========================
-    cash_and_equivalents = models.DecimalField(
-        "Efectivo y equivalentes", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Suma del efectivo en caja y bancos, más inversiones a corto plazo fácilmente convertibles en efectivo."
-    )
-    short_term_investments = models.DecimalField(
-        "Inversiones a corto plazo", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Inversiones temporales y valores negociables con vencimiento menor a un año."
-    )
-    accounts_receivable = models.DecimalField(
-        "Cuentas por cobrar", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Monto total que clientes deben a la compañía por ventas a crédito."
-    )
-    inventories = models.DecimalField(
-        "Inventarios", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Valor de inventarios de bienes, materias primas y productos terminados listos para la venta."
-    )
-    other_current_assets = models.DecimalField(
-        "Otros activos corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Otros activos que se espera convertir en efectivo o usar dentro del año fiscal."
-    )
-    property_plant_equipment = models.DecimalField(
-        "Propiedad, planta y equipo", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Valor de terrenos, edificios, maquinaria y equipo utilizados en las operaciones de la empresa."
-    )
-    accumulated_depreciation = models.DecimalField(
-        "Depreciación acumulada", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Suma de la depreciación aplicada a los activos fijos desde su adquisición."
-    )
-    intangible_assets = models.DecimalField(
-        "Activos intangibles", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Activos no físicos con valor económico, como patentes, marcas o software."
-    )
-    other_non_current_assets = models.DecimalField(
-        "Otros activos no corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Activos que no se espera convertir en efectivo en menos de un año, distintos a los ya mencionados."
+
+    c_1_activo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1 - ACTIVO"
     )
 
-    accounts_payable = models.DecimalField(
-        "Cuentas por pagar", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Deudas con proveedores por compras de bienes o servicios a crédito."
-    )
-    short_term_loans = models.DecimalField(
-        "Préstamos a corto plazo", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Obligaciones financieras con vencimiento menor a un año."
-    )
-    tax_payables = models.DecimalField(
-        "Obligaciones tributarias", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Impuestos por pagar, incluyendo IVA, retenciones y otros tributos pendientes."
-    )
-    labor_obligations = models.DecimalField(
-        "Obligaciones laborales", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Deudas con empleados, como salarios, bonos, prestaciones sociales o vacaciones pendientes."
-    )
-    other_current_liabilities = models.DecimalField(
-        "Otros pasivos corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Otras obligaciones a corto plazo que la empresa debe cumplir dentro del año fiscal."
+    c_101_activo_corriente = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101 - ACTIVO CORRIENTE"
     )
 
-    long_term_loans = models.DecimalField(
-        "Préstamos a largo plazo", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Obligaciones financieras con vencimiento mayor a un año."
-    )
-    provisions = models.DecimalField(
-        "Provisiones", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Reservas de dinero para cubrir pasivos futuros o contingencias previstas."
-    )
-    other_non_current_liabilities = models.DecimalField(
-        "Otros pasivos no corrientes", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Obligaciones financieras y no financieras con vencimiento mayor a un año distintas a las ya mencionadas."
+    c_10101_efectivo_y_equivalentes_de_efectivo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10101 - EFECTIVO Y EQUIVALENTES DE EFECTIVO"
     )
 
-    share_capital = models.DecimalField(
-        "Capital social", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Monto de aportes de los socios o accionistas registrado legalmente como capital social."
+    c_1010101_caja = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010101 - CAJA"
     )
-    legal_reserve = models.DecimalField(
-        "Reserva legal", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Porción de las utilidades retenidas que la ley exige mantener como reserva legal."
+
+    c_1010102_instituciones_financieras_publicas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010102 - INSTITUCIONES FINANCIERAS PÚBLICAS"
     )
-    retained_earnings = models.DecimalField(
-        "Resultados acumulados", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Utilidades o pérdidas acumuladas de ejercicios anteriores que se mantienen en la empresa."
+
+    c_1010103_instituciones_financieras_privadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010103 - INSTITUCIONES FINANCIERAS PRIVADAS"
     )
-    net_income = models.DecimalField(
-        "Resultado neto", max_digits=18, decimal_places=2, null=True, blank=True,
-        help_text="Resultado neto del periodo fiscal: ingresos menos gastos e impuestos."
+
+    c_10102_activos_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102 - ACTIVOS FINANCIEROS"
+    )
+
+    c_1010201_activos_financieros_a_valor_razonable_con_cambios_en_resultados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010201 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN RESULTADOS"
+    )
+
+    c_101020101_renta_variable = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020101 - RENTA VARIABLE"
+    )
+
+    c_10102010101_acciones_y_participaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010101 - ACCIONES Y PARTICIPACIONES"
+    )
+
+    c_10102010102_cuotas_de_fondos_colectivos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010102 - CUOTAS DE FONDOS COLECTIVOS"
+    )
+
+    c_10102010103_valores_de_titularizacion_de_participacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010103 - VALORES DE  TITULARIZACIÓN DE PARTICIPACIÓN"
+    )
+
+    c_10102010104_unidades_de_participacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010104 - UNIDADES DE PARTICIPACIÓN"
+    )
+
+    c_10102010105_inversiones_en_el_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010105 - INVERSIONES EN EL EXTERIOR"
+    )
+
+    c_10102010106_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010106 - OTROS"
+    )
+
+    c_101020102_renta_fija = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020102 - RENTA FIJA"
+    )
+
+    c_10102010201_avales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010201 - AVALES"
+    )
+
+    c_10102010202_bonos_del_estado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010202 - BONOS DEL ESTADO"
+    )
+
+    c_10102010203_bonos_de_prenda = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010203 - BONOS DE PRENDA"
+    )
+
+    c_10102010204_cedulas_hipotecarias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010204 - CÉDULAS HIPOTECARIAS"
+    )
+
+    c_10102010205_certificados_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010205 - CERTIFICADOS FINANCIEROS"
+    )
+
+    c_10102010206_certificados_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010206 - CERTIFICADOS DE INVERSIÓN"
+    )
+
+    c_10102010207_certificados_de_tesoreria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010207 - CERTIFICADOS DE TESORERÍA"
+    )
+
+    c_10102010208_certificados_de_deposito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010208 - CERTIFICADOS DE DEPÓSITO"
+    )
+
+    c_10102010209_cupones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010209 - CUPONES"
+    )
+
+    c_10102010210_depositos_a_plazo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010210 - DEPÓSITOS A PLAZO"
+    )
+
+    c_10102010211_letras_de_cambio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010211 - LETRAS DE CAMBIO"
+    )
+
+    c_10102010212_notas_de_credito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010212 - NOTAS DE CRÉDITO"
+    )
+
+    c_10102010213_obligaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010213 - OBLIGACIONES"
+    )
+
+    c_10102010214_facturas_comerciales_negociables = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010214 - FACTURAS COMERCIALES NEGOCIABLES"
+    )
+
+    c_10102010215_overnights = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010215 - OVERNIGHTS"
+    )
+
+    c_10102010216_obligaciones_convertibles_en_acciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010216 - OBLIGACIONES CONVERTIBLES EN ACCIONES"
+    )
+
+    c_10102010217_papel_comercial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010217 - PAPEL COMERCIAL"
+    )
+
+    c_10102010218_pagares = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010218 - PAGARÉS"
+    )
+
+    c_10102010219_polizas_de_acumulacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010219 - PÓLIZAS DE ACUMULACIÓN"
+    )
+
+    c_10102010220_titulos_del_banco_central = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010220 - TÍTULOS DEL BANCO CENTRAL"
+    )
+
+    c_10102010221_valores_de_titularizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010221 - VALORES DE TITULARIZACIÓN"
+    )
+
+    c_10102010222_inversiones_en_el_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010222 - INVERSIONES EN EL EXTERIOR"
+    )
+
+    c_10102010223_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010223 - OTROS"
+    )
+
+    c_101020103_derivados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020103 - DERIVADOS"
+    )
+
+    c_10102010301_forward = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010301 - FORWARD"
+    )
+
+    c_10102010302_futuros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010302 - FUTUROS"
+    )
+
+    c_10102010303_opciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010303 - OPCIONES"
+    )
+
+    c_10102010304_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102010304 - OTROS"
+    )
+
+    c_1010202_activos_financieros_a_valor_razonable_con_cambios_en_otro_resultado_integral = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010202 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN OTRO RESULTADO INTEGRAL"
+    )
+
+    c_101020201_renta_variable = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020201 - RENTA VARIABLE"
+    )
+
+    c_10102020101_acciones_y_participaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020101 - ACCIONES Y PARTICIPACIONES"
+    )
+
+    c_10102020102_cuotas_de_fondos_colectivos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020102 - CUOTAS DE FONDOS COLECTIVOS"
+    )
+
+    c_10102020103_unidades_de_participacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020103 - UNIDADES DE PARTICIPACIÓN"
+    )
+
+    c_10102020104_valores_de_titularizacion_de_participacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020104 - VALORES DE  TITULARIZACIÓN DE PARTICIPACIÓN"
+    )
+
+    c_10102020105_inversiones_en_el_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020105 - INVERSIONES EN EL EXTERIOR"
+    )
+
+    c_10102020106_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020106 - OTROS"
+    )
+
+    c_101020202_renta_fija = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020202 - RENTA FIJA"
+    )
+
+    c_10102020201_avales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020201 - AVALES"
+    )
+
+    c_10102020202_bonos_del_estado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020202 - BONOS DEL ESTADO"
+    )
+
+    c_10102020203_bonos_de_prenda = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020203 - BONOS DE PRENDA"
+    )
+
+    c_10102020204_cedulas_hipotecarias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020204 - CÉDULAS HIPOTECARIAS"
+    )
+
+    c_10102020205_certificados_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020205 - CERTIFICADOS FINANCIEROS"
+    )
+
+    c_10102020206_certificados_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020206 - CERTIFICADOS DE INVERSIÓN"
+    )
+
+    c_10102020207_certificados_de_tesoreria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020207 - CERTIFICADOS DE TESORERÍA"
+    )
+
+    c_10102020208_certificados_de_deposito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020208 - CERTIFICADOS DE DEPÓSITO"
+    )
+
+    c_10102020209_cupones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020209 - CUPONES"
+    )
+
+    c_10102020210_depositos_a_plazo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020210 - DEPÓSITOS A PLAZO"
+    )
+
+    c_10102020211_letras_de_cambio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020211 - LETRAS DE CAMBIO"
+    )
+
+    c_10102020212_notas_de_credito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020212 - NOTAS DE CRÉDITO"
+    )
+
+    c_10102020213_obligaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020213 - OBLIGACIONES"
+    )
+
+    c_10102020214_facturas_comerciales_negociables = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020214 - FACTURAS COMERCIALES NEGOCIABLES"
+    )
+
+    c_10102020215_overnights = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020215 - OVERNIGHTS"
+    )
+
+    c_10102020216_obligaciones_convertibles_en_acciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020216 - OBLIGACIONES CONVERTIBLES EN ACCIONES"
+    )
+
+    c_10102020217_papel_comercial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020217 - PAPEL COMERCIAL"
+    )
+
+    c_10102020218_pagares = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020218 - PAGARÉS"
+    )
+
+    c_10102020219_polizas_de_acumulacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020219 - PÓLIZAS DE ACUMULACIÓN"
+    )
+
+    c_10102020220_titulos_del_banco_central = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020220 - TÍTULOS DEL BANCO CENTRAL"
+    )
+
+    c_10102020221_valores_de_titularizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020221 - VALORES DE TITULARIZACIÓN"
+    )
+
+    c_10102020222_inversiones_en_el_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020222 - INVERSIONES EN EL EXTERIOR"
+    )
+
+    c_10102020223_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102020223 - OTROS"
+    )
+
+    c_1010203_activos_financieros_al_costo_amortizado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010203 - ACTIVOS FINANCIEROS AL COSTO AMORTIZADO"
+    )
+
+    c_101020302_renta_fija = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020302 - RENTA FIJA"
+    )
+
+    c_10102030201_avales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030201 - AVALES"
+    )
+
+    c_10102030202_bonos_del_estado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030202 - BONOS DEL ESTADO"
+    )
+
+    c_10102030203_bonos_de_prenda = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030203 - BONOS DE PRENDA"
+    )
+
+    c_10102030204_cedulas_hipotecarias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030204 - CÉDULAS HIPOTECARIAS"
+    )
+
+    c_10102030205_certificados_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030205 - CERTIFICADOS FINANCIEROS"
+    )
+
+    c_10102030206_certificados_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030206 - CERTIFICADOS DE INVERSIÓN"
+    )
+
+    c_10102030207_certificados_de_tesoreria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030207 - CERTIFICADOS DE TESORERÍA"
+    )
+
+    c_10102030208_certificados_de_deposito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030208 - CERTIFICADOS DE DEPÓSITO"
+    )
+
+    c_10102030209_cupones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030209 - CUPONES"
+    )
+
+    c_10102030210_depositos_a_plazo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030210 - DEPÓSITOS A PLAZO"
+    )
+
+    c_10102030211_letras_de_cambio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030211 - LETRAS DE CAMBIO"
+    )
+
+    c_10102030212_notas_de_credito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030212 - NOTAS DE CRÉDITO"
+    )
+
+    c_10102030213_obligaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030213 - OBLIGACIONES"
+    )
+
+    c_10102030214_facturas_comerciales_negociables = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030214 - FACTURAS COMERCIALES NEGOCIABLES"
+    )
+
+    c_10102030215_overnights = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030215 - OVERNIGHTS"
+    )
+
+    c_10102030216_obligaciones_convertibles_en_acciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030216 - OBLIGACIONES CONVERTIBLES EN ACCIONES"
+    )
+
+    c_10102030217_papel_comercial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030217 - PAPEL COMERCIAL"
+    )
+
+    c_10102030218_pagares = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030218 - PAGARÉS"
+    )
+
+    c_10102030219_polizas_de_acumulacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030219 - PÓLIZAS DE ACUMULACIÓN"
+    )
+
+    c_10102030220_titulos_del_banco_central = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030220 - TÍTULOS DEL BANCO CENTRAL"
+    )
+
+    c_10102030221_valores_de_titularizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030221 - VALORES DE TITULARIZACIÓN"
+    )
+
+    c_10102030222_inversiones_en_el_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030222 - INVERSIONES EN EL EXTERIOR"
+    )
+
+    c_10102030223_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102030223 - OTROS"
+    )
+
+    c_1010204_provision_por_deterioro_de_activos_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010204 - PROVISIÓN POR DETERIORO DE ACTIVOS FINANCIEROS"
+    )
+
+    c_101020401_activos_financieros_a_valor_razonable_con_cambios_en_resultados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020401 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN RESULTADOS"
+    )
+
+    c_101020402_activos_financieros_al_costo_amortizado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020402 - ACTIVOS FINANCIEROS AL COSTO AMORTIZADO"
+    )
+
+    c_101020403_activos_financieros_a_valor_razonable_con_cambios_en_otro_resultado_integral = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020403 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN OTRO RESULTADO INTEGRAL"
+    )
+
+    c_1010205_deudores_comerciales_y_otras_cuentas_por_cobrar_no_relacionados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010205 - DEUDORES COMERCIALES Y OTRAS CUENTAS POR COBRAR NO RELACIONADOS"
+    )
+
+    c_101020501_de_actividades_ordinarias_que_generen_intereses = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020501 - DE ACTIVIDADES ORDINARIAS QUE GENEREN INTERESES"
+    )
+
+    c_10102050101_cuentas_y_documentos_a_cobrar_a_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050101 - CUENTAS Y DOCUMENTOS A COBRAR  A CLIENTES"
+    )
+
+    c_10102050102_cuentas_y_documentos_a_cobrar_a_terceros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050102 - CUENTAS Y DOCUMENTOS A COBRAR  A TERCEROS"
+    )
+
+    c_101020502_de_actividades_ordinarias_que_no_generen_intereses = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020502 - DE ACTIVIDADES ORDINARIAS QUE NO GENEREN INTERESES"
+    )
+
+    c_10102050201_cuentas_y_documentos_a_cobrar_a_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050201 - CUENTAS Y DOCUMENTOS A COBRAR  A CLIENTES"
+    )
+
+    c_10102050202_cuentas_y_documentos_a_cobrar_a_terceros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050202 - CUENTAS Y DOCUMENTOS A COBRAR  A TERCEROS"
+    )
+
+    c_10102050203_cuentas_por_cobrar_al_originador = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050203 - CUENTAS POR COBRAR AL ORIGINADOR"
+    )
+
+    c_10102050204_comisiones_por_operaciones_bursatiles = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050204 - COMISIONES POR OPERACIONES  BURSÁTILES"
+    )
+
+    c_10102050207_contrato_de_underwriting = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050207 - CONTRATO DE UNDERWRITING"
+    )
+
+    c_10102050208_por_administracion_y_manejo_de_portafolios_de_terceros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050208 - POR  ADMINISTRACIÓN Y MANEJO DE PORTAFOLIOS DE TERCEROS"
+    )
+
+    c_10102050209_por_administracion_y_manejo_de_fondos_administrados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050209 - POR ADMINISTRACIÓN Y MANEJO DE FONDOS ADMINISTRADOS"
+    )
+
+    c_10102050210_por_administracion_y_manejo_de_negocios_fiduciarios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050210 - POR ADMINISTRACIÓN Y MANEJO DE NEGOCIOS FIDUCIARIOS"
+    )
+
+    c_10102050211_por_custodia_y_conservacion_de_valores_materializados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050211 - POR CUSTODIA Y CONSERVACIÓN DE VALORES MATERIALIZADOS"
+    )
+
+    c_10102050212_por_custodia_y_conservacion_de_valores_desmaterializados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050212 - POR CUSTODIA Y CONSERVACIÓN DE VALORES DESMATERIALIZADOS"
+    )
+
+    c_10102050213_por_manejo_de_libro_de_acciones_y_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050213 - POR MANEJO DE LIBRO DE ACCIONES Y ACCIONISTAS"
+    )
+
+    c_10102050214_por_asesoria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050214 - POR ASESORÍA"
+    )
+
+    c_10102050215_dividendos_por_cobrar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050215 - DIVIDENDOS POR COBRAR"
+    )
+
+    c_10102050216_intereses_por_cobrar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050216 - INTERESES POR COBRAR"
+    )
+
+    c_10102050217_deudores_por_intermediacion_de_valores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050217 - DEUDORES POR INTERMEDIACIÓN DE VALORES"
+    )
+
+    c_10102050218_anticipo_a_comitentes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050218 - ANTICIPO A COMITENTES"
+    )
+
+    c_10102050219_anticipo_a_constructor_por_avance_de_obra = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050219 - ANTICIPO A CONSTRUCTOR POR AVANCE DE OBRA"
+    )
+
+    c_10102050220_derechos_por_compromiso_de_recompra = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050220 - DERECHOS POR COMPROMISO DE RECOMPRA"
+    )
+
+    c_10102050221_otras_cuentas_por_cobrar_no_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10102050221 - OTRAS CUENTAS POR COBRAR NO RELACIONADAS"
+    )
+
+    c_1010206_documentos_y_cuentas_por_cobrar_relacionados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010206 - DOCUMENTOS Y CUENTAS POR COBRAR RELACIONADOS"
+    )
+
+    c_101020601_por_cobrar_a_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020601 - POR COBRAR A ACCIONISTAS"
+    )
+
+    c_101020602_por_cobrar_a_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020602 - POR COBRAR A COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_101020603_por_cobrar_a_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020603 - POR COBRAR A CLIENTES"
+    )
+
+    c_101020604_otras_cuentas_por_cobrar_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 101020604 - OTRAS CUENTAS POR COBRAR RELACIONADAS"
+    )
+
+    c_1010207_provision_por_cuentas_incobrables_y_deterioro = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010207 - PROVISIÓN POR CUENTAS INCOBRABLES Y DETERIORO"
+    )
+
+    c_10103_inventarios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10103 - INVENTARIOS"
+    )
+
+    c_1010301_inventarios_de_materia_prima = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010301 - INVENTARIOS DE MATERIA PRIMA"
+    )
+
+    c_1010302_inventarios_de_productos_en_proceso = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010302 - INVENTARIOS DE PRODUCTOS EN PROCESO"
+    )
+
+    c_1010303_inventarios_de_suministros_o_materiales_a_ser_consumidos_en_el_proceso_de_produccion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010303 - INVENTARIOS DE SUMINISTROS O MATERIALES A SER CONSUMIDOS EN EL PROCESO DE PRODUCCION"
+    )
+
+    c_1010304_inventarios_de_suministros_o_materiales_a_ser_consumidos_en_la_prestacion_del_servicio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010304 - INVENTARIOS DE SUMINISTROS O MATERIALES A SER CONSUMIDOS EN LA PRESTACION DEL SERVICIO"
+    )
+
+    c_1010305_inventarios_de_prod_term_y_mercad_en_almacen_producido_por_la_compania = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010305 - INVENTARIOS DE PROD. TERM. Y MERCAD. EN ALMACÉN - PRODUCIDO POR LA COMPAÑÍA"
+    )
+
+    c_1010306_inventarios_de_prod_term_y_mercad_en_almacen_comprado_a_terceros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010306 - INVENTARIOS DE PROD. TERM. Y MERCAD. EN ALMACÉN - COMPRADO A  TERCEROS"
+    )
+
+    c_1010307_mercaderias_en_transito = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010307 - MERCADERÍAS EN TRÁNSITO"
+    )
+
+    c_1010308_obras_en_construccion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010308 - OBRAS EN CONSTRUCCION"
+    )
+
+    c_1010309_obras_terminadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010309 - OBRAS TERMINADAS"
+    )
+
+    c_1010310_materiales_o_bienes_para_la_construccion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010310 - MATERIALES O BIENES PARA LA CONSTRUCCION"
+    )
+
+    c_1010311_inventarios_repuestos_herramientas_y_accesorios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010311 - INVENTARIOS REPUESTOS, HERRAMIENTAS Y ACCESORIOS"
+    )
+
+    c_1010312_otros_inventarios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010312 - OTROS INVENTARIOS"
+    )
+
+    c_1010313_provision_por_valor_neto_de_realizacion_y_otras_perdidas_en_inventario = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010313 - (-) PROVISIÓN POR VALOR NETO DE REALIZACIÓN Y OTRAS PERDIDAS EN INVENTARIO"
+    )
+
+    c_10104_servicios_y_otros_pagos_anticipados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10104 - SERVICIOS Y OTROS PAGOS ANTICIPADOS"
+    )
+
+    c_1010401_seguros_pagados_por_anticipado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010401 - SEGUROS PAGADOS POR ANTICIPADO"
+    )
+
+    c_1010402_arriendos_pagados_por_anticipado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010402 - ARRIENDOS PAGADOS POR ANTICIPADO"
+    )
+
+    c_1010403_anticipos_a_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010403 - ANTICIPOS A PROVEEDORES"
+    )
+
+    c_1010404_otros_anticipos_entregados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010404 - OTROS ANTICIPOS ENTREGADOS"
+    )
+
+    c_10105_activos_por_impuestos_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10105 - ACTIVOS POR IMPUESTOS CORRIENTES"
+    )
+
+    c_1010501_credito_tributario_a_favor_de_la_empresa_iva = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010501 - CRÉDITO TRIBUTARIO A FAVOR DE LA EMPRESA (IVA)"
+    )
+
+    c_1010502_credito_tributario_a_favor_de_la_empresa_i_r = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010502 - CRÉDITO TRIBUTARIO A FAVOR DE LA EMPRESA ( I. R.)"
+    )
+
+    c_1010503_anticipo_de_impuesto_a_la_renta = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1010503 - ANTICIPO DE IMPUESTO A LA RENTA"
+    )
+
+    c_10106_activos_corrientes_mantenidos_para_la_venta_y_operaciones_discontinuadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10106 - ACTIVOS CORRIENTES MANTENIDOS PARA LA VENTA Y OPERACIONES DISCONTINUADAS"
+    )
+
+    c_10107_construcciones_en_proceso_nic_11_y_secc23_pymes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10107 - CONSTRUCCIONES EN PROCESO (NIC 11 Y SECC.23 PYMES)"
+    )
+
+    c_10108_otros_activos_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10108 - OTROS ACTIVOS CORRIENTES"
+    )
+
+    c_102_activos_no_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102 - ACTIVOS NO CORRIENTES"
+    )
+
+    c_10201_propiedad_planta_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10201 - PROPIEDAD, PLANTA Y EQUIPO"
+    )
+
+    c_1020101_terrenos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020101 - TERRENOS"
+    )
+
+    c_1020102_edificios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020102 - EDIFICIOS"
+    )
+
+    c_1020103_construcciones_en_curso = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020103 - CONSTRUCCIONES EN CURSO"
+    )
+
+    c_1020104_instalaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020104 - INSTALACIONES"
+    )
+
+    c_1020105_muebles_y_enseres = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020105 - MUEBLES Y ENSERES"
+    )
+
+    c_1020106_maquinaria_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020106 - MAQUINARIA Y EQUIPO"
+    )
+
+    c_1020107_naves_aereonaves_barcazas_y_similares = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020107 - NAVES, AEREONAVES, BARCAZAS Y SIMILARES"
+    )
+
+    c_1020108_equipo_de_computacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020108 - EQUIPO DE COMPUTACIÓN"
+    )
+
+    c_1020109_vehiculos_equipos_de_trasporte_y_equipo_caminero_movil = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020109 - VEHÍCULOS, EQUIPOS DE TRASPORTE Y EQUIPO CAMINERO MÓVIL"
+    )
+
+    c_1020110_otros_propiedades_planta_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020110 - OTROS PROPIEDADES, PLANTA Y EQUIPO"
+    )
+
+    c_1020111_repuestos_y_herramientas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020111 - REPUESTOS Y HERRAMIENTAS"
+    )
+
+    c_1020112_depreciacion_acumulada_propiedades_planta_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020112 - (-) DEPRECIACIÓN ACUMULADA PROPIEDADES, PLANTA Y EQUIPO"
+    )
+
+    c_1020113_deterioro_acumulado_de_propiedades_planta_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020113 - (-) DETERIORO  ACUMULADO DE PROPIEDADES, PLANTA Y EQUIPO"
+    )
+
+    c_1020114_activos_de_exploracion_y_explotacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020114 - ACTIVOS DE EXPLORACION Y EXPLOTACION"
+    )
+
+    c_102011401_activos_de_exploracion_y_explotacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102011401 - ACTIVOS DE EXPLORACION Y EXPLOTACION"
+    )
+
+    c_102011402_amortizacion_acumulada_de_activos_de_exploracion_y_explotacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102011402 - (-) AMORTIZACION ACUMULADA DE ACTIVOS DE EXPLORACIÓN Y EXPLOTACIÓN"
+    )
+
+    c_102011403_deterioro_acumulado_de_activos_de_exploracion_y_explotacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102011403 - (-) DETERIORO  ACUMULADO DE ACTIVOS DE EXPLORACIÓN Y EXPLOTACIÓN"
+    )
+
+    c_10202_propiedades_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10202 - PROPIEDADES DE INVERSIÓN"
+    )
+
+    c_1020201_terrenos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020201 - TERRENOS"
+    )
+
+    c_102020101_terrenos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102020101 - TERRENOS"
+    )
+
+    c_102020102_derechos_de_uso_sobre_terrenos_subarrendados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102020102 - DERECHOS DE USO SOBRE TERRENOS SUBARRENDADOS"
+    )
+
+    c_1020202_edificios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020202 - EDIFICIOS"
+    )
+
+    c_102020201_edificios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102020201 - EDIFICIOS"
+    )
+
+    c_102020202_derechos_de_uso_sobre_edificios_subarrendados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 102020202 - DERECHOS DE USO SOBRE EDIFICIOS SUBARRENDADOS"
+    )
+
+    c_1020203_depreciacion_acumulada_de_propiedades_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020203 - (-) DEPRECIACION ACUMULADA DE PROPIEDADES DE INVERSIÓN"
+    )
+
+    c_1020204_deterioro_acumulado_de_propiedades_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020204 - (-) DETERIORO ACUMULADO DE PROPIEDADES DE INVERSIÓN"
+    )
+
+    c_10203_activos_biologicos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10203 - ACTIVOS BIOLOGICOS"
+    )
+
+    c_1020301_animales_vivos_en_crecimiento = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020301 - ANIMALES VIVOS EN CRECIMIENTO"
+    )
+
+    c_1020302_animales_vivos_en_produccion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020302 - ANIMALES VIVOS EN PRODUCCION"
+    )
+
+    c_1020303_plantas_en_crecimiento = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020303 - PLANTAS EN CRECIMIENTO"
+    )
+
+    c_1020304_plantas_en_produccion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020304 - PLANTAS EN PRODUCCION"
+    )
+
+    c_1020305_depreciacion_acumulada_de_activos_biologicos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020305 - (-) DEPRECIACION ACUMULADA DE ACTIVOS BIOLÓGICOS"
+    )
+
+    c_1020306_deterioro_acumulado_de_activos_biologicos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020306 - (-) DETERIORO ACUMULADO DE ACTIVOS BIOLOGÍCOS"
+    )
+
+    c_10204_activo_intangible = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10204 - ACTIVO INTANGIBLE"
+    )
+
+    c_1020401_plusvalias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020401 - PLUSVALÍAS"
+    )
+
+    c_1020402_marcas_patentes_derechos_de_llave_cuotas_patrimoniales_y_otros_similares = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020402 - MARCAS, PATENTES, DERECHOS DE LLAVE , CUOTAS PATRIMONIALES Y OTROS SIMILARES"
+    )
+
+    c_1020403_concesiones_y_licencias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020403 - CONCESIONES Y LICENCIAS"
+    )
+
+    c_1020404_activos_de_exploracion_y_explotacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020404 - ACTIVOS DE EXPLORACION Y EXPLOTACION"
+    )
+
+    c_1020405_amortizacion_acumulada_de_activos_intangible = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020405 - (-) AMORTIZACIÓN ACUMULADA DE ACTIVOS INTANGIBLE"
+    )
+
+    c_1020406_deterioro_acumulado_de_activo_intangible = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020406 - (-) DETERIORO ACUMULADO DE ACTIVO INTANGIBLE"
+    )
+
+    c_1020407_otros_intangibles = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020407 - OTROS INTANGIBLES"
+    )
+
+    c_10205_activos_por_impuestos_diferidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10205 - ACTIVOS POR IMPUESTOS DIFERIDOS"
+    )
+
+    c_10206_activos_financieros_no_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10206 - ACTIVOS FINANCIEROS NO CORRIENTES"
+    )
+
+    c_1020601_activos_financieros_a_valor_razonable_con_cambios_en_otro_resultado_integral = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020601 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN OTRO RESULTADO INTEGRAL"
+    )
+
+    c_1020602_provision_por_deterioro_de_activos_financieros_a_valor_razonable_con_cambios_en_otro_resultado_integral = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020602 - (-) PROVISION POR DETERIORO DE ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN OTRO RESULTADO INTEGRAL"
+    )
+
+    c_1020603_activos_financieros_a_costo_amortizado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020603 - ACTIVOS FINANCIEROS A COSTO AMORTIZADO"
+    )
+
+    c_1020604_provision_por_deterioro_de_activos_financieros_a_costo_amortizado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020604 - (-) PROVISIÓN POR DETERIORO DE ACTIVOS FINANCIEROS A COSTO AMORTIZADO"
+    )
+
+    c_1020605_activos_financieros_a_valor_razonable_con_cambios_en_resultados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020605 - ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN RESULTADOS"
+    )
+
+    c_1020606_provision_por_deterioro_de_activos_financieros_a_valor_razonable_con_cambios_en_resultados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020606 - (-)PROVISIÓN POR DETERIORO DE ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN RESULTADOS"
+    )
+
+    c_10207_derecho_de_uso_por_activos_arrendados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10207 - DERECHO DE USO POR ACTIVOS ARRENDADOS"
+    )
+
+    c_1020701_depreciacion_acumulada_de_activos_provenientes_por_derechos_de_uso = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020701 - (-) DEPRECIACIÓN ACUMULADA DE ACTIVOS PROVENIENTES POR DERECHOS DE USO"
+    )
+
+    c_1020702_deterioro_acumulado_de_activos_provenientes_por_derechos_de_uso = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020702 - (-) DETERIORO ACUMULADO DE ACTIVOS PROVENIENTES POR DERECHOS DE USO"
+    )
+
+    c_1020703_derecho_de_uso_por_activos_arrendados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020703 - DERECHO DE USO POR ACTIVOS ARRENDADOS"
+    )
+
+    c_10208_otros_activos_no_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10208 - OTROS ACTIVOS NO CORRIENTES"
+    )
+
+    c_1020801_derechos_fiduciarios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020801 - DERECHOS FIDUCIARIOS"
+    )
+
+    c_1020802_depositos_en_garantia = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020802 - DEPÓSITOS EN GARANTÍA"
+    )
+
+    c_1020803_depositos_en_garantia_por_operaciones_bursatiles = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020803 - DEPÓSITOS EN GARANTÍA POR OPERACIONES BURSÁTILES"
+    )
+
+    c_1020805_acciones_del_deposito_centralizado_de_valores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020805 - ACCIONES DEL DEPÓSITO CENTRALIZADO DE VALORES"
+    )
+
+    c_1020806_inversiones_subsidiarias = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020806 - INVERSIONES SUBSIDIARIAS"
+    )
+
+    c_1020807_inversiones_asociadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020807 - INVERSIONES ASOCIADAS"
+    )
+
+    c_1020808_inversiones_negocios_conjuntos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020808 - INVERSIONES NEGOCIOS CONJUNTOS"
+    )
+
+    c_1020809_otras_inversiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020809 - OTRAS INVERSIONES"
+    )
+
+    c_1020810_provision_valuacion_de_inversiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020810 - (-) PROVISIÓN VALUACIÓN DE INVERSIONES"
+    )
+
+    c_1020811_otros_activos_no_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020811 - OTROS ACTIVOS NO CORRIENTES"
+    )
+
+    c_10209_documentos_y_cuentas_por_cobrar_no_relacionados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10209 - DOCUMENTOS Y CUENTAS POR COBRAR NO RELACIONADOS"
+    )
+
+    c_1020901_cuentas_y_documentos_a_cobrar_a_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020901 - CUENTAS Y DOCUMENTOS A COBRAR  A CLIENTES"
+    )
+
+    c_1020902_cuentas_y_documentos_a_cobrar_a_terceros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020902 - CUENTAS Y DOCUMENTOS A COBRAR  A TERCEROS"
+    )
+
+    c_1020903_otras_cuentas_por_cobrar_no_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1020903 - OTRAS CUENTAS POR COBRAR NO RELACIONADAS"
+    )
+
+    c_10210_documentos_y_cuentas_por_cobrar_relacionados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 10210 - DOCUMENTOS Y CUENTAS POR COBRAR RELACIONADOS"
+    )
+
+    c_1021001_por_cobrar_a_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1021001 - POR COBRAR A ACCIONISTAS"
+    )
+
+    c_1021002_por_cobrar_a_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1021002 - POR COBRAR A COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_1021003_por_cobrar_a_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1021003 - POR COBRAR A CLIENTES"
+    )
+
+    c_1021004_otras_cuentas_por_cobrar_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 1021004 - OTRAS CUENTAS POR COBRAR RELACIONADAS"
+    )
+
+    c_2_pasivo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2 - PASIVO"
+    )
+
+    c_201_pasivo_corriente = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201 - PASIVO CORRIENTE"
+    )
+
+    c_20101_pasivos_financieros_a_valor_razonable_con_cambios_en_resultados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20101 - PASIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN RESULTADOS"
+    )
+
+    c_20102_pasivos_por_contratos_de_arrendamiento = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20102 - PASIVOS POR CONTRATOS DE ARRENDAMIENTO"
+    )
+
+    c_20103_cuentas_y_documentos_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20103 - CUENTAS Y DOCUMENTOS POR PAGAR"
+    )
+
+    c_2010301_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010301 - LOCALES"
+    )
+
+    c_201030101_prestamos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030101 - PRÉSTAMOS"
+    )
+
+    c_201030102_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030102 - PROVEEDORES"
+    )
+
+    c_201030103_otras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030103 - OTRAS"
+    )
+
+    c_2010302_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010302 - DEL EXTERIOR"
+    )
+
+    c_201030201_prestamos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030201 - PRÉSTAMOS"
+    )
+
+    c_201030202_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030202 - PROVEEDORES"
+    )
+
+    c_201030203_otras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201030203 - OTRAS"
+    )
+
+    c_20104_obligaciones_con_instituciones_financieras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20104 - OBLIGACIONES CON INSTITUCIONES FINANCIERAS"
+    )
+
+    c_2010401_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010401 - LOCALES"
+    )
+
+    c_2010402_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010402 - DEL EXTERIOR"
+    )
+
+    c_20105_provisiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20105 - PROVISIONES"
+    )
+
+    c_2010501_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010501 - LOCALES"
+    )
+
+    c_2010502_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010502 - DEL EXTERIOR"
+    )
+
+    c_20106_porcion_corriente_de_valores_emitidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20106 - PORCIÓN CORRIENTE DE VALORES EMITIDOS"
+    )
+
+    c_2010601_obligaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010601 - OBLIGACIONES"
+    )
+
+    c_2010602_papel_comercial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010602 - PAPEL COMERCIAL"
+    )
+
+    c_2010603_valores_de_titularizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010603 - VALORES DE TITULARIZACIÓN"
+    )
+
+    c_2010604_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010604 - OTROS"
+    )
+
+    c_2010605_intereses_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010605 - INTERESES POR PAGAR"
+    )
+
+    c_20107_otras_obligaciones_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20107 - OTRAS OBLIGACIONES CORRIENTES"
+    )
+
+    c_2010701_con_la_administracion_tributaria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010701 - CON LA ADMINISTRACIÓN TRIBUTARIA"
+    )
+
+    c_2010702_impuesto_a_la_renta_por_pagar_del_ejercicio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010702 - IMPUESTO A LA RENTA POR PAGAR DEL EJERCICIO"
+    )
+
+    c_2010703_con_el_iess = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010703 - CON EL IESS"
+    )
+
+    c_2010704_por_beneficios_de_ley_a_empleados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010704 - POR BENEFICIOS DE LEY A EMPLEADOS"
+    )
+
+    c_2010705_participacion_trabajadores_por_pagar_del_ejercicio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010705 - PARTICIPACIÓN TRABAJADORES POR PAGAR DEL EJERCICIO"
+    )
+
+    c_2010706_dividendos_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010706 - DIVIDENDOS POR PAGAR"
+    )
+
+    c_2010707_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010707 - OTROS"
+    )
+
+    c_20108_cuentas_por_pagar_a_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20108 - CUENTAS POR PAGAR A RELACIONADAS"
+    )
+
+    c_2010801_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010801 - LOCALES"
+    )
+
+    c_201080101_prestamos_de_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080101 - PRÉSTAMOS DE ACCIONISTAS"
+    )
+
+    c_201080102_prestamos_de_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080102 - PRÉSTAMOS DE COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_201080103_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080103 - PROVEEDORES"
+    )
+
+    c_201080104_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080104 - OTROS"
+    )
+
+    c_2010802_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2010802 - DEL EXTERIOR"
+    )
+
+    c_201080201_prestamos_de_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080201 - PRÉSTAMOS DE ACCIONISTAS"
+    )
+
+    c_201080202_prestamos_de_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080202 - PRÉSTAMOS DE COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_201080203_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080203 - PROVEEDORES"
+    )
+
+    c_201080204_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 201080204 - OTROS"
+    )
+
+    c_20109_otros_pasivos_financieros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20109 - OTROS PASIVOS FINANCIEROS"
+    )
+
+    c_20110_anticipos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20110 - ANTICIPOS"
+    )
+
+    c_2011001_anticipos_de_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011001 - ANTICIPOS DE CLIENTES"
+    )
+
+    c_2011002_otros_anticipos_recibidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011002 - OTROS ANTICIPOS RECIBIDOS"
+    )
+
+    c_20111_pasivos_directamente_asociados_con_los_activos_no_corrientes_y_operaciones_discontinuadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20111 - PASIVOS DIRECTAMENTE ASOCIADOS CON LOS ACTIVOS NO CORRIENTES Y OPERACIONES DISCONTINUADAS"
+    )
+
+    c_20112_porcion_corriente_de_provisiones_por_beneficios_a_empleados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20112 - PORCION CORRIENTE DE PROVISIONES POR BENEFICIOS A EMPLEADOS"
+    )
+
+    c_2011201_jubilacion_patronal = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011201 - JUBILACION PATRONAL"
+    )
+
+    c_2011202_otros_beneficios_para_los_empleados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011202 - OTROS BENEFICIOS PARA LOS EMPLEADOS"
+    )
+
+    c_20113_otros_pasivos_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20113 - OTROS PASIVOS CORRIENTES"
+    )
+
+    c_2011301_comisiones_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011301 - COMISIONES POR PAGAR"
+    )
+
+    c_2011302_por_operaciones_bursatiles = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011302 - POR OPERACIONES BURSÁTILES"
+    )
+
+    c_2011303_por_custodia = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011303 - POR CUSTODIA"
+    )
+
+    c_2011304_por_administracion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011304 - POR ADMINISTRACIÓN"
+    )
+
+    c_2011305_otras_comisiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011305 - OTRAS COMISIONES"
+    )
+
+    c_2011306_sanciones_y_multas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011306 - SANCIONES Y MULTAS"
+    )
+
+    c_2011307_indemnizaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011307 - INDEMNIZACIONES"
+    )
+
+    c_2011308_obligaciones_judiciales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011308 - OBLIGACIONES JUDICIALES"
+    )
+
+    c_2011309_acreedores_por_intermediacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011309 - ACREEDORES POR INTERMEDIACIÓN"
+    )
+
+    c_2011310_obligacion_por_compromiso_de_recompra = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011310 - OBLIGACIÓN POR COMPROMISO DE RECOMPRA"
+    )
+
+    c_2011311_por_contratos_de_underwriting = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011311 - POR CONTRATOS DE UNDERWRITING"
+    )
+
+    c_2011312_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2011312 - OTROS"
+    )
+
+    c_20114_pasivos_financieros_al_costo_amortizado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20114 - PASIVOS FINANCIEROS AL COSTO AMORTIZADO"
+    )
+
+    c_202_pasivo_no_corriente = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202 - PASIVO NO CORRIENTE"
+    )
+
+    c_20201_pasivos_por_contratos_de_arrendamiento = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20201 - PASIVOS POR CONTRATOS DE ARRENDAMIENTO"
+    )
+
+    c_20202_cuentas_y_documentos_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20202 - CUENTAS Y DOCUMENTOS POR PAGAR"
+    )
+
+    c_2020201_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020201 - LOCALES"
+    )
+
+    c_202020101_prestamos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020101 - PRÉSTAMOS"
+    )
+
+    c_202020102_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020102 - PROVEEDORES"
+    )
+
+    c_202020103_otras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020103 - OTRAS"
+    )
+
+    c_2020202_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020202 - DEL EXTERIOR"
+    )
+
+    c_202020201_prestamos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020201 - PRÉSTAMOS"
+    )
+
+    c_202020202_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020202 - PROVEEDORES"
+    )
+
+    c_202020203_otras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202020203 - OTRAS"
+    )
+
+    c_20203_obligaciones_con_instituciones_financieras = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20203 - OBLIGACIONES CON INSTITUCIONES FINANCIERAS"
+    )
+
+    c_2020301_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020301 - LOCALES"
+    )
+
+    c_2020302_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020302 - DEL EXTERIOR"
+    )
+
+    c_20204_cuentas_por_pagar_a_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20204 - CUENTAS POR PAGAR A RELACIONADAS"
+    )
+
+    c_2020401_locales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020401 - LOCALES"
+    )
+
+    c_202040101_prestamos_de_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040101 - PRÉSTAMOS DE ACCIONISTAS"
+    )
+
+    c_202040102_prestamos_de_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040102 - PRÉSTAMOS DE COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_202040103_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040103 - PROVEEDORES"
+    )
+
+    c_202040104_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040104 - OTROS"
+    )
+
+    c_2020402_del_exterior = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020402 - DEL EXTERIOR"
+    )
+
+    c_202040201_prestamos_de_accionistas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040201 - PRÉSTAMOS DE ACCIONISTAS"
+    )
+
+    c_202040202_prestamos_de_companias_relacionadas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040202 - PRÉSTAMOS DE COMPAÑÍAS RELACIONADAS"
+    )
+
+    c_202040203_proveedores = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040203 - PROVEEDORES"
+    )
+
+    c_202040204_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 202040204 - OTROS"
+    )
+
+    c_20205_porcion_no_corriente_de_valores_emitidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20205 - PORCIÓN NO CORRIENTE DE VALORES EMITIDOS"
+    )
+
+    c_2020501_obligaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020501 - OBLIGACIONES"
+    )
+
+    c_2020502_papel_comercial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020502 - PAPEL COMERCIAL"
+    )
+
+    c_2020503_valores_de_titularizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020503 - VALORES DE TITULARIZACIÓN"
+    )
+
+    c_2020504_otros = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020504 - OTROS"
+    )
+
+    c_2020505_intereses_por_pagar = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020505 - INTERESES POR PAGAR"
+    )
+
+    c_20206_anticipos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20206 - ANTICIPOS"
+    )
+
+    c_2020601_anticipos_de_clientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020601 - ANTICIPOS DE CLIENTES"
+    )
+
+    c_2020602_otros_anticipos_recibidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020602 - OTROS ANTICIPOS RECIBIDOS"
+    )
+
+    c_20207_provisiones_por_beneficios_a_empleados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20207 - PROVISIONES POR BENEFICIOS A EMPLEADOS"
+    )
+
+    c_2020701_jubilacion_patronal = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020701 - JUBILACION PATRONAL"
+    )
+
+    c_2020702_otros_beneficios_no_corrientes_para_los_empleados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020702 - OTROS BENEFICIOS NO CORRIENTES PARA LOS EMPLEADOS"
+    )
+
+    c_20208_otras_provisiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20208 - OTRAS PROVISIONES"
+    )
+
+    c_20209_pasivo_diferido = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20209 - PASIVO DIFERIDO"
+    )
+
+    c_2020901_ingresos_diferidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020901 - INGRESOS DIFERIDOS"
+    )
+
+    c_2020902_pasivos_por_impuestos_diferidos = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 2020902 - PASIVOS POR IMPUESTOS DIFERIDOS"
+    )
+
+    c_20210_otros_pasivos_no_corrientes = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 20210 - OTROS PASIVOS NO CORRIENTES"
+    )
+
+    c_3_patrimonio_neto = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 3 - PATRIMONIO NETO"
+    )
+
+    c_30_patrimonio_neto_atribuible_a_los_propietarios_de_la_controladora = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30 - PATRIMONIO NETO ATRIBUIBLE A LOS PROPIETARIOS DE LA CONTROLADORA"
+    )
+
+    c_301_capital = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 301 - CAPITAL"
+    )
+
+    c_30101_capital_suscrito_o_asignado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30101 - CAPITAL SUSCRITO O  ASIGNADO"
+    )
+
+    c_30102_capital_suscrito_no_pagado_acciones_en_tesoreria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30102 - (-) CAPITAL SUSCRITO NO PAGADO, ACCIONES EN TESORERÍA"
+    )
+
+    c_30103_fondo_patrimonial = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30103 - FONDO PATRIMONIAL"
+    )
+
+    c_30104_patrimonio_de_los_negocios_fiduciarios = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30104 - PATRIMONIO DE LOS NEGOCIOS FIDUCIARIOS"
+    )
+
+    c_30105_patrimonio_de_los_fondos_de_inversion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30105 - PATRIMONIO DE LOS FONDOS DE INVERSIÓN"
+    )
+
+    c_3010501_patrimonio_del_fondo_administrado = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 3010501 - PATRIMONIO DEL FONDO ADMINISTRADO"
+    )
+
+    c_3010502_patrimonio_del_fondo_colectivo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 3010502 - PATRIMONIO DEL FONDO COLECTIVO"
+    )
+
+    c_302_aportes_de_socios_o_accionistas_para_futura_capitalizacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 302 - APORTES DE SOCIOS O ACCIONISTAS PARA FUTURA CAPITALIZACIÓN"
+    )
+
+    c_303_prima_por_emision_primaria_de_acciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 303 - PRIMA POR EMISIÓN PRIMARIA DE ACCIONES"
+    )
+
+    c_304_reservas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 304 - RESERVAS"
+    )
+
+    c_30401_reserva_legal = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30401 - RESERVA LEGAL"
+    )
+
+    c_30402_reservas_facultativa_y_estatutaria = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30402 - RESERVAS FACULTATIVA Y ESTATUTARIA"
+    )
+
+    c_305_otros_resultados_integrales = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 305 - OTROS RESULTADOS INTEGRALES"
+    )
+
+    c_30501_superavit_de_activos_financieros_a_valor_razonable_con_cambios_en_otro_resultado_integral = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30501 - SUPERAVIT DE ACTIVOS FINANCIEROS A VALOR RAZONABLE CON CAMBIOS EN OTRO RESULTADO INTEGRAL"
+    )
+
+    c_30502_superavit_por_revaluacion_de_propiedades_planta_y_equipo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30502 - SUPERAVIT POR REVALUACIÓN DE PROPIEDADES, PLANTA Y EQUIPO"
+    )
+
+    c_30503_superavit_por_revaluacion_de_activos_intangibles = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30503 - SUPERAVIT POR REVALUACION DE ACTIVOS INTANGIBLES"
+    )
+
+    c_30504_otros_superavit_por_revaluacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30504 - OTROS SUPERAVIT POR REVALUACION"
+    )
+
+    c_306_resultados_acumulados = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 306 - RESULTADOS ACUMULADOS"
+    )
+
+    c_30601_ganancias_acumuladas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30601 - GANANCIAS ACUMULADAS"
+    )
+
+    c_30602_perdidas_acumuladas = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30602 - (-) PÉRDIDAS ACUMULADAS"
+    )
+
+    c_30603_resultados_acumulados_provenientes_de_la_adopcion_por_primera_vez_de_las_niif = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30603 - RESULTADOS ACUMULADOS PROVENIENTES DE LA ADOPCION POR PRIMERA VEZ DE LAS NIIF"
+    )
+
+    c_30604_reserva_de_capital = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30604 - RESERVA DE CAPITAL"
+    )
+
+    c_30605_reserva_por_donaciones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30605 - RESERVA POR DONACIONES"
+    )
+
+    c_30606_reserva_por_valuacion = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30606 - RESERVA POR VALUACIÓN"
+    )
+
+    c_30607_superavit_por_revaluacion_de_inversiones = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30607 - SUPERÁVIT POR REVALUACIÓN DE INVERSIONES"
+    )
+
+    c_307_resultados_del_ejercicio = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 307 - RESULTADOS DEL EJERCICIO"
+    )
+
+    c_30701_ganancia_neta_del_periodo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30701 - GANANCIA NETA DEL PERIODO"
+    )
+
+    c_30702_perdida_neta_del_periodo = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 30702 - (-) PÉRDIDA NETA DEL PERIODO"
+    )
+
+    c_31_participacion_controladora = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Código 31 - PARTICIPACIÓN CONTROLADORA"
     )
 
     # =========================

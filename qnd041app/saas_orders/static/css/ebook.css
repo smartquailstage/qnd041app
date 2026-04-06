@@ -287,6 +287,7 @@ h4 {
 
     p {
       margin-top: 0;
+      font-size: 9pt;
     }
 
     &#table-content::before {
@@ -304,16 +305,16 @@ h4 {
     }
 
     &#heading::before {
-      background: url(heading.svg) no-repeat center var(--red);
+      background: url(check.svg) no-repeat center var(--red);
       background-size: 50%;
       content: '';
       display: inline-block;
       float: left;
-      height: 2cm;
+      height: 0.5cm;
       margin-right: .5cm;
       border-radius: 50%;
       vertical-align: middle;
-      width: 2cm;
+      width: 0.5cm;
       color: var(--white);
     }
 
@@ -363,8 +364,16 @@ h4 {
   flex-wrap: wrap;
   justify-content: space-between;
 
-  h2, h3 {
+  h2 {
     width: 100%;
+  }
+
+  h3 {
+    background: var(--red);
+    margin: 0 -3cm 1cm;
+    padding: 1cm 1cm 1cm 3cm;
+    width: 21cm;
+    color: var(--white);
   }
 
   section {
