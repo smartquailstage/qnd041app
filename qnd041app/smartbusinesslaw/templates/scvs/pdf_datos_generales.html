@@ -1,18 +1,323 @@
-{% extends "pdf_base.html" %}
 
-{% block contenido %}
+{% load static %}
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        ACTA No. {{ acta.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito,
+            {{ acta.fecha_asamblea|date:"d" }} de
+            {{ acta.fecha_asamblea|date:"F" }} de
+            {{ acta.fecha_asamblea|date:"Y" }}
+        </strong>
+    </div>
+</header>
+<hr>
+
+
+<article id="contents">
+  <h2>POLÍTICAS CONTABLES Y NOTAS EXPLICATIVAS</h2>
+
+  <h4>Estados Financieros por el año terminado al 31 de diciembre de 2023 (Expresado en Dólares de EEUU)</h4>
+  <p ><strong>{{ acta.regulacion.razon_social|default:"SMARTQUAIL S.A.S." }}</strong></p>
+  <h3>INDICE DE NOTAS A LOS ESTADOS FINANCIEROS</h3>
+  <ul>
+    <li><a href="#columns-title"></a></li>
+    <li><a href="#columns-title-2"></a></li>
+    <li><a href="#columns-title-3"></a></li>
+    <li><a href="#columns-title-4"></a></li>
+    <li><a href="#columns-title-5"></a></li>
+    <li><a href="#columns-title-6"></a></li>
+    <li><a href="#columns-title-7"></a></li>
+    <li><a href="#columns-title-8"></a></li>
+
+  </ul>
+
+</article>
+
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        ACTA No. {{ acta.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito,
+            {{ acta.fecha_asamblea|date:"d" }} de
+            {{ acta.fecha_asamblea|date:"F" }} de
+            {{ acta.fecha_asamblea|date:"Y" }}
+        </strong>
+    </div>
+</header>
+<hr>
+
+<article id="skills">
+
+
+  <h3 id="columns-title" >Abreviaturas</h3>
+
+  <section id="heading">
+    <h4>NIC</h4>
+    <p>
+      Normas Internacionales de Contabilidad
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>NIIF</h4>
+    <p>
+      Normas Internacionales de Informació n Financiera
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>NEC</h4>
+    <p>
+      Normas Ecuatorianas de Contabilidad
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>IASB</h4>
+    <p>
+      International Accounting Standard Board
+  Consejo de Normas Internacionales de Contabilidad
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>PCGA</h4>
+    <p>
+      Principios de Contabilidad Generalmente Aceptados
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>PV</h4>
+    <p>
+    Valor Razonable
+    </p>
+  </section>
+
+  <section id="heading">
+    <h4>USD$</h4>
+    <p>
+      USD$
+    </p>
+  </section>
+
+
+  <footer>
+      <p>
+          SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+          https://ec.smartquail.io |  phys.mauricio.silva@gmail.com | Tel: +593 (96) 352-1262<br>
+          © 2026 SmartQuail, Inc. Todos los derechos reservados.
+      </p>
+  </footer>
+
+
+
+
+</article>
+
+
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        ACTA No. {{ acta.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito,
+            {{ acta.fecha_asamblea|date:"d" }} de
+            {{ acta.fecha_asamblea|date:"F" }} de
+            {{ acta.fecha_asamblea|date:"Y" }}
+        </strong>
+    </div>
+</header>
+<hr>
+
+
+
+
+
 <div class="titulos">
-    <h2>INFORMACIÓN GENERAL DE LA COMPAÑÍA</h2>
+    <h3 id="columns-title-2">1. Información de la Compañía</h3>
+
+</div>
+
+<div class="preambulo">
+  <p>
+    SMARTQUAIL S.A.S., constituida en el Ecuador el 23 de noviembre del 2023. Su domicilio principal está en la AV. GRANDA CENTENO OE4-372 y DOMINGO
+    DE BRIEV, en la ciudad de Quito.
+    Las principales actividades de la Compañ ıá son:
+    - J6312.00 OPERACIÓN DE SITIOS WEB QUE FUNCIONAN COMO PORTALES DE INTERNET, COMO LOS SITIOS DE MEDIOS DE DIFUSIÓN QUE PROPORCIONAN CONTENIDOS QUE SE ACTUALIZAN PERIÓDICAMENTE Y LOS QUE UTILIZAN UN MOTOR DE BÚSQUEDA PARA GENERAR Y MANTENER AMPLIAS BASES DE DATOS DE DIRECCIONES DE INTERNET Y DE CONTENIDOS EN UN FORMATO QUE FACILITE LA BÚSQUEDA.
+    - J6190.03 SUMINISTRO DE ACCESO A INTERNET POR REDES QUE NO POSEE NI CONTROLA EL PROVEEDOR DE SERVICIOS DE INTERNET, COMO EL ACCESO TELEFÓNICO A INTERNET, ETC.
+    - J6190.04 ACTIVIDADES DE REVENTA DE SERVICIOS DE TELECOMUNICACIONES (SUMINISTRO DE SERVICIOS TELEFÓNICOS Y DE INTERNET EN INSTALACIONES ABIERTAS AL PÚBLICO: CABINAS TELEFÓNICAS Y CIBERCAFÉS.)
+    - J6190.05 SUMINISTRO DE SERVICIOS DE TELECOMUNICACIONES POR LAS CONEXIONES DE TELECOMUNICACIONES EXISTENTES: SUMINISTRO DE SERVICIOS DE TELEFONÍA POR INTERNET (VOIP: VOICE OVER INTERNET PROTOCOL).
+    - J6190.06 ACTIVIDADES DE GESTIÓN Y CONSULTORÍA PARA LA TRANSMISIÓN DE DATOS.
+    - J6190.09 OTRAS ACTIVIDADES DE TELECOMUNICACIONES.
+
+  </p>
+
+</div>
+
+<div class="titulos">
+    <h3 id="columns-title-3">2. Bases de la elaboración y políticas contables significativas</h3>
+</div>
+
+<div class="clausulas">
+
+    <h3>a. Declaración de Cumplimiento</h3>
+
+    <p>
+        Estos estados financieros se han elaborado de acuerdo con las Normas Internacionales
+        de Información Financiera para Pequeñ as y Medianas Empresas (NIIF para PYMES)
+        emitida por el Consejo de Normas Internacionales de Contabilidad (IASB).
+    </p>
+
+    <h3>b. Moneda de presentación y moneda funcional</h3>
+
+    <p>
+      Estos estados financieros son preparados en dólares de los Estados Unidos de
+Amé rica que constituye la moneda oficial de Ecuador.
+    </p>
+
+    <h3>c. Base de Preparación</h3>
+
+    <p>
+      Los estados financieros han sido preparados sobre la base del costo histó rico.
+El costo histó rico está basado generalmente en el valor razonable de la contraprestació n entregada a cambio de los bienes y servicios. El valor razonable de la contraprestació n entregada a cambio de los bienes y servicios. El valor razonable es el precio que se recibirıá por vender un activo o el valor pagado para transferir un pasivo entre participantes de un mercado en la fecha de valoració n, independientemente de si ese precio es directamente observables o estimado utilizando otra técnica de valoración. Al estimar el valor razonable de un activo o pasivo, la Compañ ıá tiene en cuenta las caracterıś ticas del activo o pasivo a la fecha de medició n.
+El valor razonable a efectos de medició n y revelació n de los estados financieros, se determina sobre una base de este tipo.
+    </p>
+
+</div>
+
+<div class="titulos">
+    <h3 id="columns-title-4">3. Efectivo y equivalentes de efectivo</h3>
 </div>
 
 <div class="clausulas">
     <p>
-        <strong>Razón Social:</strong> {{ reporte.company_name }}<br>
-        <strong>RUC:</strong> {{ reporte.ruc }}<br>
-        <strong>Tipo de Sociedad:</strong> {{ reporte.get_company_type_display }}<br>
-        <strong>Año Fiscal:</strong> {{ reporte.fiscal_year }}<br>
-        <strong>Actividad Económica:</strong> {{ reporte.economic_activity }}<br>
-        <strong>Moneda:</strong> {{ reporte.currency }}
+      El efectivo y equivalentes de efectivo incluyen aquel los activos financieros líquidos, depósitoso inversiones financieras líquidas
+      que se pueden transformar demanera rápida en efectivo en un plazo inferior a tres meses.
+El efectivo y equivalente al efectivo está conformado por las cuentas de caja y bancos.
+Al 31 de diciembre de 2023 presentó el monto de USD $100.00 de los cuales el 100% corresponde a Caja.
     </p>
 </div>
-{% endblock %}
+
+<div class="titulos">
+    <h3 id="columns-title-5">4. Capital Social</h3>
+</div>
+
+<div class="clausulas">
+
+        <p>El Capital Social Autorizado, suscrito y pagado es de USD $100.00 y consiste en 100 acciones de USD $1 dó lares de los Estados Unidos de Amé rica cada uno. Los cuales otorgan un voto y un derecho a los dividendos por cada USD $1 por acció n.
+Al 31 de diciembre de 2023, la compañıá se mantuvo con la misma cantidad de acciones.</p>
+</div>
+
+
+<div class="titulos">
+    <h3 id="columns-title-6">5. Resultados del periodo</h3>
+</div>
+
+<div class="clausulas">
+
+        <p>Tambié n conocida como utilidad o pé rdida del ejercicio representa el ú ltimo elemento del balance general.
+          Que es el resultado final de las cuentas de ingresos, gastos y costos,
+           en tanto los ingresos sean mayores que los gastos se considera que exista utilidad.
+          Las utilidades o pérdidas en el balance se ubican dentro del patrimonio, puesto que toda ganancia de los activos incrementa el patrimonio de la empresa.
+          Al 31 de diciembre de 2023, la compañ ıá registró ganancia de US$ 9,913.42 dó lares de los Estados Unidos de América.
+        </p>
+</div>
+
+<div class="titulos">
+    <h3 id="columns-title-7">6. Hechos producidos después del periodo sobre el que se informa</h3>
+</div>
+
+<div class="clausulas">
+
+        <p>Entre el 31 de diciembre de 2023 y la fecha de emisió n de los estados financieros
+          no se produjeron eventos que en opinió n de la Administració n pudieran tener un efecto importante sobre los estados financieros adjuntos.
+        </p>
+
+
+</div>
+
+
+
+
+<div class="titulos">
+    <h3 id="columns-title-8">7. Aprobación de los estados financieros</h3>
+</div>
+
+<div class="clausulas">
+
+        <p>Los estados financieros por el añ o terminado al 31 de diciembre de 2023 han sido aprobados por la administració n de la compañ ıá y Junta directiva el 31 de marzo del 2024.
+        </p>
+</div>
+
+
+<hr>
+
+
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+      <div class="cert-sign">
+      <div class="signature-box"></div>
+      <p>
+          <strong>PRESIDENTE AD–HOC</strong><br>
+          {{ acta.secretario_junta }}
+      </p>
+    </div>
+    </div>
+
+
+
+
+    <div class="cert-right">
+
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p>
+                <strong>SECRETARIO AD–HOC</strong><br>
+                {{ acta.secretario_junta }}
+            </p>
+        </div>
+
+    </div>
+  </div>
+
+
+<hr>
+
+
+
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        https://ec.smartquail.io |  phys.mauricio.silva@gmail.com | Tel: +593 (96) 352-1262<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>
