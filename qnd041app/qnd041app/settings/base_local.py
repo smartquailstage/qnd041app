@@ -31,7 +31,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="support@smartquail.io")
 SERVER_EMAIL = config("SERVER_EMAIL", default="support@smartquail.io")
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 ADMINS = [
     ("Soporte Meddes", "info@meddes.com.ec"),
