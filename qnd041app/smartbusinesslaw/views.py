@@ -763,7 +763,7 @@ def txt_balance_general(request, pk):
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_{reporte.id}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="estado_situacion_finaciera_{reporte.fiscal_year}.txt"'
 
     return response
 # ----------------------

@@ -395,7 +395,7 @@ def SCVS_DatosGenerales(obj):
         f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
         f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_DatosGenerales.short_description = "Datos Generales"
+SCVS_DatosGenerales.short_description = "Informe Contable"
 
 # -----------------------------
 # Enlace TXT: Balance General
@@ -407,7 +407,7 @@ def SCVS_BalanceGeneral(obj):
         f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
         f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_BalanceGeneral.short_description = "Balance General"
+SCVS_BalanceGeneral.short_description = "Estado Situación Finaciera (ESF)"
 
 # -----------------------------
 # Enlace TXT: Estado de Resultados
@@ -419,7 +419,7 @@ def SCVS_EstadoResultados(obj):
         f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
         f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_EstadoResultados.short_description = "Estado Resultados"
+SCVS_EstadoResultados.short_description = "Estado de Resultados Integral (ERI)"
 
 # -----------------------------
 # Enlace TXT: Cambios en el Patrimonio
@@ -431,7 +431,7 @@ def SCVS_CambiosPatrimonio(obj):
         f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
         f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_CambiosPatrimonio.short_description = "Cambios Patrimonio"
+SCVS_CambiosPatrimonio.short_description = "Estado De Cambios En Patrimonio (ECP)"
 
 def SCVS_FlujoAnexos(obj):
     url_txt = reverse('smartbusinesslaw:txt_flujo_anexos', args=[obj.id])
@@ -440,7 +440,7 @@ def SCVS_FlujoAnexos(obj):
         f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
         f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_FlujoAnexos.short_description = "Flujo/Anexos"
+SCVS_FlujoAnexos.short_description = "Estados de Fjujos Efectivo (EFE)"
 
 
 
