@@ -414,6 +414,7 @@ span.pageNumber::before {
 
 #skills {
   break-after: right;
+  margin-top:180px;
 
   h3 {
     background: var(--red);
@@ -508,6 +509,7 @@ span.pageNumber::before {
 
 #contents {
   break-after: left;
+  margin-top:180px;
 
 
   h2 {

@@ -120,6 +120,7 @@ class ContratoAdmin(ModelAdmin):
         ('Partes y Objeto', {
             'fields': (
                 'partes_contratantes',
+                'cargo',
                 'objeto_contrato',
             ),
             'classes': ('unfold', 'tab-contenido'),

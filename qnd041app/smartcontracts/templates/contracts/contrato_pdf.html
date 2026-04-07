@@ -29,7 +29,7 @@
 
 <strong>{{ contrato.objeto_contrato }}</strong>
   </p>
-  <p> Inspector del Ministerio de Trabajo de Pichincha</p>
+  <p> {{       contrato.cargo }}</p>
 <p><strong>Presente.</strong></p>
 
 
@@ -50,18 +50,22 @@
 <div class="certificaciones">
 
     <div class="cert-left">
-        <!-- QR generado -->
-        <img src="{{ qr_url }}" alt="QR de certificación">
-        <p><strong>SMARTQUAIL S.A.S</strong></p>
+
+      <!-- Cuadrado para la firma -->
+      <div class="signature-box"></div>
+      <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong><br>
+        <strong>REPRESENTANTE LEGAL</strong><br>
+        <strong>SMARTQUAIL.S.A.S</strong>
+
     </div>
 
     <div class="cert-right">
         <div class="cert-sign">
-            <!-- Cuadrado para la firma -->
-            <div class="signature-box"></div>
-            <p><strong>SANTIAGO MAURICIO SILVA DOMÍNGUEZ</strong><br>
-              <strong>REPRESENTANTE LEGAL</strong><br>
-              <strong>SMARTQUAIL.S.A.S</strong>
+
+          <!-- QR generado -->
+          <img src="{{ qr_url }}" alt="QR de certificación">
+          <p><strong>SMARTQUAIL S.A.S</strong></p>
+
 
             </p>
         </div>

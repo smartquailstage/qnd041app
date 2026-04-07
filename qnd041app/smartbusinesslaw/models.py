@@ -786,6 +786,27 @@ class SCVSFinancialReport(models.Model):
         null=True, blank=True,
         help_text="Nombre legal completo de la compañía registrado ante la Superintendencia de Compañías."
     )
+    nombre_contador = models.CharField(
+        "Contador",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Nombre de contador responsable."
+    )
+
+    matricula_contador = models.CharField(
+        "Numero de matricula",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Matrícula de contador"
+    )
+
+    fecha_incripcion = models.DateTimeField("Fecha de inscripción",null=True, blank=True)
+    direccion =  models.CharField(
+        "Dirección Administrativa",
+        max_length=255,
+        null=True, blank=True,
+        help_text="Calle principal e interseción,Numeracion, referencia"
+    )
 
     company_type = models.CharField(
         "Tipo de sociedad",
@@ -811,9 +832,9 @@ class SCVSFinancialReport(models.Model):
         null=True, blank=True,
         help_text="Año al que corresponde el reporte financiero. Ejemplo: 2025"
     )
-    economic_activity = models.CharField(
+    economic_activity = models.TextField(
         "Actividad económica",
-        max_length=10,
+        max_length=2000,
         null=True, blank=True,
         help_text="Código CIIU (Clasificación Internacional Industrial Uniforme) de la actividad económica principal de la empresa."
     )
@@ -824,6 +845,25 @@ class SCVSFinancialReport(models.Model):
         null=True, blank=True,
         help_text="Moneda utilizada en los estados financieros. Normalmente USD para Ecuador."
     )
+
+    valor_unitario = models.DecimalField(
+            max_digits=20,
+            decimal_places=2,
+            null=True,
+            blank=True,
+            help_text="Valor unitario por acciones"
+        )
+
+    monto_total = models.DecimalField(
+            max_digits=20,
+            decimal_places=2,
+            null=True,
+            blank=True,
+            help_text="Escriba el monto total suscrito"
+        )
+
+
+
 
     # =========================
     # BALANCE GENERAL

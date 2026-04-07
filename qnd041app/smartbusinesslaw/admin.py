@@ -455,7 +455,9 @@ class SCVSFinancialReportAdmin(ModelAdmin):
     # ---------------------------
     fieldsets = (
         ('Datos Generales', {
-            'fields': ('ruc', 'company_name', 'company_type', 'fiscal_year', 'economic_activity', 'currency'),
+            'fields': ('ruc', 'company_name', 'company_type','nombre_contador',
+            'matricula_contador','fecha_incripcion','direccion','fiscal_year', 'economic_activity', 'currency',
+            'valor_unitario','monto_total'),
             'classes': ('unfold', 'tab-datos-generales'),
         }),
 

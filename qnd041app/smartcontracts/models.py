@@ -9,6 +9,7 @@ class Contrato(models.Model):
         ('CONF', 'Acuerdo de confidencialidad y no competencia'),
         ('LAB', 'Contrato laboral'),
         ('ASA', 'Acta de asamblea'),
+        ('IFA', 'Informe Anual Financiero y Contable'),
         ('ALI', 'Alianza estratégica'),
         ('DES', 'DECISIÓN DEL ACCIONISTA ÚNICO'),
         ('ACE', 'ACEPTACIÓN DE LOS CARGOS DE PRESIDENTE Y GERENTE GENERAL'),
@@ -23,6 +24,15 @@ class Contrato(models.Model):
         unique=True,
         verbose_name="Número de contrato"
     )
+
+    cargo = models.CharField(
+            max_length=150,
+            unique=True,
+            verbose_name="Cargo a quien va dirigido",
+            null=True,
+            blank=True
+    )
+
 
     contract_hash = models.CharField(
         max_length=64,
