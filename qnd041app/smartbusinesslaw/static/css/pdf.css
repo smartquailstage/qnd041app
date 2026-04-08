@@ -209,7 +209,7 @@ input::before, textarea::before, textarea::after {
 
 footer p {
   text-align: center;
-  font-size: 7pt;
+  font-size: 6pt;
   line-height: 10pt;
 }
 
@@ -218,11 +218,11 @@ footer p {
 footer.page-footer {
   position: running(page-footer);
   text-align: center;
-  font-size: 8pt;
+  font-size: 6pt;
   font-family: "soon", sans-serif;
   color: #666;
   padding: 1mm 0;
-  border-top: 1px solid #ccc;
+  border-top: 0.5px solid #ccc;
   margin-bottom: 0.5px;
   width: 100%;
 }
