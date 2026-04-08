@@ -754,7 +754,7 @@ def txt_balance_general(request, pk):
     for codigo in codigos:
         valor = None
         for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}_"):
+            if field_name.startswith(f"c_{codigo}"):
                 valor = getattr(reporte, field_name, None)
                 break
 
@@ -1027,7 +1027,7 @@ def txt_estado_resultados(request, pk):
     for codigo in codigos:
         valor = None
         for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}_"):
+            if field_name.startswith(f"c_{codigo}"):
                 valor = getattr(reporte, field_name, None)
                 break
 
@@ -1036,7 +1036,7 @@ def txt_estado_resultados(request, pk):
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_{reporte.id}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="estado_integral_{reporte.id}.txt"'
 
     return response
 
@@ -1382,11 +1382,11 @@ def txt_cambios_patrimonio(request, pk):
         if subcodigo and subcodigo != "-":
             prefijo = f"c_{codigo}_{subcodigo}_"
         else:
-            prefijo = f"c_{codigo}_"
+            prefijo = f"c_{codigo}"
 
         # 🔥 búsqueda segura de campo
         for field_name in campos_modelo:
-            if field_name.startswith(prefijo):
+            if field_name.startswith(f"c_{codigo}_{subcodigo}"):
                 valor = getattr(reporte, field_name, None)
                 break
 
@@ -1396,7 +1396,7 @@ def txt_cambios_patrimonio(request, pk):
     contenido_txt = "\n".join(lines)
 
     response = HttpResponse(contenido_txt, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_{reporte.id}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="Cambio_Patrimonio_{reporte.id}.txt"'
 
     return response
 
@@ -1662,7 +1662,7 @@ def txt_flujo_anexos(request, pk):
     for codigo in codigos:
         valor = None
         for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}_"):
+            if field_name.startswith(f"c_{codigo}"):
                 valor = getattr(reporte, field_name, None)
                 break
 
@@ -1671,7 +1671,7 @@ def txt_flujo_anexos(request, pk):
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_{reporte.id}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="flujo_economico_{reporte.id}.txt"'
 
     return response
 
