@@ -747,7 +747,7 @@ class ClausulaContrato(models.Model):
     )
 
     clausula = models.CharField(
-        max_length=16,
+        max_length=150,
         choices=CLAUSULA_CHOICES,
         verbose_name="CLÁUSULA",
         null = 'True',
