@@ -1500,7 +1500,7 @@ def txt_flujo_anexos(request, pk):
     for codigo in codigos:
         valor = None
         for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}_"):
+            if field_name.startswith(f"c_{codigo}"):
                 valor = getattr(reporte, field_name, None)
                 break
 
