@@ -748,9 +748,6 @@ class SCVS_EFEInline(StackedInline):
 class SCVS_ECPInline(StackedInline):
     model = SCVS_ECP
     extra = 0
-    max_num = 1
-    can_delete = False
-    show_change_link = True
     tab = True  # (Unfold)
     collapsible = True # (Unfold)
 
@@ -889,8 +886,8 @@ class SCVSFinancialReportAdmin(ModelAdmin):
     SCVS_DatosGenerales,
     SCVS_BalanceGeneral,
     SCVS_EstadoResultados,
-    SCVS_CambiosPatrimonio,
     SCVS_FlujoAnexos,
+    SCVS_CambiosPatrimonio,
     )
 
     list_filter = ('fiscal_year', 'company_type')
