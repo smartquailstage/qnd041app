@@ -871,7 +871,7 @@ class SCVSFinancialReportAdmin(ModelAdmin):
     # Fieldsets clásicos (solo con campos del modelo)
     # ---------------------------
     fieldsets = (
-        ('Datos Generales', {
+        ('Notas de Contabilidad', {
             'fields': ('ruc', 'company_name', 'company_type','nombre_contador',
             'matricula_contador','fecha_incripcion','direccion','fiscal_year', 'economic_activity', 'currency',
             'valor_unitario','monto_total'),
