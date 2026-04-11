@@ -321,7 +321,7 @@ def rat_pdf(request, delegado_id):
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from .models import SCVSFinancialReport
+from .models import SCVSFinancialReport,SCVS_ESF,SCVS_EIR,SCVS_EFE,SCVS_ECP
 
 # ----------------------
 # Helpers para formato
@@ -366,6 +366,8 @@ def format_decimal(value):
 
 def txt_balance_general(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    esf = getattr(reporte, "scvs_esf", None)  # OneToOne reverse
+
 
 
     codigos = [
@@ -746,24 +748,27 @@ def txt_balance_general(request, pk):
         "30702",
         "31"
     ]
-
     lines = []
 
-    campos_modelo = {f.name: f.name for f in reporte._meta.fields}
+    # mapa de campos del modelo (una sola vez)
+    campos_modelo = esf._meta.fields
 
     for codigo in codigos:
         valor = None
-        for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}"):
-                valor = getattr(reporte, field_name, None)
+
+        for field in campos_modelo:
+            if field.name.startswith(f"c_{codigo}"):
+                valor = getattr(esf, field.name)
                 break
 
         lines.append(f"{codigo} {format_decimal(valor)}")
 
     content = "\n".join(lines)
 
-    response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_finaciera_{reporte.fiscal_year}.txt"'
+    response = HttpResponse(content, content_type="text/plain")
+    response["Content-Disposition"] = (
+        f'attachment; filename="estado_situacion_financiera(esf).txt"'
+    )
 
     return response
 # ----------------------
@@ -771,6 +776,7 @@ def txt_balance_general(request, pk):
 # ----------------------
 def txt_estado_resultados(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    eir = getattr(reporte, "scvs_eir", None)
     codigos = [
         "401",
         "40101",
@@ -1022,13 +1028,131 @@ def txt_estado_resultados(request, pk):
 
     lines = []
 
-    campos_modelo = {f.name: f.name for f in reporte._meta.fields}
+    # mapa de campos del modelo (una sola vez)
+    campos_modelo = eir._meta.fields
 
     for codigo in codigos:
         valor = None
-        for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}"):
-                valor = getattr(reporte, field_name, None)
+
+        for field in campos_modelo:
+            if field.name.startswith(f"c_{codigo}"):
+                valor = getattr(eir, field.name)
+                break
+
+        lines.append(f"{codigo} {format_decimal(valor)}")
+
+    content = "\n".join(lines)
+
+    response = HttpResponse(content, content_type="text/plain")
+    response["Content-Disposition"] = (
+        f'attachment; filename="estado_integral_resultados(eir).txt"'
+    )
+
+    return response
+
+
+# ----------------------
+# Vista: Flujo de Efectivo y Anexos
+# ----------------------
+def txt_flujo_anexos(request, pk):
+    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    efe = getattr(reporte, "scvs_efe", None)  # OneToOne reverse
+
+    codigos = [
+        "95",
+        "9501",
+        "950101",
+        "95010101",
+        "95010102",
+        "95010103",
+        "95010104",
+        "95010105",
+        "950102",
+        "95010201",
+        "95010202",
+        "95010203",
+        "95010204",
+        "95010205",
+        "950103",
+        "950104",
+        "950105",
+        "950106",
+        "950107",
+        "950108",
+        "9502",
+        "950201",
+        "950202",
+        "950203",
+        "950204",
+        "950205",
+        "950206",
+        "950207",
+        "950208",
+        "950209",
+        "950210",
+        "950211",
+        "950212",
+        "950213",
+        "950214",
+        "950215",
+        "950216",
+        "950217",
+        "950218",
+        "950219",
+        "950220",
+        "950221",
+        "9503",
+        "950301",
+        "950302",
+        "950303",
+        "950304",
+        "950305",
+        "950306",
+        "950307",
+        "950308",
+        "950309",
+        "950310",
+        "9504",
+        "950401",
+        "9505",
+        "9506",
+        "9507",
+        "96",
+        "97",
+        "9701",
+        "9702",
+        "9703",
+        "9704",
+        "9705",
+        "9706",
+        "9707",
+        "9708",
+        "9709",
+        "9710",
+        "9711",
+        "98",
+        "9801",
+        "9802",
+        "9803",
+        "9804",
+        "9805",
+        "9806",
+        "9807",
+        "9808",
+        "9809",
+        "9810",
+        "9820"
+    ]
+
+    lines = []
+
+    campos_modelo = efe._meta.fields
+
+    for codigo in codigos:
+        valor = None
+        for field in campos_modelo:
+            if field.name.startswith(f"c_{codigo}"):
+                valor = getattr(efe, field.name, None)
                 break
 
         lines.append(f"{codigo} {format_decimal(valor)}")
@@ -1036,7 +1160,7 @@ def txt_estado_resultados(request, pk):
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_integral_{reporte.id}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="estado_flujo_efectivo(efe).txt"'
 
     return response
 
@@ -1045,6 +1169,7 @@ def txt_estado_resultados(request, pk):
 # ----------------------
 def txt_cambios_patrimonio(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    ecp = reporte.scvs_ecp
 
     codigos = [
         ("99", "301"),
@@ -1371,147 +1496,39 @@ def txt_cambios_patrimonio(request, pk):
 
     lines = []
 
-    # 🔥 cache campos del modelo
-    campos_modelo = [f.name for f in reporte._meta.fields]
+    # campos del modelo como lista de nombres
+    campos_modelo = [f.name for f in ecp._meta.fields]
 
     for codigo, subcodigo in codigos:
 
         valor = None
 
-        # 🔥 construir prefijo exacto
+        # 🔥 construir prefijo correcto
         if subcodigo and subcodigo != "-":
-            prefijo = f"c_{codigo}_{subcodigo}_"
+            prefijo = f"c_{codigo}_{subcodigo}"
         else:
             prefijo = f"c_{codigo}"
 
-        # 🔥 búsqueda segura de campo
+        # 🔥 buscar campo que coincida EXACTAMENTE o por inicio
         for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}_{subcodigo}"):
-                valor = getattr(reporte, field_name, None)
+            if field_name.startswith(prefijo):
+                valor = getattr(ecp, field_name)
                 break
 
-        # 🔥 agregar línea con valor formateado
-        lines.append(f"{codigo} {subcodigo} {format_decimal(valor)}")
+        # 🔥 asegurar formato seguro
+        valor_formateado = format_decimal(valor) if valor is not None else "0.00"
+
+        lines.append(f"{codigo} {subcodigo} {valor_formateado}")
 
     contenido_txt = "\n".join(lines)
 
-    response = HttpResponse(contenido_txt, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="Cambio_Patrimonio_{reporte.id}.txt"'
+    response = HttpResponse(contenido_txt, content_type="text/plain")
+    response["Content-Disposition"] = (
+        f'attachment; filename="Cambio_Patrimonio(ecp).txt"'
+    )
 
     return response
 
-
-# ----------------------
-# Vista: Flujo de Efectivo y Anexos
-# ----------------------
-def txt_flujo_anexos(request, pk):
-    reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-
-    codigos = [
-        "95",
-        "9501",
-        "950101",
-        "95010101",
-        "95010102",
-        "95010103",
-        "95010104",
-        "95010105",
-        "950102",
-        "95010201",
-        "95010202",
-        "95010203",
-        "95010204",
-        "95010205",
-        "950103",
-        "950104",
-        "950105",
-        "950106",
-        "950107",
-        "950108",
-        "9502",
-        "950201",
-        "950202",
-        "950203",
-        "950204",
-        "950205",
-        "950206",
-        "950207",
-        "950208",
-        "950209",
-        "950210",
-        "950211",
-        "950212",
-        "950213",
-        "950214",
-        "950215",
-        "950216",
-        "950217",
-        "950218",
-        "950219",
-        "950220",
-        "950221",
-        "9503",
-        "950301",
-        "950302",
-        "950303",
-        "950304",
-        "950305",
-        "950306",
-        "950307",
-        "950308",
-        "950309",
-        "950310",
-        "9504",
-        "950401",
-        "9505",
-        "9506",
-        "9507",
-        "96",
-        "97",
-        "9701",
-        "9702",
-        "9703",
-        "9704",
-        "9705",
-        "9706",
-        "9707",
-        "9708",
-        "9709",
-        "9710",
-        "9711",
-        "98",
-        "9801",
-        "9802",
-        "9803",
-        "9804",
-        "9805",
-        "9806",
-        "9807",
-        "9808",
-        "9809",
-        "9810",
-        "9820"
-    ]
-
-    lines = []
-
-    campos_modelo = {f.name: f.name for f in reporte._meta.fields}
-
-    for codigo in codigos:
-        valor = None
-        for field_name in campos_modelo:
-            if field_name.startswith(f"c_{codigo}"):
-                valor = getattr(reporte, field_name, None)
-                break
-
-        lines.append(f"{codigo} {format_decimal(valor)}")
-
-    content = "\n".join(lines)
-
-    response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_situacion_{reporte.id}.txt"'
-
-    return response
 
 
 @staff_member_required
