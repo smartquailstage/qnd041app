@@ -463,7 +463,7 @@ class SCVS_ESFInline(StackedInline):
             'fields': (
                 'c_1',
             ),
-            'classes': ('collapse',),
+            'classes': ('unfold','collapse',),
         }),
 
         ('🟢 Activos Corrientes', {
@@ -477,7 +477,7 @@ class SCVS_ESFInline(StackedInline):
                 'c_10106',
                 'c_10107',
             ),
-            'classes': ('collapse',),
+            'classes': ('unfold','collapse',),
         }),
 
         ('🟢 Activos No Corrientes', {
@@ -607,7 +607,7 @@ class SCVS_EFEInline(StackedInline):
     model = SCVS_EFE
     extra = 0
     tab = True
-    collapsible = False
+    collapsible = True
 
     fieldsets = (
 
@@ -875,7 +875,7 @@ class SCVSFinancialReportAdmin(ModelAdmin):
             'fields': ('ruc', 'company_name', 'company_type','nombre_contador',
             'matricula_contador','fecha_incripcion','direccion','fiscal_year', 'economic_activity', 'currency',
             'valor_unitario','monto_total'),
-            'classes': ('unfold', 'tab-datos-generales'),
+            'classes': ('unfold', 'collapse'),
         }),
 )
 
