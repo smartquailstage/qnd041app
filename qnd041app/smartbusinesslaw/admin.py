@@ -393,8 +393,8 @@ def SCVS_DatosGenerales(obj):
     url_txt = reverse('smartbusinesslaw:txt_datos_generales', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_datos_generales', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+        #f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> Descargar (PDF)</a>'
     )
 SCVS_DatosGenerales.short_description = "Informe Contable"
 
@@ -405,8 +405,8 @@ def SCVS_BalanceGeneral(obj):
     url_txt = reverse('smartbusinesslaw:txt_balance_general', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+        #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_BalanceGeneral.short_description = "Estado Situación Finaciera (ESF)"
 
@@ -417,10 +417,10 @@ def SCVS_EstadoResultados(obj):
     url_txt = reverse('smartbusinesslaw:txt_estado_resultados', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> Descargar (TXT)</a>'
+        #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_EstadoResultados.short_description = "Estado de Resultados Integral (ERI)"
+SCVS_EstadoResultados.short_description = "Estado Integral de Resultados (EIR)"
 
 # -----------------------------
 # Enlace TXT: Cambios en el Patrimonio
@@ -429,8 +429,8 @@ def SCVS_CambiosPatrimonio(obj):
     url_txt = reverse('smartbusinesslaw:txt_cambios_patrimonio', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_cambios_patrimonio', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+        #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_CambiosPatrimonio.short_description = "Estado De Cambios En Patrimonio (ECP)"
 
@@ -438,8 +438,8 @@ def SCVS_FlujoAnexos(obj):
     url_txt = reverse('smartbusinesslaw:txt_flujo_anexos', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_anexos', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+    #    f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_FlujoAnexos.short_description = "Estados de Fjujos Efectivo (EFE)"
 
