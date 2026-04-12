@@ -883,7 +883,9 @@ class SCVSFinancialReport(models.Model):
 
 
 class SCVS_ESF(models.Model):
-    report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
+    report = models.OneToOneField(SCVSFinancialReport,
+    on_delete=models.CASCADE,
+    related_name="esf" )
 
     c_1 = models.DecimalField(
         max_digits=20,
@@ -4399,7 +4401,9 @@ class SCVS_ESF(models.Model):
 
 
 class SCVS_EIR(models.Model):
-    report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
+    report = models.OneToOneField(SCVSFinancialReport,
+    on_delete=models.CASCADE,
+    related_name="eir")
 
     c_401 = models.DecimalField(
         max_digits=20,
@@ -6566,7 +6570,9 @@ class SCVS_EIR(models.Model):
 
 
 class SCVS_EFE(models.Model):
-    report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
+    report = models.OneToOneField(SCVSFinancialReport,
+    on_delete=models.CASCADE,
+    related_name="efe")
 
     c_95 = models.DecimalField(
         max_digits=20,
@@ -7443,7 +7449,8 @@ class SCVS_EFE(models.Model):
 
 
 class SCVS_ECP(models.Model):
-    report = models.OneToOneField   (SCVSFinancialReport, on_delete=models.CASCADE)
+    report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE,
+    related_name="ecp")
 
     c_99_301 = models.DecimalField(
         max_digits=20,

@@ -25,6 +25,39 @@ from .models import CartaNombramiento
 from unfold.admin import StackedInline, TabularInline
 
 
+
+
+@admin.action(description="Duplicar Balance Financiero")
+def duplicar_balances(modeladmin, request, queryset):
+    for obj in queryset:
+
+        related_data = []
+
+        # 🔍 Detectar automáticamente TODOS los inlines reales
+        for rel in obj._meta.related_objects:
+            accessor = rel.get_accessor_name()
+            try:
+                items = list(getattr(obj, accessor).all())
+                related_data.append((rel, items))
+            except Exception:
+                continue  # evita errores tipo "no existe"
+
+        # 🧬 Clonar padre
+        obj.pk = None
+        obj.save()
+
+        # 🔁 Clonar hijos
+        for rel, items in related_data:
+            for item in items:
+                item.pk = None
+
+                # encontrar el FK correcto dinámicamente
+                for field in item._meta.fields:
+                    if isinstance(field, models.ForeignKey) and field.related_model == obj.__class__:
+                        setattr(item, field.name, obj)
+
+                item.save()
+
 def NOMBRAMIENTO_PDF(obj):
     url = reverse("smartbusinesslaw:carta_nombramiento_pdf", args=[obj.id])
     return mark_safe(
@@ -394,7 +427,7 @@ def SCVS_DatosGenerales(obj):
     url_pdf = reverse('smartbusinesslaw:pdf_datos_generales', args=[obj.id])
     return mark_safe(
         #f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (PDF)</a>'
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">download</span>Informe.pdf</a>'
     )
 SCVS_DatosGenerales.short_description = "Informe Contable"
 
@@ -405,7 +438,7 @@ def SCVS_BalanceGeneral(obj):
     url_txt = reverse('smartbusinesslaw:txt_balance_general', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(ESF).txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_BalanceGeneral.short_description = "Estado Situación Finaciera (ESF)"
@@ -417,7 +450,7 @@ def SCVS_EstadoResultados(obj):
     url_txt = reverse('smartbusinesslaw:txt_estado_resultados', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> Descargar (TXT)</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(EIR).txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_EstadoResultados.short_description = "Estado Integral de Resultados (EIR)"
@@ -429,7 +462,7 @@ def SCVS_CambiosPatrimonio(obj):
     url_txt = reverse('smartbusinesslaw:txt_cambios_patrimonio', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_cambios_patrimonio', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(ECP).txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_CambiosPatrimonio.short_description = "Estado De Cambios En Patrimonio (ECP)"
@@ -438,7 +471,7 @@ def SCVS_FlujoAnexos(obj):
     url_txt = reverse('smartbusinesslaw:txt_flujo_anexos', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_anexos', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (TXT)</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(EFE).txt</a>'
     #    f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
 SCVS_FlujoAnexos.short_description = "Estados de Fjujos Efectivo (EFE)"
@@ -1116,6 +1149,9 @@ class SCVS_ECPInline(StackedInline):
 @admin.register(SCVSFinancialReport)
 class SCVSFinancialReportAdmin(ModelAdmin):
     inlines = [SCVS_ESFInline,SCVS_EIRInline,SCVS_EFEInline,SCVS_ECPInline]
+    actions =[
+    duplicar_balances
+    ]
     # ---------------------------
     # Componentes renderizados
 
