@@ -366,7 +366,16 @@ def format_decimal(value):
 
 def txt_balance_general(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-    esf = getattr(reporte, "scvs_esf", None)  # OneToOne reverse
+    # Obtener ESF de forma segura (OneToOne reverse)
+    # OneToOne reverse seguro
+    try:
+        esf = reporte.esf
+    except AttributeError:
+        return HttpResponse(
+            "No existe ESF asociado a este reporte.",
+            content_type="text/plain",
+            status=404
+        )
 
 
 
@@ -750,7 +759,6 @@ def txt_balance_general(request, pk):
     ]
     lines = []
 
-    # mapa de campos del modelo (una sola vez)
     campos_modelo = esf._meta.fields
 
     for codigo in codigos:
@@ -758,19 +766,21 @@ def txt_balance_general(request, pk):
 
         for field in campos_modelo:
             if field.name.startswith(f"c_{codigo}"):
-                valor = getattr(esf, field.name)
+                valor = getattr(esf, field.name, None)
                 break
 
-        lines.append(f"{codigo} {format_decimal(valor)}")
+        lines.append(f"{codigo} {format_decimal(valor or 0)}")
 
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type="text/plain")
     response["Content-Disposition"] = (
-        f'attachment; filename="estado_situacion_financiera(esf).txt"'
+        'attachment; filename="estado_situacion_financiera_esf.txt"'
     )
 
     return response
+
+
 # ----------------------
 # Vista: Estado de Resultados
 # ----------------------

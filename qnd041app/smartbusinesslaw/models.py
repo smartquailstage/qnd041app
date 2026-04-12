@@ -3920,22 +3920,20 @@ class SCVS_ESF(models.Model):
     # 🟢 ACTIVOS CORRIENTES
     # =========================
     def calc_activos_corrientes(self):
-        return sum([
-            self._D(self.c_101),
-            self._D(self.c_10101),
-            self._D(self.c_1010101),
-            self._D(self.c_1010102),
-            self._D(self.c_1010103),
-            self._D(self.c_10102),
-            self._D(self.c_1010201),
-            self._D(self.c_101020101),
+
+        # =========================
+        # NIVEL 4
+        # =========================
+        c_101020101 = sum([
             self._D(self.c_10102010101),
             self._D(self.c_10102010102),
             self._D(self.c_10102010103),
             self._D(self.c_10102010104),
             self._D(self.c_10102010105),
             self._D(self.c_10102010106),
-            self._D(self.c_101020102),
+        ])
+
+        c_101020102 = sum([
             self._D(self.c_10102010201),
             self._D(self.c_10102010202),
             self._D(self.c_10102010203),
@@ -3959,20 +3957,25 @@ class SCVS_ESF(models.Model):
             self._D(self.c_10102010221),
             self._D(self.c_10102010222),
             self._D(self.c_10102010223),
-            self._D(self.c_101020103),
+        ])
+
+        c_101020103 = sum([
             self._D(self.c_10102010301),
             self._D(self.c_10102010302),
             self._D(self.c_10102010303),
             self._D(self.c_10102010304),
-            self._D(self.c_1010202),
-            self._D(self.c_101020201),
+        ])
+
+        c_101020201 = sum([
             self._D(self.c_10102020101),
             self._D(self.c_10102020102),
             self._D(self.c_10102020103),
             self._D(self.c_10102020104),
             self._D(self.c_10102020105),
             self._D(self.c_10102020106),
-            self._D(self.c_101020202),
+        ])
+
+        c_101020202 = sum([
             self._D(self.c_10102020201),
             self._D(self.c_10102020202),
             self._D(self.c_10102020203),
@@ -3996,66 +3999,62 @@ class SCVS_ESF(models.Model):
             self._D(self.c_10102020221),
             self._D(self.c_10102020222),
             self._D(self.c_10102020223),
-            self._D(self.c_1010203),
-            self._D(self.c_101020302),
-            self._D(self.c_10102030201),
-            self._D(self.c_10102030202),
-            self._D(self.c_10102030203),
-            self._D(self.c_10102030204),
-            self._D(self.c_10102030205),
-            self._D(self.c_10102030206),
-            self._D(self.c_10102030207),
-            self._D(self.c_10102030208),
-            self._D(self.c_10102030209),
-            self._D(self.c_10102030210),
-            self._D(self.c_10102030211),
-            self._D(self.c_10102030212),
-            self._D(self.c_10102030213),
-            self._D(self.c_10102030214),
-            self._D(self.c_10102030215),
-            self._D(self.c_10102030216),
-            self._D(self.c_10102030217),
-            self._D(self.c_10102030218),
-            self._D(self.c_10102030219),
-            self._D(self.c_10102030220),
-            self._D(self.c_10102030221),
-            self._D(self.c_10102030222),
-            self._D(self.c_10102030223),
-            self._D(self.c_1010204),
+        ])
+
+        # =========================
+        # NIVEL 3
+        # =========================
+        c_1010201 = sum([
+            c_101020101,
+            c_101020102,
+            c_101020103,
+        ])
+
+        c_1010202 = sum([
+            c_101020201,
+            c_101020202,
+        ])
+
+        c_1010203 = self._D(self.c_101020302)
+
+        c_1010204 = sum([
             self._D(self.c_101020401),
             self._D(self.c_101020402),
             self._D(self.c_101020403),
-            self._D(self.c_1010205),
+        ])
+
+        c_1010205 = sum([
             self._D(self.c_101020501),
-            self._D(self.c_10102050101),
-            self._D(self.c_10102050102),
             self._D(self.c_101020502),
-            self._D(self.c_10102050201),
-            self._D(self.c_10102050202),
-            self._D(self.c_10102050203),
-            self._D(self.c_10102050204),
-            self._D(self.c_10102050207),
-            self._D(self.c_10102050208),
-            self._D(self.c_10102050209),
-            self._D(self.c_10102050210),
-            self._D(self.c_10102050211),
-            self._D(self.c_10102050212),
-            self._D(self.c_10102050213),
-            self._D(self.c_10102050214),
-            self._D(self.c_10102050215),
-            self._D(self.c_10102050216),
-            self._D(self.c_10102050217),
-            self._D(self.c_10102050218),
-            self._D(self.c_10102050219),
-            self._D(self.c_10102050220),
-            self._D(self.c_10102050221),
-            self._D(self.c_1010206),
+        ])
+
+        c_1010206 = sum([
             self._D(self.c_101020601),
             self._D(self.c_101020602),
             self._D(self.c_101020603),
             self._D(self.c_101020604),
+        ])
+
+        # =========================
+        # NIVEL 2
+        # =========================
+        c_10101 = sum([
+            self._D(self.c_1010101),
+            self._D(self.c_1010102),
+            self._D(self.c_1010103),
+        ])
+
+        c_10102 = sum([
+            c_1010201,
+            c_1010202,
+            c_1010203,
+            c_1010204,
+            c_1010205,
+            c_1010206,
             self._D(self.c_1010207),
-            self._D(self.c_10103),
+        ])
+
+        c_10103 = sum([
             self._D(self.c_1010301),
             self._D(self.c_1010302),
             self._D(self.c_1010303),
@@ -4069,274 +4068,458 @@ class SCVS_ESF(models.Model):
             self._D(self.c_1010311),
             self._D(self.c_1010312),
             self._D(self.c_1010313),
-            self._D(self.c_10104),
+        ])
+
+        c_10104 = sum([
             self._D(self.c_1010401),
             self._D(self.c_1010402),
             self._D(self.c_1010403),
             self._D(self.c_1010404),
-            self._D(self.c_10105),
+        ])
+
+        c_10105 = sum([
             self._D(self.c_1010501),
             self._D(self.c_1010502),
             self._D(self.c_1010503),
+        ])
+
+        # =========================
+        # TOTAL
+        # =========================
+        total = sum([
+            c_10101,
+            c_10102,
+            c_10103,
+            c_10104,
+            c_10105,
             self._D(self.c_10106),
             self._D(self.c_10107),
             self._D(self.c_10108),
         ])
 
+        # 🔥 AUTO ASIGNACIÓN (PADRES)
+        self.c_10101 = c_10101
+        self.c_10102 = c_10102
+        self.c_10103 = c_10103
+        self.c_10104 = c_10104
+        self.c_10105 = c_10105
+        self.c_101 = total
+
+        return total
+
+
     # =========================
     # 🟢 ACTIVOS NO CORRIENTES
     # =========================
     def calc_activos_no_corrientes(self):
-        return sum([
-            self._D(self.c_102),
-            self._D(self.c_10201),
-            self._D(self.c_1020101),
-            self._D(self.c_1020102),
-            self._D(self.c_1020103),
-            self._D(self.c_1020104),
-            self._D(self.c_1020105),
-            self._D(self.c_1020106),
-            self._D(self.c_1020107),
-            self._D(self.c_1020108),
-            self._D(self.c_1020109),
-            self._D(self.c_1020110),
-            self._D(self.c_1020111),
-            self._D(self.c_1020112),
-            self._D(self.c_1020113),
-            self._D(self.c_1020114),
-            self._D(self.c_102011401),
-            self._D(self.c_102011402),
-            self._D(self.c_102011403),
-            self._D(self.c_10202),
-            self._D(self.c_1020201),
-            self._D(self.c_102020101),
-            self._D(self.c_102020102),
-            self._D(self.c_1020202),
-            self._D(self.c_102020201),
-            self._D(self.c_102020202),
-            self._D(self.c_1020203),
-            self._D(self.c_1020204),
-            self._D(self.c_10203),
-            self._D(self.c_1020301),
-            self._D(self.c_1020302),
-            self._D(self.c_1020303),
-            self._D(self.c_1020304),
-            self._D(self.c_1020305),
-            self._D(self.c_1020306),
-            self._D(self.c_10204),
-            self._D(self.c_1020401),
-            self._D(self.c_1020402),
-            self._D(self.c_1020403),
-            self._D(self.c_1020404),
-            self._D(self.c_1020405),
-            self._D(self.c_1020406),
-            self._D(self.c_1020407),
-            self._D(self.c_10205),
-            self._D(self.c_10206),
-            self._D(self.c_1020601),
-            self._D(self.c_1020602),
-            self._D(self.c_1020603),
-            self._D(self.c_1020604),
-            self._D(self.c_1020605),
-            self._D(self.c_1020606),
-            self._D(self.c_10207),
-            self._D(self.c_1020701),
-            self._D(self.c_1020702),
-            self._D(self.c_1020703),
-            self._D(self.c_10208),
-            self._D(self.c_1020801),
-            self._D(self.c_1020802),
-            self._D(self.c_1020803),
-            self._D(self.c_1020805),
-            self._D(self.c_1020806),
-            self._D(self.c_1020807),
-            self._D(self.c_1020808),
-            self._D(self.c_1020809),
-            self._D(self.c_1020810),
-            self._D(self.c_1020811),
-            self._D(self.c_10209),
-            self._D(self.c_1020901),
-            self._D(self.c_1020902),
-            self._D(self.c_1020903),
-            self._D(self.c_10210),
-            self._D(self.c_1021001),
-            self._D(self.c_1021002),
-            self._D(self.c_1021003),
-            self._D(self.c_1021004),
-        ])
 
-    # =========================
-    # 🔴 PASIVOS
-    # =========================
-    def calc_pasivos(self):
-        return self._D(self.c_2)
+            # =========================
+            # 🔹 NIVEL 4 (DETALLE)
+            # =========================
+            c_1020114 = sum([
+                self._D(self.c_102011401),
+                self._D(self.c_102011402),
+                self._D(self.c_102011403),
+            ])
+
+            c_1020201 = sum([
+                self._D(self.c_102020101),
+                self._D(self.c_102020102),
+            ])
+
+            c_1020202 = sum([
+                self._D(self.c_102020201),
+                self._D(self.c_102020202),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 3
+            # =========================
+            c_10201 = sum([
+                self._D(self.c_1020101),
+                self._D(self.c_1020102),
+                self._D(self.c_1020103),
+                self._D(self.c_1020104),
+                self._D(self.c_1020105),
+                self._D(self.c_1020106),
+                self._D(self.c_1020107),
+                self._D(self.c_1020108),
+                self._D(self.c_1020109),
+                self._D(self.c_1020110),
+                self._D(self.c_1020111),
+                self._D(self.c_1020112),
+                self._D(self.c_1020113),
+                c_1020114,
+            ])
+
+            c_10202 = sum([
+                c_1020201,
+                c_1020202,
+                self._D(self.c_1020203),
+                self._D(self.c_1020204),
+            ])
+
+            c_10203 = sum([
+                self._D(self.c_1020301),
+                self._D(self.c_1020302),
+                self._D(self.c_1020303),
+                self._D(self.c_1020304),
+                self._D(self.c_1020305),
+                self._D(self.c_1020306),
+            ])
+
+            c_10204 = sum([
+                self._D(self.c_1020401),
+                self._D(self.c_1020402),
+                self._D(self.c_1020403),
+                self._D(self.c_1020404),
+                self._D(self.c_1020405),
+                self._D(self.c_1020406),
+                self._D(self.c_1020407),
+            ])
+
+            c_10205 = self._D(self.c_10205)
+
+            c_10206 = sum([
+                self._D(self.c_1020601),
+                self._D(self.c_1020602),
+                self._D(self.c_1020603),
+                self._D(self.c_1020604),
+                self._D(self.c_1020605),
+                self._D(self.c_1020606),
+            ])
+
+            c_10207 = sum([
+                self._D(self.c_1020701),
+                self._D(self.c_1020702),
+                self._D(self.c_1020703),
+            ])
+
+            c_10208 = sum([
+                self._D(self.c_1020801),
+                self._D(self.c_1020802),
+                self._D(self.c_1020803),
+                self._D(self.c_1020805),
+                self._D(self.c_1020806),
+                self._D(self.c_1020807),
+                self._D(self.c_1020808),
+                self._D(self.c_1020809),
+                self._D(self.c_1020810),
+                self._D(self.c_1020811),
+            ])
+
+            c_10209 = sum([
+                self._D(self.c_1020901),
+                self._D(self.c_1020902),
+                self._D(self.c_1020903),
+            ])
+
+            c_10210 = sum([
+                self._D(self.c_1021001),
+                self._D(self.c_1021002),
+                self._D(self.c_1021003),
+                self._D(self.c_1021004),
+            ])
+
+            # =========================
+            # 🔹 TOTAL
+            # =========================
+            total = sum([
+                c_10201,
+                c_10202,
+                c_10203,
+                c_10204,
+                c_10205,
+                c_10206,
+                c_10207,
+                c_10208,
+                c_10209,
+                c_10210,
+            ])
+
+            return total
 
     # =========================
     # 🔴 PASIVOS CORRIENTES
     # =========================
     def calc_pasivos_corrientes(self):
-        return sum([
-            self._D(self.c_201),
-            self._D(self.c_20101),
-            self._D(self.c_20102),
-            self._D(self.c_20103),
-            self._D(self.c_2010301),
-            self._D(self.c_201030101),
-            self._D(self.c_201030102),
-            self._D(self.c_201030103),
-            self._D(self.c_2010302),
-            self._D(self.c_201030201),
-            self._D(self.c_201030202),
-            self._D(self.c_201030203),
-            self._D(self.c_20104),
-            self._D(self.c_2010401),
-            self._D(self.c_2010402),
-            self._D(self.c_20105),
-            self._D(self.c_2010501),
-            self._D(self.c_2010502),
-            self._D(self.c_20106),
-            self._D(self.c_2010601),
-            self._D(self.c_2010602),
-            self._D(self.c_2010603),
-            self._D(self.c_2010604),
-            self._D(self.c_2010605),
-            self._D(self.c_20107),
-            self._D(self.c_2010701),
-            self._D(self.c_2010702),
-            self._D(self.c_2010703),
-            self._D(self.c_2010704),
-            self._D(self.c_2010705),
-            self._D(self.c_2010706),
-            self._D(self.c_2010707),
-            self._D(self.c_20108),
-            self._D(self.c_2010801),
-            self._D(self.c_201080101),
-            self._D(self.c_201080102),
-            self._D(self.c_201080103),
-            self._D(self.c_201080104),
-            self._D(self.c_2010802),
-            self._D(self.c_201080201),
-            self._D(self.c_201080202),
-            self._D(self.c_201080203),
-            self._D(self.c_201080204),
-            self._D(self.c_20109),
-            self._D(self.c_20110),
-            self._D(self.c_2011001),
-            self._D(self.c_2011002),
-            self._D(self.c_20111),
-            self._D(self.c_20112),
-            self._D(self.c_2011201),
-            self._D(self.c_2011202),
-            self._D(self.c_20113),
-            self._D(self.c_2011301),
-            self._D(self.c_2011302),
-            self._D(self.c_2011303),
-            self._D(self.c_2011304),
-            self._D(self.c_2011305),
-            self._D(self.c_2011306),
-            self._D(self.c_2011307),
-            self._D(self.c_2011308),
-            self._D(self.c_2011309),
-            self._D(self.c_2011310),
-            self._D(self.c_2011311),
-            self._D(self.c_2011312),
-            self._D(self.c_20114),
-        ])
 
+            # =========================
+            # 🔹 NIVEL 4
+            # =========================
+            c_2010301 = sum([
+                self._D(self.c_201030101),
+                self._D(self.c_201030102),
+                self._D(self.c_201030103),
+            ])
+
+            c_2010302 = sum([
+                self._D(self.c_201030201),
+                self._D(self.c_201030202),
+                self._D(self.c_201030203),
+            ])
+
+            c_2010801 = sum([
+                self._D(self.c_201080101),
+                self._D(self.c_201080102),
+                self._D(self.c_201080103),
+                self._D(self.c_201080104),
+            ])
+
+            c_2010802 = sum([
+                self._D(self.c_201080201),
+                self._D(self.c_201080202),
+                self._D(self.c_201080203),
+                self._D(self.c_201080204),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 3
+            # =========================
+            c_20103 = c_2010301 + c_2010302
+
+            c_20104 = sum([
+                self._D(self.c_2010401),
+                self._D(self.c_2010402),
+            ])
+
+            c_20105 = sum([
+                self._D(self.c_2010501),
+                self._D(self.c_2010502),
+            ])
+
+            c_20106 = sum([
+                self._D(self.c_2010601),
+                self._D(self.c_2010602),
+                self._D(self.c_2010603),
+                self._D(self.c_2010604),
+                self._D(self.c_2010605),
+            ])
+
+            c_20107 = sum([
+                self._D(self.c_2010701),
+                self._D(self.c_2010702),
+                self._D(self.c_2010703),
+                self._D(self.c_2010704),
+                self._D(self.c_2010705),
+                self._D(self.c_2010706),
+                self._D(self.c_2010707),
+            ])
+
+            c_20108 = c_2010801 + c_2010802
+
+            c_20110 = sum([
+                self._D(self.c_2011001),
+                self._D(self.c_2011002),
+            ])
+
+            c_20112 = sum([
+                self._D(self.c_2011201),
+                self._D(self.c_2011202),
+            ])
+
+            c_20113 = sum([
+                self._D(self.c_2011301),
+                self._D(self.c_2011302),
+                self._D(self.c_2011303),
+                self._D(self.c_2011304),
+                self._D(self.c_2011305),
+                self._D(self.c_2011306),
+                self._D(self.c_2011307),
+                self._D(self.c_2011308),
+                self._D(self.c_2011309),
+                self._D(self.c_2011310),
+                self._D(self.c_2011311),
+                self._D(self.c_2011312),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 2
+            # =========================
+            total = sum([
+                self._D(self.c_20101),
+                self._D(self.c_20102),
+                c_20103,
+                c_20104,
+                c_20105,
+                c_20106,
+                c_20107,
+                c_20108,
+                self._D(self.c_20109),
+                c_20110,
+                self._D(self.c_20111),
+                c_20112,
+                c_20113,
+                self._D(self.c_20114),
+            ])
+
+            return total
     # =========================
     # 🔴 PASIVOS NO CORRIENTES
     # =========================
     def calc_pasivos_no_corrientes(self):
-        return sum([
-            self._D(self.c_202),
-            self._D(self.c_20201),
-            self._D(self.c_20202),
-            self._D(self.c_2020201),
-            self._D(self.c_202020101),
-            self._D(self.c_202020102),
-            self._D(self.c_202020103),
-            self._D(self.c_2020202),
-            self._D(self.c_202020201),
-            self._D(self.c_202020202),
-            self._D(self.c_202020203),
-            self._D(self.c_20203),
-            self._D(self.c_2020301),
-            self._D(self.c_2020302),
-            self._D(self.c_20204),
-            self._D(self.c_2020401),
-            self._D(self.c_202040101),
-            self._D(self.c_202040102),
-            self._D(self.c_202040103),
-            self._D(self.c_202040104),
-            self._D(self.c_2020402),
-            self._D(self.c_202040201),
-            self._D(self.c_202040202),
-            self._D(self.c_202040203),
-            self._D(self.c_202040204),
-            self._D(self.c_20205),
-            self._D(self.c_2020501),
-            self._D(self.c_2020502),
-            self._D(self.c_2020503),
-            self._D(self.c_2020504),
-            self._D(self.c_2020505),
-            self._D(self.c_20206),
-            self._D(self.c_2020601),
-            self._D(self.c_2020602),
-            self._D(self.c_20207),
-            self._D(self.c_2020701),
-            self._D(self.c_2020702),
-            self._D(self.c_20208),
-            self._D(self.c_20209),
-            self._D(self.c_2020901),
-            self._D(self.c_2020902),
-            self._D(self.c_20210),
-        ])
+            # =========================
+            # 🔹 NIVEL 4
+            # =========================
+            c_2020201 = sum([
+                self._D(self.c_202020101),
+                self._D(self.c_202020102),
+                self._D(self.c_202020103),
+            ])
+
+            c_2020202 = sum([
+                self._D(self.c_202020201),
+                self._D(self.c_202020202),
+                self._D(self.c_202020203),
+            ])
+
+            c_2020401 = sum([
+                self._D(self.c_202040101),
+                self._D(self.c_202040102),
+                self._D(self.c_202040103),
+                self._D(self.c_202040104),
+            ])
+
+            c_2020402 = sum([
+                self._D(self.c_202040201),
+                self._D(self.c_202040202),
+                self._D(self.c_202040203),
+                self._D(self.c_202040204),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 3
+            # =========================
+            c_20202 = c_2020201 + c_2020202
+
+            c_20203 = sum([
+                self._D(self.c_2020301),
+                self._D(self.c_2020302),
+            ])
+
+            c_20204 = c_2020401 + c_2020402
+
+            c_20205 = sum([
+                self._D(self.c_2020501),
+                self._D(self.c_2020502),
+                self._D(self.c_2020503),
+                self._D(self.c_2020504),
+                self._D(self.c_2020505),
+            ])
+
+            c_20206 = sum([
+                self._D(self.c_2020601),
+                self._D(self.c_2020602),
+            ])
+
+            c_20207 = sum([
+                self._D(self.c_2020701),
+                self._D(self.c_2020702),
+            ])
+
+            c_20209 = sum([
+                self._D(self.c_2020901),
+                self._D(self.c_2020902),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 2
+            # =========================
+            total = sum([
+                self._D(self.c_20201),
+                c_20202,
+                c_20203,
+                c_20204,
+                c_20205,
+                c_20206,
+                c_20207,
+                self._D(self.c_20208),
+                c_20209,
+                self._D(self.c_20210),
+            ])
+
+            return total
+
 
     # =========================
     # 🔵 PATRIMONIO
     # =========================
     def calc_patrimonio(self):
-        return sum([
-            self._D(self.c_3),
-            self._D(self.c_30),
-            self._D(self.c_301),
-            self._D(self.c_30101),
-            self._D(self.c_30102),
-            self._D(self.c_30103),
-            self._D(self.c_30104),
-            self._D(self.c_30105),
-            self._D(self.c_3010501),
-            self._D(self.c_3010502),
-            self._D(self.c_302),
-            self._D(self.c_303),
-            self._D(self.c_304),
-            self._D(self.c_30401),
-            self._D(self.c_30402),
-            self._D(self.c_305),
-            self._D(self.c_30501),
-            self._D(self.c_30502),
-            self._D(self.c_30503),
-            self._D(self.c_30504),
-            self._D(self.c_306),
-            self._D(self.c_30601),
-            self._D(self.c_30602),
-            self._D(self.c_30603),
-            self._D(self.c_30604),
-            self._D(self.c_30605),
-            self._D(self.c_30606),
-            self._D(self.c_30607),
-            self._D(self.c_307),
-            self._D(self.c_30701),
-            self._D(self.c_30702),
-            self._D(self.c_31),
-        ])
 
+            # =========================
+            # 🔹 NIVEL 4 (DETALLE)
+            # =========================
+            c_30105 = sum([
+                self._D(self.c_3010501),
+                self._D(self.c_3010502),
+            ])
+
+            c_304 = sum([
+                self._D(self.c_30401),
+                self._D(self.c_30402),
+            ])
+
+            c_305 = sum([
+                self._D(self.c_30501),
+                self._D(self.c_30502),
+                self._D(self.c_30503),
+                self._D(self.c_30504),
+            ])
+
+            c_306 = sum([
+                self._D(self.c_30601),
+                self._D(self.c_30602),
+                self._D(self.c_30603),
+                self._D(self.c_30604),
+                self._D(self.c_30605),
+                self._D(self.c_30606),
+                self._D(self.c_30607),
+            ])
+
+            c_307 = sum([
+                self._D(self.c_30701),
+                self._D(self.c_30702),
+            ])
+
+            # =========================
+            # 🔹 NIVEL 3
+            # =========================
+            c_301 = sum([
+                self._D(self.c_30101),
+                self._D(self.c_30102),
+                self._D(self.c_30103),
+                self._D(self.c_30104),
+                c_30105,
+            ])
+
+            # =========================
+            # 🔹 NIVEL 2
+            # =========================
+            c_30 = sum([
+                c_301,
+                self._D(self.c_302),
+                self._D(self.c_303),
+                c_304,
+                c_305,
+                c_306,
+                c_307,
+            ])
+
+            # =========================
+            # 🔹 NIVEL 1 (TOTAL)
+            # =========================
+            total = sum([
+                c_30,
+                self._D(self.c_31),
+            ])
+
+            return total
     # =========================
     # ⚖️ VALIDACIÓN AUDITOR SCVS
     # =========================
     def validar_balance_general(self):
         activos = self.calc_activos_corrientes() + self.calc_activos_no_corrientes()
-        pasivos = self.calc_pasivos() + self.calc_pasivos_corrientes() + self.calc_pasivos_no_corrientes()
+        pasivos =  self.calc_pasivos_corrientes() + self.calc_pasivos_no_corrientes()
         patrimonio = self.calc_patrimonio()
 
         diferencia = activos - (pasivos + patrimonio)
@@ -4353,12 +4536,10 @@ class SCVS_ESF(models.Model):
     def clean(self):
 
         activos = (
-            self.calc_activos_corrientes() +
-            self.calc_activos_no_corrientes()
+            self.calc_activos_corrientes() + self.calc_activos_no_corrientes()
         )
 
         pasivos = (
-            self.calc_pasivos() +
             self.calc_pasivos_corrientes() +
             self.calc_pasivos_no_corrientes()
         )
@@ -4371,31 +4552,16 @@ class SCVS_ESF(models.Model):
     # 💾 SAVE (FORZAR VALIDACIÓN)
     # =========================
     def save(self, *args, **kwargs):
+        self.c_101 = self.calc_activos_corrientes()
+        self.c_102 = self.calc_activos_no_corrientes()
 
-        # 🔥 fuerza ejecución de clean()
-        self.full_clean()
+        self.c_1 = self._D(self.c_101) + self._D(self.c_102)
+        self.c_201 = self.calc_pasivos_corrientes()
+        self.c_202 = self.calc_pasivos_no_corrientes()
+        self.c_2 = self._D(self.c_201) + self._D(self.c_202)
 
-        # =========================
-        # 🟢 ACTIVOS
-        # =========================
-        self.c_1 = (
-            self.calc_activos_corrientes() +
-            self.calc_activos_no_corrientes()
-        )
-
-        # =========================
-        # 🔴 PASIVOS
-        # =========================
-        self.c_2 = (
-            self.calc_pasivos() +
-            self.calc_pasivos_corrientes() +
-            self.calc_pasivos_no_corrientes()
-        )
-
-        # =========================
-        # 🔵 PATRIMONIO
-        # =========================
         self.c_3 = self.calc_patrimonio()
+        self.full_clean()
 
         super().save(*args, **kwargs)
 
