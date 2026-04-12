@@ -786,7 +786,7 @@ def txt_balance_general(request, pk):
 # ----------------------
 def txt_estado_resultados(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-    eir = getattr(reporte, "scvs_eir", None)
+    eir = getattr(reporte, "eir", None)
     codigos = [
         "401",
         "40101",

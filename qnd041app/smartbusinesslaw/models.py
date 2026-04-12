@@ -6543,140 +6543,230 @@ class SCVS_EIR(models.Model):
     def _D(self, v):
         return v if v is not None else Decimal("0.00")
 
+
     # =====================================================
     # 📊 INGRESOS
     # =====================================================
-    def calc_c_401(self):
+    def calc_401_n3(self):
+    return (
+        self._D(self.c_40101) +
+        self._D(self.c_4010201) +
+        self._D(self.c_4010202) +
+        self._D(self.c_4010203) +
+        self._D(self.c_4010204) +
+
+        self._D(self.c_40103) +
+        self._D(self.c_40104) +
+        self._D(self.c_40105) +
+
+        self._D(self.c_4010601) +
+        self._D(self.c_4010602) +
+        self._D(self.c_4010603) +
+
+        self._D(self.c_40107) +
+        self._D(self.c_40108) +
+
+        self._D(self.c_401090101) +
+        self._D(self.c_401090103) +
+        self._D(self.c_401090104) +
+        self._D(self.c_401090105) +
+        self._D(self.c_401090106) +
+
+        self._D(self.c_401090201) +
+        self._D(self.c_401090202) +
+        self._D(self.c_401090203) +
+        self._D(self.c_401090204) +
+        self._D(self.c_401090205) +
+        self._D(self.c_401090206) +
+        self._D(self.c_401090207) +
+        self._D(self.c_401090208) +
+
+        self._D(self.c_401090301) +
+        self._D(self.c_401090302) +
+        self._D(self.c_401090303) +
+        self._D(self.c_401090304) +
+
+        self._D(self.c_4011001) +
+        self._D(self.c_4011002) +
+        self._D(self.c_4011003) +
+        self._D(self.c_4011004) +
+        self._D(self.c_4011005) +
+        self._D(self.c_4011006)
+    )
+
+    def calc_40102(self):
+        return sum([
+            self._D(self.c_4010201),
+            self._D(self.c_4010202),
+            self._D(self.c_4010203),
+            self._D(self.c_4010204),
+        ])
+
+    def calc_40106(self):
+        return sum([
+            self._D(self.c_4010601),
+            self._D(self.c_4010602),
+            self._D(self.c_4010603),
+        ])
+
+    def calc_40109_01(self):
+        return sum([
+            self._D(self.c_401090101),
+            self._D(self.c_401090103),
+            self._D(self.c_401090104),
+            self._D(self.c_401090105),
+            self._D(self.c_401090106),
+        ])
+
+    def calc_40109_02(self):
+        return sum([
+            self._D(self.c_401090201),
+            self._D(self.c_401090202),
+            self._D(self.c_401090203),
+            self._D(self.c_401090204),
+            self._D(self.c_401090205),
+            self._D(self.c_401090206),
+            self._D(self.c_401090207),
+            self._D(self.c_401090208),
+        ])
+
+    def calc_40109_03(self):
+        return sum([
+            self._D(self.c_401090301),
+            self._D(self.c_401090302),
+            self._D(self.c_401090303),
+            self._D(self.c_401090304),
+        ])
+
+    def calc_40110(self):
+        return sum([
+            self._D(self.c_4011001),
+            self._D(self.c_4011002),
+            self._D(self.c_4011003),
+            self._D(self.c_4011004),
+            self._D(self.c_4011005),
+            self._D(self.c_4011006),
+        ])
+
+    def calc_401(self):
         return (
-            self._D(self.c_40101) +
-
-            self._D(self.c_40102) +
-            self._D(self.c_4010201) +
-            self._D(self.c_4010202) +
-            self._D(self.c_4010203) +
-            self._D(self.c_4010204) +
-
-            self._D(self.c_40103) +
-            self._D(self.c_40104) +
-            self._D(self.c_40105) +
-
-            self._D(self.c_40106) +
-            self._D(self.c_4010601) +
-            self._D(self.c_4010602) +
-            self._D(self.c_4010603) +
-
-            self._D(self.c_40107) +
-            self._D(self.c_40108) +
-
-            self._D(self.c_40109) +
-            self._D(self.c_4010901) +
-            self._D(self.c_401090101) +
-            self._D(self.c_401090103) +
-            self._D(self.c_401090104) +
-            self._D(self.c_401090105) +
-            self._D(self.c_401090106) +
-
-            self._D(self.c_4010902) +
-            self._D(self.c_401090201) +
-            self._D(self.c_401090202) +
-            self._D(self.c_401090203) +
-            self._D(self.c_401090204) +
-            self._D(self.c_401090205) +
-            self._D(self.c_401090206) +
-            self._D(self.c_401090207) +
-            self._D(self.c_401090208) +
-
-            self._D(self.c_4010903) +
-            self._D(self.c_401090301) +
-            self._D(self.c_401090302) +
-            self._D(self.c_401090303) +
-            self._D(self.c_401090304) +
-
-            self._D(self.c_40110) +
-            self._D(self.c_4011001) +
-            self._D(self.c_4011002) +
-            self._D(self.c_4011003) +
-            self._D(self.c_4011004) +
-            self._D(self.c_4011005) +
-            self._D(self.c_4011006) +
-
-            self._D(self.c_40112) +
-            self._D(self.c_40113) +
-            self._D(self.c_40114) +
-            self._D(self.c_40115) -
-
-            self._D(self.c_40116) +
-
-            self._D(self.c_402) +
-            self._D(self.c_403) +
-            self._D(self.c_40301) +
-            self._D(self.c_40302) +
-            self._D(self.c_40303)
+        self._D(self.c_40101) +
+        self.calc_40102() +
+        self._D(self.c_40103) +
+        self._D(self.c_40104) +
+        self._D(self.c_40105) +
+        self.calc_40106() +
+        self._D(self.c_40107) +
+        self._D(self.c_40108) +
+        self.calc_40109_01() +
+        self.calc_40109_02() +
+        self.calc_40109_03() +
+        self.calc_40110() +
+        self._D(self.c_40112) +
+        self._D(self.c_40113) +
+        self._D(self.c_40114) +
+        self._D(self.c_40115) -
+        self._D(self.c_40116) +
+        self._D(self.c_402) +
+        self._D(self.c_403)
         )
-
     # =====================================================
     # 📉 COSTOS
     # =====================================================
-    def calc_c_501(self):
+    def calc_501_n3(self):
         return (
-            self._D(self.c_50101) +
-            self._D(self.c_5010101) +
-            self._D(self.c_5010102) +
-            self._D(self.c_5010103) +
-            self._D(self.c_5010104) +
-            self._D(self.c_5010105) +
-            self._D(self.c_5010106) +
-            self._D(self.c_5010107) +
-            self._D(self.c_5010108) +
-            self._D(self.c_5010109) +
-            self._D(self.c_5010110) +
-            self._D(self.c_5010111) +
-            self._D(self.c_5010112) +
+        self._D(self.c_5010101) + self._D(self.c_5010102) + self._D(self.c_5010103) +
+        self._D(self.c_5010104) + self._D(self.c_5010105) + self._D(self.c_5010106) +
+        self._D(self.c_5010107) + self._D(self.c_5010108) + self._D(self.c_5010109) +
+        self._D(self.c_5010110) + self._D(self.c_5010111) + self._D(self.c_5010112) +
 
-            self._D(self.c_50102) +
-            self._D(self.c_5010201) +
-            self._D(self.c_5010202) +
+        self._D(self.c_5010201) + self._D(self.c_5010202) +
+        self._D(self.c_5010301) + self._D(self.c_5010302) +
 
-            self._D(self.c_50103) +
-            self._D(self.c_5010301) +
-            self._D(self.c_5010302) +
+        self._D(self.c_5010401) + self._D(self.c_5010402) + self._D(self.c_5010403) +
+        self._D(self.c_5010404) + self._D(self.c_5010405) + self._D(self.c_5010406) +
+        self._D(self.c_5010407) + self._D(self.c_5010408) +
 
-            self._D(self.c_50104) +
-            self._D(self.c_5010401) +
-            self._D(self.c_5010402) +
-            self._D(self.c_5010403) +
-            self._D(self.c_5010404) +
-            self._D(self.c_5010405) +
-            self._D(self.c_5010406) +
-            self._D(self.c_5010407) +
-            self._D(self.c_5010408) +
-
-            self._D(self.c_50105) +
-            self._D(self.c_5010501)
+        self._D(self.c_5010501)
         )
+
 
     # =====================================================
     # 💸 GASTOS
     # =====================================================
-    def calc_c_502(self):
+    def calc_501_n3(self):
         return (
-            self._D(self.c_50201) +
-            self._D(self.c_50202) +
-            self._D(self.c_50203) +
-            self._D(self.c_50204)
+        self._D(self.c_5010101) + self._D(self.c_5010102) + self._D(self.c_5010103) +
+        self._D(self.c_5010104) + self._D(self.c_5010105) + self._D(self.c_5010106) +
+        self._D(self.c_5010107) + self._D(self.c_5010108) + self._D(self.c_5010109) +
+        self._D(self.c_5010110) + self._D(self.c_5010111) + self._D(self.c_5010112) +
+
+        self._D(self.c_5010201) + self._D(self.c_5010202) +
+        self._D(self.c_5010301) + self._D(self.c_5010302) +
+
+        self._D(self.c_5010401) + self._D(self.c_5010402) + self._D(self.c_5010403) +
+        self._D(self.c_5010404) + self._D(self.c_5010405) + self._D(self.c_5010406) +
+        self._D(self.c_5010407) + self._D(self.c_5010408) +
+
+        self._D(self.c_5010501)
+        )
+
+    def calc_50101(self):
+        return sum([
+            self._D(self.c_5010101), self._D(self.c_5010102), self._D(self.c_5010103),
+            self._D(self.c_5010104), self._D(self.c_5010105), self._D(self.c_5010106),
+            self._D(self.c_5010107), self._D(self.c_5010108), self._D(self.c_5010109),
+            self._D(self.c_5010110), self._D(self.c_5010111), self._D(self.c_5010112),
+        ])
+
+    def calc_50102(self):
+        return sum([self._D(self.c_5010201), self._D(self.c_5010202)])
+
+    def calc_50103(self):
+        return sum([self._D(self.c_5010301), self._D(self.c_5010302)])
+
+    def calc_50104(self):
+        return sum([
+            self._D(self.c_5010401), self._D(self.c_5010402), self._D(self.c_5010403),
+            self._D(self.c_5010404), self._D(self.c_5010405), self._D(self.c_5010406),
+            self._D(self.c_5010407), self._D(self.c_5010408),
+        ])
+
+    def calc_50105(self):
+        return self._D(self.c_5010501)
+
+    def calc_501(self):
+        return (
+        self.calc_50101() +
+        self.calc_50102() +
+        self.calc_50103() +
+        self.calc_50104() +
+        self.calc_50105()
+        )
+
+    def calc_502(self):
+        return (
+        self._D(self.c_50201) +
+        self._D(self.c_50202) +
+        self._D(self.c_50203) +
+        self._D(self.c_50204)
         )
 
     # =====================================================
     # 📊 RESULTADOS
     # =====================================================
     def calc_c_600(self):
-        return self.calc_c_401() - self.calc_c_501()
+        return self.calc_401() - self.calc_501()
+
+
 
     def calc_c_602(self):
         return self.calc_c_600() + self._D(self.c_403)
 
+
     def calc_c_607(self):
-        return self.calc_c_602() - self.calc_c_502()
+        return self.calc_c_602() - self.calc_502()
+
 
     def calc_c_707(self):
         return self.calc_c_607() - self._D(self.c_601) - self._D(self.c_603)
@@ -6684,45 +6774,65 @@ class SCVS_EIR(models.Model):
     def calc_c_801(self):
         return self.calc_c_707() + self._D(self.c_800)
 
-    # =====================================================
-    # ⚖️ AUDITOR (VALIDACIÓN SCVS)
-    # =====================================================
     def clean(self):
         calculated = self.calc_c_801()
         reported = self._D(self.c_801)
-
         difference = calculated - reported
 
         if difference != Decimal("0.00"):
-            raise ValidationError(
-                f"DESCUADRE EIR SCVS: Calculado({calculated}) != Reportado({reported}) | Diferencia: {difference}"
-            )
+            raise ValidationError({
+                "c_801": (
+                    f"❌ Descuadre EIR SCVS\n"
+                    f"Calculado: {calculated}\n"
+                    f"Reportado: {reported}\n"
+                    f"Diferencia: {difference}"
+                )
+            })
 
-    # =====================================================
-    # 💾 SAVE AUTOMÁTICO
-    # =====================================================
     def save(self, *args, **kwargs):
 
-        # INGRESOS
-        self.c_401 = self.calc_c_401()
+        # =========================
+        # 📊 INGRESOS
+        # =========================
+        self.c_40102 = self.calc_40102()
+        self.c_40106 = self.calc_40106()
+        self.c_40109 = self.calc_40109_01() + self.calc_40109_02() + self.calc_40109_03()
+        self.c_40110 = self.calc_40110()
 
-        # COSTOS
-        self.c_501 = self.calc_c_501()
+        self.c_401 = self.calc_401()
 
-        # GASTOS
-        self.c_502 = self.calc_c_502()
+        # =========================
+        # 📉 COSTOS
+        # =========================
+        self.c_50101 = self.calc_50101()
+        self.c_50102 = self.calc_50102()
+        self.c_50103 = self.calc_50103()
+        self.c_50104 = self.calc_50104()
+        self.c_50105 = self.calc_50105()
 
-        # RESULTADOS
+        self.c_501 = self.calc_501()
+
+        # =========================
+        # 💸 GASTOS
+        # =========================
+        self.c_502 = self.calc_502()
+
+        # =========================
+        # 📊 RESULTADOS
+        # =========================
         self.c_600 = self.calc_c_600()
         self.c_602 = self.calc_c_602()
         self.c_607 = self.calc_c_607()
         self.c_707 = self.calc_c_707()
         self.c_801 = self.calc_c_801()
 
-        # VALIDACIÓN FINAL
+        # =========================
+        # ⚠️ VALIDACIÓN FINAL SCVS
+        # =========================
         self.full_clean()
 
         super().save(*args, **kwargs)
+
 
     class Meta:
         #unique_together = ('ruc', 'fiscal_year')
@@ -6730,9 +6840,16 @@ class SCVS_EIR(models.Model):
         verbose_name_plural = "Estados Integral de Resultados(EIR)"
 
     def __str__(self):
-        return f"Ingresos:${self.c_401}, Costos: ${self.c_501}, Gastos: ${self.c_502}, Resultados: ${self.c_600}/$ {self.c_602}/ ${self.c_607}/${slef.c_707}/${self.c_801}"
-
-
+        return (
+        f"Ingresos: {self.c_401}, "
+        f"Costos: {self.c_501}, "
+        f"Gastos: {self.c_502}, "
+        f"Resultado bruto: {self.c_600}, "
+        f"Resultado operativo: {self.c_602}, "
+        f"Resultado antes impuestos: {self.c_607}, "
+        f"Resultado final: {self.c_707}, "
+        f"Resultado integral: {self.c_801}"
+        )
 
 
 class SCVS_EFE(models.Model):
