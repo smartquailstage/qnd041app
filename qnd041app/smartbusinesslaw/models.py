@@ -841,7 +841,6 @@ class SCVSFinancialReport(models.Model):
     )
     fiscal_year = models.PositiveIntegerField(
         "Año fiscal",
-        null=True, blank=True,
         help_text="Año al que corresponde el reporte financiero. Ejemplo: 2025"
     )
     economic_activity = models.TextField(
