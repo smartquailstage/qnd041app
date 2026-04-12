@@ -394,7 +394,7 @@ def SCVS_DatosGenerales(obj):
     url_pdf = reverse('smartbusinesslaw:pdf_datos_generales', args=[obj.id])
     return mark_safe(
         #f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> Descargar (PDF)</a>'
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">download</span>Descargar (PDF)</a>'
     )
 SCVS_DatosGenerales.short_description = "Informe Contable"
 
