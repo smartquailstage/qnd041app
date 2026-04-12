@@ -7528,183 +7528,138 @@ class SCVS_EFE(models.Model):
     # =====================================================
     # 💼 ACTIVIDADES DE OPERACIÓN
     # =====================================================
-    def calc_operacion(self):
+    def calc_950101(self):
         return (
-            self._D(self.c_9501) +
-            self._D(self.c_950101) +
-            self._D(self.c_95010101) +
-            self._D(self.c_95010102) +
-            self._D(self.c_95010103) +
-            self._D(self.c_95010104) +
-            self._D(self.c_95010105) +
+        self._D(self.c_95010101) +
+        self._D(self.c_95010102) +
+        self._D(self.c_95010103) +
+        self._D(self.c_95010104) +
+        self._D(self.c_95010105)
+    )
 
-            self._D(self.c_950102) +
-            self._D(self.c_95010201) +
-            self._D(self.c_95010202) +
-            self._D(self.c_95010203) +
-            self._D(self.c_95010204) +
-            self._D(self.c_95010205) +
-
-            self._D(self.c_950103) +
-            self._D(self.c_950104) +
-            self._D(self.c_950105) +
-            self._D(self.c_950106) +
-            self._D(self.c_950107) +
-            self._D(self.c_950108)
+    def calc_950102(self):
+        return (
+        self._D(self.c_95010201) +
+        self._D(self.c_95010202) +
+        self._D(self.c_95010203) +
+        self._D(self.c_95010204) +
+        self._D(self.c_95010205)
         )
+
+    def calc_9501(self):
+        return (
+        self.calc_950101() +
+        self.calc_950102() +
+        self._D(self.c_950103) +
+        self._D(self.c_950104) +
+        self._D(self.c_950105) +
+        self._D(self.c_950106) +
+        self._D(self.c_950107) +
+        self._D(self.c_950108)
+    )
+
+    def calc_operacion(self):
+        return self.calc_9501()
+
 
     # =====================================================
     # 🏗 ACTIVIDADES DE INVERSIÓN
     # =====================================================
-    def calc_inversion(self):
+    def calc_9502(self):
         return (
-            self._D(self.c_9502) +
-            self._D(self.c_950201) +
-            self._D(self.c_950202) +
-            self._D(self.c_950203) +
-            self._D(self.c_950204) +
-            self._D(self.c_950205) +
-            self._D(self.c_950206) +
-            self._D(self.c_950207) +
-            self._D(self.c_950208) +
-            self._D(self.c_950209) +
-            self._D(self.c_950210) +
-            self._D(self.c_950211) +
-            self._D(self.c_950212) +
-            self._D(self.c_950213) +
-            self._D(self.c_950214) +
-            self._D(self.c_950215) +
-            self._D(self.c_950216) +
-            self._D(self.c_950217) +
-            self._D(self.c_950218) +
-            self._D(self.c_950219) +
-            self._D(self.c_950220) +
-            self._D(self.c_950221)
+        self._D(self.c_950201) +
+        self._D(self.c_950202) +
+        self._D(self.c_950203) +
+        self._D(self.c_950204) +
+        self._D(self.c_950205) +
+        self._D(self.c_950206) +
+        self._D(self.c_950207) +
+        self._D(self.c_950208) +
+        self._D(self.c_950209) +
+        self._D(self.c_950210) +
+        self._D(self.c_950211) +
+        self._D(self.c_950212) +
+        self._D(self.c_950213) +
+        self._D(self.c_950214) +
+        self._D(self.c_950215) +
+        self._D(self.c_950216) +
+        self._D(self.c_950217) +
+        self._D(self.c_950218) +
+        self._D(self.c_950219) +
+        self._D(self.c_950220) +
+        self._D(self.c_950221)
         )
 
     # =====================================================
     # 🏦 ACTIVIDADES DE FINANCIACIÓN
     # =====================================================
-    def calc_financiacion(self):
+    def calc_9503(self):
         return (
-            self._D(self.c_9503) +
-            self._D(self.c_950301) +
-            self._D(self.c_950302) +
-            self._D(self.c_950303) +
-            self._D(self.c_950304) +
-            self._D(self.c_950305) +
-            self._D(self.c_950306) +
-            self._D(self.c_950307) +
-            self._D(self.c_950308) +
-            self._D(self.c_950309) +
-            self._D(self.c_950310)
+        self._D(self.c_950301) +
+        self._D(self.c_950302) +
+        self._D(self.c_950303) +
+        self._D(self.c_950304) +
+        self._D(self.c_950305) +
+        self._D(self.c_950306) +
+        self._D(self.c_950307) +
+        self._D(self.c_950308) +
+        self._D(self.c_950309) +
+        self._D(self.c_950310)
         )
-
     # =====================================================
     # 💱 EFECTO TIPO DE CAMBIO / OTROS
     # =====================================================
-    def calc_otros(self):
-        return (
-            self._D(self.c_9504) +
-            self._D(self.c_950401) +
-            self._D(self.c_9505) +
-            self._D(self.c_9506) +
-            self._D(self.c_9507)
-        )
-
+    def calc_9504(self):
+        return self._D(self.c_950401)
     # =====================================================
     # 📈 CONCILIACIÓN (MÉTODO INDIRECTO)
     # =====================================================
-    def calc_conciliacion(self):
-        return (
-            self._D(self.c_96) +
-            self._D(self.c_97) +
-            self._D(self.c_9701) +
-            self._D(self.c_9702) +
-            self._D(self.c_9703) +
-            self._D(self.c_9704) +
-            self._D(self.c_9705) +
-            self._D(self.c_9706) +
-            self._D(self.c_9707) +
-            self._D(self.c_9708) +
-            self._D(self.c_9709) +
-            self._D(self.c_9710) +
-            self._D(self.c_9711)
-        )
-
-    # =====================================================
-    # 🔄 CAMBIOS EN ACTIVOS Y PASIVOS
-    # =====================================================
-    def calc_cambios(self):
-        return (
-            self._D(self.c_98) +
-            self._D(self.c_9801) +
-            self._D(self.c_9802) +
-            self._D(self.c_9803) +
-            self._D(self.c_9804) +
-            self._D(self.c_9805) +
-            self._D(self.c_9806) +
-            self._D(self.c_9807) +
-            self._D(self.c_9808) +
-            self._D(self.c_9809) +
-            self._D(self.c_9810) +
-            self._D(self.c_9820)
-        )
-
-    # =====================================================
-    # 📊 RESULTADO GENERAL (FLUJO NETO)
-    # =====================================================
     def calc_c_95(self):
         return (
-            self.calc_operacion() +
-            self.calc_inversion() +
-            self.calc_financiacion() +
-            self.calc_otros()
+        self.calc_operacion() +
+        self.calc_9502() +
+        self.calc_9503() +
+        self.calc_9504()
         )
 
-    # =====================================================
-    # ⚖️ AUDITOR SCVS (CUADRE AUTOMÁTICO)
-    # =====================================================
+
     def clean(self):
         errores = {}
 
-        # 1. Validación: incremento neto vs efectivo inicial/final
-        if self.c_9505 is not None and self.c_9506 is not None and self.c_9507 is not None:
-            calculado = self.c_9507 - self.c_9506
-            diferencia = calculado - self.c_9505
+        if self.c_9501 is not None:
+            calc = self.calc_9501()
+            diff = calc - self._D(self.c_9501)
 
-            if abs(diferencia) >= 0.01:
-                errores['c_9505'] = (
-                    f"El incremento neto ({self.c_9505}) no cuadra con "
-                    f"efectivo final - inicial ({calculado}). Diferencia: {diferencia}"
+            if abs(diff) >= Decimal("0.01"):
+                errores["c_9501"] = (
+                f"Descuadre OPERACIÓN: calculado {calc} vs reportado {self.c_9501} | diff {diff}"
                 )
 
-        # 2. Validación: suma de actividades
-        suma_actividades = (
-            (self.c_9501 or 0) +
-            (self.c_9502 or 0) +
-            (self.c_9503 or 0)
-        )
+        if self.c_9502 is not None:
+            calc = self.calc_9502()
+            diff = calc - self._D(self.c_9502)
+
+            if abs(diff) >= Decimal("0.01"):
+                errores["c_9502"] = (
+                f"Descuadre INVERSIÓN: calculado {calc} vs reportado {self.c_9502} | diff {diff}"
+                )
+
+        if self.c_9503 is not None:
+            calc = self.calc_9503()
+            diff = calc - self._D(self.c_9503)
+
+            if abs(diff) >= Decimal("0.01"):
+                errores["c_9503"] = (
+                f"Descuadre FINANCIACIÓN: calculado {calc} vs reportado {self.c_9503} | diff {diff}"
+                )
 
         if self.c_9505 is not None:
-            diferencia = suma_actividades - self.c_9505
+            calc = self.calc_c_95()
+            diff = calc - self._D(self.c_9505)
 
-            if abs(diferencia) >= 0.01:
-                errores['c_9505'] = (
-                    f"La suma de actividades ({suma_actividades}) no coincide con "
-                    f"el incremento neto ({self.c_9505}). Diferencia: {diferencia}"
-                )
-
-        # 3. Validación: incluyendo tipo de cambio
-        if all(v is not None for v in [self.c_9501, self.c_9502, self.c_9503, self.c_9504, self.c_9505]):
-            total = self.c_9501 + self.c_9502 + self.c_9503 + self.c_9504
-            diferencia = total - self.c_9505
-
-            if abs(diferencia) >= 0.01:
-                errores['c_9504'] = (
-                    f"El total incluyendo variación en tipo de cambio ({total}) "
-                    f"no coincide con el incremento neto ({self.c_9505}). "
-                    f"Diferencia: {diferencia}"
+            if abs(diff) >= Decimal("0.01"):
+                errores["c_9505"] = (
+                f"Descuadre FLUJO NETO: calculado {calc} vs reportado {self.c_9505} | diff {diff}"
                 )
 
         if errores:
@@ -7713,11 +7668,7 @@ class SCVS_EFE(models.Model):
     # 💾 SAVE AUTOMÁTICO
     # =====================================================
     def save(self, *args, **kwargs):
-
-        # BLOQUES
         self.c_95 = self.calc_c_95()
-
-        # VALIDACIÓN FINAL (OBLIGATORIA)
         self.full_clean()
 
         super().save(*args, **kwargs)
