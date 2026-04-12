@@ -854,15 +854,15 @@ class SCVS_EFEInline(StackedInline):
     extra = 0
     tab = True
     collapsible = True
+    readonly_fields =('c_95',
+
+    )
 
     fieldsets = (
 
         ("📊 RESULTADO GENERAL", {
             "fields": (
                 "c_95",
-                "c_9505",
-                "c_9506",
-                "c_9507",
             ),
             'classes': ('collapse',),
 
@@ -944,6 +944,9 @@ class SCVS_EFEInline(StackedInline):
             "fields": (
                 "c_9504",
                 "c_950401",
+                'c_9505',
+                'c_9506',
+                'c_9507',
             ),
             'classes': ('collapse',),
 
@@ -996,6 +999,9 @@ class SCVS_ECPInline(StackedInline):
     extra = 0
     tab = True  # (Unfold)
     collapsible = True # (Unfold)
+    readonly_fields = (
+    'c_99_30',
+    )
 
     fieldsets = (
         ("💰 SALDO AL FINAL DEL PERIODO", {
