@@ -879,8 +879,8 @@ class SCVSFinancialReport(models.Model):
 
     class Meta:
         #unique_together = ('ruc', 'fiscal_year')
-        verbose_name = "Balance del período fiscal"
-        verbose_name_plural = "Balances del período fiscal"
+        verbose_name = "Balance Financiero (SCVS)"
+        verbose_name_plural = "Balances Financieros (SCVS)"
 
 
 class SCVS_ESF(models.Model):
