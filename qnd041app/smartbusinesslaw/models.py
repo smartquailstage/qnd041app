@@ -7,7 +7,7 @@ import hashlib
 from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal, ROUND_HALF_UP
-
+from django.core.exceptions import ValidationError
 
 
 from django.db import models
@@ -3897,6 +3897,83 @@ class SCVS_ESF(models.Model):
     def __str__(self):
         return f"Activo:${self.c_1}, Pasivo: ${self.c_2}, Patrimonio: ${self.c_3}"
 
+
+    # =========================
+    # 🔧 UTILIDAD AUDITOR
+    # =========================
+    def _D(self, v):
+        return v if v is not None else Decimal("0.00")
+
+    # =========================
+    # 🔵 CÁLCULOS ACTIVO
+    # =========================
+    def calc_activo(self):
+        return self._D(self.c_101) + self._D(self.c_102)
+
+    # =========================
+    # 🔵 CÁLCULOS PASIVO
+    # =========================
+    def calc_pasivo(self):
+        return self._D(self.c_201) + self._D(self.c_202)
+
+    # =========================
+    # 🔵 CÁLCULOS PATRIMONIO
+    # =========================
+    def calc_patrimonio(self):
+        return (
+            self._D(self.c_301)
+            + self._D(self.c_302)
+            + self._D(self.c_303)
+        )
+
+    # =========================
+    # 🔥 VALIDACIÓN SCVS (AUDITOR)
+    # =========================
+    def validar_ecuacion_contable(self):
+        """
+        ACTIVO = PASIVO + PATRIMONIO
+        """
+
+        activo = self.calc_activo()
+        pasivo = self.calc_pasivo()
+        patrimonio = self.calc_patrimonio()
+
+        diferencia = activo - (pasivo + patrimonio)
+
+        return {
+            "activo": str(activo),
+            "pasivo": str(pasivo),
+            "patrimonio": str(patrimonio),
+            "diferencia": str(diferencia),
+            "cuadra": diferencia == Decimal("0.00"),
+        }
+
+    # =========================
+    # 🔥 SAVE AUDITOR (AUTO CUADRE)
+    # =========================
+    def save(self, *args, **kwargs):
+
+        # =========================
+        # 🔵 ACTIVO
+        # =========================
+        self.c_1 = self.calc_activo()
+
+        # =========================
+        # 🔵 PASIVO
+        # =========================
+        self.c_2 = self.calc_pasivo()
+
+        # =========================
+        # 🔵 PATRIMONIO
+        # =========================
+        self.c_3 = self.calc_patrimonio()
+
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.calc_activo() < 0:
+            raise ValidationError("Activo no puede ser negativo")
+
 class SCVS_EIR(models.Model):
     report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
 
@@ -5878,6 +5955,224 @@ class SCVS_EIR(models.Model):
         return f"Activo:${self.c_80102}, Pasivo: ${self.c_80102}, Patrimonio: ${self.c_80102}"
 
 
+    # =========================
+    # 🔧 UTILIDAD
+    # =========================
+    def _D(self, v):
+        return v if v is not None else Decimal("0.00")
+
+    # =========================
+    # 🔵 INGRESOS
+    # =========================
+
+    def calc_c_40102(self):
+        return (
+            self._D(self.c_4010201) +
+            self._D(self.c_4010202) +
+            self._D(self.c_4010203) +
+            self._D(self.c_4010204)
+        )
+
+    def calc_c_40106(self):
+        return (
+            self._D(self.c_4010601) +
+            self._D(self.c_4010602) +
+            self._D(self.c_4010603)
+        )
+
+    def calc_c_40109(self):
+        return (
+            self._D(self.c_4010901) +
+            self._D(self.c_4010902) +
+            self._D(self.c_4010903)
+        )
+
+    def calc_c_401(self):
+        return (
+            self._D(self.c_40101) +
+            self.calc_c_40102() +
+            self._D(self.c_40103) +
+            self._D(self.c_40104) +
+            self._D(self.c_40105) +
+            self.calc_c_40106() +
+            self._D(self.c_40107) +
+            self._D(self.c_40108) +
+            self.calc_c_40109() +
+            self._D(self.c_40110) -
+            self._D(self.c_40112) -
+            self._D(self.c_40113) -
+            self._D(self.c_40114) -
+            self._D(self.c_40115) +
+            self._D(self.c_40116)
+        )
+
+    # =========================
+    # 🔵 COSTOS
+    # =========================
+
+    def calc_c_50101(self):
+        return (
+            self._D(self.c_5010101) +
+            self._D(self.c_5010102) +
+            self._D(self.c_5010103) -
+            self._D(self.c_5010104) +
+            self._D(self.c_5010105) +
+            self._D(self.c_5010106) +
+            self._D(self.c_5010107) -
+            self._D(self.c_5010108)
+        )
+
+    def calc_c_50102(self):
+        return (
+            self._D(self.c_5010201) +
+            self._D(self.c_5010202)
+        )
+
+    def calc_c_50103(self):
+        return (
+            self._D(self.c_5010301) +
+            self._D(self.c_5010302)
+        )
+
+    def calc_c_50104(self):
+        return (
+            self._D(self.c_5010401) +
+            self._D(self.c_5010402) +
+            self._D(self.c_5010403) +
+            self._D(self.c_5010404) +
+            self._D(self.c_5010405) +
+            self._D(self.c_5010406) +
+            self._D(self.c_5010407) +
+            self._D(self.c_5010408)
+        )
+
+    def calc_c_501(self):
+        return (
+            self.calc_c_50101() +
+            self.calc_c_50102() +
+            self.calc_c_50103() +
+            self.calc_c_50104() +
+            self._D(self.c_50105)
+        )
+
+    # =========================
+    # 🔵 GASTOS
+    # =========================
+
+    def calc_c_50201(self):
+        return sum([
+            self._D(self.c_5020101), self._D(self.c_5020102),
+            self._D(self.c_5020103), self._D(self.c_5020104),
+            self._D(self.c_5020105), self._D(self.c_5020106),
+            self._D(self.c_5020107), self._D(self.c_5020108),
+            self._D(self.c_5020109), self._D(self.c_5020110),
+            self._D(self.c_5020111), self._D(self.c_5020112),
+            self._D(self.c_5020113), self._D(self.c_5020114),
+            self._D(self.c_5020115), self._D(self.c_5020116),
+            self._D(self.c_5020117), self._D(self.c_5020118),
+            self._D(self.c_5020119), self._D(self.c_5020120),
+            self._D(self.c_5020121), self._D(self.c_5020122),
+            self._D(self.c_5020123), self._D(self.c_5020124),
+            self._D(self.c_5020125), self._D(self.c_5020126),
+            self._D(self.c_5020127), self._D(self.c_5020128),
+        ])
+
+    def calc_c_50202(self):
+        return sum([
+            self._D(self.c_5020201), self._D(self.c_5020202),
+            self._D(self.c_5020203), self._D(self.c_5020204),
+            self._D(self.c_5020205), self._D(self.c_5020206),
+            self._D(self.c_5020207), self._D(self.c_5020208),
+            self._D(self.c_5020209), self._D(self.c_5020210),
+            self._D(self.c_5020211), self._D(self.c_5020212),
+            self._D(self.c_5020213), self._D(self.c_5020214),
+            self._D(self.c_5020215), self._D(self.c_5020216),
+            self._D(self.c_5020217), self._D(self.c_5020218),
+            self._D(self.c_5020219), self._D(self.c_5020220),
+            self._D(self.c_5020221), self._D(self.c_5020222),
+            self._D(self.c_5020223), self._D(self.c_5020224),
+            self._D(self.c_5020225), self._D(self.c_5020226),
+            self._D(self.c_5020227), self._D(self.c_5020228),
+            self._D(self.c_5020229),
+        ])
+
+    def calc_c_502(self):
+        return (
+            self.calc_c_50201() +
+            self.calc_c_50202() +
+            self._D(self.c_50203) +
+            self._D(self.c_50204)
+        )
+
+    # =========================
+    # 🔵 RESULTADOS
+    # =========================
+
+    def calc_utilidad_bruta(self):
+        return self.calc_c_401() - self.calc_c_501()
+
+    def calc_resultado_operativo(self):
+        return self.calc_utilidad_bruta() + self._D(self.c_403)
+
+    def calc_resultado_antes_impuestos(self):
+        return self.calc_resultado_operativo() - self.calc_c_502()
+
+    def calc_resultado_neto(self):
+        return (
+            self.calc_resultado_antes_impuestos()
+            - self._D(self.c_601)
+            - self._D(self.c_603)
+        )
+
+    def calc_resultado_integral_total(self):
+        return self.calc_resultado_neto() + self._D(self.c_800)
+
+    # =========================
+    # 🔥 VALIDACIÓN
+    # =========================
+
+    def validar_resultado(self):
+        diferencia = self.calc_resultado_integral_total() - self._D(self.c_801)
+
+        return {
+            "calculado": str(self.calc_resultado_integral_total()),
+            "reportado": str(self._D(self.c_801)),
+            "diferencia": str(diferencia),
+            "cuadra": diferencia == Decimal("0.00"),
+        }
+
+    # =========================
+    # 🔥 SAVE AUTO-CUADRE
+    # =========================
+
+    def save(self, *args, **kwargs):
+
+        # INGRESOS
+        self.c_40102 = self.calc_c_40102()
+        self.c_40106 = self.calc_c_40106()
+        self.c_40109 = self.calc_c_40109()
+        self.c_401 = self.calc_c_401()
+
+        # COSTOS
+        self.c_50101 = self.calc_c_50101()
+        self.c_50102 = self.calc_c_50102()
+        self.c_50103 = self.calc_c_50103()
+        self.c_50104 = self.calc_c_50104()
+        self.c_501 = self.calc_c_501()
+
+        # GASTOS
+        self.c_50201 = self.calc_c_50201()
+        self.c_50202 = self.calc_c_50202()
+        self.c_502 = self.calc_c_502()
+
+        # RESULTADOS
+        self.c_600 = self.calc_utilidad_bruta()
+        self.c_602 = self.calc_resultado_operativo()
+        self.c_607 = self.calc_resultado_antes_impuestos()
+        self.c_707 = self.calc_resultado_neto()
+        self.c_801 = self.calc_resultado_integral_total()
+
+        super().save(*args, **kwargs)
 
 class SCVS_EFE(models.Model):
     report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
@@ -6555,6 +6850,55 @@ class SCVS_EFE(models.Model):
     def __str__(self):
         return f"Activo:${self.c_9820}, Pasivo: ${self.c_9820}, Patrimonio: ${self.c_9820}"
 
+
+    def clean(self):
+        errores = {}
+
+        # 1. Validación: incremento neto vs efectivo inicial/final
+        if self.c_9505 is not None and self.c_9506 is not None and self.c_9507 is not None:
+            calculado = self.c_9507 - self.c_9506
+            diferencia = calculado - self.c_9505
+
+            if abs(diferencia) >= 0.01:
+                errores['c_9505'] = (
+                    f"El incremento neto ({self.c_9505}) no cuadra con "
+                    f"efectivo final - inicial ({calculado}). Diferencia: {diferencia}"
+                )
+
+        # 2. Validación: suma de actividades
+        suma_actividades = (
+            (self.c_9501 or 0) +
+            (self.c_9502 or 0) +
+            (self.c_9503 or 0)
+        )
+
+        if self.c_9505 is not None:
+            diferencia = suma_actividades - self.c_9505
+
+            if abs(diferencia) >= 0.01:
+                errores['c_9505'] = (
+                    f"La suma de actividades ({suma_actividades}) no coincide con "
+                    f"el incremento neto ({self.c_9505}). Diferencia: {diferencia}"
+                )
+
+        # 3. Validación: incluyendo tipo de cambio
+        if all(v is not None for v in [self.c_9501, self.c_9502, self.c_9503, self.c_9504, self.c_9505]):
+            total = self.c_9501 + self.c_9502 + self.c_9503 + self.c_9504
+            diferencia = total - self.c_9505
+
+            if abs(diferencia) >= 0.01:
+                errores['c_9504'] = (
+                    f"El total incluyendo variación en tipo de cambio ({total}) "
+                    f"no coincide con el incremento neto ({self.c_9505}). "
+                    f"Diferencia: {diferencia}"
+                )
+
+        if errores:
+            raise ValidationError(errores)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()  # <-- dispara clean()
+        super().save(*args, **kwargs)
 
 class SCVS_ECP(models.Model):
     report = models.OneToOneField   (SCVSFinancialReport, on_delete=models.CASCADE)
@@ -9120,14 +9464,135 @@ class SCVS_ECP(models.Model):
     )
 
 
-
-    class Meta:
-        #unique_together = ('ruc', 'fiscal_year')
-        verbose_name = "Estado de Cambio de Patrimonio (ECP)"
-        verbose_name_plural = "Estados de Cambio de Patrimonio (ESF)"
-
     def __str__(self):
         return f"Activo:${self.c_99_301}, Pasivo: ${self.c_99_301}, Patrimonio: ${self.c_99_301}"
+
+    # -------------------------
+    # UTILIDAD INTERNA
+    # -------------------------
+    def _v(self, x):
+        return x if x is not None else Decimal("0.00")
+
+    # -------------------------
+    # AUDITOR PRINCIPAL SCVS
+    # -------------------------
+    def clean(self):
+        errors = {}
+
+        # =========================================================
+        # 1. VALIDACIÓN DE TOTALES POR BLOQUES (SUMATORIAS)
+        # =========================================================
+
+        def check_block(prefix, fields, total_field, label):
+            total_calc = sum(self._v(getattr(self, f)) for f in fields)
+            total_db = self._v(getattr(self, total_field))
+
+            if abs(total_calc - total_db) > Decimal("0.01"):
+                errors[total_field] = f"Inconsistencia en {label}: calculado={total_calc} vs registrado={total_db}"
+
+        # =========================
+        # SALDO FINAL DEL PERIODO
+        # =========================
+        check_block("c_99",
+            [
+                "c_99_301","c_99_302","c_99_303",
+                "c_99_30401","c_99_30402",
+                "c_99_30501","c_99_30502","c_99_30503","c_99_30504",
+                "c_99_30601","c_99_30602","c_99_30603",
+                "c_99_30604","c_99_30605","c_99_30606","c_99_30607",
+                "c_99_30701","c_99_30702",
+            ],
+            "c_99_30",
+            "SALDO FINAL DEL PERIODO"
+        )
+
+        # =========================
+        # CAMBIOS DEL AÑO EN EL PATRIMONIO
+        # =========================
+        check_block("c_9902",
+            [
+                "c_9902_301","c_9902_302","c_9902_303",
+                "c_9902_30401","c_9902_30402",
+                "c_9902_30501","c_9902_30502","c_9902_30503","c_9902_30504",
+                "c_9902_30601","c_9902_30602","c_9902_30603",
+                "c_9902_30604","c_9902_30605","c_9902_30606","c_9902_30607",
+                "c_9902_30701","c_9902_30702",
+            ],
+            "c_9902_30",
+            "CAMBIOS DEL AÑO EN EL PATRIMONIO"
+        )
+
+        # =========================================================
+        # 2. VALIDACIÓN DE DIVIDENDOS (REGLA CONTABLE REAL)
+        # =========================================================
+        dividendos = self._v(self.c_990204_30)
+
+        utilidades = self._v(self.c_9902_30701) - self._v(self.c_9902_30702)
+
+        if dividendos > utilidades and utilidades > 0:
+            errors["c_990204_30"] = "Dividendos no pueden exceder utilidades disponibles."
+
+        # =========================================================
+        # 3. VALIDACIÓN CAPITAL (NO NEGATIVO)
+        # =========================================================
+        if self._v(self.c_99_301) < 0:
+            errors["c_99_301"] = "El capital no puede ser negativo."
+
+        # =========================================================
+        # 4. VALIDACIÓN DE CONSISTENCIA ENTRE PERIODOS
+        # =========================================================
+        def compare(a, b, field):
+            if abs(self._v(a) - self._v(b)) > Decimal("0.01"):
+                errors[field] = f"Inconsistencia entre periodos en {field}"
+
+        compare(self.c_9901_30, self.c_990101_30, "totales_periodo_anterior")
+
+        # =========================================================
+        # 5. VALIDACIÓN DE CAMBIOS EN POLÍTICAS CONTABLES
+        # =========================================================
+        cambio_politicas_total = self._v(self.c_990102_30)
+        if cambio_politicas_total != 0:
+            # regla auditor: debe existir soporte
+            if cambio_politicas_total != sum([
+                self._v(self.c_990102_30701),
+                -self._v(self.c_990102_30702),
+            ]):
+                errors["c_990102_30"] = "Cambios en políticas contables no cuadran con resultados."
+
+        # =========================================================
+        # 6. CORRECCIÓN DE ERRORES (CONTROL AUDITORIAL)
+        # =========================================================
+        if self._v(self.c_990103_30) != sum([
+            self._v(self.c_990103_30701),
+            -self._v(self.c_990103_30702),
+        ]):
+            errors["c_990103_30"] = "Corrección de errores no cuadra con resultados."
+
+        # =========================================================
+        # 7. VALIDACIÓN DE RECONCILIACIÓN GLOBAL (PRINCIPAL)
+        # =========================================================
+        saldo_final = self._v(self.c_99_30)
+        saldo_inicial = self._v(self.c_990101_30)
+        cambios = self._v(self.c_9902_30)
+
+        if abs((saldo_inicial + cambios) - saldo_final) > Decimal("0.01"):
+            errors["__all__"] = "El patrimonio no cuadra: inicial + cambios != final."
+
+        # =========================================================
+        # 8. VALIDACIÓN DE INTEGRIDAD GENERAL
+        # =========================================================
+        if saldo_final <= 0:
+            errors["__all__"] = "El patrimonio final no puede ser cero o negativo."
+
+        # =========================================================
+        # LANZAR ERRORES
+        # =========================================================
+        if errors:
+            raise ValidationError(errors)
+
+    class Meta:
+        verbose_name = "Estado de Cambio de Patrimonio (ECP)"
+        verbose_name_plural = "Estados de Cambio de Patrimonio (ECP)"
 
 
 # ===========================
