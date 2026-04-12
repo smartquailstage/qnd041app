@@ -769,6 +769,20 @@ class ClausulaContrato(models.Model):
         return f"Cláusula {self.clausula}"
 
 
+# =================================================
+# 🔧 VALIDATOR REUTILIZABLE (DJANGO STYLE)
+# =================================================
+def validar_cuadre_scvs(activos, pasivos, patrimonio):
+    diferencia = activos - (pasivos + patrimonio)
+
+    if diferencia != Decimal("0.00"):
+        raise ValidationError(
+            "❌ DESCUADRE SCVS: "
+            f"Activos({activos}) != Pasivos({pasivos}) + Patrimonio({patrimonio}) | "
+            f"Diferencia: {diferencia}"
+        )
+
+
 
 class SCVSFinancialReport(models.Model):
     # =========================
@@ -3898,70 +3912,486 @@ class SCVS_ESF(models.Model):
         return f"Activo:${self.c_1}, Pasivo: ${self.c_2}, Patrimonio: ${self.c_3}"
 
 
-    # =========================
-    # 🔧 UTILIDAD AUDITOR
-    # =========================
+
+
     def _D(self, v):
         return v if v is not None else Decimal("0.00")
 
     # =========================
-    # 🔵 CÁLCULOS ACTIVO
+    # 🟢 ACTIVOS CORRIENTES
     # =========================
-    def calc_activo(self):
-        return self._D(self.c_101) + self._D(self.c_102)
+    def calc_activos_corrientes(self):
+        return sum([
+            self._D(self.c_101),
+            self._D(self.c_10101),
+            self._D(self.c_1010101),
+            self._D(self.c_1010102),
+            self._D(self.c_1010103),
+            self._D(self.c_10102),
+            self._D(self.c_1010201),
+            self._D(self.c_101020101),
+            self._D(self.c_10102010101),
+            self._D(self.c_10102010102),
+            self._D(self.c_10102010103),
+            self._D(self.c_10102010104),
+            self._D(self.c_10102010105),
+            self._D(self.c_10102010106),
+            self._D(self.c_101020102),
+            self._D(self.c_10102010201),
+            self._D(self.c_10102010202),
+            self._D(self.c_10102010203),
+            self._D(self.c_10102010204),
+            self._D(self.c_10102010205),
+            self._D(self.c_10102010206),
+            self._D(self.c_10102010207),
+            self._D(self.c_10102010208),
+            self._D(self.c_10102010209),
+            self._D(self.c_10102010210),
+            self._D(self.c_10102010211),
+            self._D(self.c_10102010212),
+            self._D(self.c_10102010213),
+            self._D(self.c_10102010214),
+            self._D(self.c_10102010215),
+            self._D(self.c_10102010216),
+            self._D(self.c_10102010217),
+            self._D(self.c_10102010218),
+            self._D(self.c_10102010219),
+            self._D(self.c_10102010220),
+            self._D(self.c_10102010221),
+            self._D(self.c_10102010222),
+            self._D(self.c_10102010223),
+            self._D(self.c_101020103),
+            self._D(self.c_10102010301),
+            self._D(self.c_10102010302),
+            self._D(self.c_10102010303),
+            self._D(self.c_10102010304),
+            self._D(self.c_1010202),
+            self._D(self.c_101020201),
+            self._D(self.c_10102020101),
+            self._D(self.c_10102020102),
+            self._D(self.c_10102020103),
+            self._D(self.c_10102020104),
+            self._D(self.c_10102020105),
+            self._D(self.c_10102020106),
+            self._D(self.c_101020202),
+            self._D(self.c_10102020201),
+            self._D(self.c_10102020202),
+            self._D(self.c_10102020203),
+            self._D(self.c_10102020204),
+            self._D(self.c_10102020205),
+            self._D(self.c_10102020206),
+            self._D(self.c_10102020207),
+            self._D(self.c_10102020208),
+            self._D(self.c_10102020209),
+            self._D(self.c_10102020210),
+            self._D(self.c_10102020211),
+            self._D(self.c_10102020212),
+            self._D(self.c_10102020213),
+            self._D(self.c_10102020214),
+            self._D(self.c_10102020215),
+            self._D(self.c_10102020216),
+            self._D(self.c_10102020217),
+            self._D(self.c_10102020218),
+            self._D(self.c_10102020219),
+            self._D(self.c_10102020220),
+            self._D(self.c_10102020221),
+            self._D(self.c_10102020222),
+            self._D(self.c_10102020223),
+            self._D(self.c_1010203),
+            self._D(self.c_101020302),
+            self._D(self.c_10102030201),
+            self._D(self.c_10102030202),
+            self._D(self.c_10102030203),
+            self._D(self.c_10102030204),
+            self._D(self.c_10102030205),
+            self._D(self.c_10102030206),
+            self._D(self.c_10102030207),
+            self._D(self.c_10102030208),
+            self._D(self.c_10102030209),
+            self._D(self.c_10102030210),
+            self._D(self.c_10102030211),
+            self._D(self.c_10102030212),
+            self._D(self.c_10102030213),
+            self._D(self.c_10102030214),
+            self._D(self.c_10102030215),
+            self._D(self.c_10102030216),
+            self._D(self.c_10102030217),
+            self._D(self.c_10102030218),
+            self._D(self.c_10102030219),
+            self._D(self.c_10102030220),
+            self._D(self.c_10102030221),
+            self._D(self.c_10102030222),
+            self._D(self.c_10102030223),
+            self._D(self.c_1010204),
+            self._D(self.c_101020401),
+            self._D(self.c_101020402),
+            self._D(self.c_101020403),
+            self._D(self.c_1010205),
+            self._D(self.c_101020501),
+            self._D(self.c_10102050101),
+            self._D(self.c_10102050102),
+            self._D(self.c_101020502),
+            self._D(self.c_10102050201),
+            self._D(self.c_10102050202),
+            self._D(self.c_10102050203),
+            self._D(self.c_10102050204),
+            self._D(self.c_10102050207),
+            self._D(self.c_10102050208),
+            self._D(self.c_10102050209),
+            self._D(self.c_10102050210),
+            self._D(self.c_10102050211),
+            self._D(self.c_10102050212),
+            self._D(self.c_10102050213),
+            self._D(self.c_10102050214),
+            self._D(self.c_10102050215),
+            self._D(self.c_10102050216),
+            self._D(self.c_10102050217),
+            self._D(self.c_10102050218),
+            self._D(self.c_10102050219),
+            self._D(self.c_10102050220),
+            self._D(self.c_10102050221),
+            self._D(self.c_1010206),
+            self._D(self.c_101020601),
+            self._D(self.c_101020602),
+            self._D(self.c_101020603),
+            self._D(self.c_101020604),
+            self._D(self.c_1010207),
+            self._D(self.c_10103),
+            self._D(self.c_1010301),
+            self._D(self.c_1010302),
+            self._D(self.c_1010303),
+            self._D(self.c_1010304),
+            self._D(self.c_1010305),
+            self._D(self.c_1010306),
+            self._D(self.c_1010307),
+            self._D(self.c_1010308),
+            self._D(self.c_1010309),
+            self._D(self.c_1010310),
+            self._D(self.c_1010311),
+            self._D(self.c_1010312),
+            self._D(self.c_1010313),
+            self._D(self.c_10104),
+            self._D(self.c_1010401),
+            self._D(self.c_1010402),
+            self._D(self.c_1010403),
+            self._D(self.c_1010404),
+            self._D(self.c_10105),
+            self._D(self.c_1010501),
+            self._D(self.c_1010502),
+            self._D(self.c_1010503),
+            self._D(self.c_10106),
+            self._D(self.c_10107),
+            self._D(self.c_10108),
+        ])
 
     # =========================
-    # 🔵 CÁLCULOS PASIVO
+    # 🟢 ACTIVOS NO CORRIENTES
     # =========================
-    def calc_pasivo(self):
-        return self._D(self.c_201) + self._D(self.c_202)
+    def calc_activos_no_corrientes(self):
+        return sum([
+            self._D(self.c_102),
+            self._D(self.c_10201),
+            self._D(self.c_1020101),
+            self._D(self.c_1020102),
+            self._D(self.c_1020103),
+            self._D(self.c_1020104),
+            self._D(self.c_1020105),
+            self._D(self.c_1020106),
+            self._D(self.c_1020107),
+            self._D(self.c_1020108),
+            self._D(self.c_1020109),
+            self._D(self.c_1020110),
+            self._D(self.c_1020111),
+            self._D(self.c_1020112),
+            self._D(self.c_1020113),
+            self._D(self.c_1020114),
+            self._D(self.c_102011401),
+            self._D(self.c_102011402),
+            self._D(self.c_102011403),
+            self._D(self.c_10202),
+            self._D(self.c_1020201),
+            self._D(self.c_102020101),
+            self._D(self.c_102020102),
+            self._D(self.c_1020202),
+            self._D(self.c_102020201),
+            self._D(self.c_102020202),
+            self._D(self.c_1020203),
+            self._D(self.c_1020204),
+            self._D(self.c_10203),
+            self._D(self.c_1020301),
+            self._D(self.c_1020302),
+            self._D(self.c_1020303),
+            self._D(self.c_1020304),
+            self._D(self.c_1020305),
+            self._D(self.c_1020306),
+            self._D(self.c_10204),
+            self._D(self.c_1020401),
+            self._D(self.c_1020402),
+            self._D(self.c_1020403),
+            self._D(self.c_1020404),
+            self._D(self.c_1020405),
+            self._D(self.c_1020406),
+            self._D(self.c_1020407),
+            self._D(self.c_10205),
+            self._D(self.c_10206),
+            self._D(self.c_1020601),
+            self._D(self.c_1020602),
+            self._D(self.c_1020603),
+            self._D(self.c_1020604),
+            self._D(self.c_1020605),
+            self._D(self.c_1020606),
+            self._D(self.c_10207),
+            self._D(self.c_1020701),
+            self._D(self.c_1020702),
+            self._D(self.c_1020703),
+            self._D(self.c_10208),
+            self._D(self.c_1020801),
+            self._D(self.c_1020802),
+            self._D(self.c_1020803),
+            self._D(self.c_1020805),
+            self._D(self.c_1020806),
+            self._D(self.c_1020807),
+            self._D(self.c_1020808),
+            self._D(self.c_1020809),
+            self._D(self.c_1020810),
+            self._D(self.c_1020811),
+            self._D(self.c_10209),
+            self._D(self.c_1020901),
+            self._D(self.c_1020902),
+            self._D(self.c_1020903),
+            self._D(self.c_10210),
+            self._D(self.c_1021001),
+            self._D(self.c_1021002),
+            self._D(self.c_1021003),
+            self._D(self.c_1021004),
+        ])
 
     # =========================
-    # 🔵 CÁLCULOS PATRIMONIO
+    # 🔴 PASIVOS
+    # =========================
+    def calc_pasivos(self):
+        return self._D(self.c_2)
+
+    # =========================
+    # 🔴 PASIVOS CORRIENTES
+    # =========================
+    def calc_pasivos_corrientes(self):
+        return sum([
+            self._D(self.c_201),
+            self._D(self.c_20101),
+            self._D(self.c_20102),
+            self._D(self.c_20103),
+            self._D(self.c_2010301),
+            self._D(self.c_201030101),
+            self._D(self.c_201030102),
+            self._D(self.c_201030103),
+            self._D(self.c_2010302),
+            self._D(self.c_201030201),
+            self._D(self.c_201030202),
+            self._D(self.c_201030203),
+            self._D(self.c_20104),
+            self._D(self.c_2010401),
+            self._D(self.c_2010402),
+            self._D(self.c_20105),
+            self._D(self.c_2010501),
+            self._D(self.c_2010502),
+            self._D(self.c_20106),
+            self._D(self.c_2010601),
+            self._D(self.c_2010602),
+            self._D(self.c_2010603),
+            self._D(self.c_2010604),
+            self._D(self.c_2010605),
+            self._D(self.c_20107),
+            self._D(self.c_2010701),
+            self._D(self.c_2010702),
+            self._D(self.c_2010703),
+            self._D(self.c_2010704),
+            self._D(self.c_2010705),
+            self._D(self.c_2010706),
+            self._D(self.c_2010707),
+            self._D(self.c_20108),
+            self._D(self.c_2010801),
+            self._D(self.c_201080101),
+            self._D(self.c_201080102),
+            self._D(self.c_201080103),
+            self._D(self.c_201080104),
+            self._D(self.c_2010802),
+            self._D(self.c_201080201),
+            self._D(self.c_201080202),
+            self._D(self.c_201080203),
+            self._D(self.c_201080204),
+            self._D(self.c_20109),
+            self._D(self.c_20110),
+            self._D(self.c_2011001),
+            self._D(self.c_2011002),
+            self._D(self.c_20111),
+            self._D(self.c_20112),
+            self._D(self.c_2011201),
+            self._D(self.c_2011202),
+            self._D(self.c_20113),
+            self._D(self.c_2011301),
+            self._D(self.c_2011302),
+            self._D(self.c_2011303),
+            self._D(self.c_2011304),
+            self._D(self.c_2011305),
+            self._D(self.c_2011306),
+            self._D(self.c_2011307),
+            self._D(self.c_2011308),
+            self._D(self.c_2011309),
+            self._D(self.c_2011310),
+            self._D(self.c_2011311),
+            self._D(self.c_2011312),
+            self._D(self.c_20114),
+        ])
+
+    # =========================
+    # 🔴 PASIVOS NO CORRIENTES
+    # =========================
+    def calc_pasivos_no_corrientes(self):
+        return sum([
+            self._D(self.c_202),
+            self._D(self.c_20201),
+            self._D(self.c_20202),
+            self._D(self.c_2020201),
+            self._D(self.c_202020101),
+            self._D(self.c_202020102),
+            self._D(self.c_202020103),
+            self._D(self.c_2020202),
+            self._D(self.c_202020201),
+            self._D(self.c_202020202),
+            self._D(self.c_202020203),
+            self._D(self.c_20203),
+            self._D(self.c_2020301),
+            self._D(self.c_2020302),
+            self._D(self.c_20204),
+            self._D(self.c_2020401),
+            self._D(self.c_202040101),
+            self._D(self.c_202040102),
+            self._D(self.c_202040103),
+            self._D(self.c_202040104),
+            self._D(self.c_2020402),
+            self._D(self.c_202040201),
+            self._D(self.c_202040202),
+            self._D(self.c_202040203),
+            self._D(self.c_202040204),
+            self._D(self.c_20205),
+            self._D(self.c_2020501),
+            self._D(self.c_2020502),
+            self._D(self.c_2020503),
+            self._D(self.c_2020504),
+            self._D(self.c_2020505),
+            self._D(self.c_20206),
+            self._D(self.c_2020601),
+            self._D(self.c_2020602),
+            self._D(self.c_20207),
+            self._D(self.c_2020701),
+            self._D(self.c_2020702),
+            self._D(self.c_20208),
+            self._D(self.c_20209),
+            self._D(self.c_2020901),
+            self._D(self.c_2020902),
+            self._D(self.c_20210),
+        ])
+
+    # =========================
+    # 🔵 PATRIMONIO
     # =========================
     def calc_patrimonio(self):
-        return (
-            self._D(self.c_301)
-            + self._D(self.c_302)
-            + self._D(self.c_303)
-        )
+        return sum([
+            self._D(self.c_3),
+            self._D(self.c_30),
+            self._D(self.c_301),
+            self._D(self.c_30101),
+            self._D(self.c_30102),
+            self._D(self.c_30103),
+            self._D(self.c_30104),
+            self._D(self.c_30105),
+            self._D(self.c_3010501),
+            self._D(self.c_3010502),
+            self._D(self.c_302),
+            self._D(self.c_303),
+            self._D(self.c_304),
+            self._D(self.c_30401),
+            self._D(self.c_30402),
+            self._D(self.c_305),
+            self._D(self.c_30501),
+            self._D(self.c_30502),
+            self._D(self.c_30503),
+            self._D(self.c_30504),
+            self._D(self.c_306),
+            self._D(self.c_30601),
+            self._D(self.c_30602),
+            self._D(self.c_30603),
+            self._D(self.c_30604),
+            self._D(self.c_30605),
+            self._D(self.c_30606),
+            self._D(self.c_30607),
+            self._D(self.c_307),
+            self._D(self.c_30701),
+            self._D(self.c_30702),
+            self._D(self.c_31),
+        ])
 
     # =========================
-    # 🔥 VALIDACIÓN SCVS (AUDITOR)
+    # ⚖️ VALIDACIÓN AUDITOR SCVS
     # =========================
-    def validar_ecuacion_contable(self):
-        """
-        ACTIVO = PASIVO + PATRIMONIO
-        """
-
-        activo = self.calc_activo()
-        pasivo = self.calc_pasivo()
+    def validar_balance_general(self):
+        activos = self.calc_activos_corrientes() + self.calc_activos_no_corrientes()
+        pasivos = self.calc_pasivos() + self.calc_pasivos_corrientes() + self.calc_pasivos_no_corrientes()
         patrimonio = self.calc_patrimonio()
 
-        diferencia = activo - (pasivo + patrimonio)
+        diferencia = activos - (pasivos + patrimonio)
 
         return {
-            "activo": str(activo),
-            "pasivo": str(pasivo),
+            "activos": str(activos),
+            "pasivos": str(pasivos),
             "patrimonio": str(patrimonio),
             "diferencia": str(diferencia),
             "cuadra": diferencia == Decimal("0.00"),
         }
 
+
+    def clean(self):
+
+        activos = (
+            self.calc_activos_corrientes() +
+            self.calc_activos_no_corrientes()
+        )
+
+        pasivos = (
+            self.calc_pasivos() +
+            self.calc_pasivos_corrientes() +
+            self.calc_pasivos_no_corrientes()
+        )
+
+        patrimonio = self.calc_patrimonio()
+
+        validar_cuadre_scvs(activos, pasivos, patrimonio)
+
     # =========================
-    # 🔥 SAVE AUDITOR (AUTO CUADRE)
+    # 💾 SAVE (FORZAR VALIDACIÓN)
     # =========================
     def save(self, *args, **kwargs):
 
-        # =========================
-        # 🔵 ACTIVO
-        # =========================
-        self.c_1 = self.calc_activo()
+        # 🔥 fuerza ejecución de clean()
+        self.full_clean()
 
         # =========================
-        # 🔵 PASIVO
+        # 🟢 ACTIVOS
         # =========================
-        self.c_2 = self.calc_pasivo()
+        self.c_1 = (
+            self.calc_activos_corrientes() +
+            self.calc_activos_no_corrientes()
+        )
+
+        # =========================
+        # 🔴 PASIVOS
+        # =========================
+        self.c_2 = (
+            self.calc_pasivos() +
+            self.calc_pasivos_corrientes() +
+            self.calc_pasivos_no_corrientes()
+        )
 
         # =========================
         # 🔵 PATRIMONIO
@@ -3970,9 +4400,6 @@ class SCVS_ESF(models.Model):
 
         super().save(*args, **kwargs)
 
-    def clean(self):
-        if self.calc_activo() < 0:
-            raise ValidationError("Activo no puede ser negativo")
 
 class SCVS_EIR(models.Model):
     report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
@@ -5954,491 +6381,9 @@ class SCVS_EIR(models.Model):
     def __str__(self):
         return f"Activo:${self.c_80102}, Pasivo: ${self.c_80102}, Patrimonio: ${self.c_80102}"
 
-from decimal import Decimal
 
 
-# =====================================
-# 🧠 MÉTODOS AUDITOR SCVS - BALANCE GENERAL
-# =====================================
-class TuModelo(models.Model):
 
-    # =========================
-    # 🔧 UTILIDAD AUDITOR
-    # =========================
-    def _D(self, v):
-        return v if v is not None else Decimal("0.00")
-
-    # =========================
-    # 🟢 ACTIVOS CORRIENTES
-    # =========================
-    def calc_activos_corrientes(self):
-        return sum([
-            self._D(self.c_101),
-            self._D(self.c_10101),
-            self._D(self.c_1010101),
-            self._D(self.c_1010102),
-            self._D(self.c_1010103),
-            self._D(self.c_10102),
-            self._D(self.c_1010201),
-            self._D(self.c_101020101),
-            self._D(self.c_10102010101),
-            self._D(self.c_10102010102),
-            self._D(self.c_10102010103),
-            self._D(self.c_10102010104),
-            self._D(self.c_10102010105),
-            self._D(self.c_10102010106),
-            self._D(self.c_101020102),
-            self._D(self.c_10102010201),
-            self._D(self.c_10102010202),
-            self._D(self.c_10102010203),
-            self._D(self.c_10102010204),
-            self._D(self.c_10102010205),
-            self._D(self.c_10102010206),
-            self._D(self.c_10102010207),
-            self._D(self.c_10102010208),
-            self._D(self.c_10102010209),
-            self._D(self.c_10102010210),
-            self._D(self.c_10102010211),
-            self._D(self.c_10102010212),
-            self._D(self.c_10102010213),
-            self._D(self.c_10102010214),
-            self._D(self.c_10102010215),
-            self._D(self.c_10102010216),
-            self._D(self.c_10102010217),
-            self._D(self.c_10102010218),
-            self._D(self.c_10102010219),
-            self._D(self.c_10102010220),
-            self._D(self.c_10102010221),
-            self._D(self.c_10102010222),
-            self._D(self.c_10102010223),
-            self._D(self.c_101020103),
-            self._D(self.c_10102010301),
-            self._D(self.c_10102010302),
-            self._D(self.c_10102010303),
-            self._D(self.c_10102010304),
-            self._D(self.c_1010202),
-            self._D(self.c_101020201),
-            self._D(self.c_10102020101),
-            self._D(self.c_10102020102),
-            self._D(self.c_10102020103),
-            self._D(self.c_10102020104),
-            self._D(self.c_10102020105),
-            self._D(self.c_10102020106),
-            self._D(self.c_101020202),
-            self._D(self.c_10102020201),
-            self._D(self.c_10102020202),
-            self._D(self.c_10102020203),
-            self._D(self.c_10102020204),
-            self._D(self.c_10102020205),
-            self._D(self.c_10102020206),
-            self._D(self.c_10102020207),
-            self._D(self.c_10102020208),
-            self._D(self.c_10102020209),
-            self._D(self.c_10102020210),
-            self._D(self.c_10102020211),
-            self._D(self.c_10102020212),
-            self._D(self.c_10102020213),
-            self._D(self.c_10102020214),
-            self._D(self.c_10102020215),
-            self._D(self.c_10102020216),
-            self._D(self.c_10102020217),
-            self._D(self.c_10102020218),
-            self._D(self.c_10102020219),
-            self._D(self.c_10102020220),
-            self._D(self.c_10102020221),
-            self._D(self.c_10102020222),
-            self._D(self.c_10102020223),
-            self._D(self.c_1010203),
-            self._D(self.c_101020302),
-            self._D(self.c_10102030201),
-            self._D(self.c_10102030202),
-            self._D(self.c_10102030203),
-            self._D(self.c_10102030204),
-            self._D(self.c_10102030205),
-            self._D(self.c_10102030206),
-            self._D(self.c_10102030207),
-            self._D(self.c_10102030208),
-            self._D(self.c_10102030209),
-            self._D(self.c_10102030210),
-            self._D(self.c_10102030211),
-            self._D(self.c_10102030212),
-            self._D(self.c_10102030213),
-            self._D(self.c_10102030214),
-            self._D(self.c_10102030215),
-            self._D(self.c_10102030216),
-            self._D(self.c_10102030217),
-            self._D(self.c_10102030218),
-            self._D(self.c_10102030219),
-            self._D(self.c_10102030220),
-            self._D(self.c_10102030221),
-            self._D(self.c_10102030222),
-            self._D(self.c_10102030223),
-            self._D(self.c_1010204),
-            self._D(self.c_101020401),
-            self._D(self.c_101020402),
-            self._D(self.c_101020403),
-            self._D(self.c_1010205),
-            self._D(self.c_101020501),
-            self._D(self.c_10102050101),
-            self._D(self.c_10102050102),
-            self._D(self.c_101020502),
-            self._D(self.c_10102050201),
-            self._D(self.c_10102050202),
-            self._D(self.c_10102050203),
-            self._D(self.c_10102050204),
-            self._D(self.c_10102050207),
-            self._D(self.c_10102050208),
-            self._D(self.c_10102050209),
-            self._D(self.c_10102050210),
-            self._D(self.c_10102050211),
-            self._D(self.c_10102050212),
-            self._D(self.c_10102050213),
-            self._D(self.c_10102050214),
-            self._D(self.c_10102050215),
-            self._D(self.c_10102050216),
-            self._D(self.c_10102050217),
-            self._D(self.c_10102050218),
-            self._D(self.c_10102050219),
-            self._D(self.c_10102050220),
-            self._D(self.c_10102050221),
-            self._D(self.c_1010206),
-            self._D(self.c_101020601),
-            self._D(self.c_101020602),
-            self._D(self.c_101020603),
-            self._D(self.c_101020604),
-            self._D(self.c_1010207),
-            self._D(self.c_10103),
-            self._D(self.c_1010301),
-            self._D(self.c_1010302),
-            self._D(self.c_1010303),
-            self._D(self.c_1010304),
-            self._D(self.c_1010305),
-            self._D(self.c_1010306),
-            self._D(self.c_1010307),
-            self._D(self.c_1010308),
-            self._D(self.c_1010309),
-            self._D(self.c_1010310),
-            self._D(self.c_1010311),
-            self._D(self.c_1010312),
-            self._D(self.c_1010313),
-            self._D(self.c_10104),
-            self._D(self.c_1010401),
-            self._D(self.c_1010402),
-            self._D(self.c_1010403),
-            self._D(self.c_1010404),
-            self._D(self.c_10105),
-            self._D(self.c_1010501),
-            self._D(self.c_1010502),
-            self._D(self.c_1010503),
-            self._D(self.c_10106),
-            self._D(self.c_10107),
-            self._D(self.c_10108),
-        ])
-
-    # =========================
-    # 🟢 ACTIVOS NO CORRIENTES
-    # =========================
-    def calc_activos_no_corrientes(self):
-        return sum([
-            self._D(self.c_102),
-            self._D(self.c_10201),
-            self._D(self.c_1020101),
-            self._D(self.c_1020102),
-            self._D(self.c_1020103),
-            self._D(self.c_1020104),
-            self._D(self.c_1020105),
-            self._D(self.c_1020106),
-            self._D(self.c_1020107),
-            self._D(self.c_1020108),
-            self._D(self.c_1020109),
-            self._D(self.c_1020110),
-            self._D(self.c_1020111),
-            self._D(self.c_1020112),
-            self._D(self.c_1020113),
-            self._D(self.c_1020114),
-            self._D(self.c_102011401),
-            self._D(self.c_102011402),
-            self._D(self.c_102011403),
-            self._D(self.c_10202),
-            self._D(self.c_1020201),
-            self._D(self.c_102020101),
-            self._D(self.c_102020102),
-            self._D(self.c_1020202),
-            self._D(self.c_102020201),
-            self._D(self.c_102020202),
-            self._D(self.c_1020203),
-            self._D(self.c_1020204),
-            self._D(self.c_10203),
-            self._D(self.c_1020301),
-            self._D(self.c_1020302),
-            self._D(self.c_1020303),
-            self._D(self.c_1020304),
-            self._D(self.c_1020305),
-            self._D(self.c_1020306),
-            self._D(self.c_10204),
-            self._D(self.c_1020401),
-            self._D(self.c_1020402),
-            self._D(self.c_1020403),
-            self._D(self.c_1020404),
-            self._D(self.c_1020405),
-            self._D(self.c_1020406),
-            self._D(self.c_1020407),
-            self._D(self.c_10205),
-            self._D(self.c_10206),
-            self._D(self.c_1020601),
-            self._D(self.c_1020602),
-            self._D(self.c_1020603),
-            self._D(self.c_1020604),
-            self._D(self.c_1020605),
-            self._D(self.c_1020606),
-            self._D(self.c_10207),
-            self._D(self.c_1020701),
-            self._D(self.c_1020702),
-            self._D(self.c_1020703),
-            self._D(self.c_10208),
-            self._D(self.c_1020801),
-            self._D(self.c_1020802),
-            self._D(self.c_1020803),
-            self._D(self.c_1020805),
-            self._D(self.c_1020806),
-            self._D(self.c_1020807),
-            self._D(self.c_1020808),
-            self._D(self.c_1020809),
-            self._D(self.c_1020810),
-            self._D(self.c_1020811),
-            self._D(self.c_10209),
-            self._D(self.c_1020901),
-            self._D(self.c_1020902),
-            self._D(self.c_1020903),
-            self._D(self.c_10210),
-            self._D(self.c_1021001),
-            self._D(self.c_1021002),
-            self._D(self.c_1021003),
-            self._D(self.c_1021004),
-        ])
-
-    # =========================
-    # 🔴 PASIVOS
-    # =========================
-    def calc_pasivos(self):
-        return self._D(self.c_2)
-
-    # =========================
-    # 🔴 PASIVOS CORRIENTES
-    # =========================
-    def calc_pasivos_corrientes(self):
-        return sum([
-            self._D(self.c_201),
-            self._D(self.c_20101),
-            self._D(self.c_20102),
-            self._D(self.c_20103),
-            self._D(self.c_2010301),
-            self._D(self.c_201030101),
-            self._D(self.c_201030102),
-            self._D(self.c_201030103),
-            self._D(self.c_2010302),
-            self._D(self.c_201030201),
-            self._D(self.c_201030202),
-            self._D(self.c_201030203),
-            self._D(self.c_20104),
-            self._D(self.c_2010401),
-            self._D(self.c_2010402),
-            self._D(self.c_20105),
-            self._D(self.c_2010501),
-            self._D(self.c_2010502),
-            self._D(self.c_20106),
-            self._D(self.c_2010601),
-            self._D(self.c_2010602),
-            self._D(self.c_2010603),
-            self._D(self.c_2010604),
-            self._D(self.c_2010605),
-            self._D(self.c_20107),
-            self._D(self.c_2010701),
-            self._D(self.c_2010702),
-            self._D(self.c_2010703),
-            self._D(self.c_2010704),
-            self._D(self.c_2010705),
-            self._D(self.c_2010706),
-            self._D(self.c_2010707),
-            self._D(self.c_20108),
-            self._D(self.c_2010801),
-            self._D(self.c_201080101),
-            self._D(self.c_201080102),
-            self._D(self.c_201080103),
-            self._D(self.c_201080104),
-            self._D(self.c_2010802),
-            self._D(self.c_201080201),
-            self._D(self.c_201080202),
-            self._D(self.c_201080203),
-            self._D(self.c_201080204),
-            self._D(self.c_20109),
-            self._D(self.c_20110),
-            self._D(self.c_2011001),
-            self._D(self.c_2011002),
-            self._D(self.c_20111),
-            self._D(self.c_20112),
-            self._D(self.c_2011201),
-            self._D(self.c_2011202),
-            self._D(self.c_20113),
-            self._D(self.c_2011301),
-            self._D(self.c_2011302),
-            self._D(self.c_2011303),
-            self._D(self.c_2011304),
-            self._D(self.c_2011305),
-            self._D(self.c_2011306),
-            self._D(self.c_2011307),
-            self._D(self.c_2011308),
-            self._D(self.c_2011309),
-            self._D(self.c_2011310),
-            self._D(self.c_2011311),
-            self._D(self.c_2011312),
-            self._D(self.c_20114),
-        ])
-
-    # =========================
-    # 🔴 PASIVOS NO CORRIENTES
-    # =========================
-    def calc_pasivos_no_corrientes(self):
-        return sum([
-            self._D(self.c_202),
-            self._D(self.c_20201),
-            self._D(self.c_20202),
-            self._D(self.c_2020201),
-            self._D(self.c_202020101),
-            self._D(self.c_202020102),
-            self._D(self.c_202020103),
-            self._D(self.c_2020202),
-            self._D(self.c_202020201),
-            self._D(self.c_202020202),
-            self._D(self.c_202020203),
-            self._D(self.c_20203),
-            self._D(self.c_2020301),
-            self._D(self.c_2020302),
-            self._D(self.c_20204),
-            self._D(self.c_2020401),
-            self._D(self.c_202040101),
-            self._D(self.c_202040102),
-            self._D(self.c_202040103),
-            self._D(self.c_202040104),
-            self._D(self.c_2020402),
-            self._D(self.c_202040201),
-            self._D(self.c_202040202),
-            self._D(self.c_202040203),
-            self._D(self.c_202040204),
-            self._D(self.c_20205),
-            self._D(self.c_2020501),
-            self._D(self.c_2020502),
-            self._D(self.c_2020503),
-            self._D(self.c_2020504),
-            self._D(self.c_2020505),
-            self._D(self.c_20206),
-            self._D(self.c_2020601),
-            self._D(self.c_2020602),
-            self._D(self.c_20207),
-            self._D(self.c_2020701),
-            self._D(self.c_2020702),
-            self._D(self.c_20208),
-            self._D(self.c_20209),
-            self._D(self.c_2020901),
-            self._D(self.c_2020902),
-            self._D(self.c_20210),
-        ])
-
-    # =========================
-    # 🔵 PATRIMONIO
-    # =========================
-    def calc_patrimonio(self):
-        return sum([
-            self._D(self.c_3),
-            self._D(self.c_30),
-            self._D(self.c_301),
-            self._D(self.c_30101),
-            self._D(self.c_30102),
-            self._D(self.c_30103),
-            self._D(self.c_30104),
-            self._D(self.c_30105),
-            self._D(self.c_3010501),
-            self._D(self.c_3010502),
-            self._D(self.c_302),
-            self._D(self.c_303),
-            self._D(self.c_304),
-            self._D(self.c_30401),
-            self._D(self.c_30402),
-            self._D(self.c_305),
-            self._D(self.c_30501),
-            self._D(self.c_30502),
-            self._D(self.c_30503),
-            self._D(self.c_30504),
-            self._D(self.c_306),
-            self._D(self.c_30601),
-            self._D(self.c_30602),
-            self._D(self.c_30603),
-            self._D(self.c_30604),
-            self._D(self.c_30605),
-            self._D(self.c_30606),
-            self._D(self.c_30607),
-            self._D(self.c_307),
-            self._D(self.c_30701),
-            self._D(self.c_30702),
-            self._D(self.c_31),
-        ])
-
-    # =========================
-    # ⚖️ VALIDACIÓN AUDITOR SCVS
-    # =========================
-    def validar_balance_general(self):
-        activos = self.calc_activos_corrientes() + self.calc_activos_no_corrientes()
-        pasivos = self.calc_pasivos() + self.calc_pasivos_corrientes() + self.calc_pasivos_no_corrientes()
-        patrimonio = self.calc_patrimonio()
-
-        diferencia = activos - (pasivos + patrimonio)
-
-        return {
-            "activos": str(activos),
-            "pasivos": str(pasivos),
-            "patrimonio": str(patrimonio),
-            "diferencia": str(diferencia),
-            "cuadra": diferencia == Decimal("0.00"),
-        }
-    # -------------------------------------------------
-    def save(self, *args, **kwargs):
-
-        # =========================
-        # 🟢 ACTIVOS TOTALES
-        # =========================
-        self.c_1 = (
-        self.calc_activos_corrientes() +
-        self.calc_activos_no_corrientes()
-        )
-
-        # =========================
-        # 🔴 PASIVOS TOTALES
-        # =========================
-        self.c_2 = (
-        self.calc_pasivos() +
-        self.calc_pasivos_corrientes() +
-        self.calc_pasivos_no_corrientes()
-        )
-
-        # =========================
-        # 🔵 PATRIMONIO TOTAL
-        # =========================
-        self.c_3 = self.calc_patrimonio()
-
-        # =========================
-        # ⚖️ VALIDACIÓN AUDITOR
-        # Activo = Pasivo + Patrimonio
-        # =========================
-        diferencia = self._D(self.c_1) - (self._D(self.c_2) + self._D(self.c_3))
-
-        if diferencia != Decimal("0.00"):
-            raise ValueError(
-                f"DESCUADRE SCVS: Activos({self.c_1}) != Pasivos({self.c_2}) + Patrimonio({self.c_3}) | Diferencia: {diferencia}"
-            )
-
-        super().save(*args, **kwargs)
-
-        
 class SCVS_EFE(models.Model):
     report = models.OneToOneField(SCVSFinancialReport, on_delete=models.CASCADE)
 
