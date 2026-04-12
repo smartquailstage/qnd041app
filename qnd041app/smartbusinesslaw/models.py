@@ -6548,7 +6548,7 @@ class SCVS_EIR(models.Model):
     # 📊 INGRESOS
     # =====================================================
     def calc_401_n3(self):
-    return (
+        return (
         self._D(self.c_40101) +
         self._D(self.c_4010201) +
         self._D(self.c_4010202) +
