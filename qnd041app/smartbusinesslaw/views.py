@@ -351,7 +351,7 @@ def txt_datos_generales(request, pk):
     ]
     content = "\n".join(lines)
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="notas_niif_{reporte.fiscal_year}.txt"'
+    response['Content-Disposition'] = f'attachment; filename="notas_niif_{reporte.fical_year}.txt"'
     return response
 
 # ----------------------
@@ -1572,6 +1572,7 @@ def pdf_datos_generales(request, pk):
     """
     # Obtener el reporte
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
+    eir = reporte.eir
 
     # ----------------------------
     # Generar QR basado en RUC + Año fiscal
@@ -1593,6 +1594,8 @@ def pdf_datos_generales(request, pk):
     html = render_to_string('scvs/pdf_datos_generales.html', {
         'reporte': reporte,
         'qr_url': qr_url,
+        'eir': eir,
+
     })
 
     # ----------------------------
