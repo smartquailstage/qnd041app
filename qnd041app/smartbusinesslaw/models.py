@@ -10281,6 +10281,9 @@ class SCVS_ECP(models.Model):
         help_text="Resultado Integral Total del Año (Ganancia o pérdida del ejercicio)"
     )
 
+    def _D(self, v):
+        return v if v is not None else Decimal("0.00")
+
     def calc_99_304(self):
         return self._D(self.c_99_30401) + self._D(self.c_99_30402)
 
