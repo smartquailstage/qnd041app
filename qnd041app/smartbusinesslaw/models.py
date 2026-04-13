@@ -10512,8 +10512,26 @@ class SCVS_ECP(models.Model):
 
 
 
+
+
     def __str__(self):
-        return f"Saldo Final del Período:${self.c_99_30 }"
+        return (
+            f"Estado de Cambio de Patrimonio (ECP) | "
+            f"Año: {self.fiscal_year or 'N/A'} | "
+            f"Inicial: {self.c_990101_30 or 0.00} | "
+            f"Reexpresado: {self.c_9901_30 or 0.00} | "
+            f"Ajustes: {self.c_990102_30 or 0.00} | "
+            f"Correcciones: {self.c_990103_30 or 0.00} | "
+            f"Cambios del año: {self.c_9902_30 or 0.00} | "
+            f"Capital: {self.c_990201_30 or 0.00} | "
+            f"Dividendos: {self.c_990204_30 or 0.00} | "
+            f"Final: {self.c_99_30 or 0.00}"
+        )
+
+
+    class Meta:
+        verbose_name = "Estado de Cambio de Patrimonio (ECP)"
+        verbose_name_plural = "Estados de Cambio de Patrimonio (ECP)"
 
 
 
