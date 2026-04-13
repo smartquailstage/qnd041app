@@ -786,7 +786,15 @@ def txt_balance_general(request, pk):
 # ----------------------
 def txt_estado_resultados(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-    eir = getattr(reporte, "eir", None)
+    try:
+        eir = reporte.eir
+    except AttributeError:
+        return HttpResponse(
+            "No existe EIR asociado a este reporte.",
+            content_type="text/plain",
+            status=404
+        )
+
     codigos = [
         "401",
         "40101",
@@ -1066,7 +1074,15 @@ def txt_estado_resultados(request, pk):
 # ----------------------
 def txt_flujo_anexos(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-    efe = getattr(reporte, "scvs_efe", None)  # OneToOne reverse
+    try:
+        efe = reporte.efe
+    except AttributeError:
+        return HttpResponse(
+            "No existe EFE asociado a este reporte.",
+            content_type="text/plain",
+            status=404
+        )
+
 
     codigos = [
         "95",
@@ -1179,7 +1195,15 @@ def txt_flujo_anexos(request, pk):
 # ----------------------
 def txt_cambios_patrimonio(request, pk):
     reporte = get_object_or_404(SCVSFinancialReport, pk=pk)
-    ecp = reporte.scvs_ecp
+    try:
+        ecp = reporte.ecp
+    except AttributeError:
+        return HttpResponse(
+            "No existe ECP asociado a este reporte.",
+            content_type="text/plain",
+            status=404
+        )
+
 
     codigos = [
         ("99", "301"),

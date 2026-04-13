@@ -6774,21 +6774,6 @@ class SCVS_EIR(models.Model):
     def calc_c_801(self):
         return self.calc_c_707() + self._D(self.c_800)
 
-    def clean(self):
-        calculated = self.calc_c_801()
-        reported = self._D(self.c_801)
-        difference = calculated - reported
-
-        if difference != Decimal("0.00"):
-            raise ValidationError({
-                "c_801": (
-                    f"❌ Descuadre EIR SCVS\n"
-                    f"Calculado: {calculated}\n"
-                    f"Reportado: {reported}\n"
-                    f"Diferencia: {difference}"
-                )
-            })
-
     def save(self, *args, **kwargs):
 
         # =========================
