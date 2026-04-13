@@ -1178,7 +1178,18 @@ class SCVS_ECPInline(StackedInline):
     tab = True  # (Unfold)
     collapsible = True # (Unfold)
     readonly_fields = (
-    'c_99_30',
+    # =========================
+    # 🔵 TOTALES PRINCIPALES (PARENT)
+    # =========================
+    "c_99_30",
+    "c_9901_30",
+    "c_990101_30",
+    "c_990102_30",
+    "c_990103_30",
+    "c_9902_30",
+    "c_990201_30",
+    "c_990204_30",
+
     )
 
     fieldsets = (
