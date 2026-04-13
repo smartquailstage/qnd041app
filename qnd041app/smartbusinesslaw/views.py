@@ -351,7 +351,7 @@ def txt_datos_generales(request, pk):
     ]
     content = "\n".join(lines)
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="{reporte.ruc}_DatosGenerales.txt"'
+    response['Content-Disposition'] = f'attachment; filename="notas_niif_{reporte.fiscal_year}.txt"'
     return response
 
 # ----------------------

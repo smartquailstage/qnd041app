@@ -427,9 +427,9 @@ def SCVS_DatosGenerales(obj):
     url_pdf = reverse('smartbusinesslaw:pdf_datos_generales', args=[obj.id])
     return mark_safe(
         #f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span> TXT</a> | '
-        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">download</span>Informe.pdf</a>'
+        f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">download</span>NIIF {obj.fiscal_year}.pdf</a>'
     )
-SCVS_DatosGenerales.short_description = "Informe Contable"
+SCVS_DatosGenerales.short_description = "Notas Contables"
 
 # -----------------------------
 # Enlace TXT: Balance General
@@ -438,10 +438,10 @@ def SCVS_BalanceGeneral(obj):
     url_txt = reverse('smartbusinesslaw:txt_balance_general', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(ESF).txt</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>(ESF){obj.fiscal_year}.txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_BalanceGeneral.short_description = "Estado Situación Finaciera (ESF)"
+SCVS_BalanceGeneral.short_description = "Situación Finaciera (ESF)"
 
 # -----------------------------
 # Enlace TXT: Estado de Resultados
@@ -450,10 +450,10 @@ def SCVS_EstadoResultados(obj):
     url_txt = reverse('smartbusinesslaw:txt_estado_resultados', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_estado_resultados', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(EIR).txt</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>(EIR){obj.fiscal_year}.txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_EstadoResultados.short_description = "Estado Integral de Resultados (EIR)"
+SCVS_EstadoResultados.short_description = "Integral de Resultados (EIR)"
 
 # -----------------------------
 # Enlace TXT: Cambios en el Patrimonio
@@ -462,19 +462,19 @@ def SCVS_CambiosPatrimonio(obj):
     url_txt = reverse('smartbusinesslaw:txt_cambios_patrimonio', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_cambios_patrimonio', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(ECP).txt</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>(ECP){obj.fiscal_year}.txt</a>'
         #f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_CambiosPatrimonio.short_description = "Estado De Cambios En Patrimonio (ECP)"
+SCVS_CambiosPatrimonio.short_description = "Cambios de Patrimonio (ECP)"
 
 def SCVS_FlujoAnexos(obj):
     url_txt = reverse('smartbusinesslaw:txt_flujo_anexos', args=[obj.id])
     url_pdf = reverse('smartbusinesslaw:pdf_anexos', args=[obj.id])
     return mark_safe(
-        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>Reporte(EFE).txt</a>'
+        f'<a href="{url_txt}" target="_blank"><span class="material-symbols-outlined">download</span>(EFE){obj.fiscal_year}.txt</a>'
     #    f'<a href="{url_pdf}" target="_blank"><span class="material-symbols-outlined">picture_as_pdf</span> PDF</a>'
     )
-SCVS_FlujoAnexos.short_description = "Estados de Fjujos Efectivo (EFE)"
+SCVS_FlujoAnexos.short_description = "Fjujo Efectivo (EFE)"
 
 
 
