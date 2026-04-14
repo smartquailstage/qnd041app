@@ -4554,6 +4554,8 @@ class SCVS_ESF(models.Model):
     # =========================
     def save(self, *args, **kwargs):
 
+
+
         # =========================
         # 🔹 ACTIVOS
         # =========================
@@ -4611,9 +4613,22 @@ class SCVS_ESF(models.Model):
             self._D(self.c_30702),
         ], Decimal("0"))
 
+        c_20107 = sum([
+            self._D(self.c_2010701),
+            self._D(self.c_2010702),
+            self._D(self.c_2010703),
+            self._D(self.c_2010704),
+            self._D(self.c_2010705),
+            self._D(self.c_2010706),
+            self._D(self.c_2010707),
+        ])
+
+
+
         # =========================
         # 🔹 ASIGNAR NIVEL 3
         # =========================
+        self.c_20107 = c_20107 
         self.c_301 = c_301
         self.c_306 = c_306
         self.c_307 = c_307
