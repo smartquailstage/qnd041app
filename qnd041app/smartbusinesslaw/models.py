@@ -4548,21 +4548,108 @@ class SCVS_ESF(models.Model):
 
         validar_cuadre_scvs(activos, pasivos, patrimonio)
 
+
     # =========================
     # 💾 SAVE (FORZAR VALIDACIÓN)
     # =========================
     def save(self, *args, **kwargs):
+
+        # =========================
+        # 🔹 ACTIVOS
+        # =========================
         self.c_101 = self.calc_activos_corrientes()
         self.c_102 = self.calc_activos_no_corrientes()
-
         self.c_1 = self._D(self.c_101) + self._D(self.c_102)
+
+        # =========================
+        # 🔹 PASIVOS
+        # =========================
         self.c_201 = self.calc_pasivos_corrientes()
         self.c_202 = self.calc_pasivos_no_corrientes()
         self.c_2 = self._D(self.c_201) + self._D(self.c_202)
 
-        self.c_3 = self.calc_patrimonio()
-        self.full_clean()
+        # =========================
+        # 🔹 PATRIMONIO NIVEL 3
+        # =========================
 
+        # Capital social (301)
+        c_301 = sum([
+            self._D(self.c_30101),
+            self._D(self.c_30102),
+            self._D(self.c_30103),
+            self._D(self.c_30104),
+            self._D(self.c_30105),
+        ], Decimal("0"))
+
+        # Otros componentes
+        c_302 = self._D(self.c_302)
+        c_303 = self._D(self.c_303)
+
+        c_304 = self._D(self.c_30401) + self._D(self.c_30402)
+
+        c_305 = sum([
+            self._D(self.c_30501),
+            self._D(self.c_30502),
+            self._D(self.c_30503),
+            self._D(self.c_30504),
+        ], Decimal("0"))
+
+        # Reservas / acumulados (306)
+        c_306 = sum([
+            self._D(self.c_30601),
+            self._D(self.c_30602),
+            self._D(self.c_30603),
+            self._D(self.c_30604),
+            self._D(self.c_30605),
+            self._D(self.c_30606),
+            self._D(self.c_30607),
+        ], Decimal("0"))
+
+        # Resultado del ejercicio (307)
+        c_307 = sum([
+            self._D(self.c_30701),
+            self._D(self.c_30702),
+        ], Decimal("0"))
+
+        # =========================
+        # 🔹 ASIGNAR NIVEL 3
+        # =========================
+        self.c_301 = c_301
+        self.c_306 = c_306
+        self.c_307 = c_307
+
+        # =========================
+        # 🔹 NIVEL 2 (PATRIMONIO)
+        # =========================
+        self.c_30 = sum([
+            c_301,   # 🔥 ESTO TE FALTABA
+            c_302,
+            c_303,
+            c_304,
+            c_305,
+            c_306,
+            c_307,
+        ], Decimal("0"))
+
+        # Participación no controladora
+        self.c_31 = Decimal("0")
+
+        # =========================
+        # 🔹 TOTAL PATRIMONIO
+        # =========================
+        self.c_3 = self.c_30 + self.c_31
+
+        # =========================
+        # 🔹 VALIDACIÓN CONTABLE
+        # =========================
+        # Activos = Pasivos + Patrimonio
+        if self._D(self.c_1) != (self._D(self.c_2) + self._D(self.c_3)):
+            raise ValueError(
+                f"No cuadra balance: Activos={self.c_1} "
+                f"Pasivos+Patrimonio={self._D(self.c_2) + self._D(self.c_3)}"
+            )
+
+        self.full_clean()
         super().save(*args, **kwargs)
 
 
@@ -6774,6 +6861,48 @@ class SCVS_EIR(models.Model):
     def calc_c_801(self):
         return self.calc_c_707() + self._D(self.c_800)
 
+    def _lint_scvs(self):
+
+        errores = []
+
+        # =========================
+        # 1. GANANCIA BRUTA
+        # =========================
+        if self._D(self.c_402) != (self._D(self.c_401) - self._D(self.c_501)):
+            errores.append(
+                f"❌ 402 mal calculado: 402={self.c_402} "
+                f"pero 401-501={(self._D(self.c_401) - self._D(self.c_501))}"
+            )
+
+        # =========================
+        # 2. RESULTADO DEL PERIODO
+        # =========================
+        esperado_600 = self._D(self.c_402) - self._D(self.c_502)
+
+        if self._D(self.c_600) != esperado_600:
+            errores.append(
+                f"❌ 600 mal calculado: 600={self.c_600} "
+                f"pero 402-502={esperado_600}"
+            )
+
+        # =========================
+        # 3. DUPLICACIÓN (AQUÍ SALE TU ERROR REAL)
+        # =========================
+        if self.c_602 != self.c_600:
+            errores.append("❌ 602 no es igual a 600")
+
+        if self.c_607 != self.c_600:
+            errores.append("❌ 607 no es igual a 600")
+
+        if self.c_707 != self.c_600:
+            errores.append("❌ 707 no es igual a 600")
+
+        if self.c_801 != self.c_600:
+            errores.append("❌ 801 no es igual a 600")
+
+        if errores:
+            raise ValueError("\n".join(errores))
+
     def save(self, *args, **kwargs):
 
         # =========================
@@ -6781,7 +6910,11 @@ class SCVS_EIR(models.Model):
         # =========================
         self.c_40102 = self.calc_40102()
         self.c_40106 = self.calc_40106()
-        self.c_40109 = self.calc_40109_01() + self.calc_40109_02() + self.calc_40109_03()
+        self.c_40109 = (
+            self.calc_40109_01()
+            + self.calc_40109_02()
+            + self.calc_40109_03()
+        )
         self.c_40110 = self.calc_40110()
 
         self.c_401 = self.calc_401()
@@ -6803,19 +6936,25 @@ class SCVS_EIR(models.Model):
         self.c_502 = self.calc_502()
 
         # =========================
-        # 📊 RESULTADOS
+        # 🧮 RESULTADOS
         # =========================
-        self.c_600 = self.calc_c_600()
-        self.c_602 = self.calc_c_602()
-        self.c_607 = self.calc_c_607()
-        self.c_707 = self.calc_c_707()
-        self.c_801 = self.calc_c_801()
+        self.c_402 = self._D(self.c_401) - self._D(self.c_501)
+        self.c_600 = self._D(self.c_402) - self._D(self.c_502)
 
         # =========================
-        # ⚠️ VALIDACIÓN FINAL SCVS
+        # 🚫 NO DUPLICAR
         # =========================
+        self.c_602 = self.c_600
+        self.c_607 = self.c_600
+        self.c_707 = self.c_600
+        self.c_801 = self.c_600
+
+        # =========================
+        # 🧪 VALIDACIÓN SCVS (AQUÍ DETECTA EL ERROR REAL)
+        # =========================
+        self._lint_scvs()
+
         self.full_clean()
-
         super().save(*args, **kwargs)
 
 

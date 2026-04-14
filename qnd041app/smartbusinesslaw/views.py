@@ -1063,7 +1063,7 @@ def txt_estado_resultados(request, pk):
 
     response = HttpResponse(content, content_type="text/plain")
     response["Content-Disposition"] = (
-        f'attachment; filename="estado_integral_resultados(eir).txt"'
+        f'attachment; filename="estado_integral_resultados_eir.txt"'
     )
 
     return response
@@ -1186,7 +1186,7 @@ def txt_flujo_anexos(request, pk):
     content = "\n".join(lines)
 
     response = HttpResponse(content, content_type='text/plain')
-    response['Content-Disposition'] = f'attachment; filename="estado_flujo_efectivo(efe).txt"'
+    response['Content-Disposition'] = f'attachment; filename="efe.txt"'
 
     return response
 
@@ -1558,7 +1558,7 @@ def txt_cambios_patrimonio(request, pk):
 
     response = HttpResponse(contenido_txt, content_type="text/plain")
     response["Content-Disposition"] = (
-        f'attachment; filename="Cambio_Patrimonio(ecp).txt"'
+        f'attachment; filename="ecp.txt"'
     )
 
     return response
