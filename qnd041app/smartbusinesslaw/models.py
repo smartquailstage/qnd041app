@@ -812,7 +812,8 @@ class SCVSFinancialReport(models.Model):
         help_text="Matrícula de contador"
     )
 
-    fecha_incripcion = models.DateTimeField("Fecha de inscripción",null=True, blank=True)
+    fecha_incripcion = models.DateTimeField("Fecha de inscripción de compañia",null=True, blank=True)
+    created_at = models.DateTimeField("Fecha de Nota",null=True, blank=True)
     direccion =  models.CharField(
         "Dirección Administrativa",
         max_length=255,
@@ -4628,7 +4629,7 @@ class SCVS_ESF(models.Model):
         # =========================
         # 🔹 ASIGNAR NIVEL 3
         # =========================
-        self.c_20107 = c_20107 
+        self.c_20107 = c_20107
         self.c_301 = c_301
         self.c_306 = c_306
         self.c_307 = c_307
