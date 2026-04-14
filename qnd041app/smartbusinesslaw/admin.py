@@ -1335,13 +1335,13 @@ class SCVSFinancialReportAdmin(ModelAdmin):
     # ---------------------------
     fieldsets = (
         ('Información de la empresa', {
-            'fields': ('ruc', 'company_name', 'company_type','direccion','economic_activity',),
+            'fields': ('created_at','ruc', 'company_name', 'fecha_incripcion','company_type','direccion','economic_activity',),
             'classes': ('unfold', 'collapse'),
         }),
 
         ('Notas de Contabilidad', {
             'fields': ('fiscal_year','nombre_contador',
-            'matricula_contador','fecha_incripcion',
+            'matricula_contador',
              'currency',
             'valor_unitario','monto_total'),
             'classes': ('unfold', 'collapse'),
