@@ -343,7 +343,7 @@ UNFOLD = {
             "rel": "icon",
             "sizes": "32x28",
             "type": "image/svg+xml",
-            "href": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"),
+            "href": lambda request: static("img/PRODUCT_LOGOS/logo_red_user.png"),
         },
     ],
     "SHOW_HISTORY": True,
