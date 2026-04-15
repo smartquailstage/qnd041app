@@ -163,6 +163,10 @@ class BusinessSystemProject(models.Model):
         help_text="Número estimado de procesos activos"
     )
 
+    porcentaje_almacenamiento = models.FloatField(null=True, blank=True)
+    porcentaje_procesamiento = models.FloatField(null=True, blank=True)
+    porcentaje_memoria = models.FloatField(null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -171,10 +175,31 @@ class BusinessSystemProject(models.Model):
 
 
     def save(self, *args, **kwargs):
+        
         if self.saas_order:
             item = self.saas_order.items.first()
             if item:
                 self.product = item.product
+
+        if self.almacenamiento_aproximado_gb and self.almacenamiento_total_mb:
+            total_gb = self.almacenamiento_total_mb / 1024
+            if total_gb > 0:
+                self.porcentaje_almacenamiento = round(
+                    (self.almacenamiento_aproximado_gb / total_gb) * 100, 2)
+                    
+        if self.procesamiento_aproximado_vcpu and self.procesamiento_total_aproximado_millicore:
+            if self.procesamiento_total_aproximado_millicore > 0:
+                self.porcentaje_procesamiento = round(
+                    (self.procesamiento_aproximado_vcpu /
+                    self.procesamiento_total_aproximado_millicore) * 100, 2
+                    )
+                    
+        if self.memoria_aproximada_gb and self.memoria_total:
+            total_gb = self.memoria_total / 1024
+            if total_gb > 0:
+                self.porcentaje_memoria = round(
+                    (self.memoria_aproximada_gb / total_gb) * 100, 2)
+                    
         super().save(*args, **kwargs)
 
 

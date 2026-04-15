@@ -23,44 +23,218 @@
       <div class="col">
         <div class="card radius-10 bg-primary">
           <div class="card-body">
-            <p class="mb-1 text-white">{{ project.name }}</p>
-            <h4 class="mb-0 text-white">Activo</h4>
-            <hr class="text-white">
-            <p class="mb-0 text-white">
-              <strong>Progreso:</strong> {{ project.progress }}%
-            </p>
-            <div class="progress my-0" style="height:6px;">
-              <div class="progress-bar bg-success"
-                   style="width: {{ project.progress }}%"></div>
+
+            <div class="d-flex align-items-start gap-2">
+              <div>
+                <p class="mb-0 fs-6">{{ project.name }}</p>
+                <h4 class="mb-0 text-info">Activo</h4>
+                <hr class="text-white">
+                <p class="mb-0 text-white">
+                  <strong><a href="{{ project.domain_name }}">{{ project.domain_name }}</a></strong> 
+                </p>
+              </div>
+                 <!-- ICONO con misma lógica -->
+                 <div class="ms-auto widget-icon-small 
+                 {% if project.progress < 50 %}
+                      text-danger
+                 {% elif project.progress <= 50 and project.progress <= 80 %}
+                     text-warning
+                 {% elif project.progress > 80 %}
+                 text-info
+                 {% endif %}
+                 bg-dark">
+                 
+                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+               </div>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <div class="d-flex align-items-start gap-2">
+              <div>
+                <p class="mb-0 fs-6">Disponible:{{ project.procesamiento_total_aproximado_millicore }} GB </p>
+                <h4 class="mb-0 text-white">Procesamiento</h4>
+                <hr class="text-white">
+                <p class="mb-0 text-white">
+                  <strong>Uso max registrado:</strong> {{ project.porcentaje_procesamiento }}%
+                </p>
+              </div>
+              <div class="ms-auto widget-icon-small text-warning bg-dark">
+
+                              <!-- ICONO con misma lógica -->
+              <div class="ms-auto widget-icon-small 
+              {% if project.porcentaje_procesamiento < 50 %}
+                  text-info
+              {% elif project.porcentaje_procesamiento >= 50 and project.porcentaje_procesamiento <= 80 %}
+                  text-warning
+              {% elif project.porcentaje_procesamiento > 80 %}
+                  text-danger
+              {% endif %}
+              bg-dark">
+              
+              <div class="font-22">	<ion-icon name="hardware-chip-outline" role="img" class="md hydrated" aria-label="hardware chip outline"></ion-icon>
+              </div>
             </div>
+
+
+              </div>
+            </div>
+
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar 
+                {% if project.porcentaje_procesamiento < 50 %}
+                    bg-info
+                {% elif project.porcentaje_procesamiento >= 50 and project.porcentaje_procesamiento <= 80 %}
+                    bg-warning
+                {% elif project.porcentaje_procesamiento > 80 %}
+                    bg-danger
+                {% endif %}"
+                style="width: {{ project.porcentaje_procesamiento|default:0|floatformat:0 }}%">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <div class="d-flex align-items-start gap-2">
+              <div>
+                <p class="mb-0 fs-6">Disponible:{{ project.memoria_total  }} GB </p>
+                <h4 class="mb-0 text-white">Memoria</h4>
+                <hr class="text-white">
+                <p class="mb-0 text-white">
+                  <strong>Uso max registrado:</strong> {{ project.porcentaje_memoria  }}%
+                </p>
+              </div>
+                 <!-- ICONO con misma lógica -->
+                 <div class="ms-auto widget-icon-small 
+                 {% if project.porcentaje_memoria  < 50 %}
+                     text-info
+                 {% elif project.porcentaje_memoria  >= 50 and project.porcentaje_memoria  <= 80 %}
+                     text-warning
+                 {% elif project.porcentaje_memoria  > 80 %}
+                     text-danger
+                 {% endif %}
+                 bg-dark">
+                 
+                 <i class="fadeIn animated bx bx-memory-card"></i>
+               </div>
+            </div>
+
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar 
+                {% if project.porcentaje_memoria  < 50 %}
+                    bg-info
+                {% elif project.porcentaje_memoria  >= 50 and project.porcentaje_memoria  <= 80 %}
+                    bg-warning
+                {% elif project.porcentaje_memoria > 80 %}
+                    bg-danger
+                {% endif %}"
+                style="width: {{ project.porcentaje_almacenamiento|default:0|floatformat:0 }}%">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card radius-10 bg-primary">
+          <div class="card-body">
+            <div class="d-flex align-items-start gap-2">
+              <div>
+                <p class="mb-0 fs-6">
+                  Disponible: {{ project.almacenamiento_total_mb }} GB
+                </p>
+                <h4 class="mb-0 text-white">Almacenamiento</h4>
+                <hr class="text-white">
+                <p class="mb-0 text-white">
+                  <strong>Uso max registrado:</strong> {{ project.porcentaje_almacenamiento }}%
+                </p>
+              </div>
+      
+              <!-- ICONO con misma lógica -->
+              <div class="ms-auto widget-icon-small 
+                {% if project.porcentaje_almacenamiento < 50 %}
+                    text-info
+                {% elif project.porcentaje_almacenamiento >= 50 and project.porcentaje_almacenamiento <= 80 %}
+                    text-warning
+                {% elif project.porcentaje_almacenamiento > 80 %}
+                    text-danger
+                {% endif %}
+                bg-dark">
+                
+                <ion-icon name="server-outline"></ion-icon>
+              </div>
+            </div>
+      
+            <!-- PROGRESS BAR -->
+            <div class="progress my-0" style="height:6px;">
+              <div class="progress-bar 
+                {% if project.porcentaje_almacenamiento < 50 %}
+                    bg-info
+                {% elif project.porcentaje_almacenamiento >= 50 and project.porcentaje_almacenamiento <= 80 %}
+                    bg-warning
+                {% elif project.porcentaje_almacenamiento > 80 %}
+                    bg-danger
+                {% endif %}"
+                style="width: {{ project.porcentaje_procesamiento|default:0|floatformat:0 }}%">
+              </div>
+            </div>
+      
           </div>
         </div>
       </div>
 
+      
     </div>
     {% endfor %}
 
     {# ================= PROYECTOS EN PROGRESO ================= #}
     {% for project in projects_in_progress %}
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+    <div class="col">
+      <div class="card radius-10 bg-primary">
+        <div class="card-body">
 
-      <div class="col">
-        <div class="card radius-10 bg-primary">
-          <div class="card-body">
-            <p class="mb-1 text-white">{{ project.name }}</p>
-            <h4 class="mb-0 text-white">En Progreso</h4>
-            <hr class="text-white">
-            <p class="mb-0 text-white">
-              <strong>Progreso:</strong> {{ project.progress }}%
-            </p>
-            <div class="progress mb-3" style="height:7px;">
-              <div class="progress-bar bg-warning"
-                   style="width: {{ project.progress }}%"></div>
+          <div class="d-flex align-items-start gap-2">
+            <div>
+              <p class="mb-0 fs-6">{{ project.name }}</p>
+              <h4 class="mb-0 text-white">Implementación ITC</h4>
+              <hr class="text-white">
+              <p class="mb-0 text-white">
+                <strong>En progreso: {{ project.progress }}%</strong> 
+              </p>
             </div>
+               <!-- ICONO con misma lógica -->
+               <div class="ms-auto widget-icon-small 
+               {% if project.progress < 50 %}
+               text-danger
+          {% elif project.progress <= 50 and project.progress <= 80 %}
+              text-warning
+          {% elif project.progress > 80 %}
+          text-info
+          {% endif %}
+          bg-dark">
+               
+               <span class="spinner-border spinner-border-sm text-warning"></span>
+             </div>
+            </div>
+          <div class="progress my-0" style="height:6px;">
+            <div class="progress-bar bg-info"
+                 style="width: {{ project.progress }}%"></div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
     {% endfor %}
 

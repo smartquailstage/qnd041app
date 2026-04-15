@@ -586,6 +586,7 @@ def dashboard_pather(request):
 
     # Todos los proyectos del usuario
     user_projects = BusinessSystemProject.objects.filter(user=request.user)
+   
 
     # Solo los completados (para el menú)
     completed_projects = user_projects.filter(progress=100)
@@ -598,6 +599,8 @@ def dashboard_pather(request):
             'profile': profile,
             'all_projects': completed_projects,  # 👈 Aquí ya llegan filtrados
             'projects_in_progress': user_projects.exclude(progress=100),
+            'projects': completed_projects,
+
         }
     )
 
