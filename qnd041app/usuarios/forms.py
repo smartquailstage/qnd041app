@@ -114,7 +114,7 @@ class UserRegistrationForm(forms.ModelForm):
     )
 
     suscripcion_noticias = forms.BooleanField(
-        label='Deseo recibir en mi correo electrónico novedades',
+        label='Deseo recibir novedades de SmartQuail,Inc',
         required=False,
         help_text='Opcional: active esta opción para recibir actualizaciones y promociones exclusivas.',
         widget=forms.CheckboxInput(
