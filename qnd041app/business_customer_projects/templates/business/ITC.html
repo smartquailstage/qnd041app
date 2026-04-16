@@ -47,9 +47,9 @@
                   </div>
                   <div class="">
                     <h4 class="mb-0">{{ total_percent_store_used }} %</h4>
-                    <p class="mb-0 text-secondary">QND03101DB</p>
+                    <p class="mb-0 text-secondary">{{ project.db_name }}</p>
                     {% if project.is_active %}
-                    <p class="mb-0 text-secondary">Almacenamiento : {{ project.total_memory_available }} (GB) </p>
+                    <p class="mb-0 text-secondary">Almacenamiento : {{ project.almacenamiento_total_mb }} GB </p>
                     {% else%}
                     {% endif %}
                   </div>
@@ -63,7 +63,7 @@
                     <h4 class="mb-0">{{ total_percent_cpu_used }} %</h4>
                     <p class="mb-0 text-secondary"> vCPU </p>
                     {% if project.is_active %}
-                    <p class="mb-0 text-secondary">Procesamiento: {{ project.total_memory_available }} (milicores)</p>
+                    <p class="mb-0 text-secondary">Procesamiento: {{ project.procesamiento_total_aproximado_millicore }} milicores </p>
                     {% else%}
                     {% endif %}
                   </div>
@@ -77,12 +77,13 @@
                     <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
                     <p class="mb-0 text-secondary">NVMe SSD RAM  </p>
                      {% if project.is_active %}
-                     <p class="mb-0 text-secondary">Memoria: {{ project.total_memory_available }} (GB) </p>
+                     <p class="mb-0 text-secondary">Memoria: {{ project.memoria_total  }} MB </p>
                      {% else%}
                      {% endif %}
                   </div>
                 </div>
 
+                {% if project.has_ai %}
                 <div class="vr d-none d-lg-block"></div>
                 <div class="d-flex align-items-center gap-3">
                   <div class="widget-icon rounded-circle  bg-light-success text-success">
@@ -97,8 +98,10 @@
                      {% endif %}
                   </div>
                 </div>
+                {% else %}
+                {% endif %}
 
-
+                {% if project.has_llm %}
                 <div class="vr d-none d-lg-block"></div>
                 <div class="d-flex align-items-center gap-3">
                   <div class="widget-icon rounded-circle  bg-light-success text-success">
@@ -113,6 +116,10 @@
                      {% endif %}
                   </div>
                 </div>
+
+                {% else %}
+                {% endif %}
+
 
               </div>
               </div>

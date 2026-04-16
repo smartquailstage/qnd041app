@@ -27,9 +27,11 @@ class BusinessSystemProject(models.Model):
     usuarios_max = models.IntegerField(default=1, verbose_name='Número máximo de usuarios simultáneos')
     has_automation = models.BooleanField(default=False, verbose_name='¿Incluye automatización?')
     has_ai = models.BooleanField(default=False, verbose_name='¿Incluye inteligencia artificial?')
+    has_llm = models.BooleanField(default=False, verbose_name='¿Incluye LLM?')
     is_active = models.BooleanField(default=True, verbose_name='¿Proyecto activo?')
     is_domain_configured = models.BooleanField(default=False, verbose_name='¿Dispone de dominio privado?')
     domain_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
+    db_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de base de datos')
     public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
     velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')
 
