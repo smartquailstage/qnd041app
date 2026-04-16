@@ -214,7 +214,7 @@
         <div class="invalid-feedback d-block">{{ error }}</div>
       {% endfor %}
     </div>
-    <a href="{% url 'usuarios:politicas_terminos' %}"><p>Leer términos y condiciones de uso</p></a>
+    
   </div>
 
   <div class="col-12">
@@ -226,7 +226,7 @@
       {% for error in user_form.suscripcion_noticias.errors %}
         <div class="invalid-feedback d-block">{{ error }}</div>
       {% endfor %}
-      <p> <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
+    
     </div>
    
   </div>
@@ -238,10 +238,12 @@
   <!-- ========================== -->
   <div class="col-12 d-grid mt-4">
     <button type="submit" class="btn btn-primary"><i class="fadeIn animated bx bx-plus"></i> Crear Cuenta</button>
-   
-    
   </div>
 
+  <div class="col-12">
+     <a href="{% url 'usuarios:politicas_terminos' %}">Términos y Condiciones de uso </a> /
+      <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a>
+  </div>
   
 
 

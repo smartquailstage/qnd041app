@@ -56,13 +56,13 @@ class UserRegistrationForm(forms.ModelForm):
 
     password = forms.CharField(
         label='Escriba una contraseña segura',
-        help_text='Utilice al menos 8 caracteres, combinando letras, números y símbolos.',
+        help_text='Ingrese una contraseña válida de al menos 8 caracteres',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
     password2 = forms.CharField(
         label='Repita la contraseña que escribió arriba',
-        help_text='Debe coincidir exactamente con la contraseña anterior.',
+        help_text='re-ingrese su contraseña.',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
 
