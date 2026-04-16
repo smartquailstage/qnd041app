@@ -47,8 +47,11 @@
                   </div>
                   <div class="">
                     <h4 class="mb-0">{{ total_percent_store_used }} %</h4>
-                    <p class="mb-0 text-secondary">Almacenamiento (GB)</p>
-                    <p class="mb-0 text-secondary">Recurso Utilizado</p>
+                    <p class="mb-0 text-secondary">QND03101DB</p>
+                    {% if project.is_active %}
+                    <p class="mb-0 text-secondary">Almacenamiento : {{ project.total_memory_available }} (GB) </p>
+                    {% else%}
+                    {% endif %}
                   </div>
                 </div>
                 <div class="vr d-none d-lg-block"></div>
@@ -58,24 +61,59 @@
                   </div>
                   <div class="">
                     <h4 class="mb-0">{{ total_percent_cpu_used }} %</h4>
-                    <p class="mb-0 text-secondary">Procesamiento vCPU (milicores)</p>
-                    <p class="mb-0 text-secondary">Recurso Utilizado</p>
+                    <p class="mb-0 text-secondary"> vCPU </p>
+                    {% if project.is_active %}
+                    <p class="mb-0 text-secondary">Procesamiento: {{ project.total_memory_available }} (milicores)</p>
+                    {% else%}
+                    {% endif %}
                   </div>
                 </div>
                 <div class="vr d-none d-lg-block"></div>
                 <div class="d-flex align-items-center gap-3">
                   <div class="widget-icon rounded-circle  bg-light-success text-success">
-                   <ion-icon name="speedometer-outline"></ion-icon>
+                    <i class="fadeIn animated bx bx-memory-card"></i>
                   </div>
                   <div class="">
                     <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
-                    <p class="mb-0 text-secondary">Memoria RAM (GB) </p>
+                    <p class="mb-0 text-secondary">NVMe SSD RAM  </p>
                      {% if project.is_active %}
-                     <p class="mb-0 text-secondary">{{ project.total_memory_available }} Recurso Utilizado </p>
+                     <p class="mb-0 text-secondary">Memoria: {{ project.total_memory_available }} (GB) </p>
                      {% else%}
                      {% endif %}
                   </div>
                 </div>
+
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
+                    <p class="mb-0 text-secondary">vGPU  </p>
+                     {% if project.is_active %}
+                     <p class="mb-0 text-secondary"> Tarjeta gráfica:{{ project.total_memory_available }} (%)</p>
+                     {% else%}
+                     {% endif %}
+                  </div>
+                </div>
+
+
+                <div class="vr d-none d-lg-block"></div>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="widget-icon rounded-circle  bg-light-success text-success">
+                    <i class="fadeIn animated bx bx-cloud-drizzle"></i>
+                  </div>
+                  <div class="">
+                    <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
+                    <p class="mb-0 text-secondary">LLM  </p>
+                     {% if project.is_active %}
+                     <p class="mb-0 text-secondary">IA  Models: {{ project.total_tokens_available }} (tokens) </p>
+                     {% else%}
+                     {% endif %}
+                  </div>
+                </div>
+
               </div>
               </div>
 

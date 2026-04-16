@@ -40,12 +40,16 @@
   <li class="nav-item" role="presentation">
     <a class="nav-link " data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
+        {% for member in staff %}
+        {% for process in member.assigned_processes.all %}
         <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
           {% if process.progress == 100 %}
            <ion-icon name="checkmark-done-circle-outline"></ion-icon>
            {% else %}
           <span class="spinner-border spinner-border-sm text-warning"></span>
           {% endif %}
+          {% endfor %}
+          {% endfor %}
         </div>
       </div>
     </a>
@@ -58,60 +62,43 @@
     <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
       <div class="d-flex align-items-center">
 
-        <div class="tab-title"><i class="fadeIn animated bx bx-bot"></i><span class="spinner-border spinner-border-sm text-warning"></span></div>
+        <div class="tab-title">
+          
+                    
+          {% for automation in automations %}
+          {% if automation.progress == 100 %}
+          <i class="fadeIn animated bx bx-bot"></i><ion-icon name="checkmark-done-circle-outline"></ion-icon>
+          {% else %}
+          <i class="fadeIn animated bx bx-bot"></i><span class="spinner-border spinner-border-sm text-warning"></span> <span class="spinner-border spinner-border-sm text-warning"></span>
+         {% endif %}
+         {% endfor %}
+        
+        </div>
       </div>
     </a>
   </li>
   {% endif %}
 
-  {% if project.has_ai %}
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-        <div class="tab-title">  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                                         <span class="spinner-border spinner-border-sm text-warning"></span></div>
-      </div>
-    </a>
-  </li>
-  {% endif %}
+    {% if project.has_ai %}
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
+        <div class="d-flex align-items-center">
+          <div class="tab-title"> 
+            <i class="fadeIn animated bx bx-brain"></i>
+           
+                                          <span class="spinner-border spinner-border-sm text-warning"></span></div>
+        </div>
+      </a>
+    </li>
+    {% endif %}
 
 
 
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-seguridad" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-      <ion-icon name="shield-half"></ion-icon>
-       <span class="spinner-border spinner-border-sm text-warning"></span>
-
-    </div>
-  </a>
-</li>
-
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-monitoring" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-    <ion-icon name="pulse"></ion-icon>
-  <span class="spinner-border spinner-border-sm text-warning"></span>
-    </div>
-  </a>
-</li>
-
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-      <ion-icon name="shield-checkmark"></ion-icon>
-
-    </div>
-  </a>
-</li>
 
 </ul>
 
 
-
+<div class="tab-content mt-3">
 
 
       {% include "business/ITC.html" %}
@@ -120,7 +107,11 @@
         {% include "business/A.html" %}
       {% endif %}
 
+      {% if has_ai %}
+      {% include "business/AI.html" %}
+       {% endif %}
 
+      </div>
 
 </div> <!-- end tab content -->
 
