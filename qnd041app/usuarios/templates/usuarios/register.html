@@ -51,7 +51,7 @@
         <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 100%; max-width: 250px;"  alt="Logo">
       </a>
     </div>
-
+<hr>
     <div class="card custom-card-width">
       <div class="card-body">
         <div class="text-left mb-4">
@@ -82,35 +82,40 @@
 {% for field in user_form.visible_fields %}
 
 {% if field.name == "email" %}
-<div class="col-12">
-  
+  <div class="col-12">
+    <div class="input-group">
+      <span class="input-group-text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v.217l-8 4.8-8-4.8V4z"/>
+          <path d="M0 4.697v7.104l5.803-3.482L0 4.697zM6.761 8.83l-6.761 4.055A2 2 0 0 0 2 14h12a2 2 0 0 0 2-1.115l-6.761-4.055L8 9.583l-1.239-.753zM16 4.697l-5.803 3.622L16 11.801V4.697z"/>
+        </svg>
+      </span>
 
-  {% if user_form.is_bound %}
-    {% if field.errors %}
-      {% render_field field class="form-control is-invalid" autocomplete="email" %}
-    {% else %}
-      {% render_field field class="form-control is-valid" autocomplete="email" %}
+      {% if user_form.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" autocomplete="email" %}
+        {% else %}
+          {% render_field field class="form-control is-valid" autocomplete="email" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" autocomplete="email" %}
+      {% endif %}
+    </div>
+
+    {% for error in field.errors %}
+      <div class="invalid-feedback d-block">{{ error }}</div>
+    {% endfor %}
+
+    {% if field.help_text %}
+      <small class="form-text text-muted">{{ field.help_text }}</small>
     {% endif %}
-  {% else %}
-    {% render_field field class="form-control" autocomplete="email" %}
-  {% endif %}
-
-  {% for error in field.errors %}
-    <div class="invalid-feedback d-block">{{ error }}</div>
-  {% endfor %}
-
-  {% if field.help_text %}
-    <small class="form-text text-muted">{{ field.help_text }}</small>
-  {% endif %}
-</div>
+  </div>
 {% endif %}
 
 {% if field.name == "telefono" %}
   <div class="col-12">
-
-
     <div class="input-group">
-      <span class="input-group-text">+593</span>
+      <span class="input-group-text"><i class="lni lni-whatsapp"></i></span>
 
       {% if user_form.is_bound %}
         {% if field.errors %}
