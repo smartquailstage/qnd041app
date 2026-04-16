@@ -43,7 +43,7 @@ class PasswordResetRequestForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         label='Escriba su correo electrónico',
-        help_text='Ingrese un correo electrónico válido. Este será su usuario de acceso.',
+        help_text='Ingrese un correo electrónico válido.',
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
@@ -101,7 +101,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 
     acepta_terminos = forms.BooleanField(
-        label='He leído y acepto los términos y condiciones de SmartQuail, Inc.',
+        label='Acepto los términos y condiciones uso.',
         required=True,
         help_text='Debe aceptar los términos de uso y políticas de privacidad para continuar con el registro.',
         widget=forms.CheckboxInput(
@@ -114,7 +114,7 @@ class UserRegistrationForm(forms.ModelForm):
     )
 
     suscripcion_noticias = forms.BooleanField(
-        label='Deseo recibir en mi correo electrónico notificaciones, alertas y noticias de SmartQuail, Inc.',
+        label='Deseo recibir en mi correo electrónico novedades',
         required=False,
         help_text='Opcional: active esta opción para recibir actualizaciones y promociones exclusivas.',
         widget=forms.CheckboxInput(
