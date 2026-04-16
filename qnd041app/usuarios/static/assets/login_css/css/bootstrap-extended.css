@@ -866,40 +866,40 @@
 
 .form-control:focus {
     background-color: #fff;
-    border-color: #c27be4;
-    box-shadow: 0 0 0 .25rem rgba(146, 62, 185, 0.3)
+    border-color: #f8aa4e;
+    box-shadow: 0 0 0 .25rem #df8e339d
     
 }
 
 
 .page-link:hover,
 .page-link {
-	color: #923eb9;
+	color: #c2c2c2;
 }
 
 .page-link:focus {
-	color: #923eb9;
-	border-color: #c27be4;
-    box-shadow: 0 0 0 .25rem rgba(146, 62, 185, 0.3)
+	color: #f8aa4e;
+	border-color: #f8aa4e;
+    box-shadow: 0 0 0 .25rem #df8c2d94
 }
 
 .active>.page-link, 
 .page-link.active,
 .page-link.active:hover {
 	color: #fff;
-	background-color:#923eb9;
-    border-color:#923eb9;
+	background-color:#f8aa4e;
+    border-color:#f8aa4e;
 }
 
 
 .form-check-input:focus {
 	border-color: #4e4e4e;
 	outline: 0;
-	background-color:rgba(146, 62, 185, 0.25);
-	box-shadow: 0 0 0 .25rem rgba(146, 62, 185, 0.25);
+	background-color:#f8aa4e;
+	box-shadow: 0 0 0 .25rem #e9983c8a;
 }
 .form-check-input:checked {
-	background-color: #423f3f;
+	background-color: #f8aa4e;
     border-color: #423f3f;
 }
 

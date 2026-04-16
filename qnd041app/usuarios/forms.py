@@ -43,7 +43,7 @@ class PasswordResetRequestForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         label='Escriba su correo electrónico',
-        help_text='Ingrese un correo corporativo válido. Este será su usuario de acceso.',
+        help_text='Ingrese un correo electrónico válido. Este será su usuario de acceso.',
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
