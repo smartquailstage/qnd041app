@@ -16,35 +16,35 @@
   }
 .logo-container {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 0px;
   margin-bottom: 0;
 }
 
 /* Tablet */
 @media (max-width: 1024px) {
   .logo-container {
-    margin-top: 437px;
+    margin-top: 337px;
   }
 }
 
 /* Móviles grandes */
 @media (max-width: 768px) {
   .logo-container {
-    margin-top: 200px;
+    margin-top: 100px;
   }
 }
 
 /* Móviles pequeños */
 @media (max-width: 480px) {
   .logo-container {
-    margin-top: 145px;
+    margin-top: 0px;
   }
 }
 
 </style>
 
 <!--start wrapper-->
-<div class="d-flex justify-content-center align-items-center vh-100">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
   <div>
     <div class="logo-container">
       <a href="{% slugurl 'home' %}">
@@ -83,26 +83,58 @@
 </div>
 
 {% for field in user_form.visible_fields %}
-  {% if field.name in "email first_name last_name telefono" %}
-    <div class="col-12">
-      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+{% if field.name == "email" %}
+<div class="col-12">
+  
+
+  {% if user_form.is_bound %}
+    {% if field.errors %}
+      {% render_field field class="form-control is-invalid" autocomplete="email" %}
+    {% else %}
+      {% render_field field class="form-control is-valid" autocomplete="email" %}
+    {% endif %}
+  {% else %}
+    {% render_field field class="form-control" autocomplete="email" %}
+  {% endif %}
+
+  {% for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+  {% endfor %}
+
+  {% if field.help_text %}
+    <small class="form-text text-muted">{{ field.help_text }}</small>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if field.name == "telefono" %}
+  <div class="col-12">
+
+
+    <div class="input-group">
+      <span class="input-group-text">+593</span>
+
       {% if user_form.is_bound %}
         {% if field.errors %}
-          {% render_field field class="form-control is-invalid" %}
+          {% render_field field class="form-control is-invalid" autocomplete="tel" %}
         {% else %}
-          {% render_field field class="form-control is-valid" %}
+          {% render_field field class="form-control is-valid" autocomplete="tel" %}
         {% endif %}
       {% else %}
-        {% render_field field class="form-control" %}
-      {% endif %}
-      {% for error in field.errors %}
-        <div class="invalid-feedback d-block">{{ error }}</div>
-      {% endfor %}
-      {% if field.help_text %}
-        <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% render_field field class="form-control" autocomplete="tel" %}
       {% endif %}
     </div>
-  {% endif %}
+
+    {% for error in field.errors %}
+      <div class="invalid-feedback d-block">{{ error }}</div>
+    {% endfor %}
+
+    {% if field.help_text %}
+      <small class="form-text text-muted">{{ field.help_text }}</small>
+    {% endif %}
+  </div>
+{% endif %}
 {% endfor %}
 
 
@@ -111,14 +143,14 @@
 {% for field in user_form.visible_fields %}
   {% if field.name in "password password2" %}
     <div class="col-12">
-      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
 
       <div class="input-group">
         {% if user_form.is_bound %}
           {% if field.errors %}
             {% render_field field class="form-control is-invalid password-field" %}
           {% else %}
-            {% render_field field class="form-control is-valid password-field" %}
+            {% render_field field class="form-control  is-valid password-field" %}
           {% endif %}
         {% else %}
           {% render_field field class="form-control password-field" %}
@@ -144,7 +176,7 @@
 {% for field in user_form.visible_fields %}
   {% if field.name == "sector_negocios" %}
     <div class="col-12">
-      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
 
       {% if user_form.is_bound %}
         {% if field.errors %}
@@ -170,13 +202,7 @@
   <!-- ========================== -->
   <!-- 📜 Sección: Términos y Suscripción -->
   <!-- ========================== -->
-  <div class="col-12 mt-4">
-    
-<a href="{% url 'usuarios:politicas_terminos' %}"><p>Leer términos y condiciones de uso</p></a>
-<hr>
-<p> Si dispone de una cuenta activa en SmartQuail,Inc. <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
-    <hr>
-  </div>
+
 
   <div class="col-12">
     <div class="form-check form-switch">
@@ -188,6 +214,7 @@
         <div class="invalid-feedback d-block">{{ error }}</div>
       {% endfor %}
     </div>
+    <a href="{% url 'usuarios:politicas_terminos' %}"><p>Leer términos y condiciones de uso</p></a>
   </div>
 
   <div class="col-12">
@@ -199,22 +226,23 @@
       {% for error in user_form.suscripcion_noticias.errors %}
         <div class="invalid-feedback d-block">{{ error }}</div>
       {% endfor %}
+      <p> <a href="{% url 'usuarios:login' %}"><strong>Inicie sesion</strong> </a></p>
     </div>
+   
   </div>
+
+
 
   <!-- ========================== -->
   <!-- 🖊️ Botón -->
   <!-- ========================== -->
   <div class="col-12 d-grid mt-4">
     <button type="submit" class="btn btn-primary"><i class="fadeIn animated bx bx-plus"></i> Crear Cuenta</button>
+   
+    
   </div>
 
-    <div class="col-12 d-grid mt-4">
-      
   
-  </div>
-
-
 
 
 </form>

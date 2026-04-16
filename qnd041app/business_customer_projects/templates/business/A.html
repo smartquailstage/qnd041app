@@ -15,11 +15,7 @@
           <div class="col-12 col-xl-8 d-flex">
             <div class="card radius-10 w-100">
               <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 25px;">
-                                                 <div class="country-icon">
-                            <img src="assets/images/icons/india.png" alt="" width="32">
-                          </div>
-
-
+                                                 
                       
                  <h5> Automatización (+A)</h5>
 
@@ -197,97 +193,7 @@
                             </div>
 
 
-              {% for automation in automations %}
-<div class="d-flex flex-column gap-3">
 
-    <!-- TARJETA PRINCIPAL DE AUTOMATIZACIÓN -->
-    <div class="card border shadow-none radius-10 flex-grow-1 mb-0">
-        <div class="card-body">
-
-            <!-- Título y categoría -->
-            <div class="d-flex align-items-start gap-2">
-                <div>
-                    <h5 class="mb-0">{{ automation.automation_category|default:"Categoría desconocida" }}</h5>
-                </div>
-                <div class="ms-auto widget-icon-2 bg-light-success text-success rounded-circle">
-                    <ion-icon name="speedometer-outline"></ion-icon>
-                </div>
-            </div>
-
-            <!-- Tipo de automatización -->
-            <div class="mt-2">
-                <h3 class="mb-2">{{ automation.automation_type|default:"Tipo desconocido" }}</h3>
-                <p>{{ automation.description }}</p>
-
-                <div class="d-flex align-items-center gap-2">
-                    <!-- Indicador de integración -->
-                    {% if automation.integration_type %}
-                        <div class="widget-icon-small bg-light-danger text-danger">
-                            +{{ automation.integration_type|title }}
-                        </div>
-                    {% endif %}
-
-                    <!-- Barra de progreso -->
-                    <div class="progress flex-grow-1" style="height: 5px;">
-                        <div class="progress-bar bg-gradient-info" role="progressbar" 
-                             style="width: {{ automation.progress }}%;" 
-                             aria-valuenow="{{ automation.progress }}" aria-valuemin="0" aria-valuemax="100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- TARJETA DE MICROSERVICIO / RECURSOS -->
-    <div class="card border shadow-none radius-10 mb-0">
-        <div class="card-body">
-
-            <div class="d-flex align-items-start gap-2">
-                <div>
-                    <h5 class="mb-0">Microservicio</h5>
-                </div>
-                <div class="ms-auto widget-icon-2 bg-light-success text-success rounded-circle">
-                    <ion-icon name="hardware-chip-outline"></ion-icon>
-                </div>
-            </div>
-
-            <div class="mt-2">
-                <h3 class="mb-2">{{ automation.microservice_type|default:"No definido" }}</h3>
-                <p>Progreso: {{ automation.progress }}%</p>
-
-                <div class="d-flex align-items-center gap-2">
-                    <!-- AI o indicador adicional -->
-                    {% if automation.automation_type in "ai" %}
-                        <div class="widget-icon-small bg-light-warning text-warning">
-                            +AI
-                        </div>
-                    {% endif %}
-
-                    <!-- Barra de progreso -->
-                    <div class="progress flex-grow-1" style="height: 5px;">
-                        <div class="progress-bar bg-gradient-info" role="progressbar" 
-                             style="width: {{ automation.progress }}%;" 
-                             aria-valuenow="{{ automation.progress }}" aria-valuemin="0" aria-valuemax="100">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {% if automation.final_url %}
-                <div class="mt-2">
-                    <a href="{{ automation.final_url }}" target="_blank">Ver URL final</a>
-                </div>
-            {% endif %}
-
-        </div>
-    </div>
-
-</div>
-{% empty %}
-<p>No hay automatizaciones registradas.</p>
-{% endfor %}
 
               </div>
             </div>

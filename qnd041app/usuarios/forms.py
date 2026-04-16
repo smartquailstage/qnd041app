@@ -48,11 +48,10 @@ class UserRegistrationForm(forms.ModelForm):
     )
 
     telefono = PhoneNumberField(
-        label='Teléfono de contacto',
-        help_text='Ingrese su número en formato internacional. Ejemplo: +593XXXXXXXXX',
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True,
-        initial='+593'  # Valor por defecto
+    label='Teléfono de contacto',
+    help_text='Ingrese su número sin el prefijo. Ejemplo: 987654321',
+    widget=forms.TextInput(attrs={'class': 'form-control'}),
+    required=True
     )
 
     password = forms.CharField(
@@ -126,6 +125,10 @@ class UserRegistrationForm(forms.ModelForm):
             }
         )
     )
+
+    def clean_telefono(self):
+        telefono = self.cleaned_data.get("telefono")
+        return "+593" + telefono
 
     class Meta:
         model = CustomUser
