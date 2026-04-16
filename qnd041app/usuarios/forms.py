@@ -49,7 +49,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     telefono = PhoneNumberField(
     label='Teléfono de contacto',
-    help_text='Ingrese su número sin el prefijo. Ejemplo: 987654321',
+    help_text='Ingrese su número de télefono sin el prefijo. Ejemplo: 987654321',
     widget=forms.TextInput(attrs={'class': 'form-control'}),
     required=True
     )
