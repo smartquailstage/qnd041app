@@ -1838,21 +1838,21 @@ progress {
 	color: var(--bs-secondary-color)
 }
 .form-control {
-  display: block;
-  width: 100%;
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #4e4e4e;
-  background-color: #fcfcfc;
-  background-clip: padding-box;
-  border: var(--bs-border-width) solid var(--bs-border-color);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: var(--bs-border-radius);
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	display: block;
+	width: 100%;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #f8aa4e;
+    background-color: #2e2e2e;
+	background-clip: padding-box;
+	border: var(--bs-border-width) solid var(--bs-border-color);
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: var(--bs-border-radius);
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
 	.form-control {
@@ -1886,7 +1886,7 @@ progress {
 	opacity: 1
 }
 .form-control::placeholder {
-	color: var(--bs-secondary-color);
+	color: #f8aa4e;
 	opacity: 1
 }
 .form-control:disabled {

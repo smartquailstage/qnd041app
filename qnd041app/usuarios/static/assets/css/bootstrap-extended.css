@@ -802,7 +802,7 @@
 .nav-search input.form-control {
     background-color: rgb(255 255 255 / 20%);
     border: 1px solid rgb(255 255 255 / 45%);
-    color: #fff;
+    color: rgb(184, 180, 180);
 }
 
 .nav-search button[type=submit] {
@@ -878,8 +878,8 @@
 
 .form-control:focus {
     background-color: #fff;
-    border-color:#d92c31;
-    box-shadow: 0 0 0 .25rem rgba(240, 28, 0, 0)
+    border-color: #f8aa4e;
+    box-shadow: 0 0 0 .25rem #df8e339d
     
 }
 
