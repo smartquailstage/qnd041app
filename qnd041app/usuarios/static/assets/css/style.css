@@ -1411,12 +1411,13 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("../images/login_bg/FondoL.png");
+    background-image: url("../images/login_splash.png");
     background-position: center;
     background-size: cover;
-    width: 100%;
-    transform: skewX(0.0deg);
+    width: 50%;
+    transform: skewX(-0deg);
 }
+
 
 .register-cover-img {
     background-image: url("../img/BA-LOGOS/fondo_login.jpg");
