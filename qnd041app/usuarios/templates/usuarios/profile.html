@@ -1,6 +1,6 @@
 {% extends "base_init.html" %}
 {% load widget_tweaks %}
-{% load static %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
 
 {% block content %}
 
@@ -66,9 +66,15 @@
 
     <div class="card-body">
 
+        <div class="logo-container mb-3 text-center">
+            <a href="{% slugurl 'home' %}">
+              <img src="{% static 'assets/images/sqwhite.png' %}" style="width: auto" alt="Logo">
+            </a>
+          </div>
+
                   <!-- TEXTO IA -->
-                  <div class="col-md-8">
-                    <p id="typewriter" style="color:#fff; font-size:14px;"></p>
+                  <div class="col-12">
+                    <h3 id="typewriter" style="color:#fff; font-size:14px;"></h3>
                   </div>
 <hr>        
 
@@ -174,9 +180,11 @@ document.addEventListener("DOMContentLoaded", function () {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  const text = `Hola, soy el agente de Inteligencia Artificial.
+  const text = `Bienvenido a SmartQuail, Inc.
 
-Completa este formulario para personalizar tu experiencia.`;
+Es un placer recibirle. Soy su asistente de Inteligencia Artificial y estaré a su lado durante todo su recorrido tecnológico, brindándole acompañamiento personalizado en cada etapa.
+
+Para comenzar, le invitamos a completar el siguiente formulario. Esta información nos permitirá ofrecerle una experiencia a su medida, con acceso a productos, documentación y novedades especialmente seleccionadas según las necesidades tecnológicas de sus proyectos.`;
 
   let i = 0;
   function escribir() {
