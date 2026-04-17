@@ -119,6 +119,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.first_name
 
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
+
+    
+
 
 
 from django.db import models
