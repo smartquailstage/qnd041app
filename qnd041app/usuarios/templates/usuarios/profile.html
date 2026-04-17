@@ -62,9 +62,15 @@
 
 <div class="container-flex min-vh-100 px-3">
 
-  <div class="card shadow">
+
 
     <div class="card-body">
+
+                  <!-- TEXTO IA -->
+                  <div class="col-md-8">
+                    <p id="typewriter" style="color:#fff; font-size:14px;"></p>
+                  </div>
+<hr>        
 
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -78,23 +84,17 @@
               <img src="{{ profile.photo.url }}" class="rounded-circle mb-2"
                    style="width:120px;height:120px;object-fit:cover;">
             {% else %}
-              <img src="{% static 'img/BA-LOGOS/user.png' %}"
-                   class="rounded-circle mb-2"
-                   style="width:30px;height:30px;object-fit:cover;">
+       
             {% endif %}
 
             {{ form.photo|add_class:"d-none"|attr:"id:id_photo" }}
 
             <button type="button" id="btnCambiarFoto"
               class="btn btn-outline-warning btn-sm mt-2">
-              Agregar imagen de perfil
+              <i class="fadeIn animated bx bx-image-add"></i>  Agregar  foto de perfil
             </button>
           </div>
 
-          <!-- TEXTO IA -->
-          <div class="col-md-8">
-            <p id="typewriter" style="color:#fff; font-size:14px;"></p>
-          </div>
 
         </div>
 
