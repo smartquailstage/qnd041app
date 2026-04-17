@@ -884,38 +884,39 @@
 }
 
 
+
 .page-link:hover,
 .page-link {
-	color: #b50f15;
+	color: #c2c2c2;
 }
 
 .page-link:focus {
-	color: #b50f15;
-	border-color: #b50f15;
-    box-shadow: #b50f15;
+	color: #f8aa4e;
+	border-color: #f8aa4e;
+    box-shadow: 0 0 0 .25rem #df8c2d94
 }
 
 .active>.page-link, 
 .page-link.active,
 .page-link.active:hover {
 	color: #fff;
-	background-color:#b50f15;
-    border-color:#b50f15;
+	background-color:#f8aa4e;
+    border-color:#f8aa4e;
 }
 
 
 .form-check-input:focus {
-	border-color: #b50f15;
+	border-color: #4e4e4e;
 	outline: 0;
-	background-color:rgba(238, 0, 40, 0.25);
-	box-shadow: 0 0 0 .25rem rgba(238, 2, 21, 0.25);
+	background-color:#f8aa4e;
+	box-shadow: 0 0 0 .25rem #e9983c8a;
 }
 .form-check-input:checked {
-	background-color: #c50909;
-	border-color: #c50909;
+	background-color: #f8aa4e;
+    border-color: #423f3f;
 }
 
 .form-check-input[type=checkbox]:indeterminate {
-	background-color: #c50909;
-	border-color: #c50909;
+	background-color: #423f3f;
+    border-color: #423f3f;
 }
