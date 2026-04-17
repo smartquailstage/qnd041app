@@ -82,7 +82,9 @@
 {% for field in user_form.visible_fields %}
 
 {% if field.name == "email" %}
+
   <div class="col-12">
+  
     <div class="input-group">
       <span class="input-group-text">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -145,9 +147,10 @@
 {% for field in user_form.visible_fields %}
   {% if field.name in "password password2" %}
     <div class="col-12">
-
+     
 
       <div class="input-group">
+     
         {% if user_form.is_bound %}
           {% if field.errors %}
             {% render_field field class="form-control is-invalid password-field" %}

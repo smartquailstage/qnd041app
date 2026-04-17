@@ -47,12 +47,9 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
-    telefono = PhoneNumberField(
-    label='Teléfono de contacto',
-    help_text='Ingrese su número de télefono sin el prefijo. Ejemplo: 987654321',
-    widget=forms.TextInput(attrs={'class': 'form-control'}),
-    required=True
-    )
+    telefono = PhoneNumberField( label='Teléfono de contacto',
+    help_text='Ingrese su número en formato internacional. Ejemplo: +5939XXXXXXXX',
+    widget=forms.TextInput(attrs={'class': 'form-control'}), required=True, initial='+593' )
 
     password = forms.CharField(
         label='Escriba una contraseña segura',
@@ -126,9 +123,6 @@ class UserRegistrationForm(forms.ModelForm):
         )
     )
 
-    def clean_telefono(self):
-        telefono = self.cleaned_data.get("telefono")
-        return "+593" + telefono
 
     class Meta:
         model = CustomUser
