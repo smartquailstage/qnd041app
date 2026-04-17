@@ -21,16 +21,53 @@
     max-width: 500px;
     width: 100%;
   }
+
+
+
+  /* Soluciona problema de vh en móviles */
+.min-vh-100 {
+  min-height: 100dvh;
+}
+
+/* Evita que el contenido crezca demasiado */
+.card {
+  max-height: 90dvh;
+}
+
+/* Compacta todo en móvil */
+@media (max-width: 768px) {
+  .logo-container img {
+    max-width: 200px;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .form-control {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .btn {
+    padding: 10px;
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-<div class="d-flex align-items-center justify-content-start vh-100 px-3 px-md-4">
+<div class="d-flex align-items-center justify-content-center min-vh-100 px-3 px-md-4">
   <div class="custom-left-container mx-auto">
 
     <div class="logo-container mb-3 text-center">
       <a href="{% slugurl 'home' %}">
-        <img src="{% static 'assets/images/sqwhite.png' %}" style="width: 100%; max-width: 350px;" alt="Logo">
+        <img src="{% static 'assets/images/sqwhite.png' %}" style="width: 100%;" alt="Logo">
       </a>
     </div>
 
