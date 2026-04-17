@@ -1359,11 +1359,11 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url("../images/login_bg.png");
+    background-image: url("../images/login_splash.png");
     background-position: center;
     background-size: cover;
-    width: 100%;
-    transform: skewX(-10deg);
+    width: 50%;
+    transform: skewX(-0deg);
 }
 
 
