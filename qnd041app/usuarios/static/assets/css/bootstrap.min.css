@@ -1891,7 +1891,8 @@ progress {
 }
 .form-control:disabled {
 	background-color: var(--bs-secondary-bg);
-	opacity: 1
+	opacity: 1;
+	color:#f8aa4e;
 }
 .form-control::-webkit-file-upload-button {
 	padding: .375rem .75rem;
@@ -2331,10 +2332,10 @@ textarea.form-control-lg {
 	padding: 1rem .75rem
 }
 .form-floating>.form-control-plaintext::-moz-placeholder, .form-floating>.form-control::-moz-placeholder {
-	color: transparent
+	color: #f8aa4e
 }
 .form-floating>.form-control-plaintext::placeholder, .form-floating>.form-control::placeholder {
-	color: transparent
+	color: #f8aa4e
 }
 .form-floating>.form-control-plaintext:not(:-moz-placeholder-shown), .form-floating>.form-control:not(:-moz-placeholder-shown) {
 	padding-top: 1.625rem;
@@ -2353,11 +2354,11 @@ textarea.form-control-lg {
 	padding-bottom: .625rem
 }
 .form-floating>.form-control:not(:-moz-placeholder-shown)~label {
-	color: rgba(var(--bs-body-color-rgb), .65);
+	color:#f8aa4e;
 	transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
 .form-floating>.form-control-plaintext~label, .form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-select~label {
-	color: rgba(var(--bs-body-color-rgb), .65);
+	color:#f8aa4e;
 	transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
 .form-floating>.form-control:not(:-moz-placeholder-shown)~label::after {
@@ -2366,6 +2367,7 @@ textarea.form-control-lg {
 	z-index: -1;
 	height: 1.5em;
 	content: "";
+	color:#f8aa4e;
 	background-color: var(--bs-body-bg);
 	border-radius: var(--bs-border-radius)
 }

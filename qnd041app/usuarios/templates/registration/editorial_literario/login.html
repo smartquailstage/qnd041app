@@ -68,10 +68,10 @@ body {
 
     <div class="logo-container mb-3 text-center">
       <a href="{% slugurl 'home' %}">
-        <img src="{% static 'assets/images/sqwhite.png' %}" style="width: 100%;" alt="Logo">
+        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 50%;" alt="Logo">
       </a>
     </div>
-
+<hr>
     <div class="card custom-card-width">
       <div class="card-body">
 
@@ -116,44 +116,45 @@ body {
               </div>
             </div>
           {% endif %}
-
+<h3 style="text-align: left;"> Ingresar a su cuenta</h3>
           <!-- Email -->
           <div class="col-12">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <label for="{{ form.email.id_for_label }}">email*</label>
             <div class="input-group">
+              
               {% if form.is_bound and form.email.errors %}
-                {% render_field form.email class="form-control is-invalid" autocomplete="email" %}
+              
+                {% render_field form.email class="form-control is-invalid" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
               {% elif form.is_bound %}
-                {% render_field form.email class="form-control is-valid" autocomplete="email" %}
+                {% render_field form.email class="form-control is-valid" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
               {% else %}
-                {% render_field form.email class="form-control" autocomplete="email" %}
+                {% render_field form.email class="form-control" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
               {% endif %}
             </div>
             {% for error in form.email.errors %}
               <div class="invalid-feedback d-block">{{ error }}</div>
             {% endfor %}
           </div>
-
+          
           <!-- Password -->
           <div class="col-12">
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            <label for="{{ form.password.id_for_label }}">contraseña*</label>
             <div class="input-group">
               {% if form.is_bound and form.password.errors %}
-                {% render_field form.password class="form-control is-invalid" id="passwordInput"autocomplete="pass" %}
+                {% render_field form.password class="form-control is-invalid" id="passwordInput" autocomplete="current-password" placeholder="Ingrese contraseña segura" %}
               {% elif form.is_bound %}
-                {% render_field form.password class="form-control is-valid" id="passwordInput" autocomplete="pass" %}
+                {% render_field form.password class="form-control is-valid" id="passwordInput" autocomplete="current-password" placeholder="Ingrese su contraseña segura" %}
               {% else %}
-                {% render_field form.password class="form-control" id="passwordInput" autocomplete="pass" %}
+                {% render_field form.password class="form-control" id="passwordInput" autocomplete="current-password" placeholder="Ingrese su contraseña segura" %}
               {% endif %}
-                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                    <i class="bi bi-eye"></i>
-                  </button>
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
             {% for error in form.password.errors %}
               <div class="invalid-feedback d-block">{{ error }}</div>
             {% endfor %}
           </div>
-
           <!-- Botón -->
           <div class="col-12 d-grid">
             <button type="submit" class="btn btn-primary" value="Log in">

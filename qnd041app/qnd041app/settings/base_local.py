@@ -964,6 +964,7 @@ TEMPLATES = [
                 "business_customer_projects.context_processors.noticias_context",
                 "business_customer_projects.context_processors.tamano_empresa_context",
                 "services_cart.context_processors.cart",
+                "wagtail.contrib.settings.context_processors.settings",
 
                 'billing.context_processors.all_business_billing',
             ],

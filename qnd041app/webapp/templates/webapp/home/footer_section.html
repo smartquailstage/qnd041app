@@ -3,6 +3,8 @@
 {% load webapp_0_tags %}
 {% load static %}
 {% load menu_tags %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+
   
   
   <!--=== Footer Start ===-->
@@ -26,34 +28,115 @@
           </div>
           <div class="col-sm-6 col-md-2">
             <div class="widget widget-links">
-              {% workwithus_menus as menus %}
-              {% for menu in menus %}
-              <h5 class="widget-title">{{ menu.heading }}</h5>
+      
+              <h5 class="widget-title">{% trans 'Software as a Product (SaaP)' %}</h5>
               <ul>
-              {% flat_menu menu.handle template="webapp/index/footer/workwithus.html" %}
-              </ul>
-              {% endfor %}
+                <li><a href="{{ item.href }}">SmartBusinessAnalytics<sup>(I+D)</sup></a></li>
+                <li><a href="{{ item.href }}">SmartBusinessMedia<sup>(I+D)</sup></a></li>
+                <li><a href="{{ item.href }}">SmartBusinessLaw<sup>(I+D)</sup></a></li>
+            </ul>
+
+            <h5 class="widget-title">{% trans 'Platform as a Product (PaaP)' %}</h5>
+
+            <ul>
+              <li><a href="{{ item.href }}">SmartBusinessPlatforms<sup>(I+D)</sup></a></li>
+          </ul>
+
+
+          <h5 class="widget-title">{% trans 'Infrastructure as Product (IaaP)' %}</h5>
+
+          <ul>
+            <li><a href="{{ item.href }}">SmartBusinessTechnologies<sup>(I+D)</sup></a></li>
+        </ul>
+
+
+
+
             </div>
           </div>
           <div class="col-sm-6 col-md-2">
             <div class="widget widget-links">
-              {% usefullinks_menus as menus %}
-              {% for menu in menus %}
-              <h5 class="widget-title">{{menu.heading}}</h5>
+      
+              <h5 class="widget-title">{% trans 'Tecnologies Solutions' %}</h5>
               <ul>
-              {% flat_menu menu.handle template="webapp/index/footer/usefullinks.html" %}
-              </ul>
-              {% endfor %}
+                <li><a href="{{ item.href }}">{% trans 'Data Centers' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Cloud Computing' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Virtual Machine Platform' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Block Chain' %}</a></li>
+            </ul>
+
+            <h5 class="widget-title">{% trans 'Dev-Sec-Ops' %}</h5>
+
+            <ul>
+              <li><a href="{{ item.href }}">{% trans 'Reseach & Develop (I+D)' %}</a></li>
+              <li><a href="{{ item.href }}">{% trans 'Automatation (+A)' %}</a></li>
+              <li><a href="{{ item.href }}">{% trans 'Artifical Inteligent (+AI)' %}</a></li>
+          </ul>
+
+       
             </div>
           </div>
-          <div class="col-sm-6 col-md-4">
-            <div class="widget widget-text widget-links">
-              <h5 class="widget-title">{% trans 'We are Social' %}</h5>
+
+          <div class="col-sm-6 col-md-2">
+            <div class="widget widget-links">
+      
+              <h5 class="widget-title">{% trans 'Jobs' %}</h5>
               <ul>
-                <li> <a href="https://api.whatsapp.com/send?phone=593963521262"><i class="icofont icofont-whatsapp"></i></a> <a href="mailto:info@mail.smartquail.io"><i class="icofont icofont-mail"></i></a><i class="icofont icofont-facebook"></i><i class="icofont icofont-instagram"></i>  </li>
-              </ul>
+                <li><a href="{{ item.href }}">{% trans 'Developers' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Managers' %}</a></li>
+
+            </ul>
+
+
+
+            <h5 class="widget-title">{% trans 'About Us' %}</h5>
+
+            <ul>
+              <li><a href="{{ item.href }}">{% trans 'Chief Officer Tecnologies' %}</a></li>
+              <li><a href="{{ item.href }}">{% trans 'Project Mananger' %}</a></li>
+              <li><a href="{{ item.href }}">{% trans ' Senior Developer' %}</a></li>
+          </ul>
+
+          <h5 class="widget-title">{% trans 'Policies and Certifications' %}</h5>
+
+          <ul>
+            <li><a href="{{ item.href }}">{% trans 'ISO/IEC 27000' %}</a></li>
+            <li><a href="{{ item.href }}">{% trans 'LODP' %}</a></li>
+        </ul>
+
             </div>
           </div>
+
+          <div class="col-sm-6 col-md-2">
+            <div class="widget widget-links">
+      
+              <h5 class="widget-title">{% trans 'Communities' %}</h5>
+              <ul>
+                <li><a href="{{ item.href }}">{% trans 'Negocios ITC Ecuador' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'OpenSource' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Linux Community' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Python Community' %}</a></li>
+                
+
+            </ul>
+
+
+
+            <h5 class="widget-title">{% trans 'Social Media' %}</h5>
+
+            <ul>
+              <li> <a href="https://api.whatsapp.com/send?phone=593963521262">
+                <i class="icofont icofont-whatsapp"></i></a> 
+                <a href="mailto:info@mail.smartquail.io"> <i class="icofont icofont-mail"></i></a>
+                  <i class="icofont icofont-facebook"></i>
+                  <i class="icofont icofont-instagram"></i>  </li>
+
+          </ul>
+
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -62,7 +145,7 @@
         <div class="row">
           <div class="col-md-6 col-xs-12">
             <ul class="social-media">
-              <li><img src="{% static 'img/logo.png' %}" width="35px"></li>
+              <li><img src="{% static 'img/BA-LOGOS/powered.png' %}" width="125px"></li>
               {% if settings.webapp.SocialMediaSettings.facebook %}
               <li> <a href="{{ settings.webapp.SocialMediaSettings.facebook}}"><i class="icofont icofont-facebook"></i></a> </li>
               {% endif %}
@@ -81,7 +164,7 @@
             </ul>
           </div>
           <div class="col-md-6 col-xs-12">
-            <div class="copy-right text-right">© 2026 SmartQuail.S.A.S All rights reserved, Ecuador</div>
+            <div class="copy-right text-right">2026 SmartQuail.S.A.S - ©  All rights reserved, Ecuador</div>
           </div>
         </div>
       </div>
