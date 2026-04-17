@@ -48,7 +48,7 @@ class UserRegistrationForm(forms.ModelForm):
     )
 
     telefono = PhoneNumberField( label='Teléfono de contacto',
-    help_text='Ingrese su número en formato internacional. Ejemplo: +5939XXXXXXXX',
+    help_text='Ingrese su número telefónico en formato internacional. Ej +5939XXXXXXXX',
     widget=forms.TextInput(attrs={'class': 'form-control'}), required=True, initial='+593' )
 
     password = forms.CharField(
