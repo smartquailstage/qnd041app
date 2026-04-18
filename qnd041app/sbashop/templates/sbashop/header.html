@@ -37,27 +37,14 @@
     <div class="container">
       <!--=== Start Atribute Navigation ===-->
       <div class="attr-nav">
-        <ul>
-          <li class="dropdown"> <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown" > <i class="icofont icofont-earth"></i>  </a>
-            {% get_current_language as LANGUAGE_CODE %}
-                {% get_available_languages as LANGUAGES %}
-                {% get_language_info_list for LANGUAGES as languages %}
-               
-            <ul class="dropdown-menu cart-list">
-                {% for language in languages %}
-              <li>
-                <a href="/{{language.code}}/">
-                 <h5>{{ language.name_local }}</h5>
-                 </a>
-              </li>
-              {% endfor %}
-            </ul>
-          </li>
-     
-          <li class="search"><a href="index.html#" id="search-button"><i class="icofont icofont-user"></i>{% trans 'Login' %}</a></li>
-        </ul>
+  <ul>
+ 
 
-      </div>
+        <li ><a href="{% url 'usuarios:login' %}" class="btn-circle">Ingresar</a></li>
+
+
+  </ul>
+</div>
       <!--=== End Atribute Navigation ===-->
 
       <!--=== Start Header Navigation ===-->
@@ -69,240 +56,411 @@
       <!--=== End Header Navigation ===-->
 
       <!--=== Collect the nav links, forms, and other content for toggling ===-->
-      <div class="collapse navbar-collapse" id="navbar-menu">
-        <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Products' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
+        <!--=== Collect the nav links, forms, and other content for toggling ===-->
+        <div class="collapse navbar-collapse" id="navbar-menu">
+          <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
+            <li class="dropdown megamenu-fw"> <a href="{% slugurl 'inicio' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Products' %}</a>
+              <ul class="dropdown-menu megamenu-content" role="menu">
+                <li>
+                  <div class="row">
+                    <div class="col-menu col-md-3">
+                      <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia</h6></a>
+                      <div class="content">
+                        <ul class="menu-col">
+                          <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Customer Relationship (CRM)'%}</a></li>
+  
+                          <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'MarketingTech Consulting' %}</a></li>
+  
+                        </ul>
+                      </div>
+                    </div>
+  
+                                      <div class="col-menu col-md-3">
+                      <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessAnalytics</h6></a>
+                      <div class="content">
+                        <ul class="menu-col">
+                          <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter">{% trans 'Enterprise Resource Planning '%}</a></li>
+  
+                          <li><a href="{% url 'sbashop:product_list' %}#Staff">{% trans 'FinTech Consulting' %}</a></li>
+  
+                        </ul>
+                      </div>
+                    </div>
+  
+  
+                    <!--=== end col-3 ===-->
+                    <div class="col-menu col-md-3">
+                      <h6 class="title">SmartBusinessLaw</h6>
+                      <div class="content">
+                        <ul class="menu-col">
+                          <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter">{% trans 'Enterprise  Law Planing (ELP)'%}</a></li>
+  
+                          <li><a href="{% url 'sblshop:product_list' %}#Staff">{% trans 'LawTech Consulting' %}</a></li>
+  
+                        </ul>
+                      </div>
+                    </div>
+  
+  
+                  <div class="col-menu col-md-3">
+                      <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessPlatforms</h6></a>
+                      <div class="content">
+                        <ul class="menu-col">
+                          <li><a href="{% url 'sbpshop:product_list' %}#portfolio-filter">{% trans 'Business Platforms'%}</a></li>
+  
+                          <li><a href="{% url 'sbpshop:product_list' %}#Staff">{% trans 'Platforms Consulting' %}</a></li>
+  
+                        </ul>
+                      </div>
+                    </div>
+  
+  
+                  </div>
+                  <!--=== end row ===-->
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Solutions' %}</a>
+              <ul class="dropdown-menu megamenu-content" role="menu">
+                <li>
+                  <div class="row">
+                         <div class="col-menu col-md-3">
+                      <h6 class="title">SmartBusinessTechnologies</h6>
+                      <div class="content">
+                        <ul class="menu-col">
+                          <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'Business Technologies'%}</a></li>
+  
+                          <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Tech Consultingg' %}</a></li>
+  
+                          <li><a href="{% slugurl 'business_mailing' %}">{% trans 'Business Mailing' %}</a></li> 
+                          <li><a href="{% slugurl 'ai_infraestructure' %}">{% trans 'AI infraestructure' %}</a></li> 
+                        </ul>
+                      </div>
+                    </div>
+  
+                                           <div class="col-menu col-md-3">
+                      <h6 class="title">soluciones Tecnológicas</h6>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'data_center' %}">
+          {% trans "Data centers" %}
+        </a>
+      </li>
+  
+      <li>
+        <a href="{% slugurl 'cloud_computing' %}">
+          {% trans "Native Cloud Computing" %}
+        </a>
+      </li>
+  
+      <li>
+        <a href="{% slugurl 'virtual_machine' %}">
+          {% trans "Virtual Machine Platform" %}
+        </a>
+      </li>
+  
+      <li>
+        <a href="{% slugurl 'blockchain' %}">
+          {% trans "Block Chain" %}
+        </a>
+      </li>
+  
+      <li>
+        <a href="{% slugurl 'cibersecurity' %}">
+          {% trans "Cibersecurity" %}
+        </a>
+      </li>
+  
+      <li>
+        <a href="{% slugurl 'monitoring">
+          {% trans "Monitoring" %}
+        </a>
+      </li>
+  
+  
+    </ul>
+  </div>
+  
+                    </div>
+  
+             <div class="col-menu col-md-3">
+    <h6 class="title">{% trans "DeV-SeC-OpS" %}</h6>
+  
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'id' %}">
+            {% trans "Development and Research (I+D)" %}
+          </a>
+        </li>
+  
+        <li>
+          <a href="{% slugurl 'ida' %}">
+            {% trans "Automations (+A)" %}
+          </a>
+        </li>
+  
+        <li>
+          <a href="{% slugurl 'ida-ai' %}">
+            {% trans "Artificial Intelligence (+AI)" %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  <div class="col-menu col-md-3">
+    <h6 class="title">{% trans "ITC Business Ecuador" %}</h6>
+  
+    <div class="content">
+      <ul class="menu-col">
+        <p style="color:#717070;line-height: 16px;">
+          {% trans "Impulsa tu negocio al siguiente nivel. Regístrate hoy y descubre soluciones tecnológicas en la nube diseñadas para innovar, escalar y transformar tu empresa. Únete a nuestra comunidad y accede a contenido y documentación exclusiva." %}
+        </p>
+  
+        <li>
+  
+          <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-white btn-rounded btn-animate"><span>Register <i class="icofont icofont-arrow-right"></i></span></a> </p>
+  
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+                  </div>
+                  <!--=== end row ===-->
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Training & Jobs' %}</a>
+              <ul class="dropdown-menu megamenu-content" role="menu">
+                <li>
+                  <div class="row">
+  
+  
+     <div class="col-menu col-md-3">
+    <a href="{% slugurl 'marketing' %}">
+      <h6 class="title" style="color:#bd1818;">Marketing & Publishing</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'cmja' %}?category=community-manager-junior">
+            {% trans "Community Manager Junior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'cmsa' %}?category=community-manager-senior">
+            {% trans "Community Manager Senior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'ccja' %}?category=content-designer-junior">
+            {% trans "Content Creator Junior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'ccsa' %}?category=content-designer-senior">
+            {% trans "Content Creator Senior" %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  <div class="col-menu col-md-3">
+    <a href="{% slugurl 'softwaredev' %}">
+      <h6 class="title" style="color:#bd1818;">Software Developer</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'fedja' %}?category=uiux-designer-junior">
+            {% trans "Front-End Designer Junior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'fedsa' %}?category=uiux-designer-senior">
+            {% trans "Front-End Designer Senior" %}
+          </a>
+        </li>
               <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% smartbusinessmedia_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/products/smartbusinessmedia.html" %}
-                    </div>
-                    {% endfor %}
+          <a href="{% slugurl 'bedja' %}?category=django-developer-junior">
+            {% trans "Back-End Developer Junior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+            {% trans "Back-End Developer Senior" %}
+          </a>
+        </li>
+  
+  
+  
+  
+      </ul>
+    </div>
+  </div>
+  
+  
+  <div class="col-menu col-md-3">
+    <a href="{% slugurl 'management' %}">
+      <h6 class="title" style="color:#bd1818;">{% trans 'Management Position' %}</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'pmsa' %}?category=django-developer-junior">
+            {% trans "Project Manager Senior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'pmaja' %}?category=django-developer-senior">
+            {% trans "Project Manager Junior" %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  <div class="col-menu col-md-3">
+    <a href="{% slugurl 'devops' %}">
+      <h6 class="title" style="color:#bd1818;">DevOps & Cloud</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'sreja' %}?category=sre-junior">
+            {% trans "Site Reliability Engineer Junior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'sresa' %}?category=sre-senior">
+            {% trans "Site Reliability Engineer Senior" %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
                   </div>
-                  <div class="col-menu col-md-3">
-                    {% smartbusinessanalytics_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/products/smartbusinessanalytics.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% smartbusinesslaw_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/products/smartbusinesslaw.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% smartbusinesstechnologies_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/products/smartbusinesstechnologies.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-               
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Solutions' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
+                  <!--=== end row ===-->
+                </li>
+              </ul>
+            </li>
+  
+            <li class="dropdown megamenu-fw"> <a href="{% slugurl 'home' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'About' %}</a>
+              <ul class="dropdown-menu megamenu-content" role="menu">
+                <li>
+                  <div class="row">
+  
+                    <div class="col-menu col-md-3">
+    <a href="{% slugurl 'aboutus' %}">
+      <h6 class="title" style="color:#bd1818;">{% trans 'Technologies Crew' %}</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'cot' %}">
+            {% trans "Chief Officer Technologies" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'pms' %}">
+            {% trans "Project Manager Senior" %}
+          </a>
+        </li>
               <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% bycategory_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycategory.html" %}
-                    </div>
-                    {% endfor %}
+          <a href="{% slugurl 'sds' %}">
+            {% trans "Software Developer Senior" %}
+          </a>
+        </li>
+        <li>
+          <a href="{% slugurl 'iabde' %}">
+            {% trans "IA and Big Data Engineer" %}
+          </a>
+        </li>
+  
+  
+      </ul>
+    </div>
+  </div>
+  
+  
+                    <div class="col-menu col-md-3">
+    <a href="{% slugurl 'fouders' %}">
+      <h6 class="title" style="color:#bd1818;">{% trans 'Fouders' %}</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'co' %}">
+            {% trans "PhD. Mauricio Silva" %}
+          </a>
+        </li>
+  
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  <div class="col-menu col-md-3">
+    <a href="{% slugurl 'fouders' %}">
+      <h6 class="title" style="color:#bd1818;">{% trans 'Policies' %}</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          <a href="{% slugurl 'lodp' %}">
+            {% trans "LOPDP" %}
+          </a>
+        </li>
+  
+        <li>
+          <a href="{% slugurl 'iso' %}">
+            {% trans "ISO/IEC" %}
+          </a>
+        </li>
+  
+      </ul>
+    </div>
+  </div>
+  
+  
+                    <div class="col-menu col-md-3">
+    <a href="{% slugurl 'fouders' %}">
+      <h6 class="title" style="color:#bd1818;">{% trans 'Contact us' %}</h6>
+    </a>
+    <div class="content">
+      <ul class="menu-col">
+        <li>
+          SmartQuail.S.A.S - Ecuador <br>
+          IT Cloud Business Foudation <br>
+          <a href="https://api.whatsapp.com/send?phone=593963521262">
+            whatsapp Business (+AI)</a>  
+            <a href="mailto:smartquail.dev@gmail.com">{% trans 'Email' %}</a> 
+            Quito, Ecuador
+        </li>
+      </ul>
+    </div>
+  </div>
+  
                   </div>
-                  <div class="col-menu col-md-3">
-                    {% byorganizationtype_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/byorganizationtype.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% bycustomer_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/solutions/bycustomer.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-
-               
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Training & Jobs' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
-              <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% training_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/training/training.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% jobs_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/training/jobs.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Resources' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
-              <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% ourvision_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/resources/ourvision.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% topics_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/resources/topics.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {%  articles_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/resources/articles.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% news_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/resources/news.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-               
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Parthers' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
-              <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% forcustomers_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/forcustomers.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% forpartners_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/forpartners.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw"> <a href="index.html" class="dropdown-toggle" data-toggle="dropdown">{% trans 'About' %}</a>
-            <ul class="dropdown-menu megamenu-content" role="menu">
-              <li>
-                <div class="row">
-                  <div class="col-menu col-md-3">
-                    {% aboutus_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/aboutus.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% opensource_menus as menus2 %}
-                    {% for menu in menus2 %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/opensource.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% companydetails_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/companydetails.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-                  <div class="col-menu col-md-3">
-                    {% communities_menus as menus %}
-                    {% for menu in menus %}
-                    <h6 class="title">{{menu.heading}}</h6>
-                    <div class="content">
-                      {% flat_menu menu.handle template="webapp/home/navbar/aboutus/communities.html" %}
-                    </div>
-                    {% endfor %}
-                  </div>
-               
-                </div>
-                <!--=== end row ===-->
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+                  <!--=== end row ===-->
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       <!--=== /.navbar-collapse ===-->
     </div>
   </nav>
