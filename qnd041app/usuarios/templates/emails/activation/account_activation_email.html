@@ -4,21 +4,27 @@
 
 
 {% block content %}
-      
+<h2>🔑 Activación de cuenta Negocios ITC Ecuador </h2>
+
 <!-- emails/account_activation_email.html -->
-<div class="email-body" style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px; max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px;">
+<div class="email-body" style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px; max-width: 600px; margin: auto; background-color: white; padding: 10px; border-radius: 8px; text-align: justify;">
   
-  <h2>🔑 Activación de cuenta <strong>{{ user.email|default:user.email }}</strong></h2>
+ 
 
   <p>
-    Hola Bienvenido a SmartQuail, Inc <strong>Tecnologías de información y comunicacion en la nube para negocios y organizaciones sociales </strong>,
+    Hola Bienvenido a SmartQuail, Inc <strong>
+      Tecnologías de información y comunicacion en la nube para negocios y organizaciones sociales </strong>,
   </p>
 
   <p>
-    Soy tu agente de inteligencia artificial desarollado por <strong>SmartQuail, Inc.</strong>.
-    Hemos recibido tu solicitud de registro y hemos activado tu cuenta de manera segura y atumatica, para poder utilizar todos nuestros servicios en Negocios ITC Ecuador.
-    hacer click en el siguiente boton, ingresar con su correo electronico y contraseña segura.
+    Soy el agente de IA, desarollado por <strong>SmartQuail, Inc.</strong><br>
+    Hemos recibido tu solicitud de registro y hemos activado la siguiente cuenta ITC de manera segura y automática.<br>
+    <p>Usuario: <strong>{{ user.email|default:user.email }}</strong><br>
+    <p>Contraseña: <strong>********</strong></p>
+    <p>Para poder utilizar todos nuestros servicios en Negocios ITC Ecuador. Hacer click en el siguiente boton.
   </p>
+
+
 
   <p style="text-align: center; margin: 30px 0;">
     <a href="{{ activation_url }}" style="background-color: #b5181a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">
