@@ -6,64 +6,80 @@ $(function() {
 		$("#menu").metisMenu()
 	})
 
-// ===============================
-// 🔒 Sidebar cerrado por defecto
-// ===============================
-$(document).ready(function () {
+  $(document).ready(function () {
+
+    // ===============================
+    // 🔒 Sidebar cerrado por defecto
+    // ===============================
     $(".wrapper").addClass("toggled");
-});
 
-// ===============================
-// Toggle principal (mobile + desktop)
-// ===============================
-function toggleSidebar() {
-    $(".wrapper").toggleClass("toggled");
+    // ===============================
+    // Toggle principal (mobile + desktop)
+    // ===============================
+    function toggleSidebar() {
+        $(".wrapper").toggleClass("toggled");
 
-    // Ajustar hover según estado
-    if (!$(".wrapper").hasClass("toggled") && $(window).width() >= 992) {
-        enableHoverSidebar();
-    } else {
-        disableHoverSidebar();
+        if (!$(".wrapper").hasClass("toggled") && $(window).width() >= 992) {
+            enableHoverSidebar();
+        } else {
+            disableHoverSidebar();
+        }
     }
-}
 
-// Llamar a toggle desde cualquier botón
-$(".nav-toggle-icon, .mobile-menu-button, .toggle-icon").on("click", function (e) {
-    e.stopPropagation(); // Evita bubbling no deseado
-    toggleSidebar();
-});
+    // ===============================
+    // Eventos de botones
+    // ===============================
+    $(".nav-toggle-icon, .mobile-menu-button, .toggle-icon").on("click", function (e) {
+        e.stopPropagation();
+        toggleSidebar();
+    });
 
-// ===============================
-// Activar menú actual
-// ===============================
-$(function () {
+    // ===============================
+    // Activar menú actual
+    // ===============================
     var current = window.location.href;
+
     var o = $(".metismenu li a").filter(function () {
         return this.href === current;
     }).parent().addClass("mm-active");
 
-    while (o.is("li")) {
-        o = o.parent("ul").addClass("mm-show").parent("li").addClass("mm-active");
+    while (o.length && o.is("li")) {
+        o = o.parent("ul")
+             .addClass("mm-show")
+             .parent("li")
+             .addClass("mm-active");
     }
-});
 
-// ===============================
-// Hover toggle para desktop
-// ===============================
-function enableHoverSidebar() {
-    $(".sidebar-wrapper").hover(
-        function () {
-            $(".wrapper").addClass("sidebar-hovered");
-        },
-        function () {
-            $(".wrapper").removeClass("sidebar-hovered");
+    // ===============================
+    // Hover toggle para desktop
+    // ===============================
+    function enableHoverSidebar() {
+        $(".sidebar-wrapper")
+            .off("mouseenter mouseleave") // evita duplicados
+            .on("mouseenter", function () {
+                $(".wrapper").addClass("sidebar-hovered");
+            })
+            .on("mouseleave", function () {
+                $(".wrapper").removeClass("sidebar-hovered");
+            });
+    }
+
+    function disableHoverSidebar() {
+        $(".sidebar-wrapper").off("mouseenter mouseleave");
+    }
+
+    // ===============================
+    // Manejo en resize (IMPORTANTE)
+    // ===============================
+    $(window).on("resize", function () {
+        if ($(window).width() < 992) {
+            disableHoverSidebar();
+        } else if (!$(".wrapper").hasClass("toggled")) {
+            enableHoverSidebar();
         }
-    );
-}
+    });
 
-function disableHoverSidebar() {
-    $(".sidebar-wrapper").off("mouseenter mouseleave");
-}
+});
 
 // ===============================
 // Ajustar hover al redimensionar

@@ -56,7 +56,7 @@ urlpatterns += i18n_patterns(
     path('paas_payment/', include('paas_payment.urls', namespace='paas_payment')),
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
 
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+   # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 
