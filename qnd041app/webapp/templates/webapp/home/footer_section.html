@@ -63,6 +63,10 @@
                 <li><a href="{{ item.href }}">{% trans 'Cloud Computing' %}</a></li>
                 <li><a href="{{ item.href }}">{% trans 'Virtual Machine Platform' %}</a></li>
                 <li><a href="{{ item.href }}">{% trans 'Block Chain' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Cibersecurity' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Monitoring' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'Business Mailing ' %}</a></li>
+                <li><a href="{{ item.href }}">{% trans 'AI infraestructure' %}</a></li>
             </ul>
 
             <h5 class="widget-title">{% trans 'Dev-Sec-Ops' %}</h5>
@@ -122,14 +126,30 @@
 
 
 
-            <h5 class="widget-title">{% trans 'Social Media' %}</h5>
+            <h5 class="widget-title">{% trans 'Contact us' %}</h5>
 
             <ul>
               <li> <a href="https://api.whatsapp.com/send?phone=593963521262">
                 <i class="icofont icofont-whatsapp"></i></a> 
                 <a href="mailto:info@mail.smartquail.io"> <i class="icofont icofont-mail"></i></a>
-                  <i class="icofont icofont-facebook"></i>
-                  <i class="icofont icofont-instagram"></i>  </li>
+                {% if settings.webapp.SocialMediaSettings.facebook %}
+                <a href="{{ settings.webapp.SocialMediaSettings.facebook}}"><i class="icofont icofont-facebook"></i></a> 
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.twitter %}
+                <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> 
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.linkedin %}
+                <a href="{{ settings.webapp.SocialMediaSettings.linkedin}}"><i class="icofont icofont-linkedin"></i></a> 
+                {% endif %}
+                {% if settings.webapp.SocialMediaSettings.instagram %}
+                <a href="{{ settings.webapp.SocialMediaSettings.instagram  }}"><i class="icofont icofont-instagram "></i></a> </li>
+                {% endif %}   
+              
+              </li>
+
+              <li>
+                SMARTQUAIL.S.A.S - Ecuador <br>
+              </li>
 
           </ul>
 
@@ -159,7 +179,7 @@
               <li> <a href="{{ settings.webapp.SocialMediaSettings.youtube }}"><i class="icofont icofont-youtube"></i></a> </li>
               {% endif %}
               {% if settings.webapp.SocialMediaSettings.instagram %}
-              <li> <a href="{{ settings.webapp.SocialMediaSettings.instagram  }}"><i class="icofont icofont-instagram "></i></a> </li>
+              <li> <a href="{{ settings.webapp.SocialMediaSettings.instagram  }}"><i class="icofont icofont-instagram "></i></a>
               {% endif %}
             </ul>
           </div>

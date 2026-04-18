@@ -132,60 +132,82 @@
                     <h6 class="title">SmartBusinessTechnologies</h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'ON-Primeses Cloud Servers'%}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'Business Technologies'%}</a></li>
 
                         <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Tech Consultingg' %}</a></li>
 
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Business Mailing' %}</a></li> 
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'AI infraestructure' %}</a></li> 
                       </ul>
                     </div>
                   </div>
 
                                          <div class="col-menu col-md-3">
-                    <h6 class="title">Cloud Native Computing</h6>
+                    <h6 class="title">soluciones Tecnológicas</h6>
 <div class="content">
   <ul class="menu-col">
     <li>
-      <a href="{% slugurl 'cloud' %}">
-        {% trans "Cloud Microservers Architecture" %}
+      <a href="{% slugurl 'data_center' %}">
+        {% trans "Data centers" %}
       </a>
     </li>
 
     <li>
-      <a href="{% slugurl 'vm' %}">
-        {% trans "Virtual Machines" %}
+      <a href="{% slugurl 'cloud_computing' %}">
+        {% trans "Native Cloud Computing" %}
       </a>
     </li>
 
     <li>
-      <a href="{% slugurl 'orchestration' %}">
-        {% trans "Orchestration" %}
+      <a href="{% slugurl 'virtual_machine' %}">
+        {% trans "Virtual Machine Platform" %}
       </a>
     </li>
+
+    <li>
+      <a href="{% slugurl 'blockchain' %}">
+        {% trans "Block Chain" %}
+      </a>
+    </li>
+
+    <li>
+      <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+        {% trans "Cibersecurity" %}
+      </a>
+    </li>
+
+    <li>
+      <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+        {% trans "Monitoring" %}
+      </a>
+    </li>
+
+
   </ul>
 </div>
 
                   </div>
 
            <div class="col-menu col-md-3">
-  <h6 class="title">{% trans "ITC Business" %}</h6>
+  <h6 class="title">{% trans "DeV-SeC-OpS" %}</h6>
 
   <div class="content">
     <ul class="menu-col">
       <li>
         <a href="{% slugurl 'id' %}">
-          {% trans "Development and Research" %}
+          {% trans "Development and Research (I+D)" %}
         </a>
       </li>
 
       <li>
         <a href="{% slugurl 'ida' %}">
-          {% trans "Automations" %}
+          {% trans "Automations (+A)" %}
         </a>
       </li>
 
       <li>
         <a href="{% slugurl 'ida-ai' %}">
-          {% trans "Artificial Intelligence" %}
+          {% trans "Artificial Intelligence (+AI)" %}
         </a>
       </li>
     </ul>
@@ -283,6 +305,10 @@
           {% trans "Back-End Developer Senior" %}
         </a>
       </li>
+
+
+
+
     </ul>
   </div>
 </div>
@@ -342,7 +368,7 @@
 
                   <div class="col-menu col-md-3">
   <a href="{% slugurl 'aboutus' %}">
-    <h6 class="title" style="color:#bd1818;">{% trans 'SmartQuailCrew' %}</h6>
+    <h6 class="title" style="color:#bd1818;">{% trans 'Technologies Crew' %}</h6>
   </a>
   <div class="content">
     <ul class="menu-col">
@@ -366,6 +392,8 @@
           {% trans "IA and Big Data Engineer" %}
         </a>
       </li>
+
+
     </ul>
   </div>
 </div>
@@ -388,18 +416,44 @@
 </div>
 
 
-                  <div class="col-menu col-md-3">
+
+<div class="col-menu col-md-3">
   <a href="{% slugurl 'fouders' %}">
-    <h6 class="title" style="color:#bd1818;">{% trans 'SmartQuail.S.A.S' %}</h6>
+    <h6 class="title" style="color:#bd1818;">{% trans 'Policies' %}</h6>
   </a>
   <div class="content">
     <ul class="menu-col">
       <li>
-        IT Cloud Business Foudation <br>
-          Tel: (+593) 9963521262 <br>
-          Quito, Ecuador
+        <a href="{% slugurl 'lodp' %}">
+          {% trans "LODP" %}
+        </a>
       </li>
 
+      <li>
+        <a href="{% slugurl 'iso' %}">
+          {% trans "ISO/IEC" %}
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+                  <div class="col-menu col-md-3">
+  <a href="{% slugurl 'fouders' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Contact us' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        SmartQuail.S.A.S - Ecuador <br>
+        IT Cloud Business Foudation <br>
+        <a href="https://api.whatsapp.com/send?phone=593963521262">
+          whatsapp Business (+AI)</a>  
+          <a href="mailto:smartquail.dev@gmail.com">{% trans 'Email' %}</a> 
+          Quito, Ecuador
+      </li>
     </ul>
   </div>
 </div>
