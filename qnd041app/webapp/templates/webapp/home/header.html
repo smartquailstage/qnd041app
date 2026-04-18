@@ -136,8 +136,8 @@
 
                         <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Tech Consultingg' %}</a></li>
 
-                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Business Mailing' %}</a></li> 
-                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'AI infraestructure' %}</a></li> 
+                        <li><a href="{% slugurl 'business_mailing' %}">{% trans 'Business Mailing' %}</a></li> 
+                        <li><a href="{% slugurl 'ai_infraestructure' %}">{% trans 'AI infraestructure' %}</a></li> 
                       </ul>
                     </div>
                   </div>
@@ -171,13 +171,13 @@
     </li>
 
     <li>
-      <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+      <a href="{% slugurl 'cibersecurity' %}">
         {% trans "Cibersecurity" %}
       </a>
     </li>
 
     <li>
-      <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+      <a href="{% slugurl 'monitoring">
         {% trans "Monitoring" %}
       </a>
     </li>
@@ -226,7 +226,7 @@
 
       <li>
 
-        <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-white btn-rounded btn-animate"><span>Register <i class="icofont icofont-arrow-right"></i></span></a> </p>
+        <p class="text-center mt-30"><a href="{% url 'usuarios:login' %}" class="btn btn-white btn-rounded btn-animate"><span>Register <i class="icofont icofont-arrow-right"></i></span></a> </p>
 
         </a>
       </li>
@@ -425,7 +425,7 @@
     <ul class="menu-col">
       <li>
         <a href="{% slugurl 'lodp' %}">
-          {% trans "LODP" %}
+          {% trans "LOPDP" %}
         </a>
       </li>
 
