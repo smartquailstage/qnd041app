@@ -148,7 +148,7 @@ def order_created(self, order_id):
     # ------------------------------
     # 📄 PDF
     # ------------------------------
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain},'qr_url':qr_url)
+    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain,'qr_url':qr_url})
     out = BytesIO()
 
     css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
