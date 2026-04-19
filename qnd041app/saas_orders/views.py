@@ -120,6 +120,7 @@ def admin_order_detail(request, order_id):
 @staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(SaaSOrder, id=order_id)
+    domain = "ec.smartquail.io"
     qr = qrcode.QRCode(
         version=3,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -140,7 +141,7 @@ def admin_order_pdf(request, order_id):
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
-    qr_url = f"data:image/png;base64,{qr_base64}"
+    qr_url = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
 
     html = render_to_string('saas_orders/order/pdf2.html', {'order': order,'qr_url': qr_url})
 

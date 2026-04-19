@@ -38,12 +38,17 @@ import io
 import base64
 import qrcode
 
+from django.urls import reverse
+
+
+
+
 
 
 
 @shared_task
 def order_created(order_id):
-    order = SaaSOrder.objects.get(id=order_id)
+    order = get_object_or_404(SaaSOrder, id=order_id)
     domain = "ec.smartquail.io"
 
     # Evitar errores de Fontconfig
@@ -101,7 +106,7 @@ def order_created(order_id):
     img.save(buffer, format="PNG")
 
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
-    qr_url = f"data:image/png;base64,{qr_base64}"
+    qr_url = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
 
     # ------------------------------
     # 📄 2) GENERAR PDF DE LA ORDEN
