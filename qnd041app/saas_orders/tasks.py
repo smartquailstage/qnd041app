@@ -148,27 +148,18 @@ def order_created(self, order_id):
     # ------------------------------
     # 📄 PDF
     # ------------------------------
-    html = render_to_string(
-        'saas_orders/order/pdf2.html',
-        {
-            'order': order,
-            'domain': domain,
-            'qr_url': qr_url,
-            'items': items
-        }
-    )
-
-    out = io.BytesIO()
+    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
+    out = BytesIO()
 
     css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
-    weasyprint.HTML(
-        string=html,
-        base_url=f"https://{domain}/"
-    ).write_pdf(
+
+    weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
         stylesheets=[weasyprint.CSS(css_path)],
         presentational_hints=True
     )
+
+    email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
 
     # ------------------------------
     # 📎 Adjuntar PDF
