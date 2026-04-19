@@ -596,7 +596,7 @@ UNFOLD = {
 
             {
                 "title": _("Clientes ITC"),
-                "icon": "person",
+                "icon": "people",
                 "link": reverse_lazy("admin:usuarios_profile_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",

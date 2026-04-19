@@ -20,8 +20,8 @@ echo "Creando superusuario si no existe..."
 python3 manage.py createsuperuser --email $SUPERUSER_EMAIL --noinput || true
 
 # Recolectar estáticos
-echo "Recolectando archivos estáticos..."
-python3 manage.py collectstatic --noinput
+#echo "Recolectando archivos estáticos..."
+#python3 manage.py collectstatic --noinput
 
 # Iniciar uWSGI
 echo "Iniciando uWSGI..."
