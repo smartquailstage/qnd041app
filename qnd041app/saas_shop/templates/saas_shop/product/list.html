@@ -221,7 +221,7 @@
             {% for product in c.products.all %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
-              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+              <div class="position-relative" style="height: 500px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
 
                 <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
                   <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="albums-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>

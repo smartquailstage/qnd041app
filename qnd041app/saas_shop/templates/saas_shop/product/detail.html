@@ -327,26 +327,10 @@
             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
 
-                {% if product.image %}
+                {% if product.image_2 %}
                 <div class="carousel-item active">
                   <div class="image-container position-relative mb-3">
-                    <img src="{{ product.image.url }}" class="d-block w-100 img-fluid" alt="Imagen principal del producto">
-                    {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-<a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-{% elif product.category.name == "Business Media" %}
-
-<a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-{% endif %}
-                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                    </a>
-                  </div>
-                </div>
-                {% endif %}
-
-                {% if product.image_2 %}
-                <div class="carousel-item">
-                  <div class="image-container position-relative mb-3">
-                    <img src="{{ product.image_2.url }}" class="d-block w-100 img-fluid" alt="Imagen secundaria del producto">
+                    <img src="{{ product.image_2.url }}" class="d-block w-100 img-fluid" alt="Imagen principal del producto">
                     {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
 <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
 {% elif product.category.name == "Business Media" %}
@@ -362,7 +346,7 @@
                 {% if product.image_3 %}
                 <div class="carousel-item">
                   <div class="image-container position-relative mb-3">
-                    <img src="{{ product.image_3.url }}" class="d-block w-100 img-fluid" alt="Imagen terciaria del producto">
+                    <img src="{{ product.image_3.url }}" class="d-block w-100 img-fluid" alt="Imagen secundaria del producto">
                     {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
 <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
 {% elif product.category.name == "Business Media" %}
@@ -375,7 +359,23 @@
                 </div>
                 {% endif %}
 
-                {% if not product.image and not product.image_2 and not product.image_3 %}
+                {% if product.image_4 %}
+                <div class="carousel-item">
+                  <div class="image-container position-relative mb-3">
+                    <img src="{{ product.image_4.url }}" class="d-block w-100 img-fluid" alt="Imagen terciaria del producto">
+                    {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+<a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+{% elif product.category.name == "Business Media" %}
+
+<a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+{% endif %}
+                      <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
+                    </a>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if not product.image and not product.image_2 and not product.image_3 and not product.image_4  %}
                 <div class="carousel-item active">
                   <div class="image-container position-relative mb-3">
                     <img src="{% static 'img/no_image.png' %}" class="d-block w-100 img-fluid" alt="Imagen no disponible">

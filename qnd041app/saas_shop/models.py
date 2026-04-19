@@ -117,9 +117,10 @@ class Product(models.Model):
     item2 = models.CharField(max_length=200, null=True, blank=True)
     item3 = models.CharField(max_length=200, null=True, blank=True)
 
-    image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
-    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
-    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Logo de producto")
+    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion")
+    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de producto")
+    image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion")
 
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)

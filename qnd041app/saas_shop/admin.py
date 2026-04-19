@@ -139,6 +139,7 @@ class ProductAdmin(ModelAdmin):
                     'image',
                     'image_2',
                     'image_3',
+                    'image_4',
                 ),
                 'classes': ('tab', 'tab-imagenes'),
             },
