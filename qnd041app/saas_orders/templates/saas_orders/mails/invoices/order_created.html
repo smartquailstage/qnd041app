@@ -21,7 +21,7 @@
         <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
         <li><strong>Email:</strong> {{ order.email }}</li>
         <li><strong>Fecha de la orden:</strong> {{ order.created|date:"M d, Y" }}</li>
-        <li><strong>Total a pagar:</strong> $${{ order.total_cost|floatformat:2 }}</li>
+        <li><strong>Total a pagar:</strong> $${{ order.total_cost }}</li>
     </ul>
 
     <p>
@@ -42,7 +42,7 @@
                 {% for item in order.items.all %}
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.product.name }}</td>
                 {% endfor %}
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ order.total_cost|floatformat:2 }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${{ order.total_cost }}</td>
             </tr>
             
         </tbody>
