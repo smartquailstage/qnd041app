@@ -4,7 +4,7 @@
 {% block content %}
 <div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
 
-    <h2 style="color: #b5181a;">🧾 Confirmación de Orden - SmartQuail Cloud</h2>
+    <h2 style="color: #b5181a;">🧾 Confirmación de Orden de Software:SQ-INV021-0203{{ order.id }}</h2>
 
     <p>
         Estimado/a <strong>{{ order.first_name }} {{ order.last_name }}</strong>,
@@ -17,7 +17,7 @@
     <p>A continuación, los detalles de su orden:</p>
 
     <ul>
-        <li><strong>ID de la orden:</strong> 00000{{ order.id }}</li>
+        <li><strong>ID de la orden:</strong> SQ-INV021-0203{{ order.id }}</li>
         <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
         <li><strong>Email:</strong> {{ order.email }}</li>
         <li><strong>Fecha de la orden:</strong> {{ order.created|date:"M d, Y" }}</li>
@@ -32,35 +32,21 @@
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <thead>
             <tr style="background-color: #f5f5f5;">
-                <th style="padding: 8px; border: 1px solid #ddd;">#</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Producto</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Cantidad</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Precio Unitario</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Licencia de Software</th>
                 <th style="padding: 8px; border: 1px solid #ddd;">Subtotal</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Total</th>
             </tr>
         </thead>
         <tbody>
             {% for item in order.items.all %}
             <tr>
-                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.id }}</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.product.name }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.quantity }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.price|floatformat:2 }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.get_cost|floatformat:2 }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.product.total|floatformat:2 }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.product.price |floatformat:2 }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <h3>Resumen financiero:</h3>
-    <ul>
-        <li><strong>Subtotal:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
-        <li><strong>I.V.A ({{ order.iva }}%) :</strong> ${{ order.tax_subtotal|floatformat:2 }}</li>
-        <li><strong>Total:</strong> ${{ order.total|floatformat:2 }}</li>
-        <li><strong>Descuento (Anticipo):</strong> ${{ order.Anticipo|floatformat:2 }}</li>
-        <li><strong>Valor a cancelar:</strong> ${{ order.total|floatformat:2 }} / Mes</li>
-    </ul>
-
     <p style="margin-top: 20px;">
         Para proceder con la activación de su software y comenzar a administrar sus procesos empresariales personalizados, haga clic en el siguiente enlace:
     </p>

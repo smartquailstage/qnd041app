@@ -145,7 +145,7 @@ def admin_order_pdf(request, order_id):
     html = render_to_string('saas_orders/order/pdf2.html', {'order': order,'qr_url': qr_url})
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename=order_{order.id}.pdf"'
+    response['Content-Disposition'] = f'filename=SQ-INV021-0203{order.id}.pdf"'
 
     weasyprint.HTML(
         string=html,

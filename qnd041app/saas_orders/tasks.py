@@ -79,7 +79,7 @@ def order_created(order_id):
         presentational_hints=True
     )
 
-    email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
+    email.attach(f"SQ-INV021-0203{order.id}.pdf", out.getvalue(), 'application/pdf')
 
     # ------------------------------
     # 📘 2) Generar eBook adicional
