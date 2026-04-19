@@ -148,7 +148,7 @@ def order_created(self, order_id):
     # ------------------------------
     # 📄 PDF
     # ------------------------------
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
+    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain},'qr_url':qr_url)
     out = BytesIO()
 
     css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
@@ -159,7 +159,7 @@ def order_created(self, order_id):
         presentational_hints=True
     )
 
-    email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
+    email.attach(f"SQ-INV021-0203{order.id}.pdf", out.getvalue(), 'application/pdf')
 
     # ------------------------------
     # 📎 Adjuntar PDF
