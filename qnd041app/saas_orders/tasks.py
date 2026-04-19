@@ -160,11 +160,7 @@ def order_created(self, order_id):
 
     out = io.BytesIO()
 
-    css_path = os.path.join(
-        settings.BASE_DIR,
-        'saas_orders/static/css/pdf.css'
-    )
-
+    css_path = '/qnd041app/qnd041app/paas_orders/static/css/pdf.css'
     weasyprint.HTML(
         string=html,
         base_url=f"https://{domain}/"
