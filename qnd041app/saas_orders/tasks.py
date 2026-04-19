@@ -33,6 +33,14 @@ import weasyprint
 
 from .models import SaaSOrder
 
+import os
+import io
+import base64
+import qrcode
+
+
+
+
 @shared_task
 def order_created(order_id):
     order = SaaSOrder.objects.get(id=order_id)
@@ -43,16 +51,16 @@ def order_created(order_id):
     os.environ['FONTCONFIG_CACHE'] = '/tmp/fontconfig_cache'
     os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
 
-    # Obtener los nombres de todos los productos de la orden
     product_names = ", ".join([item.product.name for item in order.items.all()]) or "su software"
 
-    # Render HTML correo
+    # ------------------------------
+    # 📩 HTML del correo
+    # ------------------------------
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
         {'order': order, 'domain': domain, 'products': order.items.all()}
     )
 
-    # Asunto del correo
     subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
     from_email = settings.DEFAULT_FROM_EMAIL
     to_email = [order.email]
@@ -63,23 +71,80 @@ def order_created(order_id):
         from_email,
         to_email
     )
+
     email.attach_alternative(html_message, "text/html")
 
     # ------------------------------
-    # 📄 1) Generar PDF de la orden
+    # 📌 1) GENERAR QR (CORREGIDO)
     # ------------------------------
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain})
-    out = BytesIO()
+    qr = qrcode.QRCode(
+        version=3,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=2,
+        border=1,
+    )
+
+    qr_data = (
+        f"Orden N.{order.id}\n"
+        "C.O.T: Ms. Silva Mauricio\n"
+        "SMARTQUAIL S.A.S\n"
+        "info@smartquail.io\n"
+        "R.U.C: 1793206532001"
+    )
+
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
+
+    buffer = io.BytesIO()
+    img.save(buffer, format="PNG")
+
+    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_url = f"data:image/png;base64,{qr_base64}"
+
+    # ------------------------------
+    # 📄 2) GENERAR PDF DE LA ORDEN
+    # ------------------------------
+    html = render_to_string(
+        'saas_orders/order/pdf2.html',
+        {
+            'order': order,
+            'domain': domain,
+            'qr_url': qr_url
+        }
+    )
+
+    out = io.BytesIO()
 
     css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
 
-    weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
+    weasyprint.HTML(
+        string=html,
+        base_url=f"https://{domain}/"
+    ).write_pdf(
         out,
         stylesheets=[weasyprint.CSS(css_path)],
         presentational_hints=True
     )
 
-    email.attach(f"SQ-INV021-0203{order.id}.pdf", out.getvalue(), 'application/pdf')
+    email.attach(
+        f"SQ-INV021-0203{order.id}.pdf",
+        out.getvalue(),
+        'application/pdf'
+    )
+
+    # ------------------------------
+    # 📤 ENVIAR CORREO
+    # ------------------------------
+    email.send()
+
+    # Marcar email como enviado
+    order.email_sent = True
+    order.save()
+
+    return True
+
 
     # ------------------------------
     # 📘 2) Generar eBook adicional
@@ -104,13 +169,7 @@ def order_created(order_id):
     # ------------------------------
     # Enviar correo
     # ------------------------------
-    email.send()
 
-    # Marcar email como enviado
-    order.email_sent = True
-    order.save()
-
-    return True
 
 
 
