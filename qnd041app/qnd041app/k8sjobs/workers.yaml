@@ -20,3 +20,10 @@ spec:
           envFrom:
             - secretRef:
                 name: qnd041app-app-secrets
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "600Mi"
+              cpu: "500m"

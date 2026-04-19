@@ -294,8 +294,8 @@ class Product(models.Model):
         self.costo_total_desarrollo = Money(costo_dev, 'USD')
         self.costo_project_management = Money(costo_impl, 'USD')
 
-        margen_dev = costo_dev * Decimal('0.55')
-        margen_impl = costo_impl * Decimal('0.25')
+        margen_dev = costo_dev * Decimal('0.65')
+        margen_impl = costo_impl * Decimal('0.35')
 
         self.margen_sq = round(margen_dev + margen_impl, 2)
 
