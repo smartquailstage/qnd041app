@@ -32,7 +32,7 @@ from django.template.loader import render_to_string
 import weasyprint
 
 from .models import SaaSOrder
-from django.shortcuts import get_object_or_404
+
 import os
 import io
 import base64
@@ -44,62 +44,26 @@ from django.urls import reverse
 
 
 
-
-import os
-import io
-import base64
-import qrcode
-
-from celery import shared_task
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
-from django.urls import reverse
-
-import weasyprint
-
-from django.core.exceptions import ObjectDoesNotExist
-
-from .models import SaaSOrder
 
 
 @shared_task
 def order_created(order_id):
-
-    # ------------------------------
-    # 🔎 Obtener orden de forma segura
-    # ------------------------------
-    try:
-        order = SaaSOrder.objects.get(id=order_id)
-    except SaaSOrder.DoesNotExist:
-        return False
-
+    order = get_object_or_404(SaaSOrder, id=order_id)
     domain = "ec.smartquail.io"
 
-    # ------------------------------
-    # 🧠 Config Fontconfig (WeasyPrint)
-    # ------------------------------
+    # Evitar errores de Fontconfig
     os.environ['FONTCONFIG_PATH'] = '/tmp/fontconfig'
     os.environ['FONTCONFIG_CACHE'] = '/tmp/fontconfig_cache'
     os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
 
-    # ------------------------------
-    # 📦 Productos
-    # ------------------------------
-    product_names = ", ".join(
-        [item.product.name for item in order.items.all()]
-    ) or "su software"
+    product_names = ", ".join([item.product.name for item in order.items.all()]) or "su software"
 
     # ------------------------------
-    # 📩 HTML correo
+    # 📩 HTML del correo
     # ------------------------------
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
-        {
-            'order': order,
-            'domain': domain,
-            'products': order.items.all()
-        }
+        {'order': order, 'domain': domain, 'products': order.items.all()}
     )
 
     subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
@@ -116,10 +80,8 @@ def order_created(order_id):
     email.attach_alternative(html_message, "text/html")
 
     # ------------------------------
-    # 📌 QR -> URL real
+    # 📌 1) GENERAR QR (CORREGIDO)
     # ------------------------------
-    url = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
-
     qr = qrcode.QRCode(
         version=3,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -127,7 +89,15 @@ def order_created(order_id):
         border=1,
     )
 
-    qr.add_data(url)
+    qr_data = (
+        f"Orden N.{order.id}\n"
+        "C.O.T: Ms. Silva Mauricio\n"
+        "SMARTQUAIL S.A.S\n"
+        "info@smartquail.io\n"
+        "R.U.C: 1793206532001"
+    )
+
+    qr.add_data(qr_data)
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
@@ -136,10 +106,10 @@ def order_created(order_id):
     img.save(buffer, format="PNG")
 
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()
-    qr_url = f"data:image/png;base64,{qr_base64}"
+    qr_url  = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
 
     # ------------------------------
-    # 📄 PDF
+    # 📄 2) GENERAR PDF DE LA ORDEN
     # ------------------------------
     html = render_to_string(
         'saas_orders/order/pdf2.html',
@@ -170,17 +140,16 @@ def order_created(order_id):
     )
 
     # ------------------------------
-    # 📤 Enviar correo
+    # 📤 ENVIAR CORREO
     # ------------------------------
     email.send()
 
-    # ------------------------------
-    # ✔️ Marcar como enviado
-    # ------------------------------
+    # Marcar email como enviado
     order.email_sent = True
     order.save()
 
     return True
+
 
     # ------------------------------
     # 📘 2) Generar eBook adicional
