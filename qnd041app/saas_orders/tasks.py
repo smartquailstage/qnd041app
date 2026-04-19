@@ -84,22 +84,22 @@ def order_created(order_id):
     # ------------------------------
     # 📘 2) Generar eBook adicional
     # ------------------------------
-    ebook_html = render_to_string(
-        'saas_orders/ebook/ebook_template.html',
-        {'order': order, 'domain': domain}
-    )
+#    ebook_html = render_to_string(
+#        'saas_orders/ebook/ebook_template.html',
+#        {'order': order, 'domain': domain}
+#    )
 
-    ebook_out = BytesIO()
-    ebook_css = '/qnd041app/qnd041app/saas_orders/static/css/ebook.css'
+#    ebook_out = BytesIO()
+#    ebook_css = '/qnd041app/qnd041app/saas_orders/static/css/ebook.css'
 
-    weasyprint.HTML(string=ebook_html, base_url=f"https://{domain}/").write_pdf(
-        ebook_out,
-        stylesheets=[weasyprint.CSS(ebook_css)],
-        presentational_hints=True
-    )
+#    weasyprint.HTML(string=ebook_html, base_url=f"https://{domain}/").write_pdf(
+#        ebook_out,
+#        stylesheets=[weasyprint.CSS(ebook_css)],
+#        presentational_hints=True
+#    )
 
     # Puedes llamarlo como quieras:
-    email.attach(f"ebook_{order.id}.pdf", ebook_out.getvalue(), 'application/pdf')
+#    email.attach(f"ebook_{order.id}.pdf", ebook_out.getvalue(), 'application/pdf')
 
     # ------------------------------
     # Enviar correo
