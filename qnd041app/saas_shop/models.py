@@ -118,7 +118,8 @@ class Product(models.Model):
     item3 = models.CharField(max_length=200, null=True, blank=True)
 
     image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Logo de producto")
-    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion")
+    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - Horizontal")
+    image_2_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - vertical")
     image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de producto")
     image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion")
 

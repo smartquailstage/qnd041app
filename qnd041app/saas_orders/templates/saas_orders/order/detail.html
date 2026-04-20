@@ -141,19 +141,29 @@
             <strong>{{ item.product.name }}</strong><br>
             <small>{{ item.product.description }}</small>
           </div>
-          <span>${{ item.price }}</span>
+       
         </li>
         {% endfor %}
+<hr>
+
+<h5 class="mb-3">Inversión</h5>
+        <div>
+          <strong>Subtotal: $ {{ order.get_total_cost }}</strong><br>
+          <small>Total + I.V.A: {{ order.get_total_with_discount }}</small>
+        </div>
+     
+      </li>
+
       </ul>
 
       <hr>
 
       <!-- Total -->
       <h4 class="d-flex justify-content-between">
-        <span>Valor total de inversión:</span>
-        <span>${{ order.get_total_cost }}</span>
+        <span>Valor a Pagar: </span>
+        <span> {{ order.get_total_with_discount }}</span>
       </h4>
-
+      <hr>
       <div class="my-4"></div>
 
       <!-- Botón de pago -->

@@ -4,28 +4,17 @@
 
 {% block title %}
   {% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}
+  estsad
 {% endblock %}
 
 {% block content %}
 
 <div class="page-content-wrapper">
           <!-- start page content-->
-         <div class="page-content">
+         <div class="page-content" style="padding: 0.5rem;">
 
 
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones ITC</div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                   <ion-icon name="browsers-outline"></ion-icon> Software de Negocios (ERP/CRM)
-                  </li>
-                </ol>
-              </nav>
-            </div>
 
-          </div>
 
 <div class="product-more-info mt-4">
   <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablistt">
@@ -69,22 +58,62 @@
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                   <!-- Enlace envuelve todo el contenido de la imagen -->
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
-                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                      <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
-                                        <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
-                                          Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
-                                          {% if product.is_automatitation %}
-                                          Además, incorpora un módulo de automatización (+A) para optimizar procesos.
-                                          {% endif %}
-                                          {% if product.is_intelligent %}
-                                          Finalmente, integra módulos de inteligencia artificial (+AI).
-                                          {% endif %}
+                    <div class="position-relative d-none d-md-block"
+     style="height: 790px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
 
-</h2>
-                   <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }}  </p>
+  <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
 
-                      </div>
-                    </div>
+    <h2 style="color:#ffff; font-size: 16px;">
+      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+      <sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
+
+      Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
+
+      {% if product.is_automatitation %}
+      Además, incorpora un módulo de automatización (+A) para optimizar procesos.
+      {% endif %}
+
+      {% if product.is_intelligent %}
+      Finalmente, integra módulos de inteligencia artificial (+AI).
+      {% endif %}
+    </h2>
+
+    <p class="mb-1 text-warning" style="margin-top: -12px;">
+      Inversión: $ {{ product.price_amount }}
+    </p>
+
+  </div>
+</div>
+
+
+                    <div class="position-relative d-block d-md-none"
+     style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+
+  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+
+    <h2 style="color:#ffff; font-size: 14px;">
+      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+      <sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
+
+      Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
+
+      {% if product.is_automatitation %}
+      Además, incorpora un módulo de automatización (+A) para optimizar procesos.
+      {% endif %}
+
+      {% if product.is_intelligent %}
+      Finalmente, integra módulos de inteligencia artificial (+AI).
+      {% endif %}
+    </h2>
+
+    <p class="mb-1 text-warning" style="margin-top: -8px;">
+      Inversión: $ {{ product.price_amount }}
+    </p>
+
+  </div>
+</div>
+
+
                   </a>
                 </div>
               {% endfor %}
@@ -105,37 +134,26 @@
       {% endif %}
     {% endfor %}
 
-    <div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
-  <div class="card-body p-4" style="color: #ededed;
-  text-align: justify;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
-  line-height: 1.2;
-  background-color: #2e2e2e;
-  border-radius: 25px;">
-    <p>
-      <strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar, facilitando la toma de decisiones estratégicas con información actualizada y confiable.
+
+      <p><strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar,
+       facilitando la toma de decisiones estratégicas con información actualizada y confiable.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
     </p>
-    <p>
-      Gracias a su ecosistema modular y altamente personalizable,
-       los gerentes, directores y líderes de cada área (C.O.s) pueden implementar y
-        desarrollar sus propios flujos de información, adaptándolos a las necesidades
-         específicas de su negocio o institución. SmartBusinessAnalytics®
-         integra tecnologías de última generación como inteligencia artificial,
-         analítica predictiva, automatización de procesos (RPA) y big data,
-         ofreciendo una visión completa y dinámica del rendimiento organizacional.Para mayor información sobre tecnologías y novedades.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
-    </p>
+
+    
 
   </div>
 </div>
-  </div>
+  
+
+
+
 </div>
 
 
 
+</div>
 
 
-    </div>
 
     <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
 
@@ -151,7 +169,7 @@
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                   <!-- Enlace envuelve todo el contenido de la imagen -->
                   <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
-                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                    <div class="position-relative" style="height: 500px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
                                         <h2 style="color:#ffff; font-size: 16px;"><ion-icon name="play-outline"></ion-icon> {{ product.name }}<sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
                                           Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) en marketing digital y soporta un máximo de 10 usuarios simultáneos.
@@ -278,14 +296,15 @@
 
     </div>
 
-
+  
   </div>
+  
 </div>
 
 
       </div>
-  </div>
 
+     
 
 {% endblock %}
 
@@ -560,3 +579,6 @@ Es la plataforma digital integral que conecta, automatiza y optimiza todos los p
     {% endfor %}
   </div>
 </div>
+
+
+
