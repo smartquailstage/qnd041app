@@ -59,8 +59,8 @@ ion-icon {
 .wrapper .page-content-wrapper {
 
     margin-left: 174px;
-    margin-top: 15px;
-    padding-bottom: 0px;
+    margin-top: 10px;
+    padding-bottom: 20px;
     transition: .3s all;
 
 }
@@ -783,7 +783,7 @@ position: fixed;
   position: absolute;
   left: 260px;
   right: 0;
-  bottom: 120px;
+  bottom: 0px;
   padding: 0.7rem;
   color: #bdbdbd;
   background-color: #2e2e2e;

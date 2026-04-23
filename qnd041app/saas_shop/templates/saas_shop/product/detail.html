@@ -429,10 +429,6 @@
           {% endif %}
 
 
-    <!-- Precio -->
-    <div class="d-flex align-items-center gap-2">
-        <h4 class="mb-0" style="color:#fff"><strong>{{ product.price }}</strong></h4>
-    </div>
 
     <!-- Logo a la derecha -->
      {% if product.category.slug == 'business-analytics' %}
@@ -453,6 +449,10 @@
        {% endif %}
 
 
+    <!-- Precio -->
+    <div class="d-flex align-items-center gap-2">
+      <h4 class="mb-0" style="color:#fff"><strong>{{ product.price }}</strong></h4>
+  </div>
 
 
 
