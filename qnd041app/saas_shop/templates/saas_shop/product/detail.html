@@ -102,8 +102,10 @@
 }
 
 .indicators-circle button.active {
-  background-color: #cb0404;
-  border-color:#cb0404 ;
+  background-color: #f7a84f;
+  border-color:#f7a84f;
+  width: 40px;
+  height: 20px;
   transform: scale(0.5);
 }
 
@@ -176,30 +178,8 @@
 
 <div class="page-content-wrapper">
           <!-- start page content-->
-         <div class="page-content">
+<div class="page-content">
 
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                    {% if product.category.name == "business law" %}
-                  <ion-icon name="albums-outline"></ion-icon> Planificador de Recursos Legales
-                    {% endif %}
-                    {% if product.category.name == "business media" %}
-                    <ion-icon name="play-outline"></ion-icon>  Administrador de contenidos Multimedia (CRM)
-                      {% endif %}
-                      {% if product.category.name == "business analytics" %}
-                      <ion-icon name="bar-chart-outline"></ion-icon> Panificador de Recursos Empresariales (ERP)
-                      {% endif %}
-
-                  </li>
-                </ol>
-              </nav>
-            </div>
-
-          </div>
 
 <div class="product-more-info mt-4" >
   <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
@@ -305,7 +285,7 @@
     </li>
 
   </ul>
-
+</div>
   <!-- ======= CONTENIDO DE TABS ======= -->
   <div class="tab-content pt-3" id="productTabContent">
 
@@ -314,14 +294,14 @@
       <div class="card" style="background-color: #2e2e2e;">
         <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#2e2e2e;border-radius:25px;">
 
-          <div class="product-detail-card">
+  <div class="product-detail-card">
   <div class="product-detail-body">
     <div class="row g-0">
 
       <!-- Imagen principal con carousel -->
       <div class="col-12 col-lg-5">
         <div class="image-zoom-section">
-          <div class="product-gallery border rounded mb-3 p-3">
+          <div class="product-gallery border rounded">
 
             <!-- INICIO DEL CAROUSEL -->
             <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -330,7 +310,7 @@
                 {% if product.image_2 %}
                 <div class="carousel-item active">
                   <div class="image-container position-relative mb-3">
-                    <img src="{{ product.image_2.url }}" class="d-block w-100 img-fluid" alt="Imagen principal del producto">
+                    <img src="{{ product.image_2.url }}" class="d-block w-50 " alt="Imagen principal del producto">
                     {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
 <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
 {% elif product.category.name == "Business Media" %}
@@ -346,7 +326,7 @@
                 {% if product.image_3 %}
                 <div class="carousel-item">
                   <div class="image-container position-relative mb-3">
-                    <img src="{{ product.image_3.url }}" class="d-block w-100 img-fluid" alt="Imagen secundaria del producto">
+                    <img src="{{ product.image_3.url }}" class="d-block w-50 img-fluid" alt="Imagen secundaria del producto">
                     {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
 <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
 {% elif product.category.name == "Business Media" %}
@@ -377,8 +357,8 @@
 
                 {% if not product.image and not product.image_2 and not product.image_3 and not product.image_4  %}
                 <div class="carousel-item active">
-                  <div class="image-container position-relative mb-3">
-                    <img src="{% static 'img/no_image.png' %}" class="d-block w-100 img-fluid" alt="Imagen no disponible">
+                  <div class="image-container position-relative">
+                    <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid" alt="Imagen no disponible">
 
                   </div>
                 </div>
@@ -390,56 +370,50 @@
 
 
               <!-- INDICADORES -->
-<div class="carousel-indicators mt-3 indicators-circle">
+<!-- INDICADORES DEBAJO -->
+<div class="carousel-indicators indicators-circle justify-content-center mt-3 mb-3 position-static">
   {% if product.image %}
-    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Imagen 1"></button>
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
   {% endif %}
   {% if product.image_2 %}
-    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Imagen 2"></button>
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>
   {% endif %}
   {% if product.image_3 %}
-    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Imagen 3"></button>
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>
   {% endif %}
   {% if not product.image and not product.image_2 and not product.image_3 %}
-    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-label="Sin imagen"></button>
+    <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
   {% endif %}
 </div>
 
-
+<!-- BOTÓN -->
+{% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+<a href="{% url 'admin:index' %}" class="btn btn-outline-secondary btn-ecomm d-flex align-items-center justify-content-center">
+  Explorar Demo
+</a>
+{% elif product.category.name == "Business Media" %}
+<a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-secondary btn-ecomm d-flex align-items-center justify-content-center">
+  Explorar Demo
+</a>
+{% endif %}
 
             </div>
 
-            <div class="d-flex gap-2">
+          
 
 
 
 
 
 
-    {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-<a href="{% url 'admin:index' %}"   class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2">   Explorar Demo    </a>
-{% elif product.category.name == "Business Media" %}
-
-<a href="{% url 'wagtailadmin_login' %}"  class="btn btn-outline-secondary btn-ecomm d-flex align-items-center gap-2">   Explorar Demo    </a>
-{% endif %}
 
 
 
-    <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
-        {% csrf_token %}
-        {{ cart_product_form.quantity }}   <!-- Campo oculto -->
-        {{ cart_product_form.update }}     <!-- Campo oculto -->
-
-        <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
-
-            {% trans 'Ordenar Software' %}
-        </button>
-    </form>
 
 
 
-</div>
-            <!-- FIN DEL CAROUSEL -->
+
+   <!-- FIN DEL CAROUSEL -->
 
           </div>
         </div>
@@ -603,6 +577,10 @@
     <p style="font-size: 10px; line-height: 0.8; margin-top: 0; margin-bottom: 0;">
       <strong>2026 ® Todos los Derechos Reservados, Ecuador</strong>
     </p>
+
+
+
+
   </div>
 
 
@@ -618,6 +596,16 @@
 
     Alquiler de recursos de nube : <strong>{{ product.total_nube_iva }}/mes</strong><br>
   </p>
+  <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
+    {% csrf_token %}
+    {{ cart_product_form.quantity }}   <!-- Campo oculto -->
+    {{ cart_product_form.update }}     <!-- Campo oculto -->
+
+    <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
+
+        {% trans 'Ordenar Software' %}
+    </button>
+</form>
 
 </div>
 
@@ -1123,617 +1111,17 @@
     </div>
 
   </div>
-</div>
+
 
 
 
 
       </div>
+      
   </div>
-
-
 
 
 
 {% endblock %}
 
 
-
-        <!-- start page content wrapper-->
-        <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-          <!--start breadcrumb-->
-          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Software As Products </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item"><a href="javascript:;"></a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">{{ product.category }}</li>
-                </ol>
-              </nav>
-            </div>
-            <div class="ms-auto">
-              <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary">Settings</button>
-                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                  <a class="dropdown-item" href="javascript:;">Another action</a>
-                  <a class="dropdown-item" href="javascript:;">Something else here</a>
-                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--end breadcrumb-->
-
-
-
-
-          <!--start product detail-->
-          <section class="shop-page">
-            <div class="shop-container">
-
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-
-<div class="profile-cover bg-dark position-relative mb-4"
-  {% if product.category == 'smartbusinessnalytics' %}
-    style="background-image: url('{% static 'img/smartbusinessanalytics/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
-  {% elif product.category == 'SmartBusinessMedia' %}
-    style="background-image: url('{% static 'img/smartbusinessmedia/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
-  {% elif product.category == 'SmartBusinessPlatforms' %}
-    style="background-image: url('{% static 'img/smartbusinessplatforms/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
-  {% elif product.category == 'SmartBusinessTechnologies' %}
-    style="background-image: url('{% static 'img/smartbusinesstechnologies/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
-  {% else %}
-    style="background-color: url('{% static 'img/smartbusinessanalytics/1.png' %}'); background-size: cover; background-position: center; height: 10rem;"
-  {% endif %}
->
-</div>
-
-
-                  <div class="product-detail-card">
-                    <div class="product-detail-body">
-                      <div class="row g-0">
-                        <div class="col-12 col-lg-5">
-        <div class="image-zoom-section">
-<!-- Galería principal -->
-<div class="product-gallery border rounded mb-3 p-3">
-  {% if product.image %}
-    <div class="image-container position-relative mb-3">
-      <img src="{{ product.image.url }}" class="img-fluid" alt="Imagen 1 del producto">
-      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-        <ion-icon name="play-circle-outline"></ion-icon>
-      </a>
-    </div>
-  {% endif %}
-
-  {% if product.image_3 %}
-    <div class="image-container">
-      <img src="{{ product.image_3.url }}" class="img-fluid" alt="Imagen 2 del producto">
-    </div>
-  {% endif %}
-
-  {% if not product.image %}
-    <div class="image-container position-relative mb-3">
-      <img src="{% static 'img/no_image.png' %}" class="img-fluid" alt="Imagen no disponible">
-      <button class="play-button position-absolute top-50 start-50 translate-middle">
-        <ion-icon name="play-circle-outline"></ion-icon>
-      </button>
-    </div>
-  {% endif %}
-</div>
-
-
-          </div>
-                        </div>
-                        <div class="col-12 col-lg-7">
-                          <div class="product-info-section p-3">
-                             <img src="{{ product.image_2.url }}" class="img-fluid" alt="Imagen 1 del producto">
-
-
-                            <div class="d-flex align-items-center mt-3 gap-2">
-                              <h4 class="mb-0" style="color:#cb0404"><strong>{{ product.price }}</strong>  </h4>
-                              <h6>Incluido 15 % I.V.A</h6>
-
-                            </div>
-                            <div class="mt-3">
-                               <p>{{ product.name }}</p>
-                              <h6>Descripción:</h6>
-                              <p class="mb-0">{{ product.description|linebreaks }}</p>
-                            </div>
-                            <dl class="row mt-3">
-                              <dt class="col-sm-3">Latencia</dt> <dd class="col-sm-9">{{ product.latencia_aproximada}} Transaciones/ms </dd>
-                              <dt class="col-sm-3">Capacidad Max</dt> <dd class="col-sm-9">{{ product.usuarios_simultaneos }} <ion-icon name="people-outline"></ion-icon> Simultáneos</dd>
-                               <dt class="col-sm-3">Balanceo de Carga</dt> <dd class="col-sm-9"><ion-icon name="checkmark-outline"></ion-icon></dd>
-                               <dt class="col-sm-3">Disponibilidad</dt> <dd class="col-sm-9">{{ product.software }}</dd>
-                               <dt class="col-sm-3">Infraestructura</dt> <dd class="col-sm-9">{{product.total_nube_iva}} Mensuales</dd>
-                            </dl>
-                            <div class="row row-cols-auto align-items-center mt-3">
-
-      <form action="{% url "saas_cart:cart_add" product.id %}" method="post">
-      {{ cart_product_form }}
-      {% csrf_token %}
-      <input type="submit" class="btn btn-primary btn-ecomm" value="{% trans "Add to cart" %}">
-    </form>
-
-                            </div>
-                            <!--end row-->
-                              <div class="d-flex gap-2 mt-3">
-
-                            <hr/>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end row-->
-                    </div>
-                  </div>
-
-
-                  <!--start product more info-->
-                  <div class="product-more-info mt-4">
-                    <h3>El Software Incluye</h3>
-
-
-<ul class="nav nav-tabs mb-0" role="tablist">
-
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link infra-tab" data-bs-toggle="tab" href="#infraestructura" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">
-          <ion-icon name="hardware-chip-outline"></ion-icon>
-        </div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link id-tab" data-bs-toggle="tab" href="#discription" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">I + D</div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link auto-tab" data-bs-toggle="tab" href="#automatizacion" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">+A</div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link ia-tab" data-bs-toggle="tab" href="#inteligencia-artificial" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">+IA</div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link moni-tab" data-bs-toggle="tab" href="#monitoreo" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">
-          <ion-icon name="bar-chart-outline"></ion-icon>
-        </div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link cyber-tab" data-bs-toggle="tab" href="#ciberseguridad" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">
-          <ion-icon name="shield-outline"></ion-icon>
-        </div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active support-tab" data-bs-toggle="tab" href="#soporte" role="tab">
-      <div class="d-flex align-items-center">
-        <div class="tab-title text-uppercase fw-500">
-          <ion-icon name="headset-outline"></ion-icon>
-        </div>
-      </div>
-    </a>
-  </li>
-
-
-
-</ul>
-
-
-
-
-
-
-
-<div class="tab-content pt-3">
-  <div class="tab-pane fade" id="discription" role="tabpanel">
-    <h5 class="mt-3"> (I+D) Investigación & Desarollo</h5>
-    <p>
-      Lo que distingue a <strong>SmartBusinessAnalytics®</strong> es su enfoque centrado en la <strong>investigación y desarrollo (I+D)</strong> aplicado directamente a los procesos empresariales, permitiendo una evolución constante en tiempo real.
-    </p>
-    <p>
-      Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
-    </p>
-
-    <h5 class="mt-4">Metodología de implementación con I+D:</h5>
-    <ul>
-      <li>
-        <strong>1. Entrevistas presenciales o virtuales con Project Managers:</strong>
-        Iniciamos con sesiones de levantamiento de información donde identificamos los procesos clave de la organización y sus puntos críticos.
-      </li>
-      <li>
-        <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
-        Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.
-      </li>
-      <li>
-        <strong>3. Feedback inicial del cliente:</strong>
-        El cliente valida la funcionalidad desarrollada en un entorno controlado, brindando retroalimentación directa sobre el cumplimiento de requerimientos.
-      </li>
-      <li>
-        <strong>4. Adaptación y mejora del desarrollo:</strong>
-        Realizamos ajustes ágiles sobre los módulos para afinar su comportamiento en base a los comentarios recibidos.
-      </li>
-      <li>
-        <strong>5. Segundo feedback de validación final:</strong>
-        Confirmamos que todos los procesos se ajustan a las expectativas del cliente y se encuentran listos para pruebas avanzadas.
-      </li>
-      <li>
-        <strong>6. Entrega al departamento de QA (Quality Assurance):</strong>
-        El sistema es evaluado por nuestros especialistas en pruebas de calidad, seguridad y rendimiento.
-      </li>
-      <li>
-        <strong>7. Feedback final del cliente sobre desempeño:</strong>
-        Validamos junto al cliente el rendimiento del aplicativo, el sistema de backups y la resiliencia ante fallos críticos.
-      </li>
-      <li>
-        <strong>8. Entrega de métricas de recursos contratados:</strong>
-        Presentamos un informe detallado del uso de recursos en la nube (CPU, almacenamiento, memoria, etc.).
-      </li>
-      <li>
-        <strong>9. Despliegue final en entorno de producción:</strong>
-        El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.
-      </li>
-    </ul>
-
-    <p class="mb-1">
-      Esta metodología nos permite ofrecer una solución robusta, segura y completamente adaptada a las necesidades del cliente, asegurando una implementación exitosa y sostenible en el tiempo.
-    </p>
-  </div>
-
-<div class="tab-pane fade" id="infraestructura" role="tabpanel">
-  <h5 class="mt-3"><ion-icon name="hardware-chip-outline"></ion-icon> Infraestructura en la Nube, Seguridad y Rendimiento</h5>
-  <p>
-    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para todos nuestros clientes. Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización.
-  </p>
-  <ul>
-    <li>
-      <strong>DNS privado:</strong>
-      Proporcionamos un sistema de nombres de dominio privado para cada cliente, asegurando una identificación única y segura de los entornos de operación.
-    </li>
-    <li>
-      <strong>Certificación SSL con autogeneración:</strong>
-      Todos los entornos se entregan bajo una conexión segura (HTTPS), con certificados SSL generados automáticamente y actualizados periódicamente para garantizar la protección de los datos transmitidos.
-    </li>
-    <li>
-      <strong>Subdominio personalizado incluido:</strong>
-      Asignamos una URL con el siguiente formato: <code>[NombreDeOrganizacion].smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
-    </li>
-    <li>
-      <strong>Redirección a dominio privado:</strong>
-      Si el cliente prefiere utilizar su propio dominio (por ejemplo, <code>midominio.com</code>), ofrecemos la posibilidad de redirección desde nuestra infraestructura hacia el dominio deseado. Este servicio conlleva un costo adicional, determinado según el nombre del dominio y la configuración requerida.
-    </li>
-    <li>
-      <strong>Almacenamiento:</strong>
-      Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio. El almacenamiento inicial para cada cliente incluye:
-      <ul>
-        <li>Almacenamiento SSD de alta velocidad de hasta 500GB por defecto.</li>
-        <li>Opciones de expansión de almacenamiento hasta 5TB según la carga de datos.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Memoria (RAM):</strong>
-      La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones. Los parámetros incluyen:
-      <ul>
-        <li>4GB de RAM por instancia básica.</li>
-        <li>Hasta 32GB de RAM escalable según los requerimientos del cliente y los módulos activados en el ERP.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>vCPU (Unidad Central de Procesamiento Virtual):</strong>
-      Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas, brindando una infraestructura confiable y eficiente:
-      <ul>
-        <li>2 vCPU para la configuración básica.</li>
-        <li>Escalabilidad hasta 16 vCPU dependiendo de la carga de trabajo y el número de usuarios concurrentes.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Nivel de latencia y rendimiento garantizado:</strong>
-      Nuestra infraestructura está diseñada para asegurar una latencia mínima, garantizando una experiencia de usuario fluida y sin interrupciones. Con este fin, usamos los siguientes componentes:
-      <ul>
-        <li>Conexiones dedicadas de alta velocidad entre nuestros servidores y el cliente final.</li>
-        <li>Balanceo de carga inteligente para distribuir las solicitudes de manera eficiente.</li>
-        <li>Redundancia en múltiples centros de datos para garantizar alta disponibilidad.</li>
-      </ul>
-      Además, los clientes pueden contratar niveles de latencia personalizados según sus necesidades, asegurando tiempos de respuesta optimizados para aplicaciones críticas.
-    </li>
-    <li>
-      <strong>Costos de Infraestructura:</strong>
-      Durante el primer mes de implementación y desarrollo, los **costos de infraestructura** (almacenamiento, vCPU, memoria, etc.) están **cubiertos** sin costo adicional. Este período inicial cubre la configuración del entorno, pruebas iniciales y la integración con el sistema.
-    </li>
-    <li>
-      A partir del **segundo mes**, el cliente deberá abonar una cantidad mensual específica que corresponde al uso de la infraestructura basada en los recursos consumidos. Esta tarifa mensual se calcula teniendo en cuenta factores como:
-      <ul>
-        <li>La cantidad de almacenamiento utilizado.</li>
-        <li>El número de vCPU y memoria asignada a la infraestructura.</li>
-        <li>El tráfico generado por el uso del ERP.</li>
-        <li>Los niveles de latencia contratados.</li>
-      </ul>
-      Los costos de infraestructura serán revisados y ajustados según el uso real del sistema y los requisitos del cliente. Este modelo flexible permite a las organizaciones pagar solo por lo que utilizan, con la opción de escalar según sea necesario.
-    </li>
-  </ul>
-  <p class="mb-1">
-    Esta arquitectura de infraestructura garantiza que cada instancia del ERP esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
-  </p>
-</div>
-
-<div class="tab-pane fade" id="automatizacion" role="tabpanel">
-  <h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
-  <p>
-    En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Análisis de ciclos y tiempos:</strong>
-      Mediante entrevistas, pruebas y monitoreo en tiempo real, mapeamos el flujo completo de la información dentro de la organización. Esta información nos permite identificar tareas repetitivas, puntos de fricción y posibles cuellos de botella.
-    </li>
-    <li>
-      <strong>Automatización de procesos internos:</strong>
-      Integramos automatismos dentro del ERP para que ciertas acciones se ejecuten automáticamente cuando ocurren eventos específicos. Por ejemplo:
-      <ul>
-        <li>Actualización automática de inventarios tras una venta.</li>
-        <li>Notificaciones automáticas ante fechas de vencimiento o pagos.</li>
-        <li>Generación automática de reportes periódicos.</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Integración con APIs externas:</strong>
-      El sistema está preparado para interactuar con plataformas externas mediante API RESTful, facilitando la conexión con herramientas como CRMs, pasarelas de pago, sistemas contables, plataformas logísticas y más.
-    </li>
-    <li>
-      <strong>Desarrollo de APIs propias:</strong>
-      Cuando el sistema externo no ofrece integración directa, desarrollamos nuestras propias APIs personalizadas, asegurando compatibilidad con los sistemas existentes del cliente.
-    </li>
-    <li>
-      <strong>Eventos y respuestas automatizadas:</strong>
-      Gracias a nuestra arquitectura basada en eventos, cada acción crítica puede desencadenar una respuesta automática del sistema, sin intervención manual. Esto permite ahorrar tiempo y evitar errores humanos.
-    </li>
-    <li>
-      <strong>Lenguaje de desarrollo:</strong>
-      Todo el sistema de automatización está construido sobre lenguaje <code>Python</code>, lo que garantiza flexibilidad, velocidad de desarrollo, y soporte de una comunidad técnica robusta.
-    </li>
-  </ul>
-
-  <p class="mb-1">
-    Nuestro objetivo es que cada empresa que implemente SmartBusinessMedia® obtenga no solo un sistema de gestión, sino una plataforma inteligente que trabaje en segundo plano, automatizando decisiones, respuestas y tareas clave de manera confiable y transparente.
-  </p>
-</div>
-
-
-<div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel">
-  <h5 class="mt-3">(+AI)Inteligencia Artificial Aplicada al ERP</h5>
-  <p>
-    SmartBusinessMedia® incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Modelos de ML aplicados a los procesos:</strong>
-      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
-    </li>
-    <li>
-      <strong>Predicción en tiempo real:</strong>
-      Gracias al análisis constante de datos en vivo, el sistema puede anticiparse a eventos como:
-      <ul>
-        <li>Ruptura de stock</li>
-        <li>Variaciones de demanda</li>
-        <li>Riesgos financieros</li>
-        <li>Alertas de comportamiento inusual</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Integración con ChatGPT 5.0:</strong>
-      Hemos integrado <strong>modelos de lenguaje avanzados</strong> para la creación de <strong>ChatBots inteligentes</strong>, capaces de:
-      <ul>
-        <li>Asistir en tiempo real a usuarios del sistema</li>
-        <li>Responder consultas de clientes finales</li>
-        <li>Guiar procesos internos como soporte, ventas o logística</li>
-      </ul>
-      Esta integración permite una experiencia conversacional natural, contextual y multilingüe.
-    </li>
-    <li>
-      <strong>Entrenamiento personalizado por industria:</strong>
-      Nuestros modelos de IA se entrenan con datos representativos del sector del cliente (retail, salud, educación, etc.), logrando resultados más precisos y relevantes.
-    </li>
-    <li>
-      <strong>Análisis predictivo + toma de decisiones:</strong>
-      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
-    </li>
-  </ul>
-
-  <p class="mb-1">
-    El objetivo de nuestra IA es que las organizaciones pasen de una gestión reactiva a una <strong>gestión proactiva basada en datos reales</strong>, facilitando decisiones inteligentes en tiempo real con un nivel de precisión sin precedentes.
-  </p>
-</div>
-
-
-<div class="tab-pane fade" id="monitoreo" role="tabpanel">
-  <h5 class="mt-3">  <ion-icon name="bar-chart-outline"></ion-icon> Monitoreo en Tiempo Real del Sistema ERP</h5>
-  <p>
-    SmartBusinessMedia® cuenta con un módulo avanzado de <strong>monitoreo en tiempo real</strong> que permite supervisar cada evento crítico, tanto a nivel de infraestructura como de operaciones dentro del sistema de información.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Monitoreo de Infraestructura:</strong>
-      Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.
-    </li>
-    <li>
-      <strong>Monitoreo de eventos transaccionales:</strong>
-      Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.
-    </li>
-    <li>
-      <strong>Alertas automatizadas:</strong>
-      El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.
-    </li>
-    <li>
-      <strong>Analítica operacional profunda:</strong>
-      Se generan dashboards e informes automáticos con <strong>métricas clave de desempeño</strong>, como:
-      <ul>
-        <li>Frecuencia de uso por módulo</li>
-        <li>Volumen de transacciones por usuario o departamento</li>
-        <li>Tiempos de respuesta y eficiencia del sistema</li>
-        <li>Eventos críticos o fallas detectadas</li>
-      </ul>
-    </li>
-    <li>
-      <strong>Auditoría y cumplimiento:</strong>
-      Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.
-    </li>
-  </ul>
-
-  <p class="mb-1">
-    Gracias a este sistema de monitoreo, las empresas pueden actuar de forma proactiva ante riesgos operativos, validar el cumplimiento de sus políticas internas y garantizar un control total del flujo de información en su ERP.
-  </p>
-</div>
-
-
-<div class="tab-pane fade" id="ciberseguridad" role="tabpanel">
-  <h5 class="mt-3"><ion-icon name="shield-outline"></ion-icon> Ciberseguridad en la Nube Empresarial</h5>
-  <p>
-    La seguridad de la información es una prioridad en <strong>SmartBusinessMedia®</strong>. Nuestra arquitectura cloud ha sido diseñada bajo los más altos estándares de <strong>ciberseguridad corporativa</strong>, garantizando que los datos y procesos de cada organización estén protegidos contra amenazas internas y externas.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Tokenización de datos sensibles:</strong>
-      Utilizamos técnicas avanzadas de tokenización y encriptación para proteger los datos desde el origen, asegurando que <strong>ni siquiera nuestros servidores almacenen información en texto plano</strong>.
-    </li>
-    <li>
-      <strong>Certificados SSL de seguridad:</strong>
-      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo:
-      <code>[organizacion].smartquail.io</code>.
-    </li>
-    <li>
-      <strong>DNS privado y aislamiento por cliente:</strong>
-      Cada instancia del ERP cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
-    </li>
-    <li>
-      <strong>Firewalls y monitoreo activo:</strong>
-      Implementamos firewalls de aplicación web (WAF) y monitoreo constante de intentos de acceso no autorizados o comportamientos sospechosos.
-    </li>
-    <li>
-      <strong>Autenticación reforzada:</strong>
-      Integramos mecanismos de autenticación segura como <strong>verificación en dos pasos (2FA)</strong>, y políticas de contraseñas robustas para todos los usuarios del sistema.
-    </li>
-    <li>
-      <strong>Backups automáticos y resiliencia:</strong>
-      Todos los datos son respaldados automáticamente en intervalos programados y almacenados en ubicaciones seguras, permitiendo <strong>recuperación inmediata ante cualquier incidente</strong>.
-    </li>
-    <li>
-      <strong>Cumplimiento normativo:</strong>
-      Nos alineamos con normas internacionales de seguridad como <strong>ISO/IEC 27001, GDPR y OWASP</strong>, brindando confianza y cumplimiento legal a nuestros clientes.
-    </li>
-  </ul>
-
-  <p class="mb-1">
-    Gracias a esta infraestructura y enfoque, nuestros clientes pueden operar con la certeza de que su información empresarial se encuentra protegida por una <strong>barrera multicapa de ciberseguridad en la nube</strong>, adaptable y en constante evolución ante nuevas amenazas.
-  </p>
-</div>
-
-
-<div class="tab-pane fade" id="soporte" role="tabpanel">
-  <h5 class="mt-3">Soporte Técnico y Mantenimiento Continuo</h5>
-  <p>
-    En <strong>SmartBusinessMedia®</strong>, la continuidad operativa y evolución constante del sistema son pilares clave. Por eso, ofrecemos un servicio de <strong>soporte técnico 24/7</strong> que garantiza que nunca exista una pérdida total de disponibilidad, ni durante mantenimiento ni ante eventualidades imprevistas.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Soporte 24/7:</strong> Nuestro equipo técnico está disponible las 24 horas del día, los 7 días de la semana, para resolver consultas, incidencias o acompañar al cliente en la evolución del sistema.
-    </li>
-    <li>
-      <strong>Actualizaciones sin interrupción:</strong> Realizamos mejoras y actualizaciones del sistema de manera controlada y progresiva, sin afectar la disponibilidad general del ERP ni los servicios activos del cliente.
-    </li>
-    <li>
-      <strong>Mantenimiento evolutivo:</strong> No solo damos soporte técnico, también acompañamos el crecimiento del negocio implementando mejoras funcionales y tecnológicas a medida que surgen nuevas necesidades.
-    </li>
-    <li>
-      <strong>Monitorización preventiva:</strong> Nuestro sistema detecta comportamientos anómalos o cuellos de botella antes de que se conviertan en problemas, permitiendo respuestas proactivas y mantenimientos predictivos.
-    </li>
-    <li>
-      <strong>Escalamiento técnico avanzado:</strong> Cualquier problema técnico que supere el soporte inicial es escalado inmediatamente a ingenieros de infraestructura o desarrollo según el caso.
-    </li>
-    <li>
-      <strong>Historial de soporte y trazabilidad:</strong> Cada intervención es registrada y documentada, brindando transparencia y control sobre el mantenimiento del sistema.
-    </li>
-  </ul>
-
-  <p class="mb-1">
-    Nuestro compromiso es que su empresa nunca se detenga. Gracias a nuestra infraestructura en la nube, sistemas de respaldo y atención técnica continua, podemos garantizar <strong>alta disponibilidad operacional</strong> incluso en escenarios críticos.
-  </p>
-</div>
-
-
-
-</div>
-
-
-
-
-
-              <!--end product more info-->
-
-              <!--start similar products-->
-
-                  <!--end similar products-->
-
-                </div>
-              </div>
-
-					</div>
-				</section>
-				<!--end product detail-->
-
-
-
-          </div>
-          <!-- end page content-->
-         </div>
-
-
-<script>
-  $(document).ready(function(){
-    $('.product-gallery').owlCarousel({
-      items: 1,
-      loop: true,
-      margin: 10,
-      thumbs: true,
-      thumbsPrerendered: true,
-      nav: false,
-      dots: false
-    });
-  });
-</script>
