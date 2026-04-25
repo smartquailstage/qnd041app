@@ -102,9 +102,17 @@ class SBMProduct(models.Model):
     icon= models.CharField(choices=ICON_CHOICE, max_length=200, db_index=True,null=True, blank= True)
     color = models.CharField(choices=COLORS_CHOICE, max_length=200, db_index=True,null=True, blank= True)
 
+
     class Meta:
         ordering = ('name',)
-        index_together = (('id', 'slug'),)
+        indexes = [
+            models.Index(fields=["id", "slug"]),
+        ]
+
+
+    def get_absolute_url(self):
+            return reverse('sbashop:product_detail',
+                           args=[self.id, self.slug])
 
     def __str__(self):
         return self.name

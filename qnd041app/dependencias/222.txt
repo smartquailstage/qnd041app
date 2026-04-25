@@ -1,0 +1,41 @@
+Django>=5.0,<6.0
+wagtail==7.2.0
+
+# Core
+django-unfold
+python-decouple
+django-taggit
+
+# Data
+numpy
+pandas
+scipy
+matplotlib
+
+# Wagtail ecosystem
+wagtailmedia
+wagtailmenus
+wagtail-modeltranslation
+wagtail-ai>=0.1.0
+
+# Async
+celery>=5.3,<6
+django-celery-results
+redis
+
+# DB
+psycopg2-binary
+
+# Utils
+requests
+django-environ
+django-redis
+
+# Frontend (elige uno, no todos)
+# django-bootstrap-v5  ❌ mejor quitar
+# django-bootstrap4    ❌ quitar
+
+# Otros útiles
+djangorestframework
+django-cors-headers
+django-storages

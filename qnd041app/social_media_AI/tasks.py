@@ -2,7 +2,7 @@ import requests
 from celery import shared_task
 from django.conf import settings
 
-from social_media_A.models import (
+from social_media_AI.models import (
     InstagramPost,
     InstagramCarouselPost,
     InstagramReel,
@@ -18,7 +18,7 @@ from social_media_A.models import (
 # BASE SENDER
 # =========================
 def send_to_n8n(webhook_key, payload):
-    url = settings.N8N_WEBHOOKS_A.get(webhook_key)
+    url = settings.N8N_WEBHOOKS_AI.get(webhook_key)
 
     if not url:
         raise Exception(f"No webhook configured for {webhook_key}")

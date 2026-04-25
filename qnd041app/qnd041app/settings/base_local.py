@@ -151,6 +151,7 @@ INSTALLED_APPS = [
     # Wagtail plugins
     "wagtailgmaps",
     "wagtailmenus",
+     "wagtail_ai",
     # "wagtail_modeltranslation",  # Descomentar si se usa
 
 
@@ -170,8 +171,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "widget_tweaks",
     "django_forms_bootstrap",
-    "bootstrap4",
-    "bootstrap5",
+   # "bootstrap4",
+   # "bootstrap5",
     "bootstrap_datepicker_plus",
     "jquery",
     "qr_code",
@@ -188,6 +189,7 @@ INSTALLED_APPS = [
     #"SQOrders",
     #"SQShop",
     'chatbot_ai',
+   
 
 
     "serviceapp",
@@ -248,11 +250,30 @@ INSTALLED_APPS = [
    
     "rosetta",
     "taggit",
-    "social_media_ID",
-    "social_media_A",
+    #"social_media_ID",
+    #"social_media_A",
+    "social_media_AI",
+    
 ]
 
 #LOGINGS REDIRECT
+
+
+import os
+
+WAGTAIL_AI = {
+    "BACKENDS": {
+        "gpt4": {
+            "CLASS": "wagtail_ai.ai.openai.OpenAIBackend",
+            "CONFIG": {
+                "MODEL_ID": "gpt-4o-mini",  # recomendado hoy (más barato y rápido)
+                "API_KEY": os.environ.get("OPENAI_API_KEY"),
+            },
+        },
+    },
+    "TEXT_COMPLETION_BACKEND": "gpt4",
+}
+
 
 LOGIN_REDIRECT_URL = 'usuarios:perfil'
 LOGIN_URL = 'usuarios:login'

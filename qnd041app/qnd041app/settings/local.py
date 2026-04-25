@@ -32,31 +32,38 @@ ALLOWED_HOSTS = ['*']
 #     ALLOWED_HOSTS = [ ENV_ALLOWED_HOST ]
 
 
+
+import os
+
+def env(key, default=None):
+    return os.getenv(key, default)
+
+
 N8N_WEBHOOKS_A = {
-    "instagram_post": "https://tu-n8n.com/webhook/instagram-post",
-    "instagram_carousel": "https://tu-n8n.com/webhook/instagram-carousel",
-    "instagram_reel": "https://tu-n8n.com/webhook/instagram-reel",
+    "instagram_post": env("N8N_A_INSTAGRAM_POST"),
+    "instagram_carousel": env("N8N_A_INSTAGRAM_CAROUSEL"),
+    "instagram_reel": env("N8N_A_INSTAGRAM_REEL"),
 
-    "facebook_image": "https://tu-n8n.com/webhook/facebook-image",
-    "facebook_video": "https://tu-n8n.com/webhook/facebook-video",
-    "facebook_carousel": "https://tu-n8n.com/webhook/facebook-carousel",
+    "facebook_image": env("N8N_A_FACEBOOK_IMAGE"),
+    "facebook_video": env("N8N_A_FACEBOOK_VIDEO"),
+    "facebook_carousel": env("N8N_A_FACEBOOK_CAROUSEL"),
 
-    "twitter_post": "https://tu-n8n.com/webhook/twitter-post",
-    "linkedin_post": "https://tu-n8n.com/webhook/linkedin-post",
+    "twitter_post": env("N8N_A_TWITTER_POST"),
+    "linkedin_post": env("N8N_A_LINKEDIN_POST"),
 }
 
 
-N8N_WEBHOOKS_A_AI = {
-    "instagram_post": "https://tu-n8n.com/webhook/instagram-post",
-    "instagram_carousel": "https://tu-n8n.com/webhook/instagram-carousel",
-    "instagram_reel": "https://tu-n8n.com/webhook/instagram-reel",
+N8N_WEBHOOKS_AI = {
+    "instagram_post": env("N8N_AI_INSTAGRAM_POST"),
+    "instagram_carousel": env("N8N_AI_INSTAGRAM_CAROUSEL"),
+    "instagram_reel": env("N8N_AI_INSTAGRAM_REEL"),
 
-    "facebook_image": "https://tu-n8n.com/webhook/facebook-image",
-    "facebook_video": "https://tu-n8n.com/webhook/facebook-video",
-    "facebook_carousel": "https://tu-n8n.com/webhook/facebook-carousel",
+    "facebook_image": env("N8N_AI_FACEBOOK_IMAGE"),
+    "facebook_video": env("N8N_AI_FACEBOOK_VIDEO"),
+    "facebook_carousel": env("N8N_AI_FACEBOOK_CAROUSEL"),
 
-    "twitter_post": "https://tu-n8n.com/webhook/twitter-post",
-    "linkedin_post": "https://tu-n8n.com/webhook/linkedin-post",
+    "twitter_post": env("N8N_AI_TWITTER_POST"),
+    "linkedin_post": env("N8N_AI_LINKEDIN_POST"),
 }
 
 

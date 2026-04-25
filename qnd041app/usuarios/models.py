@@ -16,7 +16,7 @@ from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 from datetime import timedelta
 #from schedule.models import Event, Calendar
-from django.utils.datetime_safe import datetime
+from datetime import datetime
 from django.utils.timezone import make_aware
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
