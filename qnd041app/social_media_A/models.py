@@ -22,15 +22,36 @@ Image = get_image_model()
 # 🔹 BASE
 # =========================
 class BasePost(models.Model):
+
     created_by = models.ForeignKey(
         User,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name="+"
+        related_name="%(class)s_posts"
     )
 
-    scheduled_date = models.DateTimeField()
+    STATUS_CHOICES = [
+        ("draft", "Borrador"),
+        ("scheduled", "Programado"),
+        ("processing", "Procesando"),
+        ("sent", "Enviado"),
+        ("failed", "Fallido"),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="draft"
+    )
+
+    scheduled_date = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    updated_at = models.DateTimeField(auto_now=True,null=True,blank=True)
 
     class Meta:
         abstract = True
@@ -87,6 +108,9 @@ class InstagramPost(BasePost):
             )
         return "—"
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return self.caption[:40]
 
@@ -123,6 +147,9 @@ class InstagramCarouselPost(BasePost, ClusterableModel):
     def clean(self):
         if self.images.count() > 10:
             raise ValidationError("Máximo 10 imágenes")
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.caption[:40]
@@ -175,6 +202,9 @@ class InstagramReel(BasePost):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 # =========================
 # 🔹 FACEBOOK IMAGE
@@ -203,6 +233,9 @@ class FacebookImagePost(BasePost):
 
     def __str__(self):
         return self.message[:40]
+
+    class Meta:
+        ordering = ["-created_at"]
 
 
 # =========================
@@ -233,6 +266,9 @@ class FacebookVideoPost(BasePost):
     def __str__(self):
         return self.message[:40]
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 # =========================
 # 🔹 FACEBOOK CAROUSEL
@@ -253,6 +289,9 @@ class FacebookCarouselPost(BasePost, ClusterableModel):
     def __str__(self):
         return self.message[:40]
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class FacebookCarouselImage(Orderable):
 
@@ -269,6 +308,8 @@ class FacebookCarouselImage(Orderable):
         FieldPanel("image"),
         FieldPanel("caption"),
     ]
+
+
 
 
 # =========================
@@ -295,6 +336,9 @@ class TwitterPost(BasePost):
 
     def __str__(self):
         return self.text[:40]
+
+    class Meta:
+        ordering = ["-created_at"]
 
 
 # =========================
@@ -324,3 +368,6 @@ class LinkedInPost(BasePost):
 
     def __str__(self):
         return self.content[:50]
+
+    class Meta:
+        ordering = ["-created_at"]
