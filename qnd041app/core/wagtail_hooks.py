@@ -8,6 +8,14 @@ from .models import SocialAutomationPost
 from .tasks import send_post_to_n8n
 
 
+from wagtail import hooks
+
+
+from django.urls import reverse
+
+from wagtail import hooks
+from wagtail.admin.menu import MenuItem
+
 
 
 @hooks.register('register_category_url')
@@ -27,7 +35,7 @@ def register_custom_menu_item():
     return MenuItem(
         'Dashboard',  # Texto visible
         reverse('wagtailadmin_home'),  # Ruta
-        classname='icon icon-tasks',  # ✅ CORREGIDO: era classnames
+        icon_name='home',
         order=100
     )
 

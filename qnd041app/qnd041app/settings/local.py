@@ -32,7 +32,32 @@ ALLOWED_HOSTS = ['*']
 #     ALLOWED_HOSTS = [ ENV_ALLOWED_HOST ]
 
 
+N8N_WEBHOOKS_A = {
+    "instagram_post": "https://tu-n8n.com/webhook/instagram-post",
+    "instagram_carousel": "https://tu-n8n.com/webhook/instagram-carousel",
+    "instagram_reel": "https://tu-n8n.com/webhook/instagram-reel",
 
+    "facebook_image": "https://tu-n8n.com/webhook/facebook-image",
+    "facebook_video": "https://tu-n8n.com/webhook/facebook-video",
+    "facebook_carousel": "https://tu-n8n.com/webhook/facebook-carousel",
+
+    "twitter_post": "https://tu-n8n.com/webhook/twitter-post",
+    "linkedin_post": "https://tu-n8n.com/webhook/linkedin-post",
+}
+
+
+N8N_WEBHOOKS_A_AI = {
+    "instagram_post": "https://tu-n8n.com/webhook/instagram-post",
+    "instagram_carousel": "https://tu-n8n.com/webhook/instagram-carousel",
+    "instagram_reel": "https://tu-n8n.com/webhook/instagram-reel",
+
+    "facebook_image": "https://tu-n8n.com/webhook/facebook-image",
+    "facebook_video": "https://tu-n8n.com/webhook/facebook-video",
+    "facebook_carousel": "https://tu-n8n.com/webhook/facebook-carousel",
+
+    "twitter_post": "https://tu-n8n.com/webhook/twitter-post",
+    "linkedin_post": "https://tu-n8n.com/webhook/linkedin-post",
+}
 
 
 ALLOWED_HOSTS = ['*']

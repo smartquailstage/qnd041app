@@ -241,11 +241,15 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
+
     "services_cart",
     "services_coupons",
     "services_payment",
+   
     "rosetta",
-    "taggit"
+    "taggit",
+    "social_media_ID",
+    "social_media_A",
 ]
 
 #LOGINGS REDIRECT
