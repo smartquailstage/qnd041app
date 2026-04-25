@@ -1,41 +1,182 @@
-Django>=5.0,<6.0
-wagtail==7.2.0
+# Django
+django>=4.2,<5.0
 
-# Core
+# Django Baton
+#django-baton==2.6.2
 django-unfold
 python-decouple
 django-taggit
 
-# Data
-numpy
-pandas
-scipy
 matplotlib
+scipy
+pandas
+numpy
 
-# Wagtail ecosystem
+# Wagtail
+wagtail==7.2.0
 wagtailmedia
-wagtailmenus
+wagtail_localize
+wagtailgmaps
+wagtailmenus>=1.5.1
 wagtail-modeltranslation
-wagtail-ai>=0.1.0
+wagtail_modeladmin
+django-multiselectfield
+django-modeltranslation
 
-# Async
-celery>=5.3,<6
-django-celery-results
-redis
+fontawesome
 
-# DB
-psycopg2-binary
+psycopg
+google-generativeai
+# Django Social Share
+django-social-share
+django_extensions
 
-# Utils
+django-tinymce==4.1.0
+
+# XlsxWriter
+XlsxWriter
+
+# Requests
 requests
-django-environ
+
+# Celery
+celery>=5.2.7,<6.0  # Compatible with Django 4.2
+
+# uWSGI
+uWSGI==2.0.28
+
+# Redis
+redis>=4.5.5
+
+# Django Dotenv
+django-dotenv
+
+# Psycopg2
+psycopg2-binary>=2.9.6  # Removed comment, using binary version
+
+# Django Storages
+django-storages
+
+# Django Contrib Comments
+django-contrib-comments
+
+# Django CORS Headers
+django-cors-headers
+
+# Django Countries
+django-countries
+
+# Django Social Auth
+django-social-auth
+
+# Social Auth App Django
+social-auth-app-django>=4.0.0
+
+# Sorl Thumbnail
+sorl-thumbnail
+
+# Django Redis
 django-redis
 
-# Frontend (elige uno, no todos)
-# django-bootstrap-v5  ❌ mejor quitar
-# django-bootstrap4    ❌ quitar
+# Django Widget Tweaks
+django-widget-tweaks
 
-# Otros útiles
-djangorestframework
-django-cors-headers
-django-storages
+# Django Phone Field
+django-phone-field
+
+# Django Phonenumber Field
+django-phonenumber-field[phonenumberslite]
+
+# Django Bootstrap Datepicker Plus
+django-bootstrap-datepicker-plus
+
+# Django Bootstrap V5
+django-bootstrap-v5
+
+# Django Bootstrap 4
+django-bootstrap4
+
+# Django JQuery
+django-jquery
+
+# Django Embed Video
+django-embed-video
+
+# Django CKEditor
+django-ckeditor
+
+# Django QR Code
+django-qr-code
+
+
+django_celery_beat
+django-appointment
+django_celery_results
+django-scheduler
+
+# Django Braces
+django-braces
+
+django-q
+
+# Django Environ
+django-environ>=0.10.0
+
+# Kombu
+kombu>=5.3.4
+
+# Django Parler
+django-parler
+
+# Django Localflavor
+django-localflavor
+
+# Django Rosetta
+django-rosetta
+
+
+# Django Memcache Status
+django-memcache-status
+
+
+
+# Django Forms Bootstrap
+django-forms-bootstrap
+
+# Django REST Framework
+djangorestframework>=3.14.0
+
+# Django Debug Toolbar
+django-debug-toolbar>=4.0.1
+
+# Django Seed
+django-seed
+
+# Pymemcache
+pymemcache>=3.5.2
+django-money
+# Boto3
+boto3>=1.26.6
+
+# PyOpenSSL
+PyOpenSSL>=23.1.0
+
+# Python Dotenv
+python-dotenv==0.21.0
+
+# Python Memcached
+python-memcached
+
+# Ecommerce
+braintree>=4.29.0
+
+# Weasyprint
+weasyprint>=57.0
+
+qrcode
+
+twilio 
+requests
+
+django-celery-beat 
+django-celery-results
