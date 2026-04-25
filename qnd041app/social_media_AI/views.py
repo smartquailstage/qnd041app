@@ -1,9 +1,113 @@
+import requests
 import json
+from io import BytesIO
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-
 from .models import InstagramPost, InstagramReel, FacebookImagePost
+import json
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+from wagtail.images import get_image_model
+
+
+
+@csrf_exempt
+def save_generated_image_to_wagtail(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    try:
+        data = request.POST or request.json
+
+        post_id = data.get("id")
+        image_url = data.get("generated_image_url")
+
+        if not post_id or not image_url:
+            return JsonResponse({"error": "Missing data"}, status=400)
+
+        # =========================
+        # 1. Obtener post
+        # =========================
+        post = InstagramPost.objects.get(id=post_id)
+
+        # =========================
+        # 2. Descargar imagen IA
+        # =========================
+        r = requests.get(image_url, timeout=30)
+        if r.status_code != 200:
+            return JsonResponse({"error": "Cannot download image"}, status=400)
+
+        image_file = ContentFile(r.content)
+
+        # =========================
+        # 3. Crear imagen en Wagtail
+        # =========================
+        ImageModel = get_image_model()
+
+        wagtail_image = ImageModel(
+            title=f"Instagram Post {post.categories} AI Image",
+            file=image_file
+        )
+        wagtail_image.save()
+
+        # =========================
+        # 4. Relacionar con el post
+        # =========================
+        post.image = wagtail_image
+        post.generated_image_url = wagtail_image.file.url
+        post.status = "completed"
+        post.save(update_fields=["image", "generated_image_url", "status"])
+
+        return JsonResponse({
+            "success": True,
+            "image_id": wagtail_image.id,
+            "message": "Image saved in Wagtail"
+        })
+
+    except InstagramPost.DoesNotExist:
+        return JsonResponse({"error": "Post not found"}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+@csrf_exempt
+def n8n_instagram_webhook(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+
+        post_id = data.get("id")
+
+        obj = InstagramPost.objects.get(id=post_id)
+
+        # =========================
+        # Guardar respuesta IA
+        # =========================
+        obj.caption = data.get("caption")
+        obj.copy = data.get("copy")
+        obj.hashtags = data.get("hashtags")
+
+        image_url = data.get("image_url")
+        if image_url:
+            obj.image = image_url
+
+        obj.status = "sent"
+        obj.updated_at = timezone.now()
+        obj.save()
+
+        return JsonResponse({"status": "updated"})
+
+    except InstagramPost.DoesNotExist:
+        return JsonResponse({"error": "Post not found"}, status=404)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 MODEL_MAP = {

@@ -1,6 +1,7 @@
 import requests
 from celery import shared_task
 from django.conf import settings
+from django.utils import timezone
 
 from social_media_AI.models import (
     InstagramPost,
@@ -50,26 +51,52 @@ def mark_failed(obj):
         pass
 
 
-# =========================
-# INSTAGRAM POST
-# =========================
+
 @shared_task(bind=True, max_retries=3)
 def task_instagram_post(self, payload):
+    obj = None
+
     try:
+        # =========================
+        # 1. Obtener objeto
+        # =========================
         obj = mark_processing(InstagramPost, payload["id"])
 
-        response = send_to_n8n("instagram_post", payload)
+        # =========================
+        # 2. Enviar a n8n (IA GENERA TODO)
+        # =========================
+        response = send_to_n8n("instagram_post", {
+            "id": obj.id,
+            "prompt": obj.prompt,
+            "categories": obj.categories.id if obj.categories else None,
+        })
 
+        # =========================
+        # 3. RECIBIR RESPUESTA IA
+        # =========================
+        obj.caption = response.get("caption")
+        obj.copy = response.get("copy")
+        obj.hashtags = response.get("hashtags")
+
+        # Imagen generada (URL desde Gemini / n8n)
+        image_url = response.get("image_url")
+        if image_url:
+            obj.image = image_url
+
+        # =========================
+        # 4. Guardar en Wagtail
+        # =========================
         obj.status = "sent"
-        obj.save(update_fields=["status"])
+        obj.updated_at = timezone.now()
+        obj.save()
 
         return response
 
     except Exception as exc:
         if obj:
             mark_failed(obj)
-        raise self.retry(exc=exc)
 
+        raise self.retry(exc=exc, countdown=10 ** self.request.retries)
 
 # =========================
 # INSTAGRAM CAROUSEL

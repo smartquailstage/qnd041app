@@ -160,11 +160,12 @@ INSTALLED_APPS = [
     # Wagtail plugins
     "wagtailgmaps",
     "wagtailmenus",
+    "wagtail_ai",
     # "wagtail_modeltranslation",  # Descomentar si se usa
 
     # Terceros / externos
     "rest_framework",
-    "ckeditor",
+    #"ckeditor",
     'smartcontracts',
     "djmoney",
     "localflavor",
@@ -178,9 +179,9 @@ INSTALLED_APPS = [
     "django_extensions",
     "widget_tweaks",
     "django_forms_bootstrap",
-    "bootstrap4",
-    "bootstrap5",
-    "bootstrap_datepicker_plus",
+    #"bootstrap4",
+    #"bootstrap5",
+    #"bootstrap_datepicker_plus",
     "jquery",
     "qr_code",
     "tinymce",
@@ -252,7 +253,8 @@ INSTALLED_APPS = [
     "services_coupons",
     "services_payment",
     "rosetta",
-    "taggit"
+    "taggit",
+    "social_media_AI",
 ]
 
 #LOGINGS REDIRECT
@@ -1032,6 +1034,21 @@ WAGTAILIMAGES_MAX_UPLOAD_SIZE = 5 * 1024 * 1024 * 1024  # 5 GB en bytes
 WAGTAILIMAGES_MAX_IMAGE_PIXELS = 1000000000  # 1 millardo de píxeles (1 Gb)
 
 
+
+WAGTAIL_AI = {
+    "BACKENDS": {
+        "gemini": {
+            "CLASS": "qnd041app.settings.gemini_backend.GeminiBackend",
+            "CONFIG": {
+                "MODEL_ID": "gemini-1.5-flash",  # rápido/barato
+                # también puedes usar:
+                # gemini-1.5-pro → más potente
+                "API_KEY": os.environ.get("GEMINI_API_KEY"),
+            },
+        },
+    },
+    "TEXT_COMPLETION_BACKEND": "gemini",
+}
 
 
 # Database

@@ -151,7 +151,7 @@ INSTALLED_APPS = [
     # Wagtail plugins
     "wagtailgmaps",
     "wagtailmenus",
-     "wagtail_ai",
+    "wagtail_ai",
     # "wagtail_modeltranslation",  # Descomentar si se usa
 
 

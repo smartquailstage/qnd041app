@@ -126,6 +126,37 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SEC
 
 
 
+
+N8N_WEBHOOKS_A = {
+    "instagram_post": env("N8N_A_INSTAGRAM_POST"),
+    "instagram_carousel": env("N8N_A_INSTAGRAM_CAROUSEL"),
+    "instagram_reel": env("N8N_A_INSTAGRAM_REEL"),
+
+    "facebook_image": env("N8N_A_FACEBOOK_IMAGE"),
+    "facebook_video": env("N8N_A_FACEBOOK_VIDEO"),
+    "facebook_carousel": env("N8N_A_FACEBOOK_CAROUSEL"),
+
+    "twitter_post": env("N8N_A_TWITTER_POST"),
+    "linkedin_post": env("N8N_A_LINKEDIN_POST"),
+}
+
+
+N8N_WEBHOOKS_AI = {
+    "instagram_post": env("N8N_AI_INSTAGRAM_POST"),
+    "instagram_carousel": env("N8N_AI_INSTAGRAM_CAROUSEL"),
+    "instagram_reel": env("N8N_AI_INSTAGRAM_REEL"),
+
+    "facebook_image": env("N8N_AI_FACEBOOK_IMAGE"),
+    "facebook_video": env("N8N_AI_FACEBOOK_VIDEO"),
+    "facebook_carousel": env("N8N_AI_FACEBOOK_CAROUSEL"),
+
+    "twitter_post": env("N8N_AI_TWITTER_POST"),
+    "linkedin_post": env("N8N_AI_LINKEDIN_POST"),
+}
+
+
+
+
 N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL")         # Para enviar desde Django a n8n
 N8N_SECRET = os.environ.get("N8N_SECRET")                   # Para validar callbacks iniciales
 N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el callback de Gemini

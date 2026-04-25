@@ -42,6 +42,8 @@ urlpatterns += i18n_patterns(
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
 
+     path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
+
     path('iaas_cart/', include('iaas_cart.urls', namespace='iaas_cart')),
     path('iaas_shop/', include('iaas_shop.urls', namespace='iaas_shop')),
     path('iaas_orders/', include('iaas_orders.urls', namespace='iaas_orders')),

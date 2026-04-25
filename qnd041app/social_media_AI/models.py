@@ -65,12 +65,12 @@ class InstagramPost(BasePost):
     ]
 
     image_size = models.CharField(max_length=20, choices=IMAGE_SIZE_CHOICES,verbose_name="Formato Visual",
-        help_text = "Elija un formato para este post" )
+        help_text = "Elija un formato para este post",
+        null=True, blank=True )
 
     categories = models.ForeignKey(
         CategoryItem,
         null=True,
-        blank=True,
         on_delete=models.SET_NULL,
         verbose_name="Campaña",
         help_text = "Elija la campaña para este post" 
@@ -83,11 +83,11 @@ class InstagramPost(BasePost):
     copy = models.TextField(blank=True)
     hashtags = models.TextField(null=True, blank=True)
 
-    image = models.ForeignKey(
-        Image,
+    image = models.URLField(
+        blank=True,
         null=True,
-        on_delete=models.SET_NULL,
-        related_name="+"
+        max_length=1000,
+        help_text="URL de la imagen post generada por IA"
     )
 
     panels = [
