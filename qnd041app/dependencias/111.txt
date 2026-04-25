@@ -1,5 +1,5 @@
 # Django
-django>=4.2,<5.0
+Django>=5.0,<6.0
 
 # Django Baton
 #django-baton==2.6.2
@@ -20,6 +20,8 @@ wagtailgmaps
 wagtailmenus>=1.5.1
 wagtail-modeltranslation
 wagtail_modeladmin
+wagtail-ai>=0.1.0
+
 django-multiselectfield
 django-modeltranslation
 
@@ -88,13 +90,13 @@ django-phone-field
 django-phonenumber-field[phonenumberslite]
 
 # Django Bootstrap Datepicker Plus
-django-bootstrap-datepicker-plus
+#django-bootstrap-datepicker-plus
 
 # Django Bootstrap V5
-django-bootstrap-v5
+#django-bootstrap-v5
 
 # Django Bootstrap 4
-django-bootstrap4
+#django-bootstrap4
 
 # Django JQuery
 django-jquery
