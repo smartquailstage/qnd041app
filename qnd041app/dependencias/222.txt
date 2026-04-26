@@ -22,6 +22,8 @@ wagtail-modeltranslation
 wagtail_modeladmin
 django-multiselectfield
 django-modeltranslation
+wagtail-ai>=0.1.0
+
 
 fontawesome
 
