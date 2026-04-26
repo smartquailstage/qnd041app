@@ -9,10 +9,12 @@ import json
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from wagtail.images import get_image_model
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
 
 
-
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([AllowAny])
 def save_generated_image_to_wagtail(request):
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
@@ -74,7 +76,8 @@ def save_generated_image_to_wagtail(request):
 
 
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([AllowAny])
 def n8n_instagram_webhook(request):
     if request.method != "POST":
         return JsonResponse({"error": "Method not allowed"}, status=405)
@@ -117,7 +120,8 @@ MODEL_MAP = {
 }
 
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([AllowAny])
 def n8n_webhook_callback(request):
     if request.method != "POST":
         return JsonResponse({"error": "Invalid method"}, status=400)
