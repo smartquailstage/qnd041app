@@ -12,7 +12,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0097_merge_20260425_2137'),
         ('wagtailimages', '0027_image_description'),
     ]
 
