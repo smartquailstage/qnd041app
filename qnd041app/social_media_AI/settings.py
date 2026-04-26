@@ -82,8 +82,8 @@ class CategoryItem(Orderable):
     # =========================
     # 🔥 URLs AUTOMÁTICAS
     # =========================
-    image_url_1 = models.URLField(blank=True, null=True, editable=False)
-    image_url_2 = models.URLField(blank=True, null=True, editable=False)
+    image_url_1 = models.URLField(max_length=500,blank=True, null=True, editable=False)
+    image_url_2 = models.URLField(max_length=500,blank=True, null=True, editable=False)
 
     color_1 = models.CharField(
         max_length=50,
