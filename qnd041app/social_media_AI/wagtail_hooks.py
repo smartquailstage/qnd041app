@@ -19,13 +19,6 @@ from wagtail.admin.menu import MenuItem
 
 
 
-@hooks.register('register_category_url')
-def register_category_url():
-    return [
-        path('ecommerce/', index, name='ecommerce'),
-    ]
-
-
 @hooks.register("insert_global_admin_css", order=100)
 def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static("css/custom.css"))

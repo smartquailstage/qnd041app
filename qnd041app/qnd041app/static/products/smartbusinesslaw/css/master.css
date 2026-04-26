@@ -3396,14 +3396,14 @@ a.readmore > span {
 }
 
 .footer .widget-links{
-  font-size: 16px;
+  font-size: 12px;
   font-family: 'Hind', sans-serif;
   float: left;
   width: 100%;
 }
 
 .footer .widget-links li{
-  margin-bottom: 14px;
+  margin-bottom: 0px;
   list-style:none;
 }
 

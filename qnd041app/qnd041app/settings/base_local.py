@@ -136,6 +136,8 @@ INSTALLED_APPS = [
    # 'orders',
    # 'shop',
 
+    "social_media_AI",
+    "webapp",
 
   #  "wagtail.search",
   #  "wagtail.sites",
@@ -252,8 +254,8 @@ INSTALLED_APPS = [
     "taggit",
     #"social_media_ID",
     #"social_media_A",
-    "social_media_AI",
-    "webapp",
+
+
     
 ]
 

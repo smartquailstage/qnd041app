@@ -58,16 +58,16 @@ ion-icon {
 
 .wrapper .page-content-wrapper {
 
-    margin-left: 260px;
-    margin-top: 45px;
-    padding-bottom: 33px;
+    margin-left: 174px;
+    margin-top: 10px;
+    padding-bottom: 20px;
     transition: .3s all;
 
 }
 
 
 .wrapper .page-content {
-	padding: 1.5rem;
+	padding: 0.5rem;
 }
 
 .wrapper .overlay {
@@ -93,7 +93,7 @@ ion-icon {
 position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
+  width: 180px;
   height: 100%;
   background-color:#2e2e2e;
   background-clip: padding-box;
@@ -105,7 +105,7 @@ position: fixed;
 
 
 .sidebar-wrapper .sidebar-header {
-  width: 255px;
+  width: 178px;
   height: 43px;
   display: flex;
   align-items: center;
@@ -165,7 +165,7 @@ position: fixed;
 	display: -ms-flexbox;
 	display: flex;
 	padding: 0px;
-	margin-top: 60px;
+	margin-top: 30px;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
 	-ms-flex-direction: column;
@@ -322,7 +322,7 @@ position: fixed;
 
 
 .wrapper.toggled .top-header {
-	left: 80px
+	left: 70px
 }
 
 .wrapper.toggled .page-content-wrapper {
@@ -379,7 +379,7 @@ position: fixed;
   align-items: center;
   position: fixed;
   top: 0;
-  left: 260px;
+  left: 164px;
   right: 0;
   height: 41px;
   padding: 0 1.5rem;
@@ -783,7 +783,7 @@ position: fixed;
   position: absolute;
   left: 260px;
   right: 0;
-  bottom: auto;
+  bottom: 0px;
   padding: 0.7rem;
   color: #bdbdbd;
   background-color: #2e2e2e;

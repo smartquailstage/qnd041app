@@ -3439,7 +3439,7 @@ a.readmore > span {
 }
 
 .footer .widget-links li{
-  margin-bottom: 14px;
+  margin-bottom: 0px;
   list-style:none;
 }
 
