@@ -21,7 +21,7 @@ def save_generated_image_to_wagtail(request):
         data = request.POST or request.json
 
         post_id = data.get("id")
-        image_url = data.get("generated_image_url")
+        image_url = data.get("image")
 
         if not post_id or not image_url:
             return JsonResponse({"error": "Missing data"}, status=400)
@@ -57,7 +57,7 @@ def save_generated_image_to_wagtail(request):
         post.image = wagtail_image
         post.generated_image_url = wagtail_image.file.url
         post.status = "completed"
-        post.save(update_fields=["image", "generated_image_url", "status"])
+        post.save(update_fields=["image", "status"])
 
         return JsonResponse({
             "success": True,
@@ -93,7 +93,7 @@ def n8n_instagram_webhook(request):
         obj.copy = data.get("copy")
         obj.hashtags = data.get("hashtags")
 
-        image_url = data.get("image_url")
+        image_url = data.get("image")
         if image_url:
             obj.image = image_url
 

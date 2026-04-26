@@ -69,6 +69,14 @@ def task_instagram_post(self, payload):
             "id": obj.id,
             "prompt": obj.prompt,
             "categories": obj.categories.id if obj.categories else None,
+            "campagin_name": obj.categories.name if obj.categories else None,
+            "style": obj.categories.style if obj.categories else None,
+            "primary_brand": obj.categories.brand_1 if obj.categories else None,
+            "logo_primary": obj.categories.logo_url_1 if obj.categories else None,
+            "logo_secondary": obj.categories.image_url_2  if obj.categories else None,
+            "color_primary": obj.categories.color_1 if obj.categories else None,
+            "color_secondary": obj.categories.color_2 if obj.categories else None,
+            "color_palette": obj.categories.color_palette if obj.categories else None,
         })
 
         # =========================
@@ -79,7 +87,7 @@ def task_instagram_post(self, payload):
         obj.hashtags = response.get("hashtags")
 
         # Imagen generada (URL desde Gemini / n8n)
-        image_url = response.get("image_url")
+        image_url = response.get("image")
         if image_url:
             obj.image = image_url
 

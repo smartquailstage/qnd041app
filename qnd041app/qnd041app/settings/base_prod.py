@@ -127,8 +127,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'multiselectfield',
     #'citas_regulares',
-    "core",
-    "webapp",
+    #"core",
+
 
 
     'wagtail.embeds',
@@ -140,7 +140,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
 
-    'wagtail',
+
    # 'cart',
    # 'orders',
    # 'shop',
@@ -255,6 +255,7 @@ INSTALLED_APPS = [
     "rosetta",
     "taggit",
     "social_media_AI",
+    "webapp",
 ]
 
 #LOGINGS REDIRECT
