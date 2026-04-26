@@ -34,6 +34,32 @@ def register_custom_menu_item():
     )
 
 
+from wagtail import hooks
+from django.templatetags.static import static
+from django.utils.safestring import mark_safe
+
+
+@hooks.register("insert_global_admin_css")
+def custom_branding_logo():
+    return mark_safe(f"""
+        <style>
+            /* 🔥 Logo sidebar + header */
+            .wagtail-logo,
+            .sidebar__inner .logo,
+            .wagtail-sidebar__brand img {{
+                content: url('{static("img/PRODUCT_LOGOS/CRM_logo.png")}');
+                max-height: 40px;
+                width: auto;
+            }}
+
+            /* 🔥 Login logo */
+            .login-logo img {{
+                content: url('{static("img/PRODUCT_LOGOS/CRM_logo.png")}');
+                max-height: 60px;
+            }}
+        </style>
+    """)
+
 
 
 
