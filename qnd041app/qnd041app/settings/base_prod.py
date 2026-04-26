@@ -128,9 +128,8 @@ INSTALLED_APPS = [
     'multiselectfield',
     #'citas_regulares',
     #"core",
-
-
-
+    
+    "wagtail",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -199,7 +198,8 @@ INSTALLED_APPS = [
     #"SQShop",
     'chatbot_ai',
 
-
+    "social_media_AI",
+    "webapp",
     "serviceapp",
     'billing',
     #"citas_regulares",
@@ -254,8 +254,7 @@ INSTALLED_APPS = [
     "services_payment",
     "rosetta",
     "taggit",
-    "social_media_AI",
-    "webapp",
+
 ]
 
 #LOGINGS REDIRECT
