@@ -13,14 +13,20 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import AllowAny
 
 
+
+
+
+
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def save_generated_image_to_wagtail(request):
-    if request.method != "POST":
-        return JsonResponse({"error": "Method not allowed"}, status=405)
 
     try:
-        data = request.POST or request.json
+        # =========================
+        # 1. Obtener datos (DRF way)
+        # =========================
+        data = request.data  # ✔ CORRECTO EN DRF
 
         post_id = data.get("id")
         image_url = data.get("image")
@@ -29,37 +35,35 @@ def save_generated_image_to_wagtail(request):
             return JsonResponse({"error": "Missing data"}, status=400)
 
         # =========================
-        # 1. Obtener post
+        # 2. Obtener post
         # =========================
         post = InstagramPost.objects.get(id=post_id)
 
         # =========================
-        # 2. Descargar imagen IA
+        # 3. Descargar imagen IA
         # =========================
         r = requests.get(image_url, timeout=30)
-        if r.status_code != 200:
-            return JsonResponse({"error": "Cannot download image"}, status=400)
+        r.raise_for_status()
 
         image_file = ContentFile(r.content)
 
         # =========================
-        # 3. Crear imagen en Wagtail
+        # 4. Crear imagen en Wagtail
         # =========================
         ImageModel = get_image_model()
 
-        wagtail_image = ImageModel(
-            title=f"Instagram Post {post.categories} AI Image",
+        wagtail_image = ImageModel.objects.create(
+            title=f"Instagram Post {post_id} AI Image",
             file=image_file
         )
-        wagtail_image.save()
 
         # =========================
-        # 4. Relacionar con el post
+        # 5. Relacionar con post
         # =========================
         post.image = wagtail_image
         post.generated_image_url = wagtail_image.file.url
         post.status = "completed"
-        post.save(update_fields=["image", "status"])
+        post.save()
 
         return JsonResponse({
             "success": True,
@@ -70,9 +74,11 @@ def save_generated_image_to_wagtail(request):
     except InstagramPost.DoesNotExist:
         return JsonResponse({"error": "Post not found"}, status=404)
 
+    except requests.exceptions.RequestException as e:
+        return JsonResponse({"error": f"Image download failed: {str(e)}"}, status=400)
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
-
 
 
 
@@ -118,6 +124,7 @@ MODEL_MAP = {
     "InstagramReel": InstagramReel,
     "FacebookImagePost": FacebookImagePost,
 }
+
 
 
 @api_view(["POST"])
