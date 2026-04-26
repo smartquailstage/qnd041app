@@ -128,7 +128,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     #'citas_regulares',
     #"core",
-    
+    "social_media_AI",
     "wagtail",
     'wagtail.embeds',
     'wagtail.sites',
@@ -138,6 +138,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
+    "wagtail_ai",
 
 
    # 'cart',
@@ -159,7 +160,7 @@ INSTALLED_APPS = [
     # Wagtail plugins
     "wagtailgmaps",
     "wagtailmenus",
-    "wagtail_ai",
+
     # "wagtail_modeltranslation",  # Descomentar si se usa
 
     # Terceros / externos
@@ -198,7 +199,7 @@ INSTALLED_APPS = [
     #"SQShop",
     'chatbot_ai',
 
-    "social_media_AI",
+   
     "webapp",
     "serviceapp",
     'billing',
