@@ -1,7 +1,4 @@
 from django.urls import path
-from .views import n8n_webhook_callback
-
-from django.urls import path
 from .views import SaveGeneratedImageView,InstagramWebhookView,GenericWebhookCallbackView
 
 
