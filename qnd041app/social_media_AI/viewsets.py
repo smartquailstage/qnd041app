@@ -20,13 +20,20 @@ class InstagramPostViewSet(ModelViewSet):
 
     list_display = ( 
         "prompt",
-        "caption",
+        #"caption",
         "image_thumb",
         "categories",
         "scheduled_date",
         "created_by",
     )
     search_fields = ("caption",)
+
+    form_fields = [
+    "categories",   # asegúrate que este es el nombre correcto en tu modelo
+    "created_by",
+    "image_size",
+    "prompt",
+    ]
 
 
 # 🔥 IMPORTANTE: instancia (NO clase)
@@ -209,7 +216,7 @@ class LinkedInPostViewSet(ModelViewSet):
 
 
 class SocialMediaGroup(ViewSetGroup):
-    menu_label = "Social Media (+AI)"
+    menu_label = "AI Content Studio"
     icon = "mobile-alt"
     menu_order = 200
     items = (

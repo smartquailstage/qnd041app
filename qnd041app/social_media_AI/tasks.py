@@ -77,6 +77,13 @@ def task_instagram_post(self, payload):
             "color_primary": obj.categories.color_1 if obj.categories else None,
             "color_secondary": obj.categories.color_2 if obj.categories else None,
             "color_palette": obj.categories.color_palette if obj.categories else None,
+
+            "image_size": obj.image_size  if obj.image_size  else None,
+            "copy": obj.copy if obj.copy  else None,
+            "image_size": obj.image_size  if obj.image_size  else None,
+            "caption": obj.caption if obj.caption else None,
+            "hashtags": obj.caption if obj.caption else None,
+            "image": obj.image if obj.image else None,   
         })
 
         # =========================
