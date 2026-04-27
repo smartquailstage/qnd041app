@@ -1,60 +1,60 @@
-import requests
 import os
+import requests
 
 from django.http import JsonResponse
 from django.utils import timezone
 from django.core.files.base import ContentFile
+from django.conf import settings
 
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.permissions import AllowAny
 
 from wagtail.images import get_image_model
 
 from .models import InstagramPost, InstagramReel, FacebookImagePost
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-
-
-API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")  # ❗ Cambia esto en producción
 
 
 # =========================================
-# 🔥 BASE CLASS (evita repetir código)
+# 🔐 API KEY
 # =========================================
-@method_decorator(csrf_exempt, name="dispatch")
-class BaseWebhookView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
+API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")
 
-    def validate_api_key(self, request):
-        api_key = request.headers.get("X-API-KEY")
+
+# =========================================
+# 🔐 AUTH CUSTOM (SIN CSRF)
+# =========================================
+class APIKeyAuthentication(BaseAuthentication):
+
+    def authenticate(self, request):
+        api_key = request.META.get("HTTP_X_API_KEY")
 
         if not api_key:
-            return JsonResponse({"error": "API KEY no enviada"}, status=401)
+            return None
 
         if api_key != API_KEY:
-            return JsonResponse({"error": "API KEY inválida"}, status=403)
+            return None
 
-        return None
+        return (None, None)
+
+
+# =========================================
+# 🔥 BASE VIEW
+# =========================================
+class BaseWebhookView(APIView):
+    authentication_classes = [APIKeyAuthentication]
+    permission_classes = [AllowAny]
+
+
 # =========================================
 # 🔥 1. GUARDAR IMAGEN DESDE IA
 # =========================================
-@api_view(['POST'])
-@authentication_classes([])
-@permission_classes([])
 class SaveGeneratedImageView(BaseWebhookView):
 
     def post(self, request):
         try:
-            error = self.validate_api_key(request)
-            if error:
-                return error
-
-            data = request.data
-
-            post_id = data.get("id")
-            image_url = data.get("image")
+            post_id = request.data.get("id")
+            image_url = request.data.get("image")
 
             if not post_id or not image_url:
                 return JsonResponse({"error": "Missing data"}, status=400)
@@ -67,7 +67,6 @@ class SaveGeneratedImageView(BaseWebhookView):
 
             image_file = ContentFile(r.content)
 
-            # Guardar en Wagtail
             ImageModel = get_image_model()
 
             wagtail_image = ImageModel.objects.create(
@@ -75,7 +74,6 @@ class SaveGeneratedImageView(BaseWebhookView):
                 file=image_file
             )
 
-            # Relacionar
             post.image = wagtail_image
             post.generated_image_url = wagtail_image.file.url
             post.status = "completed"
@@ -91,38 +89,27 @@ class SaveGeneratedImageView(BaseWebhookView):
             return JsonResponse({"error": "Post not found"}, status=404)
 
         except requests.exceptions.RequestException as e:
-            return JsonResponse({"error": f"Download error: {str(e)}"}, status=400)
+            return JsonResponse({"error": str(e)}, status=400)
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
 
 # =========================================
-# 🔥 2. RESPUESTA IA
+# 🔥 2. INSTAGRAM WEBHOOK
 # =========================================
-@api_view(['POST'])
-@authentication_classes([])
-@permission_classes([])
 class InstagramWebhookView(BaseWebhookView):
 
     def post(self, request):
         try:
-            error = self.validate_api_key(request)
-            if error:
-                return error
+            obj = InstagramPost.objects.get(id=request.data.get("id"))
 
-            data = request.data
+            obj.caption = request.data.get("caption", "")
+            obj.copy = request.data.get("copy", "")
+            obj.hashtags = request.data.get("hashtags", "")
 
-            post_id = data.get("id")
-            obj = InstagramPost.objects.get(id=post_id)
-
-            obj.caption = data.get("caption")
-            obj.copy = data.get("copy")
-            obj.hashtags = data.get("hashtags")
-
-            image_url = data.get("image")
-            if image_url:
-                obj.image = image_url  # solo si es URLField
+            if request.data.get("image"):
+                obj.image = request.data.get("image")
 
             obj.status = "sent"
             obj.updated_at = timezone.now()
@@ -146,22 +133,14 @@ MODEL_MAP = {
     "FacebookImagePost": FacebookImagePost,
 }
 
-@api_view(['POST'])
-@authentication_classes([])
-@permission_classes([])
+
 class GenericWebhookCallbackView(BaseWebhookView):
 
     def post(self, request):
         try:
-            error = self.validate_api_key(request)
-            if error:
-                return error
-
-            data = request.data
-
-            model_name = data.get("model")
-            object_id = data.get("id")
-            status = data.get("status")
+            model_name = request.data.get("model")
+            object_id = request.data.get("id")
+            status = request.data.get("status")
 
             model = MODEL_MAP.get(model_name)
 
