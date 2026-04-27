@@ -1,12 +1,11 @@
 import requests
-import json
+import os
 
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.core.files.base import ContentFile
 
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 
 from wagtail.images import get_image_model
@@ -14,108 +13,115 @@ from wagtail.images import get_image_model
 from .models import InstagramPost, InstagramReel, FacebookImagePost
 
 
-# 🔐 (opcional pero recomendado)
-API_KEY = "mi-clave-secreta"
+
+API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")  # ❗ Cambia esto en producción
+
+
+# =========================================
+# 🔥 BASE CLASS (evita repetir código)
+# =========================================
+class BaseWebhookView(APIView):
+    authentication_classes = []  # ❗ clave para evitar CSRF
+    permission_classes = [AllowAny]
+
+    def validate_api_key(self, request):
+        if request.headers.get("X-API-KEY") != API_KEY:
+            return JsonResponse({"error": "Unauthorized"}, status=403)
+        return None
 
 
 # =========================================
 # 🔥 1. GUARDAR IMAGEN DESDE IA
 # =========================================
-@csrf_exempt
-@api_view(["POST"])
-@authentication_classes([])
-@permission_classes([AllowAny])
-def save_generated_image_to_wagtail(request):
+class SaveGeneratedImageView(BaseWebhookView):
 
-    try:
-        # 🔐 Seguridad básica
-        if request.headers.get("X-API-KEY") != API_KEY:
-            return JsonResponse({"error": "Unauthorized"}, status=403)
+    def post(self, request):
+        try:
+            error = self.validate_api_key(request)
+            if error:
+                return error
 
-        data = request.data
+            data = request.data
 
-        post_id = data.get("id")
-        image_url = data.get("image")
+            post_id = data.get("id")
+            image_url = data.get("image")
 
-        if not post_id or not image_url:
-            return JsonResponse({"error": "Missing data"}, status=400)
+            if not post_id or not image_url:
+                return JsonResponse({"error": "Missing data"}, status=400)
 
-        # Obtener post
-        post = InstagramPost.objects.get(id=post_id)
+            post = InstagramPost.objects.get(id=post_id)
 
-        # Descargar imagen
-        r = requests.get(image_url, timeout=30)
-        r.raise_for_status()
+            # Descargar imagen
+            r = requests.get(image_url, timeout=30)
+            r.raise_for_status()
 
-        image_file = ContentFile(r.content)
+            image_file = ContentFile(r.content)
 
-        # Guardar en Wagtail
-        ImageModel = get_image_model()
+            # Guardar en Wagtail
+            ImageModel = get_image_model()
 
-        wagtail_image = ImageModel.objects.create(
-            title=f"Instagram Post {post_id} AI Image",
-            file=image_file
-        )
+            wagtail_image = ImageModel.objects.create(
+                title=f"Instagram Post {post_id} AI Image",
+                file=image_file
+            )
 
-        # Relacionar
-        post.image = wagtail_image
-        post.generated_image_url = wagtail_image.file.url
-        post.status = "completed"
-        post.updated_at = timezone.now()
-        post.save()
+            # Relacionar
+            post.image = wagtail_image
+            post.generated_image_url = wagtail_image.file.url
+            post.status = "completed"
+            post.updated_at = timezone.now()
+            post.save()
 
-        return JsonResponse({
-            "success": True,
-            "image_id": wagtail_image.id
-        })
+            return JsonResponse({
+                "success": True,
+                "image_id": wagtail_image.id
+            })
 
-    except InstagramPost.DoesNotExist:
-        return JsonResponse({"error": "Post not found"}, status=404)
+        except InstagramPost.DoesNotExist:
+            return JsonResponse({"error": "Post not found"}, status=404)
 
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({"error": f"Download error: {str(e)}"}, status=400)
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({"error": f"Download error: {str(e)}"}, status=400)
 
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
 
 # =========================================
-# 🔥 2. RESPUESTA IA (caption, copy, etc)
+# 🔥 2. RESPUESTA IA
 # =========================================
-@csrf_exempt
-@api_view(["POST"])
-@authentication_classes([])
-@permission_classes([AllowAny])
-def n8n_instagram_webhook(request):
+class InstagramWebhookView(BaseWebhookView):
 
-    try:
-        if request.headers.get("X-API-KEY") != API_KEY:
-            return JsonResponse({"error": "Unauthorized"}, status=403)
+    def post(self, request):
+        try:
+            error = self.validate_api_key(request)
+            if error:
+                return error
 
-        data = request.data
+            data = request.data
 
-        post_id = data.get("id")
-        obj = InstagramPost.objects.get(id=post_id)
+            post_id = data.get("id")
+            obj = InstagramPost.objects.get(id=post_id)
 
-        obj.caption = data.get("caption")
-        obj.copy = data.get("copy")
-        obj.hashtags = data.get("hashtags")
+            obj.caption = data.get("caption")
+            obj.copy = data.get("copy")
+            obj.hashtags = data.get("hashtags")
 
-        image_url = data.get("image")
-        if image_url:
-            obj.image = image_url  # ⚠️ solo si es URLField
+            image_url = data.get("image")
+            if image_url:
+                obj.image = image_url  # solo si es URLField
 
-        obj.status = "sent"
-        obj.updated_at = timezone.now()
-        obj.save()
+            obj.status = "sent"
+            obj.updated_at = timezone.now()
+            obj.save()
 
-        return JsonResponse({"status": "updated"})
+            return JsonResponse({"status": "updated"})
 
-    except InstagramPost.DoesNotExist:
-        return JsonResponse({"error": "Post not found"}, status=404)
+        except InstagramPost.DoesNotExist:
+            return JsonResponse({"error": "Post not found"}, status=404)
 
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
 
 # =========================================
@@ -128,37 +134,35 @@ MODEL_MAP = {
 }
 
 
-@csrf_exempt
-@api_view(["POST"])
-@authentication_classes([])
-@permission_classes([AllowAny])
-def n8n_webhook_callback(request):
+class GenericWebhookCallbackView(BaseWebhookView):
 
-    try:
-        if request.headers.get("X-API-KEY") != API_KEY:
-            return JsonResponse({"error": "Unauthorized"}, status=403)
+    def post(self, request):
+        try:
+            error = self.validate_api_key(request)
+            if error:
+                return error
 
-        data = request.data
+            data = request.data
 
-        model_name = data.get("model")
-        object_id = data.get("id")
-        status = data.get("status")
+            model_name = data.get("model")
+            object_id = data.get("id")
+            status = data.get("status")
 
-        model = MODEL_MAP.get(model_name)
+            model = MODEL_MAP.get(model_name)
 
-        if not model:
-            return JsonResponse({"error": "Invalid model"}, status=400)
+            if not model:
+                return JsonResponse({"error": "Invalid model"}, status=400)
 
-        obj = model.objects.get(id=object_id)
+            obj = model.objects.get(id=object_id)
 
-        obj.status = status
-        obj.updated_at = timezone.now()
-        obj.save(update_fields=["status", "updated_at"])
+            obj.status = status
+            obj.updated_at = timezone.now()
+            obj.save(update_fields=["status", "updated_at"])
 
-        return JsonResponse({"ok": True})
+            return JsonResponse({"ok": True})
 
-    except model.DoesNotExist:
-        return JsonResponse({"error": "Not found"}, status=404)
+        except model.DoesNotExist:
+            return JsonResponse({"error": "Not found"}, status=404)
 
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
