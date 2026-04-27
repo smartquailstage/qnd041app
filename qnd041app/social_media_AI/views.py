@@ -6,12 +6,14 @@ from django.utils import timezone
 from django.core.files.base import ContentFile
 
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 
 from wagtail.images import get_image_model
 
 from .models import InstagramPost, InstagramReel, FacebookImagePost
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")  # ❗ Cambia esto en producción
@@ -20,19 +22,27 @@ API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")  # ❗ Cam
 # =========================================
 # 🔥 BASE CLASS (evita repetir código)
 # =========================================
+@method_decorator(csrf_exempt, name="dispatch")
 class BaseWebhookView(APIView):
-    authentication_classes = []  # ❗ clave para evitar CSRF
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def validate_api_key(self, request):
-        if request.headers.get("X-API-KEY") != API_KEY:
-            return JsonResponse({"error": "Unauthorized"}, status=403)
+        api_key = request.headers.get("X-API-KEY")
+
+        if not api_key:
+            return JsonResponse({"error": "API KEY no enviada"}, status=401)
+
+        if api_key != API_KEY:
+            return JsonResponse({"error": "API KEY inválida"}, status=403)
+
         return None
-
-
 # =========================================
 # 🔥 1. GUARDAR IMAGEN DESDE IA
 # =========================================
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 class SaveGeneratedImageView(BaseWebhookView):
 
     def post(self, request):
@@ -90,6 +100,9 @@ class SaveGeneratedImageView(BaseWebhookView):
 # =========================================
 # 🔥 2. RESPUESTA IA
 # =========================================
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 class InstagramWebhookView(BaseWebhookView):
 
     def post(self, request):
@@ -133,7 +146,9 @@ MODEL_MAP = {
     "FacebookImagePost": FacebookImagePost,
 }
 
-
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 class GenericWebhookCallbackView(BaseWebhookView):
 
     def post(self, request):
