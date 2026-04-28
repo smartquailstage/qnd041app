@@ -62,6 +62,18 @@ Image = get_image_model()
 
 
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from django.core.files.base import ContentFile
+from wagtail.images import get_image_model
+
+import requests
+from io import BytesIO
+from PIL import Image as PILImage
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def update_generated_image(request):
@@ -79,63 +91,97 @@ def update_generated_image(request):
 
         post = InstagramPost.objects.get(id=post_id)
 
-        # 1️⃣ Descargar imagen
-        r = requests.get(image_url, timeout=10)
-        if r.status_code != 200:
+        # =========================
+        # 1️⃣ Descargar imagen base
+        # =========================
+        try:
+            r = requests.get(image_url, timeout=15)
+            r.raise_for_status()
+        except Exception as e:
             return Response(
-                {"success": False, "message": "No se pudo descargar la imagen"},
+                {"success": False, "message": f"Error descargando imagen: {str(e)}"},
                 status=400
             )
 
-        base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
+        try:
+            base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
+        except Exception as e:
+            return Response(
+                {"success": False, "message": f"Error procesando imagen: {str(e)}"},
+                status=400
+            )
 
-        # 2️⃣ Logo
-        if getattr(post.categories, "logo_1", None):
-            logo_response = requests.get(post.categories.logo_1.url, timeout=10)
+        # =========================
+        # 2️⃣ Insertar logo (SAFE)
+        # =========================
+        try:
+            logo_field = getattr(post.categories, "logo_1", None)
 
-            if logo_response.status_code == 200:
-                logo = PILImage.open(BytesIO(logo_response.content)).convert("RGBA")
+            if logo_field and hasattr(logo_field, "file") and logo_field.file:
+                logo_url = logo_field.file.url
 
-                base_width, base_height = base_image.size
-                logo_width, logo_height = logo.size
+                logo_response = requests.get(logo_url, timeout=10)
 
-                max_logo_width = int(base_width * 0.20)
+                if logo_response.status_code == 200:
+                    logo = PILImage.open(BytesIO(logo_response.content)).convert("RGBA")
 
-                if logo_width > max_logo_width:
-                    ratio = max_logo_width / logo_width
-                    logo = logo.resize(
-                        (int(logo_width * ratio), int(logo_height * ratio)),
-                        PILImage.LANCZOS
-                    )
+                    base_width, base_height = base_image.size
+                    logo_width, logo_height = logo.size
 
-                logo_width, logo_height = logo.size
+                    max_logo_width = int(base_width * 0.20)
 
-                margin = 40
-                x = base_width - logo_width - margin
-                y = base_height - logo_height - margin
+                    if logo_width > max_logo_width:
+                        ratio = max_logo_width / logo_width
+                        logo = logo.resize(
+                            (int(logo_width * ratio), int(logo_height * ratio)),
+                            PILImage.LANCZOS
+                        )
 
-                base_image.paste(logo, (x, y), logo)
+                    logo_width, logo_height = logo.size
 
-        # 3️⃣ Guardar
+                    margin = 40
+                    x = base_width - logo_width - margin
+                    y = base_height - logo_height - margin
+
+                    base_image.paste(logo, (x, y), logo)
+
+        except Exception as e:
+            # No romper el flujo si falla el logo
+            print("Error procesando logo:", str(e))
+
+        # =========================
+        # 3️⃣ Guardar en Wagtail
+        # =========================
         buffer = BytesIO()
         base_image.save(buffer, format="PNG")
         buffer.seek(0)
 
         ImageModel = get_image_model()
+
         wagtail_image = ImageModel(
             title=f"Post {post.id} final image",
             file=ContentFile(buffer.read(), name=f"post_{post.id}.png")
         )
         wagtail_image.save()
 
-        # ⚠️ Ajusta según tu modelo
-        post.image =  wagtail_image.file.url
-        post.status = data.get("status", "Procesando")
+        # =========================
+        # 4️⃣ Guardar URL en modelo
+        # =========================
+        post.image = wagtail_image.file.url  # ✅ CORRECTO para URLField
+
+        # Opcionales desde n8n
+        post.caption = data.get("caption", post.caption)
+        post.copy = data.get("copy", post.copy)
+        post.hashtags = data.get("hashtags", post.hashtags)
+
+        post.status = data.get("status", "Procesado")
+
         post.save()
 
         return Response({
             "success": True,
-            "message": "Imagen procesada correctamente"
+            "message": "Imagen procesada correctamente",
+            "image_url": post.image
         })
 
     except InstagramPost.DoesNotExist:
@@ -149,8 +195,6 @@ def update_generated_image(request):
             {"success": False, "message": str(e)},
             status=500
         )
-
-
 
 from .models import InstagramPost
 

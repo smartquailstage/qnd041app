@@ -52,139 +52,73 @@ class BasePost(models.Model):
         abstract = True
 
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+# =========================
+# 🔹 INSTAGRAM POST
+# =========================
+class InstagramPost(BasePost):
 
-from django.core.files.base import ContentFile
-from wagtail.images import get_image_model
+    IMAGE_SIZE_CHOICES = [
+        ('square', 'Cuadrado'),
+        ('vertical', 'Vertical'),
+        ('horizontal', 'Horizontal'),
+        ('story', 'Story'),
+    ]
 
-import requests
-from io import BytesIO
-from PIL import Image as PILImage
+    image_size = models.CharField(max_length=20, choices=IMAGE_SIZE_CHOICES,verbose_name="Formato Visual",
+        help_text = "Elija un formato para este post",
+        null=True, blank=True )
 
+    categories = models.ForeignKey(
+        CategoryItem,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Campaña",
+        help_text = "Elija la campaña para este post" 
+    )
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def update_generated_image(request):
-    try:
-        data = request.data
+    prompt = RichTextField(verbose_name="AI Agentic Creator",
+        help_text = "Describa un contexto de acuerdo a la campaña y post", null=True, blank=True)
 
-        post_id = data.get("id")
-        image_url = data.get("image")
+    caption = models.TextField(null=True, blank=True)
+    copy = models.TextField(blank=True)
+    hashtags = models.TextField(null=True, blank=True)
 
-        if not post_id or not image_url:
-            return Response(
-                {"success": False, "message": "id o image faltantes"},
-                status=400
+    image = models.URLField(
+        blank=True,
+        null=True,
+        max_length=1000,
+        help_text="URL de la imagen post generada por IA"
+    )
+
+    panels = [
+        FieldPanel("categories"),
+        FieldPanel("image_size"),
+        FieldPanel("scheduled_date"),
+        FieldPanel("prompt"),
+
+        FieldPanel("caption"),
+        FieldPanel("copy"),
+        FieldPanel("hashtags"),
+        FieldPanel("image"),
+        
+        FieldPanel("created_by"),
+    ]
+
+    def image_thumb(self):
+        if self.image:
+            return format_html(
+                '<img src="{}" style="width:60px;height:60px;object-fit:cover;" />',
+                self.image.get_rendition("fill-120x120").url
             )
+        return "—"
 
-        post = InstagramPost.objects.get(id=post_id)
+    class Meta:
+        ordering = ["-created_at"]
 
-        # =========================
-        # 1️⃣ Descargar imagen base
-        # =========================
-        try:
-            r = requests.get(image_url, timeout=15)
-            r.raise_for_status()
-        except Exception as e:
-            return Response(
-                {"success": False, "message": f"Error descargando imagen: {str(e)}"},
-                status=400
-            )
+    def __str__(self):
+        return self.caption[:40]
 
-        try:
-            base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
-        except Exception as e:
-            return Response(
-                {"success": False, "message": f"Error procesando imagen: {str(e)}"},
-                status=400
-            )
 
-        # =========================
-        # 2️⃣ Insertar logo (SAFE)
-        # =========================
-        try:
-            logo_field = getattr(post.categories, "logo_1", None)
-
-            if logo_field and hasattr(logo_field, "file") and logo_field.file:
-                logo_url = logo_field.file.url
-
-                logo_response = requests.get(logo_url, timeout=10)
-
-                if logo_response.status_code == 200:
-                    logo = PILImage.open(BytesIO(logo_response.content)).convert("RGBA")
-
-                    base_width, base_height = base_image.size
-                    logo_width, logo_height = logo.size
-
-                    max_logo_width = int(base_width * 0.20)
-
-                    if logo_width > max_logo_width:
-                        ratio = max_logo_width / logo_width
-                        logo = logo.resize(
-                            (int(logo_width * ratio), int(logo_height * ratio)),
-                            PILImage.LANCZOS
-                        )
-
-                    logo_width, logo_height = logo.size
-
-                    margin = 40
-                    x = base_width - logo_width - margin
-                    y = base_height - logo_height - margin
-
-                    base_image.paste(logo, (x, y), logo)
-
-        except Exception as e:
-            # No romper el flujo si falla el logo
-            print("Error procesando logo:", str(e))
-
-        # =========================
-        # 3️⃣ Guardar en Wagtail
-        # =========================
-        buffer = BytesIO()
-        base_image.save(buffer, format="PNG")
-        buffer.seek(0)
-
-        ImageModel = get_image_model()
-
-        wagtail_image = ImageModel(
-            title=f"Post {post.id} final image",
-            file=ContentFile(buffer.read(), name=f"post_{post.id}.png")
-        )
-        wagtail_image.save()
-
-        # =========================
-        # 4️⃣ Guardar URL en modelo
-        # =========================
-        post.image = wagtail_image.file.url  # ✅ CORRECTO para URLField
-
-        # Opcionales desde n8n
-        post.caption = data.get("caption", post.caption)
-        post.copy = data.get("copy", post.copy)
-        post.hashtags = data.get("hashtags", post.hashtags)
-
-        post.status = data.get("status", "Procesado")
-
-        post.save()
-
-        return Response({
-            "success": True,
-            "message": "Imagen procesada correctamente",
-            "image_url": post.image
-        })
-
-    except InstagramPost.DoesNotExist:
-        return Response(
-            {"success": False, "message": "Post no encontrado"},
-            status=404
-        )
-
-    except Exception as e:
-        return Response(
-            {"success": False, "message": str(e)},
-            status=500
-        )
 # =========================
 # 🔹 INSTAGRAM CAROUSEL
 # =========================
