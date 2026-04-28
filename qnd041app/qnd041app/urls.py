@@ -16,6 +16,7 @@ urlpatterns = [
 
    # path("admin/", dashboard_view),
   #  path('admin/citas/', include((custom_admin_urls.urlpatterns, 'custom_admin'))),
+    path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('tinymce/', include('tinymce.urls')),
     path('rosetta/', include('rosetta.urls')),
@@ -30,7 +31,7 @@ urlpatterns = [
 # Rutas traducibles (contenido Wagtail y tus apps de frontend)
 urlpatterns += i18n_patterns(
    # path('core/', include('core.urls', namespace='core')),
-    path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
+
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
     path('smartbusinessanalytics_id/', include('smartbusinessanalytics_id.urls', namespace='smartbusinessanalytics_id')),
     path('smartbusinesslaw/', include('smartbusinesslaw.urls', namespace='smartbusinesslaw')),
