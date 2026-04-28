@@ -129,7 +129,7 @@ def update_generated_image(request):
         wagtail_image.save()
 
         # ⚠️ Ajusta según tu modelo
-        post.image =  wagtail_image
+        post.image =  wagtail_image.file.url
         post.status = data.get("status", "Procesando")
         post.save()
 
