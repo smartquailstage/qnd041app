@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (
-    save_generated_image,
+    update_generated_image,
     instagram_webhook,
     generic_callback
 )
