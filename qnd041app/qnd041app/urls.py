@@ -19,6 +19,7 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('tinymce/', include('tinymce.urls')),
     path('rosetta/', include('rosetta.urls')),
+    path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
 
 
     # Wagtail admin y documentos (no traducibles)
@@ -42,7 +43,7 @@ urlpatterns += i18n_patterns(
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
 
-     path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
+
 
     path('iaas_cart/', include('iaas_cart.urls', namespace='iaas_cart')),
     path('iaas_shop/', include('iaas_shop.urls', namespace='iaas_shop')),
