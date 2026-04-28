@@ -20,7 +20,6 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('tinymce/', include('tinymce.urls')),
     path('rosetta/', include('rosetta.urls')),
-    path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
 
 
     # Wagtail admin y documentos (no traducibles)
