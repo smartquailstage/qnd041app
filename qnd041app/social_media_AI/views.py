@@ -15,107 +15,100 @@ from wagtail.images import get_image_model
 from .models import InstagramPost, InstagramReel, FacebookImagePost
 
 
-API_KEY = os.environ.get("INSTAGRAM_POST_API_KEY", "default_api_key")
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def save_generated_image(request):
+
+    data = request.data
+
+    post_id = data.get("id")
+    image_url = data.get("image")
+
+    if not post_id or not image_url:
+        return Response(
+            {"error": "Missing data"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        post = InstagramPost.objects.get(id=post_id)
+
+        # Descargar imagen
+        response = requests.get(image_url, timeout=10)
+        response.raise_for_status()
+
+        image_file = ContentFile(
+            response.content,
+            name=f"post_{post_id}.jpg"
+        )
+
+        ImageModel = get_image_model()
+
+        wagtail_image = ImageModel.objects.create(
+            title=f"Post {post_id} AI",
+            file=image_file
+        )
+
+        post.image = wagtail_image
+        post.generated_image_url = wagtail_image.file.url
+        post.status = "completed"
+        post.updated_at = timezone.now()
+        post.save()
+
+        return Response({
+            "success": True,
+            "image_id": wagtail_image.id
+        })
+
+    except InstagramPost.DoesNotExist:
+        return Response(
+            {"error": "Post not found"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
-# =========================================
-# 🔥 BASE VIEW (CSRF SOLO DESACTIVADO AQUÍ)
-# =========================================
-@method_decorator(csrf_exempt, name="dispatch")
-class BaseWebhookView(APIView):
-    authentication_classes = []
-    permission_classes = [AllowAny]
-
-    def check_api_key(self, request):
-        api_key = request.META.get("HTTP_X_API_KEY")
-
-        if api_key != API_KEY:
-            return JsonResponse({"error": "Unauthorized"}, status=403)
-
-        return None
+from .models import InstagramPost
 
 
-# =========================================
-# 🔥 1. GUARDAR IMAGEN
-# =========================================
-class SaveGeneratedImageView(BaseWebhookView):
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def instagram_webhook(request):
 
-    def post(self, request):
-        error = self.check_api_key(request)
-        if error:
-            return error
+    data = request.data
 
-        try:
-            post_id = request.data.get("id")
-            image_url = request.data.get("image")
+    try:
+        post = InstagramPost.objects.get(id=data.get("id"))
 
-            if not post_id or not image_url:
-                return JsonResponse({"error": "Missing data"}, status=400)
+        post.caption = data.get("caption", "")
+        post.copy = data.get("copy", "")
+        post.hashtags = data.get("hashtags", "")
+        post.status = "sent"
+        post.updated_at = timezone.now()
+        post.save()
 
-            post = InstagramPost.objects.get(id=post_id)
+        return Response({"success": True})
 
-            r = requests.get(image_url, timeout=30)
-            r.raise_for_status()
+    except InstagramPost.DoesNotExist:
+        return Response(
+            {"error": "Post not found"},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
-            image_file = ContentFile(r.content)
-            ImageModel = get_image_model()
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
-            wagtail_image = ImageModel.objects.create(
-                title=f"Instagram Post {post_id} AI Image",
-                file=image_file
-            )
-
-            post.image = wagtail_image
-            post.generated_image_url = wagtail_image.file.url
-            post.status = "completed"
-            post.updated_at = timezone.now()
-            post.save()
-
-            return JsonResponse({
-                "success": True,
-                "image_id": wagtail_image.id
-            })
-
-        except InstagramPost.DoesNotExist:
-            return JsonResponse({"error": "Post not found"}, status=404)
-
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+    
 
 
-# =========================================
-# 🔥 2. INSTAGRAM WEBHOOK
-# =========================================
-class InstagramWebhookView(BaseWebhookView):
-
-    def post(self, request):
-        error = self.check_api_key(request)
-        if error:
-            return error
-
-        try:
-            obj = InstagramPost.objects.get(id=request.data.get("id"))
-
-            obj.caption = request.data.get("caption", "")
-            obj.copy = request.data.get("copy", "")
-            obj.hashtags = request.data.get("hashtags", "")
-
-            if request.data.get("image"):
-                obj.image = request.data.get("image")
-
-            obj.status = "sent"
-            obj.updated_at = timezone.now()
-            obj.save()
-
-            return JsonResponse({"status": "updated"})
-
-        except InstagramPost.DoesNotExist:
-            return JsonResponse({"error": "Post not found"}, status=404)
-
-
-# =========================================
-# 🔥 3. CALLBACK GENÉRICO
-# =========================================
 MODEL_MAP = {
     "InstagramPost": InstagramPost,
     "InstagramReel": InstagramReel,
@@ -123,26 +116,41 @@ MODEL_MAP = {
 }
 
 
-class GenericWebhookCallbackView(BaseWebhookView):
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def generic_callback(request):
 
-    def post(self, request):
-        error = self.check_api_key(request)
-        if error:
-            return error
+    data = request.data
 
-        try:
-            model = MODEL_MAP.get(request.data.get("model"))
+    model_name = data.get("model")
+    object_id = data.get("id")
+    status_value = data.get("status")
 
-            if not model:
-                return JsonResponse({"error": "Invalid model"}, status=400)
+    model = MODEL_MAP.get(model_name)
 
-            obj = model.objects.get(id=request.data.get("id"))
+    if not model:
+        return Response(
+            {"error": "Invalid model"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
-            obj.status = request.data.get("status")
-            obj.updated_at = timezone.now()
-            obj.save(update_fields=["status", "updated_at"])
+    try:
+        obj = model.objects.get(id=object_id)
 
-            return JsonResponse({"ok": True})
+        obj.status = status_value
+        obj.updated_at = timezone.now()
+        obj.save()
 
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+        return Response({"success": True})
+
+    except model.DoesNotExist:
+        return Response(
+            {"error": "Not found"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    except Exception as e:
+        return Response(
+            {"error": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
