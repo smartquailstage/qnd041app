@@ -1,18 +1,28 @@
 import os
 import requests
+import json
+
 
 from django.http import JsonResponse
 from django.utils import timezone
 from django.core.files.base import ContentFile
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 
 from wagtail.images import get_image_model
 
 from .models import InstagramPost, InstagramReel, FacebookImagePost
+
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+
+from wagtail.images import get_image_model
+
+from .models import InstagramPost
 
 
 @api_view(['POST'])
