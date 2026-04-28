@@ -40,6 +40,23 @@ from wagtailmedia.models import Media
 from .settings import CategoryItem
 from wagtail.fields import RichTextField
 
+
+import requests
+from io import BytesIO
+from PIL import Image as PILImage
+
+from django.core.files.base import ContentFile
+from django.contrib.auth import get_user_model
+
+from wagtail.images import get_image_model
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from .models import InstagramPost
+
+
 User = get_user_model()
 Image = get_image_model()
 
@@ -50,11 +67,20 @@ Image = get_image_model()
 def update_generated_image(request):
     try:
         data = request.data
-        post = InstagramPost.objects.get(id=data["id"])
-        image_url = data["image"]
 
-        # 1️⃣ Descargar imagen generada
-        r = requests.get(image_url)
+        post_id = data.get("id")
+        image_url = data.get("image")
+
+        if not post_id or not image_url:
+            return Response(
+                {"success": False, "message": "id o image faltantes"},
+                status=400
+            )
+
+        post = InstagramPost.objects.get(id=post_id)
+
+        # 1️⃣ Descargar imagen
+        r = requests.get(image_url, timeout=10)
         if r.status_code != 200:
             return Response(
                 {"success": False, "message": "No se pudo descargar la imagen"},
@@ -63,42 +89,38 @@ def update_generated_image(request):
 
         base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
 
-        # 2️⃣ Si existe logo, superponerlo intacto
-        if post.categories.logo_1 :
-            logo_response = requests.get(post.categories.logo_1.url)
+        # 2️⃣ Logo
+        if getattr(post.categories, "logo_1", None):
+            logo_response = requests.get(post.categories.logo_1.url, timeout=10)
+
             if logo_response.status_code == 200:
                 logo = PILImage.open(BytesIO(logo_response.content)).convert("RGBA")
 
                 base_width, base_height = base_image.size
                 logo_width, logo_height = logo.size
 
-                # Escalar proporcionalmente SOLO si es muy grande
                 max_logo_width = int(base_width * 0.20)
 
                 if logo_width > max_logo_width:
                     ratio = max_logo_width / logo_width
-                    new_size = (
-                        int(logo_width * ratio),
-                        int(logo_height * ratio),
+                    logo = logo.resize(
+                        (int(logo_width * ratio), int(logo_height * ratio)),
+                        PILImage.LANCZOS
                     )
-                    logo = logo.resize(new_size, PILImage.LANCZOS)
 
                 logo_width, logo_height = logo.size
 
-                # Posición: esquina inferior derecha
                 margin = 40
                 x = base_width - logo_width - margin
                 y = base_height - logo_height - margin
 
-                # Pegar respetando transparencia (NO altera el logo)
                 base_image.paste(logo, (x, y), logo)
 
-        # 3️⃣ Guardar imagen final en memoria
+        # 3️⃣ Guardar
         buffer = BytesIO()
         base_image.save(buffer, format="PNG")
         buffer.seek(0)
 
-        # 4️⃣ Crear imagen en Wagtail
         ImageModel = get_image_model()
         wagtail_image = ImageModel(
             title=f"Post {post.id} final image",
@@ -106,17 +128,17 @@ def update_generated_image(request):
         )
         wagtail_image.save()
 
-        # 5️⃣ Actualizar modelo
+        # ⚠️ Ajusta según tu modelo
         post.image = wagtail_image.file.url
         post.status = data.get("status", "Procesando")
         post.save()
 
         return Response({
             "success": True,
-            "message": "Imagen guardada en Wagtail con logo aplicado correctamente"
+            "message": "Imagen procesada correctamente"
         })
 
-    except SocialAutomationPost.DoesNotExist:
+    except InstagramPost.DoesNotExist:
         return Response(
             {"success": False, "message": "Post no encontrado"},
             status=404
