@@ -11,8 +11,8 @@ app_name = "social_media_AI"
 urlpatterns = [
     path(
         "webhooks/wagtail/save-image/",
-        save_generated_image,
-        name="save-image"
+        update_generated_image,
+        name="update_generated_image"
     ),
 
     path(
