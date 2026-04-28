@@ -1,9 +1,9 @@
 from django.urls import path
 
 from .views import (
-    SaveGeneratedImageView,
-    InstagramWebhookView,
-    GenericWebhookCallbackView
+    save_generated_image,
+    instagram_webhook,
+    generic_callback
 )
 
 app_name = "social_media_AI"
@@ -11,19 +11,19 @@ app_name = "social_media_AI"
 urlpatterns = [
     path(
         "webhooks/wagtail/save-image/",
-        SaveGeneratedImageView.as_view(),
+        save_generated_image,
         name="save-image"
     ),
 
     path(
         "webhooks/n8n/instagram/post",
-        InstagramWebhookView.as_view(),
+        instagram_webhook,
         name="n8n-instagram-post-webhook"
     ),
 
     path(
         "webhooks/n8n/",
-        GenericWebhookCallbackView.as_view(),
+        generic_callback,
         name="n8n-webhook"
     ),
 ]
