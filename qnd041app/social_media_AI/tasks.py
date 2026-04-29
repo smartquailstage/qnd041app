@@ -82,6 +82,8 @@ def task_instagram_post(self, payload):
             "campagin_name": cat.name if cat else None,
             "style": cat.style if cat else None,
             "primary_brand": cat.brand_1 if cat else None,
+            "secondary_brand": cat.brand_2 if cat else None,
+
             # NAVEGACIÓN SEGURA PARA LOGOS:
             "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
             "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 and hasattr(cat.logo_2, 'file') else None,
@@ -91,6 +93,7 @@ def task_instagram_post(self, payload):
 
             "image_size": obj.image_size or "1080x1080", # Valor por defecto
             "copy": obj.copy or "",
+            "post_type": obj.post_type or "",
             "caption": obj.caption or "",
             "hashtags": obj.hashtags or "",
             "image": obj.image or None,   
