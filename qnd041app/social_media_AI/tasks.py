@@ -51,93 +51,87 @@ def mark_failed(obj):
         pass
 
 
+
+
 def serialize(instance):
-    """
-    Convierte el objeto en un diccionario simple para Celery.
-    Solo mandamos lo mínimo; la tarea se encargará de sacar el resto de la DB.
-    """
     return {
         "id": instance.id,
         "model": instance.__class__.__name__,
         "scheduled_date": instance.scheduled_date.isoformat() if instance.scheduled_date else None,
     }
 
-
 @shared_task(bind=True, max_retries=3)
 def task_instagram_post(self, payload):
+    # Importaciones locales para evitar Circular Imports
+    from .models import InstagramPost 
     obj = None
 
     try:
-        # =========================
-        # 0. VALIDACIÓN DE ESTADO (Idempotencia)
-        # =========================
-        from .models import InstagramPost # Ajusta la importación a tu path real
+        # 0. VALIDACIÓN DE ESTADO
         check_obj = InstagramPost.objects.filter(id=payload["id"]).first()
         
-        # Si el post ya fue enviado o está procesándose por otra tarea, abortamos
-        if check_obj and check_obj.status in ["sent", "processing"]:
-            print(f"⚠️ Abortando: El post {payload['id']} ya tiene estado {check_obj.status}")
-            return {"status": "skipped", "message": "Already processed or sending"}
+        if not check_obj:
+            print(f"❌ Error: El post {payload['id']} no existe.")
+            return {"status": "error", "message": "Post not found"}
 
-        # =========================
-        # 1. Obtener objeto
-        # =========================
+        if check_obj.status in ["sent", "processing"]:
+            print(f"⚠️ Abortando: El post {payload['id']} ya está en estado {check_obj.status}")
+            return {"status": "skipped", "message": "Already processed"}
+
+        # 1. Marcar inicio de procesamiento
         obj = mark_processing(InstagramPost, payload["id"])
 
-        # =========================
-        # 2. Enviar a n8n (IA GENERA TODO)
-        # =========================
-        response = send_to_n8n("instagram_post", {
+        # 2. ENVIAR A n8n (Con navegación segura para logos)
+        cat = obj.categories # Alias para limpiar el código
+        
+        n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
-            "categories": obj.categories.id if obj.categories else None,
-            "campagin_name": obj.categories.name if obj.categories else None,
-            "style": obj.categories.style if obj.categories else None,
-            "primary_brand": obj.categories.brand_1 if obj.categories else None,
-            "logo_primary": obj.categories.logo_1.file.url if obj.categories and obj.categories.logo_1 else None,
-            "logo_secondary": obj.categories.logo_2.file.url if obj.categories and obj.categories.logo_2 else None,
-            "color_primary": obj.categories.color_1 if obj.categories else None,
-            "color_secondary": obj.categories.color_2 if obj.categories else None,
-            "color_palette": obj.categories.color_palette if obj.categories else None,
+            "categories": cat.id if cat else None,
+            "campagin_name": cat.name if cat else None,
+            "style": cat.style if cat else None,
+            "primary_brand": cat.brand_1 if cat else None,
+            # NAVEGACIÓN SEGURA PARA LOGOS:
+            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
+            "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 and hasattr(cat.logo_2, 'file') else None,
+            "color_primary": cat.color_1 if cat else None,
+            "color_secondary": cat.color_2 if cat else None,
+            "color_palette": cat.color_palette if cat else None,
 
-            "image_size": obj.image_size if obj.image_size else None,
-            "copy": obj.copy if obj.copy else None,
-            "caption": obj.caption if obj.caption else None,
-            "hashtags": obj.hashtags if obj.hashtags else None,
-            "image": obj.image if obj.image else None,   
+            "image_size": obj.image_size or "1080x1080", # Valor por defecto
+            "copy": obj.copy or "",
+            "caption": obj.caption or "",
+            "hashtags": obj.hashtags or "",
+            "image": obj.image or None,   
             "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
-        })
+        }
 
-        # =========================
-        # 3. RECIBIR RESPUESTA IA
-        # =========================
-        obj.caption = response.get("caption")
-        obj.copy = response.get("copy")
-        obj.hashtags = response.get("hashtags")
+        response = send_to_n8n("instagram_post", n8n_payload)
 
-        # Imagen generada (URL desde Gemini / n8n)
-        image_url = response.get("image")
+        # 3. RECIBIR Y VALIDAR RESPUESTA IA
+        # Usamos .get() con fallback a string vacío para evitar IntegrityErrors (nulls)
+        obj.caption = response.get("caption") or obj.caption or ""
+        obj.copy = response.get("copy") or obj.copy or ""
+        obj.hashtags = response.get("hashtags") or obj.hashtags or ""
+
+        image_url = response.get("image") or response.get("generated_image_url")
         if image_url:
             obj.image = image_url
 
-        # =========================
-        # 4. Guardar en Wagtail
-        # =========================
+        # 4. GUARDAR EN WAGTAIL
         obj.status = "sent"
         obj.updated_at = timezone.now()
-        obj.save()
+        # Guardamos solo los campos que cambiaron para ser más eficientes
+        obj.save(update_fields=["caption", "copy", "hashtags", "image", "status", "updated_at"])
 
-        return response
+        return {"status": "success", "post_id": obj.id}
 
     except Exception as exc:
+        print(f"💥 Error en tarea Celery: {exc}")
         if obj:
             mark_failed(obj)
-
-        # Exponencial backoff: 10, 100, 1000 segundos
-        raise self.retry(exc=exc, countdown=10 ** self.request.retries)
-
-
-
+        # Reintento exponencial
+        raise self.retry(exc=exc, countdown=10 ** (self.request.retries + 1))
 # =========================
 # INSTAGRAM CAROUSEL
 # =========================
