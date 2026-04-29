@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
 
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel,FieldRowPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel,FieldRowPanel,HelpPanel
 from wagtail.models import Orderable
 from wagtail.images import get_image_model
 
@@ -101,7 +101,7 @@ class InstagramPost(BasePost):
         
     image_thumb.short_description = "Instagram Post"
 
-    
+
     panels = [
         MultiFieldPanel([
             # Estos dos campos aparecerán en la misma línea (50% cada uno)
@@ -113,7 +113,10 @@ class InstagramPost(BasePost):
         ], heading="Configuración del Post"),
         
         FieldPanel("prompt"),
-        FieldPanel("image_thumb", read_only=True),
+        HelpPanel(
+                content=lambda obj: obj.image_thumb(),
+                heading="Vista Previa de la Imagen"
+            ),
     ]
 
 
