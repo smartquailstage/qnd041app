@@ -51,6 +51,17 @@ def mark_failed(obj):
         pass
 
 
+def serialize(instance):
+    """
+    Convierte el objeto en un diccionario simple para Celery.
+    Solo mandamos lo mínimo; la tarea se encargará de sacar el resto de la DB.
+    """
+    return {
+        "id": instance.id,
+        "model": instance.__class__.__name__,
+        "scheduled_date": instance.scheduled_date.isoformat() if instance.scheduled_date else None,
+    }
+
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_post(self, payload):
