@@ -27,7 +27,7 @@ def send_to_n8n(webhook_key, payload):
     response = requests.post(url, json=payload, timeout=10)
     response.raise_for_status()
 
-    return response.text
+    return response.json()
 
 
 # =========================
