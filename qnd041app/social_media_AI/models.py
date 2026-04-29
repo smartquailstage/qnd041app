@@ -90,7 +90,18 @@ class InstagramPost(BasePost):
         help_text="URL de la imagen post generada por IA"
     )
 
+    def image_thumb(self):
+        if self.image:
+            url = str(self.image).strip()
+            return format_html(
+                '<img src="{}" style="width:90px;height:90px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" onerror="this.style.display=\'none\'" />',
+                url
+                )
+        return "—"
+        
+    image_thumb.short_description = "Instagram Post"
 
+    
     panels = [
         MultiFieldPanel([
             # Estos dos campos aparecerán en la misma línea (50% cada uno)
@@ -102,18 +113,10 @@ class InstagramPost(BasePost):
         ], heading="Configuración del Post"),
         
         FieldPanel("prompt"),
+        FieldPanel("image_thumb", read_only=True),
     ]
 
-    def image_thumb(self):
-        if self.image:
-            url = str(self.image).strip()
-            return format_html(
-                '<img src="{}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" onerror="this.style.display=\'none\'" />',
-                url
-                )
-        return "—"
-        
-    image_thumb.short_description = "Instagram Post"
+
 
     class Meta:
         ordering = ["-created_at"]
