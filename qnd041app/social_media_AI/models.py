@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
 
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel,FieldRowPanel
 from wagtail.models import Orderable
 from wagtail.images import get_image_model
 
@@ -90,27 +90,28 @@ class InstagramPost(BasePost):
         help_text="URL de la imagen post generada por IA"
     )
 
-    panels = [
-        FieldPanel("categories"),
-        FieldPanel("image_size"),
-        FieldPanel("scheduled_date"),
-        FieldPanel("prompt"),
 
-        FieldPanel("caption"),
-        FieldPanel("copy"),
-        FieldPanel("hashtags"),
-        FieldPanel("image"),
+    panels = [
+        MultiFieldPanel([
+            # Estos dos campos aparecerán en la misma línea (50% cada uno)
+            FieldRowPanel([
+                FieldPanel("categories", classname="col6"),
+                FieldPanel("image_size", classname="col6"),
+                FieldPanel("scheduled_date", classname="col6"),
+            ]),
+        ], heading="Configuración del Post"),
         
-        FieldPanel("created_by"),
+        FieldPanel("prompt"),
     ]
 
     def image_thumb(self):
         if self.image:
             return format_html(
-                '<img src="{}" style="width:60px;height:60px;object-fit:cover;" />',
-                self.image.get_rendition("fill-120x120").url
-            )
+                '<img src="{}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" />',
+                self.image)
         return "—"
+        
+    image_thumb.short_description = "Vista Previa"
 
     class Meta:
         ordering = ["-created_at"]

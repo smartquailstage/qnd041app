@@ -24,20 +24,29 @@ from .tasks import (
 )
 
 
-def serialize(instance):
-    return {
-        "id": instance.id,
-        "model": instance.__class__.__name__,
-        "caption": getattr(instance, "caption", "") or getattr(instance, "message", ""),
-        "scheduled_date": str(getattr(instance, "scheduled_date", None)),
-        "created_by": getattr(instance.created_by, "id", None),
-    }
-
-
 @receiver(post_save, sender=InstagramPost)
 def ig_post(sender, instance, created, **kwargs):
-    if created:
-        task_instagram_post.delay(serialize(instance))
+    # Solo actuamos si el post se acaba de crear o si se marca como 'scheduled'
+    if instance.status == "scheduled" and instance.scheduled_date:
+        payload = serialize(instance)
+        ahora = timezone.now()
+
+        if instance.scheduled_date > ahora:
+            # 1. PROGRAMADO: La tarea se queda en Redis hasta la fecha fijada
+            task_instagram_post.apply_async(
+                kwargs={"payload": payload},
+                eta=instance.scheduled_date
+            )
+            print(f"📌 [Signal] Post {instance.id} programado para {instance.scheduled_date}")
+        else:
+            # 2. INMEDIATO: La fecha ya pasó o es para ahora mismo
+            task_instagram_post.delay(payload)
+            print(f"🚀 [Signal] Ejecución inmediata para el post {instance.id}")
+            
+    elif created and instance.status == "draft":
+        # Opcional: Si quieres que al crear un borrador no pase nada, 
+        # lo dejas pasar. La tarea se disparará cuando cambien el estado a 'scheduled'.
+        print(f"📝 [Signal] Post {instance.id} guardado como borrador.")
 
 
 @receiver(post_save, sender=InstagramCarouselPost)

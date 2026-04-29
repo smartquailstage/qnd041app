@@ -58,6 +58,17 @@ def task_instagram_post(self, payload):
 
     try:
         # =========================
+        # 0. VALIDACIÓN DE ESTADO (Idempotencia)
+        # =========================
+        from .models import InstagramPost # Ajusta la importación a tu path real
+        check_obj = InstagramPost.objects.filter(id=payload["id"]).first()
+        
+        # Si el post ya fue enviado o está procesándose por otra tarea, abortamos
+        if check_obj and check_obj.status in ["sent", "processing"]:
+            print(f"⚠️ Abortando: El post {payload['id']} ya tiene estado {check_obj.status}")
+            return {"status": "skipped", "message": "Already processed or sending"}
+
+        # =========================
         # 1. Obtener objeto
         # =========================
         obj = mark_processing(InstagramPost, payload["id"])
@@ -78,9 +89,8 @@ def task_instagram_post(self, payload):
             "color_secondary": obj.categories.color_2 if obj.categories else None,
             "color_palette": obj.categories.color_palette if obj.categories else None,
 
-            "image_size": obj.image_size  if obj.image_size  else None,
-            "copy": obj.copy if obj.copy  else None,
-            "image_size": obj.image_size  if obj.image_size  else None,
+            "image_size": obj.image_size if obj.image_size else None,
+            "copy": obj.copy if obj.copy else None,
             "caption": obj.caption if obj.caption else None,
             "hashtags": obj.hashtags if obj.hashtags else None,
             "image": obj.image if obj.image else None,   
@@ -111,8 +121,11 @@ def task_instagram_post(self, payload):
         if obj:
             mark_failed(obj)
 
+        # Exponencial backoff: 10, 100, 1000 segundos
         raise self.retry(exc=exc, countdown=10 ** self.request.retries)
 
+
+        
 # =========================
 # INSTAGRAM CAROUSEL
 # =========================

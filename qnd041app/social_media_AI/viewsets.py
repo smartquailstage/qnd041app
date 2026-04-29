@@ -28,13 +28,17 @@ class InstagramPostViewSet(ModelViewSet):
     )
     search_fields = ("caption",)
 
-    form_fields = [
-    "categories",   # asegúrate que este es el nombre correcto en tu modelo
-    "created_by",
-    "image_size",
-    "prompt",
-    ]
 
+    def save_instance(self, request, instance, is_new):
+        """
+        Este método se ejecuta al guardar el snippet.
+        Si es un registro nuevo y el usuario no está asignado,
+        grabamos automáticamente al usuario logueado.
+        """
+        if is_new and not instance.created_by:
+            instance.created_by = request.user
+        
+        return super().save_instance(request, instance, is_new)
 
 # 🔥 IMPORTANTE: instancia (NO clase)
 instagram_post_viewset = InstagramPostViewSet()
