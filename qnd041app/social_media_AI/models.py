@@ -106,19 +106,26 @@ class InstagramPost(BasePost):
 
     def image_thumb(self):
         if self.image:
+            url = str(self.image).strip()
             return format_html(
-                '<img src="{}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" />',
-                self.image)
+                '<img src="{}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" onerror="this.style.display=\'none\'" />',
+                url
+                )
         return "—"
         
-    image_thumb.short_description = "Vista Previa"
+    image_thumb.short_description = "Instagram Post"
 
     class Meta:
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.caption[:40]
-
+        if self.categories:
+            return f"Post - {self.categories.name}"
+    
+        if self.prompt:
+            return f"Post: {str(self.prompt)[:30]}..."
+        
+        return f"Instagram Post #{self.pk or 'Nuevo'}"
 
 # =========================
 # 🔹 INSTAGRAM CAROUSEL

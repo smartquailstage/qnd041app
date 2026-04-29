@@ -19,14 +19,15 @@ class InstagramPostViewSet(ModelViewSet):
     add_to_admin_menu = False
 
     list_display = ( 
-        "prompt",
+        #"prompt",
         #"caption",
         "image_thumb",
+        "caption",
         "categories",
         "scheduled_date",
         "created_by",
     )
-    search_fields = ("caption",)
+    search_fields = ("scheduled_date",)
 
 
     def save_instance(self, request, instance, is_new):

@@ -26,26 +26,29 @@ from .tasks import (
 
 @receiver(post_save, sender=InstagramPost)
 def ig_post(sender, instance, created, **kwargs):
-    # Solo actuamos si el post se acaba de crear o si se marca como 'scheduled'
+    # 1. Validación de seguridad: solo si está programado y tiene fecha
     if instance.status == "scheduled" and instance.scheduled_date:
-        payload = serialize(instance)
-        ahora = timezone.now()
+        try:
+            payload = serialize(instance)
+            ahora = timezone.now()
 
-        if instance.scheduled_date > ahora:
-            # 1. PROGRAMADO: La tarea se queda en Redis hasta la fecha fijada
-            task_instagram_post.apply_async(
-                kwargs={"payload": payload},
-                eta=instance.scheduled_date
-            )
-            print(f"📌 [Signal] Post {instance.id} programado para {instance.scheduled_date}")
-        else:
-            # 2. INMEDIATO: La fecha ya pasó o es para ahora mismo
-            task_instagram_post.delay(payload)
-            print(f"🚀 [Signal] Ejecución inmediata para el post {instance.id}")
+            if instance.scheduled_date > ahora:
+                # PROGRAMADO: Uso correcto de kwargs
+                task_instagram_post.apply_async(
+                    kwargs={"payload": payload},
+                    eta=instance.scheduled_date
+                )
+                print(f"📌 [Signal] Post {instance.id} programado para {instance.scheduled_date}")
+            else:
+                # INMEDIATO: Debes pasarlo como keyword argument para que coincida con la tarea
+                task_instagram_post.delay(payload=payload)
+                print(f"🚀 [Signal] Ejecución inmediata para el post {instance.id}")
+        
+        except Exception as e:
+            # Importante: evitar que un error en el signal rompa el guardado en el Admin
+            print(f"❌ [Signal Error] No se pudo procesar el post {instance.id}: {e}")
             
     elif created and instance.status == "draft":
-        # Opcional: Si quieres que al crear un borrador no pase nada, 
-        # lo dejas pasar. La tarea se disparará cuando cambien el estado a 'scheduled'.
         print(f"📝 [Signal] Post {instance.id} guardado como borrador.")
 
 
