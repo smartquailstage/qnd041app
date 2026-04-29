@@ -23,6 +23,12 @@ from .tasks import (
     task_linkedin_post,
 )
 
+def serialize(instance):
+    return {
+        "id": instance.id,
+        "model": instance.__class__.__name__,
+        "scheduled_date": instance.scheduled_date.isoformat() if instance.scheduled_date else None,
+    }
 
 @receiver(post_save, sender=InstagramPost)
 def ig_post(sender, instance, created, **kwargs):

@@ -51,15 +51,6 @@ def mark_failed(obj):
         pass
 
 
-
-
-def serialize(instance):
-    return {
-        "id": instance.id,
-        "model": instance.__class__.__name__,
-        "scheduled_date": instance.scheduled_date.isoformat() if instance.scheduled_date else None,
-    }
-
 @shared_task(bind=True, max_retries=3)
 def task_instagram_post(self, payload):
     # Importaciones locales para evitar Circular Imports
