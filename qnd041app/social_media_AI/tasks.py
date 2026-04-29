@@ -94,6 +94,7 @@ def task_instagram_post(self, payload):
             "caption": obj.caption if obj.caption else None,
             "hashtags": obj.hashtags if obj.hashtags else None,
             "image": obj.image if obj.image else None,   
+            "scheduled_date": obj.scheduled_date if obj.scheduled_date else None,   
         })
 
         # =========================
@@ -125,7 +126,7 @@ def task_instagram_post(self, payload):
         raise self.retry(exc=exc, countdown=10 ** self.request.retries)
 
 
-        
+
 # =========================
 # INSTAGRAM CAROUSEL
 # =========================
