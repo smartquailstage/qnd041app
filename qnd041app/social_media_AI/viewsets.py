@@ -25,24 +25,12 @@ class InstagramPostViewSet(ModelViewSet):
         "caption",
         "categories",
         "scheduled_date",
-        "created_by",
+        "status",
     )
     search_fields = ("scheduled_date",)
-
-
-    def save_instance(self, request, instance, is_new):
-        """
-        Este método se ejecuta al guardar el snippet.
-        Si es un registro nuevo y el usuario no está asignado,
-        grabamos automáticamente al usuario logueado.
-        """
-        if is_new and not instance.created_by:
-            instance.created_by = request.user
-        
-        return super().save_instance(request, instance, is_new)
-
-# 🔥 IMPORTANTE: instancia (NO clase)
+    
 instagram_post_viewset = InstagramPostViewSet()
+
  
 
 

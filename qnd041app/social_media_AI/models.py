@@ -118,6 +118,13 @@ class InstagramPost(BasePost):
     class Meta:
         ordering = ["-created_at"]
 
+    def save_instance(self, request, instance, is_new):
+        if is_new and not instance.created_by:
+            instance.created_by = request.user
+        return super().save_instance(request, instance, is_new)
+        
+
+
     def __str__(self):
         if self.categories:
             return f"Post - {self.categories.name}"
