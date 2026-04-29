@@ -80,7 +80,7 @@ class InstagramPost(BasePost):
         help_text = "Describa un contexto de acuerdo a la campaña y post", null=True, blank=True)
 
     caption = models.TextField(null=True, blank=True)
-    copy = models.TextField(blank=True)
+    copy = models.TextField(blank=True,null=True)
     hashtags = models.TextField(null=True, blank=True)
 
     image = models.URLField(
