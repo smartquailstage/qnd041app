@@ -71,7 +71,7 @@ from wagtail.images import get_image_model
 
 import requests
 from io import BytesIO
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageDraw, ImageFont
 
 
 @api_view(['POST'])
@@ -115,39 +115,56 @@ def update_generated_image(request):
         # 2️⃣ Insertar logo (SAFE)
         # =========================
         try:
-            logo_field = getattr(post.categories, "logo_1", None)
+            base_width, base_height = base_image.size
+            margin = 40  # Margen desde los bordes
+            
+            logo1_field = getattr(obj.categories, "logo_1", None)
+            if logo1_field and hasattr(logo1_field, "file") and logo1_field.file:
+                logo1_res = requests.get(logo1_field.file.url, timeout=10)
+                if logo1_res.status_code == 200:
+                   logo1 = PILImage.open(BytesIO(logo1_res.content)).convert("RGBA")
+                   
+                   max_w = int(base_width * 0.20)
+                   ratio = max_w / logo1.size[0]
+                   logo1 = logo1.resize((max_w, int(logo1.size[1] * ratio)), PILImage.LANCZOS)
+                   
+                   base_image.paste(logo1, (margin, margin), logo1)
 
-            if logo_field and hasattr(logo_field, "file") and logo_field.file:
-                logo_url = logo_field.file.url
+            logo2_field = getattr(obj.categories, "logo_2", None)
+            if logo2_field and hasattr(logo2_field, "file") and logo2_field.file:
+                logo2_res = requests.get(logo2_field.file.url, timeout=10)
+                if logo2_res.status_code == 200:
+                    logo2 = PILImage.open(BytesIO(logo2_res.content)).convert("RGBA")
+                    max_w = int(base_width * 0.15)
+                    ratio = max_w / logo2.size[0]
+                    logo2 = logo2.resize((max_w, int(logo2.size[1] * ratio)), PILImage.LANCZOS)
+                    
+                    x_logo2 = base_width - logo2.size[0] - margin
+                    y_logo2 = base_height - logo2.size[1] - margin
+                    base_image.paste(logo2, (x_logo2, y_logo2), logo2)
 
-                logo_response = requests.get(logo_url, timeout=10)
+            draw = ImageDraw.Draw(base_image)
+            text = "All copyrights reserved 2026"
+            
+            try:
+                font = ImageFont.truetype("arial.ttf", 24)
+            except:
+                font = ImageFont.load_default()
 
-                if logo_response.status_code == 200:
-                    logo = PILImage.open(BytesIO(logo_response.content)).convert("RGBA")
+            if hasattr(draw, 'textbbox'):
+                left, top, right, bottom = draw.textbbox((0, 0), text, font=font)
+                text_width = right - left
+            else:
+                text_width, text_height = draw.textsize(text, font=font)
 
-                    base_width, base_height = base_image.size
-                    logo_width, logo_height = logo.size
+            x_text = (base_width - text_width) // 2
+            y_text = base_height - margin - 20 # Un poco arriba del borde inferior
 
-                    max_logo_width = int(base_width * 0.20)
-
-                    if logo_width > max_logo_width:
-                        ratio = max_logo_width / logo_width
-                        logo = logo.resize(
-                            (int(logo_width * ratio), int(logo_height * ratio)),
-                            PILImage.LANCZOS
-                        )
-
-                    logo_width, logo_height = logo.size
-
-                    margin = 40
-                    x = base_width - logo_width - margin
-                    y = base_height - logo_height - margin
-
-                    base_image.paste(logo, (x, y), logo)
-
+            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font) # Sombra
+            draw.text((x_text, y_text), text, fill="white", font=font)
+            
         except Exception as e:
-            # No romper el flujo si falla el logo
-            print("Error procesando logo:", str(e))
+            print(f"⚠️ Error en el branding de la imagen: {e}")
 
         # =========================
         # 3️⃣ Guardar en Wagtail

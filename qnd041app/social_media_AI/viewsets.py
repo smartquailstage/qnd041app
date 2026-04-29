@@ -22,13 +22,13 @@ class InstagramPostViewSet(ModelViewSet):
         #"prompt",
         #"caption",
         "image_thumb",
-        "caption",
+        "post_type",
         "categories",
         "scheduled_date",
         "status",
     )
     search_fields = ("scheduled_date",)
-    
+
 instagram_post_viewset = InstagramPostViewSet()
 
  

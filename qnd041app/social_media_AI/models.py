@@ -41,6 +41,21 @@ class BasePost(models.Model):
         ("failed", "Fallido"),
     ]
 
+    TYPE_CHOICES = [
+        ("Product", "Producto"),
+        ("Lunch", "Lanzamiento"),
+        ("Publicitario", "Publishing"),
+        ("Informativo", "info"),
+    ]
+
+
+    post_type = models.CharField(
+        max_length=100,
+        choices=TYPE_CHOICES,
+        blank=True,
+        help_text="Elija el tipo de post"
+    )
+
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="scheduled")
 
     scheduled_date = models.DateTimeField(null=True, blank=True,help_text = "Asigne una fecha y hora para publicacion automatica",verbose_name="Fecha/Hora de Publicación")
@@ -89,17 +104,55 @@ class InstagramPost(BasePost):
         max_length=1000,
         help_text="URL de la imagen post generada por IA"
     )
-
+    
+    
+    
     def image_thumb(self):
+        post_id = self.id
+        category_name = self.categories.name if self.categories else "Sin Categoría"
+        
         if self.image:
             url = str(self.image).strip()
+            caption = (self.caption[:75] + "...") if self.caption and len(self.caption) > 75 else (self.caption or "")
+            copy = (self.copy[:50] + "...") if self.copy and len(self.copy) > 50 else (self.copy or "")
+            hashtags = self.hashtags or ""
+
             return format_html(
-                '<img src="{}" style="width:90px;height:90px;object-fit:cover;border-radius:4px;border:1px solid #ddd;" onerror="this.style.display=\'none\'" />',
-                url
-                )
-        return "—"
-        
-    image_thumb.short_description = "Instagram Post"
+                '''
+                <div style="width: 180px; font-family: sans-serif; font-size: 11px;">
+                <div style="margin-bottom: 5px; color: #666; font-weight: bold;">
+                    Post: N. {} | {}
+                </div>
+                
+                <div style="border: 1px solid #dbdbdb; border-radius: 8px; background: white; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <a href="{}" target="_blank" title="Ver imagen original" style="display: block; cursor: zoom-in;">
+                        <img src="{}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;" />
+                    </a>
+                    
+                    <div style="padding: 8px; line-height: 1.3;">
+                        <div style="margin-bottom: 6px;">
+                            <b style="color: #262626;">Caption:</b> 
+                            <span style="color: #444;">{}</span>
+                        </div>
+                        <div style="margin-bottom: 6px;">
+                            <b style="color: #262626;">Copy:</b> 
+                            <span style="color: #444;">{}</span>
+                        </div>
+                        <div style="color: #00376b; word-break: break-all; font-size: 10px;">
+                            {}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ''',post_id, category_name, url,caption,copy,hashtags
+            )
+            
+            return format_html(
+                '<div style="font-size: 11px; color: #999;"><b>Post: N. {}</b><br>Cat: {}<br><i>(Esperando imagen...)</i></div>',
+                post_id,
+                category_name)
+
+    image_thumb.short_description = "Vista Previa Post"
 
 
     panels = [
@@ -107,16 +160,13 @@ class InstagramPost(BasePost):
             # Estos dos campos aparecerán en la misma línea (50% cada uno)
             FieldRowPanel([
                 FieldPanel("categories", classname="col6"),
+                FieldPanel("post_type", classname="col6"),
                 FieldPanel("image_size", classname="col6"),
                 FieldPanel("scheduled_date", classname="col6"),
             ]),
-        ], heading="Configuración del Post"),
+        ], heading="Configure su Instagram Post"),
         
         FieldPanel("prompt"),
-        HelpPanel(
-                content=lambda obj: obj.image_thumb(),
-                heading="Vista Previa de la Imagen"
-            ),
     ]
 
 

@@ -31,6 +31,8 @@ class CategoryItem(Orderable):
         help_text="Define el nombre principal de la campaña."
     )
 
+
+
     STYLE_CHOICES = [
         ("minimal", "Minimalista"),
         ("futuristic", "Futurista"),
