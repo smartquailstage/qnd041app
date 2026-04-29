@@ -82,7 +82,7 @@ def task_instagram_post(self, payload):
             "copy": obj.copy if obj.copy  else None,
             "image_size": obj.image_size  if obj.image_size  else None,
             "caption": obj.caption if obj.caption else None,
-            "hashtags": obj.caption if obj.caption else None,
+            "hashtags": obj.hashtags if obj.hashtags else None,
             "image": obj.image if obj.image else None,   
         })
 
