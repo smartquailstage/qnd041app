@@ -33,6 +33,7 @@ class CategoryItem(Orderable):
 
     STYLE_CHOICES = [
         ("minimal", "Minimalista"),
+        ("futuristic", "Futurista"),
         ("modern", "Moderno"),
         ("retro", "Retro / Vintage"),
         ("illustrative", "Ilustrativo / Vectorial"),
