@@ -74,21 +74,28 @@ from io import BytesIO
 from PIL import Image as PILImage, ImageDraw, ImageFont
 
 
+import requests
+from io import BytesIO
+from PIL import Image as PILImage, ImageDraw, ImageFont
+from django.core.files.base import ContentFile
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from wagtail.images import get_image_model
+from .models import InstagramPost
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def update_generated_image(request):
     try:
         data = request.data
-
         post_id = data.get("id")
         image_url = data.get("image")
 
         if not post_id or not image_url:
-            return Response(
-                {"success": False, "message": "id o image faltantes"},
-                status=400
-            )
+            return Response({"success": False, "message": "id o image faltantes"}, status=400)
 
+        # Buscamos el post por ID
         post = InstagramPost.objects.get(id=post_id)
 
         # =========================
@@ -97,40 +104,32 @@ def update_generated_image(request):
         try:
             r = requests.get(image_url, timeout=15)
             r.raise_for_status()
-        except Exception as e:
-            return Response(
-                {"success": False, "message": f"Error descargando imagen: {str(e)}"},
-                status=400
-            )
-
-        try:
             base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
         except Exception as e:
-            return Response(
-                {"success": False, "message": f"Error procesando imagen: {str(e)}"},
-                status=400
-            )
+            return Response({"success": False, "message": f"Error descargando imagen: {str(e)}"}, status=400)
 
         # =========================
-        # 2️⃣ Insertar logo (SAFE)
+        # 2️⃣ Insertar Branding (Logos y Copyright)
         # =========================
         try:
             base_width, base_height = base_image.size
-            margin = 40  # Margen desde los bordes
+            margin = 40 
             
-            logo1_field = getattr(obj.categories, "logo_1", None)
+            # --- LOGO 1: Esquina Superior Izquierda ---
+            # Corregido: Usamos 'post.categories'
+            logo1_field = getattr(post.categories, "logo_1", None)
             if logo1_field and hasattr(logo1_field, "file") and logo1_field.file:
                 logo1_res = requests.get(logo1_field.file.url, timeout=10)
                 if logo1_res.status_code == 200:
-                   logo1 = PILImage.open(BytesIO(logo1_res.content)).convert("RGBA")
-                   
-                   max_w = int(base_width * 0.20)
-                   ratio = max_w / logo1.size[0]
-                   logo1 = logo1.resize((max_w, int(logo1.size[1] * ratio)), PILImage.LANCZOS)
-                   
-                   base_image.paste(logo1, (margin, margin), logo1)
+                    logo1 = PILImage.open(BytesIO(logo1_res.content)).convert("RGBA")
+                    max_w = int(base_width * 0.20)
+                    ratio = max_w / logo1.size[0]
+                    logo1 = logo1.resize((max_w, int(logo1.size[1] * ratio)), PILImage.LANCZOS)
+                    # Pegar en (40, 40)
+                    base_image.paste(logo1, (margin, margin), logo1)
 
-            logo2_field = getattr(obj.categories, "logo_2", None)
+            # --- LOGO 2: Esquina Inferior Derecha ---
+            logo2_field = getattr(post.categories, "logo_2", None)
             if logo2_field and hasattr(logo2_field, "file") and logo2_field.file:
                 logo2_res = requests.get(logo2_field.file.url, timeout=10)
                 if logo2_res.status_code == 200:
@@ -139,79 +138,69 @@ def update_generated_image(request):
                     ratio = max_w / logo2.size[0]
                     logo2 = logo2.resize((max_w, int(logo2.size[1] * ratio)), PILImage.LANCZOS)
                     
-                    x_logo2 = base_width - logo2.size[0] - margin
-                    y_logo2 = base_height - logo2.size[1] - margin
-                    base_image.paste(logo2, (x_logo2, y_logo2), logo2)
+                    x_l2 = base_width - logo2.size[0] - margin
+                    y_l2 = base_height - logo2.size[1] - margin
+                    base_image.paste(logo2, (x_l2, y_l2), logo2)
 
+            # --- COPYRIGHT: Centro Inferior ---
             draw = ImageDraw.Draw(base_image)
             text = "All copyrights reserved 2026"
             
             try:
-                font = ImageFont.truetype("arial.ttf", 24)
+                # Intenta cargar Arial, si falla usa la default
+                font = ImageFont.truetype("arial.ttf", 28)
             except:
                 font = ImageFont.load_default()
 
             if hasattr(draw, 'textbbox'):
-                left, top, right, bottom = draw.textbbox((0, 0), text, font=font)
-                text_width = right - left
+                l, t, r, b = draw.textbbox((0, 0), text, font=font)
+                tw = r - l
             else:
-                text_width, text_height = draw.textsize(text, font=font)
+                tw, _ = draw.textsize(text, font=font)
 
-            x_text = (base_width - text_width) // 2
-            y_text = base_height - margin - 20 # Un poco arriba del borde inferior
+            x_text = (base_width - tw) // 2
+            y_text = base_height - margin - 20
 
-            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font) # Sombra
+            # Sombra para legibilidad y texto blanco
+            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font)
             draw.text((x_text, y_text), text, fill="white", font=font)
             
         except Exception as e:
-            print(f"⚠️ Error en el branding de la imagen: {e}")
+            print(f"⚠️ Error en el branding: {e}")
 
         # =========================
         # 3️⃣ Guardar en Wagtail
         # =========================
         buffer = BytesIO()
+        # Guardamos como PNG para mantener transparencias de logos si las hay
         base_image.save(buffer, format="PNG")
-        buffer.seek(0)
+        image_file = ContentFile(buffer.getvalue())
 
         ImageModel = get_image_model()
-
-        wagtail_image = ImageModel(
-            title=f"Post {post.id} final image",
-            file=ContentFile(buffer.read(), name=f"post_{post.id}.png")
-        )
-        wagtail_image.save()
+        wagtail_image = ImageModel(title=f"Post {post.id} Final")
+        # El método save() del campo file se encarga de subirlo al storage (S3/Local)
+        wagtail_image.file.save(f"post_{post.id}.png", image_file, save=True)
 
         # =========================
-        # 4️⃣ Guardar URL en modelo
+        # 4️⃣ Actualizar el modelo
         # =========================
-        post.image = wagtail_image.file.url  # ✅ CORRECTO para URLField
-
-        # Opcionales desde n8n
+        post.image = wagtail_image.file.url
         post.caption = data.get("caption", post.caption)
         post.copy = data.get("copy", post.copy)
         post.hashtags = data.get("hashtags", post.hashtags)
-
-        post.status = data.get("status", "Procesado")
-
+        post.status = "sent" # O el estado que envíe n8n
         post.save()
 
         return Response({
             "success": True,
-            "message": "Imagen procesada correctamente",
+            "message": "Imagen procesada con branding y guardada",
             "image_url": post.image
         })
 
     except InstagramPost.DoesNotExist:
-        return Response(
-            {"success": False, "message": "Post no encontrado"},
-            status=404
-        )
-
+        return Response({"success": False, "message": "Post no encontrado"}, status=404)
     except Exception as e:
-        return Response(
-            {"success": False, "message": str(e)},
-            status=500
-        )
+        return Response({"success": False, "message": str(e)}, status=500)
 
 from .models import InstagramPost
 
