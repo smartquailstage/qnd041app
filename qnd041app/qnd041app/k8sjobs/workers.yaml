@@ -22,8 +22,8 @@ spec:
                 name: qnd041app-app-secrets
           resources:
             requests:
-              memory: "100Mi"
+              memory: "200Mi"
               cpu: "100m"
             limits:
               memory: "400Mi"
-              cpu: "500m"
+              cpu: "900m"
