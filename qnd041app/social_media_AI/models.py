@@ -364,7 +364,7 @@ class InstagramCarouselImage(Orderable):
     copy = models.TextField(blank=True,null=True)
     hashtags = models.TextField(blank=True,null=True)
 
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+",blank=True,null=True)
 
 
     
