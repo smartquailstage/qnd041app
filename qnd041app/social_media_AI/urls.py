@@ -3,7 +3,8 @@ from django.urls import path
 from .views import (
     update_generated_image,
     instagram_webhook,
-    generic_callback
+    generic_callback,
+    update_generated_carousel
 )
 
 app_name = "social_media_AI"
@@ -13,6 +14,12 @@ urlpatterns = [
         "webhooks/wagtail/save-image/",
         update_generated_image,
         name="update_generated_image"
+    ),
+
+    path(
+        "webhooks/instagram/carousel/",
+        update_generated_carousel,
+        name="update_generated_carousel"
     ),
 
     path(
@@ -27,3 +34,7 @@ urlpatterns = [
         name="n8n-webhook"
     ),
 ]
+
+
+
+

@@ -205,45 +205,168 @@ class InstagramPost(BasePost):
 # =========================
 # 🔹 INSTAGRAM CAROUSEL
 # =========================
+
 class InstagramCarouselPost(ClusterableModel, BasePost):
 
-    image_size = models.CharField(max_length=20)
+    IMAGE_SIZE_CHOICES = [
+        ('square', 'Cuadrado'),
+        ('vertical', 'Vertical'),
+        ('horizontal', 'Horizontal'),
+        ('story', 'Story'),
+    ]
+
+    image_size = models.CharField(
+        max_length=20,
+        choices=IMAGE_SIZE_CHOICES,
+        null=True,
+        blank=True,
+        verbose_name="Formato Visual",
+        help_text="Elija un formato para este carrusel"
+    )
 
     categories = models.ForeignKey(
         CategoryItem,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        verbose_name="Campaña",
+        help_text="Elija la campaña para este carrusel"
     )
 
-    prompt = RichTextField(verbose_name="AI Agentic Instagram Post Creator",
-        help_text = "Describa un contexto de acuerdo a la campaña y post", null=True, blank=True)
+    prompt = RichTextField(
+        verbose_name="AI Agentic Instagram Carousel Creator",
+        help_text="Describa un contexto de acuerdo a la campaña",
+        null=True,
+        blank=True
+    )
 
+    # ========================================================
+    # 🖼️ VISTA PREVIA DEL CAROUSEL (tipo Instagram)
+    # ========================================================
+    def carousel_preview(self):
+        images = self.images.all()[:5]  # limitamos a 5 para no romper UI
+        post_id = self.id
+        category_name = self.categories.name if self.categories else "Sin Categoría"
+
+        if images:
+            html_images = ""
+
+            for img in images:
+                url = img.image.file.url if img.image else ""
+                caption = (img.caption[:40] + "...") if img.caption and len(img.caption) > 40 else (img.caption or "")
+
+                html_images += f"""
+                    <div style="min-width: 120px; margin-right: 6px;">
+                        <img src="{url}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px;" />
+                        <div style="font-size: 10px; margin-top: 4px; color: #444;">
+                            {caption}
+                        </div>
+                    </div>
+                """
+
+            return format_html(f"""
+                <div style="width: 260px; font-family: sans-serif; font-size: 11px;">
+                    
+                    <div style="margin-bottom: 5px; color: #666; font-weight: bold;">
+                        Carousel: N. {post_id} | {category_name}
+                    </div>
+
+                    <div style="display: flex; overflow-x: auto; padding: 6px; border: 1px solid #ddd; border-radius: 8px; background: #fff;">
+                        {html_images}
+                    </div>
+
+                    <div style="font-size: 10px; color: #999; margin-top: 4px;">
+                        {self.images.count()} slides
+                    </div>
+                </div>
+            """)
+
+        return format_html(
+            '<div style="font-size: 11px; color: #999;"><b>Carousel: N. {}</b><br>Cat: {}<br><i>(Sin imágenes aún)</i></div>',
+            post_id,
+            category_name
+        )
+
+    carousel_preview.short_description = "Vista Previa Carousel"
+
+    # ========================================================
+    # 🧠 VALIDACIÓN
+    # ========================================================
+    def clean(self):
+        super().clean()
+        if self.pk and self.images.count() > 10:
+            raise ValidationError("Máximo 10 imágenes")
+
+    # ========================================================
+    # 🧩 PANELES WAGTAIL
+    # ========================================================
     panels = [
         MultiFieldPanel([
-            # Estos dos campos aparecerán en la misma línea (50% cada uno)
             FieldRowPanel([
                 FieldPanel("categories", classname="col6"),
                 FieldPanel("post_type", classname="col6"),
                 FieldPanel("image_size", classname="col6"),
                 FieldPanel("scheduled_date", classname="col6"),
-                InlinePanel("images", label="Imágenes (máx 10)"),
             ]),
-        ], heading="Configure su Instagram Post"),
-        
+        ], heading="Configure su Instagram Carousel"),
+
         FieldPanel("prompt"),
+
+        InlinePanel("images", label="Slides del Carousel (máx 10)"),
     ]
-
-
-    def clean(self):
-        if self.pk and self.images.count() > 10:
-            raise ValidationError("Máximo 10 imágenes")
 
     class Meta:
         ordering = ["-created_at"]
 
+    # ========================================================
+    # 👤 AUTOR AUTOMÁTICO
+    # ========================================================
+    def save_instance(self, request, instance, is_new):
+        if is_new and not instance.created_by:
+            instance.created_by = request.user
+        return super().save_instance(request, instance, is_new)
+
+    # ========================================================
+    # 🏷️ STRING REPRESENTATION
+    # ========================================================
     def __str__(self):
-        return self.categories
+        if self.categories:
+            return f"Carousel - {self.categories.name}"
+
+        if self.prompt:
+            return f"Carousel: {str(self.prompt)[:30]}..."
+
+        return f"Instagram Carousel #{self.pk or 'Nuevo'}"
+
+
+
+
+class InstagramCarouselImage(Orderable):
+
+    post = ParentalKey(
+        InstagramCarouselPost,
+        related_name="images",
+        on_delete=models.CASCADE
+    )
+
+    caption = models.CharField(max_length=255, blank=True)
+    copy = models.TextField(blank=True, null=True)
+    hashtags = models.TextField(blank=True, null=True)
+
+    image = models.ForeignKey(
+        Image,
+        on_delete=models.CASCADE,
+        related_name="+"
+    )
+
+    panels = [
+        FieldPanel("image"),
+        FieldPanel("caption"),
+        FieldPanel("copy"),
+        FieldPanel("hashtags"),
+    ]
+
+
 
 
 class InstagramCarouselImage(Orderable):
