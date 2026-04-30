@@ -349,44 +349,17 @@ class InstagramCarouselImage(Orderable):
         on_delete=models.CASCADE
     )
 
-    caption = models.CharField(max_length=255, blank=True)
-    copy = models.TextField(blank=True, null=True)
-    hashtags = models.TextField(blank=True, null=True)
+    caption = models.TextField(blank=True,null=True)
+    copy = models.TextField(blank=True,null=True)
+    hashtags = models.TextField(blank=True,null=True)
 
-    image = models.ForeignKey(
-        Image,
-        on_delete=models.CASCADE,
-        related_name="+"
-    )
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
 
     panels = [
         FieldPanel("image"),
         FieldPanel("caption"),
         FieldPanel("copy"),
         FieldPanel("hashtags"),
-    ]
-
-
-
-
-class InstagramCarouselImage(Orderable):
-
-    post = ParentalKey(
-        InstagramCarouselPost,
-        related_name="images",
-        on_delete=models.CASCADE
-    )
-
-    caption = models.TextField(blank=True,null=True)
-    copy = models.TextField(blank=True,null=True)
-    hashtags = models.TextField(blank=True,null=True)
-
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
-    caption = models.CharField(max_length=255, blank=True)
-
-    panels = [
-        FieldPanel("image"),
-        FieldPanel("caption"),
     ]
 
 

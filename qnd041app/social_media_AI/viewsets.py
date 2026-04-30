@@ -42,6 +42,7 @@ class InstagramCarouselViewSet(ModelViewSet):
     menu_order = 200
     add_to_admin_menu = False  # 👈 importante
     list_display = (
+        'carousel_preview',
         "categories",
         "scheduled_date",
         "created_by",
