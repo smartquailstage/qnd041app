@@ -170,6 +170,7 @@ def task_instagram_carousel(self, payload):
         n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
+            "slides": obj.slides,
 
             "categories": cat.id if cat else None,
             "campagin_name": cat.name if cat else None,
@@ -183,7 +184,7 @@ def task_instagram_carousel(self, payload):
             "color_primary": cat.color_1 if cat else None,
             "color_secondary": cat.color_2 if cat else None,
             "color_palette": cat.color_palette if cat else None,
-            "slides": cat.slides if cat else None,
+           
 
             "images": images_payload,
 
