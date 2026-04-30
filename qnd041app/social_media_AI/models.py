@@ -215,6 +215,12 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
         ('story', 'Story'),
     ]
 
+    slides = models.PositiveIntegerField(
+    default=1,
+    verbose_name="Número de slides",
+    help_text="Cantidad de imágenes/slides del carrusel"
+    )
+
     image_size = models.CharField(
         max_length=20,
         choices=IMAGE_SIZE_CHOICES,
@@ -305,9 +311,14 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
             FieldRowPanel([
                 FieldPanel("categories", classname="col6"),
                 FieldPanel("post_type", classname="col6"),
+                FieldPanel("slides", classname="col6"),
+            ]),
+
+            FieldRowPanel([
                 FieldPanel("image_size", classname="col6"),
                 FieldPanel("scheduled_date", classname="col6"),
             ]),
+
         ], heading="Configure su Instagram Carousel"),
 
         FieldPanel("prompt"),
@@ -354,6 +365,9 @@ class InstagramCarouselImage(Orderable):
     hashtags = models.TextField(blank=True,null=True)
 
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
+
+
+    
 
     panels = [
         FieldPanel("image"),

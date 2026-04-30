@@ -183,6 +183,7 @@ def task_instagram_carousel(self, payload):
             "color_primary": cat.color_1 if cat else None,
             "color_secondary": cat.color_2 if cat else None,
             "color_palette": cat.color_palette if cat else None,
+            "slides": cat.slides if cat else None,
 
             "images": images_payload,
 
