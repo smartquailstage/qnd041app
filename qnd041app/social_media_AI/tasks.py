@@ -233,24 +233,107 @@ def task_instagram_carousel(self, payload):
 # =========================
 # INSTAGRAM REEL
 # =========================
+
+
+from django.core.files.base import ContentFile
+
+
 @shared_task(bind=True, max_retries=3)
 def task_instagram_reel(self, payload):
+    # Importaciones locales para evitar Circular Imports
+    from .models import InstagramReel 
+    obj = None
+
     try:
+        # 0. VALIDACIÓN DE EXISTENCIA Y ESTADO
+        obj = InstagramReel.objects.filter(id=payload["id"]).first()
+        
+        if not obj:
+            print(f"❌ Error: El Reel {payload['id']} no existe.")
+            return {"status": "error", "message": "Reel not found"}
+
+        if obj.status in ["sent", "processing"]:
+            print(f"⚠️ Abortando: El Reel {payload['id']} ya está en estado {obj.status}")
+            return {"status": "skipped", "message": "Already processed"}
+
+        # 1. Marcar inicio de procesamiento
+        from .utils import mark_processing, send_to_n8n, mark_failed
         obj = mark_processing(InstagramReel, payload["id"])
 
-        response = send_to_n8n("instagram_reel", payload)
+        # 2. CONSTRUIR PAYLOAD PARA n8n
+        cat = obj.categories
+        n8n_payload = {
+            "id": obj.id,
+            "prompt": obj.prompt,
+            "campaign_name": cat.name if cat else None,
+            "style": cat.style if cat else None,
+            "primary_brand": cat.brand_1 if cat else None,
+            "secondary_brand": cat.brand_2 if cat else None,
+            
+            # Branding
+            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
+            "color_primary": cat.color_1 if cat else None,
+            "color_secondary": cat.color_2 if cat else None,
 
+            # Datos del Reel
+            # ✅ CAMBIO: Enviar la duración seleccionada en Wagtail
+            "duration": obj.duration, 
+            "copy": obj.copy or "",
+            "caption": obj.caption or "",
+            "hashtags": obj.hashtags or "",
+            "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
+        }
+
+        # 3. ENVIAR A n8n Y RECIBIR RESPUESTA
+        response = send_to_n8n("instagram_reel", n8n_payload)
+
+        # 4. ACTUALIZAR METADATOS Y URL DE PREVISUALIZACIÓN
+        video_url = response.get("video_url") or response.get("generated_video_url")
+        if video_url:
+            obj.generated_video_url = video_url
+
+        obj.caption = response.get("caption") or obj.caption or ""
+        obj.copy = response.get("copy") or obj.copy or ""
+        obj.hashtags = response.get("hashtags") or obj.hashtags or ""
+
+        # 5. DESCARGAR Y GUARDAR ARCHIVO FÍSICO (Wagtail Media)
+        if video_url:
+            try:
+                print(f"📥 Descargando video para almacenamiento local: {obj.id}")
+                video_res = requests.get(video_url, timeout=120) # Mayor timeout para video
+                video_res.raise_for_status()
+                
+                file_name = f"reel_{obj.id}_{timezone.now().strftime('%H%M')}.mp4"
+                # El campo 'video' es el FileField de Wagtail Media
+                obj.video.save(file_name, ContentFile(video_res.content), save=False)
+            except Exception as e:
+                print(f"⚠️ No se pudo descargar el archivo físico, pero se mantuvo la URL: {e}")
+
+        # 6. FINALIZAR
         obj.status = "sent"
-        obj.save(update_fields=["status"])
+        obj.updated_at = timezone.now()
+        
+        # Guardamos todos los campos actualizados
+        obj.save(update_fields=[
+            "generated_video_url", 
+            "caption", 
+            "copy", 
+            "hashtags", 
+            "video", 
+            "status", 
+            "updated_at"
+        ])
 
-        return response
+        return {"status": "success", "reel_id": obj.id}
 
     except Exception as exc:
+        print(f"💥 Error en tarea Celery Reel: {exc}")
         if obj:
             mark_failed(obj)
-        raise self.retry(exc=exc)
+        raise self.retry(exc=exc, countdown=20)
 
 
+        
 # =========================
 # FACEBOOK IMAGE
 # =========================

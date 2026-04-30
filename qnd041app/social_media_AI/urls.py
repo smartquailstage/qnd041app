@@ -4,7 +4,9 @@ from .views import (
     update_generated_image,
     instagram_webhook,
     generic_callback,
-    update_generated_carousel_slide
+    update_generated_carousel_slide,
+    update_generated_reel,
+   
 )
 
 app_name = "social_media_AI"
@@ -21,6 +23,13 @@ urlpatterns = [
         update_generated_carousel_slide,
         name="update_generated_carousel"
     ),
+
+    path(
+        "webhooks/instagram/reel/",
+        update_generated_reel,
+        name="update_generated_reel"
+    ),
+
 
     path(
         "webhooks/n8n/instagram/post",

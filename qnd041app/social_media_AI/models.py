@@ -382,8 +382,6 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
         return f"Instagram Carousel #{self.pk or 'Nuevo'}"
 
 
-
-
 class InstagramCarouselImage(Orderable):
 
     post = ParentalKey(
@@ -398,9 +396,6 @@ class InstagramCarouselImage(Orderable):
 
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+",blank=True,null=True)
 
-
-    
-
     panels = [
         FieldPanel("image"),
         FieldPanel("caption"),
@@ -414,26 +409,57 @@ class InstagramCarouselImage(Orderable):
 # =========================
 class InstagramReel(BasePost):
 
-    title = models.CharField(max_length=255)
+    DURATION_CHOICES = [
+        # Reels Virales (Alta retención)
+        (5, "5 segundos - Pruebas"),
+        (7, "7 segundos - Viral (Quick Hook)"),
+        (15, "15 segundos - Viral (Fast Pace)"),
+        (30, "30 segundos - Tendencia (Standard)"),
+        # Videos Promocionales / Ads
+        (60, "60 segundos - Promocional (Detailed)"),
+        (90, "90 segundos - Promocional (Long Form)"),
+    ]
 
-    video = models.ForeignKey(
-        Media,
+    duration = models.PositiveIntegerField(
+        choices=DURATION_CHOICES,
+        default=15,
+        verbose_name="Duración del Video",
+        help_text="Duración en segundos. Los videos de 7-15s suelen tener mayor viralidad."
+    )
+
+    categories = models.ForeignKey(
+        CategoryItem,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name="+"
+        verbose_name="Campaña",
+        help_text="Elija la campaña para este carrusel"
     )
+
+    prompt = RichTextField(
+        verbose_name="AI Agentic Instagram Carousel Creator",
+        help_text="Describa un contexto de acuerdo a la campaña",
+        null=True,
+        blank=True
+    )
+
+    # Campo para la URL de previsualización del video generado por IA en n8n
+    generated_video_url = models.URLField(
+        blank=True,
+        null=True,
+        max_length=1000,
+        verbose_name="URL del Video Generado (Previsualización)",
+        help_text="URL externa para la previsualización del contenido de video generado en n8n antes de ser guardado en Wagtail media."
+    )
+    
 
     caption = models.TextField()
     hashtags = models.TextField(blank=True)
 
     panels = [
-        FieldPanel("title"),
-        FieldPanel("video"),
-        FieldPanel("caption"),
-        FieldPanel("hashtags"),
-        FieldPanel("scheduled_date"),
-        FieldPanel("created_by"),
+        FieldPanel("categories"),
+         FieldPanel("scheduled_date"),
+        FieldPanel("prompt"),
     ]
 
     def __str__(self):
@@ -441,6 +467,70 @@ class InstagramReel(BasePost):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def reel_preview(self):
+        post_id = self.id or "Nuevo"
+        category_name = self.categories.name if self.categories else "Sin Categoría"
+        # Usamos la URL generada por n8n para la pre-visualización
+        video_url = self.generated_video_url if self.generated_video_url else None
+        
+        # Truncado de seguridad para los textos
+        cap_text = (self.caption[:75] + "...") if self.caption and len(self.caption) > 75 else (self.caption or "")
+        copy_text = (self.copy[:50] + "...") if self.copy and len(self.copy) > 50 else (self.copy or "")
+        tags_text = (self.hashtags[:60] + "...") if self.hashtags and len(self.hashtags) > 60 else (self.hashtags or "")
+
+        if video_url:
+            return format_html(
+                '''
+                <div style="width: 200px; font-family: -apple-system, sans-serif; font-size: 11px;">
+                    <div style="margin-bottom: 5px; color: #666; font-weight: bold;">
+                        Reel: N. {} | {}
+                    </div>
+                    
+                    <div style="border: 1px solid #dbdbdb; border-radius: 12px; background: white; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <div style="position: relative; background: #000; width: 100%; aspect-ratio: 9/16; display: flex; align-items: center;">
+                            <video style="width: 100%; height: 100%; object-fit: cover;" controls>
+                                <source src="{}" type="video/mp4">
+                                Tu navegador no soporta video.
+                            </video>
+                        </div>
+                        
+                        <div style="padding: 10px; line-height: 1.4;">
+                            <div style="margin-bottom: 6px;">
+                                <b style="color: #262626; display: block;">Caption:</b> 
+                                <span style="color: #444;">{}</span>
+                            </div>
+                            <div style="margin-bottom: 6px; padding: 4px; background: #f8f9fa; border-radius: 4px;">
+                                <b style="color: #262626;">Copy Video:</b> 
+                                <span style="color: #444;">{}</span>
+                            </div>
+                            <div style="color: #00376b; word-break: break-all; font-size: 10px; margin-top: 4px;">
+                                {}
+                            </div>
+                            <div style="margin-top: 8px; border-top: 1px solid #eee; padding-top: 5px;">
+                                <a href="{}" target="_blank" style="color: #555; text-decoration: none; font-size: 9px;">🔗 Ver enlace directo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ''',
+                post_id,        # {} n.0
+                category_name,  # {} n.1
+                video_url,      # {} n.2 (source video)
+                cap_text,       # {} n.3
+                copy_text,      # {} n.4
+                tags_text,      # {} n.5
+                video_url       # {} n.6 (link externo)
+            )
+        
+        return format_html(
+            '<div style="font-size: 11px; color: #999; padding: 10px; border: 1px dashed #ccc; border-radius: 8px;">'
+            '<b>Reel: N. {}</b><br>Cat: {}<br><i>(Esperando renderizado de video en n8n...)</i></div>',
+            post_id,
+            category_name
+        )
+
+    reel_preview.short_description = "Vista Previa del Reel"
 
 
 # =========================

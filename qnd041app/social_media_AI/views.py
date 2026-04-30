@@ -299,8 +299,73 @@ def update_generated_carousel_slide(request):
     except Exception as e:
         return Response({"success": False, "message": str(e)}, status=500)
 
-from .models import InstagramPost
 
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def update_generated_reel(request):
+    """
+    Recibe el video final de n8n y actualiza el modelo InstagramReel.
+    """
+    try:
+        data = request.data
+        # n8n envía 'originalId'
+        reel_id = data.get("originalId") or data.get("original_id")
+        video_url = data.get("video_url") or data.get("generated_video_url")
+
+        if not reel_id or not video_url:
+            return Response({"success": False, "message": "ID de Reel o URL de video ausentes"}, status=400)
+
+        # Importación local para evitar problemas de carga
+        from .models import InstagramReel
+        reel = InstagramReel.objects.get(id=reel_id)
+
+        # 1️⃣ Actualizar Metadatos (Textos)
+        # Guardamos lo que generó la IA
+        reel.caption = data.get("caption") or reel.caption or ""
+        reel.copy = data.get("copy") or reel.copy or ""
+        reel.hashtags = data.get("hashtags") or reel.hashtags or ""
+        reel.generated_video_url = video_url # Guardamos la URL externa como respaldo
+
+        # 2️⃣ Descargar y Guardar el archivo de Video
+        try:
+            print(f"📥 Descargando video para Reel {reel.id}...")
+            # Aumentamos el timeout porque los archivos de video son pesados
+            response = requests.get(video_url, timeout=120)
+            response.raise_for_status()
+
+            # Creamos un nombre de archivo único
+            timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
+            file_name = f"reel_final_{reel.id}_{timestamp}.mp4"
+
+            # Guardamos en el FileField del modelo
+            reel.video.save(
+                file_name, 
+                ContentFile(response.content), 
+                save=False # Todavía no guardamos el modelo completo
+            )
+        except Exception as e:
+            print(f"⚠️ Error al descargar el archivo físico: {e}")
+            # No bloqueamos el proceso, ya tenemos la URL externa de respaldo
+
+        # 3️⃣ Finalizar Estado
+        reel.status = "sent"
+        reel.updated_at = timezone.now()
+        
+        # Guardamos todos los cambios
+        reel.save()
+
+        return Response({
+            "success": True, 
+            "message": f"Reel {reel.id} actualizado correctamente",
+            "local_file": reel.video.url if reel.video else None
+        })
+
+    except InstagramReel.DoesNotExist:
+        return Response({"success": False, "message": "Reel no encontrado"}, status=404)
+    except Exception as e:
+        print(f"💥 Error en update_generated_reel: {str(e)}")
+        return Response({"success": False, "message": str(e)}, status=500)
 
 
 

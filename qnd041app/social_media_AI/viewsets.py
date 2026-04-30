@@ -60,7 +60,7 @@ class InstagramReelViewSet(ModelViewSet):
     menu_order = 200
     add_to_admin_menu = False  # 👈 importante
     list_display = (
-        "title",
+        "categories",
         "caption",
         "scheduled_date",
         "created_by",
@@ -68,7 +68,7 @@ class InstagramReelViewSet(ModelViewSet):
     search_fields = ("caption",)
     # 🔥 ESTE ES EL FIX
     form_fields = [
-        "title",
+        "categories",
         "video",
         "caption",
         "hashtags",

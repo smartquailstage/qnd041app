@@ -88,8 +88,32 @@ def ig_carousel(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=InstagramReel)
 def ig_reel(sender, instance, created, **kwargs):
-    if created:
-        task_instagram_reel.delay(serialize(instance))
+    """
+    Trigger para Instagram Reels con soporte para programación (ETA).
+    """
+    # Solo disparamos si el estado es 'scheduled' y tenemos una fecha
+    if instance.status == "scheduled" and instance.scheduled_date:
+        try:
+            payload = serialize(instance)
+            ahora = timezone.now()
+
+            if instance.scheduled_date > ahora:
+                # 📌 PROGRAMADO: Se ejecuta en la fecha indicada
+                task_instagram_reel.apply_async(
+                    kwargs={"payload": payload},
+                    eta=instance.scheduled_date
+                )
+                print(f"📌 [Signal Reel] Reel {instance.id} programado para {instance.scheduled_date}")
+            else:
+                # 🚀 INMEDIATO: La fecha ya pasó o es para ahora
+                task_instagram_reel.delay(payload=payload)
+                print(f"🚀 [Signal Reel] Ejecución inmediata para Reel {instance.id}")
+
+        except Exception as e:
+            print(f"❌ [Signal Error Reel] No se pudo procesar el Reel {instance.id}: {e}")
+
+    elif created and instance.status == "draft":
+        print(f"📝 [Signal Reel] Reel {instance.id} guardado como borrador.")
 
 
 @receiver(post_save, sender=FacebookImagePost)
