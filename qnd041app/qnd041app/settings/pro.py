@@ -147,7 +147,7 @@ N8N_WEBHOOKS_A = {
 N8N_WEBHOOKS_AI = {
     "instagram_post": env("N8N_AI_INSTAGRAM_POST"),
     "instagram_carousel": env("N8N_AI_INSTAGRAM_CAROUSEL"),
-    "instagram_reel": env("N8N_AI_INSTAGRAM_REEL"),
+    "instagram_reel": env("N8N_VIDEO_WEBHOOK_URL"),
 
     "facebook_image": env("N8N_AI_FACEBOOK_IMAGE"),
     "facebook_video": env("N8N_AI_FACEBOOK_VIDEO"),
