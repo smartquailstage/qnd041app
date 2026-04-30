@@ -209,7 +209,7 @@ def update_generated_image(request):
 def update_generated_carousel_slide(request):
     try:
         data = request.data
-        post_id = data.get("original_id") # El ID que mandamos desde n8n
+        post_id = data.get("originalId") or data.get("original_id")
         slide_index = int(data.get("slide_index", 1))
         image_url = data.get("image_url")
 
@@ -267,8 +267,10 @@ def update_generated_carousel_slide(request):
         # =========================
         buffer = BytesIO()
         base_image.save(buffer, format="PNG")
+        buffer.seek(0) # 👈 IMPORTANTE: Volver al inicio del buffer antes de guardar
         
-        wagtail_image = ImageModel(title=f"Carousel {post.id} - Slide {slide_index}")
+        ImageModel = get_image_model()
+        wagtail_image = ImageModel(title=f"Post {post.id} - Slide {slide_index}")
         wagtail_image.file.save(f"carousel_{post.id}_{slide_index}.png", ContentFile(buffer.getvalue()), save=True)
 
         # Buscamos si el slide ya existe o lo creamos
