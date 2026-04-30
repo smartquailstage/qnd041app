@@ -458,12 +458,13 @@ class InstagramReel(BasePost):
 
     panels = [
         FieldPanel("categories"),
-         FieldPanel("scheduled_date"),
-        FieldPanel("prompt"),
+        FieldPanel("scheduled_date"),
+        FieldPanel("duration"),
+        FieldPanel("prompt"),      
     ]
 
     def __str__(self):
-        return self.title
+        return self.categories
 
     class Meta:
         ordering = ["-created_at"]
