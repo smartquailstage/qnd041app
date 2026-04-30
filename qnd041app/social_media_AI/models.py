@@ -249,51 +249,83 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
     # ========================================================
     # 🖼️ VISTA PREVIA DEL CAROUSEL (tipo Instagram)
     # ========================================================
+# ... (campos del modelo igual)
+
+    # ========================================================
+    # 🖼️ VISTA PREVIA CORREGIDA
+    # ========================================================
     def carousel_preview(self):
-        images = self.images.all()[:5]  # limitamos a 5 para no romper UI
-        post_id = self.id
+        # Usamos related_name="images" definido en InstagramCarouselImage
+        slides = self.images.all().select_related('image')
+        post_id = self.id or "Nuevo"
         category_name = self.categories.name if self.categories else "Sin Categoría"
 
-        if images:
-            html_images = ""
+        if slides.exists():
+            html_slides = ""
 
-            for img in images:
-                url = img.image.file.url if img.image else ""
-                caption = (img.caption[:40] + "...") if img.caption and len(img.caption) > 40 else (img.caption or "")
+            for slide in slides:
+                # 🛠️ Mejor obtención de URL (Compatible con S3/DigitalOcean)
+                if slide.image:
+                    try:
+                        # Genera una miniatura de 150x150 para el admin
+                        url = slide.image.get_rendition('fill-150x150').url
+                    except:
+                        url = slide.image.file.url
+                else:
+                    url = "https://via.placeholder.com/150?text=Sin+Imagen"
 
-                html_images += f"""
-                    <div style="min-width: 120px; margin-right: 6px;">
-                        <img src="{url}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px;" />
-                        <div style="font-size: 10px; margin-top: 4px; color: #444;">
-                            {caption}
-                        </div>
+                # 🛠️ Formateo de textos (Copy y Hashtags)
+                copy_text = (slide.copy[:50] + "...") if slide.copy and len(slide.copy) > 50 else (slide.copy or "Sin copy")
+                tags = (slide.hashtags[:30] + "...") if slide.hashtags and len(slide.hashtags) > 30 else (slide.hashtags or "")
+
+                html_slides += f"""
+                    <div style="min-width: 140px; margin-right: 12px; background: #fdfdfd; border: 1px solid #eee; padding: 5px; border-radius: 8px;">
+                        <img src="{url}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; margin-bottom: 5px;" />
+                        <div style="font-weight: bold; color: #333; font-size: 10px; margin-bottom: 2px;">Copy:</div>
+                        <div style="font-size: 10px; color: #666; margin-bottom: 5px; line-height: 1.2;">{copy_text}</div>
+                        <div style="font-size: 9px; color: #007bff;">{tags}</div>
                     </div>
                 """
 
             return format_html(f"""
-                <div style="width: 260px; font-family: sans-serif; font-size: 11px;">
-                    
-                    <div style="margin-bottom: 5px; color: #666; font-weight: bold;">
-                        Carousel: N. {post_id} | {category_name}
+                <div style="width: 100%; font-family: sans-serif; background: #f4f4f4; padding: 10px; border-radius: 10px;">
+                    <div style="margin-bottom: 8px; color: #333; font-weight: bold; font-size: 12px;">
+                        📸 Vista Previa del Carrusel (ID: {post_id} | {category_name})
                     </div>
-
-                    <div style="display: flex; overflow-x: auto; padding: 6px; border: 1px solid #ddd; border-radius: 8px; background: #fff;">
-                        {html_images}
+                    <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
+                        {html_slides}
                     </div>
-
-                    <div style="font-size: 10px; color: #999; margin-top: 4px;">
-                        {self.images.count()} slides
+                    <div style="font-size: 11px; color: #888; margin-top: 5px; border-top: 1px solid #ddd; padding-top: 5px;">
+                        Total: {slides.count()} de {self.slides} slides generados.
                     </div>
                 </div>
             """)
 
-        return format_html(
-            '<div style="font-size: 11px; color: #999;"><b>Carousel: N. {}</b><br>Cat: {}<br><i>(Sin imágenes aún)</i></div>',
-            post_id,
-            category_name
-        )
+        return format_html('<div style="padding: 20px; border: 2px dashed #ccc; color: #999; border-radius: 10px; text-align: center;">Esperando datos de n8n... (Generando imágenes y textos)</div>')
 
-    carousel_preview.short_description = "Vista Previa Carousel"
+    carousel_preview.short_description = "Status de Generación AI"
+
+    # ========================================================
+    # 🧩 PANELES ACTUALIZADOS (Agregamos la preview aquí)
+    # ========================================================
+    panels = [
+        # 1. Agregamos la preview al principio para ver el progreso
+     
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel("categories", classname="col6"),
+                # FieldPanel("post_type", classname="col6"), # Asegúrate que BasePost tenga post_type
+                FieldPanel("slides", classname="col6"),
+            ]),
+            FieldRowPanel([
+                FieldPanel("image_size", classname="col6"),
+                FieldPanel("scheduled_date", classname="col6"),
+            ]),
+        ], heading="Configure su Instagram Carousel"),
+
+        FieldPanel("prompt"),
+        FieldPanel("carousel_preview"), 
+    ]
 
     # ========================================================
     # 🧠 VALIDACIÓN
