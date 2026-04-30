@@ -61,8 +61,29 @@ def ig_post(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=InstagramCarouselPost)
 def ig_carousel(sender, instance, created, **kwargs):
-    if created:
-        task_instagram_carousel.delay(serialize(instance))
+    if instance.status == "scheduled" and instance.scheduled_date:
+        try:
+            payload = serialize(instance)
+            ahora = timezone.now()
+
+            if instance.scheduled_date > ahora:
+                # PROGRAMADO
+                task_instagram_carousel.apply_async(
+                    kwargs={"payload": payload},
+                    eta=instance.scheduled_date
+                )
+                print(f"📌 [Signal] Carousel {instance.id} programado para {instance.scheduled_date}")
+            else:
+                # INMEDIATO
+                task_instagram_carousel.delay(payload=payload)
+                print(f"🚀 [Signal] Ejecución inmediata para carousel {instance.id}")
+
+        except Exception as e:
+            print(f"❌ [Signal Error] No se pudo procesar el carousel {instance.id}: {e}")
+
+    elif created and instance.status == "draft":
+        print(f"📝 [Signal] Carousel {instance.id} guardado como borrador.")
+        
 
 
 @receiver(post_save, sender=InstagramReel)

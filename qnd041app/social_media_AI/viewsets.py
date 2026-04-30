@@ -42,21 +42,12 @@ class InstagramCarouselViewSet(ModelViewSet):
     menu_order = 200
     add_to_admin_menu = False  # 👈 importante
     list_display = (
-        "caption",
+        "categories",
         "scheduled_date",
         "created_by",
     )
-    search_fields = ("caption",)
+    search_fields = ("scheduled_date",)
 
-    form_fields = [
-        "image_size",
-        "category",
-        "caption",
-        "copy",
-        "hashtags",
-        "scheduled_date",
-        "created_by",
-    ]
 
 instagram_carousel_post_viewset = InstagramCarouselViewSet()
 

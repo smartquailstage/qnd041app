@@ -91,7 +91,7 @@ class InstagramPost(BasePost):
         help_text = "Elija la campaña para este post" 
     )
 
-    prompt = RichTextField(verbose_name="AI Agentic Creator",
+    prompt = RichTextField(verbose_name="AI Agentic Instagram Post Creator",
         help_text = "Describa un contexto de acuerdo a la campaña y post", null=True, blank=True)
 
     caption = models.TextField(null=True, blank=True)
@@ -209,27 +209,31 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
 
     image_size = models.CharField(max_length=20)
 
-    category = models.ForeignKey(
+    categories = models.ForeignKey(
         CategoryItem,
         null=True,
         blank=True,
         on_delete=models.SET_NULL
     )
 
-    caption = models.TextField()
-    copy = models.TextField(blank=True)
-    hashtags = models.TextField()
+    prompt = RichTextField(verbose_name="AI Agentic Instagram Post Creator",
+        help_text = "Describa un contexto de acuerdo a la campaña y post", null=True, blank=True)
 
     panels = [
-        FieldPanel("image_size"),
-        FieldPanel("category"),
-        FieldPanel("caption"),
-        FieldPanel("copy"),
-        FieldPanel("hashtags"),
-        InlinePanel("images", label="Imágenes (máx 10)"),
-        FieldPanel("scheduled_date"),
-        FieldPanel("created_by"),
+        MultiFieldPanel([
+            # Estos dos campos aparecerán en la misma línea (50% cada uno)
+            FieldRowPanel([
+                FieldPanel("categories", classname="col6"),
+                FieldPanel("post_type", classname="col6"),
+                FieldPanel("image_size", classname="col6"),
+                FieldPanel("scheduled_date", classname="col6"),
+                InlinePanel("images", label="Imágenes (máx 10)"),
+            ]),
+        ], heading="Configure su Instagram Post"),
+        
+        FieldPanel("prompt"),
     ]
+
 
     def clean(self):
         if self.pk and self.images.count() > 10:
@@ -239,7 +243,7 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.caption[:40]
+        return self.categories
 
 
 class InstagramCarouselImage(Orderable):
@@ -249,6 +253,10 @@ class InstagramCarouselImage(Orderable):
         related_name="images",
         on_delete=models.CASCADE
     )
+
+    caption = models.TextField(blank=True,null=True)
+    copy = models.TextField(blank=True,null=True)
+    hashtags = models.TextField(blank=True,null=True)
 
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+")
     caption = models.CharField(max_length=255, blank=True)
