@@ -63,7 +63,7 @@ class InstagramReelViewSet(ModelViewSet):
         "categories",
         "caption",
         "scheduled_date",
-        "created_by",
+        "status",
     )
     search_fields = ("caption",)
     # 🔥 ESTE ES EL FIX
