@@ -14,6 +14,9 @@ from social_media_AI.models import (
     LinkedInPost,
 )
 
+from django.core.files.base import ContentFile
+
+
 
 # =========================
 # BASE SENDER
@@ -237,16 +240,9 @@ def task_instagram_carousel(self, payload):
 
 
 
-import requests
-from django.core.files.base import ContentFile
-from django.utils import timezone
-from celery import shared_task
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_reel(self, payload):
-    # Usamos la ruta absoluta del módulo para evitar el error de "No module named"
-    from qnd041app.social_media_AI.models import InstagramReel 
-    from qnd041app.social_media_AI.utils import mark_processing, send_to_n8n, mark_failed
     
     obj = None
 
