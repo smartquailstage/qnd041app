@@ -404,18 +404,19 @@ class InstagramCarouselImage(Orderable):
     ]
 
 
-# =========================
-# 🔹 INSTAGRAM REEL
-# =========================
-class InstagramReel(BasePost):
+from django.db import models
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, HelpPanel
+from wagtail.fields import RichTextField
+from wagtailmedia.edit_handlers import MediaChooserPanel
+from django.utils.html import format_html
 
+# Asumo que BasePost y CategoryItem ya están importados correctamente
+class InstagramReel(BasePost):
     DURATION_CHOICES = [
-        # Reels Virales (Alta retención)
         (5, "5 segundos - Pruebas"),
         (7, "7 segundos - Viral (Quick Hook)"),
         (15, "15 segundos - Viral (Fast Pace)"),
         (30, "30 segundos - Tendencia (Standard)"),
-        # Videos Promocionales / Ads
         (60, "60 segundos - Promocional (Detailed)"),
         (90, "90 segundos - Promocional (Long Form)"),
     ]
@@ -433,41 +434,40 @@ class InstagramReel(BasePost):
         blank=True,
         on_delete=models.SET_NULL,
         verbose_name="Campaña",
-        help_text="Elija la campaña para este carrusel"
+        help_text="Elija la campaña para este Reel" # Corregido: decía carrusel
     )
 
     prompt = RichTextField(
-        verbose_name="AI Agentic Instagram Carousel Creator",
-        help_text="Describa un contexto de acuerdo a la campaña",
+        verbose_name="AI Agentic Instagram Reel Creator", # Corregido: decía carrusel
+        help_text="Describa el contexto o guion base para la IA",
         null=True,
         blank=True
     )
 
-    # Campo para la URL de previsualización del video generado por IA en n8n
+    # 1. Campo para Wagtail Media (Almacenamiento Local)
+    # Asegúrate de tener instalado wagtailmedia
+    video = models.ForeignKey(
+        'wagtailmedia.Media',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name="Video Final"
+    )
+
+    # 2. URL de respaldo/previsualización de n8n
     generated_video_url = models.URLField(
         blank=True,
         null=True,
         max_length=1000,
-        verbose_name="URL del Video Generado (Previsualización)",
-        help_text="URL externa para la previsualización del contenido de video generado en n8n antes de ser guardado en Wagtail media."
+        verbose_name="URL de n8n (Preview)",
+        help_text="URL externa para previsualización antes del guardado físico."
     )
-    
 
-    caption = models.TextField()
+    caption = models.TextField(blank=True)
+    copy = models.TextField(blank=True, verbose_name="Texto en Video (Copy)") # Añadido para consistencia con la Task
     hashtags = models.TextField(blank=True)
 
-    panels = [
-        FieldPanel("categories"),
-        FieldPanel("scheduled_date"),
-        FieldPanel("duration"),
-        FieldPanel("prompt"),      
-    ]
-
-    def __str__(self):
-        return self.categories.name
-
-    class Meta:
-        ordering = ["-created_at"]
 
     def reel_preview(self):
         post_id = self.id or "Nuevo"
@@ -532,6 +532,40 @@ class InstagramReel(BasePost):
         )
 
     reel_preview.short_description = "Vista Previa del Reel"
+
+
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel("categories"),
+            FieldPanel("status"), # Asumiendo que viene de BasePost
+            FieldPanel("scheduled_date"),
+            FieldPanel("duration"),
+        ], heading="Configuración del Reel"),
+        
+        FieldPanel("prompt"),
+
+        MultiFieldPanel([
+            # Usamos FieldPanel para reel_preview (ReadOnly)
+            FieldPanel("reel_preview", read_only=True),
+            MediaChooserPanel("video"),
+        ], heading="Contenido Multimedia"),
+
+        MultiFieldPanel([
+            FieldPanel("caption"),
+            FieldPanel("copy"),
+            FieldPanel("hashtags"),
+        ], heading="Textos de IA"),
+    ]
+
+    def __str__(self):
+        # Manejo de error si categories es None
+        return f"Reel - {self.categories.name}" if self.categories else f"Reel #{self.id}"
+
+    class Meta:
+        verbose_name = "Instagram Reel"
+        verbose_name_plural = "Instagram Reels"
+        ordering = ["-created_at"]
 
 
 # =========================
