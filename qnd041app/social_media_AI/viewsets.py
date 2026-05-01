@@ -60,6 +60,7 @@ class InstagramReelViewSet(ModelViewSet):
     menu_order = 200
     add_to_admin_menu = False  # 👈 importante
     list_display = (
+        "reel_preview",
         "categories",
         "caption",
         "scheduled_date",

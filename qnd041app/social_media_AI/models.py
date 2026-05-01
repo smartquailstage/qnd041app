@@ -546,8 +546,6 @@ class InstagramReel(BasePost):
         FieldPanel("prompt"),
 
         MultiFieldPanel([
-            # Usamos FieldPanel para reel_preview (ReadOnly)
-            FieldPanel("reel_preview", read_only=True),
             MediaChooserPanel("video"),
         ], heading="Contenido Multimedia"),
 
