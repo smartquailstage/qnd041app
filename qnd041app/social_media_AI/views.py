@@ -144,7 +144,7 @@ def update_generated_image(request):
 
             # --- COPYRIGHT: Centro Inferior ---
             draw = ImageDraw.Draw(base_image)
-            text = "All copyrights reserved 2026"
+            text = "All copyrights ® reserved 2026 SmartQuail, Inc"
             
             try:
                 # Intenta cargar Arial, si falla usa la default
@@ -258,9 +258,28 @@ def update_generated_carousel_slide(request):
                 y = (base_height - logo.size[1]) // 2
                 base_image.paste(logo, (x, y), logo)
 
-            # Texto legal
+            text = "All copyrights ® reserved 2026 SmartQuail, Inc"
             draw = ImageDraw.Draw(base_image)
-            # ... (aquí va tu lógica de draw_centered_text que ya tienes)
+            
+            try:
+                # Intenta cargar Arial, si falla usa la default
+                font = ImageFont.truetype("arial.ttf", 28)
+            except:
+                font = ImageFont.load_default()
+
+            if hasattr(draw, 'textbbox'):
+                l, t, r, b = draw.textbbox((0, 0), text, font=font)
+                tw = r - l
+            else:
+                tw, _ = draw.textsize(text, font=font)
+
+            x_text = (base_width - tw) // 2
+            y_text = base_height - margin - 20
+
+            # Sombra para legibilidad y texto blanco
+            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font)
+            draw.text((x_text, y_text), text, fill="white", font=font)
+            
 
         # =========================
         # 3️⃣ Guardar en Wagtail e Inline
