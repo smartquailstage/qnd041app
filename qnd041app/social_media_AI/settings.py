@@ -129,6 +129,7 @@ class CategoryItem(Orderable):
         FieldPanel('style'),
         FieldPanel('brand_1'),
         FieldPanel('brand_2'),
+        FieldPanel('acting'),
         FieldPanel('logo_1'),
         FieldPanel('logo_2'),
         FieldPanel('color_1'),
