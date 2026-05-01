@@ -64,6 +64,13 @@ class CategoryItem(Orderable):
         blank=True
     )
 
+    acting = models.TextField(
+        verbose_name="Acting",
+        help_text="Describa la escena y elementos de la campaña",
+        null=True,
+        blank=True
+    )
+
     logo_1 = models.ForeignKey(
         Image,
         null=True,

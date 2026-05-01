@@ -86,6 +86,7 @@ def task_instagram_post(self, payload):
             "style": cat.style if cat else None,
             "primary_brand": cat.brand_1 if cat else None,
             "secondary_brand": cat.brand_2 if cat else None,
+            "acting": cat.acting if cat else None,
 
             # NAVEGACIÓN SEGURA PARA LOGOS:
             "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
@@ -180,6 +181,7 @@ def task_instagram_carousel(self, payload):
             "style": cat.style if cat else None,
             "primary_brand": cat.brand_1 if cat else None,
             "secondary_brand": cat.brand_2 if cat else None,
+            "acting": cat.acting if cat else None,
 
             "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
             "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 and hasattr(cat.logo_2, 'file') else None,
@@ -269,6 +271,7 @@ def task_instagram_reel(self, payload):
             "caption": obj.caption or "",
             "hashtags": obj.hashtags or "",
             # Branding seguro
+            "acting": cat.acting if cat else None,
             "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 else None,
             "color_primary": cat.color_1 if cat else None,
         }
