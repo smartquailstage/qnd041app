@@ -464,7 +464,7 @@ class InstagramReel(BasePost):
     ]
 
     def __str__(self):
-        return self.categories
+        return self.categories.name
 
     class Meta:
         ordering = ["-created_at"]
