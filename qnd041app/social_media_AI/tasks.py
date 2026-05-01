@@ -235,59 +235,52 @@ def task_instagram_carousel(self, payload):
 # =========================
 
 
-from django.core.files.base import ContentFile
 
+
+import requests
+from django.core.files.base import ContentFile
+from django.utils import timezone
+from celery import shared_task
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_reel(self, payload):
-    # Importaciones locales para evitar Circular Imports
-    from .models import InstagramReel 
+    # Usamos la ruta absoluta del módulo para evitar el error de "No module named"
+    from qnd041app.social_media_AI.models import InstagramReel 
+    from qnd041app.social_media_AI.utils import mark_processing, send_to_n8n, mark_failed
+    
     obj = None
 
     try:
-        # 0. VALIDACIÓN DE EXISTENCIA Y ESTADO
+        # 0. VALIDACIÓN
         obj = InstagramReel.objects.filter(id=payload["id"]).first()
         
         if not obj:
-            print(f"❌ Error: El Reel {payload['id']} no existe.")
             return {"status": "error", "message": "Reel not found"}
 
         if obj.status in ["sent", "processing"]:
-            print(f"⚠️ Abortando: El Reel {payload['id']} ya está en estado {obj.status}")
             return {"status": "skipped", "message": "Already processed"}
 
-        # 1. Marcar inicio de procesamiento
-        from .utils import mark_processing, send_to_n8n, mark_failed
+        # 1. Marcar inicio
         obj = mark_processing(InstagramReel, payload["id"])
 
-        # 2. CONSTRUIR PAYLOAD PARA n8n
+        # 2. PAYLOAD PARA n8n
         cat = obj.categories
         n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
-            "campaign_name": cat.name if cat else None,
-            "style": cat.style if cat else None,
-            "primary_brand": cat.brand_1 if cat else None,
-            "secondary_brand": cat.brand_2 if cat else None,
-            
-            # Branding
-            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
-            "color_primary": cat.color_1 if cat else None,
-            "color_secondary": cat.color_2 if cat else None,
-
-            # Datos del Reel
-            # ✅ CAMBIO: Enviar la duración seleccionada en Wagtail
-            "duration": obj.duration, 
+            "duration": obj.duration,
             "copy": obj.copy or "",
             "caption": obj.caption or "",
             "hashtags": obj.hashtags or "",
-            "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
+            # Branding seguro
+            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 else None,
+            "color_primary": cat.color_1 if cat else None,
         }
 
-        # 3. ENVIAR A n8n Y RECIBIR RESPUESTA
+        # 3. ENVIAR A n8n
         response = send_to_n8n("instagram_reel", n8n_payload)
 
-        # 4. ACTUALIZAR METADATOS Y URL DE PREVISUALIZACIÓN
+        # 4. ACTUALIZAR URL Y TEXTOS
         video_url = response.get("video_url") or response.get("generated_video_url")
         if video_url:
             obj.generated_video_url = video_url
@@ -296,44 +289,33 @@ def task_instagram_reel(self, payload):
         obj.copy = response.get("copy") or obj.copy or ""
         obj.hashtags = response.get("hashtags") or obj.hashtags or ""
 
-        # 5. DESCARGAR Y GUARDAR ARCHIVO FÍSICO (Wagtail Media)
+        # 5. GUARDAR VIDEO EN WAGTAIL MEDIA
         if video_url:
             try:
-                print(f"📥 Descargando video para almacenamiento local: {obj.id}")
-                video_res = requests.get(video_url, timeout=120) # Mayor timeout para video
-                video_res.raise_for_status()
-                
+                res = requests.get(video_url, timeout=120)
+                res.raise_for_status()
+                # El campo 'video' debe estar configurado para wagtailmedia
                 file_name = f"reel_{obj.id}_{timezone.now().strftime('%H%M')}.mp4"
-                # El campo 'video' es el FileField de Wagtail Media
-                obj.video.save(file_name, ContentFile(video_res.content), save=False)
+                obj.video.save(file_name, ContentFile(res.content), save=False)
             except Exception as e:
-                print(f"⚠️ No se pudo descargar el archivo físico, pero se mantuvo la URL: {e}")
+                print(f"⚠️ Fallo descarga de video: {e}")
 
         # 6. FINALIZAR
         obj.status = "sent"
         obj.updated_at = timezone.now()
-        
-        # Guardamos todos los campos actualizados
-        obj.save(update_fields=[
-            "generated_video_url", 
-            "caption", 
-            "copy", 
-            "hashtags", 
-            "video", 
-            "status", 
-            "updated_at"
-        ])
+        obj.save()
 
         return {"status": "success", "reel_id": obj.id}
 
     except Exception as exc:
         print(f"💥 Error en tarea Celery Reel: {exc}")
+        # Aquí mark_failed ya estará disponible porque se importó al inicio de la función
         if obj:
             mark_failed(obj)
+        
         raise self.retry(exc=exc, countdown=20)
 
 
-        
 # =========================
 # FACEBOOK IMAGE
 # =========================
