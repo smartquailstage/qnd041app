@@ -41,6 +41,7 @@ class CategoryItem(Orderable):
         ("illustrative", "Ilustrativo / Vectorial"),
         ("photorealistic", "Fotorealista"),
         ("cinematic", "Cinemático / Dramático"),
+        ("Art Akira", "Ilustrativo / Vectorial/ Minismalista/Estetica de comic japones AKIRA"),
     ]
 
     style = models.CharField(
