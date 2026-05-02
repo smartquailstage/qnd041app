@@ -174,7 +174,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "widget_tweaks",
     "django_forms_bootstrap",
-   # "bootstrap4",
+    "bootstrap4",
    # "bootstrap5",
     "bootstrap_datepicker_plus",
     "jquery",

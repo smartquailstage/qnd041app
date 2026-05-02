@@ -67,7 +67,7 @@
       <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
       <sup>I+D {% if product.is_automatitation %} +A {% endif %} {% if product.is_intelligent %} +AI {% endif %}</sup>
 
-      Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
+      Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos. Valor total de Inversión $USD {{ product.price_amount }}
 
       {% if product.is_automatitation %}
       Además, incorpora un módulo de automatización (+A) para optimizar procesos.
@@ -78,9 +78,10 @@
       {% endif %}
     </h2>
 
-    <p class="mb-1 text-warning" style="margin-top: -12px;">
-      Inversión: $ {{ product.price_amount }}
-    </p>
+
+    <p><strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar,
+      facilitando la toma de decisiones estratégicas con información actualizada y confiable.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+   </p>
 
   </div>
 </div>
@@ -97,6 +98,7 @@
 
       Gestiona {{ product.numero_procesos }} procesos de investigación y desarrollo (I+D) y soporta un máximo de 10 usuarios simultáneos.
 
+
       {% if product.is_automatitation %}
       Además, incorpora un módulo de automatización (+A) para optimizar procesos.
       {% endif %}
@@ -109,6 +111,9 @@
     <p class="mb-1 text-warning" style="margin-top: -8px;">
       Inversión: $ {{ product.price_amount }}
     </p>
+    <p><strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar,
+      facilitando la toma de decisiones estratégicas con información actualizada y confiable.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+   </p>
 
   </div>
 </div>
@@ -134,10 +139,6 @@
       {% endif %}
     {% endfor %}
 
-
-      <p><strong>SmartBusinessAnalytics®</strong> es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y potenciar los procesos operativos, administrativos y financieros de empresas y organizaciones sociales. Su arquitectura basada en la nube permite un acceso seguro, en tiempo real y desde cualquier lugar,
-       facilitando la toma de decisiones estratégicas con información actualizada y confiable.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
-    </p>
 
     
 

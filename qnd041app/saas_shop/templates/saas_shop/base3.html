@@ -81,7 +81,9 @@
   </div>
 
  
-
+  <script>
+    const recursosData = JSON.parse('{{ recursos_chart|safe }}');
+</script>
   <!--end wrapper-->
 
   <script src="{% static 'assets/plugins/datetimepicker/js/legacy.js' %}"></script>
@@ -101,9 +103,7 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <!--plugins-->
   <script src="{% static 'assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js' %}"></script>
-  <script>
-    const recursosData = JSON.parse('{{ recursos_chart|safe }}');
-</script>
+
  <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts-custom.js' %}"></script>
   <script src="{% static 'assets/plugins/apexcharts-bundle/js/apexcharts.min.js' %}"></script>
   <script src="{% static 'assets/plugins/easyPieChart/jquery.easypiechart.js' %}"></script>
