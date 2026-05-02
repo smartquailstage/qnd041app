@@ -251,60 +251,90 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
     # ========================================================
 # ... (campos del modelo igual)
 
-    # ========================================================
-    # 🖼️ VISTA PREVIA CORREGIDA
+# ========================================================
+    # 📸 VISTA PREVIA ESTILO INSTAGRAM (CORREGIDA)
     # ========================================================
     def carousel_preview(self):
-        # Usamos related_name="images" definido en InstagramCarouselImage
-        slides = self.images.all().select_related('image')
+        # Usamos select_related para optimizar la carga de imágenes
+        slides = self.images.all().order_by('sort_order').select_related('image')
         post_id = self.id or "Nuevo"
         category_name = self.categories.name if self.categories else "Sin Categoría"
+        total_previstos = self.slides or 0
 
         if slides.exists():
             html_slides = ""
-
-            for slide in slides:
-                # 🛠️ Mejor obtención de URL (Compatible con S3/DigitalOcean)
+            html_dots = ""
+            
+            for i, slide in enumerate(slides):
+                # 🛠️ Obtención de URL optimizada
                 if slide.image:
                     try:
-                        # Genera una miniatura de 150x150 para el admin
-                        url = slide.image.get_rendition('fill-150x150').url
+                        # Rendition cuadrada para el carrusel
+                        url = slide.image.get_rendition('fill-300x300').url
                     except:
                         url = slide.image.file.url
                 else:
-                    url = "https://via.placeholder.com/150?text=Sin+Imagen"
+                    url = "https://via.placeholder.com/300?text=Procesando..."
 
-                # 🛠️ Formateo de textos (Copy y Hashtags)
-                copy_text = (slide.copy[:50] + "...") if slide.copy and len(slide.copy) > 50 else (slide.copy or "Sin copy")
-                tags = (slide.hashtags[:30] + "...") if slide.hashtags and len(slide.hashtags) > 30 else (slide.hashtags or "")
-
+                # Truncado de textos
+                copy_short = (slide.copy[:60] + "...") if slide.copy and len(slide.copy) > 60 else (slide.copy or "")
+                
+                # Slide individual
                 html_slides += f"""
-                    <div style="min-width: 140px; margin-right: 12px; background: #fdfdfd; border: 1px solid #eee; padding: 5px; border-radius: 8px;">
-                        <img src="{url}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; margin-bottom: 5px;" />
-                        <div style="font-weight: bold; color: #333; font-size: 10px; margin-bottom: 2px;">Copy:</div>
-                        <div style="font-size: 10px; color: #666; margin-bottom: 5px; line-height: 1.2;">{copy_text}</div>
-                        <div style="font-size: 9px; color: #007bff;">{tags}</div>
+                    <div id="slide-{self.id}-{i}" style="min-width: 100%; scroll-snap-align: center; box-sizing: border-box; padding: 0 10px;">
+                        <div style="background: white; border-radius: 12px; border: 1px solid #dbdbdb; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                            <img src="{url}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;" />
+                            <div style="padding: 12px; height: 70px; overflow: hidden;">
+                                <b style="font-size: 11px; color: #262626;">Slide {i+1}:</b>
+                                <p style="font-size: 11px; color: #444; margin: 4px 0; line-height: 1.3;">{copy_short}</p>
+                            </div>
+                        </div>
                     </div>
+                """
+                
+                # Puntos indicadores
+                html_dots += f"""
+                    <div style="width: 6px; height: 6px; border-radius: 50%; background: {'#0095f6' if i == 0 else '#ccc'}; margin: 0 3px;"></div>
                 """
 
             return format_html(f"""
-                <div style="width: 100%; font-family: sans-serif; background: #f4f4f4; padding: 10px; border-radius: 10px;">
-                    <div style="margin-bottom: 8px; color: #333; font-weight: bold; font-size: 12px;">
-                        📸 Vista Previa del Carrusel (ID: {post_id} | {category_name})
+                <div style="max-width: 320px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 5px;">
+                        <span style="font-weight: 600; font-size: 12px; color: #262626;">{category_name}</span>
+                        <span style="font-size: 11px; color: #8e8e8e;">ID: {post_id}</span>
                     </div>
-                    <div style="display: flex; overflow-x: auto; padding-bottom: 10px;">
-                        {html_slides}
+
+                    <div style="position: relative;">
+                        <div style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; ms-overflow-style: none;">
+                            <style>
+                                div::-webkit-scrollbar {{ display: none; }} /* Oculta scrollbar en Chrome/Safari */
+                            </style>
+                            {html_slides}
+                        </div>
                     </div>
-                    <div style="font-size: 11px; color: #888; margin-top: 5px; border-top: 1px solid #ddd; padding-top: 5px;">
-                        Total: {slides.count()} de {self.slides} slides generados.
+
+                    <div style="display: flex; justify-content: center; align-items: center; margin-top: 12px;">
+                        {html_dots}
+                    </div>
+
+                    <div style="text-align: center; margin-top: 10px; font-size: 11px; color: #8e8e8e; border-top: 1px solid #efefef; padding-top: 8px;">
+                        Progreso: <b>{slides.count()}</b> de <b>{total_previstos}</b> procesados
                     </div>
                 </div>
             """)
 
-        return format_html('<div style="padding: 20px; border: 2px dashed #ccc; color: #999; border-radius: 10px; text-align: center;">Esperando datos de n8n... (Generando imágenes y textos)</div>')
+        return format_html(f"""
+            <div style="padding: 30px; border: 2px dashed #dbdbdb; border-radius: 12px; text-align: center; background: #fafafa;">
+                <div style="color: #8e8e8e; font-size: 12px;">
+                    <span style="font-size: 24px; display: block; margin-bottom: 10px;">🤖</span>
+                    <b>Esperando a SmartQuail AI...</b><br>
+                    n8n está trabajando en los {total_previstos} slides.
+                </div>
+            </div>
+        """)
 
-    carousel_preview.short_description = "Status de Generación AI"
-
+    carousel_preview.short_description = "Previsualización del Contenido"
     # ========================================================
     # 🧩 PANELES ACTUALIZADOS (Agregamos la preview aquí)
     # ========================================================
