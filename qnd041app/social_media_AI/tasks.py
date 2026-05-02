@@ -133,113 +133,136 @@ def task_instagram_post(self, payload):
 # =========================
 # INSTAGRAM CAROUSEL
 # =========================
+import requests
+from django.core.files.base import ContentFile
+from django.utils import timezone
+from celery import shared_task
+from io import BytesIO
+ 
+from wagtail.images import get_image_model
+from wagtail.models import Collection
+
 @shared_task(bind=True, max_retries=3)
 def task_instagram_carousel(self, payload):
-    from .models import InstagramCarouselPost
-
+    # Importaciones dentro de la tarea para evitar problemas de carga circular
     obj = None
 
     try:
         # 0. VALIDACIÓN
-        check_obj = InstagramCarouselPost.objects.filter(id=payload["id"]).first()
+        obj_id = payload.get("id")
+        obj = InstagramCarouselPost.objects.filter(id=obj_id).first()
 
-        if not check_obj:
-            print(f"❌ Error: El carousel {payload['id']} no existe.")
+        if not obj:
+            print(f"❌ Error: El carousel {obj_id} no existe.")
             return {"status": "error", "message": "Carousel not found"}
 
-        if check_obj.status in ["sent", "processing"]:
-            print(f"⚠️ Abortando: El carousel {payload['id']} ya está en estado {check_obj.status}")
+        if obj.status in ["sent", "processing"]:
+            print(f"⚠️ Abortando: El carousel {obj_id} ya está en estado {obj.status}")
             return {"status": "skipped", "message": "Already processed"}
 
         # 1. MARCAR PROCESSING
-        obj = mark_processing(InstagramCarouselPost, payload["id"])
+        obj = mark_processing(InstagramCarouselPost, obj_id)
 
         if not obj:
             raise Exception("No se pudo marcar como processing")
 
-        # 2. BUILD PAYLOAD DESDE DB (NO desde payload del signal)
+        # 2. BUILD PAYLOAD
+        # Nota: Mandamos los slides actuales (si existen) o el prompt para que n8n los genere
         images_payload = []
-
         for item in obj.images.all():
             images_payload.append({
                 "id": item.id,
+                "sort_order": item.sort_order,
                 "caption": item.caption or "",
                 "copy": item.copy or "",
                 "hashtags": item.hashtags or "",
-                "image": item.image.file.url if item.image and hasattr(item.image, "file") else None,
             })
 
         cat = obj.categories
-
         n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
-            "slides": obj.slides,
-
-            "categories": cat.id if cat else None,
-            "campagin_name": cat.name if cat else None,
-            "style": cat.style if cat else None,
-            "primary_brand": cat.brand_1 if cat else None,
-            "secondary_brand": cat.brand_2 if cat else None,
-            "acting": cat.acting if cat else None,
-
-            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 and hasattr(cat.logo_1, 'file') else None,
-            "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 and hasattr(cat.logo_2, 'file') else None,
-
-            "color_primary": cat.color_1 if cat else None,
-            "color_secondary": cat.color_2 if cat else None,
-            "color_palette": cat.color_palette if cat else None,
-           
-
-            "images": images_payload,
-
+            "slides_count": obj.slides, # Cantidad de slides a generar
+            "campaign_name": cat.name if cat else "General",
+            "style": cat.style if cat else "modern",
+            "primary_brand": cat.brand_1 if cat else "SmartQuail",
+            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 else None,
+            "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 else None,
+            "color_primary": cat.color_1 if cat else "#FF0000",
+            "color_secondary": cat.color_2 if cat else "#FFFFFF",
+            "color_palette": cat.color_palette if cat else "Vibrant",
             "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
+            "existing_images": images_payload
         }
 
         # 3. SEND → n8n
+        # Se asume que n8n devuelve un array de objetos en la clave "images"
         response = send_to_n8n("instagram_carousel", n8n_payload)
-
-        # 4. UPDATE INLINE ITEMS
         images_response = response.get("images", [])
 
-        for item in obj.images.all():
-            res = next((img for img in images_response if img.get("id") == item.id), None)
+        if not images_response:
+            raise Exception("n8n no devolvió imágenes para el carrusel")
 
-            if not res:
+        # 4. UPDATE O CREATE INLINE ITEMS
+        ImageModel = get_image_model()
+        # Intentamos obtener la colección root para que las imágenes sean visibles
+        try:
+            collection = Collection.objects.get(name="Root")
+        except:
+            collection = Collection.get_first_root_node()
+
+        for index, res in enumerate(images_response):
+            image_url = res.get("image_url") or res.get("image") or res.get("generated_image_url")
+            
+            if not image_url:
                 continue
 
-            item.caption = res.get("caption") or item.caption or ""
-            item.copy = res.get("copy") or item.copy or ""
-            item.hashtags = res.get("hashtags") or item.hashtags or ""
+            # --- Descargar imagen generada ---
+            img_res = requests.get(image_url, timeout=30)
+            img_res.raise_for_status()
+            
+            # --- Crear imagen en Wagtail ---
+            img_temp = NamedTemporaryFile(delete=True) # Necesitas importar tempfile o usar BytesIO
+            file_name = f"carousel_{obj.id}_slide_{index + 1}.png"
+            
+            wagtail_img = ImageModel(
+                title=f"Slide {index + 1} - Carousel {obj.id}",
+                collection=collection
+            )
+            wagtail_img.file.save(file_name, ContentFile(img_res.content), save=True)
 
-            image_url = res.get("image") or res.get("generated_image_url")
-
-            if image_url:
-                # ⚠️ IMPORTANTE: esto depende de cómo manejes imágenes
-                item.image = image_url  # ← si usas URLs directas OK, si usas Wagtail Image NO
-
-            item.save(update_fields=["caption", "copy", "hashtags", "image"])
+            # --- Vincular al Inline (InstagramCarouselImage) ---
+            # Usamos update_or_create basado en el sort_order para evitar duplicados en reintentos
+            InstagramCarouselImage.objects.update_or_create(
+                post=obj,
+                sort_order=index,
+                defaults={
+                    'image': wagtail_img,
+                    'caption': res.get("caption") or "",
+                    'copy': res.get("copy") or "",
+                    'hashtags': res.get("hashtags") or "",
+                }
+            )
 
         # 5. FINALIZAR
         obj.status = "sent"
         obj.updated_at = timezone.now()
-        obj.save(update_fields=["status", "updated_at"])
+        # Guardamos caption y hashtags globales basados en el primer slide si están vacíos
+        if images_response and not obj.caption:
+            obj.caption = images_response[0].get("caption", "")
+            obj.hashtags = images_response[0].get("hashtags", "")
+            
+        obj.save(update_fields=["status", "updated_at", "caption", "hashtags"])
 
-        return {"status": "success", "carousel_id": obj.id}
+        return {"status": "success", "carousel_id": obj.id, "slides_processed": len(images_response)}
 
     except Exception as exc:
         print(f"💥 Error en carousel task: {exc}")
-
         if obj:
             mark_failed(obj)
-
-        raise self.retry(exc=exc, countdown=10 ** (self.request.retries + 1))
-
-# =========================
-# INSTAGRAM REEL
-# =========================
-
-
+        
+        # Reintento exponencial
+        raise self.retry(exc=exc, countdown=60)
 
 
 
