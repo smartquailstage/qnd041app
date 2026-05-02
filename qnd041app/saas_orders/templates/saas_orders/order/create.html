@@ -30,20 +30,6 @@
           <!-- start page content-->
          <div class="page-content">
 
-                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                 Confirmación de Orden
-                  </li>
-                </ol>
-              </nav>
-            </div>
-
-          </div>
-
 <div class="product-more-info mt-4">
 
 
@@ -85,16 +71,8 @@
 
           <div class="card bg-transparent">
             <div class="card-body">
-
+              <h3>Ingrese sus datos personales</h3>
               <!-- Datos del usuario -->
-              <div class="d-flex align-items-center mb-3">
-                <div><img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm"></div>
-                <div class="ms-3">
-                  <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
-                  <p class="mb-0">{{ order.email }}</p>
-                </div>
-              </div>
-
               <hr>
 
             
@@ -123,14 +101,14 @@
                   <!-- Botones -->
                   <div class="col-md-6">
                     <div class="d-grid">
-                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de orden</a>
+                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de producto</a>
                     </div>
                   </div>
 
 
                   <div class="col-md-6">
                     <div class="d-grid">
-                      <input type="submit" value="{% trans 'Confirmar Orden de Software' %}" class="btn btn-warning btn-ecomm">
+                      <input type="submit" value="{% trans 'Generar contrato y orden de pago' %}" class="btn btn-warning btn-ecomm">
                     </div>
                   </div>
                 </form>

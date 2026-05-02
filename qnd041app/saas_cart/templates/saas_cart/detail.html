@@ -64,11 +64,14 @@
 												</div>
 											</div>
 										</div>
+                                        <h3>Verificación</h3>
+                                        <p>
+                                        Por favor, verifique que los productos tecnológicos seleccionados correspondan exactamente a aquellos que usted eligió previamente antes de finalizar su contratación. 
+                                        En caso de disponer de un código de convenio o código promocional, le solicitamos ingresarlo en el campo correspondiente para que pueda ser aplicado correctamente durante el proceso.
+                                        </p>
+                                        <hr>
 
-                                        <h3> Verificación </h3>
-                                        <p>Verifique que los productos tecnologicos contratados sean los que usted elijio</p>
 
-                                        
                             <div class="shop-cart-list" style="background-color: #2e2e2e;">
 
                             
@@ -89,10 +92,12 @@
                                                     </div>
                                                     <div class="cart-detail text-center text-lg-start">
                                                         <h6 class="mb-2">{{ product.name }}</h6>
-
+                                                        <p>{{ product.description|truncatewords:100 }}</p>
+                                                      
                                                         <h5 class="mb-0">
-                                                            ${{ item.price|floatformat:2 }}
+                                                         Valor Toral de Inversión USD$ {{ item.price|floatformat:2 }} <br>
                                                         </h5>
+
 
                                                     </div>
                                                 </div>
@@ -228,8 +233,9 @@
                                         {% with product=item.product %}
                                     {% if item.quantity == 1 %}
                                     <div class="d-grid">
+                                        <p>*Para continuar, aceptar los términos y condiciones de contrato </p>
                                         <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
-                                          Realizar Orden<ion-icon name="chevron-forward-outline"></ion-icon>
+                                            Realizar Contratación<ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
                                       <div class="my-4"></div>
@@ -245,7 +251,7 @@
                                       <div class="text-center">
 
                                               <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
-                                                  <i class='bx bx-x-circle'></i>Eliminar Orden
+                                                  <i class='bx bx-x-circle'></i>Volver a catálogo de productos
                                               </a>
 
 
