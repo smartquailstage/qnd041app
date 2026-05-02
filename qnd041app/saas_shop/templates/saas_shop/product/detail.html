@@ -494,7 +494,7 @@
 <div class="row mt-4" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: stretch;">
 
   <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
-  <div class="col-md-6" style="flex: 1; background-color: #444040; color: #ffffff; border-radius: 8px; padding: 20px;">
+  <div class="col-md-6" style="flex: 1; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;">
 
     <h6>Descripción Técnica</h6>
     <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
@@ -540,7 +540,7 @@
 
 <div class="card"
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: left;">
+            border-radius: 8px; padding: 20px; text-align: center;">
 
   <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
     {% csrf_token %}
@@ -549,7 +549,7 @@
 
     <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
 
-        {% trans 'Ver Demostración' %}
+      <ion-icon name="eye-outline"></ion-icon> {% trans 'Explorar Demo SBA.V.1.0.1' %}
     </button>
 
 </form>
@@ -568,7 +568,7 @@
 
     <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
 
-        {% trans 'Contratar SaaP' %}
+      <ion-icon name="create-outline"></ion-icon>{% trans 'Realizar Contratación ITC - SaaP ' %}
     </button>
 
 </form>
