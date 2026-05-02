@@ -202,6 +202,33 @@ class InstagramPost(BasePost):
         
         return f"Instagram Post #{self.pk or 'Nuevo'}"
 
+
+class InstagramCarouselImage(Orderable):
+
+    post = ParentalKey(
+        InstagramCarouselPost,
+        related_name="images",
+        on_delete=models.CASCADE
+    )
+
+    caption = models.TextField(blank=True,null=True)
+    copy = models.TextField(blank=True,null=True)
+    hashtags = models.TextField(blank=True,null=True)
+
+    image = models.ForeignKey(
+        'wagtailimages.Image', # 👈 Debe ser la relación al modelo de imagen de Wagtail
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )s
+
+    panels = [
+        FieldPanel("image"),
+        FieldPanel("caption"),
+        FieldPanel("copy"),
+        FieldPanel("hashtags"),
+    ]
+
 # =========================
 # 🔹 INSTAGRAM CAROUSEL
 # =========================
@@ -245,11 +272,6 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
         null=True,
         blank=True
     )
-
-    # ========================================================
-    # 🖼️ VISTA PREVIA DEL CAROUSEL (tipo Instagram)
-    # ========================================================
-# ... (campos del modelo igual)
 
 # ========================================================
     # 📸 VISTA PREVIA ESTILO INSTAGRAM (CORREGIDA)
@@ -412,26 +434,7 @@ class InstagramCarouselPost(ClusterableModel, BasePost):
         return f"Instagram Carousel #{self.pk or 'Nuevo'}"
 
 
-class InstagramCarouselImage(Orderable):
 
-    post = ParentalKey(
-        InstagramCarouselPost,
-        related_name="images",
-        on_delete=models.CASCADE
-    )
-
-    caption = models.TextField(blank=True,null=True)
-    copy = models.TextField(blank=True,null=True)
-    hashtags = models.TextField(blank=True,null=True)
-
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="+",blank=True,null=True)
-
-    panels = [
-        FieldPanel("image"),
-        FieldPanel("caption"),
-        FieldPanel("copy"),
-        FieldPanel("hashtags"),
-    ]
 
 
 from django.db import models
