@@ -41,11 +41,11 @@ class CategoryItem(Orderable):
         ("illustrative", "Ilustrativo / Vectorial"),
         ("photorealistic", "Fotorealista"),
         ("cinematic", "Cinemático / Dramático"),
-        ("Art Akira", "Ilustrativo / Vectorial/ Minismalista/Estetica de comic japones AKIRA"),
+        ("Estilo visual inspirado en el manga japonés Akira:ilustración de tipo vectorial, con enfoque minimalista, líneas limpias y definidas, alto contraste y composición simple.La estética debe evocar un cómic japonés clásico, con detalles cuidadosamente seleccionados, uso limitado de colores y una atmósfera moderna y elegante.", "Art Akira")
     ]
 
     style = models.CharField(
-        max_length=50,
+        max_length=450,
         choices=STYLE_CHOICES,
         blank=True,
         help_text="Elija el estilo visual de la campaña"
