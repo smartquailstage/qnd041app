@@ -908,7 +908,7 @@ class Profile(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name="Nombre Completo del Usuario"
+        verbose_name="Escriba su nombre completo"
     )
 
     ruc_usuario = models.CharField(
@@ -1003,13 +1003,14 @@ class Profile(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name="Tamaño de la Empresa",
+        verbose_name="Tamaño organizacional",
         choices=[
-            ("1-10 usuarios", "1-10 usuarios"),
-            ("11-50 usuarios", "11-50 usuarios"),
-            ("51-200 usuarios", "51-200 usuarios"),
-            ("200+ usuarios", "Más de 200 usuarios"),
-        ]
+            ("1-10 usuarios", "PYMES"),
+            ("11-50 usuarios", " STARTUP"),
+            ("51-200 usuarios", "ENTERPRISE"),
+            ("200+ usuarios", "INDUSTRIAL"),
+        ],
+         help_text="Selecciona el tamaño de tu empresa."
     )
 
     direccion_empresa = models.CharField(
@@ -1060,7 +1061,7 @@ class Profile(models.Model):
         max_length=50,
         blank=True,
         null=True,
-        verbose_name="Nivel de experiencia en la nube",
+        verbose_name="Nivel de experiencia",
         choices=[
             ("Principiante", "Principiante"),
             ("Intermedio", "Intermedio"),

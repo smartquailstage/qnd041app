@@ -10,6 +10,11 @@
   min-height: 100dvh;
 }
 
+
+#typewriter {
+  text-align: justify;
+}
+
 /* Contenedor centrado */
 .container-flex {
   display: flex;
@@ -64,13 +69,15 @@
 
 
 
+
     <div class="card-body">
 
-        <div class="logo-container mb-3 text-center">
-            <a href="{% slugurl 'home' %}">
-              <img src="{% static 'assets/images/sqwhite.png' %}" style="width: auto" alt="Logo">
-            </a>
-          </div>
+      <div class="logo-container mb-3 text-center">
+        <a href="{% slugurl 'home' %}">
+          <img src="{% static 'assets/images/smartquail_iso.png' %}" height="60px" alt="Logo">
+        </a>
+      </div>
+      <hr> 
 
                   <!-- TEXTO IA -->
                   <div class="col-12">
@@ -112,31 +119,34 @@
           <div class="col-12">
             {{ form.nombre_completo|add_class:"form-control" }}
           </div>
+        
+          <div class="col-12">
 
-          <div class="col-6">
             {{ form.nombre_empresa|add_class:"form-control" }}
           </div>
-
+        
+<hr>
+        
           <div class="col-6">
-            {{ form.cargo_usuario|add_class:"form-control" }}
-          </div>
-
-          <div class="col-6">
+            <label class="form-label">{{ form.sector_negocio.label }}</label>
             {{ form.sector_negocio|add_class:"form-control" }}
           </div>
-
+        
           <div class="col-6">
+            <label class="form-label">{{ form.tamano_empresa.label }}</label>
             {{ form.tamano_empresa|add_class:"form-control" }}
           </div>
-
+        
           <div class="col-6">
+            <label class="form-label">{{ form.nivel_experiencia_cloud.label }}</label>
             {{ form.nivel_experiencia_cloud|add_class:"form-control" }}
           </div>
-
+        
           <div class="col-6">
+            <label class="form-label">{{ form.presupuesto_estimado.label }}</label>
             {{ form.presupuesto_estimado|add_class:"form-control" }}
           </div>
-
+        
         </div>
 
         <hr>
@@ -180,11 +190,10 @@ document.addEventListener("DOMContentLoaded", function () {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  const text = `Bienvenido a SmartQuail, Inc.
+  const text = `Bienvenido a Negocios ITC Ecuador de SmartQuail, Inc.
 
-Es un placer recibirle. Soy su asistente de Inteligencia Artificial y estaré a su lado durante todo su recorrido tecnológico, brindándole acompañamiento personalizado en cada etapa.
 
-Para comenzar, le invitamos a completar el siguiente formulario. Esta información nos permitirá ofrecerle una experiencia a su medida, con acceso a productos, documentación y novedades especialmente seleccionadas según las necesidades tecnológicas de sus proyectos.`;
+Para comenzar, le invitamos a completar el siguiente formulario. Esta información nos permitirá ofrecerle una experiencia a su medida, con acceso a productos, documentación y novedades especialmente seleccionadas según sus necesidades tecnológicas.`;
 
   let i = 0;
   function escribir() {

@@ -228,7 +228,7 @@ class ProfileForm(forms.ModelForm):
 
     presupuesto_estimado = forms.ChoiceField(
         choices=PRESUPUESTO_CHOICES,
-        required=False,
+        required=True,
         widget=forms.Select(attrs={
             "class": "form-select",
         })
@@ -245,19 +245,6 @@ class ProfileForm(forms.ModelForm):
         help_text="Ingrese una lista separada por comas."
     )
 
-    CARGO_CHOICES = [
-        ("Administrativo", "Administrativo"),
-        ("Operativo", "Operativo"),
-        ("Gerencial", "Gerencial"),
-        ("Founder", "Founder"),
-        ("Técnico", "Técnico"),
-    ]
-
-    cargo_usuario = forms.ChoiceField(
-    choices=CARGO_CHOICES,
-    required=False,
-    widget=forms.Select(attrs={"class": "form-select"})
-    )
 
 
 
@@ -266,12 +253,9 @@ class ProfileForm(forms.ModelForm):
         fields = [
             "photo",
             "nombre_completo",
-            "cargo_usuario",
-
             "nombre_empresa",
             "sector_negocio",
             "tamano_empresa",
-
             "nivel_experiencia_cloud",
             "presupuesto_estimado",
         ]
@@ -284,18 +268,14 @@ class ProfileForm(forms.ModelForm):
             }),
             "nombre_completo": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Nombre completo"
+                "placeholder": "Escriba su nombre completo"
             }),
 
-            "cargo_usuario": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Cargo en la empresa"
-            }),
 
             # -------- INFORMACIÓN EMPRESARIAL ----------
             "nombre_empresa": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Ej: SmartQuail S.A."
+                "placeholder": "Escriba el nombre de su organización. Ej: SmartQuail S.A."
             }),
             "sector_negocio": forms.Select(attrs={
                 "class": "form-select",
@@ -315,6 +295,8 @@ class ProfileForm(forms.ModelForm):
             }),
 
         }
+
+
 
     def clean_servicios_cloud_interes(self):
         """
