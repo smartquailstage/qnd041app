@@ -16,10 +16,10 @@ class Category(models.Model):
         null=True,
         verbose_name="Tamaño de la Empresa",
         choices=[
-            ("1-10 usuarios", "1-10 usuarios"),
-            ("11-50 usuarios", "11-50 usuarios"),
-            ("51-200 usuarios", "51-200 usuarios"),
-            ("200+ usuarios", "Más de 200 usuarios"),
+            ("1-10 usuarios", "pymes"),
+            ("11-50 usuarios", "startups"),
+            ("51-200 usuarios", "enterprises"),
+            ("200+ usuarios", "industrial"),
         ]
     )
 

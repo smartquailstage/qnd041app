@@ -93,211 +93,185 @@
 
 
 
-
 <header class="top-header">
   <nav class="navbar navbar-expand gap-3">
+
+    <!-- Toggle -->
     <div class="toggle-icon">
       <i class="fadeIn animated bx bx-dock-left"></i>
     </div>
 
-<div class="ticker-container" id="ticker">
-  <div class="line"><span class="cursor"></span></div>
-</div>
+    <!-- Ticker -->
+    <div class="ticker-container" id="ticker">
+      <div class="line"><span class="cursor"></span></div>
+    </div>
 
-<div class="top-navbar-right ms-auto">
+    <!-- RIGHT SIDE -->
+    <div class="top-navbar-right ms-auto">
+      <ul class="navbar-nav align-items-center">
 
-
-<ul class="navbar-nav align-items-center">
-
-  
-
-
- 
-    
-
-
-{% if all_projects or projects_in_progress %} 
-
- <p class="mb-0 ms-auto text-success bg-light-success px-2 rounded py-1">
+        <!-- TOTAL -->
+        {% if all_projects or projects_in_progress %}
+        <li class="nav-item">
+          <p class="mb-0 text-success bg-light-success px-2 rounded py-1">
             ${{ pending_orders_total|floatformat:2 }}
           </p>
-{% endif %}
+        </li>
+        {% endif %}
 
-
-</ul>
-
-    </div>
-  
-<div class="top-navbar-right ms-auto">
-
-
-<ul class="navbar-nav align-items-center">
- {% if cart|length > 0 %}
-  <li class="nav-item dropdown dropdown-large">
-  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-    <div class="position-relative">
-      
-        <span class="notify-badge"><button class="btn btn-primary" type="button" disabled=""> 
-                              <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true">1</span>
-                    <span class="visually-hidden">Loading...</span>
-                  </button></span>
-     
-      <ion-icon name="browsers-outline"></ion-icon>
-    </div>
-  </a>
-
-  <div class="dropdown-menu dropdown-menu-end">
-    <div class="msg-header d-flex align-items-center">
-      <p class="msg-header-title mb-0">
-         Ordenes de Software
-      </p>
-      <p class="msg-header-clear ms-auto mb-0 text-primary">
-        {{ cart|length }} Realizadas
-      </p>
-    </div>
-
-    <div class="header-notifications-list">
-      {% for item in cart %}
-        <a class="dropdown-item" href="{% url 'saas_cart:cart_detail' %}">
-          <div class="d-flex align-items-center">
-            <div class="notify text-success">
-{% if item.product.category.slug == "business-law" %}
- <ion-icon name="albums-outline"></ion-icon>
-{% elif item.product.category.slug == "business-analytics" %}
-  <ion-icon name="bar-chart-outline"></ion-icon>
-{% elif item.product.category.slug == "business-media" %}
-<ion-icon name="play-outline"></ion-icon>
-{% endif %}
-
+        <!-- CART -->
+        {% if cart|length > 0 %}
+        <li class="nav-item dropdown dropdown-large">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+            <div class="position-relative">
+              <span class="notify-badge">
+                <button class="btn btn-primary" type="button" disabled>
+                  <span class="spinner-grow spinner-grow-sm"></span>
+                </button>
+              </span>
+              <ion-icon name="browsers-outline"></ion-icon>
             </div>
-            <div class="flex-grow-1">
-              <h6 class="msg-name">{{ item.product.name }}</h6>
-              <p class="msg-info">
-                Licencias: {{ item.quantity }} &nbsp; — &nbsp;
-                Total: ${{ item.total_price }}
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-end">
+            <div class="msg-header d-flex align-items-center">
+              <p class="msg-header-title mb-0">Ordenes de Software</p>
+              <p class="msg-header-clear ms-auto mb-0 text-primary">
+                {{ cart|length }} Realizadas
+              </p>
+            </div>
+
+            <div class="header-notifications-list">
+              {% for item in cart %}
+              <a class="dropdown-item" href="{% url 'saas_cart:cart_detail' %}">
+                <div class="d-flex align-items-center">
+
+                  <div class="notify text-success">
+                    {% if item.product.category.slug == "business-law" %}
+                      <ion-icon name="albums-outline"></ion-icon>
+                    {% elif item.product.category.slug == "business-analytics" %}
+                      <ion-icon name="bar-chart-outline"></ion-icon>
+                    {% elif item.product.category.slug == "business-media" %}
+                      <ion-icon name="play-outline"></ion-icon>
+                    {% endif %}
+                  </div>
+
+                  <div class="flex-grow-1">
+                    <h6 class="msg-name">{{ item.product.name }}</h6>
+                    <p class="msg-info">
+                      Licencias: {{ item.quantity }} —
+                      Total: ${{ item.total_price }}
+                    </p>
+                  </div>
+
+                </div>
+              </a>
+              {% empty %}
+              <div class="dropdown-item text-center text-muted small">
+                Tu carrito está vacío
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="text-center msg-footer">
+              <p class="mb-1">
+                <strong>Total:</strong> ${{ cart.get_total_price }}
               </p>
             </div>
           </div>
-        </a>
-      {% empty %}
-        <div class="dropdown-item text-center text-muted small">
-          Tu carrito está vacío
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="text-center msg-footer">
-      <p class="mb-1">
-        <strong>Valor total a pagar:</strong> ${{ cart.get_total_price }}
-      </p>
-
-    </div>
-  </div>
-</li>
- {% endif %}
-
-<li class="nav-item dropdown dropdown-user-setting">
-  <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
-    
-    <div class="user-setting">
-      {% if request.user.profile.photo %}
-        <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="{{ request.user.get_full_name }}">
-      {% else %}
-        <img src="{% static 'assets/images/default.png' %}" class="user-img" style="width:30px;" alt="Foto por defecto">
-      {% endif %}
-    </div>
-  </a>
-
-
-
-    
-  <ul class="dropdown-menu dropdown-menu-end">
-
-    <!-- Perfil -->
-    <li>
-      <a class="dropdown-item" href="{% url 'usuarios:profile_view' %}">
-        <div class="d-flex flex-row align-items-center gap-2">
-          <div>
-              <h6 class="mb-0 dropdown-user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
-              <p>{{ request.user.profile.nombre_empresa }}</p>
-          </div>
-        </div>
-      </a>
-    </li>
-
-    <li><hr class="dropdown-divider"></li>
-
-    <!-- 🔥 NUEVA SECCIÓN DE PROYECTOS -->
-    {% if all_projects or projects_in_progress %} 
-    {% if projects_in_progress %}
-      <li class="dropdown-header text-warning ps-3">ITC Business Project</li>
-      {% for project in projects_in_progress %}
-        <li>
-          <a class="dropdown-item" href="{% url 'business_customer_projects:processes' project.pk %}">
-            <ion-icon name="sync-outline"></ion-icon>
-            {{ project.name }} ({{ project.progress }}%) 
-          </a>
         </li>
-      {% endfor %}
-      <li><hr class="dropdown-divider"></li>
-    {% endif %}
+        {% endif %}
 
-    {% if all_projects %}
-
-      {% for project in all_projects %}
-        <li>
-          <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
-          
-            <ion-icon name="checkmark-done-outline"></ion-icon>{{ project.name }} $ 92.0
+        <!-- USER DROPDOWN -->
+        <li class="nav-item dropdown dropdown-user-setting">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown">
+            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
           </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+
+            <!-- PERFIL -->
+            <li>
+              <a class="dropdown-item" href="{% url 'usuarios:profile_view' %}">
+                <div class="d-flex align-items-center gap-2">
+
+                  <div class="user-setting">
+                    {% if request.user.profile.photo %}
+                      <img src="{{ request.user.profile.photo.url }}" class="user-img" alt="">
+                    {% else %}
+                      <img src="{% static 'assets/images/default.png' %}" class="user-img" style="width:30px;">
+                    {% endif %}
+                  </div>
+
+                  <div>
+                    <h6 class="mb-0">
+                      {{ request.user.first_name }} {{ request.user.last_name }}
+                    </h6>
+                    <p class="mb-0">{{ request.user.profile.nombre_empresa }}</p>
+                  </div>
+
+                </div>
+              </a>
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <!-- PROYECTOS -->
+            {% if all_projects or projects_in_progress %}
+
+              {% if projects_in_progress %}
+              <li class="dropdown-header text-warning">ITC Business Project</li>
+              {% for project in projects_in_progress %}
+              <li>
+                <a class="dropdown-item" href="{% url 'business_customer_projects:processes' project.pk %}">
+                  <ion-icon name="sync-outline"></ion-icon>
+                  {{ project.name }} ({{ project.progress }}%)
+                </a>
+              </li>
+              {% endfor %}
+              <li><hr class="dropdown-divider"></li>
+              {% endif %}
+
+              {% if all_projects %}
+              {% for project in all_projects %}
+              <li>
+                <a class="dropdown-item" href="{% url 'business_customer_projects:project_detail' project.pk %}">
+                  <ion-icon name="checkmark-done-outline"></ion-icon>
+                  {{ project.name }}
+                </a>
+              </li>
+              {% endfor %}
+              <li><hr class="dropdown-divider"></li>
+              {% endif %}
+
+            {% endif %}
+
+            <!-- SETTINGS -->
+            <li>
+              <a class="dropdown-item" href="{% url 'usuarios:settings' %}">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span class="ms-2">Centro de cuenta ITC</span>
+              </a>
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <!-- LOGOUT -->
+            <li>
+              <a class="dropdown-item" href="{% url 'usuarios:logout' %}">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <span class="ms-2">Cerrar Sessión</span>
+              </a>
+            </li>
+
+          </ul>
         </li>
-      {% endfor %}
-      <li><hr class="dropdown-divider"></li>
-    {% endif %}
 
-    {% if not all_projects and not projects_in_progress %}
-      <li>
-        <a class="dropdown-item" href="{% url 'business_customer_projects:create_project' %}">
-          <ion-icon name="add-outline"></ion-icon>
-          Crear nuevo proyecto
-        </a>
-      </li>
-      <li><hr class="dropdown-divider"></li>
-    {% endif %}
-     {% endif %}
-
-    <!-- Configuración -->
-    <li>
-      <a class="dropdown-item" href="{% url 'usuarios:settings' %}">
-        <div class="d-flex align-items-center">
-          <div><ion-icon name="settings-outline"></ion-icon></div>
-          <div class="ms-3"><span>Configuraciones</span></div>
-        </div>
-      </a>
-    </li>
-
-    <li><hr class="dropdown-divider"></li>
-
-    <!-- Salir -->
-    <li>
-      <a class="dropdown-item" href="{% url 'usuarios:logout' %}">
-        <div class="d-flex align-items-center">
-          <div><ion-icon name="log-out-outline"></ion-icon></div>
-          <div class="ms-3"><span>Salir</span></div>
-        </div>
-      </a>
-    </li>
-
-  </ul>
-</li>
-
-</ul>
-
+      </ul>
     </div>
+
   </nav>
 </header>
-
-
 
 
 
