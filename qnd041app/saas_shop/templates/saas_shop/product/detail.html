@@ -278,7 +278,7 @@
          aria-controls="soporte" aria-selected="false">
         <div class="d-flex align-items-center">
           <div class="tab-title text-uppercase fw-500">
-            <ion-icon name="headset-outline"></ion-icon>
+            <i class="fadeIn animated bx bx-support"></i>
           </div>
         </div>
       </a>
@@ -419,16 +419,7 @@
 
   </div>
 
-  <!-- BOTÓN -->
-  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-  <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary btn-ecomm d-flex justify-content-center">
-    Explorar Demo
-  </a>
-  {% elif product.category.name == "Business Media" %}
-  <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-secondary btn-ecomm d-flex justify-content-center">
-    Explorar Demo
-  </a>
-  {% endif %}
+
 
 </div>
 
@@ -528,9 +519,9 @@
 <div class="card"
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
             border-radius: 8px; padding: 20px; text-align: left;">
-    <h4><ion-icon name="card-outline"></ion-icon> Soporte</h4>
+    <h4><ion-icon name="card-outline"></ion-icon> Soporte y mantenimiento</h4>
     <p>
-      {{ product.total_nube_iva }} /  mes
+      {{ product.total_nube_iva }} /  mes (Incluye recursos de nube y soporte 24/7)
     </p>
 
 
@@ -541,18 +532,21 @@
 <div class="card"
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
             border-radius: 8px; padding: 20px; text-align: center;">
+  <!-- BOTÓN -->
+  {% if product.category.slug == 'business-analytics' %}
+  <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+     {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+  </a>
+  {% elif product.category.slug == 'business-media' %}
+ 
+  
+  <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+    {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+  </a>
+  {% endif %}
 
-  <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
-    {% csrf_token %}
-    {{ cart_product_form.quantity }}   <!-- Campo oculto -->
-    {{ cart_product_form.update }}     <!-- Campo oculto -->
+  
 
-    <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
-
-      <ion-icon name="eye-outline"></ion-icon> {% trans 'Explorar Demo SBA.V.1.0.1' %}
-    </button>
-
-</form>
 
 
 </div>
@@ -568,7 +562,7 @@
 
     <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
 
-      <ion-icon name="create-outline"></ion-icon>{% trans 'Realizar Contratación ITC - SaaP ' %}
+      <ion-icon name="key-outline"></ion-icon>{% trans 'Contratar licencia SBA (I+D) ' %}
     </button>
 
 </form>
