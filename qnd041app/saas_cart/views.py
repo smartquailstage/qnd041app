@@ -38,6 +38,16 @@ from saas_coupons.models import Coupon
 from saas_coupons.forms import CouponApplyForm
 
 
+def cart_clear(request):
+    cart = request.session.get('cart', {})
+
+    cart.clear()
+    request.session['cart'] = cart
+    request.session.modified = True
+
+    return redirect('saas_shop:product_list')
+
+
 def cart_detail(request):
     cart = Cart(request)
     message = ""  # Mensaje para mostrar en el template

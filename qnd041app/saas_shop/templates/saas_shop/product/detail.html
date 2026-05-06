@@ -533,7 +533,7 @@
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
             border-radius: 8px; padding: 20px; text-align: center;">
   <!-- BOTÓN -->
-  {% if product.category.slug == 'business-analytics' %}
+  {% if product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
   <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
      {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
   </a>

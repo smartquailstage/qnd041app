@@ -228,38 +228,39 @@
 
                                     <div class="my-4"></div>
 
-                                    <!-- Botón para ir al checkout -->
-                                    {% for item in cart %}
-                                        {% with product=item.product %}
-                                    {% if item.quantity == 1 %}
+                                    {% if cart|length == 1 %}
+
                                     <div class="d-grid">
-                                        <p>*Para continuar, aceptar los términos y condiciones de contrato </p>
+                                        <p>*Para continuar, aceptar los términos y condiciones de contrato</p>
                                         <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
-                                            Realizar Contratación<ion-icon name="chevron-forward-outline"></ion-icon>
+                                            Realizar Contratación <ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
-                                      <div class="my-4"></div>
-                                        <div class="d-grid">
-                                            <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
-                                                <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
+                                
+                                    <div class="my-4"></div>
+                                
+                                    <div class="d-grid">
+                                        <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
+                                            <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
+                                        </a>
+                                    </div>
+                                
+                                {% else %}
+                                
+                                    <div class="d-grid">
+                                        <p>
+                                            Usted ha elegido más de un producto en esta orden. 
+                                            Por seguridad de la transacción, solo se permite un producto por orden de compra.
+                                        </p>
+                                
+                                        <div class="text-center">
+                                            <a href="{% url 'saas_cart:cart_clear' %}" class="btn btn-warning btn-ecomm">
+                                                <i class='bx bx-x-circle'></i> Volver al catálogo
                                             </a>
                                         </div>
-
-                                    {% else %}
-                                    <div class="d-grid">
-<p>Usted ha elegido más de un producto en esta orden. Por seguridad de la transacción, solo se permite un producto por orden de compra. Por favor, elimine la orden y continúe explorando más opciones.</p>
-                                      <div class="text-center">
-
-                                              <a href="{% url 'saas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
-                                                  <i class='bx bx-x-circle'></i>Volver a catálogo de productos
-                                              </a>
-
-
-                                      </div>
                                     </div>
-                                    {% endif %}
-                                    {% endwith %}
-                                    {% endfor %}
+                                
+                                {% endif %}
 
                                 </div>
                             </div>

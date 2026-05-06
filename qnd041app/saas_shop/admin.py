@@ -138,6 +138,7 @@ class ProductAdmin(ModelAdmin):
                 'fields': (
                     'image',
                     'image_2',
+                    'image_2_2',
                     'image_3',
                     'image_4',
                 ),

@@ -87,27 +87,68 @@
                 </div>
           
                 <!-- MOBILE -->
-                <div class="position-relative d-block d-md-none"
-                  style="height: 925px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-          
-                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-          
-                    <h2 style="color:#fff; font-size: 14px;">
-                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
-                    </h2>
-          
-                    <p class="text-warning mb-1">
-                      Inversión: ${{ product.price_amount }}
-                    </p>
-          
-                    <p>
-                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
-                    </p>
-          
-                    <span class="text-warning">Ver documentación</span>
-          
-                  </div>
-                </div>
+                <div class="position-relative d-block d-md-none w-100"
+                style="min-height: 100vh;
+                       background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                       background-size: cover;
+                       background-position: center;">
+           
+             <!-- Overlay -->
+             <div class="position-absolute top-0 start-0 w-100 h-100"
+                  style="background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3));">
+           
+               <!-- Contenido -->
+               <div class="position-absolute bottom-0 start-0 w-100 p-3"
+                    style="max-height: 75vh; overflow-y: auto;">
+           
+                 <!-- Título -->
+                 <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+                   {{ product.name }}
+                   <sup>
+                     I+D {% if product.is_automatitation %}+A{% endif %}
+                     {% if product.is_intelligent %}+AI{% endif %}
+                   </sup>
+                 </h2>
+           
+                 <!-- Subinfo -->
+                 <p class="text-light mb-2" style="font-size: 12px;">
+                   Implementación personalizada
+                   {% if product.is_automatitation %} • Automatización{% endif %}
+                   {% if product.is_intelligent %} • IA{% endif %}
+                   <br>
+                   <strong>Disponibilidad:</strong>
+                   {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
+                   {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500)
+                   {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000)
+                   {% elif product.usuarios_simultaneos == '5000+' %} alta (ilimitado)
+                   {% endif %}
+                 </p>
+           
+                 <!-- Descripción principal -->
+                 <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                   Plataforma ERP en la nube diseñada para optimizar y escalar procesos empresariales,
+                   con acceso seguro en tiempo real y soporte para toma de decisiones basada en datos.
+                 </p>
+           
+                 <!-- Automatización -->
+                 {% if product.is_automatitation %}
+                 <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                   Automatización de reportes, integración con SRI y gestión de inventarios en tiempo real,
+                   mejorando eficiencia operativa y control financiero.
+                 </p>
+                 {% endif %}
+           
+                 <!-- IA -->
+                 {% if product.is_intelligent %}
+                 <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                   Inteligencia artificial para análisis de datos, detección de patrones y soporte
+                   estratégico en la toma de decisiones.
+                 </p>
+                 {% endif %}
+           
+               </div>
+             </div>
+           </div>
           
               </a>
           
@@ -209,29 +250,63 @@
                 </div>
           
                 <!-- MOBILE -->
-                <div class="position-relative d-block d-md-none"
-                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-          
-                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-          
-                    <h2 style="color:#fff; font-size: 14px;">
-                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
-                    </h2>
-          
-                    <p class="text-warning mb-1">
-                      Inversión: ${{ product.price_amount }}
-                    </p>
-          
-                    <p>
-                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
-                    </p>
-          
-                    <span class="text-warning">Ver documentación</span>
-          
-                  </div>
-                </div>
-          
-              </a>
+                <div class="position-relative d-block d-md-none w-100"
+     style="min-height: 100vh;
+            background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+            background-size: cover;
+            background-position: center;">
+
+  <div class="position-absolute top-0 start-0 w-100 h-100"
+       style="background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3));">
+
+    <div class="position-absolute bottom-0 start-0 w-100 p-3"
+         style="max-height: 75vh; overflow-y: auto;">
+
+      <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+        SmartBusinessAnalytics
+        <sup>
+          I+D {% if product.is_automatitation %}+A{% endif %}
+          {% if product.is_intelligent %}+AI{% endif %}
+        </sup>
+      </h2>
+
+      <p class="text-light mb-2" style="font-size: 12px;">
+        Analítica avanzada y BI
+        {% if product.is_automatitation %} • Automatización{% endif %}
+        {% if product.is_intelligent %} • IA{% endif %}
+        <br>
+        <strong>Disponibilidad:</strong>
+        {% if product.usuarios_simultaneos == '10-50'%} baja
+        {% elif product.usuarios_simultaneos == '150-500' %} media/baja
+        {% elif product.usuarios_simultaneos == '500-1000' %} media/alta
+        {% elif product.usuarios_simultaneos == '5000+' %} alta
+        {% endif %}
+      </p>
+
+      <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+        Plataforma de analítica empresarial y business intelligence en la nube,
+        diseñada para transformar datos en información estratégica mediante dashboards,
+        indicadores KPI y visualización en tiempo real.
+      </p>
+
+      {% if product.is_automatitation %}
+      <p class="text-light mb-2" style="font-size: 13px;">
+        Automatiza la recolección, procesamiento y generación de reportes,
+        integrando múltiples fuentes de datos para análisis continuo y eficiente.
+      </p>
+      {% endif %}
+
+      {% if product.is_intelligent %}
+      <p class="text-light mb-2" style="font-size: 13px;">
+        Incorpora IA para análisis predictivo, detección de patrones y generación
+        automática de insights para la toma de decisiones.
+      </p>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+             
           
             </div>
             {% endfor %}
@@ -332,28 +407,62 @@
                 </div>
           
                 <!-- MOBILE -->
-                <div class="position-relative d-block d-md-none"
-                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-          
-                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-          
-                    <h2 style="color:#fff; font-size: 14px;">
-                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
-                    </h2>
-          
-                    <p class="text-warning mb-1">
-                      Inversión: ${{ product.price_amount }}
-                    </p>
-          
-                    <p>
-                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
-                    </p>
-          
-                    <span class="text-warning">Ver documentación</span>
-          
-                  </div>
-                </div>
-          
+                <div class="position-relative d-block d-md-none w-100"
+                style="min-height: 100vh;
+                       background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                       background-size: cover;
+                       background-position: center;">
+           
+             <div class="position-absolute top-0 start-0 w-100 h-100"
+                  style="background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3));">
+           
+               <div class="position-absolute bottom-0 start-0 w-100 p-3"
+                    style="max-height: 75vh; overflow-y: auto;">
+           
+                 <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+                   SmartBusinessAnalytics
+                   <sup>
+                     I+D {% if product.is_automatitation %}+A{% endif %}
+                     {% if product.is_intelligent %}+AI{% endif %}
+                   </sup>
+                 </h2>
+           
+                 <p class="text-light mb-2" style="font-size: 12px;">
+                   Analítica avanzada y BI
+                   {% if product.is_automatitation %} • Automatización{% endif %}
+                   {% if product.is_intelligent %} • IA{% endif %}
+                   <br>
+                   <strong>Disponibilidad:</strong>
+                   {% if product.usuarios_simultaneos == '10-50'%} baja
+                   {% elif product.usuarios_simultaneos == '150-500' %} media/baja
+                   {% elif product.usuarios_simultaneos == '500-1000' %} media/alta
+                   {% elif product.usuarios_simultaneos == '5000+' %} alta
+                   {% endif %}
+                 </p>
+           
+                 <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                   Plataforma de analítica empresarial y business intelligence en la nube,
+                   diseñada para transformar datos en información estratégica mediante dashboards,
+                   indicadores KPI y visualización en tiempo real.
+                 </p>
+           
+                 {% if product.is_automatitation %}
+                 <p class="text-light mb-2" style="font-size: 13px;">
+                   Automatiza la recolección, procesamiento y generación de reportes,
+                   integrando múltiples fuentes de datos para análisis continuo y eficiente.
+                 </p>
+                 {% endif %}
+           
+                 {% if product.is_intelligent %}
+                 <p class="text-light mb-2" style="font-size: 13px;">
+                   Incorpora IA para análisis predictivo, detección de patrones y generación
+                   automática de insights para la toma de decisiones.
+                 </p>
+                 {% endif %}
+           
+               </div>
+             </div>
+           </div>
               </a>
           
             </div>
@@ -445,30 +554,63 @@
                   
                 </div>
           
-                <!-- MOBILE -->
-                <div class="position-relative d-block d-md-none"
-                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-          
-                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-          
-                    <h2 style="color:#fff; font-size: 14px;">
-                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
-                    </h2>
-          
-                    <p class="text-warning mb-1">
-                      Inversión: ${{ product.price_amount }}
-                    </p>
-          
-                    <p>
-                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
-                    </p>
-          
-                    <span class="text-warning">Ver documentación</span>
-          
-                  </div>
-                </div>
-          
-              </a>
+                <div class="position-relative d-block d-md-none w-100"
+                style="min-height: 100vh;
+                       background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                       background-size: cover;
+                       background-position: center;">
+           
+             <div class="position-absolute top-0 start-0 w-100 h-100"
+                  style="background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3));">
+           
+               <div class="position-absolute bottom-0 start-0 w-100 p-3"
+                    style="max-height: 75vh; overflow-y: auto;">
+           
+                 <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+                   SmartBusinessAnalytics
+                   <sup>
+                     I+D {% if product.is_automatitation %}+A{% endif %}
+                     {% if product.is_intelligent %}+AI{% endif %}
+                   </sup>
+                 </h2>
+           
+                 <p class="text-light mb-2" style="font-size: 12px;">
+                   Analítica avanzada y BI
+                   {% if product.is_automatitation %} • Automatización{% endif %}
+                   {% if product.is_intelligent %} • IA{% endif %}
+                   <br>
+                   <strong>Disponibilidad:</strong>
+                   {% if product.usuarios_simultaneos == '10-50'%} baja
+                   {% elif product.usuarios_simultaneos == '150-500' %} media/baja
+                   {% elif product.usuarios_simultaneos == '500-1000' %} media/alta
+                   {% elif product.usuarios_simultaneos == '5000+' %} alta
+                   {% endif %}
+                 </p>
+           
+                 <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                   Plataforma de analítica empresarial y business intelligence en la nube,
+                   diseñada para transformar datos en información estratégica mediante dashboards,
+                   indicadores KPI y visualización en tiempo real.
+                 </p>
+           
+                 {% if product.is_automatitation %}
+                 <p class="text-light mb-2" style="font-size: 13px;">
+                   Automatiza la recolección, procesamiento y generación de reportes,
+                   integrando múltiples fuentes de datos para análisis continuo y eficiente.
+                 </p>
+                 {% endif %}
+           
+                 {% if product.is_intelligent %}
+                 <p class="text-light mb-2" style="font-size: 13px;">
+                   Incorpora IA para análisis predictivo, detección de patrones y generación
+                   automática de insights para la toma de decisiones.
+                 </p>
+                 {% endif %}
+           
+               </div>
+             </div>
+           </div>
+             
           
             </div>
             {% endfor %}
