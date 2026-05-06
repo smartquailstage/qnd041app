@@ -10,135 +10,130 @@
   <!-- start page content-->
   <div class="page-content">
 
-<div class="row">
-  <div class="col-lg-8 mx-auto">
-    <div class="card radius-10">
-      <div class="card-body">
-        
-        <h5 class="mb-3"> <ion-icon name="person-circle-outline"></ion-icon> Cuenta de Usuario ITC</h5>
-
-        <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
-          <div class="user-change-photo shadow">
-
-            {% if profile.photo %}
-              <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
-            {% else %}
-              <img  src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
-            {% endif %}
-
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card radius-10">
+          <div class="card-body">
+    
+            <!-- ================= USUARIO ================= -->
+            <h5 class="mb-3">
+              <ion-icon name="person-circle-outline"></ion-icon> Cuenta de Usuario ITC
+            </h5>
+    
+            <div class="mb-4 d-flex flex-column align-items-center justify-content-center">
+              <div class="user-change-photo shadow">
+                {% if profile.photo %}
+                  <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
+                {% else %}
+                  <img src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
+                {% endif %}
+              </div>
+            </div>
+    
+            <!-- ================= INFO NEGOCIO ================= -->
+            <h5 class="mt-4">Información de Negocio ITC</h5>
+            <hr>
+    
+            <div class="row g-3">
+              <div class="col-md-6">
+                <p><strong>Usuario:</strong> {{ profile.user.username }}</p>
+                <p><strong>Teléfono:</strong> {{ profile.telefono }}</p>
+                <p><strong>Provincia:</strong> {{ profile.provincia }}</p>
+                <p><strong>Dirección:</strong> {{ profile.direccion_empresa }}</p>
+              </div>
+    
+              <div class="col-md-6">
+                <p><strong>Empresa:</strong> {{ profile.nombre_empresa }}</p>
+                <p><strong>Nombre:</strong> {{ profile.nombre_completo }}</p>
+                <p><strong>Cargo:</strong> {{ profile.cargo_usuario }}</p>
+                <p><strong>Sector:</strong> {{ profile.sector_negocio }}</p>
+              </div>
+            </div>
+    
+            <!-- ================= ESCALABILIDAD ================= -->
+            <h5 class="mt-4">Configuraciones de Escalabilidad</h5>
+            <hr>
+    
+            <div class="row g-3">
+              <div class="col-md-4">
+                <p><strong>Tamaño Empresa:</strong><br>{{ profile.tamano_empresa }}</p>
+              </div>
+    
+              <div class="col-md-4">
+                <p><strong>Experiencia Cloud:</strong><br>{{ profile.nivel_experiencia_cloud }}</p>
+              </div>
+    
+              <div class="col-md-4">
+                <p><strong>Presupuesto:</strong><br>$ {{ profile.presupuesto_estimado }}</p>
+              </div>
+            </div>
+    
+            <!-- ================= ÓRDENES ================= -->
+            <h5 class="mt-4"><ion-icon name="key-outline"></ion-icon> Licencias válidas</h5>
+            <hr>
+            
+            <div style="max-height: 300px; overflow-y: auto;overflow-x: hidden;">
+                {% if orders %}
+                    {% for order in orders %}
+                        <div class="row g-3 mb-4 p-2 border rounded">
+            
+                            <!-- Info orden -->
+                            <div class="col-md-6">
+                                <p class="mb-1">
+                                    <strong>SQ02-APP-120-00{{ order.id }}</strong>
+                                </p>
+            
+                                <p class="mb-1">
+                                    <strong>Fecha:</strong> {{ order.created|date:"d/m/Y H:i" }}
+                                </p>
+            
+                                <p class="mb-1">
+                                    <strong>Estado:</strong>
+                                    {% if order.is_active %}
+                                        <span class="badge bg-warning text-dark">Pendiente</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Activo</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+            
+                            <!-- Productos -->
+                            <div class="col-md-6">
+                                {% for item in order.items.all %}
+                                    <div class="mb-2">
+                                        <strong>{{ item.product }}</strong><br>
+                                        <small>
+                                            Disponibilidad: {{ item.product.software }}<br>
+                                            Inversión: {{ item.price }}<br>
+                                        </small>
+                                    </div>
+                                {% empty %}
+                                    <p class="text-muted">Sin productos</p>
+                                {% endfor %}
+                            </div>
+            
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No tienes órdenes registradas.</p>
+                {% endif %}
+            </div>
+    
           </div>
-
-          <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-outline-warning btn-sm radius-30 px-4">
-            <ion-icon name="create-outline"></ion-icon>
-            Editar Cuenta
-          </a>
         </div>
-
-        <h5 class="mb-0 mt-4">Información de Negocio ITC</h5>
-        <hr>
-
-        <div class="row g-3">
-
-          <div class="col-6">
-           
-            <p> {{ profile.user.username }}</p>
-            <p>{{ profile.telefono }}</p>
-            <p>{{ profile.provincia }}</p>
-            <p>{{ profile.direccion_empresa }}</p> 
-          </div>
-
-          <div class="col-6">
-             <p> {{ profile.nombre_empresa }}</p>
-            <p> {{ profile.nombre_completo }}</p>
-            <p> {{ profile.cargo_usuario }}</p>
-            <p> {{ profile.sector_negocio }}</p>
-          </div>
-
-
-        </div>
-
-
-        <h5 class="mb-0 mt-4">Configuraciones de Escalabilidad</h5>
-        <hr>
-
-        <div class="row g-3">
-
-                    <div class="col-6">
-            <label class="form-label">Tamaño Empresa</label>
-            <p>{{ profile.tamano_empresa }}</p>
-          </div>
-
-          <div class="col-6">
-            <label class="form-label">Nivel de Experiencia</label>
-            <p>{{ profile.nivel_experiencia_cloud }}</p>
-          </div>
-
-          <div class="col-6">
-            <label class="form-label">Presupuesto Estimado</label>
-            <p> $ {{ profile.presupuesto_estimado }}</p>
-          </div>
-
-        </div>
-
-
       </div>
     </div>
-  </div>
-</div>
+
 
 
 
   </div>
   <!-- end page content-->
 </div>
+</div>
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    function typeWriterEffect(elementId, text, speed) {
-        let index = 0;
-        function type() {
-            if (index < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(index);
-                index++;
-                setTimeout(type, speed);
-            }
-        }
-        type();
-    }
-
-   
-    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
-    typeWriterEffect("typewriter", text_start, 35);
-
-
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
-    const inputPhoto = document.getElementById("id_photo");
-    const previewImg = document.querySelector(".user-change-photo img");
-
-    btnCambiarFoto.addEventListener("click", function () {
-        inputPhoto.click();
-    });
-
-    inputPhoto.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                previewImg.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-});
-</script>
 
  
 {% endblock %}

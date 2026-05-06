@@ -7,6 +7,9 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from .forms import LoginForm,UserRegistrationForm,MensajeForm,CitaForm,TareaComentarioForm
 from .models import Profile, Cita
+
+from saas_orders.models import SaaSOrder
+
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -41,8 +44,26 @@ from urllib.parse import unquote
 import logging
 from django.contrib.auth import update_session_auth_hash
 
+
+
 logger = logging.getLogger(__name__)
 User = get_user_model()
+
+
+@login_required
+def profile_view(request):
+    profile = request.user.profile
+
+    orders = SaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True
+    ).first()
+
+    return render(request, 'usuarios/profile_detail.html', {
+        'profile': profile,
+        'orders': orders,
+    })
+
 
 def activar_cuenta(request, uidb64, token):
     try:
@@ -528,15 +549,6 @@ def admin_cita_detail(request, cita_id):
     }
     return render(request, "admin/test.html", context)
 
-@login_required
-def profile_view(request):
-    profile = Profile.objects.get(user=request.user)
-
-
-    return render(request, 'usuarios/profile.html', {
-        'profile': profile,
-    })
-
 
 
 @login_required
@@ -554,6 +566,7 @@ from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
 
+
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "usuarios/profile_detail.html"
@@ -561,6 +574,16 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["orders"] = SaaSOrder.objects.filter(
+            user=self.request.user,
+            is_active=True
+        ).order_by('-created')
+
+        return context
 
 
 # views.py

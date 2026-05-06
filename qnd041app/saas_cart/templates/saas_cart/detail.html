@@ -56,15 +56,11 @@
 														</div>
 
 													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-
-													</a>
+	
 												</div>
 											</div>
 										</div>
-                                        <h3><ion-icon name="key-outline"></ion-icon> Verificación de licencia a contratar</h3>
+                                        <h3><ion-icon name="key-outline"></ion-icon> Verificación de licencia </h3>
                                         <p>
                                         Por favor, verifique que los productos tecnológicos seleccionados correspondan exactamente a aquellos que usted eligió previamente antes de finalizar su contratación. 
                                         En caso de disponer de un código de convenio o código promocional, le solicitamos ingresarlo en el campo correspondiente para que pueda ser aplicado correctamente durante el proceso.
@@ -231,9 +227,9 @@
                                     {% if cart|length == 1 %}
 
                                     <div class="d-grid">
-                                        <p>*Para continuar, aceptar los términos y condiciones de contrato</p>
+                                     
                                         <a href="{% url 'saas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
-                                            Realizar Contratación <ion-icon name="chevron-forward-outline"></ion-icon>
+                                            <ion-icon name="lock-open-outline"></ion-icon>    Validar Licencia <ion-icon name="chevron-forward-outline"></ion-icon>
                                         </a>
                                     </div>
                                 

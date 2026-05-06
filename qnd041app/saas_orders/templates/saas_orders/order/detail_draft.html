@@ -8,7 +8,6 @@
 
 {% block content %}
 
-
 <style>
   .step-count-circle {
   background-color: #b50f15; /* o el color corporativo que uses */
@@ -27,116 +26,169 @@
 </style>
 
 <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-<div class="product-more-info mt-4">
+  <!-- start page content-->
+  <div class="page-content">
 
 
 
-<div class="card">
-  <div class="card-body p-4" style="color: #ededed;
-    text-align: justify;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    line-height: 1.2;
-    background-color: #2e2e2e;
-    border-radius: 25px;">
+    <!--end breadcrumb-->
 
-    <!-- Tabs -->
+    <!--start shop cart-->
+    <section class="shop-page">
+      <div class="shop-container">
+        <div class="card shadow-sm border-0">
+  
+    
+          <div class="card-body" style="background-color: #2e2e2e;">
+            <div class="shop-cart">
+              <div class="row">
 
+                <!-- ============================= -->
+                <!--  COLUMNA IZQUIERDA - DETALLE -->
+                <!-- ============================= -->
+                <div class="col-12 col-xl-20">
+                  <div class="checkout-details">
 
-    <!-- Contenido de las Tabs -->
-    <div class="tab-content pt-3">
-
-      <!-- TAB 1: ORDEN DE COMPRA -->
-      <div class="tab-pane fade show active" id="order" role="tabpanel" aria-labelledby="tab-order">
-        <div class="checkout-details">
-          <div class="card border-0 bg-transparent">
-            <div class="card-body">
-
-              <!-- Progreso de pasos -->
-              <div class="steps steps-light">
-                <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-                  <div class="step-progress"><span class="step-count">1</span></div>
-                </a>
-                <a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
-                  <div class="step-progress"><span class="step-count">2</span></div>
-                </a>
-                <a class="step-item"><div class="step-progress"><span class="step-count">3</span></div></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="card bg-transparent">
-            <div class="card-body">
-              <h3><ion-icon name="lock-open-outline"></ion-icon> Validador de Licencias ITC</h3>
-              <!-- Datos del usuario -->
-              <hr>
-
-            
-              <p>
-                Ingrese sus datos personales o los de su organización/empresa para validar la licencia de implementación y desarrollo de la solución tecnológica seleccionada.
-
-Una vez que complete el formulario, haga clic en “Verificar mis datos”.
-
-              </p>
-              <div class="my-3 border-bottom"></div>
-
-              <div class="form-body">
-                <form action="." method="post" class="order-form row g-3">
-                  {% csrf_token %}
-
-                  <!-- RUC -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.ruc.id_for_label }}">Registro Fiscal (R.U.C) / Número de Identificacion (C.I) </label>
-                    {{ form.ruc }}
-                  </div>
-
-                  <!-- Razon Social -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.razon_social.id_for_label }}">Razón Social / Nombre de titular de identificación</label>
-                    {{ form.razon_social }}
-                  </div>
-
-                  <!-- Sector -->
-          
-
-                  <!-- Botones -->
-                  <div class="col-md-6">
-                    <div class="d-grid">
-                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de producto</a>
+                    <!-- Steps -->
+                    <div class="card border-0">
+                      <div class="card-body" style="background-color: #2e2e2e;">
+                        <div class="steps steps-light">
+                          <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
+                            <div class="step-progress"><span class="step-count">1</span></div>
+              
+                          </a>
+                          <a class="step-item active" href="#">
+                            <div class="step-progress"><span class="step-count">2</span></div>
+                         
+                          </a>
+                          <a class="step-item item active current">
+                            <div class="step-progress"><span class="step-count">3</span></div>
+                          
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+
+                    <!-- Card principal -->
+{% if order.is_active %}
 
 
-                  <div class="col-md-6">
-                    <div class="d-grid">
-                      <input type="submit" value="{% trans 'Verficar mis datos' %}" class="btn btn-warning btn-ecomm">
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+  <!-- Orden Activa -->
+  <div class="card">
+    <div class="card-body" style="background-color: #2e2e2e;">
+
+      <!-- Usuario -->
+      <div class="d-flex align-items-center mb-3">
+        <div class="ms-3">
+          <h6 class="mb-0"> Cliente ITC: {{ order.first_name }} {{ order.last_name }}</h6>
+          <p class="mb-0">Correo electrónico: {{ order.email }}</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Título -->
+      <h2 class="h5 mb-0">
+         Detalle de Orden de Software
+      </h2>
+      <p class="mt-2">
+      <p><strong> Track ID de orden:</strong> #SQ02-ERP-120-00{{ order.id }}</p>
+      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
+      {% if order.coupon  %}
+      <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
+      {% else %}
+      <p><strong>Convenio:</strong> No registra</p>
+      {% endif %}
+      </p>
+
+      <div class="my-3 border-bottom"></div>
+
+      <!-- Información de la orden -->
+      <h5 class="mb-3">Información de la Orden</h5>
+      <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
+      <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
+      <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
+      <p><strong>Contacto:</strong> {{ order.telefono }}</p>
+      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
+
+      <hr>
+
+      <!-- Productos adquiridos -->
+      <h5 class="mb-3">Software Solicitado</h5>
+      <ul class="list-group bg-transparent">
+        {% for item in order.items.all %}
+        <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
+          <div>
+            <strong>{{ item.product.name }}</strong><br>
+            <small>{{ item.product.description }}</small>
           </div>
+       
+        </li>
+        {% endfor %}
+<hr>
+
+<h5 class="mb-3">Inversión</h5>
+        <div>
+          <strong>Subtotal: $ {{ order.get_total_cost }}</strong><br>
+          <small>Total + I.V.A: {{ order.get_total_with_discount }}</small>
+        </div>
+     
+      </li>
+
+      </ul>
+
+      <hr>
+
+      <!-- Total -->
+      <h4 class="d-flex justify-content-between">
+        <span>Valor a Pagar: </span>
+        <span> {{ order.get_total_with_discount }}</span>
+      </h4>
+      <hr>
+      <div class="my-4"></div>
+
+      <!-- Botón de pago -->
+      <div class="row">
+        <div class="col-md-6">
+          <a href="{% url 'saas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
+          <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
+          </a>
         </div>
       </div>
 
     </div>
   </div>
-</div>
 
+{% else %}
+  <!-- Orden Expirada -->
+  <div class="card">
+    <div class="card-body text-center">
 
+      <p class="fs-5">Su orden ha expirado.</p>
+      <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
+
+      <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
+        Ver Catálogo de Productos
+      </a>
 
     </div>
-
-
-      </div>
   </div>
+{% endif %}
 
 
 
+              </div>
+              <!--end row-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--end shop cart-->
 
+  </div>
+  <!-- end page content-->
+</div>
 
 
 {% endblock %}
@@ -147,7 +199,32 @@ Una vez que complete el formulario, haga clic en “Verificar mis datos”.
           <!-- start page content-->
          <div class="page-content">
 
-
+          <!--start breadcrumb-->
+          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Software como Producto</div>
+            <div class="ps-3">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0 align-items-center">
+                  <li class="breadcrumb-item"><a href="javascript:;"></a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">Detalle de Orden de Compra</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="ms-auto">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary">Settings</button>
+                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end breadcrumb-->
 
 
           <!--start shop cart-->
