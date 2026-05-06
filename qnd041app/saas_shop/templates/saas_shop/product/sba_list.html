@@ -1,0 +1,504 @@
+{% load i18n %}
+{% load static %}
+
+
+
+<div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+
+    <!-- Carrusel SmartBusinessAnalytics -->
+<div class="card" style="background-color: #2e2e2e;">
+
+<div class="card-body p-0" style="background-color: #2e2e2e;">
+  {% for c in categories %}
+    
+  
+  {% if c.slug == "business-analytics" and c.tamano_empresa == '1-10 usuarios' %}
+      {% if c.products.all %}
+        <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          
+              <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+          
+                <!-- DESKTOP -->
+                <div class="position-relative d-none d-md-block"
+                  style="height: 925px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+          
+                    <h2 class="text-warning" style="font-size: 16px;">
+                      {{ product.name }} 
+                      <sup>
+                        I+D {% if product.is_automatitation %} +A {% endif %}
+                        {% if product.is_intelligent %} +AI {% endif %}
+                      </sup>
+
+           
+                     / Implementación y Desarollo personalizado (I+D)
+      
+          
+                      {% if product.is_automatitation %}
+                      ,Automatización (+A)
+                      {% endif %}
+          
+                      {% if product.is_intelligent %}
+                        ,Inteligencia Artificial (+AI). 
+                      {% endif %}
+                      Disponibilidad: {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
+                      {% elif product.usuarios_simultaneos == '150-500' %}  media/baja (500 usuarios)
+                      {% elif product.usuarios_simultaneos == '500-1000' %} media/alta  (1000 usuarios)
+                      {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                      {% endif %}
+                    </h2>
+                 
+                    <p>
+                    Es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y escalar los procesos operativos, administrativos y financieros de organizaciones modernas. Su arquitectura cloud permite acceso seguro, en tiempo real y desde cualquier dispositivo, garantizando trazabilidad, disponibilidad de la información y soporte a la toma de decisiones estratégicas basadas en datos confiables.
+                    
+                    Desde una perspectiva financiera, el sistema puede implementarse y desarrollarse de manera personalizada según la estructura económica de cada organización, incorporando centros de costos, gestión de ingresos y egresos, estados de resultados (P&L), control de activos y pasivos, así como parámetros financieros clave para el análisis y control de la salud financiera del negocio.
+                    
+                    Esta solución está especialmente orientada a PYMES y pequeñas organizaciones, ofreciendo una base sólida para profesionalizar su gestión financiera, mejorar la eficiencia operativa y fortalecer la toma de decisiones con enfoque en rentabilidad, sostenibilidad y crecimiento.
+                    </p>
+            
+                    
+                    
+                    {% if product.is_automatitation %}
+                    <p>
+                    Incorpora automatización avanzada en la generación de reportes financieros en formato PDF, incluyendo la autogeneración de identificadores únicos mediante códigos QR, lo que permite validar, rastrear y auditar la información de manera ágil y segura.
+                    
+                    Además, se integra con los sistemas de facturación electrónica del Servicio de Rentas Internas (SRI), asegurando cumplimiento normativo y optimizando los procesos fiscales.
+                    
+                    A nivel operativo, permite la gestión automatizada del catálogo de productos y servicios, así como el control de stock e inventarios en tiempo real, mejorando la eficiencia en la administración de recursos y reduciendo riesgos operativos.
+                    </p>
+                    {% endif %}
+
+                    {% if product.is_intelligent %}
+                    <p>
+                       El modelo de agente de inteligencia artificial (Agenthic) está diseñado para analizar el comportamiento del negocio en función de los valores y parámetros financieros definidos por la organización. Este agente permite interpretar tendencias, identificar patrones y generar recomendaciones que fortalecen la toma de decisiones estratégicas, aportando una visión predictiva y analítica del desempeño empresarial.
+                    </p>
+                    {% endif %}
+
+          
+                  </div>
+                  
+                </div>
+          
+                <!-- MOBILE -->
+                <div class="position-relative d-block d-md-none"
+                  style="height: 925px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+          
+                    <h2 style="color:#fff; font-size: 14px;">
+                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+                    </h2>
+          
+                    <p class="text-warning mb-1">
+                      Inversión: ${{ product.price_amount }}
+                    </p>
+          
+                    <p>
+                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
+                    </p>
+          
+                    <span class="text-warning">Ver documentación</span>
+          
+                  </div>
+                </div>
+          
+              </a>
+          
+            </div>
+            {% endfor %}
+          
+          </div>
+         
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+      {% else %}
+        <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+      {% endif %}
+      {% endif %}
+
+
+
+      {% if c.slug == "business-analytics" and c.tamano_empresa == '11-50 usuarios' %}
+      {% if c.products.all %}
+
+     
+        <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          
+              <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+          
+                <!-- DESKTOP -->
+                <div class="position-relative d-none d-md-block"
+                  style="height: 925px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+          
+                    <h2 class="text-warning" style="font-size: 16px;">
+                      {{ product.name }} 
+                      <sup>
+                        I+D {% if product.is_automatitation %} +A {% endif %}
+                        {% if product.is_intelligent %} +AI {% endif %}
+                      </sup>
+
+           
+                     / Implementación y Desarollo personalizado (I+D)
+      
+          
+                      {% if product.is_automatitation %}
+                      ,Automatización (+A)
+                      {% endif %}
+          
+                      {% if product.is_intelligent %}
+                        ,Inteligencia Artificial (+AI). 
+                      {% endif %}
+                      Disponibilidad: {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
+                      {% elif product.usuarios_simultaneos == '150-500' %}  media/baja (500 usuarios)
+                      {% elif product.usuarios_simultaneos == '500-1000' %} media/alta  (1000 usuarios)
+                      {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                      {% endif %}
+                    </h2>
+                 
+                    <p>
+                    Es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y escalar los procesos operativos, administrativos y financieros de organizaciones modernas. Su arquitectura cloud permite acceso seguro, en tiempo real y desde cualquier dispositivo, garantizando trazabilidad, disponibilidad de la información y soporte a la toma de decisiones estratégicas basadas en datos confiables.
+                    
+                    Desde una perspectiva financiera, el sistema puede implementarse y desarrollarse de manera personalizada según la estructura económica de cada organización, incorporando centros de costos, gestión de ingresos y egresos, estados de resultados (P&L), control de activos y pasivos, así como parámetros financieros clave para el análisis y control de la salud financiera del negocio.
+                    
+                    Esta solución está especialmente orientada a STARTUPS y pequeñas organizaciones, ofreciendo una base sólida para profesionalizar su gestión financiera, mejorar la eficiencia operativa y fortalecer la toma de decisiones con enfoque en rentabilidad, sostenibilidad y crecimiento.
+                    </p>
+            
+                    
+                    
+                    {% if product.is_automatitation %}
+                    <p>
+                    Incorpora automatización avanzada en la generación de reportes financieros en tiempo real incluyendo la autogeneración de identificadores únicos mediante códigos QR, lo que permite validar, rastrear y auditar la información de manera ágil y segura.
+                    
+                    Además, se integra con los sistemas de facturación electrónica del Servicio de Rentas Internas (SRI), asegurando cumplimiento normativo y optimizando los procesos fiscales.
+                    
+                    A nivel operativo, permite la gestión automatizada del catálogo de productos y servicios, así como el control de stock e inventarios en tiempo real, mejorando la eficiencia en la administración de recursos y reduciendo riesgos operativos.
+                    </p>
+                    {% endif %}
+
+                    {% if product.is_intelligent %}
+                    <p>
+                       El modelo de agente de inteligencia artificial (Agenthic) está diseñado para analizar el comportamiento del negocio en función de los valores y parámetros financieros definidos por la organización. Este agente permite interpretar tendencias, identificar patrones y generar recomendaciones que fortalecen la toma de decisiones estratégicas, aportando una visión predictiva y analítica del desempeño empresarial.
+                    </p>
+                    {% endif %}
+
+          
+                  </div>
+                  
+                </div>
+          
+                <!-- MOBILE -->
+                <div class="position-relative d-block d-md-none"
+                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+          
+                    <h2 style="color:#fff; font-size: 14px;">
+                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+                    </h2>
+          
+                    <p class="text-warning mb-1">
+                      Inversión: ${{ product.price_amount }}
+                    </p>
+          
+                    <p>
+                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
+                    </p>
+          
+                    <span class="text-warning">Ver documentación</span>
+          
+                  </div>
+                </div>
+          
+              </a>
+          
+            </div>
+            {% endfor %}
+          
+          </div>
+         
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+ 
+  
+      {% else %}
+        <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+      {% endif %}
+      {% endif %}
+
+
+      {% if c.slug == "business-analytics" and c.tamano_empresa == '51-200 usuarios' %}
+      {% if c.products.all %}
+
+     
+        <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          
+              <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+          
+                <!-- DESKTOP -->
+                <div class="position-relative d-none d-md-block"
+                  style="height: 790px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+          
+                    <h2 class="text-warning" style="font-size: 16px;">
+                      {{ product.name }} 
+                      <sup>
+                        I+D {% if product.is_automatitation %} +A {% endif %}
+                        {% if product.is_intelligent %} +AI {% endif %}
+                      </sup>
+
+           
+                     / Implementación y Desarollo personalizado (I+D)
+      
+          
+                      {% if product.is_automatitation %}
+                      ,Automatización (+A)
+                      {% endif %}
+          
+                      {% if product.is_intelligent %}
+                        ,Inteligencia Artificial (+AI). 
+                      {% endif %}
+                      Disponibilidad: {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
+                      {% elif product.usuarios_simultaneos == '150-500' %}  media/baja (500 usuarios)
+                      {% elif product.usuarios_simultaneos == '500-1000' %} media/alta  (1000 usuarios)
+                      {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                      {% endif %}
+                    </h2>
+                 
+                    <p>
+                    Es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y escalar los procesos operativos, administrativos y financieros de organizaciones modernas. Su arquitectura cloud permite acceso seguro, en tiempo real y desde cualquier dispositivo, garantizando trazabilidad, disponibilidad de la información y soporte a la toma de decisiones estratégicas basadas en datos confiables.
+                    
+                    Desde una perspectiva financiera, el sistema puede implementarse y desarrollarse de manera personalizada según la estructura económica de cada organización, incorporando centros de costos, gestión de ingresos y egresos, estados de resultados (P&L), control de activos y pasivos, así como parámetros financieros clave para el análisis y control de la salud financiera del negocio.
+                    
+                    Esta solución está especialmente orientada a EMPRESAS y grandes organizaciones, ofreciendo una base sólida para profesionalizar su gestión financiera, mejorar la eficiencia operativa y fortalecer la toma de decisiones con enfoque en rentabilidad, sostenibilidad y crecimiento.
+                    </p>
+            
+                    
+                    
+                    {% if product.is_automatitation %}
+                    <p>
+                    Incorpora automatización avanzada en la generación de reportes financieros en formato PDF, incluyendo la autogeneración de identificadores únicos mediante códigos QR, lo que permite validar, rastrear y auditar la información de manera ágil y segura.
+                    
+                    Además, se integra con los sistemas de facturación electrónica del Servicio de Rentas Internas (SRI), asegurando cumplimiento normativo y optimizando los procesos fiscales.
+                    
+                    A nivel operativo, permite la gestión automatizada del catálogo de productos y servicios, así como el control de stock e inventarios en tiempo real, mejorando la eficiencia en la administración de recursos y reduciendo riesgos operativos.
+                    </p>
+                    {% endif %}
+
+                    {% if product.is_intelligent %}
+                    <p>
+                       El modelo de agente de inteligencia artificial (Agenthic) está diseñado para analizar el comportamiento del negocio en función de los valores y parámetros financieros definidos por la organización. Este agente permite interpretar tendencias, identificar patrones y generar recomendaciones que fortalecen la toma de decisiones estratégicas, aportando una visión predictiva y analítica del desempeño empresarial.
+                    </p>
+                    {% endif %}
+
+          
+                  </div>
+                  
+                </div>
+          
+                <!-- MOBILE -->
+                <div class="position-relative d-block d-md-none"
+                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+          
+                    <h2 style="color:#fff; font-size: 14px;">
+                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+                    </h2>
+          
+                    <p class="text-warning mb-1">
+                      Inversión: ${{ product.price_amount }}
+                    </p>
+          
+                    <p>
+                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
+                    </p>
+          
+                    <span class="text-warning">Ver documentación</span>
+          
+                  </div>
+                </div>
+          
+              </a>
+          
+            </div>
+            {% endfor %}
+          
+          </div>
+         
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+ 
+  
+      {% else %}
+        <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+      {% endif %}
+      {% endif %}
+
+
+      {% if c.slug == "business-analytics" and c.tamano_empresa == '200+ usuarios' %}
+      {% if c.products.all %}
+        <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+
+          <div class="carousel-inner">
+
+            {% for product in c.products.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          
+              <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+          
+                <!-- DESKTOP -->
+                <div class="position-relative d-none d-md-block"
+                  style="height: 790px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+          
+                    <h2 class="text-warning" style="font-size: 16px;">
+                      {{ product.name }} 
+                      <sup>
+                        I+D {% if product.is_automatitation %} +A {% endif %}
+                        {% if product.is_intelligent %} +AI {% endif %}
+                      </sup>
+
+           
+                     / Implementación y Desarollo personalizado (I+D)
+      
+          
+                      {% if product.is_automatitation %}
+                      ,Automatización (+A)
+                      {% endif %}
+          
+                      {% if product.is_intelligent %}
+                        ,Inteligencia Artificial (+AI). 
+                      {% endif %}
+                      Disponibilidad: {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
+                      {% elif product.usuarios_simultaneos == '150-500' %}  media/baja (500 usuarios)
+                      {% elif product.usuarios_simultaneos == '500-1000' %} media/alta  (1000 usuarios)
+                      {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                      {% endif %}
+                    </h2>
+                    {% if product.is_automatitation %}
+                    <p>
+                    Incorpora automatización avanzada en la generación de reportes financieros en formato PDF, incluyendo la autogeneración de identificadores únicos mediante códigos QR, lo que permite validar, rastrear y auditar la información de manera ágil y segura.
+                    
+                    Además, se integra con los sistemas de facturación electrónica del Servicio de Rentas Internas (SRI), asegurando cumplimiento normativo y optimizando los procesos fiscales.
+                    
+                    A nivel operativo, permite la gestión automatizada del catálogo de productos y servicios, así como el control de stock e inventarios en tiempo real, mejorando la eficiencia en la administración de recursos y reduciendo riesgos operativos.
+                    </p>
+                    
+                    {% elif product.is_research %}
+                    <p>
+                    Es una plataforma inteligente de gestión empresarial (ERP en la nube) diseñada para optimizar, integrar y escalar los procesos operativos, administrativos y financieros de organizaciones modernas...
+                    </p>
+                    
+                    {% elif product.is_intelligent %}
+                    <p>
+                    El modelo de agente de inteligencia artificial (Agenthic)...
+                    </p>
+                    {% endif %}
+
+          
+                  </div>
+                  
+                </div>
+          
+                <!-- MOBILE -->
+                <div class="position-relative d-block d-md-none"
+                  style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+          
+                  <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+          
+                    <h2 style="color:#fff; font-size: 14px;">
+                      <ion-icon name="bar-chart-outline"></ion-icon> {{ product.name }}
+                    </h2>
+          
+                    <p class="text-warning mb-1">
+                      Inversión: ${{ product.price_amount }}
+                    </p>
+          
+                    <p>
+                      <strong>SmartBusinessAnalytics®</strong> es una plataforma ERP en la nube...
+                    </p>
+          
+                    <span class="text-warning">Ver documentación</span>
+          
+                  </div>
+                </div>
+          
+              </a>
+          
+            </div>
+            {% endfor %}
+          
+          </div>
+         
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Previous" %}</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">{% trans "Next" %}</span>
+          </button>
+        </div>
+ 
+  
+      {% else %}
+        <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+      {% endif %}
+      {% endif %}      
+  {% endfor %}
+
+
+  
+
+</div>
+</div>
+
+
+
+
+</div>
