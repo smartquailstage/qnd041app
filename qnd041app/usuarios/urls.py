@@ -31,6 +31,7 @@ urlpatterns = [
     path("dashboard/mediana/", views.dashboard_mediana, name="dashboard_mediana"),
     path("dashboard/enterprise/", views.dashboard_enterprise, name="dashboard_enterprise"),
     path("dashboard/user/", views.dashboard_pather, name="dashboard_pather"),
+    path('change-password/', views.change_password, name='change_password'),
 
     path(
         'politicas-terminos/',

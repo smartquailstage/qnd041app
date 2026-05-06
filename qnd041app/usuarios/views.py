@@ -39,6 +39,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from urllib.parse import unquote
 import logging
+from django.contrib.auth import update_session_auth_hash
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -252,6 +253,35 @@ def password_reset_confirm(request, uidb64, token):
     else:
         messages.error(request, 'El enlace de restablecimiento no es válido o ha expirado.')
         return redirect('usuarios:password_reset_request')
+
+
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth import update_session_auth_hash
+
+@login_required
+def change_password(request):
+    user = request.user
+
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 and password2:
+            if password1 == password2:
+                user.set_password(password1)
+                user.save()
+                update_session_auth_hash(request, user)
+
+                messages.success(request, 'Su contraseña ha sido actualizada correctamente.')
+                return redirect('usuarios:login')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+        else:
+            messages.error(request, 'Debe completar ambos campos.')
+
+    return render(request, 'registration/password_change_form_user.html')
 
 
 
