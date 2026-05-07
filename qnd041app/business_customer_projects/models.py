@@ -35,6 +35,9 @@ class BusinessSystemProject(models.Model):
     public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
     velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')
 
+
+
+
     saas_order = models.OneToOneField(
         SaaSOrder,
         on_delete=models.SET_NULL,
@@ -44,21 +47,17 @@ class BusinessSystemProject(models.Model):
         verbose_name="Orden SaaS relacionada"
     )
 
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        #editable=False,  # evita errores similares al de 'executed_at'
-        related_name='business_projects',
-        verbose_name='Producto asociado'
-    )
-
-
 
     # Nombre y descripción del proyecto
     name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial",default="Iniciando")
     description = models.TextField()
+
+        #GOBERNANZA
+    nombre_responsable = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de resposable de datos personales')
+    nombre_encargado = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de encargado de tratamiento de datos')
+    nombre_delegado = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre del delegado de proteccion de datos personales')
+    
+    politicas_privacidad = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
 
     # Fecha de creación
     created_at = models.DateTimeField(auto_now_add=True)

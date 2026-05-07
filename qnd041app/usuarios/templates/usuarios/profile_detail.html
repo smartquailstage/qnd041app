@@ -5,131 +5,423 @@
 {% block title %} Usuarios ITC {% endblock %}
 
 {% block content %}
-
 <div class="page-content-wrapper">
-  <!-- start page content-->
   <div class="page-content">
 
     <div class="row">
       <div class="col-lg-8 mx-auto">
+
         <div class="card radius-10">
           <div class="card-body">
-    
-            <!-- ================= USUARIO ================= -->
-            <h5 class="mb-3">
-              <ion-icon name="person-circle-outline"></ion-icon> Cuenta de Usuario ITC
-            </h5>
-    
+
+            <!-- ================= FOTO PERFIL ================= -->
             <div class="mb-4 d-flex flex-column align-items-center justify-content-center">
               <div class="user-change-photo shadow">
                 {% if profile.photo %}
-                  <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
+                  <img 
+                    src="{{ profile.photo.url }}" 
+                    alt="Foto de perfil"
+                    width="120"
+                    class="rounded-circle"
+                  >
                 {% else %}
-                  <img src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
+                  <img 
+                    src="{% static 'assets/images/default.png' %}" 
+                    alt="Foto de perfil"
+                    width="120"
+                    class="rounded-circle"
+                  >
                 {% endif %}
               </div>
             </div>
-    
-            <!-- ================= INFO NEGOCIO ================= -->
-            <h5 class="mt-4">Información de Negocio ITC</h5>
+
+            <!-- ================= NEGOCIO ================= -->
             <hr>
-    
+
+            <h5 class="mt-4">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+              Negocio ITC
+            </h5>
+
+            <hr>
+
             <div class="row g-3">
+
               <div class="col-md-6">
                 <p><strong>Usuario:</strong> {{ profile.user.username }}</p>
                 <p><strong>Teléfono:</strong> {{ profile.telefono }}</p>
                 <p><strong>Provincia:</strong> {{ profile.provincia }}</p>
                 <p><strong>Dirección:</strong> {{ profile.direccion_empresa }}</p>
               </div>
-    
+
               <div class="col-md-6">
                 <p><strong>Empresa:</strong> {{ profile.nombre_empresa }}</p>
                 <p><strong>Nombre:</strong> {{ profile.nombre_completo }}</p>
                 <p><strong>Cargo:</strong> {{ profile.cargo_usuario }}</p>
                 <p><strong>Sector:</strong> {{ profile.sector_negocio }}</p>
               </div>
+
             </div>
-    
+
             <!-- ================= ESCALABILIDAD ================= -->
-            <h5 class="mt-4">Configuraciones de Escalabilidad</h5>
             <hr>
-    
+
+            <h5 class="mt-4">
+              <ion-icon name="stats-chart-outline"></ion-icon>
+              Configuración de Escalabilidad
+            </h5>
+
+            <hr>
+
             <div class="row g-3">
+
               <div class="col-md-4">
-                <p><strong>Tamaño Empresa:</strong><br>{{ profile.tamano_empresa }}</p>
+                <p>
+                  <strong>Tamaño Empresa:</strong><br>
+                  {{ profile.tamano_empresa }}
+                </p>
               </div>
-    
+
               <div class="col-md-4">
-                <p><strong>Experiencia Cloud:</strong><br>{{ profile.nivel_experiencia_cloud }}</p>
+                <p>
+                  <strong>Experiencia Cloud:</strong><br>
+                  {{ profile.nivel_experiencia_cloud }}
+                </p>
               </div>
-    
+
               <div class="col-md-4">
-                <p><strong>Presupuesto:</strong><br>$ {{ profile.presupuesto_estimado }}</p>
+                <p>
+                  <strong>Presupuesto:</strong><br>
+                  $ {{ profile.presupuesto_estimado }}
+                </p>
               </div>
+
             </div>
-    
-            <!-- ================= ÓRDENES ================= -->
-            <h5 class="mt-4"><ion-icon name="key-outline"></ion-icon> Licencias válidas</h5>
+
+            <!-- ================= LICENCIAS ================= -->
             <hr>
-            
-            <div style="max-height: 300px; overflow-y: auto;overflow-x: hidden;">
-                {% if orders %}
-                    {% for order in orders %}
-                        <div class="row g-3 mb-4 p-2 border rounded">
-            
-                            <!-- Info orden -->
-                            <div class="col-md-6">
-                                <p class="mb-1">
-                                    <strong>SQ02-APP-120-00{{ order.id }}</strong>
-                                </p>
-            
-                                <p class="mb-1">
-                                    <strong>Fecha:</strong> {{ order.created|date:"d/m/Y H:i" }}
-                                </p>
-            
-                                <p class="mb-1">
-                                    <strong>Estado:</strong>
-                                    {% if order.is_active %}
-                                        <span class="badge bg-warning text-dark">Pendiente</span>
-                                    {% else %}
-                                        <span class="badge bg-success">Activo</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-            
-                            <!-- Productos -->
-                            <div class="col-md-6">
-                                {% for item in order.items.all %}
-                                    <div class="mb-2">
-                                        <strong>{{ item.product }}</strong><br>
-                                        <small>
-                                            Disponibilidad: {{ item.product.software }}<br>
-                                            Inversión: {{ item.price }}<br>
-                                        </small>
-                                    </div>
-                                {% empty %}
-                                    <p class="text-muted">Sin productos</p>
-                                {% endfor %}
-                            </div>
-            
+
+            <h5 class="mt-4">
+              <ion-icon name="key-outline"></ion-icon>
+              Licencias ITC
+            </h5>
+
+            <hr>
+
+            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+
+              {% if orders %}
+
+                {% for order in orders %}
+                  <div class="row g-3 mb-4 p-3 border rounded">
+
+                    <!-- INFO ORDEN -->
+                    <div class="col-md-6">
+
+                      <p class="mb-1">
+                        <strong>
+                          <a href="{% url 'saas_orders:order_detail' order_id=order.id %}">
+                            SQ02-APP-120-00{{ order.id }}
+                          </a>
+                        </strong>
+                      </p>
+
+                      <p class="mb-1">
+                        <strong>Fecha:</strong>
+                        {{ order.created|date:"d/m/Y H:i" }}
+                      </p>
+
+                      <p class="mb-1">
+                        <strong>Estado:</strong>
+
+                        {% if order.is_active %}
+                          <span class="badge bg-warning text-dark">
+                            Pendiente de pago
+                          </span>
+                        {% else %}
+                          <span class="badge bg-success">
+                            Activo
+                          </span>
+                        {% endif %}
+                      </p>
+
+                    </div>
+
+                    <!-- PRODUCTOS -->
+                    <div class="col-md-6">
+
+                      {% for item in order.items.all %}
+                        <div class="mb-2">
+
+                          <strong>{{ item.product }}</strong><br>
+
+                          <small>
+                            Disponibilidad: {{ item.product.software }}<br>
+                            Inversión: {{ item.price }}
+                          </small>
+
                         </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="text-muted">No tienes órdenes registradas.</p>
-                {% endif %}
+
+                      {% empty %}
+
+                        <p class="text-muted">
+                          Sin productos
+                        </p>
+
+                      {% endfor %}
+
+                    </div>
+
+                  </div>
+                {% endfor %}
+
+              {% else %}
+
+                <p class="text-muted">
+                  No tienes órdenes registradas.
+                </p>
+
+              {% endif %}
+
             </div>
-    
+
+            <!-- ================= ACTIVOS ================= -->
+            <hr>
+
+            <h5 class="mt-4">
+              <ion-icon name="cloud-download-outline"></ion-icon>
+              Activos ITC
+            </h5>
+
+            <hr>
+
+            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+
+              {% if projects %}
+
+                {% for project in projects %}
+                  <div class="row g-3 mb-4 p-3 border rounded">
+
+                    <!-- INFO PROYECTO -->
+                    <div class="col-md-6">
+
+                      <p class="mb-1">
+                        <strong>
+                          <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}">
+                            {{ project.name }}
+                          </a>
+                        </strong>
+                      </p>
+
+                      <p class="mb-1">
+                        <strong>Fecha:</strong>
+                        {{ project.created_at|date:"d/m/Y H:i" }}
+                      </p>
+                      <p>
+                        Centro de datos: público compartido <br>
+                      </p>
+                      <p>
+                        {% for order in orders %}
+                        {% if order.signed_contract_ip %}
+                          <a href="{{ order.signed_contract_ip.url }}" target="_blank">
+                            Contrato de propiedad intelectual
+                          </a><br>
+                        {% endif %}
+                      
+                        {% if order.signed_contract_dev %}
+                          <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                            Contrato de Implementación y desarrollo
+                          </a><br>
+                        {% endif %}
+                      
+                        {% if order.signed_contract_cloud %}
+                          <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                            Contrato de alquiler de recursos tecnológicos
+                          </a>
+                        {% endif %}
+                        {% endfor %}
+                      
+                      </p>
+                      <p class="mb-1">
+                        <strong>Estado:</strong>
+
+                        {% if project.is_active %}
+                          <span class="badge bg-success">
+                            Activo
+                          </span>
+                        {% else %}
+                          <span class="badge bg-secondary">
+                            Inactivo
+                          </span>
+                        {% endif %}
+                      </p>
+
+                    </div>
+
+                    <!-- DOMINIO -->
+                    <div class="col-md-6">
+
+                      {% if project.domain_name %}
+                        <div class="mb-2">
+
+                          <a href="{{ project.domain_name }}" target="_blank">
+                            <strong>
+                              {{ project.domain_name }}
+                              <ion-icon name="open-outline"></ion-icon>
+                            </strong>
+                          </a>
+                          <p>
+                            Base de Datos: {{ project.db_name }} <br>
+                            Cifrado: SSL/TTL <br>
+                            Implementación y Desarollo (i+D) <br>
+                            {% if project.has_automation %}
+                            Automatización (+A) <br>
+                            {% elif project.has_ai %}
+                            Inteligencia Artificial (+IA) <br>
+                            {% endif %}
+
+                          </p>
+                          {% for order in orders %}
+
+                          <p><a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
+
+                          {% endfor %}
+
+                        </div>
+                      {% else %}
+
+                        <p class="text-muted">
+                          Sin dominio asignado
+                        </p>
+
+                      {% endif %}
+
+                    </div>
+
+                  </div>
+                {% endfor %}
+
+              {% else %}
+
+                <p class="text-muted">
+                  No tiene  activos asociados a esta cuenta.
+                  Si  dispone de una licencia válida, por favor crear un activo.
+                </p>
+
+              {% endif %}
+
+            </div>
+
+            <!-- ================= GOBERNANZA ================= -->
+            <hr>
+
+            <h5 class="mt-4">
+              <ion-icon name="people-circle-outline"></ion-icon>
+              Gobernanza ITC
+            </h5>
+
+            <hr>
+
+         
+         
+
+              {% if projects %}
+
+              {% for project in projects %}
+          
+                  {% if project.nombre_responsable or project.nombre_encargado or project.nombre_delegado or project.politicas_privacidad %}
+          
+                      <div class="row g-3 mb-4 p-3 border rounded">
+          
+                          <!-- RESPONSABLES -->
+                          <div class="col-md-6">
+          
+                              {% if project.nombre_responsable %}
+                                  <p class="mb-1">
+                                      <strong>
+                                          Responsable de datos personales:
+                                      </strong>
+                                      {{ project.nombre_responsable }}
+                                  </p>
+                              {% endif %}
+          
+                              {% if project.nombre_encargado %}
+                                  <p class="mb-1">
+                                      <strong>
+                                          Encargado de tratamiento de datos personales:
+                                      </strong>
+                                      {{ project.nombre_encargado }}
+                                  </p>
+                              {% endif %}
+          
+                              {% if project.nombre_delegado %}
+                                  <p class="mb-1">
+                                      <strong>
+                                          Delegado de datos personales:
+                                      </strong>
+                                      {{ project.nombre_delegado }}
+                                  </p>
+                              {% endif %}
+          
+                          </div>
+          
+                          <!-- POLÍTICAS -->
+                          <div class="col-md-6">
+          
+                              {% if project.politicas_privacidad %}
+                                  <p>
+                                      <strong>
+                                          Políticas de privacidad y condiciones de uso:
+                                      </strong><br>
+          
+                                      <a href="{{ project.politicas_privacidad }}" target="_blank">
+                                          {{ project.politicas_privacidad }}
+                                      </a>
+                                  </p>
+                              {% else %}
+          
+                                  <p class="text-muted">
+                                      Sin políticas registradas.
+                                  </p>
+          
+                              {% endif %}
+          
+                              <p class="mb-1">
+                                  <strong>Última actualización:</strong>
+                                  {{ project.created_at|date:"d/m/Y H:i" }}
+                              </p>
+          
+                          </div>
+          
+                      </div>
+          
+                  {% else %}
+          
+                    
+                          No hay gobernanza asignada a este activo.
+               
+          
+                  {% endif %}
+          
+              {% endfor %}
+          
+          {% else %}
+          
+              <p class="text-muted">
+                  No existen registros de gobernanza.
+              </p>
+          
+          {% endif %}
+
+      
+
           </div>
         </div>
+
       </div>
     </div>
 
-
-
-
   </div>
-  <!-- end page content-->
-</div>
 </div>
 
 

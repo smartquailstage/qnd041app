@@ -282,8 +282,8 @@ class SaaSOrderAdmin(ModelAdmin):
     list_display = [
         'id', 'first_name', 'last_name', 'email',
         'ruc', 'razon_social', 'telefono', 'paid',
-        order_pdf, order_ebook,
-        'signed_contract_ip', 'signed_contract_dev', 'signed_contract_cloud'
+        order_pdf, order_ebook,contract_ip,
+        #'signed_contract_ip', 'signed_contract_dev', 'signed_contract_cloud'
     ]
 
     list_filter = ['paid', 'is_active', 'terms_accepted', 'created', 'updated']
@@ -324,6 +324,7 @@ class SaaSOrderAdmin(ModelAdmin):
         }),
         ('Contratos CLOUD', {
             'fields': (
+                
                 'signed_contract_cloud', 'contract_signed_at_cloud',
                 'contract_verified_cloud', 'contract_hash_cloud'
             ),

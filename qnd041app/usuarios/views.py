@@ -43,6 +43,7 @@ from django.utils.http import urlsafe_base64_decode
 from urllib.parse import unquote
 import logging
 from django.contrib.auth import update_session_auth_hash
+from business_customer_projects.models import BusinessSystemProject
 
 
 
@@ -577,6 +578,10 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["projects"] = BusinessSystemProject.objects.filter(
+            user=self.request.user,
+            is_active=True
+        ).order_by('-created_at')
 
         context["orders"] = SaaSOrder.objects.filter(
             user=self.request.user,
