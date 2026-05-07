@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load static %}
+
+<div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
+    
+    <div class="card-body p-0">
+
+
+ {% for c in categories %}
+   {% if c.slug == "business-medico" %}
+     {% if c.products.all %}
+     <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+                   <div class="carousel-inner">
+           {% for product in c.products.all %}
+             <div class="carousel-item {% if forloop.first %}active{% endif %}">
+               <!-- Enlace envuelve todo el contenido de la imagen -->
+               <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
+                 <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                   <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark  bg-opacity-50">
+                                     <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-health"></i>{{ product.name }}<sup>I+D</sup>
+, maximo {{ product.numero_procesos }}  Procesos </h2>
+                <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
+             
+                   </div>
+                 </div>
+               </a>
+             </div>
+           {% endfor %}
+         </div>
+       <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
+         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+         <span class="visually-hidden">{% trans "Previous" %}</span>
+       </button>
+       <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
+         <span class="carousel-control-next-icon" aria-hidden="true"></span>
+         <span class="visually-hidden">{% trans "Next" %}</span>
+       </button>
+     </div>
+     {% else %}
+       <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+     {% endif %}
+   {% endif %}
+ {% endfor %}
+</div>
+
+
+<div class="card" style="margin-top: 19px;background-color: #2e2e2e;">
+<div class="card-body p-0" style="color: #ededed;
+text-align: justify;
+font-family: 'Segoe UI', sans-serif;
+font-size: 14px;
+line-height: 1.2;
+background-color: #2e2e2e;
+border-radius: 25px;
+margin-bottom: 1rem;">
+ <p>
+   <strong>Plataformas Inteligentes Medicas & Terapeuticas</strong> Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras. Integra las mejores soluciones cloud para garantizar alta disponibilidad, escalabilidad y protección de datos clínicos, cumpliendo con los más altos estándares internacionales.
+ </p>
+ <p>
+  Con infraestructura de última generación y cumplimiento normativo, nuestra plataforma impulsa una atención más eficiente, humana y confiable, permitiendo que los profesionales se enfoquen en lo más importante: el bienestar del paciente.<a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
+ </p>
+
+</div>
+</div>
+
+</div>
