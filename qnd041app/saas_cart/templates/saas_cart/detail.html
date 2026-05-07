@@ -131,7 +131,10 @@
                             <div class="card" style="background-color: #2e2e2e;">
                                 <div class="card-body" style="color:#fff">
                                     <div class="card">
+                                        
                                         <div class="card-body" style="color:#fff">
+                                            <h3><ion-icon name="id-card-outline"></ion-icon> Convenio ITC</h3>
+                                            <p style="font-size: 12px; margin-top: 15px;"><ion-icon name="information-circle-outline"></ion-icon> Si dispone de convenio con SmartQuail,Inc, escriba su codigo aquí. <a href="{% url 'saas_coupons:solicitud' %}">Más información</a></p>
                                             <form method="POST" action=".">
                                                 {% csrf_token %}
                                                 <div class="input-group">
@@ -141,7 +144,7 @@
                                                 </div>
 
                                             </form>
-                                            <p style="font-size: 9px; margin-top: 5px;">* Si dispone de convenio con SmartQuail,Inc, escriba su codigo aquí</p>
+                                            
                                             {% if message %}
                                             <div class="mt-2">
                                                 <p>{{ message }}</p>

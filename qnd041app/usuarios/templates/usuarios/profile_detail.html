@@ -169,6 +169,11 @@
                         </p>
 
                       {% endfor %}
+                      {% if order.coupon %}
+                      <p>
+                        Convenio: {{ order.coupon }}
+                      </p>
+                    {% endif %}
 
                     </div>
 
@@ -276,8 +281,10 @@
                             Implementación y Desarollo (i+D) <br>
                             {% if project.has_automation %}
                             Automatización (+A) <br>
-                            {% elif project.has_ai %}
+                            {% elif project.has_ai %
                             Inteligencia Artificial (+IA) <br>
+                            {% elif project.has_llm %}
+                            Modelo de lenguaje natural (+LLM) <br>
                             {% endif %}
 
                           </p>
@@ -316,7 +323,7 @@
             <hr>
 
             <h5 class="mt-4">
-              <ion-icon name="people-circle-outline"></ion-icon>
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
               Gobernanza ITC
             </h5>
 
@@ -339,7 +346,7 @@
                               {% if project.nombre_responsable %}
                                   <p class="mb-1">
                                       <strong>
-                                          Responsable de datos personales:
+                                          Responsable  de datos personales:
                                       </strong>
                                       {{ project.nombre_responsable }}
                                   </p>
@@ -348,7 +355,7 @@
                               {% if project.nombre_encargado %}
                                   <p class="mb-1">
                                       <strong>
-                                          Encargado de tratamiento de datos personales:
+                                          Encargado de datos personales:
                                       </strong>
                                       {{ project.nombre_encargado }}
                                   </p>
@@ -357,7 +364,7 @@
                               {% if project.nombre_delegado %}
                                   <p class="mb-1">
                                       <strong>
-                                          Delegado de datos personales:
+                                          Delegado  de datos personales:
                                       </strong>
                                       {{ project.nombre_delegado }}
                                   </p>
