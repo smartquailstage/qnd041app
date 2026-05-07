@@ -4,8 +4,35 @@
 
 <style>
   .text-info {
-  color: #195504 !important;
+  color: #678b9d !important;
 }
+
+
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar-menu {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 109px;
+}
+
+.sidebar-footer-item {
+   margin-top: 109px;
+}
+
+
+.sidebar-wrapper .metismenu li + li {
+  margin-top: 5px;
+}
+
 </style>
 
 <aside class="sidebar-wrapper" data-simplebar="true">
@@ -85,12 +112,6 @@ Coorp & Industrial
           </a>
         </li>
 
-        <li>
-               <a href="{% url 'iaas_shop:product_list' %}" aria-expanded="false">
-              <ion-icon name="cube-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Infraestructura</div>
-          </a>
-        </li>
 
 
   </ul>
@@ -186,23 +207,27 @@ Coorp & Industrial
       Inicio de sesión
      </p>
  </li>
-                              <a href="{% url 'usuarios:logout' %}">
+   
+        <li class="sidebar-footer-item mt-auto">
+          <a href="{% url 'usuarios:logout' %}" >
+            
             <div class="parent-icon">
-               <ion-icon name="log-out-outline"></ion-icon>
+              <ion-icon name="log-out-outline"></ion-icon>
             </div>
-            <div class="menu-title">Cerrar Sesión</div>
+        
+            <div class="menu-title">
+              Cerrar Sesión
+            </div>
+        
           </a>
-
-
         </li>
 
 
 
 
-<li>
-
-
     </ul>
+
+
 
 
 

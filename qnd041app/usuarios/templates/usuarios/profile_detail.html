@@ -134,13 +134,13 @@
                       <p class="mb-1">
                         <strong>Estado:</strong>
 
-                        {% if order.is_active %}
-                          <span class="badge bg-warning text-dark">
-                            Pendiente de pago
+                        {% if order.paid %}
+                          <span class="badge bg-success text-dark">
+                            Vigente
                           </span>
                         {% else %}
-                          <span class="badge bg-success">
-                            Activo
+                          <span class="badge bg-warning">
+                             Pendiente de pago
                           </span>
                         {% endif %}
                       </p>
@@ -215,7 +215,21 @@
                           <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}">
                             {{ project.name }}
                           </a>
-                        </strong>
+                        </strong><br>
+                        {% for member in project.crew_members.all %}
+                        {{ member }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </p>
+
+
+                      <p class="mb-1">
+
+                        {% for member in project.crew_members.all %}
+                        <strong>
+                          Equipo encargado:
+                        </strong><br>
+                        {{ member }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
                       </p>
 
                       <p class="mb-1">
@@ -226,25 +240,7 @@
                         Centro de datos: público compartido <br>
                       </p>
                       <p>
-                        {% for order in orders %}
-                        {% if order.signed_contract_ip %}
-                          <a href="{{ order.signed_contract_ip.url }}" target="_blank">
-                            Contrato de propiedad intelectual
-                          </a><br>
-                        {% endif %}
-                      
-                        {% if order.signed_contract_dev %}
-                          <a href="{{ order.signed_contract_dev.url }}" target="_blank">
-                            Contrato de Implementación y desarrollo
-                          </a><br>
-                        {% endif %}
-                      
-                        {% if order.signed_contract_cloud %}
-                          <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
-                            Contrato de alquiler de recursos tecnológicos
-                          </a>
-                        {% endif %}
-                        {% endfor %}
+     
                       
                       </p>
                       <p class="mb-1">
@@ -252,11 +248,11 @@
 
                         {% if project.is_active %}
                           <span class="badge bg-success">
-                            Activo
+                            Producción
                           </span>
                         {% else %}
                           <span class="badge bg-secondary">
-                            Inactivo
+                            No disponible
                           </span>
                         {% endif %}
                       </p>
@@ -281,11 +277,25 @@
                             Implementación y Desarollo (i+D) <br>
                             {% if project.has_automation %}
                             Automatización (+A) <br>
-                            {% elif project.has_ai %
+                            {% elif project.has_ai %}
                             Inteligencia Artificial (+IA) <br>
                             {% elif project.has_llm %}
                             Modelo de lenguaje natural (+LLM) <br>
                             {% endif %}
+
+                            {% for order in orders %}                       
+                            {% if order.signed_contract_dev %}
+                              <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                                Contrato de Implementación y desarrollo
+                              </a><br>
+                            {% endif %}
+                          
+                            {% if order.signed_contract_cloud %}
+                              <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                                Contrato de alquiler de recursos tecnológicos
+                              </a>
+                            {% endif %}
+                            {% endfor %}
 
                           </p>
                           {% for order in orders %}
@@ -369,6 +379,10 @@
                                       {{ project.nombre_delegado }}
                                   </p>
                               {% endif %}
+                              <p class="mb-1">
+                                <strong>Última actualización:</strong>
+                                {{ project.created_at|date:"d/m/Y H:i" }}
+                            </p>
           
                           </div>
           
@@ -382,9 +396,23 @@
                                       </strong><br>
           
                                       <a href="{{ project.politicas_privacidad }}" target="_blank">
-                                          {{ project.politicas_privacidad }}
+                                          {{ project.politicas_privacidad }}<br>
                                       </a>
+
+                                      {% for order in orders %}
+                                      {% if order.signed_contract_ip %}
+                                        <a href="{{ order.signed_contract_ip.url }}" target="_blank">
+                                          Contrato de propiedad intelectual y Derechos de autoría
+                                        </a><br>
+                                      {% endif %}
+                                      {% endfor %}
+
+
+
                                   </p>
+   
+
+      
                               {% else %}
           
                                   <p class="text-muted">
@@ -393,10 +421,7 @@
           
                               {% endif %}
           
-                              <p class="mb-1">
-                                  <strong>Última actualización:</strong>
-                                  {{ project.created_at|date:"d/m/Y H:i" }}
-                              </p>
+
           
                           </div>
           
