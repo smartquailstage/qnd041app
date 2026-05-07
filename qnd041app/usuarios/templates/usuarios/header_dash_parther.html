@@ -112,10 +112,13 @@
 
         <!-- TOTAL -->
         {% if all_projects or projects_in_progress %}
+        
         <li class="nav-item">
-          <p class="mb-0 text-success bg-light-success px-2 rounded py-1">
-            ${{ pending_orders_total|floatformat:2 }}
+         
+          <p class="mb-1 text-success bg-light-success px-1 rounded py-1">
+            ${{ pending_orders_total|floatformat:2 }} 
           </p>
+          <ion-icon name="cloud-circle-outline"></ion-icon>
         </li>
         {% endif %}
 
