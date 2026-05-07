@@ -42,7 +42,8 @@ def business_projects_context(request):
     # 🔴 Orden activa
     active_order = SaaSOrder.objects.filter(
         user=request.user,
-        is_active=True
+        is_active=True,
+        paid=True
     ).first()
 
     # 🔴 Verificar si hay alguna en progreso
