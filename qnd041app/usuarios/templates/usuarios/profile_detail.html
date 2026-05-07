@@ -123,7 +123,7 @@
                       <p class="mb-1">
                         <strong>
                           <a href="{% url 'saas_orders:order_detail' order_id=order.id %}">
-                            SQ02-APP-120-00{{ order.id }}
+                            SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}
                           </a>
                         </strong>
                       </p>
@@ -132,6 +132,8 @@
                         <strong>Fecha:</strong>
                         {{ order.created|date:"d/m/Y H:i" }}
                       </p>
+
+                      <p><a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
 
                       <p class="mb-1">
                         <strong>Estado:</strong>
@@ -161,6 +163,20 @@
                             Disponibilidad: {{ item.product.software }}<br>
                             Inversión: {{ item.price }}
                           </small>
+
+                                    
+                          {% if order.signed_contract_dev %}
+                            <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                              Contrato de Implementación y desarrollo
+                            </a><br>
+                          {% endif %}
+                        
+                          {% if order.signed_contract_cloud %}
+                            <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                              Contrato de alquiler de recursos tecnológicos
+                            </a>
+                          {% endif %}
+                       
 
                         </div>
 
@@ -285,26 +301,10 @@
                             Modelo de lenguaje natural (+LLM) <br>
                             {% endif %}
 
-                            {% for order in orders %}                       
-                            {% if order.signed_contract_dev %}
-                              <a href="{{ order.signed_contract_dev.url }}" target="_blank">
-                                Contrato de Implementación y desarrollo
-                              </a><br>
-                            {% endif %}
-                          
-                            {% if order.signed_contract_cloud %}
-                              <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
-                                Contrato de alquiler de recursos tecnológicos
-                              </a>
-                            {% endif %}
-                            {% endfor %}
+
 
                           </p>
-                          {% for order in orders %}
-
-                          <p><a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
-
-                          {% endfor %}
+             
 
                         </div>
                       {% else %}
