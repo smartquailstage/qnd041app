@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def whatsapp_verify(request):
 
-    verify_token = settings.WHATSAPP_BUSINESS_API
+    verify_token = settings.TWILIO_WHATSAPP_FROM
 
     mode = request.GET.get("hub.mode")
     token = request.GET.get("hub.verify_token")

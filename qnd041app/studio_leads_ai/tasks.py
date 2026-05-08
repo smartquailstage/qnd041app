@@ -38,7 +38,7 @@ def process_user_message(self, conversation_id, message_id):
         }
 
         response = requests.post(
-            settings.N8N_CHATBOT_WEBHOOK,
+            settings.TWILIO_AUTH_TOKEN,
             json=payload,
             timeout=30
         )
