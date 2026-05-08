@@ -6,7 +6,7 @@ from .models import (
 
 class ConversationViewSet(ModelViewSet):
     model = Conversation
-    menu_label = "AI Studio Leads"
+    menu_label = "Whatsapp Business Leads"
     icon = "mobile-alt"
     menu_order = 200
     add_to_admin_menu = False
@@ -22,3 +22,11 @@ class ConversationViewSet(ModelViewSet):
 Conversation_viewset = ConversationViewSet()
 
  
+class ConversationGroup(ViewSetGroup):
+    menu_label = "AI Studio Leads"
+    icon = "mobile-alt"
+    menu_order = 200
+    items = (
+        ConversationViewSet(),
+
+    )
