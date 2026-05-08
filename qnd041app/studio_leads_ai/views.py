@@ -52,15 +52,12 @@ def whatsapp_webhook(request):
         phone = message_data["from"]
         message_text = message_data["text"]["body"]
 
-        # nombre usuario
         contacts = value.get("contacts", [])
         username = contacts[0]["profile"]["name"] if contacts else "Unknown"
 
-        # convertir formato Ecuador
         if not phone.startswith("+"):
             phone = f"+{phone}"
 
-        # buscar o crear conversación
         conversation, created = Conversation.objects.get_or_create(
             phone=phone,
             defaults={
@@ -70,11 +67,17 @@ def whatsapp_webhook(request):
             }
         )
 
-        # guardar mensaje usuario
-        Message.objects.create(
+        # guardar mensaje
+        message = Message.objects.create(
             conversation=conversation,
             role="user",
             content=message_text
+        )
+
+        # ejecutar tarea async
+        process_user_message.delay(
+            conversation.id,
+            message.id
         )
 
         return JsonResponse({
@@ -85,4 +88,3 @@ def whatsapp_webhook(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
-        
