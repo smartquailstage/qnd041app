@@ -11,7 +11,8 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 # Base (no traducibles)
 urlpatterns = [
-    path("smartbusinessanalytics/", admin.site.urls),
+    
+    path('studio_leads_ai/', include('studio_leads_ai.urls', namespace='studio_leads_ai')),
 
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('tinymce/', include('tinymce.urls')),
@@ -25,9 +26,10 @@ urlpatterns = [
 
 # Rutas traducibles (contenido Wagtail y tus apps de frontend)
 urlpatterns += i18n_patterns(
+    path("smartbusinessanalytics/", admin.site.urls),
    # path('core/', include('core.urls', namespace='core')),
     path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
-    path('studio_leads_ai/', include('studio_leads_ai.urls', namespace='studio_leads_ai')),
+
 
 
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
