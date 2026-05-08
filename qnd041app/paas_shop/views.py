@@ -33,7 +33,7 @@ def product_list(request, category_slug=None):
     # 🔥 CONFIG CENTRAL DE TABS (SINGLE SOURCE OF TRUTH)
     TAB_CONFIG = [
         {"slug": "business-gastronomico", "tab_id": "description", "label": "Gastronómico", "icon": "bx bx-restaurant"},
-        {"slug": "business-medico", "tab_id": "more-info", "label": "Médico", "icon": "bx bx-health"},
+        {"slug": "business-medico", "tab_id": "more-info", "label": "Salud y Bienestar", "icon": "bx bx-health"},
         {"slug": "business-tecnologico", "tab_id": "tags", "label": "Tecnológico", "icon": "lni lni-code-alt"},
         {"slug": "business-educar", "tab_id": "educar", "label": "Educación", "icon": "lni lni-graduation"},
         {"slug": "business-ong", "tab_id": "ong", "label": "ONG", "icon": "ion-icon people-circle-outline"},

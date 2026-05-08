@@ -6,7 +6,7 @@
   <div class="card-body p-0">
 
     {% for c in categories %}
-    {% if c.slug == "business-medico" %}
+    {% if c.slug == "business-medico" and c.tamano_empresa == '1-10 usuarios' %}
       {% if c.products.all %}
   
   <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
@@ -38,7 +38,12 @@
                   I+D {% if product.is_automatitation %}+A{% endif %}
                   {% if product.is_intelligent %}+AI{% endif %}
                 </sup>
-                / Plataforma Médica & Terapéutica
+                / Plataforma Médica & Terapéutica /               <strong>Disponibilidad:</strong>
+                {% if product.usuarios_simultaneos == '10-50'%} Baja (100 usuarios maximos simultáneos)
+                {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 usuarios maximos simultáneos)
+                {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 usuarios maximos simultáneos)
+                {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                {% endif %}
               </h2>
   
               <p class="mb-1 text-warning" style="margin-top: -10px;">
@@ -91,10 +96,10 @@
                   {% if product.is_intelligent %} • IA{% endif %}
                   <br>
                   <strong>Disponibilidad:</strong>
-                  {% if product.usuarios_simultaneos == '10-50'%} baja
-                  {% elif product.usuarios_simultaneos == '150-500' %} media/baja
-                  {% elif product.usuarios_simultaneos == '500-1000' %} media/alta
-                  {% elif product.usuarios_simultaneos == '5000+' %} alta
+                  {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
                   {% endif %}
                 </p>
   
@@ -150,6 +155,462 @@
       {% endif %}
     {% endif %}
   {% endfor %}
+
+
+  {% for c in categories %}
+  {% if c.slug == "business-medico" and c.tamano_empresa == '11-50 usuarios' %}
+    {% if c.products.all %}
+
+<div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+
+  <!-- INDICADORES (opcional pero recomendado) -->
+
+
+  <div class="carousel-inner">
+
+    {% for product in c.products.all %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+      <a href="{{ product.get_absolute_url }}"
+         class="text-decoration-none text-white d-block">
+
+        <!-- DESKTOP -->
+        <div class="position-relative d-none d-md-block"
+             style="height: 925px;
+                    background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                    background-size: cover;
+                    background-position: center;">
+
+          <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+
+            <h2 class="text-warning" style="font-size: 16px;">
+              <i class="fadeIn animated bx bx-health"></i>
+              {{ product.name }}
+              <sup>
+                I+D {% if product.is_automatitation %}+A{% endif %}
+                {% if product.is_intelligent %}+AI{% endif %}
+              </sup>
+              / Plataforma Médica & Terapéutica /               <strong>Disponibilidad:</strong>
+              {% if product.usuarios_simultaneos == '10-50'%} Baja (100 usuarios maximos simultáneos)
+              {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 usuarios maximos simultáneos)
+              {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 usuarios maximos simultáneos)
+              {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+              {% endif %}
+            </h2>
+
+            <p class="mb-1 text-warning" style="margin-top: -10px;">
+              <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+               Es una plataforma integral de inteligencia operativa para clínicas y hospitales que unifica CRM (SmartBusinessMedia), ERP(SmartBusinessAnalytics) y una plataforma web para pacientes en un solo ecosistema digital. Su objetivo es centralizar la gestión médica, administrativa y operativa, optimizando la relación con los pacientes, el control de recursos y la toma de decisiones en tiempo real.
+               A través de analítica avanzada y una arquitectura basada en I+D aplicada a procesos reales de salud, la solución transforma datos operativos en información accionable, mejora la eficiencia interna y reduce la carga manual en las instituciones. Incluye además una experiencia digital personalizada para pacientes con diseño UI/UX enfocado en accesibilidad y usabilidad. 
+               
+               {% if product.is_automatitation %}
+               La plataforma incorpora automatización de procesos operativos y administrativos médicos mediante autocompletado inteligente de entradas, 
+               autogeneración de historiales clínicos, facturación electrónica, reducción de tareas manuales repetitivas y sincronización de información entre módulos. Además, integra conectividad con WhatsApp, 
+               correo electrónico, redes sociales y APIs (KAPIs), permitiendo la automatización de citas, recordatorios, notificaciones, seguimiento de pacientes y flujos administrativos en tiempo real.
+                Esta integración multicanal fortalece la comunicación institucional, optimiza la atención al paciente y mejora significativamente la eficiencia operativa.
+                {% endif %}
+                {% if product.is_intelligent %}
+                También incorpora tecnologías de Inteligencia Artificial orientadas a la optimización clínica y administrativa, incluyendo chatbots inteligentes con modelos de 
+                lenguaje natural para atención automatizada, asistencia al paciente y soporte operativo. La plataforma permite además la implementación personalizada de modelos de aprendizaje automático (Machine Learning) para análisis predictivo, apoyo al diagnóstico médico, detección de patrones clínicos, clasificación de información y generación de recomendaciones basadas en datos reales. Asimismo, integra modelos de IA generativa para análisis avanzado de imágenes médicas, facilitando la interpretación asistida de estudios clínicos, identificación de patrones visuales y generación de soporte analítico para procesos diagnósticos especializados.
+                {% endif %}
+
+              </p>
+
+
+          </div>
+        </div>
+
+        <!-- MOBILE -->
+        <div class="position-relative d-block d-md-none w-100"
+             style="height: 100vh;
+                    background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                    background-size: cover;
+                    background-position: center;">
+
+          <div class="position-absolute top-0 start-0 w-100 h-100"
+               style="background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.35));">
+
+            <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+                 style="max-height: 75vh; overflow-y: auto;">
+
+              <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+                <i class="fadeIn animated bx bx-health"></i>
+                {{ product.name }}
+                <sup>
+                  I+D {% if product.is_automatitation %}+A{% endif %}
+                  {% if product.is_intelligent %}+AI{% endif %}
+                </sup>
+              </h2>
+
+              <p class="text-light mb-2" style="font-size: 12px;">
+                Plataforma médica y terapéutica en la nube
+                {% if product.is_automatitation %} • Automatización{% endif %}
+                {% if product.is_intelligent %} • IA{% endif %}
+                <br>
+                <strong>Disponibilidad:</strong>
+                {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
+                {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
+                {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
+                {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                {% endif %}
+              </p>
+
+              <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras.
+              </p>
+
+              {% if product.is_automatitation %}
+              <p class="text-light mb-2" style="font-size: 13px;">
+                Automatiza procesos clínicos, reportes médicos y control operativo en tiempo real.
+              </p>
+              {% endif %}
+
+              {% if product.is_intelligent %}
+              <p class="text-light mb-2" style="font-size: 13px;">
+                IA para análisis clínico, predicción y apoyo en decisiones médicas.
+              </p>
+              {% endif %}
+
+              <p class="text-light mb-2" style="font-size: 13px;">
+                Infraestructura cloud segura y escalable para atención eficiente y confiable.
+              </p>
+
+
+            </div>
+          </div>
+        </div>
+
+      </a>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- CONTROLES DEL CAROUSEL (ESTO TE FALTABA) -->
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#carouselMedia" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#carouselMedia" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+    {% else %}
+      <p class="ps-3 pb-3">No hay productos disponibles.</p>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+
+{% for c in categories %}
+{% if c.slug == "business-medico" and c.tamano_empresa == '51-200 usuarios' %}
+  {% if c.products.all %}
+
+<div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+
+<!-- INDICADORES (opcional pero recomendado) -->
+
+
+<div class="carousel-inner">
+
+  {% for product in c.products.all %}
+  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+    <a href="{{ product.get_absolute_url }}"
+       class="text-decoration-none text-white d-block">
+
+      <!-- DESKTOP -->
+      <div class="position-relative d-none d-md-block"
+           style="height: 925px;
+                  background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                  background-size: cover;
+                  background-position: center;">
+
+        <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+
+          <h2 class="text-warning" style="font-size: 16px;">
+            <i class="fadeIn animated bx bx-health"></i>
+            {{ product.name }}
+            <sup>
+              I+D {% if product.is_automatitation %}+A{% endif %}
+              {% if product.is_intelligent %}+AI{% endif %}
+            </sup>
+            / Plataforma Médica & Terapéutica /               <strong>Disponibilidad:</strong>
+            {% if product.usuarios_simultaneos == '10-50'%} Baja (100 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+            {% endif %}
+          </h2>
+
+          <p class="mb-1 text-warning" style="margin-top: -10px;">
+            <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+             Es una plataforma integral de inteligencia operativa para clínicas y hospitales que unifica CRM (SmartBusinessMedia), ERP(SmartBusinessAnalytics) y una plataforma web para pacientes en un solo ecosistema digital. Su objetivo es centralizar la gestión médica, administrativa y operativa, optimizando la relación con los pacientes, el control de recursos y la toma de decisiones en tiempo real.
+             A través de analítica avanzada y una arquitectura basada en I+D aplicada a procesos reales de salud, la solución transforma datos operativos en información accionable, mejora la eficiencia interna y reduce la carga manual en las instituciones. Incluye además una experiencia digital personalizada para pacientes con diseño UI/UX enfocado en accesibilidad y usabilidad. 
+             
+             {% if product.is_automatitation %}
+             La plataforma incorpora automatización de procesos operativos y administrativos médicos mediante autocompletado inteligente de entradas, 
+             autogeneración de historiales clínicos, facturación electrónica, reducción de tareas manuales repetitivas y sincronización de información entre módulos. Además, integra conectividad con WhatsApp, 
+             correo electrónico, redes sociales y APIs (KAPIs), permitiendo la automatización de citas, recordatorios, notificaciones, seguimiento de pacientes y flujos administrativos en tiempo real.
+              Esta integración multicanal fortalece la comunicación institucional, optimiza la atención al paciente y mejora significativamente la eficiencia operativa.
+              {% endif %}
+              {% if product.is_intelligent %}
+              También incorpora tecnologías de Inteligencia Artificial orientadas a la optimización clínica y administrativa, incluyendo chatbots inteligentes con modelos de 
+              lenguaje natural para atención automatizada, asistencia al paciente y soporte operativo. La plataforma permite además la implementación personalizada de modelos de aprendizaje automático (Machine Learning) para análisis predictivo, apoyo al diagnóstico médico, detección de patrones clínicos, clasificación de información y generación de recomendaciones basadas en datos reales. Asimismo, integra modelos de IA generativa para análisis avanzado de imágenes médicas, facilitando la interpretación asistida de estudios clínicos, identificación de patrones visuales y generación de soporte analítico para procesos diagnósticos especializados.
+              {% endif %}
+
+            </p>
+
+
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div class="position-relative d-block d-md-none w-100"
+           style="height: 100vh;
+                  background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                  background-size: cover;
+                  background-position: center;">
+
+        <div class="position-absolute top-0 start-0 w-100 h-100"
+             style="background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.35));">
+
+          <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+               style="max-height: 75vh; overflow-y: auto;">
+
+            <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+              <i class="fadeIn animated bx bx-health"></i>
+              {{ product.name }}
+              <sup>
+                I+D {% if product.is_automatitation %}+A{% endif %}
+                {% if product.is_intelligent %}+AI{% endif %}
+              </sup>
+            </h2>
+
+            <p class="text-light mb-2" style="font-size: 12px;">
+              Plataforma médica y terapéutica en la nube
+              {% if product.is_automatitation %} • Automatización{% endif %}
+              {% if product.is_intelligent %} • IA{% endif %}
+              <br>
+              <strong>Disponibilidad:</strong>
+              {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+              {% endif %}
+            </p>
+
+            <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+              Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras.
+            </p>
+
+            {% if product.is_automatitation %}
+            <p class="text-light mb-2" style="font-size: 13px;">
+              Automatiza procesos clínicos, reportes médicos y control operativo en tiempo real.
+            </p>
+            {% endif %}
+
+            {% if product.is_intelligent %}
+            <p class="text-light mb-2" style="font-size: 13px;">
+              IA para análisis clínico, predicción y apoyo en decisiones médicas.
+            </p>
+            {% endif %}
+
+            <p class="text-light mb-2" style="font-size: 13px;">
+              Infraestructura cloud segura y escalable para atención eficiente y confiable.
+            </p>
+
+
+          </div>
+        </div>
+      </div>
+
+    </a>
+
+  </div>
+  {% endfor %}
+
+</div>
+
+<!-- CONTROLES DEL CAROUSEL (ESTO TE FALTABA) -->
+<button class="carousel-control-prev" type="button"
+        data-bs-target="#carouselMedia" data-bs-slide="prev">
+  <span class="carousel-control-prev-icon"></span>
+  <span class="visually-hidden">Previous</span>
+</button>
+
+<button class="carousel-control-next" type="button"
+        data-bs-target="#carouselMedia" data-bs-slide="next">
+  <span class="carousel-control-next-icon"></span>
+  <span class="visually-hidden">Next</span>
+</button>
+
+</div>
+
+  {% else %}
+    <p class="ps-3 pb-3">No hay productos disponibles.</p>
+  {% endif %}
+{% endif %}
+{% endfor %}
+
+
+{% for c in categories %}
+{% if c.slug == "business-medico" and c.tamano_empresa == '200+ usuarios' %}
+  {% if c.products.all %}
+
+<div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+
+<!-- INDICADORES (opcional pero recomendado) -->
+
+
+<div class="carousel-inner">
+
+  {% for product in c.products.all %}
+  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+    <a href="{{ product.get_absolute_url }}"
+       class="text-decoration-none text-white d-block">
+
+      <!-- DESKTOP -->
+      <div class="position-relative d-none d-md-block"
+           style="height: 925px;
+                  background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                  background-size: cover;
+                  background-position: center;">
+
+        <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+
+          <h2 class="text-warning" style="font-size: 16px;">
+            <i class="fadeIn animated bx bx-health"></i>
+            {{ product.name }}
+            <sup>
+              I+D {% if product.is_automatitation %}+A{% endif %}
+              {% if product.is_intelligent %}+AI{% endif %}
+            </sup>
+            / Plataforma Médica & Terapéutica /               <strong>Disponibilidad:</strong>
+            {% if product.usuarios_simultaneos == '10-50'%} Baja (100 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 usuarios maximos simultáneos)
+            {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+            {% endif %}
+          </h2>
+
+          <p class="mb-1 text-warning" style="margin-top: -10px;">
+            <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+             Es una plataforma integral de inteligencia operativa para clínicas y hospitales que unifica CRM (SmartBusinessMedia), ERP(SmartBusinessAnalytics) y una plataforma web para pacientes en un solo ecosistema digital. Su objetivo es centralizar la gestión médica, administrativa y operativa, optimizando la relación con los pacientes, el control de recursos y la toma de decisiones en tiempo real.
+             A través de analítica avanzada y una arquitectura basada en I+D aplicada a procesos reales de salud, la solución transforma datos operativos en información accionable, mejora la eficiencia interna y reduce la carga manual en las instituciones. Incluye además una experiencia digital personalizada para pacientes con diseño UI/UX enfocado en accesibilidad y usabilidad. 
+             
+             {% if product.is_automatitation %}
+             La plataforma incorpora automatización de procesos operativos y administrativos médicos mediante autocompletado inteligente de entradas, 
+             autogeneración de historiales clínicos, facturación electrónica, reducción de tareas manuales repetitivas y sincronización de información entre módulos. Además, integra conectividad con WhatsApp, 
+             correo electrónico, redes sociales y APIs (KAPIs), permitiendo la automatización de citas, recordatorios, notificaciones, seguimiento de pacientes y flujos administrativos en tiempo real.
+              Esta integración multicanal fortalece la comunicación institucional, optimiza la atención al paciente y mejora significativamente la eficiencia operativa.
+              {% endif %}
+              {% if product.is_intelligent %}
+              También incorpora tecnologías de Inteligencia Artificial orientadas a la optimización clínica y administrativa, incluyendo chatbots inteligentes con modelos de 
+              lenguaje natural para atención automatizada, asistencia al paciente y soporte operativo. La plataforma permite además la implementación personalizada de modelos de aprendizaje automático (Machine Learning) para análisis predictivo, apoyo al diagnóstico médico, detección de patrones clínicos, clasificación de información y generación de recomendaciones basadas en datos reales. Asimismo, integra modelos de IA generativa para análisis avanzado de imágenes médicas, facilitando la interpretación asistida de estudios clínicos, identificación de patrones visuales y generación de soporte analítico para procesos diagnósticos especializados.
+              {% endif %}
+
+            </p>
+
+
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div class="position-relative d-block d-md-none w-100"
+           style="height: 100vh;
+                  background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                  background-size: cover;
+                  background-position: center;">
+
+        <div class="position-absolute top-0 start-0 w-100 h-100"
+             style="background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.35));">
+
+          <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+               style="max-height: 75vh; overflow-y: auto;">
+
+            <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+              <i class="fadeIn animated bx bx-health"></i>
+              {{ product.name }}
+              <sup>
+                I+D {% if product.is_automatitation %}+A{% endif %}
+                {% if product.is_intelligent %}+AI{% endif %}
+              </sup>
+            </h2>
+
+            <p class="text-light mb-2" style="font-size: 12px;">
+              Plataforma médica y terapéutica en la nube
+              {% if product.is_automatitation %} • Automatización{% endif %}
+              {% if product.is_intelligent %} • IA{% endif %}
+              <br>
+              <strong>Disponibilidad:</strong>
+              {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
+              {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+              {% endif %}
+            </p>
+
+            <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+              Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras.
+            </p>
+
+            {% if product.is_automatitation %}
+            <p class="text-light mb-2" style="font-size: 13px;">
+              Automatiza procesos clínicos, reportes médicos y control operativo en tiempo real.
+            </p>
+            {% endif %}
+
+            {% if product.is_intelligent %}
+            <p class="text-light mb-2" style="font-size: 13px;">
+              IA para análisis clínico, predicción y apoyo en decisiones médicas.
+            </p>
+            {% endif %}
+
+            <p class="text-light mb-2" style="font-size: 13px;">
+              Infraestructura cloud segura y escalable para atención eficiente y confiable.
+            </p>
+
+
+          </div>
+        </div>
+      </div>
+
+    </a>
+
+  </div>
+  {% endfor %}
+
+</div>
+
+<!-- CONTROLES DEL CAROUSEL (ESTO TE FALTABA) -->
+<button class="carousel-control-prev" type="button"
+        data-bs-target="#carouselMedia" data-bs-slide="prev">
+  <span class="carousel-control-prev-icon"></span>
+  <span class="visually-hidden">Previous</span>
+</button>
+
+<button class="carousel-control-next" type="button"
+        data-bs-target="#carouselMedia" data-bs-slide="next">
+  <span class="carousel-control-next-icon"></span>
+  <span class="visually-hidden">Next</span>
+</button>
+
+</div>
+
+  {% else %}
+    <p class="ps-3 pb-3">No hay productos disponibles.</p>
+  {% endif %}
+{% endif %}
+{% endfor %}
 
 </div>
 </div>

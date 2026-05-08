@@ -337,7 +337,7 @@ def update_generated_reel(request):
     try:
         data = request.data
         # n8n envía 'originalId'
-        reel_id = data.get("originalId") or data.get("original_id")
+        reel_id = data.get("id") or data.get("id")
         video_url = data.get("video_url") or data.get("generated_video_url")
 
         if not reel_id or not video_url:
