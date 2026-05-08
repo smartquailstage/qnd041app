@@ -9,6 +9,7 @@ from .models import Conversation, Message
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .tasks import process_user_message
 
 
 @csrf_exempt
