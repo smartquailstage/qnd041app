@@ -43,6 +43,19 @@ class Category(models.Model):
             ]
     )
 
+    tamano_empresa = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Tamaño de la Empresa",
+        choices=[
+            ("1-10 usuarios", "pymes"),
+            ("11-50 usuarios", "startups"),
+            ("51-200 usuarios", "enterprises"),
+            ("200+ usuarios", "industrial"),
+        ]
+    )
+
 
 
     class Meta:
