@@ -27,6 +27,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
    # path('core/', include('core.urls', namespace='core')),
     path('socialmedia_AI/', include('social_media_AI.urls', namespace='social_media_ai')),
+    path('studio_leads_ai/', include('studio_leads_ai.urls', namespace='studio_leads_ai')),
+
 
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
     path('smartbusinessanalytics_id/', include('smartbusinessanalytics_id.urls', namespace='smartbusinessanalytics_id')),
@@ -40,6 +42,7 @@ urlpatterns += i18n_patterns(
     path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
     path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
     path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+
 
 
 

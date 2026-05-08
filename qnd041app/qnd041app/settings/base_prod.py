@@ -256,6 +256,7 @@ INSTALLED_APPS = [
     "services_payment",
     "rosetta",
     "taggit",
+    'studio_leads_ai',
 
 ]
 
