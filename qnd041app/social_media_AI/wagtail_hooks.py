@@ -1,5 +1,6 @@
 from wagtail import hooks
 from .viewsets import SocialMediaGroup
+from studio_leads_ai.viewsets import ConversationViewSet
 from django.templatetags.static import static
 from wagtail.admin.menu import MenuItem
 from django.urls import reverse, path
@@ -65,4 +66,9 @@ def custom_branding_logo():
 
 @hooks.register("register_admin_viewset")
 def register_viewsets():
-    return SocialMediaGroup()
+    return [
+        SocialMediaGroup(),
+        ConversationViewSet(),
+    ]
+
+   
