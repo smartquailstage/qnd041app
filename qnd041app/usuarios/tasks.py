@@ -225,7 +225,7 @@ def enviar_whatsapp_activacion(user_id, domain):
         "type": "template",
         "template": {
             "name": "activacion_cuenta",  # 👈 plantilla aprobada en Meta
-            "language": {"code": "es"},
+            "language": {"code": "es_AR"},
             "components": [
                 {
                     "type": "body",
