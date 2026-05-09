@@ -28,7 +28,7 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(Suite)
 class SuiteAdmin(ModelAdmin):
-    list_display = ['suite',]
+    list_display = ['name',]
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):

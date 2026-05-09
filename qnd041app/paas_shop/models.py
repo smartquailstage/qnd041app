@@ -68,6 +68,9 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('paas_shop:product_list_by_category', args=[self.slug])
 
+
+from saas_shop.models import Product
+
 class Suite(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
@@ -84,11 +87,11 @@ class Suite(models.Model):
         ('SmartBusinessLaw® (I+D+A+AI)', 'SmartBusinessLaw® (I+D+A+AI)'),
     ]
 
-    suite = models.CharField(choices=SUITES, null=True, blank=True, max_length=200)
+    suite = models.ManyToManyField(Product, null=True, blank=True, max_length=200)
 
 
     def __str__(self):
-        return self.suite
+        return self.name
 
 
 
@@ -147,10 +150,12 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
-    suite = models.ManyToManyField(
+    suite = models.ForeignKey(
         Suite,
         blank=True,
-        related_name='products'
+        related_name='products',
+        null = True,
+        on_delete=models.CASCADE,
     )
 
     

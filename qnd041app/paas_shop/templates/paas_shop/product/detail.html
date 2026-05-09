@@ -223,8 +223,8 @@
 {% else %}
 {% endif %}
 
-{% for suite in product.suite.all %}
-    {% if suite.suite == "SmartBusinessAnalytics® (I+D)" %}
+
+    {% if product.suite == "SmartBusinessSuite(I+D)" %}
         <li class="nav-item" role="presentation">
           <a class="nav-link" id="tab-sba-investigacion" data-bs-toggle="tab"
              href="#sba-investigacion" role="tab">
@@ -236,12 +236,12 @@
           </a>
         </li>
     {% endif %}
-{% endfor %}
 
 
 
-{% for suite in product.suite.all %}
-    {% if suite.suite == "SmartBusinessAnalytics® (I+D+A)" %}
+
+
+    {% if product.suite == "SmartBusinessSuite(+A)" %}
 
     <!-- Automatización -->
     <li class="nav-item" role="presentation">
@@ -253,10 +253,10 @@
       </a>
     </li>
     {% endif %}
-{% endfor %}
 
-{% for suite in product.suite.all %}
-    {% if suite.suite == "SmartBusinessAnalytics® (I+D+A+AI)" %}
+
+
+    {% if product.suite == "SmartBusinessSuite(I+D+A+AI)" %}
     <!-- Inteligencia Artificial -->
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="tab-sba-ia" data-bs-toggle="tab" href="#tab-ia" role="tab"
@@ -267,7 +267,7 @@
       </a>
     </li>
     {% endif %}
-{% endfor %}
+
 
 
 
