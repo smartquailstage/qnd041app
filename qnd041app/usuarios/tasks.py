@@ -195,6 +195,10 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
 
+    # 📦 Variables con nombres (SOLO PARAMETROS MEJORADOS)
+    nombre_usuario = user.first_name
+    link_activacion = activation_url
+
     # 📲 WhatsApp Cloud API
     url = f"https://graph.facebook.com/v20.0/{settings.TWILIO_ACCOUNT_SID}/messages"
 
@@ -202,6 +206,18 @@ def enviar_whatsapp_activacion(user_id, domain):
         "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
         "Content-Type": "application/json"
     }
+
+    # 🧩 parámetros del template ({{1}}, {{2}})
+    parametros_template = [
+        {
+            "type": "text",
+            "text": nombre_usuario
+        },
+        {
+            "type": "text",
+            "text": link_activacion
+        }
+    ]
 
     data = {
         "messaging_product": "whatsapp",
@@ -213,10 +229,7 @@ def enviar_whatsapp_activacion(user_id, domain):
             "components": [
                 {
                     "type": "body",
-                    "parameters": [
-                        {"type": "text", "text": user.first_name},
-                        {"type": "text", "text": activation_url}
-                    ]
+                    "parameters": parametros_template
                 }
             ]
         }
@@ -225,7 +238,6 @@ def enviar_whatsapp_activacion(user_id, domain):
     response = requests.post(url, headers=headers, json=data)
 
     return response.json()
-
 
 
 
