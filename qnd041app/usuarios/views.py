@@ -132,13 +132,15 @@ def register(request):
             new_user.suscripcion_noticias = user_form.cleaned_data.get('suscripcion_noticias', False)
             new_user.save()
 
-            # 🌐 Dominio base (para construir URL dentro de la tarea)
-            domain = request.build_absolute_uri('/')[:-1]  # Quita la última barra
+            # 🌐 Dominio base
+            domain = request.build_absolute_uri('/')[:-1]
 
-            # 🚀 Enviar correo de activación de forma asíncrona
+            # 🚀 Enviar correo de activación (Celery)
             enviar_correo_activacion.delay(new_user.id, domain)
 
-            # ✅ Mostrar mensaje final
+            # 📲 Enviar WhatsApp de activación (Celery)
+            enviar_whatsapp_activacion.delay(new_user.id, domain)
+
             return render(request, 'usuarios/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()

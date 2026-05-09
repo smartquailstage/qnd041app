@@ -167,6 +167,65 @@ def enviar_correo_activacion(user_id, domain):
 
 
 
+import requests
+from celery import shared_task
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from urllib.parse import quote
+
+
+@shared_task
+def enviar_whatsapp_activacion(user_id, domain):
+    User = get_user_model()
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return "Usuario no encontrado"
+
+    # 🔑 token de activación
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+    uid_encoded = quote(uid)
+    token_encoded = quote(token)
+
+    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
+
+    # 📲 WhatsApp Cloud API
+    url = f"https://graph.facebook.com/v20.0/{settings.TWILIO_ACCOUNT_SID}/messages"
+
+    headers = {
+        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "messaging_product": "whatsapp",
+        "to": f"593{user.telefono}",  # ajusta según tu modelo
+        "type": "template",
+        "template": {
+            "name": "account_activation",  # 👈 plantilla aprobada en Meta
+            "language": {"code": "es"},
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {"type": "text", "text": user.first_name},
+                        {"type": "text", "text": activation_url}
+                    ]
+                }
+            ]
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    return response.json()
+
 
 
 
