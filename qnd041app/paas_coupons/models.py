@@ -15,7 +15,7 @@ class Coupon(models.Model):
         ('3', '3 meses sin intereses (PYMES)'),
         ('6', '6 meses (2% PYMES y STARTUPS)'),
         ('12', '12 meses (6% STARTUPS y ENTERPRISES)'),
-        ('24','12 meses (12% ENTERPRISES y INDUSTRIAL)'),
+        ('24','24 meses (12% ENTERPRISES y COORP)'),
     ]
 
 
