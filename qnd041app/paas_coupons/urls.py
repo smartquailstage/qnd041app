@@ -5,4 +5,5 @@ app_name = 'paas_coupons'
 
 urlpatterns = [
     path('apply/', views.coupon_apply, name='apply'),
+    path('convenio/', views.create_coupon_request, name='solicitud')
 ]

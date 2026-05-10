@@ -111,3 +111,10 @@ class Cart:
 
     def get_total_price_after_discount(self):
         return self.get_total_price() - self.get_discount()
+
+    def credit_price(self):
+        return (self.get_total_price_after_discount / self.coupon.credito)
+
+    def get_total_credit_price_monthly(self):
+        if self.coupon:
+            return (self.coupon.credito / Decimal('100') * self.credit_price )

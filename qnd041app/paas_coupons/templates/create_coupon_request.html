@@ -1,0 +1,138 @@
+{% extends "base_dash_parther.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <!-- ================= BREADCRUMB ================= -->
+
+
+    <hr class="my-4">
+
+    <!-- ================= CARD ================= -->
+    <div class="card radius-10">
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <!-- ================= FORMULARIO ================= -->
+          <div class="col-xl-12 d-flex">
+
+            <div class="card radius-10 w-100 border-0 shadow-sm">
+
+              <!-- HEADER -->
+              <div 
+                class="card-body text-white"
+                style="background-color: rgb(46,46,46); border-radius: 20px 20px 0 0;"
+              >
+
+                <h5 class="mb-2 text-warning">
+                    <ion-icon name="id-card-outline"></ion-icon> Aplicar Convenio
+                </h5>
+
+                <p class="mb-0 text-light">
+                    SmartQuail, Inc. es una empresa especializada en tecnologías de la información y comunicación en la nube. Nuestra misión es liderar el mercado tecnológico en Ecuador, así como impulsar proyectos e ideas de negocio en el ámbito de la tecnología en la nube (ITC).
+
+                    Por ello, le invitamos a completar el siguiente formulario. Analizaremos conjuntamente los beneficios económicos y tecnológicos para que usted pueda acceder a activos  ITC.
+                </p>
+
+              </div>
+
+              <!-- BODY -->
+              <div class="card-body">
+
+                <form method="post">
+
+                  {% csrf_token %}
+
+                  <!-- INGRESOS -->
+                  <div class="mb-4">
+
+
+
+                    {{ form.ingresos_anuales|add_class:"form-control" }}
+
+                    {% if form.ingresos_anuales.errors %}
+                      <div class="text-danger small mt-1">
+                        {{ form.ingresos_anuales.errors }}
+                      </div>
+                    {% endif %}
+
+                  </div>
+
+                  <!-- PRESUPUESTO -->
+                  <div class="mb-4">
+
+
+
+                    {{ form.presupuesto_real|add_class:"form-control" }}
+
+                    {% if form.presupuesto_real.errors %}
+                      <div class="text-danger small mt-1">
+                        {{ form.presupuesto_real.errors }}
+                      </div>
+                    {% endif %}
+
+                  </div>
+
+                  <!-- VALOR AGREGADO -->
+                  <div class="mb-4">
+
+
+                    {{ form.descripcion_valor_agregado|add_class:"form-control" }}
+
+                    {% if form.descripcion_valor_agregado.errors %}
+                      <div class="text-danger small mt-1">
+                        {{ form.descripcion_valor_agregado.errors }}
+                      </div>
+                    {% endif %}
+
+                  </div>
+
+                  <div class="mb-4">
+                    
+
+                    {{ form.credito|add_class:"form-control" }}
+
+                    {% if form.credito.errors %}
+                      <div class="text-danger small mt-1">
+                        {{ form.credito.errors }}
+                      </div>
+                    {% endif %}
+
+                  </div>
+
+                  <!-- BOTÓN -->
+                  <div class="d-grid">
+
+                    <button type="submit" class="btn btn-warning radius-10">
+
+                      <ion-icon name="document-text-outline"></ion-icon>
+                      Solicitar Convenio
+
+                    </button>
+
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

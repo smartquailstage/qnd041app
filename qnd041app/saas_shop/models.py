@@ -453,7 +453,7 @@ class Product(models.Model):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name}, {self.software}, Inversión: {self.price}"
 
 
 

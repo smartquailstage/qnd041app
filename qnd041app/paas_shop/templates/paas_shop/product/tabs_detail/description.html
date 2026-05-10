@@ -309,33 +309,13 @@
 </div>
 
 
-<div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: center;">
-  <!-- BOTÓN -->
-  {% if product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
-  <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-     {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
-  </a>
-  {% elif product.category.slug == 'business-media' %}
- 
-  
-  <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-    {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
-  </a>
-  {% endif %}
 
-  
-
-
-
-</div>
 
 <div class="card"
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
             border-radius: 8px; padding: 20px; text-align: left;">
 
-  <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
+  <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
     {% csrf_token %}
     {{ cart_product_form.quantity }}   <!-- Campo oculto -->
     {{ cart_product_form.update }}     <!-- Campo oculto -->
