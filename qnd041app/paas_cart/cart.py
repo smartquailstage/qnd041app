@@ -117,4 +117,4 @@ class Cart:
 
     def get_total_credit_price_monthly(self):
         if self.coupon:
-            return (self.coupon.credito / Decimal('100') * self.credit_price )
+            return ((self.coupon.percent_credit / Decimal('100') * self.credit_price) + self.credit_price )

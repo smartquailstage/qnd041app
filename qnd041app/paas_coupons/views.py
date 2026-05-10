@@ -121,7 +121,7 @@ def create_coupon_request(request):
                 'La solicitud fue enviada correctamente y será validada manualmente.'
             )
 
-            return redirect('saas_shop:product_list')
+            return redirect('paas_shop:product_list')
 
     else:
 
