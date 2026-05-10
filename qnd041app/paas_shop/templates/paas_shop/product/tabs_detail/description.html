@@ -155,23 +155,101 @@
 
 
     <!-- Logo a la derecha -->
-     {% if product.category.slug == 'business-analytics' %}
-    <img src="{% static 'img/smartbusinessanalytics.png' %}"
+     {% if product.category.slug == 'business-medico' %}
+    <img src="{% static 'img/platforms/smartmedicalplatforms.png' %}"
          alt="Logo del proveedor"
          style="width:290px;">
       {% endif %}
-      {% if product.category.slug == 'business-media' %}
+      {% if product.category.slug == 'business-gastronomico' %}
       <img src="{% static 'img/smartbusinessmedia.png' %}"
          alt="Logo del proveedor"
          style="width:290px;">
        {% endif %}
-       {% if product.category.slug == 'business-law' %}
+       {% if product.category.slug == 'business-tecnologico' %}
       <img src="{% static 'img/SmartBusinessLaw.png' %}"
          alt="Logo del proveedor"
          style="width:290px;">
 
        {% endif %}
 
+       {% if product.category.slug == 'business-educar' %}
+       <img src="{% static 'img/SmartBusinessLaw.png' %}"
+          alt="Logo del proveedor"
+          style="width:290px;">
+ 
+        {% endif %}
+
+
+       {% if product.category.slug == 'business-ong' %}
+       <img src="{% static 'img/SmartBusinessLaw.png' %}"
+          alt="Logo del proveedor"
+          style="width:290px;">
+ 
+        {% endif %}
+
+
+       {% if product.category.slug == 'business-publico' %}
+       <img src="{% static 'img/SmartBusinessLaw.png' %}"
+          alt="Logo del proveedor"
+          style="width:290px;">
+ 
+        {% endif %}
+
+
+       {% if product.category.slug == 'business-privado' %}
+       <img src="{% static 'img/SmartBusinessLaw.png' %}"
+          alt="Logo del proveedor"
+          style="width:290px;">
+ 
+        {% endif %}
+
+
+
+       {% if product.category.slug == 'business-servicios' %}
+       <img src="{% static 'img/SmartBusinessLaw.png' %}"
+          alt="Logo del proveedor"
+          style="width:290px;">
+ 
+        {% endif %}
+
+        {% if product.category.slug == 'business-industrial' %}
+        <img src="{% static 'img/SmartBusinessLaw.png' %}"
+           alt="Logo del proveedor"
+           style="width:290px;">
+  
+         {% endif %}
+         {% if product.category.slug == 'business-investigacion' %}
+         <img src="{% static 'img/SmartBusinessLaw.png' %}"
+            alt="Logo del proveedor"
+            style="width:290px;">
+   
+          {% endif %}
+          {% if product.category.slug == 'business-art' %}
+          <img src="{% static 'img/SmartBusinessLaw.png' %}"
+             alt="Logo del proveedor"
+             style="width:290px;">
+    
+           {% endif %}
+           {% if product.category.slug == 'business-marketing' %}
+           <img src="{% static 'img/SmartBusinessLaw.png' %}"
+              alt="Logo del proveedor"
+              style="width:290px;">
+     
+            {% endif %}
+
+            {% if product.category.slug == 'business-admin' %}
+            <img src="{% static 'img/SmartBusinessLaw.png' %}"
+               alt="Logo del proveedor"
+               style="width:290px;">
+      
+             {% endif %}
+
+             {% if product.category.slug == 'business-transporte' %}
+             <img src="{% static 'img/SmartBusinessLaw.png' %}"
+                alt="Logo del proveedor"
+                style="width:290px;">
+       
+              {% endif %}
 
     <!-- Precio -->
     <div class="d-flex align-items-center gap-2">
