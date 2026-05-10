@@ -197,34 +197,83 @@
 {% endfor %}
 
 
-                    {% if discount > 0 %}
-                    <p class="mb-2 text-success">
-                        Descuento:
-                        <span class="float-end">
-                            -${{ discount|floatformat:2 }}
-                        </span>
+{% if discount > 0 %}
+<p class="mb-2 text-success">
+    Descuento:
+    <span class="float-end">
+        -${{ discount|floatformat:2 }}
+    </span>
+</p>
+{% else %}
+<p class="mb-2">
+    Descuento:
+    <span class="float-end">--</span>
+</p>
+{% endif %}
 
-                    </p>
-                    <div class="my-3 border-top"></div>
-                    <h5 class="mb-0">
-                       Valor Total:
-                        <span class="float-end">
-                            ${{ total_after_discount|floatformat:2 }}
-                        </span>
-                    </h5>
-                    {% else %}
-                    <!-- Si no hay descuento -->
-                    <p class="mb-2">
-                        Descuento: <span class="float-end">--</span>
-                    </p>
-                    <div class="my-3 border-top"></div>
-                    <h5 class="mb-0">
-                        Valor Total:
-                        <span class="float-end">
-                            ${{ total|floatformat:2 }}
-                        </span>
-                    </h5>
-                    {% endif %}
+<div class="my-3 border-top"></div>
+
+<h5 class="mb-3">
+    Valor Total:
+    <span class="float-end">
+        ${{ total_after_discount|floatformat:2 }}
+    </span>
+</h5>
+
+<!-- ===================================== -->
+<!-- CRÉDITO -->
+<!-- ===================================== -->
+
+{% if cart.coupon.credito %}
+
+<div class="alert alert-info mt-3">
+
+    <h6 class="mb-3">
+        Su Crédito empresarial, ha sido aprobado.
+    </h6>
+
+    <p class="mb-2">
+        Plan:
+        <span class="float-end">
+            {{ cart.coupon.get_credito_display }}
+        </span>
+    </p>
+
+    <p class="mb-2">
+        Interés:
+        <span class="float-end">
+            {{ cart.coupon.percent_credit }}%
+        </span>
+    </p>
+
+    <p class="mb-2">
+        Cuotas:
+        <span class="float-end">
+            {{ cart.get_credit_months }} meses
+        </span>
+    </p>
+
+    <p class="mb-2">
+        Pago mensual:
+        <span class="float-end">
+            ${{ cart.get_monthly_credit_price|floatformat:2 }}
+        </span>
+    </p>
+
+    <div class="my-2 border-top"></div>
+
+    <h6 class="mb-0">
+        Total financiado:
+        <span class="float-end">
+            ${{ cart.get_total_credit_price|floatformat:2 }}
+        </span>
+    </h6>
+
+</div>
+
+{% endif %}
+
+
 
                     <div class="my-4"></div>
 
