@@ -30,20 +30,6 @@
   <div class="page-content">
 
 
-                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Software de Negocios  </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                 Pago de Orden de Software
-                  </li>
-                </ol>
-              </nav>
-            </div>
-
-          </div>
-
 
 
     <!--end breadcrumb-->
@@ -80,110 +66,119 @@
                             <div class="step-progress"><span class="step-count">3</span></div>
                           
                           </a>
-                          <a class="step-item">
-                            <div class="step-progress"><span class="step-count">4</span></div>
-                           
-                          </a>
                         </div>
                       </div>
                     </div>
 
                     <!-- Card principal -->
-{% if order.is_active %}
+                    {% if order.is_active %}
 
 
-  <!-- Orden Activa -->
-  <div class="card">
-    <div class="card-body" style="background-color: #2e2e2e;">
+                    <!-- Orden Activa -->
+                    <div class="card">
+                      <h2 class="h5 mb-0">
+                        Gracias por validar su licencia   para el desarrollo e implementación de sistemas de información ITC.
+                     </h2>
+                     <p>
+                         <i class="fadeIn animated bx bx-support"></i> En las próximas horas nos pondremos en contacto con usted para continuar con el proceso de activación de la solución tecnológica solicitada.
+                     </p>
+                     <hr>
+                      <div class="card-body" style="background-color: #2e2e2e;">
+                  <h2><ion-icon name="key-outline"></ion-icon>  Licencia ITC Generada: <strong>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong></h2>
+                        <!-- Usuario -->
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="ms-3">
+                            <h6 class="mb-0"> Propietario: <strong>{{ order.first_name }} {{ order.last_name }}</strong></h6>
+                            <p class="mb-0">{{ order.email }}</p>
+                          </div>
+                        </div>
+                  
+                        <hr>
+                  
+                        <!-- Título -->
+                  
+                        <p class="mt-2">
+                  
+                        <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
+                        {% if order.coupon  %}
+                        <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
+                        {% else %}
+                        <p><strong>Convenio:</strong> No registra</p>
+                        {% endif %}
+                        </p>
+                  
+                      
+                        <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
+                        <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
+                        <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
+                        <p><strong>Contacto:</strong> {{ order.telefono }}</p>
+                        <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
+                  
+                        <hr>
+                  
+                        <!-- Productos adquiridos -->
+                        <h5 class="mb-3">Solución tecnologica solicitada</h5>
+                        <ul class="list-group bg-transparent">
+                          {% for item in order.items.all %}
+                          <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
+                            <div>
+                              <strong>{{ item.product.name }}</strong><br>
+                              <small>{{ item.product.description }}</small>
+                            </div>
+                         
+                          </li>
+                          {% endfor %}
+                  <hr>
+                  
+                  <h5 class="mb-3">Inversión antes de convenio:  {{ order.get_subtotal }}</h5>
+                          <div>
+                            {% if order.discount %}
+                            <strong>Descuento: $ {{ order.get_discount_value }}</strong><br>
+                            {% endif %}
 
-      <!-- Usuario -->
-      <div class="d-flex align-items-center mb-3">
-        <div class="ms-3">
-          <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
-          <p class="mb-0">{{ order.email }}</p>
-        </div>
-      </div>
+                            {% if order.coupon.credito %}
+                            <strong>Línea de credito: {{ order.coupon.credito  }} meses al {{ order.coupon.percent_credit  }}%  </strong><br>
+                            {% endif %}
 
-      <hr>
-
-      <!-- Título -->
-      <h2 class="h5 mb-0">
-         Detalle de Orden de Software
-      </h2>
-      <p class="mt-2">
-      <p><strong> Track ID de orden:</strong> #SQ02-PTM-130-00{{ order.id }}</p>
-      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-      {% if order.coupon  %}
-      <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
-      {% else %}
-      <p><strong>Convenio:</strong> No registra</p>
-      {% endif %}
-      </p>
-
-      <div class="my-3 border-bottom"></div>
-
-      <!-- Información de la orden -->
-      <h5 class="mb-3">Información de la Orden</h5>
-      <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
-      <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
-      <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
-      <p><strong>Contacto:</strong> {{ order.telefono }}</p>
-      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-
-      <hr>
-
-      <!-- Productos adquiridos -->
-      <h5 class="mb-3">Software Solicitado</h5>
-      <ul class="list-group bg-transparent">
-        {% for item in order.items.all %}
-        <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
-          <div>
-            <strong>{{ item.product.name }}</strong><br>
-            <small>{{ item.product.description }}</small>
-          </div>
-          <span>${{ item.price }}</span>
-        </li>
-        {% endfor %}
-      </ul>
-
-      <hr>
-
-      <!-- Total -->
-      <h4 class="d-flex justify-content-between">
-        <span>Valor total de inversión:</span>
-        <span>${{ order.get_total_cost }}</span>
-      </h4>
-
-      <div class="my-4"></div>
-
-      <!-- Botón de pago -->
-      <div class="row">
-        <div class="col-md-6">
-          <a href="{% url 'paas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
-          <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-{% else %}
-  <!-- Orden Expirada -->
-  <div class="card">
-    <div class="card-body text-center">
-
-      <p class="fs-5">Su orden ha expirado.</p>
-      <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
-
-      <a href="{% url 'paas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
-        Ver Catálogo de Productos
-      </a>
-
-    </div>
-  </div>
-{% endif %}
-
+                            <strong>Subtotal: $ {{ order.get_total_cost }}</strong><br>
+                            <small>Total + I.V.A: {{ order.get_total_with_discount }}</small>
+                          </div>
+                       
+                        </li>
+                  
+                        </ul>
+                  
+                        <hr>
+                  
+                        <!-- Total -->
+                        <h4 class="d-flex justify-content-between">
+                          <span>Inversión </span>
+                          <span> {{ order.get_total_with_discount }}</span>
+                        </h4>
+                        <hr>
+                        <div class="my-4"></div>
+                  
+                  
+                  
+                      </div>
+                    </div>
+                  
+                  {% else %}
+                    <!-- Orden Expirada -->
+                    <div class="card">
+                      <div class="card-body text-center">
+                  
+                        <p class="fs-5">Su orden ha expirado.</p>
+                        <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
+                  
+                        <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
+                          Ver Catálogo de Productos
+                        </a>
+                  
+                      </div>
+                    </div>
+                  {% endif %}
+                  
 
 
               </div>
