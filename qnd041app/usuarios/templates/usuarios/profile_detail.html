@@ -198,6 +198,90 @@
                   </div>
                 {% endfor %}
 
+                {% for order in orders_paas %}
+                <div class="row g-3 mb-4 p-3 border rounded">
+
+                  <!-- INFO ORDEN -->
+                  <div class="col-md-6">
+
+                    <p class="mb-1">
+                      <strong>
+                        <a href="{% url 'paas_orders:order_detail' order_id=order.id %}">
+                          SQ02-PLT-15{{ order.id }}-QND0501{{ order.id }}
+                        </a>
+                      </strong>
+                    </p>
+
+                    <p class="mb-1">
+                      <strong>Fecha:</strong>
+                      {{ order.created|date:"d/m/Y H:i" }}
+                    </p>
+
+                    <p><a href="{% url 'paas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
+
+                    <p class="mb-1">
+                      <strong>Estado:</strong>
+
+                      {% if order.paid %}
+                        <span class="badge bg-success text-dark">
+                          Vigente
+                        </span>
+                      {% else %}
+                        <span class="badge bg-warning">
+                           Pendiente de pago
+                        </span>
+                      {% endif %}
+                    </p>
+
+                  </div>
+
+                  <!-- PRODUCTOS -->
+                  <div class="col-md-6">
+
+                    {% for item in order.items.all %}
+                      <div class="mb-2">
+
+                        <strong>{{ item.product }}</strong><br>
+
+                        <small>
+                          Disponibilidad: {{ item.product.software }}<br>
+                          Inversión: {{ item.price }}
+                        </small>
+
+                                  
+                        {% if order.signed_contract_dev %}
+                          <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                            Contrato de Implementación y desarrollo
+                          </a><br>
+                        {% endif %}
+                      
+                        {% if order.signed_contract_cloud %}
+                          <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                            Contrato de alquiler de recursos tecnológicos
+                          </a>
+                        {% endif %}
+                     
+
+                      </div>
+
+                    {% empty %}
+
+                      <p class="text-muted">
+                        Sin productos
+                      </p>
+
+                    {% endfor %}
+                    {% if order.coupon %}
+                    <p>
+                      Convenio: {{ order.coupon }}
+                    </p>
+                  {% endif %}
+
+                  </div>
+
+                </div>
+              {% endfor %}
+
 
 
             </div>

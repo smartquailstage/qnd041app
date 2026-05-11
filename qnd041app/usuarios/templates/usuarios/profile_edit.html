@@ -18,7 +18,8 @@
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
 
-
+          <h2>Configuración Cuenta ITC </h2>
+          <hr>
           <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
             <div class="user-change-photo shadow">
 
@@ -27,7 +28,7 @@
               {% else %}
                   <img  src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
               {% endif %}
-
+            
             </div>
 
 <div>
@@ -43,41 +44,40 @@
     <!-- Botón personalizado -->
     <button 
         type="button"
-        class="btn btn-outline-primary btn-sm radius-30 px-4"
+        class="btn btn-outline-warning  btn-sm radius-30 px-4"
         onclick="document.getElementById('id_photo').click();"
     >
         <ion-icon name="image-sharp"></ion-icon>
-        Change Photo
+        Cambiar foto de perfil
     </button>
+  
 </div>
 
           </div>
 
-          <h5 class="mb-0 mt-4">Información del Usuario ITC</h5>
+          <h5 class="mb-0 mt-4">Negocio ITC</h5>
           <hr>
 
           <div class="row g-3">
 
             <div class="col-6">
-              <label class="form-label">Nombre Completo</label>
+              <label class="form-label">Representante legal</label>
               {{ form.nombre_completo }}
             </div>
 
             <div class="col-6">
-              <label class="form-label">Cargo</label>
-              {{ form.cargo_usuario }}
+              <label class="form-label">Razón Social</label>
+              {{ form.nombre_empresa }}
             </div>
 
 
           </div>
 <hr>
+
+<h5 class="mb-0 mt-4">Escalabilidad </h5>
+<hr>
+
           <div class="row g-3">
-            <div class="col-6">
-              <label class="form-label">Nombre Empresa</label>
-              {{ form.nombre_empresa }}
-            </div>
-
-
 
             <div class="col-6">
               <label class="form-label">Sector</label>
@@ -96,13 +96,15 @@
               {{ form.tamano_empresa }}
             </div>
 
-          <div class="row g-3">
-
-
             <div class="col-6">
               <label class="form-label">Presupuesto Estimado</label>
               {{ form.presupuesto_estimado }}
             </div>
+
+          <div class="row g-3">
+
+
+
 
 
 

@@ -568,6 +568,7 @@ def settings(request):
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
+from paas_orders.models import PaaSOrder
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
@@ -586,6 +587,11 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         ).order_by('-created_at')
 
         context["orders"] = SaaSOrder.objects.filter(
+            user=self.request.user,
+            is_active=True
+        ).order_by('-created')
+
+        context["orders_paas"] = PaaSOrder.objects.filter(
             user=self.request.user,
             is_active=True
         ).order_by('-created')

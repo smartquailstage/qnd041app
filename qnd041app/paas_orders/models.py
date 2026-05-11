@@ -173,6 +173,31 @@ class PaaSOrder(models.Model):
         iva = self.get_total_iva()
         return subtotal + iva
 
+    def get_total_with_discount_interes(self):
+        subtotal = self.get_total_with_discount().amount
+        interes  = (
+            Decimal(self.coupon.percent_credit) /
+            Decimal('100')
+            )
+        valor_interes = subtotal*interes
+
+        return subtotal + valor_interes
+    
+    def get_total_monthly_suscription(self):
+        meses = Decimal(self.coupon.credito)
+        interes = (
+            Decimal(self.coupon.percent_credit) /
+            Decimal('100')
+            )
+    
+
+        total = self.get_total_with_discount().amount
+        tota_intereses = interes * total
+        valor_final = tota_intereses + total
+        valor_a_pagar_mensual = valor_final/meses
+
+        return valor_a_pagar_mensual
+
     def check_active_status(self):
         """Actualiza el estado a inactivo si han pasado más de 15 días desde la creación."""
         if self.is_active and self.created + timedelta(days=15) < timezone.now():
