@@ -191,6 +191,7 @@ class ProfileEditForm(forms.ModelForm):
         model = Profile
         fields = [
             "photo",
+            "user",
             "nombre_completo",
             "ruc_usuario",
             "cargo_usuario",
@@ -208,6 +209,7 @@ class ProfileEditForm(forms.ModelForm):
         ]
         widgets = {
             "servicios_cloud_interes": forms.Textarea(attrs={"rows": 3}),
+            "user": forms.CheckboxInput()
         }
 
 

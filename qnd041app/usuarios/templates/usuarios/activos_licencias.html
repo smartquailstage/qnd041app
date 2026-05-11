@@ -1,0 +1,359 @@
+{% extends "base_dash_parther.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %} Usuarios ITC {% endblock %}
+
+{% block content %}
+<div class="page-content-wrapper">
+  <div class="page-content">
+
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+
+        <div class="card radius-10">
+          <div class="card-body">
+
+
+            {% if orders_saas or orders_paas %}
+
+            <hr>
+            
+            <h5 class="mt-4">
+                <ion-icon name="key-outline"></ion-icon>
+                Licencias propietarias ITC
+            </h5>
+            
+            <hr>
+            
+            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+            
+                <!-- ================= SAAS ================= -->
+            
+                {% for order in orders_saas %}
+            
+                <div class="row g-3 mb-4 p-3 border rounded">
+            
+                    <div class="col-md-6">
+            
+                        <p class="mb-1">
+                            <strong>
+                                <a href="{% url 'saas_orders:order_detail' order_id=order.id %}">
+                                    SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}
+                                </a>
+                            </strong>
+                        </p>
+            
+                        <p class="mb-1">
+                            <strong>Fecha:</strong>
+                            {{ order.created|date:"d/m/Y H:i" }}
+                        </p>
+            
+                        <p>
+                            <a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}">
+                                ISO/IEC 27000
+                            </a>
+                        </p>
+            
+                        <p class="mb-1">
+                            <strong>Estado:</strong>
+            
+                            {% if order.paid %}
+                                <span class="badge bg-success text-dark">
+                                    Vigente
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning">
+                                    Pendiente de pago
+                                </span>
+                            {% endif %}
+                        </p>
+            
+                    </div>
+            
+                    <div class="col-md-6">
+            
+                        {% for item in order.items.all %}
+            
+                            <div class="mb-2">
+            
+                                <strong>{{ item.product }}</strong><br>
+            
+                                <small>
+                                    Disponibilidad: {{ item.product.software }}<br>
+                                    Inversión: {{ item.price|floatformat:2 }}
+                                </small>
+            
+                                <br>
+            
+                                {% if order.signed_contract_dev %}
+                                    <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                                        Contrato de Implementación y desarrollo
+                                    </a><br>
+                                {% endif %}
+            
+                                {% if order.signed_contract_cloud %}
+                                    <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                                        Contrato de alquiler de recursos tecnológicos
+                                    </a>
+                                {% endif %}
+            
+                            </div>
+            
+                        {% empty %}
+            
+                            <p class="text-muted">
+                                Sin productos
+                            </p>
+            
+                        {% endfor %}
+            
+                        {% if order.coupon %}
+                            <p>
+                                Convenio: {{ order.coupon }}
+                            </p>
+                        {% endif %}
+            
+                    </div>
+            
+                </div>
+            
+                {% endfor %}
+            
+            
+                <!-- ================= PAAS ================= -->
+            
+                {% for order in orders_paas %}
+            
+                <div class="row g-3 mb-4 p-3 border rounded">
+            
+                    <div class="col-md-6">
+            
+                        <p class="mb-1">
+                            <strong>
+                                <a href="{% url 'paas_orders:order_detail' order_id=order.id %}">
+                                    SQ02-PLT-15{{ order.id }}-QND0501{{ order.id }}
+                                </a>
+                            </strong>
+                        </p>
+            
+                        <p class="mb-1">
+                            <strong>Fecha:</strong>
+                            {{ order.created|date:"d/m/Y H:i" }}
+                        </p>
+            
+                        <p>
+                            <a href="{% url 'paas_orders:admin_ebook_pdf' order_id=order.id %}">
+                                ISO/IEC 27000
+                            </a>
+                        </p>
+            
+                        <p class="mb-1">
+                            <strong>Estado:</strong>
+            
+                            {% if order.paid %}
+                                <span class="badge bg-success text-dark">
+                                    Vigente
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning">
+                                    Pendiente de pago
+                                </span>
+                            {% endif %}
+                        </p>
+            
+                    </div>
+            
+                    <div class="col-md-6">
+            
+                        {% for item in order.items.all %}
+            
+                            <div class="mb-2">
+            
+                                <strong>{{ item.product }}</strong><br>
+            
+                                <small>
+                                    Disponibilidad: {{ item.product.software }}<br>
+                                    Inversión: {{ item.price|floatformat:2 }}
+                                </small>
+            
+                                <br>
+            
+                                {% if order.signed_contract_dev %}
+                                    <a href="{{ order.signed_contract_dev.url }}" target="_blank">
+                                        Contrato de Implementación y desarrollo
+                                    </a><br>
+                                {% endif %}
+            
+                                {% if order.signed_contract_cloud %}
+                                    <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
+                                        Contrato de alquiler de recursos tecnológicos
+                                    </a>
+                                {% endif %}
+            
+                            </div>
+            
+                        {% empty %}
+            
+                            <p class="text-muted">
+                                Sin productos
+                            </p>
+            
+                        {% endfor %}
+            
+                        {% if order.coupon %}
+                            <p>
+                                Convenio: {{ order.coupon }}
+                            </p>
+                        {% endif %}
+            
+                    </div>
+            
+                </div>
+            
+                {% endfor %}
+            
+            </div>
+            
+            {% endif %}
+            
+            
+            
+            <!-- ================= ACTIVOS ================= -->
+            
+            <hr>
+            
+            <h5 class="mt-4">
+                <ion-icon name="cloud-download-outline"></ion-icon>
+                Activos ITC
+            </h5>
+            
+            <hr>
+            
+            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+            
+                {% if activos %}
+            
+                    {% for project in activos %}
+            
+                    <div class="row g-3 mb-4 p-3 border rounded">
+            
+                        <div class="col-md-6">
+            
+                            <p class="mb-1">
+                                <strong>
+                                    <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}">
+                                        {{ project.name }}
+                                    </a>
+                                </strong>
+                            </p>
+            
+                            <p class="mb-1">
+                                <strong>Equipo encargado:</strong><br>
+            
+                                {% for member in project.crew_members.all %}
+                                    {{ member }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+            
+                            <p class="mb-1">
+                                <strong>Fecha:</strong>
+                                {{ project.created_at|date:"d/m/Y H:i" }}
+                            </p>
+            
+                            <p>
+                                Centro de datos: público compartido
+                            </p>
+            
+                            <p class="mb-1">
+                                <strong>Estado:</strong>
+            
+                                {% if project.is_active %}
+                                    <span class="badge bg-success">
+                                        Producción
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        No disponible
+                                    </span>
+                                {% endif %}
+                            </p>
+            
+                        </div>
+            
+                        <div class="col-md-6">
+            
+                            {% if project.domain_name %}
+            
+                                <div class="mb-2">
+            
+                                    <a href="{{ project.domain_name }}" target="_blank">
+                                        <strong>
+                                            {{ project.domain_name }}
+                                            <ion-icon name="open-outline"></ion-icon>
+                                        </strong>
+                                    </a>
+            
+                                    <p>
+                                        Base de Datos: {{ project.db_name }}<br>
+                                        Cifrado: SSL/TLS<br>
+                                        Implementación y Desarrollo (I+D)<br>
+            
+                                        {% if project.has_automation %}
+                                            Automatización (+A)<br>
+                                        {% endif %}
+            
+                                        {% if project.has_ai %}
+                                            Inteligencia Artificial (+IA)<br>
+                                        {% endif %}
+            
+                                        {% if project.has_llm %}
+                                            Modelo de lenguaje natural (+LLM)<br>
+                                        {% endif %}
+                                    </p>
+            
+                                </div>
+            
+                            {% else %}
+            
+                                <p class="text-muted">
+                                    Sin dominio asignado
+                                </p>
+            
+                            {% endif %}
+            
+                        </div>
+            
+                    </div>
+            
+                    {% endfor %}
+            
+                {% else %}
+            
+                    <p class="text-muted">
+                        No tiene activos asociados a esta cuenta.
+                        Si dispone de una licencia válida, por favor crear un activo.
+                    </p>
+            
+                {% endif %}
+            
+            </div>
+
+
+
+      
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+ 
+{% endblock %}

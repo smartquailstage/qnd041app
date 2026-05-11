@@ -18,7 +18,7 @@
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
 
-          <h2>Configuración Cuenta ITC </h2>
+          <h2><ion-icon name="document-lock-outline"></ion-icon>Información y Permisos </h2>
           <hr>
           <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
             <div class="user-change-photo shadow">
@@ -61,12 +61,12 @@
           <div class="row g-3">
 
             <div class="col-6">
-              <label class="form-label">Representante legal</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Representante legal</label>
               {{ form.nombre_completo }}
             </div>
 
             <div class="col-6">
-              <label class="form-label">Razón Social</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Razón Social</label>
               {{ form.nombre_empresa }}
             </div>
 
@@ -80,39 +80,31 @@
           <div class="row g-3">
 
             <div class="col-6">
-              <label class="form-label">Sector</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Actividad económica</label>
               {{ form.sector_negocio }}
             </div>
 
 
 
             <div class="col-6">
-              <label class="form-label">Nivel de Experiencia</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Nivel de Experiencia</label>
               {{ form.nivel_experiencia_cloud }}
             </div>
             
             <div class="col-6">
-              <label class="form-label">Tamaño Empresa</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Tamaño Empresa</label>
               {{ form.tamano_empresa }}
             </div>
 
             <div class="col-6">
-              <label class="form-label">Presupuesto Estimado</label>
+              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Presupuesto Estimado de inversion</label>
               {{ form.presupuesto_estimado }}
             </div>
 
-          <div class="row g-3">
 
-
-
-
-
-
-          </div>
-
-          <div class="text-start mt-3">
-            <button type="submit" class="btn btn-warning px-4">Guardar Cambios</button>
-          </div>
+         
+            <button type="submit" class="btn btn-warning px-4">Actualizar perfil</button>
+       
 
         </form>
 
