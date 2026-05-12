@@ -76,17 +76,24 @@
     <div class="card radius-10">
         <div class="card-body">
 <hr>
-<h2> <ion-icon name="add-circle-outline"></ion-icon> Agregar Activo</h2>
+<h2> <ion-icon name="add-circle-outline"></ion-icon> Crear Activo ITC</h2>
+<p><ion-icon name="information-circle-outline"></ion-icon> 
+    Al crear un nuevo activo ITC, usted está desplegando automáticamente y en tiempo real un sistema de información y comunicación sobre infraestructura física y servidores alojados en centros de datos especializados.
+
+    El siguiente activo dispone de licencias ITC asociadas, las cuales permiten el acceso seguro y autorizado al sistema de información correspondiente. Cada licencia es única y ha sido diseñada para garantizar la protección, integridad y seguridad de los sistemas y datos de nuestros clientes.
+    
+    Toda esta infraestructura tecnológica, operativa y de seguridad es gestionada integralmente por <strong>SmartQuail, Inc.</strong>
+</p>
 <hr>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-
+    <h4><ion-icon name="globe-outline"></ion-icon> Asociar dominio privado</h4>
     <div class="mb-3">
         {{ form.is_domain_configured|add_class:"form-check-input" }}
         {% if form.is_domain_configured.help_text %}
-            <small class="form-text text-muted">{{ form.is_domain_configured.help_text }}</small>
+            <small class="form-text text-muted"> <ion-icon name="information-circle-outline"></ion-icon>  {{ form.is_domain_configured.help_text }}</small>
         {% endif %}
     </div>
     <div id="domain-name-container" class="mb-3" style="display:none;">
@@ -94,7 +101,11 @@
     </div>
     <hr>
 
-    <h4><ion-icon name="brush-outline"></ion-icon>Identidad visual del activo</h4>
+    <h4><ion-icon name="brush-outline"></ion-icon>  Identidad visual del activo</h4>
+    <p><ion-icon name="information-circle-outline"></ion-icon>  Seleccione o arrastre una imagen de banner representativa de la identidad visual de su negocio. Asimismo, seleccione o arrastre una imagen en formato PNG, JPG o JPEG para asociar oficialmente la identidad visual de su organización al activo ITC correspondiente.
+
+        Toda la información cargada y asociada al activo se encuentra protegida conforme a los términos establecidos en el acuerdo de adquisición y licenciamiento de servicios tecnológicos. </p>
+        <hr>
 
  <div class="mb-3">
     <div class="upload-grid">
@@ -161,7 +172,7 @@
 </div>
     <div class="mt-4">
         <button type="submit" class="btn btn-warning w-100">
-            Agregar activo  a mi cuenta ITC
+            <ion-icon name="cloud-download-outline"></ion-icon> Crear Activo ITC
         </button>
     </div>
 

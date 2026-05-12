@@ -48,36 +48,36 @@
 
 
                                 <hr>
-<h6>Terminal del sistema ITC:  <span class="spinner-border spinner-border-sm text-warning" role="status" aria-hidden="true"></span> {{project.name}}</h6>
+<h6>Creando Activo ITC:  <span class="spinner-border spinner-border-sm text-warning" role="status" aria-hidden="true"></span> {{project.name}}</h6>
                                 {% if project.progress == 5 %}
-<p id="typewriter" style="color:#fff;font-size: 10px;"></p>
+                                 <p id="typewriter" style="color:#fff;font-size: 12px;"><ion-icon name="information-circle-outline"></ion-icon></p>
 {% endif %}
 
 {% if project.progress == 10 %}
-<p id="typewriter-resource" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-resource" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
 {% if project.progress == 15 %}
-<p id="typewriter-security" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-security" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
 {% if project.progress == 25 %}
-<p id="typewriter-nginx" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-nginx" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
 {% if project.progress == 50 %}
-<p id="typewriter-postgres" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-postgres" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
 {% if project.progress == 75 %}
-<p id="typewriter-kafka" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-kafka" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
 {% if project.progress == 100 %}
-<p id="typewriter-redis" style="color:#fff;font-size: 10px;"></p>
+<p id="typewriter-redis" style="color:#fff;font-size: 12px;"></p>
 {% endif %}
 
-
+<hr>
                                 <!-- Consola estilo terminal -->
                                <div class="card bg-primary text-success mb-3 terminal-card" style="font-family: 'Courier New', Courier, monospace; border: 1px solid #444040;">
     <div class="card-body p-3" id="terminal-output" 
@@ -125,8 +125,8 @@
                                     <div class="d-grid">
                                                       
 <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}" 
-   class="btn btn-primary">
-    Ir a {{ project.name }} 
+   class="btn btn-warning">
+     ver activo ITC 
     <ion-icon name="chevron-forward-outline"></ion-icon>
 </a>
 

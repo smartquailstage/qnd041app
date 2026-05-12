@@ -52,6 +52,9 @@ import matplotlib.pyplot as plt
 import io
 import base64
 from .models import BusinessSystemProject, BusinessAutomation, MonthlySystemMetrics
+
+
+
 class BusinessSystemProjectDetailView(DetailView):
     model = BusinessSystemProject
     template_name = "business/project_detail.html"
@@ -361,9 +364,11 @@ from django.forms import modelformset_factory
 
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def create_project(request):
     if request.method == 'POST':
+
         project_form = BusinessSystemProjectForm(
             request.POST,
             request.FILES,
