@@ -154,7 +154,7 @@ class PaaSOrder(models.Model):
         verbose_name_plural = 'PaaS Orders'
 
     def __str__(self):
-        return 'PaaS Order {}'.format(self.id)
+        return f'SQ02-PLT-15{ self.id }-QND0501{self.id} - {self.user}'
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())

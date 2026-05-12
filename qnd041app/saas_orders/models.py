@@ -144,7 +144,7 @@ class SaaSOrder(models.Model):
         verbose_name_plural = 'SaaS Orders'
 
     def __str__(self):
-        return 'SaaP Pedido {}'.format(self.id)
+        return f'SQ02-APP-12{ self.id }-QND0101{self.id} - {self.user}'
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())

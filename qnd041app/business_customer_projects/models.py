@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from usuarios.models  import SmartQuailCrew
 from saas_shop.models import Product
+from paas_shop.models import Product as PaaS
 from saas_orders.models import SaaSOrder
+from paas_orders.models import PaaSOrder
 
 
 
@@ -16,13 +18,42 @@ class BusinessSystemProject(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
+    saas_order = models.OneToOneField(
+        SaaSOrder,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="business_project",
+        verbose_name="Asignar licencia Apps"
+    )
+
+
+    paas_order = models.OneToOneField(
+        PaaSOrder,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="business_project_paas",
+        verbose_name="Asiganar licencia Platforms"
+    )
+    
+
     product = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='business_projects',
-        verbose_name='Producto asociado'
+        verbose_name='Asociar Aplicativo'
+    )
+
+    product_paas = models.ForeignKey(
+        PaaS,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='business_projects',
+        verbose_name='Asociar Plataforma'
     )
     usuarios_max = models.IntegerField(default=1, verbose_name='Número máximo de usuarios simultáneos')
     has_automation = models.BooleanField(default=False, verbose_name='¿Incluye automatización?')
@@ -38,14 +69,6 @@ class BusinessSystemProject(models.Model):
 
 
 
-    saas_order = models.OneToOneField(
-        SaaSOrder,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="business_project",
-        verbose_name="Orden SaaS relacionada"
-    )
 
 
     # Nombre y descripción del proyecto
