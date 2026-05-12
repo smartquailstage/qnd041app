@@ -102,16 +102,16 @@ class BusinessSystemProject(models.Model):
         upload_to="business/logos/rectangular/",
         null=True,
         blank=True,
-        verbose_name="Logotipo rectangular",
-        help_text="Formato recomendado: 4:1 (ancho:alto)"
+        verbose_name="Banner rectangular",
+        help_text="Formato recomendado: 2:4 (ancho:alto)"
     )
 
     logo_cuadrado = models.ImageField(
         upload_to="business/logos/cuadrado/",
         null=True,
         blank=True,
-        verbose_name="Logotipo cuadrado",
-        help_text="Formato recomendado: 1:1 (ancho:alto)"
+        verbose_name="Logotipo rectangular",
+        help_text="Formato recomendado: 4:1 (ancho:alto)"
     )
 
     latencia_aproximada_ms = models.IntegerField(

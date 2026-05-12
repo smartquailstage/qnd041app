@@ -20,6 +20,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.conf import settings
 from django.db import models
+from usuarios.models import SmartQuailCrew
 
 
 class PaaSOrder(models.Model):
@@ -51,6 +52,15 @@ class PaaSOrder(models.Model):
         null=True,
         blank=True
     )
+
+    project_manager = models.ForeignKey(
+        SmartQuailCrew,
+        on_delete=models.CASCADE,
+        related_name='project_manager',
+        null=True,
+        blank=True
+    )
+
     first_name = models.CharField(_('first name'), max_length=150, null=True, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, null=True, blank=True)
     email = models.EmailField(_('e-mail'),max_length=150, null=True, blank=True)

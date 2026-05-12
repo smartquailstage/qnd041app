@@ -1,0 +1,191 @@
+
+{% extends "base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block content %}
+
+<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+
+    <h2 style="color: #b5181a;">
+        🚀 Nuevo Proyecto Empresarial Registrado
+    </h2>
+
+    <p>
+        Estimado/a
+        <strong>{{ user.get_full_name }}</strong>,
+    </p>
+
+    <p>
+        Se ha registrado correctamente un nuevo proyecto empresarial dentro de la plataforma corporativa de
+        <strong>SmartQuail</strong>.
+    </p>
+
+    <p>
+        Nuestro equipo técnico y de arquitectura comenzará el proceso de revisión, análisis y despliegue inicial de recursos asociados al proyecto.
+    </p>
+
+    <h3 style="margin-top: 30px;">
+        Información del proyecto
+    </h3>
+
+    <ul>
+
+        <li>
+            <strong>Nombre del proyecto:</strong>
+            {{ project.name }}
+        </li>
+
+        <li>
+            <strong>Sector:</strong>
+            {{ project.get_business_sector_display }}
+        </li>
+
+        <li>
+            <strong>Usuarios simultáneos:</strong>
+            {{ project.usuarios_max }}
+        </li>
+
+        <li>
+            <strong>Automatización:</strong>
+
+            {% if project.has_automation %}
+                Sí
+            {% else %}
+                No
+            {% endif %}
+        </li>
+
+        <li>
+            <strong>Inteligencia Artificial:</strong>
+
+            {% if project.has_ai %}
+                Sí
+            {% else %}
+                No
+            {% endif %}
+        </li>
+
+        <li>
+            <strong>LLM:</strong>
+
+            {% if project.has_llm %}
+                Sí
+            {% else %}
+                No
+            {% endif %}
+        </li>
+
+        <li>
+            <strong>Dominio privado:</strong>
+
+            {% if project.is_domain_configured %}
+                {{ project.domain_name }}
+            {% else %}
+                No configurado
+            {% endif %}
+        </li>
+
+        <li>
+            <strong>Fecha de registro:</strong>
+            {{ project.created_at|date:"d/m/Y H:i" }}
+        </li>
+
+    </ul>
+
+    <h3 style="margin-top: 30px;">
+        Recursos estimados
+    </h3>
+
+    <table style="width:100%; border-collapse: collapse; margin-bottom: 20px;">
+
+        <thead>
+
+            <tr style="background-color:#f5f5f5;">
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    Recurso
+                </th>
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    Valor estimado
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td style="padding:8px; border:1px solid #ddd;">
+                    Memoria aproximada
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ project.memoria_aproximada_gb }} GB
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:8px; border:1px solid #ddd;">
+                    Procesamiento aproximado
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ project.procesamiento_aproximado_vcpu }} vCPU
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:8px; border:1px solid #ddd;">
+                    Almacenamiento aproximado
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ project.almacenamiento_aproximado_gb }} GB
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding:8px; border:1px solid #ddd;">
+                    Latencia estimada
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ project.latencia_aproximada_ms }} ms
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p style="margin-top:20px;">
+        El equipo de SmartQuail continuará con las actividades de configuración, asignación de infraestructura y validación técnica del entorno.
+    </p>
+
+    <p style="text-align:center; margin-top:30px;">
+
+        <a href="https://{{ domain }}{{ project.get_absolute_url }}"
+           style="background-color:#b5181a;
+                  color:white;
+                  padding:14px 28px;
+                  text-decoration:none;
+                  border-radius:6px;
+                  font-weight:bold;
+                  display:inline-block;">
+
+            Ver proyecto
+
+        </a>
+
+    </p>
+
+    <p style="margin-top:30px;">
+        Gracias por confiar en
+        <strong>SmartQuail</strong>.
+    </p>
+
+</div>
+
+{% endblock %}

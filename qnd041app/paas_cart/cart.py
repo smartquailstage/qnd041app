@@ -98,6 +98,8 @@ class Cart:
         self.session.pop('coupon_id', None)
         self.save()
 
+        
+
     def get_total_price(self):
         return sum(
             Decimal(item['price']) * item['quantity']

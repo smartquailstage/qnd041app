@@ -337,7 +337,7 @@ class PaaSOrderAdmin(ModelAdmin):
         }),
         ('Términos y Estado', {
             'fields': (
-                'terms_accepted', 'is_active','is_progress', 'email_sent'
+                'terms_accepted', 'is_active','is_progress', 'email_sent','project_manager'
             ),
             'classes': ('unfold', 'tab-status'),
         }),

@@ -201,7 +201,7 @@ def send_payment_and_contracts_email_task(order_id):
 
         subject = "✅ Pago registrado y verificación de contratos - ITC Business"
         from_email = settings.DEFAULT_FROM_EMAIL
-        to_email = [order.email]
+        to_email = [order.email,settings.DEFAULT_FROM_EMAIL]
 
         email = EmailMultiAlternatives(
             subject,
@@ -252,3 +252,108 @@ def send_payment_and_contracts_email_task(order_id):
     except Exception as e:
         print(f"Error enviando correo de pago y contratos: {e}")
         return False
+
+
+from celery import shared_task
+
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+from .models import PaaSOrder
+
+
+@shared_task
+def send_project_manager_email(order_id):
+
+    try:
+        order = PaaSOrder.objects.select_related(
+            "project_manager"
+        ).prefetch_related(
+            "items"
+        ).get(id=order_id)
+
+    except PaaSOrder.DoesNotExist:
+        return
+
+    # Evitar reenvíos
+    if order.email_sent:
+        return
+
+    # Validaciones
+    if not order.project_manager:
+        return
+
+    if not order.project_manager.email:
+        return
+
+    # Obtener dominio automáticamente
+    current_site = Site.objects.get_current()
+    domain = current_site.domain
+
+    subject = f"Nueva orden PaaS #{order.id}"
+
+    html_content = render_to_string(
+        "paas_orders/mails/project_manager_notification.html",
+        {
+            "order": order,
+            "domain": domain,
+        }
+    )
+
+    message = EmailMultiAlternatives(
+        subject=subject,
+        body="Nueva orden PaaS asignada.",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.project_manager.email],
+    )
+
+    message.attach_alternative(html_content, "text/html")
+    message.send()
+
+    # Marcar enviado
+    order.email_sent = True
+    order.save(update_fields=["email_sent"])
+
+    try:
+        order = PaaSOrder.objects.select_related(
+            "project_manager"
+        ).prefetch_related(
+            "items"
+        ).get(id=order_id)
+
+    except PaaSOrder.DoesNotExist:
+        return
+
+    if order.email_sent:
+        return
+
+    if not order.project_manager:
+        return
+
+    if not order.project_manager.email:
+        return
+
+    subject = f"Nueva orden PaaS #{order.id}"
+
+    html_content = render_to_string(
+        "paas_orders/sqcrew/project_manager.html",
+        {
+            "order": order,
+            "domain": domain,
+        }
+    )
+
+    message = EmailMultiAlternatives(
+        subject=subject,
+        body="Nueva orden PaaS asignada.",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.project_manager.email],
+    )
+
+    message.attach_alternative(html_content, "text/html")
+    message.send()
+
+    order.email_sent = True
+    order.save(update_fields=["email_sent"])

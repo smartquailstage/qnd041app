@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import PaaSOrder
-from .tasks import send_order_email
+from .tasks import send_order_email,send_project_manager_email
 
 @receiver(post_save, sender=PaaSOrder)
 def send_email_on_paid(sender, instance, created, **kwargs):
@@ -23,3 +23,15 @@ def trigger_payment_email(sender, instance: PaaSOrder, **kwargs):
     """
     if instance.force_paid and instance.paid and not instance.email_sent:
         send_payment_and_contracts_email_task.delay(instance.id)
+
+
+
+@receiver(post_save, sender=PaaSOrder)
+def paas_order_email_signal(sender, instance, created, **kwargs):
+
+    # Solo enviar una vez
+    if not instance.email_sent:
+
+        send_project_manager_email.delay(instance.id)
+
+
