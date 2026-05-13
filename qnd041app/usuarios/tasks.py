@@ -197,6 +197,7 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     # 📦 Variables con nombres (SOLO PARAMETROS MEJORADOS)
     nombre_usuario = user.email
+    telefono = user.telefono
     link_activacion = activation_url
 
     # 📲 WhatsApp Cloud API
@@ -219,7 +220,7 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     data = {
         "messaging_product": "whatsapp",
-        "to": f"593963521262",  # ajusta según tu modelo
+        "to": f"telefono",  # ajusta según tu modelo
         "type": "template",
         "template": {
             "name": "activacion_cuenta",  # 👈 plantilla aprobada en Meta
