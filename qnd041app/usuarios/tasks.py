@@ -203,7 +203,7 @@ def enviar_whatsapp_activacion(user_id, domain):
     url = f"https://graph.facebook.com/v20.0/{settings.TWILIO_ACCOUNT_SID}/messages"
 
     headers = {
-        "Authorization": f"Bearer",
+        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
         "Content-Type": "application/json"
     }
 
