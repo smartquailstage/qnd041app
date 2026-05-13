@@ -176,18 +176,6 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from urllib.parse import quote
 
-from celery import shared_task
-from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
-from django.urls import reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from urllib.parse import quote
-
-import requests
-
-from django.conf import settings
-
 
 @shared_task
 def enviar_whatsapp_activacion(user_id, domain):
@@ -205,17 +193,11 @@ def enviar_whatsapp_activacion(user_id, domain):
     uid_encoded = quote(uid)
     token_encoded = quote(token)
 
-    activation_url = (
-        f"{domain}"
-        f"{reverse('usuarios:activar_cuenta', kwargs={
-            'uidb64': uid_encoded,
-            'token': token_encoded
-        })}"
-    )
+    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
 
-    # ✅ evitar valores vacíos o None
-    nombre_usuario = str(user.first_name or "Usuario")
-    link_activacion = str(activation_url)
+    # 📦 Variables con nombres (SOLO PARAMETROS MEJORADOS)
+    nombre_usuario = user.first_name
+    link_activacion = activation_url
 
     # 📲 WhatsApp Cloud API
     url = f"https://graph.facebook.com/v20.0/{settings.TWILIO_ACCOUNT_SID}/messages"
@@ -239,13 +221,11 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     data = {
         "messaging_product": "whatsapp",
-        "to": "593963521262",
+        "to": f"593963521262",  # ajusta según tu modelo
         "type": "template",
         "template": {
-            "name": "activacion_cuenta",
-            "language": {
-                "code": "es_AR"
-            },
+            "name": "activacion_cuenta",  # 👈 plantilla aprobada en Meta
+            "language": {"code": "es_AR"},
             "components": [
                 {
                     "type": "body",
@@ -255,25 +235,11 @@ def enviar_whatsapp_activacion(user_id, domain):
         }
     }
 
-    # 🐞 debug opcional
-    print("PAYLOAD WHATSAPP:")
-    print(data)
+    response = requests.post(url, headers=headers, json=data)
 
-    response = requests.post(
-        url,
-        headers=headers,
-        json=data
-    )
+    return response.json()
 
-    response_data = response.json()
 
-    # 🛑 marcar error real en Celery
-    if "error" in response_data:
-        raise Exception(response_data["error"]["message"])
-
-    return response_data
-
-    
 
 @shared_task
 def enviar_correo_login(user_id, fecha_hora, user_ip):
