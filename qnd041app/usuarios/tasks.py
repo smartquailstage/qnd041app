@@ -220,7 +220,7 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     data = {
         "messaging_product": "whatsapp",
-        "to": f"telefono",  # ajusta según tu modelo
+        "to": user.telefono,  # ajusta según tu modelo
         "type": "template",
         "template": {
             "name": "activacion_cuenta",  # 👈 plantilla aprobada en Meta
