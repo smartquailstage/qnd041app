@@ -47,9 +47,12 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
 
-    telefono = PhoneNumberField( label='Teléfono de contacto',
-    help_text='Ingrese su número telefónico. Ej +5939XXXXXXXX',
-    widget=forms.TextInput(attrs={'class': 'form-control'}), required=True, initial='+593' )
+    telefono = forms.CharField(
+        label='Teléfono de contacto',
+        help_text='Ej: 593963521262',
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     password = forms.CharField(
         label='Escriba una contraseña segura',

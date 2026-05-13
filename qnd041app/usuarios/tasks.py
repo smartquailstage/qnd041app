@@ -193,7 +193,7 @@ def enviar_whatsapp_activacion(user_id, domain):
     uid_encoded = quote(uid)
     token_encoded = quote(token)
 
-    activation_url = f"{domain}{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
+    activation_url = f"{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
 
     # 📦 Variables con nombres (SOLO PARAMETROS MEJORADOS)
     nombre_usuario = user.email
