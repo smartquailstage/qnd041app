@@ -444,7 +444,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Name: {self.name}, Usuarios: {self.usuarios_simultaneos}, Price: {self.price}"
+        return f"{self.name}({self.price})"
 
 
 

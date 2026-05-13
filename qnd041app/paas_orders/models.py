@@ -21,6 +21,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import models
 from usuarios.models import SmartQuailCrew
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class PaaSOrder(models.Model):
@@ -153,8 +154,7 @@ class PaaSOrder(models.Model):
         verbose_name = 'Software As Service Order'
         verbose_name_plural = 'PaaS Orders'
 
-    def __str__(self):
-        return f'SQ02-PLT-15{ self.id }-QND0501{self.id} - {self.user}'
+
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
@@ -184,36 +184,57 @@ class PaaSOrder(models.Model):
         return subtotal + iva
 
     def get_total_with_discount_interes(self):
+
         subtotal = self.get_total_with_discount().amount
-        interes  = (
+
+        # Si no existe cupón
+        if not self.coupon:
+            return subtotal.quantize(
+                Decimal('0.01'),
+                rounding=ROUND_HALF_UP
+            )
+
+        interes = (
             Decimal(self.coupon.percent_credit) /
             Decimal('100')
-            )
-        valor_interes = subtotal*interes
+        )
 
-        return subtotal + valor_interes
+        valor_interes = subtotal * interes
+
+        total = subtotal + valor_interes
+
+        # Redondear a 2 decimales
+        return total.quantize(
+            Decimal('0.01'),
+            rounding=ROUND_HALF_UP
+        )
     
     def get_total_monthly_suscription(self):
+        if not self.coupon:
+            return Decimal('0.00')
+
         meses = Decimal(self.coupon.credito)
+
         interes = (
             Decimal(self.coupon.percent_credit) /
             Decimal('100')
             )
-    
 
         total = self.get_total_with_discount().amount
-        tota_intereses = interes * total
-        valor_final = tota_intereses + total
-        valor_a_pagar_mensual = valor_final/meses
 
-        return valor_a_pagar_mensual
+        total_intereses = interes * total
 
-    def check_active_status(self):
-        """Actualiza el estado a inactivo si han pasado más de 15 días desde la creación."""
-        if self.is_active and self.created + timedelta(days=15) < timezone.now():
-            self.is_active = False
-            self.save()
+        valor_final = total_intereses + total
 
+        valor_a_pagar_mensual = valor_final / meses
+
+        return valor_a_pagar_mensual.quantize(
+            Decimal('0.01'),rounding=ROUND_HALF_UP
+            )
+
+
+    def __str__(self):
+        return f'SQ02-PLT-15{ self.id }-QND0501{self.id} ({self.get_total_with_discount_interes()} US$)'
 
 class PaaSOrderItem(models.Model):
     order = models.ForeignKey(PaaSOrder,

@@ -43,7 +43,7 @@ class BusinessSystemProject(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='business_projects',
+        related_name='product',
         verbose_name='Asociar Aplicativo'
     )
 
@@ -52,7 +52,7 @@ class BusinessSystemProject(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='business_projects',
+        related_name='product_paas',
         verbose_name='Asociar Plataforma'
     )
     usuarios_max = models.IntegerField(default=1, verbose_name='Número máximo de usuarios simultáneos')
