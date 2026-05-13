@@ -82,10 +82,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     
     telefono = models.CharField(
-    verbose_name="Teléfono convencional de contacto",
+    verbose_name="Teléfono convencional de whatsapp",
     max_length=15,
-    validators=[phone_regex],
-    unique=True
+    unique=True,
+    help_text="El número debe tener el formato 593XXXXXXXXX (ej: 593963521262)."
     )
 
 
