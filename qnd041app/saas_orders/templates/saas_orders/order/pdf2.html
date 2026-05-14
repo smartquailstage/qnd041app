@@ -5,7 +5,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link href="{% static 'pdf.css' %}" media="print" rel="stylesheet">
     <title>SQ-INV021-0203{{ order.id }}</title>
     <meta name="description" content="Invoice demo sample">
 
@@ -88,9 +87,7 @@
   </aside>
   <h3><strong>Licencia ITC: SQ02-APP-12{ self.id }-QND0101{self.id}</strong></h3>
     {% for item in order.items.all %}
-    {% if item.product.image %}
-    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
-  {% endif %}
+
 
   <table>
     <thead>
