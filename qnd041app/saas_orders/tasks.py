@@ -40,7 +40,7 @@ import qrcode
 
 from django.urls import reverse
 
-
+from django.contrib.staticfiles import finders
 
 
 import os
@@ -204,7 +204,7 @@ def order_created(self, order_id):
     # ------------------------------------------------
     # ✅ CSS local real
     # ------------------------------------------------
-    css_url = "https://qnd03101.sfo3.digitaloceanspaces.com/qnd03101/qnd041app/static/css/pdf.css"
+    css_path = finders.find("css/pdf.css")
     # ------------------------------------------------
     # ✅ Base URL local
     # ------------------------------------------------
@@ -222,7 +222,7 @@ def order_created(self, order_id):
             target=out,
             stylesheets=[
                 weasyprint.CSS(
-                    filename=str(css_url)
+                    filename=css_path
                 )
             ],
             presentational_hints=True
@@ -236,7 +236,7 @@ def order_created(self, order_id):
     # 📎 Adjuntar PDF
     # ------------------------------------------------
     email.attach(
-        filename=f"SQ02-APP-12{ self.id }-QND0101{self.id}.pdf",
+        filename=f"SQ02-APP-12{ order.id }-QND0101{order.id}.pdf",
         content=out.getvalue(),
         mimetype='application/pdf'
     )
