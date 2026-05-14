@@ -85,14 +85,14 @@
 
     </address>
   </aside>
-  <h3><strong>Licencia ITC: SQ02-APP-12{ self.id }-QND0101{self.id}</strong></h3>
+
     {% for item in order.items.all %}
 
 
   <table>
     <thead>
       <tr>
-        <th>Licencia</th>
+        <th>Licencia: <strong>Licencia ITC: SQ02-APP-12{ order.id }-QND0101{order.id}</strong></th>
         <th>(I+D)</th>
 
         {% if item.product.is_automatitation %}

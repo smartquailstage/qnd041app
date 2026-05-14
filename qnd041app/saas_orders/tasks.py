@@ -232,7 +232,7 @@ def order_created(self, order_id):
     # 📎 Adjuntar PDF
     # ------------------------------------------------
     email.attach(
-        filename=f"SQ02-APP-12{ order.id }-QND0101{order.id}.pdf",
+        filename=f"Licencia: SQ02-APP-12{ order.id }-QND0101{order.id}.pdf",
         content=out.getvalue(),
         mimetype='application/pdf'
     )
