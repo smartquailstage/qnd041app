@@ -204,14 +204,7 @@ def order_created(self, order_id):
     # ------------------------------------------------
     # ✅ CSS local real
     # ------------------------------------------------
-    css_path = (
-        Path(settings.BASE_DIR)
-        / "saas_orders"
-        / "static"
-        / "css"
-        / "pdf.css"
-    )
-
+    css_url = "https://qnd03101.sfo3.digitaloceanspaces.com/qnd03101/qnd041app/static/css/pdf.css"
     # ------------------------------------------------
     # ✅ Base URL local
     # ------------------------------------------------
