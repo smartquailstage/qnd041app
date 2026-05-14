@@ -68,7 +68,7 @@
     </dl>
 
 <hr>
-<h3 style="color:#4b4a4a;"><strong>PLAN DE IINVERSIÓN EN TECNOLOGíAS DE INFORMACIÓN y COMUNICACIÓN EN NUBE NATIVA (ITC)</strong></h3>
+<h3 style="color:#4b4a4a;"><strong>PLAN DE INVERSIÓN EN TECNOLOGíAS DE INFORMACIÓN y COMUNICACIÓN EN NUBE NATIVA (ITC)</strong></h3>
   <aside>
     <address id="to">
       Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
@@ -76,7 +76,7 @@
       Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
       Correo Electrónico:<strong>{{ order.email }}</strong><br>
       Teléfono de Contacto<strong>{{ order.telefono }}</strong><br>
-      Licencia ITC: <strong>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
+      <strong>Licencia ITC: SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
 
 
 
@@ -88,7 +88,9 @@
 
     </address>
   </aside>
-  <h3><strong>Activo ITC: Nodo computacional | QND0101{{ order.id }} | </strong></h3>
+
+
+  <h3><strong>Activo ITC: Nodo computacional | QND0101{{ order.id }}  </strong></h3>
   {% for item in order.items.all %}
    
   <table>
@@ -204,10 +206,11 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 </div>
 {% endif %}
 {% endfor %}
-
+<hr>
 {% for item in order.items.all %}
-  <h3><strong>Recursos físicos de nube asignados al activo</strong></h3>
-  <p>Soporta un limite de {{ item.product.usuarios_simultaneos }} usuarios simultáneos a una latencia  máxima de 850 ms, en respuesta.</p>
+  <h3><strong> Mantenimiento y soporte técnico mensual del nodo. </strong></h3>
+  <p ><strong>  El nodo  QND0101{{ order.id }} tiene la siguiente infraestructura en nube {{ item.product.cloud_type }}, 
+    con un tiempo de respuesta máxima de 850 ms por cada  {{ item.product.usuarios_simultaneos }} usuarios simultáneos:</strong></p>
 {% endfor %}
   
 {% for item in order.items.all %}

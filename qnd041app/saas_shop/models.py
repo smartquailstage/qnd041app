@@ -88,11 +88,19 @@ class Product(models.Model):
         ('generativa', 'IA Generativa'),
     ]
 
+    CLOUDE_CHOICES = [
+        ('pública y compartida', 'pública y compartida'),
+        ('pública  y Dedicada', 'pública  y Dedicada'),
+        ('Híbrida', 'Híbrida'),
+        ('Privada y Dedicada', 'Privada y Dedicada'),
+    ]
+
 
 
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    cloud_type = models.CharField(choices=CLOUDE_CHOICES, null=True, blank=True,max_length=200)
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
@@ -105,6 +113,7 @@ class Product(models.Model):
     almacenamiento = models.IntegerField(verbose_name="Almacenamiento (GB)", null=True, blank=True)
     ancho_banda = models.IntegerField(verbose_name="Ancho de Banda (Mbps)", null=True, blank=True)
     memoria = models.IntegerField(verbose_name="Memoria (GB)", null=True, blank=True)
+
 
     is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
     is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
