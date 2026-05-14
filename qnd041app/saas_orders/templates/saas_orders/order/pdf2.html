@@ -88,7 +88,7 @@
 
     </address>
   </aside>
-  <h3><strong>Activos ITC: QND0101{{ order.id }} </strong></h3>
+  <h3><strong>Activo ITC: Nodo computacional | QND0101{{ order.id }} | </strong></h3>
   {% for item in order.items.all %}
    
   <table>
@@ -206,7 +206,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% endfor %}
 
 {% for item in order.items.all %}
-  <h3><strong>Recursos fiísicos de nube asignados a activo</strong></h3>
+  <h3><strong>Recursos físicos de nube asignados al activo</strong></h3>
   <p>Soporta un limite de {{ item.product.usuarios_simultaneos }} usuarios simultáneos a una latencia  máxima de 850 ms, en respuesta.</p>
 {% endfor %}
   
