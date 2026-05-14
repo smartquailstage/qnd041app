@@ -59,44 +59,74 @@ import weasyprint
 from .models import SaaSOrder
 
 
+from celery import shared_task
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.urls import reverse
+
+from pathlib import Path
+from io import BytesIO
+
+import os
+import io
+import base64
+import qrcode
+import weasyprint
+
+from saas_orders.models import SaaSOrder
+
+
 @shared_task(bind=True, max_retries=3)
 def order_created(self, order_id):
 
-    # ------------------------------
-    # 🔎 Obtener orden de forma segura
-    # ------------------------------
+    # ------------------------------------------------
+    # 🔎 Obtener orden
+    # ------------------------------------------------
     try:
-        order = SaaSOrder.objects.select_related('user').prefetch_related('items__product').get(id=order_id)
+        order = (
+            SaaSOrder.objects
+            .select_related('user')
+            .prefetch_related('items__product')
+            .get(id=order_id)
+        )
     except SaaSOrder.DoesNotExist:
         return False
 
-    # ------------------------------
+    # ------------------------------------------------
     # 📧 Validar email
-    # ------------------------------
+    # ------------------------------------------------
     if not order.email:
         return False
 
     domain = "ec.smartquail.io"
 
-    # ------------------------------
-    # 🧠 Config Fontconfig (WeasyPrint)
-    # ------------------------------
-    os.environ.setdefault('FONTCONFIG_PATH', '/tmp/fontconfig')
-    os.environ.setdefault('FONTCONFIG_CACHE', '/tmp/fontconfig_cache')
-    os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
+    # ------------------------------------------------
+    # 🧠 Configuración Fontconfig / WeasyPrint
+    # ------------------------------------------------
+    font_cache = "/tmp/fontconfig"
 
-    # ------------------------------
-    # 📦 Items optimizados
-    # ------------------------------
+    os.makedirs(font_cache, exist_ok=True)
+
+    os.environ["XDG_CACHE_HOME"] = font_cache
+    os.environ["FC_CACHEDIR"] = font_cache
+
+    # ------------------------------------------------
+    # 📦 Items
+    # ------------------------------------------------
     items = list(order.items.all())
 
     product_names = ", ".join(
-        [item.product.name for item in items if item.product]
+        [
+            item.product.name
+            for item in items
+            if item.product
+        ]
     ) or "su software"
 
-    # ------------------------------
+    # ------------------------------------------------
     # 📩 HTML correo
-    # ------------------------------
+    # ------------------------------------------------
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
         {
@@ -106,22 +136,28 @@ def order_created(self, order_id):
         }
     )
 
-    subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
+    subject = (
+        f'Su orden de compra del software '
+        f'{product_names} se ha completado con éxito 🎉'
+    )
 
     email = EmailMultiAlternatives(
-        subject,
-        "Su Orden de Software ERP Business Analytics fue creada!",
-        settings.DEFAULT_FROM_EMAIL,
-        [order.email]
+        subject=subject,
+        body="Su Orden de Software ERP Business Analytics fue creada!",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.email, settings.DEFAULT_FROM_EMAIL ]
     )
 
     email.attach_alternative(html_message, "text/html")
 
-    # ------------------------------
-    # 📌 QR (CORRECTO)
-    # ------------------------------
+    # ------------------------------------------------
+    # 📌 QR
+    # ------------------------------------------------
     try:
-        url = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+        url = (
+            f"https://{domain}"
+            f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+        )
     except Exception:
         url = f"https://{domain}"
 
@@ -135,54 +171,98 @@ def order_created(self, order_id):
     qr.add_data(url)
     qr.make(fit=True)
 
-    img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
+    img = qr.make_image(
+        fill_color="#4d4d4d",
+        back_color="#E5E1E1"
+    )
 
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
 
-    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    qr_base64 = base64.b64encode(
+        buffer.getvalue()
+    ).decode()
+
     qr_url = f"data:image/png;base64,{qr_base64}"
 
     buffer.close()
 
-    # ------------------------------
-    # 📄 PDF
-    # ------------------------------
-    html = render_to_string('saas_orders/order/pdf2.html', {'order': order, 'domain': domain,'qr_url':qr_url})
-    out = BytesIO()
-
-    css_path = '/qnd041app/qnd041app/saas_orders/static/css/pdf.css'
-
-    weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
-        out,
-        stylesheets=[weasyprint.CSS(css_path)],
-        presentational_hints=True
+    # ------------------------------------------------
+    # 📄 HTML PDF
+    # ------------------------------------------------
+    pdf_html = render_to_string(
+        'saas_orders/order/pdf2.html',
+        {
+            'order': order,
+            'domain': domain,
+            'qr_url': qr_url,
+        }
     )
 
-    email.attach(f"SQ-INV021-0203{order.id}.pdf", out.getvalue(), 'application/pdf')
+    out = BytesIO()
 
-    # ------------------------------
+    # ------------------------------------------------
+    # ✅ CSS local real
+    # ------------------------------------------------
+    css_path = (
+        Path(settings.BASE_DIR)
+        / "saas_orders"
+        / "static"
+        / "css"
+        / "pdf.css"
+    )
+
+    # ------------------------------------------------
+    # ✅ Base URL local
+    # ------------------------------------------------
+    base_url = settings.BASE_DIR
+
+    # ------------------------------------------------
+    # ✅ Generar PDF
+    # ------------------------------------------------
+    try:
+
+        weasyprint.HTML(
+            string=pdf_html,
+            base_url=str(base_url)
+        ).write_pdf(
+            target=out,
+            stylesheets=[
+                weasyprint.CSS(
+                    filename=str(css_path)
+                )
+            ],
+            presentational_hints=True
+        )
+
+    except Exception as e:
+        print(f"ERROR GENERANDO PDF: {e}")
+        raise self.retry(exc=e, countdown=10)
+
+    # ------------------------------------------------
     # 📎 Adjuntar PDF
-    # ------------------------------
+    # ------------------------------------------------
     email.attach(
-        f"SQ-INV021-0203{order.id}.pdf",
-        out.getvalue(),
-        'application/pdf'
+        filename=f"SQ-INV021-0203{order.id}.pdf",
+        content=out.getvalue(),
+        mimetype='application/pdf'
     )
 
     out.close()
 
-    # ------------------------------
-    # 📤 Enviar correo (con retry)
-    # ------------------------------
+    # ------------------------------------------------
+    # 📤 Enviar correo
+    # ------------------------------------------------
     try:
         email.send()
+
     except Exception as e:
+        print(f"ERROR ENVIANDO EMAIL: {e}")
         raise self.retry(exc=e, countdown=10)
 
-    # ------------------------------
-    # ✔️ Marcar como enviado
-    # ------------------------------
+    # ------------------------------------------------
+    # ✔️ Marcar enviado
+    # ------------------------------------------------
     order.email_sent = True
     order.save(update_fields=['email_sent'])
 
