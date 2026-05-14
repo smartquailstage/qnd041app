@@ -15,14 +15,14 @@
 
 @page {
   font-family: Pier;
-  margin: 3cm;
+  margin: 2cm;
   @bottom-left {
-    color: #d81806;
-    content: '♥ Thank you!';
+    color: rgb(170, 153, 153) ;
+    content: 'SmartQuail, Inc ® All rights Reserverd';
   }
   @bottom-right {
     color: rgb(170, 153, 153);
-    content: 'contact@courtbouillon.org | courtbouillon.org';
+    content: '(+593) 096-3521-262 | https://ec.smartquail.io';
     font-size: 9pt;
   }
 }
@@ -30,8 +30,8 @@
 html {
   color: #000000;
   font-family: 'Pier Sans Pro', sans-serif;
-  font-size: 11pt;
-  line-height: 1.5;
+  font-size: 8pt;
+  line-height: 1;
 }
 body {
   margin: 0;
@@ -40,31 +40,38 @@ body {
 h1 {
   color: #1ee494;
   font-family: Pacifico;
-  font-size: 40pt;
+  font-size: 20pt;
   margin: 0;
 }
 
 h2, h3, h4 {
   font-family: 'Pier Sans Pro', sans-serif;
   font-weight: 500;
-  margin: 1.5em 0 0.5em;
+  margin: 1em 0 0.5em;
   color: #14213d;
 }
 
 aside {
   display: flex;
-  margin: 2em 0 4em;
+  justify-content: space-between; /* empuja a los extremos */
+  margin: 1.5em 1em 1.5em;
+  background-color: #E5E1E1;
+  height: 80px;
 }
+
 aside address {
   font-style: normal;
-  white-space: pre-line;
+  font-size: 9pt;
+  line-height: 1.2;
 }
+
 aside address#from {
+  text-align: right;  /* izquierda */
   color: #a9a;
-  flex: 1;
 }
+
 aside address#to {
-  text-align: right;
+  text-align: left; /* derecha */
 }
 
 /* Datos generales */
@@ -93,21 +100,22 @@ dt::after {
 table {
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: 2cm;
+  margin-bottom: 0.5cm;
 }
 th {
   border-bottom: 0.2mm solid #a9a;
-  color: #a9a;
-  font-size: 10pt;
+  color: #ffff;
+  font-size: 9pt;
   font-weight: 400;
   padding-bottom: 0.25cm;
   text-transform: uppercase;
 }
 td {
   padding-top: 7mm;
+  background-color: #E5E1E1;
 }
 td:last-of-type {
-  color: #1ee494;
+  color: #b50f15;
   font-weight: bold;
   text-align: right;
 }
@@ -123,25 +131,25 @@ th:last-of-type, td:last-of-type {
 
 /* Tabla de totales */
 table#total {
-  background: #ff0303;
-  border-color: #f6f6f6;
+  background: #4d4d4d;
+  border-color: #4d4d4d;
   border-style: solid;
   border-width: 2cm 3cm;
   bottom: 0;
-  font-size: 20pt;
-  margin: 0 -3cm;
+  font-size: 10pt;
+  margin: 0 0cm;
   position: absolute;
   width: 18cm;
 }
 table#total td {
   padding: 0.2cm 0;
   font-weight: 700;
-  font-size: 14pt;
-  color: #868585;
+  font-size: 10pt;
+  color: #d81806;
 }
 table#total td:last-child {
   text-align: right;
-  color: #d93025;
+  color: #4d4d4d;
 }
 
 /* Estados de orden */
@@ -171,8 +179,37 @@ table#total td:last-child {
   background-color: #fce8e6;
 }
 
+/* BLOQUE DE NOTA DE VALIDACIÓN */
+.contract-note {
+  margin-top: 1mm;
+  padding: 4mm 6mm;
+  background-color: #f6f6f4; /* color amarillo suave para alerta */
+  border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
+  font-family: "soon", sans-serif;
+  font-size: 6pt;
+  line-height: 7pt;
+  color: #000000;
+  text-align: justify;
+  border-radius: 5px;
+
+}
+
+.contract-note code {
+  font-family: "soon", monospace;
+  background-color: #f1f1f1;
+  padding: 1px 3px;
+  border-radius: 3px;
+  text-align: justify;
+}
+
+.contract-note code .p {
+  font-size: 5pt;
+  text-align: justify;
+}
+
+
 footer {
   content: '';
   display: block;
-  height: 6cm;
+  height: 2cm;
 }

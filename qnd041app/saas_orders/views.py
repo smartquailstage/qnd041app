@@ -124,7 +124,7 @@ def admin_order_pdf(request, order_id):
     qr = qrcode.QRCode(
     version=3,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=2,
+    box_size=3,
     border=1,
     )
     

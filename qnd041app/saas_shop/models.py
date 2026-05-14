@@ -29,7 +29,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.name or str(self.id)
+        return self.slug or str(self.id)
 
     def get_absolute_url(self):
         return reverse('saas_shop:product_list_by_category', args=[self.slug])
@@ -53,12 +53,12 @@ class Product(models.Model):
         ('10-20', 'Latencia óptima (10–20 ms)'),
     ]
     USUARIOS_SIMULTANEOS_CHOICES = [
-        ('10-50', 'Baja concurrencia (10–50 usuarios)'),
-        ('50-150', 'Carga ligera (50–150 usuarios)'),
-        ('150-500', 'Carga media (150–500 usuarios)'),
-        ('500-1000', 'Alta concurrencia (500–1000 usuarios)'),
-        ('1000-5000', 'Carga crítica (1000–5000 usuarios)'),
-        ('5000+', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
+        ('100', 'Baja concurrencia (10–50 usuarios)'),
+        ('300', 'Carga ligera (50–150 usuarios)'),
+        ('500', 'Carga media (150–500 usuarios)'),
+        ('800', 'Alta concurrencia (500–1000 usuarios)'),
+        ('1K', 'Carga crítica (1000–5000 usuarios)'),
+        ('+5K', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
     ]
     NUMERO_PROCESOS_CHOICES = [
         ('5', '5 procesos'),
@@ -97,7 +97,7 @@ class Product(models.Model):
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
 
-    category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey('Category', related_name='categories', on_delete=models.CASCADE, null=True, blank=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
     os = models.CharField(max_length=100, null=True, blank=True, verbose_name="Sistema Operativo")
     gpu = models.CharField(max_length=100, null=True, blank=True, verbose_name="GPU")

@@ -13,7 +13,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
 
       .logo {
@@ -46,7 +46,7 @@
       }
 
       footer {
-        margin-top: 40px;
+        margin-top: 10px;
       }
     </style>
   </head>
@@ -57,7 +57,7 @@
     </div>
 
     <dl id="informations">
-      <dt># Proforma</dt>
+      <dt>Plan:</dt>
       <dd>SQ-INV021-0203{{ order.id }}</dd>
       <dt>Fecha de orden</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
@@ -68,14 +68,17 @@
     </dl>
 
 <hr>
-<h3><strong>Información de Cliente</strong></h3>
+<h3 style="color:#4b4a4a;"><strong>PLAN DE IINVERSIÓN EN TECNOLOGíAS DE INFORMACIÓN y COMUNICACIÓN EN NUBE NATIVA (ITC)</strong></h3>
   <aside>
     <address id="to">
       Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
       Razón Social:<strong>{{ order.razon_social }}</strong><br>
       Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
       Correo Electrónico:<strong>{{ order.email }}</strong><br>
-      Teléfono de Contacto<strong>{{ order.telefono }}</strong>
+      Teléfono de Contacto<strong>{{ order.telefono }}</strong><br>
+      Licencia ITC: <strong>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
+
+
 
     </address>
 
@@ -85,14 +88,13 @@
 
     </address>
   </aside>
-
-    {% for item in order.items.all %}
-
-
+  <h3><strong>Activos ITC: QND0101{{ order.id }} </strong></h3>
+  {% for item in order.items.all %}
+   
   <table>
     <thead>
       <tr>
-        <th>Licencia: <strong>Licencia ITC: SQ02-APP-12{ order.id }-QND0101{order.id}</strong></th>
+        <th><strong>Solución Base </strong></th>
         <th>(I+D)</th>
 
         {% if item.product.is_automatitation %}
@@ -149,19 +151,36 @@
 {% for item in order.items.all %}
 <div contract-note code>
   <p style ="text-align:justify;">
-{% if item.product.name == 'SmartBusinessAnalytics' %}
-    <strong>SmartBusinessAnalytics®</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc.,
-     diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento,
-     monitoreo y análisis de datos financieros y operativos en tiempo real,
-     facilitando la toma de decisiones basada en información confiable.
-     Incorpora estándares avanzados de seguridad, incluyendo mecanismos
-      de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad,
-       confidencialidad y disponibilidad de la información.
-{% elif item.product.name == 'SmartBusinessMedia' %}
-<strong>SmartBusinessMedia®</strong> es una plataforma CRM (Customer Relationship Management) desarrollada como software como producto (SaaP), orientada a la automatización integral de procesos de marketing digital y gestión comercial. La solución permite la creación, programación y publicación automatizada de contenidos para sitios web y redes sociales, optimizando la presencia digital de las empresas. Asimismo, incorpora funcionalidades avanzadas para la administración y seguimiento de leads en entornos de Ecommerce, facilitando la conversión y fidelización de clientes. La plataforma opera en tiempo real, brindando visibilidad inmediata sobre el rendimiento de las campañas y la interacción de los usuarios, lo que permite una toma de decisiones ágil y basada en datos.
-{% elif item.product.name == 'SmartBusinessLaw' %}
-<strong>SmartBusinessLaw®</strong> es un sistema ERP (Enterprise Resource Planning) desarrollado como software como producto (SaaP), diseñado para la gestión, administración y automatización integral de procesos legales y regulatorios empresariales. La plataforma permite centralizar y optimizar el cumplimiento normativo ante entidades como la Superintendencia de Compañías, el Ministerio de Trabajo, el Servicio de Rentas Internas (SRI) y la Superintendencia de Protección de Datos Personales. Incorpora funcionalidades avanzadas para la gestión de contratos, incluyendo certificación, trazabilidad y control seguro de versiones y anexos. Además, garantiza altos estándares de seguridad de la información, asegurando la integridad, confidencialidad y disponibilidad de los documentos legales, facilitando una operación eficiente, transparente y alineada con las normativas vigentes.
-{% endif %}
+    {% with category=item.product.category.slug %}
+
+      {% if category == 'business-analytics' %}
+
+        <strong>SmartBusinessAnalytics®</strong> es un aplicativo web especializado en la gestón, administración y analisis financiero como económico para empresas desarrollado por SmartQuail Inc.,
+        El aplicativo permite el procesamiento,
+        monitoreo y análisis de datos financieros y operativos en tiempo real,
+        facilitando la toma de decisiones basada en información confiable.
+        Incorpora estándares avanzados de seguridad, incluyendo mecanismos
+        de protección contra accesos no autorizados y amenazas de ciberseguridad,
+        garantizando la integridad, confidencialidad y disponibilidad de la información.
+
+      {% elif category == 'business-media' %}
+
+        <strong>SmartBusinessMedia®</strong> es una plataforma CRM
+        (Customer Relationship Management) desarrollada como software como producto (SaaP),
+        orientada a la automatización integral de procesos de marketing digital y gestión comercial.
+        La solución permite la creación, programación y publicación automatizada de contenidos
+        para sitios web y redes sociales, optimizando la presencia digital de las empresas.
+
+      {% elif category == 'business-law' %}
+
+        <strong>SmartBusinessLaw®</strong> es un sistema ERP
+        (Enterprise Resource Planning) desarrollado como software como producto (SaaP),
+        diseñado para la gestión, administración y automatización integral
+        de procesos legales y regulatorios empresariales.
+
+      {% endif %}
+
+    {% endwith %}
 
 {% if item.product.is_reaserch  %}
 <strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
@@ -186,8 +205,11 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% endif %}
 {% endfor %}
 
-  <h3><strong>Alquiler Mensual de Recursos de Nube</strong></h3>
-
+{% for item in order.items.all %}
+  <h3><strong>Recursos fiísicos de nube asignados a activo</strong></h3>
+  <p>Soporta un limite de {{ item.product.usuarios_simultaneos }} usuarios simultáneos a una latencia  máxima de 850 ms, en respuesta.</p>
+{% endfor %}
+  
 {% for item in order.items.all %}
   <table>
 

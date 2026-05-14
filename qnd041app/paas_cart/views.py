@@ -37,10 +37,10 @@ from paas_coupons.forms import CouponApplyForm
 
 
 def cart_clear(request):
-    cart = request.session.get('cart', {})
+    cart = request.session.get('paas_cart', {})
 
     cart.clear()
-    request.session['cart'] = cart
+    request.session['paas_cart'] = cart
     request.session.modified = True
 
     return redirect('paas_shop:product_list')
