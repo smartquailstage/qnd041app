@@ -212,20 +212,19 @@ def order_created(self, order_id):
     # Enviar correo
     # ------------------------------
 
-    import requests
+import requests
+from decimal import Decimal
+from django.conf import settings
+from django.urls import reverse
 
-    from decimal import Decimal
-    from django.conf import settings
-    from django.urls import reverse
-
-    from saas_orders.models import SaaSOrder
+from saas_orders.models import SaaSOrder
 
 @shared_task
 def enviar_whatsapp_orden(order_id):
 
     try:
         order = SaaSOrder.objects.get(id=order_id)
-    except PaaSOrder.DoesNotExist:
+    except SaaSOrder.DoesNotExist:
         return "Orden no encontrada"
 
     domain = "ec.smartquail.io"

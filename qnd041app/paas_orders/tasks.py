@@ -96,6 +96,219 @@ def order_created(order_id):
 
 
 
+import requests
+from decimal import Decimal
+from django.conf import settings
+from django.urls import reverse
+
+from paas_orders.models import PaaSOrder
+
+@shared_task
+def enviar_whatsapp_orden_paas(order_id):
+
+    try:
+        order = PaaSOrder.objects.get(id=order_id)
+    except PaaSOrder.DoesNotExist:
+        return "Orden no encontrada"
+
+    domain = "ec.smartquail.io"
+
+    # ==================================================
+    # URLs
+    # ==================================================
+    pdf_url = (
+        f"https://{domain}"
+        f"{reverse('paas_orders:order_pdf', kwargs={'order_id': order.id})}"
+    )
+
+    order_url = (
+        f"https://{domain}"
+        f"{reverse('paas_orders:order_detail', kwargs={'order_id': order.id})}"
+    )
+
+    # ==================================================
+    # DATOS SEGUROS (SIN NULL)
+    # ==================================================
+    telefono = str(order.telefono).replace("+", "").strip()
+
+    nombre_cliente = (
+        f"{order.first_name or ''} {order.last_name or ''}".strip()
+        or "Cliente SmartQuail"
+    )
+
+    email_cliente = order.email or "No registrado"
+
+    razon_social = order.razon_social or "No registrada"
+
+    ruc = order.ruc or "No registrado"
+
+    sector = order.get_sector_display() if order.sector else "No especificado"
+
+    codigo_convenio = (
+        order.coupon.code
+        if order.coupon and order.coupon.code
+        else "Sin convenio"
+    )
+
+    descuento = (
+        f"{order.discount}%"
+        if order.discount
+        else "0%"
+    )
+
+    subtotal = (
+        str(order.get_subtotal())
+        if order.get_subtotal()
+        else "0.00 USD"
+    )
+
+    iva = (
+        f"{order.get_total_iva():.2f} USD"
+        if order.get_total_iva()
+        else "0.00 USD"
+    )
+
+    total = (
+        f"{order.get_total_with_discount():.2f} USD"
+        if order.get_total_with_discount()
+        else "0.00 USD"
+    )
+
+    total_credito = (
+        f"{order.get_total_with_discount_interes()} USD"
+        if order.get_total_with_discount_interes()
+        else "0.00 USD"
+    )
+
+    mensualidad = (
+        f"{order.get_total_monthly_suscription()} USD"
+        if order.get_total_monthly_suscription()
+        else "0.00 USD"
+    )
+
+    estado_pago = "Pagado" if order.paid else "Pendiente"
+
+    productos = (
+        ", ".join(
+            [item.product.name for item in order.items.all()]
+        )
+        or "Software SmartQuail"
+    )
+
+    # ==================================================
+    # WHATSAPP CLOUD API
+    # ==================================================
+    url = (
+        f"https://graph.facebook.com/v20.0/"
+        f"{settings.TWILIO_ACCOUNT_SID}/messages"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
+        "Content-Type": "application/json"
+    }
+
+    # ==================================================
+    # TEMPLATE PARAMETERS
+    # ==================================================
+    parametros_template = [
+        {
+            "type": "text",
+            "parameter_name": "nombre_cliente",
+            "text": nombre_cliente
+        },
+        {
+            "type": "text",
+            "parameter_name": "numero_orden",
+            "text": str(order.id)
+        },
+        {
+            "type": "text",
+            "parameter_name": "productos",
+            "text": productos
+        },
+        {
+            "type": "text",
+            "parameter_name": "subtotal",
+            "text": subtotal
+        },
+        {
+            "type": "text",
+            "parameter_name": "iva",
+            "text": iva
+        },
+        {
+            "type": "text",
+            "parameter_name": "total",
+            "text": total
+        },
+        {
+            "type": "text",
+            "parameter_name": "codigo_convenio",
+            "text": codigo_convenio
+        },
+        {
+            "type": "text",
+            "parameter_name": "descuento",
+            "text": descuento
+        },
+        {
+            "type": "text",
+            "parameter_name": "estado_pago",
+            "text": estado_pago
+        },
+        {
+            "type": "text",
+            "parameter_name": "mensualidad",
+            "text": mensualidad
+        },
+        {
+            "type": "text",
+            "parameter_name": "total_credito",
+            "text": total_credito
+        },
+        {
+            "type": "text",
+            "parameter_name": "pdf_url",
+            "text": pdf_url
+        },
+        {
+            "type": "text",
+            "parameter_name": "order_url",
+            "text": order_url
+        }
+    ]
+
+    # ==================================================
+    # PAYLOAD
+    # ==================================================
+    data = {
+        "messaging_product": "whatsapp",
+        "to": telefono,
+        "type": "template",
+        "template": {
+            "name": "adquisicion_de_licencia_plt",
+            "language": {
+                "code": "es_AR"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": parametros_template
+                }
+            ]
+        }
+    }
+
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data
+    )
+
+    return response.json()
+
+
 
 
     # saas_orders/tasks.py
@@ -158,6 +371,10 @@ def send_order_email(order_id):
     order.save(update_fields=['email_sent'])
 
     return f"Correo enviado a {order.email} para la orden {order_id}."
+
+
+
+
 
 
 
