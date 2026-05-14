@@ -222,7 +222,7 @@ def order_created(self, order_id):
             target=out,
             stylesheets=[
                 weasyprint.CSS(
-                    filename=str(css_path)
+                    filename=str(css_url)
                 )
             ],
             presentational_hints=True

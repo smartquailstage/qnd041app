@@ -75,7 +75,7 @@ def order_created(order_id):
 
     weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
-        stylesheets=[weasyprint.CSS(css_path)],
+        stylesheets=[weasyprint.CSS(css_url)],
         presentational_hints=True
     )
 

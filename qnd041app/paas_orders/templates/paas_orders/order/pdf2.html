@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <link href="{% static 'pdf.css' %}" media="print" rel="stylesheet">
-    <title>Invoice</title>
+    <title>SQ-INV021-0203{{ order.id }}</title>
     <meta name="description" content="Invoice demo sample">
 
     <style>
@@ -43,7 +43,7 @@
       }
 
       th {
-        background-color: #f0f0f0;
+        background-color: #b50f15;
       }
 
       footer {
@@ -54,63 +54,266 @@
 
   <body>
     <div class="header">
-      <img src="{% static 'img/logoSQ_responsive.png' %}" class="logo">
+      <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" class="logo" height="30%">
     </div>
 
     <dl id="informations">
-      <dt>Invoice number</dt>
-      <dd>#{{ order.id }}</dd>
-      <dt>Date</dt>
+      <dt># Proforma</dt>
+      <dd>SQ-INV021-0203{{ order.id }}</dd>
+      <dt>Fecha de orden</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
+      <dt>Razón social</dt>
+      <dd>SMARTQUAIL.S.A.S</dd>
+      <dt>Registro fiscal</dt>
+      <dd>1793206532001</dd>
     </dl>
 
-    <hr>
-
+<hr>
+<h3><strong>Información de Cliente</strong></h3>
+  <aside>
     <address id="to">
-      {{ order.first_name }} {{ order.last_name }}<br>
-      {{ order.razon_social }}<br>
-      Email: {{ order.email }}<br>
-      Phone: {{ order.telefono }}<br>
-      Sector: {{ order.get_sector_display }}
+      Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+      Razón Social:<strong>{{ order.razon_social }}</strong><br>
+      Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
+      Correo Electrónico:<strong>{{ order.email }}</strong><br>
+      Teléfono de Contacto<strong>{{ order.telefono }}</strong>
+
     </address>
 
-    <hr>
+    <address id="from">
 
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
+        <img src="{{ qr_url }}" alt="QR de certificación">
+
+    </address>
+  </aside>
+  <h3><strong>Licencia ITC: SQ02-APP-12{ self.id }-QND0101{self.id}</strong></h3>
+    {% for item in order.items.all %}
+    {% if item.product.image %}
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>Licencia</th>
+        <th>(I+D)</th>
+
+        {% if item.product.is_automatitation %}
+          <th>(+A)</th>
+        {% endif %}
+
+        {% if item.product.is_intelligent %}
+          <th>(+AI)</th>
+        {% endif %}
+
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+
+        <!-- Imagen -->
+        <td>
+          {{ item.product.name }}
+        </td>
+
+        <!-- I+D -->
+        <td>
+          ${{ item.product.total.amount|default_if_none:0|floatformat:2|intcomma }}
+        </td>
+
+        <!-- Automatización -->
+        {% if item.product.is_automatitation %}
+        <td>
+          ${{ item.product.total_n8n.amount|default_if_none:0|floatformat:2|intcomma }}
+        </td>
+        {% endif %}
+
+        <!-- IA -->
+        {% if item.product.is_intelligent %}
+        <td>
+          ${{ item.product.total_ml.amount|default_if_none:0|floatformat:2|intcomma }}
+        </td>
+        {% endif %}
+
+        <!-- SUBTOTAL CORRECTO -->
         {% for item in order.items.all %}
-        <tr>
-          <td>{{ item.product.name }}</td>
-          <td>${{ item.price.amount|floatformat:2 }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>${{ item.get_cost.amount|floatformat:2|intcomma }}</td>
-        </tr>
+        <td>
+          ${{ item.product.subtotal.amount|floatformat:2|intcomma}}
+        </td>
         {% endfor %}
-      </tbody>
-    </table>
+      </tr>
+    </tbody>
+  </table>
+
+    {% endfor %}
+
+{% for item in order.items.all %}
+<div contract-note code>
+  <p style ="text-align:justify;">
+{% if item.product.name == 'SmartBusinessAnalytics' %}
+    <strong>SmartBusinessAnalytics®</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc.,
+     diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento,
+     monitoreo y análisis de datos financieros y operativos en tiempo real,
+     facilitando la toma de decisiones basada en información confiable.
+     Incorpora estándares avanzados de seguridad, incluyendo mecanismos
+      de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad,
+       confidencialidad y disponibilidad de la información.
+{% elif item.product.name == 'SmartBusinessMedia' %}
+<strong>SmartBusinessMedia®</strong> es una plataforma CRM (Customer Relationship Management) desarrollada como software como producto (SaaP), orientada a la automatización integral de procesos de marketing digital y gestión comercial. La solución permite la creación, programación y publicación automatizada de contenidos para sitios web y redes sociales, optimizando la presencia digital de las empresas. Asimismo, incorpora funcionalidades avanzadas para la administración y seguimiento de leads en entornos de Ecommerce, facilitando la conversión y fidelización de clientes. La plataforma opera en tiempo real, brindando visibilidad inmediata sobre el rendimiento de las campañas y la interacción de los usuarios, lo que permite una toma de decisiones ágil y basada en datos.
+{% elif item.product.name == 'SmartBusinessLaw' %}
+<strong>SmartBusinessLaw®</strong> es un sistema ERP (Enterprise Resource Planning) desarrollado como software como producto (SaaP), diseñado para la gestión, administración y automatización integral de procesos legales y regulatorios empresariales. La plataforma permite centralizar y optimizar el cumplimiento normativo ante entidades como la Superintendencia de Compañías, el Ministerio de Trabajo, el Servicio de Rentas Internas (SRI) y la Superintendencia de Protección de Datos Personales. Incorpora funcionalidades avanzadas para la gestión de contratos, incluyendo certificación, trazabilidad y control seguro de versiones y anexos. Además, garantiza altos estándares de seguridad de la información, asegurando la integridad, confidencialidad y disponibilidad de los documentos legales, facilitando una operación eficiente, transparente y alineada con las normativas vigentes.
+{% endif %}
+
+{% if item.product.is_reaserch  %}
+<strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
+mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco
+ <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos personalizados operativos o financieros críticos</strong>,
+ implementados por profesionales especializados en cada área.
+ El tiempo máximo estimado para esta implementación es de doce <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
+{% endif %}
+
+{% if item.product.is_automatitation  %}
+Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a la optimización de procesos</strong>
+ mediante el {{ item.product.automatizacion }},
+ <strong>abarcando hasta dos ({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos operativos</strong>, financieros o administrativos.
+ El tiempo máximo de entrega para esta implementación es de <strong>diez ({{ item.product.tiempo_implementacion_a|floatformat:0|intcomma  }}) horas</strong>.
+ {% endif %}
+
+{% if item.product.is_intelligent  %}
+Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong>
+enfocado en la predicción y análisis de patrones en procesos de información operativa.
+Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }} , con un tiempo estimado de implementación de <strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma  }}) horas.</strong></p>
+</div>
+{% endif %}
+{% endfor %}
+
+  <h3><strong>Alquiler Mensual de Recursos de Nube</strong></h3>
+
+{% for item in order.items.all %}
+  <table>
+
+    <thead style="background-color:#4d4d4d;">
+      <tr>
+        <th>CPU: {{ item.product.cpu|default:0|floatformat:0|intcomma }} Core</th>
+        <th>SSD: {{ item.product.almacenamiento|default:0|floatformat:0|intcomma }} GB</th>
+        <th>RAM: {{ item.product.memoria|default:0|floatformat:0|intcomma }} GB</th>
+        <th>LB: {{ item.product.ancho_banda|default:0|floatformat:0|intcomma }} Kb/Sec</th>
+
+        {% if item.product.is_gpu %}
+          <th>GPU: {{ item.product.gpu|default:"-" }}</th>
+        {% endif %}
+
+        <th>Subtotal</th>
+          <th>total<sup>+(15% I.V.A)</sup></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+
+        <!-- CPU -->
+        <td>
+          ${{ item.product.costo_cpu_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <!-- Storage -->
+        <td>
+          ${{ item.product.costo_bucket_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <!-- RAM -->
+        <td>
+          ${{ item.product.costo_memory_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <!-- Load Balancer -->
+        <td>
+          ${{ item.product.costo_balanceador_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <!-- GPU -->
+        {% if item.product.is_gpu %}
+        <td>
+          ${{ item.product.costo_gpu_mes.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+        {% endif %}
+
+        <td>
+          ${{ item.product.total_nube.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+        <!-- Subtotal Nube -->
+        <td>
+          ${{ item.product.total_nube_iva.amount|default_if_none:0|floatformat:2|intcomma }}/mes
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+{% endfor %}
+
+{% for item in order.items.all %}
+  <div contract-note class="code">
+    <p style="text-align:justify;">
+      <strong>El alquiler de recursos de computación en la nube es obligatorio</strong> para el despliegue de
+      los aplicativos y plataformas desarrollados por SmartQuail Inc.
+       Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real,
+        garantizando alta disponibilidad y rendimiento.
+        Los recursos son provisionados bajo un esquema de alquiler mensual, ajustado a las necesidades específicas del sistema de información contratado y dimensionado de forma precisa para acompañar el crecimiento del proyecto.
+
+Para este proyecto, la configuración de recursos computacionales incluye: <strong>{{ item.product.cpu|default:0|floatformat:0|intcomma }} core de capacidad de procesamiento (CPU) basada en un procesador AMD de 8 hilos </strong>, {{ item.product.memoria }} GB de memoria RAM, almacenamiento en bucket de {{ item.product.almacenamiento }} GB, y un balanceador de carga con un rendimiento máximo garantizado de {{ item.product.ancho_banda }} KB/s.
+{% if item.pduct.is_gpu  %}
+Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <strong> {{ item.product.gpu }} NVIDIA</strong>, destinada al procesamiento de datos, ejecución de redes neuronales y soporte a procesos de inteligencia artificial orientados a investigación y desarrollo.</p>
+ {% endif %}
+    <hr>
+  </div>
+{% endfor %}
+
+
+    <div class="contract-note">
+      <h3><strong>Términos y condiciones</strong></h3>
+
+    <p>  <strong>El aprovisionamiento de recursos en la nube, así como la configuración, dimensionamiento y despliegue de los aplicativos y plataformas, se realizará únicamente una vez confirmado el pago total de la presente proforma. Posteriormente, en un plazo de pocas horas, uno de nuestros profesionales se pondrá en contacto con el cliente para iniciar el proceso de levantamiento de información, investigación, desarrollo, implementación y despliegue en ambiente de producción.
+
+      Los tiempos estimados de desarrollo e implementación corresponden a dieciséis (16) horas efectivas de trabajo. No obstante, estos plazos podrán variar en función de la disponibilidad del cliente, la entrega oportuna de información requerida y la complejidad específica del proyecto.<br>
+      SmartQuail Inc. se reserva el derecho de rechazar, suspender o cancelar la prestación del servicio en caso de que el sistema de información solicitado esté destinado a actividades que contravengan los derechos humanos, las libertades fundamentales o la legislación vigente aplicable; en tales casos, se notificará de manera inmediata al cliente, se gestionará la devolución de los valores pagados y se formalizará la cancelación del pedido de software. Asimismo, SmartQuail Inc. se reserva el derecho de admisión y prestación de servicios conforme a sus políticas internas, estándares éticos, criterios técnicos y lineamientos operativos, incluyendo la facultad de evaluar la viabilidad del proyecto, la naturaleza del uso del sistema y el cumplimiento de buenas prácticas tecnológicas y legales, pudiendo rechazar o discontinuar servicios cuando estos no se alineen con dichos principios.</strong></p>
+
+    </div>
+
 
     <footer>
       <table id="total">
         <thead>
           <tr>
-            <th>Due by</th>
-            <th>Account number</th>
-            <th>Total due</th>
+            <th>Codigo</th>
+            <th>Descuento ({{ order.discount|default:"0" }} %)</th>
+            <th>Valor IVA (15%)</th>
+              <th>Total a Pagar</th>
+              <th>Tiempo para Entrega</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ order.created|date:"F j, Y" }}</td>
-            <td>{{ order.braintree_id|default:"-" }}</td>
-            <td>${{ order.get_total_cost|floatformat:2|intcomma }}</td>
+            <tbody>
+              <tr>
+                <td>{{ order.coupon|default:"-" }}</td>
+
+                <!-- % descuento -->
+                <td>${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
+
+                <td>${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
+
+                  <td>${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+
+              {% for item in order.items.all %}
+            <td>{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs</td>
+            {% endfor %}
+              </tr>
+            </tbody>
+
           </tr>
         </tbody>
       </table>
