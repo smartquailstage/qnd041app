@@ -86,9 +86,12 @@
 
     </address>
   </aside>
-
+  <h3><strong>Licencia ITC: SQ02-APP-12{ self.id }-QND0101{self.id}</strong></h3>
     {% for item in order.items.all %}
-  <h3><strong>Software como Producto (SaaP)</strong></h3>
+    {% if item.product.image %}
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
+  {% endif %}
+
   <table>
     <thead>
       <tr>
@@ -112,9 +115,7 @@
 
         <!-- Imagen -->
         <td>
-          {% if item.product.image %}
-            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
-          {% endif %}
+          {{ item.product.name }}
         </td>
 
         <!-- I+D -->
