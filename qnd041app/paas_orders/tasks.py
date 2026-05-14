@@ -71,7 +71,7 @@ def order_created(order_id):
     html = render_to_string('paas_orders/order/pdf2.html', {'order': order, 'domain': domain})
     out = BytesIO()
 
-    css_path = '/qnd041app/qnd041app/paas_orders/static/css/pdf.css'
+    css_url = "https://qnd03101.sfo3.digitaloceanspaces.com/qnd03101/qnd041app/static/css/pdf.css"
 
     weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
         out,
