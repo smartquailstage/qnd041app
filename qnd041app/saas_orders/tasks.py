@@ -220,11 +220,7 @@ def order_created(self, order_id):
             base_url=str(base_url)
         ).write_pdf(
             target=out,
-            stylesheets=[
-                weasyprint.CSS(
-                    filename=css_path
-                )
-            ],
+            stylesheets=[weasyprint.CSS('saas_orders/static/css/pdf.css')],
             presentational_hints=True
         )
 
