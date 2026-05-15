@@ -291,7 +291,7 @@ def enviar_whatsapp_orden(order_id):
         "template": {
             "name": "adquisicion_de_licencia_app",
             "language": {
-                "code": "es_AR"
+                "code": "es_EC"
             },
             "components": [
                 {
