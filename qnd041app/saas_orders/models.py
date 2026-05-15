@@ -133,6 +133,7 @@ class SaaSOrder(models.Model):
     is_progress = models.BooleanField(default=False, verbose_name="Esta en Progreso")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
     email_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
+    whatsapp_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
 
     # ==================================================
     # 🔐 HASH GENERATOR
