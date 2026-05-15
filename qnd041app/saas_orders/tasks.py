@@ -104,47 +104,56 @@ from django.conf import settings
 from django.urls import reverse
 
 from saas_orders.models import SaaSOrder
+import requests
+
+from celery import shared_task
+from django.conf import settings
+from django.urls import reverse
+
+from saas_orders.models import SaaSOrder
+
 
 @shared_task
 def enviar_whatsapp_orden(order_id):
 
     try:
         order = SaaSOrder.objects.get(id=order_id)
+
     except SaaSOrder.DoesNotExist:
         return "Orden no encontrada"
 
     domain = "ec.smartquail.io"
 
     # ==================================================
-    # URLs
+    # URLs SEGURAS
     # ==================================================
-    pdf_url = (
-        f"https://{domain}"
-        f"{reverse('saas_orders:admin_order_pdf', kwargs={'order_id': order.id})}"
-    )
 
-    order_url = (
-        f"https://{domain}"
-        f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
-    )
+    try:
+        pdf_url = (
+            f"https://{domain}"
+            f"{reverse('saas_orders:admin_order_pdf', kwargs={'order_id': order.id})}"
+        )
+    except Exception:
+        pdf_url = f"https://{domain}"
+
+    try:
+        order_url = (
+            f"https://{domain}"
+            f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+        )
+    except Exception:
+        order_url = f"https://{domain}"
 
     # ==================================================
-    # DATOS SEGUROS (SIN NULL)
+    # DATOS SEGUROS
     # ==================================================
-    telefono = str(order.telefono).replace("+", "").strip()
+
+    telefono = str(order.telefono or "").replace("+", "").strip()
 
     nombre_cliente = (
         f"{order.first_name or ''} {order.last_name or ''}".strip()
         or "Cliente SmartQuail"
     )
-
-    email_cliente = order.email or "No registrado"
-
-    razon_social = order.razon_social or "No registrada"
-
-    ruc = order.ruc or "No registrado"
-
-    sector = order.get_sector_display() if order.sector else "No especificado"
 
     codigo_convenio = (
         order.coupon.code
@@ -152,54 +161,36 @@ def enviar_whatsapp_orden(order_id):
         else "Sin convenio"
     )
 
-    descuento = (
-        f"{order.discount}%"
-        if order.discount
-        else "0%"
-    )
+    descuento = f"{order.discount or 0}%"
 
-    subtotal = (
-        str(order.get_subtotal())
-        if order.get_subtotal()
-        else "0.00 USD"
-    )
-
-    iva = (
-        f"{order.get_total_iva():.2f} USD"
-        if order.get_total_iva()
-        else "0.00 USD"
-    )
-
-    total = (
-        f"{order.get_total_with_discount():.2f} USD"
-        if order.get_total_with_discount()
-        else "0.00 USD"
-    )
-
-    total_credito = (
-        f"{order.get_total_with_discount_interes()} USD"
-        if order.get_total_with_discount_interes()
-        else "0.00 USD"
-    )
-
-    mensualidad = (
-        f"{order.get_total_monthly_suscription()} USD"
-        if order.get_total_monthly_suscription()
-        else "0.00 USD"
+    productos = (
+        ", ".join(
+            [item.product.name for item in order.items.all() if item.product]
+        ) or "Software SmartQuail"
     )
 
     estado_pago = "Pagado" if order.paid else "Pendiente"
 
-    productos = (
-        ", ".join(
-            [item.product.name for item in order.items.all()]
-        )
-        or "Software SmartQuail"
-    )
+    # ==================================================
+    # HELPERS MONEY SAFE
+    # ==================================================
+
+    def money(value):
+        try:
+            return f"{float(value or 0):.2f} USD"
+        except Exception:
+            return "0.00 USD"
+
+    subtotal = money(order.get_subtotal())
+    iva = money(order.get_total_iva())
+    total = money(order.get_total_with_discount())
+    total_credito = money(order.get_total_with_discount_interes())
+    mensualidad = money(order.get_total_monthly_suscription())
 
     # ==================================================
     # WHATSAPP CLOUD API
     # ==================================================
+
     url = (
         f"https://graph.facebook.com/v20.0/"
         f"{settings.TWILIO_ACCOUNT_SID}/messages"
@@ -213,77 +204,27 @@ def enviar_whatsapp_orden(order_id):
     # ==================================================
     # TEMPLATE PARAMETERS
     # ==================================================
+
     parametros_template = [
-        {
-            "type": "text",
-            "parameter_name": "nombre_cliente",
-            "text": nombre_cliente
-        },
-        {
-            "type": "text",
-            "parameter_name": "numero_orden",
-            "text": str(order.id)
-        },
-        {
-            "type": "text",
-            "parameter_name": "productos",
-            "text": productos
-        },
-        {
-            "type": "text",
-            "parameter_name": "subtotal",
-            "text": subtotal
-        },
-        {
-            "type": "text",
-            "parameter_name": "iva",
-            "text": iva
-        },
-        {
-            "type": "text",
-            "parameter_name": "total",
-            "text": total
-        },
-        {
-            "type": "text",
-            "parameter_name": "codigo_convenio",
-            "text": codigo_convenio
-        },
-        {
-            "type": "text",
-            "parameter_name": "descuento",
-            "text": descuento
-        },
-        {
-            "type": "text",
-            "parameter_name": "estado_pago",
-            "text": estado_pago
-        },
-        {
-            "type": "text",
-            "parameter_name": "mensualidad",
-            "text": mensualidad
-        },
-        {
-            "type": "text",
-            "parameter_name": "total_credito",
-            "text": total_credito
-        },
-        {
-            "type": "text",
-            "parameter_name": "pdf_url",
-            "text": pdf_url
-        },
-        {
-            "type": "text",
-            "parameter_name": "order_url",
-            "text": order_url
-        }
+        {"type": "text", "parameter_name": "nombre_cliente", "text": nombre_cliente},
+        {"type": "text", "parameter_name": "numero_orden", "text": str(order.id)},
+        {"type": "text", "parameter_name": "productos", "text": productos},
+        {"type": "text", "parameter_name": "subtotal", "text": subtotal},
+        {"type": "text", "parameter_name": "iva", "text": iva},
+        {"type": "text", "parameter_name": "total", "text": total},
+        {"type": "text", "parameter_name": "codigo_convenio", "text": codigo_convenio},
+        {"type": "text", "parameter_name": "descuento", "text": descuento},
+        {"type": "text", "parameter_name": "estado_pago", "text": estado_pago},
+        {"type": "text", "parameter_name": "mensualidad", "text": mensualidad},
+        {"type": "text", "parameter_name": "total_credito", "text": total_credito},
+        {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
+        {"type": "text", "parameter_name": "order_url", "text": order_url},
     ]
 
     # ==================================================
     # PAYLOAD
     # ==================================================
+
     data = {
         "messaging_product": "whatsapp",
         "to": telefono,
@@ -302,20 +243,27 @@ def enviar_whatsapp_orden(order_id):
         }
     }
 
-    response = requests.post(
-        url,
-        headers=headers,
-        json=data
-    )
+    # ==================================================
+    # REQUEST
+    # ==================================================
 
-    return response.json()
+    try:
+        response = requests.post(
+            url,
+            headers=headers,
+            json=data,
+            timeout=30
+        )
 
+        return {
+            "status_code": response.status_code,
+            "response": response.json()
+        }
 
-
-
-    # saas_orders/tasks.py
-
-
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
 
 
 
