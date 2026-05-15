@@ -223,7 +223,7 @@ def enviar_whatsapp_activacion(user_id, domain):
         "to": user.telefono,  # ajusta según tu modelo
         "type": "template",
         "template": {
-            "name": "bienvenido",  # 👈 plantilla aprobada en Meta
+            "name": "bienvenidos",  # 👈 plantilla aprobada en Meta
             "language": {"code": "es_AR"},
             "components": [
                 {
