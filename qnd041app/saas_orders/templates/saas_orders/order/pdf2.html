@@ -160,28 +160,31 @@
 
       {% if category == 'business-analytics' %}
 
-        <strong>SmartBusinessAnalytics®</strong> es un aplicativo web especializado en la gestón, administración y analisis financiero como económico para empresas desarrollado por SmartQuail Inc.,
+        <strong>SmartBusinessAnalytics®</strong> es un aplicativo web especializado en la gestón, administración y analisis financiero (ERP) especializado para empresas, desarrollado como solución base por SmartQuail Inc.,
         El aplicativo permite el procesamiento,
         monitoreo y análisis de datos financieros y operativos en tiempo real,
         facilitando la toma de decisiones basada en información confiable.
         Incorpora estándares avanzados de seguridad, incluyendo mecanismos
-        de protección contra accesos no autorizados y amenazas de ciberseguridad,
+        de protección contra accesos no autorizados (RBAC) y amenazas de ciberseguridad,
         garantizando la integridad, confidencialidad y disponibilidad de la información.
 
       {% elif category == 'business-media' %}
 
-        <strong>SmartBusinessMedia®</strong> es una plataforma CRM
-        (Customer Relationship Management) desarrollada como software como producto (SaaP),
+        <strong>SmartBusinessMedia®</strong>  es un aplicativo web especializado en la gestión de procesos de contenidos multimedia publictario (CRM)
+        (Customer Relationship Management) desarrollada como solución base por smartQuail,Inc,
         orientada a la automatización integral de procesos de marketing digital y gestión comercial.
         La solución permite la creación, programación y publicación automatizada de contenidos
-        para sitios web y redes sociales, optimizando la presencia digital de las empresas.
+        para sitios web  en tiempo real y redes sociales, optimizando la presencia digital de las empresas.
 
       {% elif category == 'business-law' %}
 
-        <strong>SmartBusinessLaw®</strong> es un sistema ERP
-        (Enterprise Resource Planning) desarrollado como software como producto (SaaP),
-        diseñado para la gestión, administración y automatización integral
-        de procesos legales y regulatorios empresariales.
+      <strong>SmartBusinessLaw®</strong> es un aplicativo web especializado en la gestión y administración de procesos regulatorios, administrativos e institucionales de las empresas (ERP Legal), desarrollado como solución base por smartQuail, Inc., 
+      orientado a la automatización integral de procesos de cumplimiento normativo y gestión corporativa frente a superintendencias,
+       ministerios y organismos de control.
+      La solución permite centralizar, administrar y dar seguimiento en tiempo real a obligaciones regulatorias, 
+      documentación institucional, trámites administrativos, fiscales y procesos legales, 
+      optimizando la eficiencia operativa, el control documental y el cumplimiento regulatorio de las organizaciones
+
 
       {% endif %}
 
@@ -214,10 +217,10 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 
 
 
-<hr>
+
 {% for item in order.items.all %}
   <h3><strong> Mantenimiento y soporte técnico mensual de infraestructura </strong></h3>
-  <p ><strong>  El nodo  QND0101{{ order.id }} tiene la siguiente infraestructura en nube {{ item.product.cloud_type }}, 
+  <p ><strong>  El nodo  QND0101{{ order.id }} tiene la siguiente infraestructura de bloques (BLOCKCHAIN) en nube {{ item.product.cloud_type }}, 
     con un tiempo garantizado de respuesta máxima cliente-servidor de {{ item.product.latencia_aproximada }} milisegundos por cada  {{ item.product.usuarios_simultaneos }} usuarios simultáneos:</strong></p>
 {% endfor %}
   
