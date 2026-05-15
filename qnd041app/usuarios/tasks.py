@@ -211,14 +211,14 @@ def enviar_whatsapp_activacion(user_id, domain):
     # 🧩 parámetros del template ({{1}}, {{2}})
     parametros_template = [
         {
-            "type": "text",
+            "type": "name",
             "parameter_name": "nombre_usuario",
-            "text": nombre_usuario
+            "name": nombre_usuario
         },
                 {
-            "type": "text",
+            "type": "name",
             "parameter_name": "link_activacion",
-            "text": link_activacion
+            "name": link_activacion
         },
 
     ]
