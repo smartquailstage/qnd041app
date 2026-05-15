@@ -57,13 +57,13 @@
     </div>
 
     <dl id="informations">
-      <dt>Plan:</dt>
-      <dd>SQ-INV021-0203{{ order.id }}</dd>
-      <dt>Fecha de orden</dt>
+      <dt>Licencia ITC</dt>
+      <dd>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</dd>
+      <dt>Fecha de creación</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
       <dt>Fecha de vencimiento</dt>
       <dd>{{ order.vence_en|date:"F j, Y" }}</dd>
-      <dt>Razón social</dt>
+      <dt>Proveedor</dt>
       <dd>SMARTQUAIL.S.A.S</dd>
       <dt>Registro fiscal</dt>
       <dd>1793206532001</dd>
@@ -79,7 +79,7 @@
       <strong>{{ order.ruc }}</strong><br>
       <strong>{{ order.email }}</strong><br>
       <strong>{{ order.telefono }}</strong><br>
-      <strong>llave ITC: SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
+      <strong>Token Key: APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
 
 
 
@@ -119,7 +119,7 @@
 
         <!-- Imagen -->
         <td>
-          {{ item.product.name }}
+         <strong>{{ item.product.name }}</strong> 
         </td>
 
         <!-- I+D -->
@@ -316,32 +316,49 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
 
 
     <footer>
-      <table id="total">
-        <thead>
-          <tr>
-            <th>Codigo</th>
-            <th>Descuento ({{ order.discount|default:"0" }} %)</th>
-            <th>Valor IVA (15%)</th>
-              <th>Total a Pagar</th>
-              <th>Tiempo para Entrega</th>
+      <table id="total" >
+        <thead >
+          <tr >
+            <th style="font-size: 10px;">Codigo</th>
+            <th style="font-size: 10px;">Descuento ({{ order.discount|default:"0" }} %)</th>
+            <th style="font-size: 10px;">Valor IVA (15%)</th>
+              <th style="font-size: 10px;">Total a Pagar</th>
+              <th style="font-size: 10px;">TIEMPO DE Entrega</th>
+              <th style="font-size: 10px;text-align: left;">ESTADO DE TOKEN</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <tbody>
               <tr>
-                <td>{{ order.coupon|default:"-" }}</td>
+                <td style="font-size: 10px;">{{ order.coupon|default:"-" }}</td>
 
                 <!-- % descuento -->
-                <td>${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
+                <td style="font-size: 10px;">${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
 
-                <td>${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
+                <td style="font-size: 10px;">${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
 
-                  <td>${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+                  <td style="font-size: 10px;">${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+
+                 
+            
+               
 
               {% for item in order.items.all %}
-            <td>{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs</td>
+            <td style="font-size: 10px;">{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs hábiles.</td>
             {% endfor %}
+
+            
+              {% if order.paid and order.is_active %}
+              <td style="font-size: 10px;background-color: #333232; color:white;text-align: left;">
+              Vigente
+            </td>
+              {% else %}
+              <td style="font-size: 10px;background-color: #d81806; color:white;text-align: left;">
+              Pendiente de pago
+            </td>
+              {% endif %}
+             
               </tr>
             </tbody>
 
