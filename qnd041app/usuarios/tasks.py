@@ -167,14 +167,6 @@ def enviar_correo_activacion(user_id, domain):
 
 
 
-import requests
-from celery import shared_task
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from urllib.parse import quote
 
 
 import requests
@@ -197,11 +189,14 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     try:
         user = User.objects.get(pk=user_id)
+
     except User.DoesNotExist:
-        return {"error": "Usuario no encontrado"}
+        return {
+            "error": "Usuario no encontrado"
+        }
 
     # =========================================================
-    # TOKEN DE ACTIVACION
+    # TOKEN ACTIVACION
     # =========================================================
 
     token = default_token_generator.make_token(user)
@@ -214,14 +209,16 @@ def enviar_whatsapp_activacion(user_id, domain):
     token_encoded = quote(token)
 
     activation_path = reverse(
-        'usuarios:activar_cuenta',
+        "usuarios:activar_cuenta",
         kwargs={
-            'uidb64': uid_encoded,
-            'token': token_encoded
+            "uidb64": uid_encoded,
+            "token": token_encoded
         }
     )
 
-    activation_url = f"https://{domain}{activation_path}"
+    activation_url = (
+        f"https://{domain}{activation_path}"
+    )
 
     # =========================================================
     # VARIABLES TEMPLATE
@@ -241,38 +238,28 @@ def enviar_whatsapp_activacion(user_id, domain):
     )
 
     headers = {
-        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
+        "Authorization": (
+            f"Bearer {settings.N8N_WEBHOOK_URL}"
+        ),
         "Content-Type": "application/json"
     }
 
     # =========================================================
-    # PARAMETROS TEMPLATE CON VARIABLES NOMBRADAS
+    # PAYLOAD
+    # =========================================================
+    #
     # IMPORTANTE:
     #
-    # La plantilla Meta debe tener:
+    # La plantilla Meta debe:
+    #
+    # 1. NO tener HEADER IMAGE dinámico
+    # 2. Tener variables nombradas:
     #
     # Hola {{nombre_usuario}}
     #
     # Activa tu cuenta:
     # {{link_activacion}}
     #
-    # =========================================================
-
-    parametros_template = [
-        {
-            "type": "text",
-            "parameter_name": "nombre_usuario",
-            "text": nombre_usuario
-        },
-        {
-            "type": "text",
-            "parameter_name": "link_activacion",
-            "text": link_activacion
-        }
-    ]
-
-    # =========================================================
-    # PAYLOAD
     # =========================================================
 
     data = {
@@ -287,7 +274,18 @@ def enviar_whatsapp_activacion(user_id, domain):
             "components": [
                 {
                     "type": "body",
-                    "parameters": parametros_template
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "parameter_name": "nombre_usuario",
+                            "text": nombre_usuario
+                        },
+                        {
+                            "type": "text",
+                            "parameter_name": "link_activacion",
+                            "text": link_activacion
+                        }
+                    ]
                 }
             ]
         }
@@ -297,22 +295,31 @@ def enviar_whatsapp_activacion(user_id, domain):
     # REQUEST
     # =========================================================
 
-    response = requests.post(
-        url,
-        headers=headers,
-        json=data,
-        timeout=30
-    )
-
     try:
-        return response.json()
-    except Exception:
+
+        response = requests.post(
+            url,
+            headers=headers,
+            json=data,
+            timeout=30
+        )
+
         return {
             "status_code": response.status_code,
-            "response": response.text
+            "response": response.json()
         }
 
+    except requests.RequestException as e:
 
+        return {
+            "error": str(e)
+        }
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
 
 @shared_task
 def enviar_correo_login(user_id, fecha_hora, user_ip):
