@@ -168,7 +168,6 @@ def enviar_correo_activacion(user_id, domain):
 
 
 
-
 import requests
 
 from celery import shared_task
@@ -201,9 +200,7 @@ def enviar_whatsapp_activacion(user_id, domain):
 
     token = default_token_generator.make_token(user)
 
-    uid = urlsafe_base64_encode(
-        force_bytes(user.pk)
-    )
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
 
     uid_encoded = quote(uid)
     token_encoded = quote(token)
@@ -216,12 +213,10 @@ def enviar_whatsapp_activacion(user_id, domain):
         }
     )
 
-    activation_url = (
-        f"https://{domain}{activation_path}"
-    )
+    activation_url = f"https://{domain}{activation_path}"
 
     # =========================================================
-    # VARIABLES TEMPLATE
+    # VARIABLES
     # =========================================================
 
     nombre_usuario = str(user.email)
@@ -238,28 +233,18 @@ def enviar_whatsapp_activacion(user_id, domain):
     )
 
     headers = {
-        "Authorization": (
-            f"Bearer {settings.N8N_WEBHOOK_URL}"
-        ),
+        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
         "Content-Type": "application/json"
     }
 
     # =========================================================
-    # PAYLOAD
+    # IMAGEN DE PRUEBA (OBLIGATORIA PARA HEADER IMAGE)
     # =========================================================
-    #
-    # IMPORTANTE:
-    #
-    # La plantilla Meta debe:
-    #
-    # 1. NO tener HEADER IMAGE dinámico
-    # 2. Tener variables nombradas:
-    #
-    # Hola {{nombre_usuario}}
-    #
-    # Activa tu cuenta:
-    # {{link_activacion}}
-    #
+
+    imagen_header = "https://via.placeholder.com/600x300.png"
+
+    # =========================================================
+    # PAYLOAD
     # =========================================================
 
     data = {
@@ -272,6 +257,21 @@ def enviar_whatsapp_activacion(user_id, domain):
                 "code": "es_AR"
             },
             "components": [
+
+                # HEADER IMAGE (OBLIGATORIO)
+                {
+                    "type": "header",
+                    "parameters": [
+                        {
+                            "type": "image",
+                            "image": {
+                                "link": imagen_header
+                            }
+                        }
+                    ]
+                },
+
+                # BODY VARIABLES
                 {
                     "type": "body",
                     "parameters": [
@@ -296,7 +296,6 @@ def enviar_whatsapp_activacion(user_id, domain):
     # =========================================================
 
     try:
-
         response = requests.post(
             url,
             headers=headers,
@@ -310,16 +309,13 @@ def enviar_whatsapp_activacion(user_id, domain):
         }
 
     except requests.RequestException as e:
-
-        return {
-            "error": str(e)
-        }
+        return {"error": str(e)}
 
     except Exception as e:
+        return {"error": str(e)}
 
-        return {
-            "error": str(e)
-        }
+
+        
 
 @shared_task
 def enviar_correo_login(user_id, fecha_hora, user_ip):
