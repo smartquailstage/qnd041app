@@ -120,7 +120,7 @@ def enviar_whatsapp_orden(order_id):
     # ==================================================
     pdf_url = (
         f"https://{domain}"
-        f"{reverse('saas_orders:order_pdf', kwargs={'order_id': order.id})}"
+        f"{reverse('saas_orders:admin_order_pdf', kwargs={'order_id': order.id}}"
     )
 
     order_url = (
