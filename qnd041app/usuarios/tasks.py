@@ -208,16 +208,14 @@ def enviar_whatsapp_activacion(user_id, domain):
         "Content-Type": "application/json"
     }
 
-    # 🧩 parámetros del template ({{1}}, {{2}})
+ 
     parametros_template = [
         {
             "type": "text",
-            "parameter_name": "nombre_usuario",
             "text": nombre_usuario
         },
         {
             "type": "text",
-            "parameter_name": "link_activacion",
             "text": link_activacion
         },
 
