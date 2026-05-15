@@ -1,9 +1,9 @@
 from django.db import models
-from paas_shop.models import Product
+from saas_shop.models import Product
 from decimal import Decimal
 from django.core.validators import MinValueValidator, \
                                    MaxValueValidator
-from paas_coupons.models import Coupon
+from saas_coupons.models import Coupon
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User, Group
 from django.conf import settings
@@ -79,6 +79,7 @@ class SaaSOrder(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    vence_en = models.DateTimeField(null=True, blank=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")
     force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
@@ -152,7 +153,7 @@ class SaaSOrder(models.Model):
     class Meta:
         ordering = ('-created',)
         verbose_name = 'Software As Service Order'
-        verbose_name_plural = 'PaaS Orders'
+        verbose_name_plural = 'SaaS Orders'
 
 
 
