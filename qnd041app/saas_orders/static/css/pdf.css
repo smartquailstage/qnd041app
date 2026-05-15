@@ -15,7 +15,7 @@
 
 @page {
   font-family: Pier;
-  margin: 1cm;
+  margin: 0.85cm;
   @bottom-left {
     color: rgb(170, 153, 153) ;
     content: 'SmartQuail, Inc ® All rights Reserverd';

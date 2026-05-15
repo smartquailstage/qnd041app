@@ -99,7 +99,7 @@
   <table>
     <thead>
       <tr>
-        <th><strong>Solución Base </strong></th>
+        <th><strong>Sistema de Información ITC Base </strong></th>
         <th>(I+D)</th>
 
         {% if item.product.is_automatitation %}
@@ -192,10 +192,10 @@
 
 {% if item.product.is_reaserch  %}
 <strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
-mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco
+sobre el cual se realiza la investigación, análisis y desarrollo de hasta 
  <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos personalizados operativos o financieros críticos</strong>,
- implementados por profesionales especializados en cada área.
- El tiempo máximo estimado para esta implementación es de doce <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
+ implementados por profesionales certificados en cada área.
+ El tiempo máximo estimado para esta implementación es de <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
 {% endif %}
 
 {% if item.product.is_automatitation  %}
@@ -206,9 +206,9 @@ Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a l
  {% endif %}
 
 {% if item.product.is_intelligent  %}
-Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong>
-enfocado en la predicción y análisis de patrones en procesos de información operativa.
-Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }} , con un tiempo estimado de implementación de <strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma  }}) horas.</strong></p>
+Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong> enfocado en el análisis, automatización y optimización de procesos de información operativa y regulatoria.
+Este módulo permite implementar agentes inteligentes (Business Agenthic) orientados al procesamiento de datos, generación de alertas, análisis predictivo y apoyo en la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }}, con un tiempo estimado de implementación de 
+<strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma }}) horas.</strong>
 </div>
 {% endif %}
 {% endfor %}
@@ -322,7 +322,7 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
       <table id="total" >
         <thead >
           <tr >
-            <th style="font-size: 10px;">Codigo</th>
+            <th style="font-size: 10px;">Convenio</th>
             <th style="font-size: 10px;">Descuento ({{ order.discount|default:"0" }} %)</th>
             <th style="font-size: 10px;">Valor IVA (15%)</th>
               <th style="font-size: 10px;">Total a Pagar</th>
