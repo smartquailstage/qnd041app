@@ -177,57 +177,113 @@ from django.utils.encoding import force_bytes
 from urllib.parse import quote
 
 
+import requests
+
+from celery import shared_task
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
+from urllib.parse import quote
+
+
 @shared_task
 def enviar_whatsapp_activacion(user_id, domain):
+
     User = get_user_model()
 
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
-        return "Usuario no encontrado"
+        return {"error": "Usuario no encontrado"}
 
-    # 🔑 token de activación
+    # =========================================================
+    # TOKEN DE ACTIVACION
+    # =========================================================
+
     token = default_token_generator.make_token(user)
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+    uid = urlsafe_base64_encode(
+        force_bytes(user.pk)
+    )
 
     uid_encoded = quote(uid)
     token_encoded = quote(token)
 
-    activation_url = f"{reverse('usuarios:activar_cuenta', kwargs={'uidb64': uid_encoded, 'token': token_encoded})}"
+    activation_path = reverse(
+        'usuarios:activar_cuenta',
+        kwargs={
+            'uidb64': uid_encoded,
+            'token': token_encoded
+        }
+    )
 
-    # 📦 Variables con nombres (SOLO PARAMETROS MEJORADOS)
-    nombre_usuario = user.email
-    telefono = user.telefono
-    link_activacion = activation_url
+    activation_url = f"https://{domain}{activation_path}"
 
-    # 📲 WhatsApp Cloud API
-    url = f"https://graph.facebook.com/v20.0/{settings.TWILIO_ACCOUNT_SID}/messages"
+    # =========================================================
+    # VARIABLES TEMPLATE
+    # =========================================================
+
+    nombre_usuario = str(user.email)
+    telefono = str(user.telefono)
+    link_activacion = str(activation_url)
+
+    # =========================================================
+    # WHATSAPP CLOUD API
+    # =========================================================
+
+    url = (
+        f"https://graph.facebook.com/v20.0/"
+        f"{settings.TWILIO_ACCOUNT_SID}/messages"
+    )
 
     headers = {
         "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
         "Content-Type": "application/json"
     }
 
- 
+    # =========================================================
+    # PARAMETROS TEMPLATE CON VARIABLES NOMBRADAS
+    # IMPORTANTE:
+    #
+    # La plantilla Meta debe tener:
+    #
+    # Hola {{nombre_usuario}}
+    #
+    # Activa tu cuenta:
+    # {{link_activacion}}
+    #
+    # =========================================================
+
     parametros_template = [
         {
             "type": "text",
+            "parameter_name": "nombre_usuario",
             "text": nombre_usuario
         },
         {
             "type": "text",
+            "parameter_name": "link_activacion",
             "text": link_activacion
-        },
-
+        }
     ]
+
+    # =========================================================
+    # PAYLOAD
+    # =========================================================
 
     data = {
         "messaging_product": "whatsapp",
-        "to": user.telefono,  # ajusta según tu modelo
+        "to": telefono,
         "type": "template",
         "template": {
-            "name": "bienvenidos",  # 👈 plantilla aprobada en Meta
-            "language": {"code": "es_AR"},
+            "name": "bienvenidos",
+            "language": {
+                "code": "es_AR"
+            },
             "components": [
                 {
                     "type": "body",
@@ -237,9 +293,24 @@ def enviar_whatsapp_activacion(user_id, domain):
         }
     }
 
-    response = requests.post(url, headers=headers, json=data)
+    # =========================================================
+    # REQUEST
+    # =========================================================
 
-    return response.json()
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data,
+        timeout=30
+    )
+
+    try:
+        return response.json()
+    except Exception:
+        return {
+            "status_code": response.status_code,
+            "response": response.text
+        }
 
 
 
