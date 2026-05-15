@@ -42,6 +42,22 @@ from django.urls import reverse
 
 from django.contrib.staticfiles import finders
 
+import io
+import base64
+import qrcode
+
+from celery import shared_task
+
+from django.conf import settings
+from django.urls import reverse
+from django.contrib.staticfiles import finders
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+from weasyprint import HTML, CSS
+
+from saas_orders.models import SaaSOrder
+
 
 import os
 import io
@@ -268,42 +284,56 @@ def enviar_whatsapp_orden(order_id):
 
 
 
+
+
+
+
 @shared_task(bind=True, max_retries=3)
 def order_created(self, order_id):
 
-    # ------------------------------------------------
-    # 🔎 Obtener orden
-    # ------------------------------------------------
+    # =========================================================
+    # 🔎 OBTENER ORDEN
+    # =========================================================
+
     try:
-        order = SaaSOrder.objects.select_related(
-            'user'
-        ).prefetch_related(
-            'items__product'
-        ).get(id=order_id)
+
+        order = (
+            SaaSOrder.objects
+            .select_related('user')
+            .prefetch_related('items__product')
+            .get(id=order_id)
+        )
 
     except SaaSOrder.DoesNotExist:
         return False
 
-    # ------------------------------------------------
-    # 📧 Validar email
-    # ------------------------------------------------
+    # =========================================================
+    # 📧 VALIDAR EMAIL
+    # =========================================================
+
     if not order.email:
         return False
 
     domain = "ec.smartquail.io"
 
-    # ------------------------------------------------
-    # 📦 Items
-    # ------------------------------------------------
+    # =========================================================
+    # 📦 ITEMS
+    # =========================================================
+
     items = list(order.items.all())
 
     product_names = ", ".join(
-        [item.product.name for item in items if item.product]
+        [
+            item.product.name
+            for item in items
+            if item.product
+        ]
     ) or "su software"
 
-    # ------------------------------------------------
-    # 📩 EMAIL HTML
-    # ------------------------------------------------
+    # =========================================================
+    # 📩 HTML EMAIL
+    # =========================================================
+
     html_message = render_to_string(
         'saas_orders/mails/invoices/order_created.html',
         {
@@ -314,26 +344,43 @@ def order_created(self, order_id):
     )
 
     subject = (
-        f'Su orden de compra del software {product_names} '
-        f'se ha completado con éxito 🎉'
+        f'Su orden de compra del software '
+        f'{product_names} se ha completado con éxito 🎉'
     )
 
     email = EmailMultiAlternatives(
         subject=subject,
         body="Su orden fue creada correctamente",
         from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[order.email, settings.DEFAULT_FROM_EMAIL]
+        to=[
+            order.email,
+            settings.DEFAULT_FROM_EMAIL
+        ]
     )
 
-    email.attach_alternative(html_message, "text/html")
-
-    # ------------------------------------------------
-    # 📌 QR
-    # ------------------------------------------------
-    url = (
-        f"https://{domain}"
-        f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+    email.attach_alternative(
+        html_message,
+        "text/html"
     )
+
+    # =========================================================
+    # 📌 URL QR
+    # =========================================================
+
+    try:
+
+        order_url = (
+            f"https://{domain}"
+            f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+        )
+
+    except Exception:
+
+        order_url = f"https://{domain}"
+
+    # =========================================================
+    # 📌 GENERAR QR
+    # =========================================================
 
     qr = qrcode.QRCode(
         version=3,
@@ -342,21 +389,34 @@ def order_created(self, order_id):
         border=1,
     )
 
-    qr.add_data(url)
+    qr.add_data(order_url)
+
     qr.make(fit=True)
 
-    img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
+    img = qr.make_image(
+        fill_color="#4d4d4d",
+        back_color="#E5E1E1"
+    )
 
     buffer = io.BytesIO()
-    img.save(buffer, format="PNG")
 
-    qr_base64 = base64.b64encode(buffer.getvalue()).decode()
+    img.save(
+        buffer,
+        format="PNG"
+    )
+
+    qr_base64 = base64.b64encode(
+        buffer.getvalue()
+    ).decode()
+
     qr_url = f"data:image/png;base64,{qr_base64}"
+
     buffer.close()
 
-    # ------------------------------------------------
-    # 📄 PDF
-    # ------------------------------------------------
+    # =========================================================
+    # 📄 PDF HTML
+    # =========================================================
+
     pdf_html = render_to_string(
         'saas_orders/order/pdf2.html',
         {
@@ -368,19 +428,36 @@ def order_created(self, order_id):
 
     out = io.BytesIO()
 
+    # =========================================================
+    # 📄 GENERAR PDF
+    # =========================================================
+
     try:
-        HTML(string=pdf_html, base_url=str(settings.BASE_DIR)).write_pdf(
+
+        css_file = finders.find("css/pdf.css")
+
+        HTML(
+            string=pdf_html,
+            base_url=str(settings.BASE_DIR)
+        ).write_pdf(
             target=out,
-            stylesheets=[CSS(finders.find("css/pdf.css"))],
+            stylesheets=[
+                CSS(css_file)
+            ],
             presentational_hints=True
         )
 
     except Exception as e:
-        raise self.retry(exc=e, countdown=10)
 
-    # ------------------------------------------------
-    # 📎 Adjuntar PDF
-    # ------------------------------------------------
+        raise self.retry(
+            exc=e,
+            countdown=10
+        )
+
+    # =========================================================
+    # 📎 ADJUNTAR PDF
+    # =========================================================
+
     email.attach(
         filename=f"Licencia-SQ-{order.id}.pdf",
         content=out.getvalue(),
@@ -389,33 +466,67 @@ def order_created(self, order_id):
 
     out.close()
 
-    # ------------------------------------------------
+    # =========================================================
     # 📤 ENVIAR EMAIL
-    # ------------------------------------------------
+    # =========================================================
+
     try:
+
         email.send()
 
+        # -----------------------------------------------------
+        # ✅ MARCAR EMAIL ENVIADO
+        # -----------------------------------------------------
+
+        if hasattr(order, "email_sent"):
+
+            order.email_sent = True
+
+            order.save(
+                update_fields=['email_sent']
+            )
+
     except Exception as e:
-        raise self.retry(exc=e, countdown=10)
 
-    order.email_sent = True
-    order.save(update_fields=['email_sent'])
+        raise self.retry(
+            exc=e,
+            countdown=10
+        )
 
-    # ==================================================
-    # 📲 WHATSAPP (SECUENCIAL)
-    # ==================================================
+    # =========================================================
+    # 📲 ENVIAR WHATSAPP
+    # =========================================================
 
-    whatsapp_result = enviar_whatsapp_orden(order.id)
+    try:
 
-    order.whatsapp_sent = True
-    order.save(update_fields=['whatsapp_sent'])
+        whatsapp_result = enviar_whatsapp_orden(order.id)
+
+        # -----------------------------------------------------
+        # ✅ MARCAR WHATSAPP ENVIADO
+        # -----------------------------------------------------
+
+        if hasattr(order, "whatsapp_sent"):
+
+            order.whatsapp_sent = True
+
+            order.save(
+                update_fields=['whatsapp_sent']
+            )
+
+    except Exception as e:
+
+        whatsapp_result = {
+            "error": str(e)
+        }
+
+    # =========================================================
+    # ✅ RESPONSE
+    # =========================================================
 
     return {
         "email": "sent",
         "whatsapp": whatsapp_result
     }
-
-
 
 
 
