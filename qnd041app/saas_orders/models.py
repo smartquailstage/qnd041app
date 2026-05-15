@@ -20,8 +20,16 @@ from django.utils import timezone
 from datetime import timedelta
 from django.conf import settings
 from django.db import models
+# saas_orders/models.py
+import hashlib
+import uuid
+from django.utils import timezone
+from datetime import timedelta
+from django.conf import settings
+from django.db import models
 from usuarios.models import SmartQuailCrew
 from decimal import Decimal, ROUND_HALF_UP
+
 
 
 class SaaSOrder(models.Model):
@@ -209,13 +217,37 @@ class SaaSOrder(models.Model):
             Decimal('0.01'),
             rounding=ROUND_HALF_UP
         )
+
+
+    def get_total_monthly_suscription(self):
+        if not self.coupon:
+            return Decimal('0.00')
+
+        meses = Decimal(self.coupon.credito)
+
+        interes = (
+            Decimal(self.coupon.percent_credit) /
+            Decimal('100')
+            )
+
+        total = self.get_total_with_discount().amount
+
+        total_intereses = interes * total
+
+        valor_final = total_intereses + total
+
+        valor_a_pagar_mensual = valor_final / meses
+
+        return valor_a_pagar_mensual.quantize(
+            Decimal('0.01'),rounding=ROUND_HALF_UP
+            )
+
     
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.vence_en = self.updated + timedelta(days=15)
         super().save(update_fields=['vence_en'])
-
 
 
 
