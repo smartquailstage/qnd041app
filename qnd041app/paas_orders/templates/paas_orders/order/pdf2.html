@@ -13,7 +13,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
 
       .logo {
@@ -46,7 +46,7 @@
       }
 
       footer {
-        margin-top: 40px;
+        margin-top: 10px;
       }
     </style>
   </head>
@@ -57,25 +57,31 @@
     </div>
 
     <dl id="informations">
-      <dt># Proforma</dt>
-      <dd>SQ-INV021-0203{{ order.id }}</dd>
-      <dt>Fecha de orden</dt>
+      <dt>Licencia ITC</dt>
+      <dd>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</dd>
+      <dt>Fecha de creación</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
-      <dt>Razón social</dt>
+      <dt>Fecha de vencimiento</dt>
+      <dd>{{ order.vence_en|date:"F j, Y" }}</dd>
+      <dt>Proveedor</dt>
       <dd>SMARTQUAIL.S.A.S</dd>
       <dt>Registro fiscal</dt>
       <dd>1793206532001</dd>
+
     </dl>
 
 <hr>
-<h3><strong>Información de Cliente</strong></h3>
+<h3 style="color:#4b4a4a;"><strong>PLAN DE INVERSIÓN EN TECNOLOGíAS DE INFORMACIÓN y COMUNICACIÓN NATIVA  EN NUBE (ITC)</strong></h3>
   <aside>
     <address id="to">
-      Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
-      Razón Social:<strong>{{ order.razon_social }}</strong><br>
-      Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
-      Correo Electrónico:<strong>{{ order.email }}</strong><br>
-      Teléfono de Contacto<strong>{{ order.telefono }}</strong>
+      <strong> {{ order.first_name }} {{ order.last_name }}</strong><br>
+      <strong>{{ order.razon_social }}</strong><br>
+      <strong>{{ order.ruc }}</strong><br>
+      <strong>{{ order.email }}</strong><br>
+      <strong>{{ order.telefono }}</strong><br>
+      <strong>Token Key: APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
+
+
 
     </address>
 
@@ -85,16 +91,15 @@
 
     </address>
   </aside>
-  <h3><strong>Licencia ITC: SQ02-APP-12{ self.id }-QND0101{self.id}</strong></h3>
-    {% for item in order.items.all %}
-    {% if item.product.image %}
-    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" height="19px">
-  {% endif %}
 
+
+  <h3><strong>Activo ITC: Nodo computacional | QND0101{{ order.id }}  </strong></h3>
+  {% for item in order.items.all %}
+   
   <table>
     <thead>
       <tr>
-        <th>Licencia</th>
+        <th><strong>Sistema de Información ITC Base </strong></th>
         <th>(I+D)</th>
 
         {% if item.product.is_automatitation %}
@@ -114,7 +119,7 @@
 
         <!-- Imagen -->
         <td>
-          {{ item.product.name }}
+         <strong>{{ item.product.name }}</strong> 
         </td>
 
         <!-- I+D -->
@@ -151,26 +156,46 @@
 {% for item in order.items.all %}
 <div contract-note code>
   <p style ="text-align:justify;">
-{% if item.product.name == 'SmartBusinessAnalytics' %}
-    <strong>SmartBusinessAnalytics®</strong> es un software como producto (SaaP) desarrollado por SmartQuail Inc.,
-     diseñado para la gestión integral de analítica empresarial. La plataforma permite el procesamiento,
-     monitoreo y análisis de datos financieros y operativos en tiempo real,
-     facilitando la toma de decisiones basada en información confiable.
-     Incorpora estándares avanzados de seguridad, incluyendo mecanismos
-      de protección contra accesos no autorizados y amenazas de ciberseguridad, garantizando la integridad,
-       confidencialidad y disponibilidad de la información.
-{% elif item.product.name == 'SmartBusinessMedia' %}
-<strong>SmartBusinessMedia®</strong> es una plataforma CRM (Customer Relationship Management) desarrollada como software como producto (SaaP), orientada a la automatización integral de procesos de marketing digital y gestión comercial. La solución permite la creación, programación y publicación automatizada de contenidos para sitios web y redes sociales, optimizando la presencia digital de las empresas. Asimismo, incorpora funcionalidades avanzadas para la administración y seguimiento de leads en entornos de Ecommerce, facilitando la conversión y fidelización de clientes. La plataforma opera en tiempo real, brindando visibilidad inmediata sobre el rendimiento de las campañas y la interacción de los usuarios, lo que permite una toma de decisiones ágil y basada en datos.
-{% elif item.product.name == 'SmartBusinessLaw' %}
-<strong>SmartBusinessLaw®</strong> es un sistema ERP (Enterprise Resource Planning) desarrollado como software como producto (SaaP), diseñado para la gestión, administración y automatización integral de procesos legales y regulatorios empresariales. La plataforma permite centralizar y optimizar el cumplimiento normativo ante entidades como la Superintendencia de Compañías, el Ministerio de Trabajo, el Servicio de Rentas Internas (SRI) y la Superintendencia de Protección de Datos Personales. Incorpora funcionalidades avanzadas para la gestión de contratos, incluyendo certificación, trazabilidad y control seguro de versiones y anexos. Además, garantiza altos estándares de seguridad de la información, asegurando la integridad, confidencialidad y disponibilidad de los documentos legales, facilitando una operación eficiente, transparente y alineada con las normativas vigentes.
-{% endif %}
+    {% with category=item.product.category.slug %}
+
+      {% if category == 'business-analytics' %}
+
+        <strong>SmartBusinessAnalytics®</strong> es un aplicativo web especializado en la gestón, administración y analisis financiero (ERP) especializado para empresas, desarrollado como solución base por SmartQuail Inc.,
+        El aplicativo permite el procesamiento,
+        monitoreo y análisis de datos financieros y operativos en tiempo real,
+        facilitando la toma de decisiones basada en información confiable.
+        Incorpora estándares avanzados de seguridad, incluyendo mecanismos
+        de protección contra accesos no autorizados (RBAC) y amenazas de ciberseguridad,
+        garantizando la integridad, confidencialidad y disponibilidad de la información.
+
+      {% elif category == 'business-media' %}
+
+        <strong>SmartBusinessMedia®</strong>  es un aplicativo web especializado en la gestión de procesos de contenidos multimedia publictario (CRM)
+        (Customer Relationship Management) desarrollada como solución base por smartQuail,Inc,
+        orientada a la automatización integral de procesos de marketing digital y gestión comercial.
+        La solución permite la creación, programación y publicación automatizada de contenidos
+        para sitios web  en tiempo real y redes sociales, optimizando la presencia digital de las empresas.
+
+      {% elif category == 'business-law' %}
+
+      <strong>SmartBusinessLaw®</strong> es un aplicativo web especializado en la gestión y administración de procesos regulatorios, administrativos e institucionales de las empresas (ERP Legal), desarrollado como solución base por smartQuail, Inc., 
+      orientado a la automatización integral de procesos de cumplimiento normativo y gestión corporativa frente a superintendencias,
+       ministerios y organismos de control.
+      La solución permite centralizar, administrar y dar seguimiento en tiempo real a obligaciones regulatorias, 
+      documentación institucional, trámites administrativos, fiscales y procesos legales, 
+      optimizando la eficiencia operativa, el control documental y el cumplimiento regulatorio de las organizaciones
+
+
+      {% endif %}
+
+    {% endwith %}
 
 {% if item.product.is_reaserch  %}
 <strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
-mediante el cual se realiza la investigación, análisis y desarrollo de hasta cinco
+sobre el cual se realiza la investigación, análisis y desarrollo de hasta 
  <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos personalizados operativos o financieros críticos</strong>,
- implementados por profesionales especializados en cada área.
- El tiempo máximo estimado para esta implementación es de doce <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
+ implementados por profesionales certificados en cada área.
+ El tiempo máximo estimado para esta implementación es de <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
 {% endif %}
 
 {% if item.product.is_automatitation  %}
@@ -181,15 +206,24 @@ Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a l
  {% endif %}
 
 {% if item.product.is_intelligent  %}
-Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong>
-enfocado en la predicción y análisis de patrones en procesos de información operativa.
-Este módulo permite generar proyecciones y apoyar la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }} , con un tiempo estimado de implementación de <strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma  }}) horas.</strong></p>
+Finalmente, el sistema incorpora un componente de <strong>inteligencia artificial (+AI)</strong> enfocado en el análisis, automatización y optimización de procesos de información operativa y regulatoria.
+Este módulo permite implementar agentes inteligentes (Business Agenthic) orientados al procesamiento de datos, generación de alertas, análisis predictivo y apoyo en la toma de decisiones estratégicas mediante {{ item.product.inteligencia_artificial }}, con un tiempo estimado de implementación de 
+<strong>cinco ({{ item.product.tiempo_implementacion_ai|floatformat:0|intcomma }}) horas.</strong>
 </div>
 {% endif %}
 {% endfor %}
 
-  <h3><strong>Alquiler Mensual de Recursos de Nube</strong></h3>
 
+
+
+
+
+{% for item in order.items.all %}
+  <h3><strong> Mantenimiento y soporte técnico mensual de infraestructura </strong></h3>
+  <p ><strong>  El nodo  QND0101{{ order.id }} tiene la siguiente infraestructura de bloques (BLOCKCHAIN) en nube {{ item.product.cloud_type }}, 
+    con un tiempo garantizado de respuesta máxima cliente-servidor de {{ item.product.latencia_aproximada }} milisegundos por cada  {{ item.product.usuarios_simultaneos }} usuarios simultáneos:</strong></p>
+{% endfor %}
+  
 {% for item in order.items.all %}
   <table>
 
@@ -257,7 +291,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% for item in order.items.all %}
   <div contract-note class="code">
     <p style="text-align:justify;">
-      <strong>El alquiler de recursos de computación en la nube es obligatorio</strong> para el despliegue de
+      <strong>El mantenmiento y administración  de recursos computacionales en la nube es obligatorio</strong> para el despliegue de
       los aplicativos y plataformas desarrollados por SmartQuail Inc.
        Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real,
         garantizando alta disponibilidad y rendimiento.
@@ -271,7 +305,6 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
   </div>
 {% endfor %}
 
-
     <div class="contract-note">
       <h3><strong>Términos y condiciones</strong></h3>
 
@@ -282,34 +315,53 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
 
     </div>
 
+    <p><strong>El activo ITC QND0101{{ order.id }} dispone de certificaciones ISO/IEC 27001, 27002 y 27007, garantizando estándares internacionales de seguridad de la información y cumplimiento regulatorio conforme a las disposiciones de la Superintendencia de Protección de Datos Personales del Ecuador (SPDP).  </strong></p>
+
 
     <footer>
-      <table id="total">
-        <thead>
-          <tr>
-            <th>Codigo</th>
-            <th>Descuento ({{ order.discount|default:"0" }} %)</th>
-            <th>Valor IVA (15%)</th>
-              <th>Total a Pagar</th>
-              <th>Tiempo para Entrega</th>
+      <table id="total" >
+        <thead >
+          <tr >
+            <th style="font-size: 10px;">Convenio</th>
+            <th style="font-size: 10px;">Descuento ({{ order.discount|default:"0" }} %)</th>
+            <th style="font-size: 10px;">Valor IVA (15%)</th>
+              <th style="font-size: 10px;">Total a Pagar</th>
+              <th style="font-size: 10px;">TIEMPO DE Entrega</th>
+              <th style="font-size: 10px;text-align: left;">ESTADO DE TOKEN</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <tbody>
               <tr>
-                <td>{{ order.coupon|default:"-" }}</td>
+                <td style="font-size: 10px;">{{ order.coupon|default:"-" }}</td>
 
                 <!-- % descuento -->
-                <td>${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
+                <td style="font-size: 10px;">${{ order.get_discount_value.amount|floatformat:2|intcomma }}</td>
 
-                <td>${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
+                <td style="font-size: 10px;">${{ order.get_total_iva.amount|floatformat:2|intcomma }}</td>
 
-                  <td>${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+                  <td style="font-size: 10px;">${{ order.get_total_with_discount.amount|floatformat:2|intcomma }}</td>
+
+                 
+            
+               
 
               {% for item in order.items.all %}
-            <td>{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs</td>
+            <td style="font-size: 10px;">{{ item.product.total_tiempo |default_if_none:0|floatformat:0|intcomma }} Hs hábiles.</td>
             {% endfor %}
+
+            
+              {% if order.paid and order.is_active %}
+              <td style="font-size: 10px;background-color: #333232; color:white;text-align: left;">
+              Vigente
+            </td>
+              {% else %}
+              <td style="font-size: 10px;background-color: #d81806; color:white;text-align: left;">
+              Pendiente de pago
+            </td>
+              {% endif %}
+             
               </tr>
             </tbody>
 
