@@ -271,9 +271,13 @@ def enviar_whatsapp_orden(order_id):
             timeout=30
         )
 
+        response_data = response.json()
+        
+        print("WHATSAPP RESPONSE:", response_data)
+        
         return {
             "status_code": response.status_code,
-            "response": response.json()
+            "response": response_data
         }
 
     except Exception as e:
