@@ -14,14 +14,16 @@ class Category(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name="Tamaño de la Empresa",
+        verbose_name="Tamaño organizacional",
         choices=[
-            ("1-10 usuarios", "pymes"),
-            ("11-50 usuarios", "startups"),
-            ("51-200 usuarios", "enterprises"),
-            ("200+ usuarios", "industrial"),
-        ]
+            ("1-10 usuarios", "PYMES"),
+            ("11-50 usuarios", " STARTUP"),
+            ("51-200 usuarios", "ENTERPRISE"),
+            ("200+ usuarios", "INDUSTRIAL"),
+        ],
+         help_text="Selecciona el tamaño de tu empresa."
     )
+
 
 
     class Meta:
@@ -105,7 +107,7 @@ class Product(models.Model):
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
 
-    category = models.ForeignKey('Category', related_name='categories', on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE, null=True, blank=True)
     available = models.BooleanField(default=True, verbose_name="Disponible")
     os = models.CharField(max_length=100, null=True, blank=True, verbose_name="Sistema Operativo")
     gpu = models.CharField(max_length=100, null=True, blank=True, verbose_name="GPU")

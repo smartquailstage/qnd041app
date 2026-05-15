@@ -61,22 +61,25 @@
       <dd>SQ-INV021-0203{{ order.id }}</dd>
       <dt>Fecha de orden</dt>
       <dd>{{ order.created|date:"F j, Y" }}</dd>
+      <dt>Fecha de vencimiento</dt>
+      <dd>{{ order.vence_en|date:"F j, Y" }}</dd>
       <dt>Razón social</dt>
       <dd>SMARTQUAIL.S.A.S</dd>
       <dt>Registro fiscal</dt>
       <dd>1793206532001</dd>
+
     </dl>
 
 <hr>
 <h3 style="color:#4b4a4a;"><strong>PLAN DE INVERSIÓN EN TECNOLOGíAS DE INFORMACIÓN y COMUNICACIÓN EN NUBE NATIVA (ITC)</strong></h3>
   <aside>
     <address id="to">
-      Nombre:<strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
-      Razón Social:<strong>{{ order.razon_social }}</strong><br>
-      Registro fiscal:  <strong>{{ order.ruc }}</strong><br>
-      Correo Electrónico:<strong>{{ order.email }}</strong><br>
-      Teléfono de Contacto<strong>{{ order.telefono }}</strong><br>
-      <strong>Licencia ITC: SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
+      <strong> {{ order.first_name }} {{ order.last_name }}</strong><br>
+      <strong>{{ order.razon_social }}</strong><br>
+      <strong>{{ order.ruc }}</strong><br>
+      <strong>{{ order.email }}</strong><br>
+      <strong>{{ order.telefono }}</strong><br>
+      <strong>llave ITC: SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}</strong>
 
 
 
@@ -206,11 +209,16 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 </div>
 {% endif %}
 {% endfor %}
+
+
+
+
+
 <hr>
 {% for item in order.items.all %}
-  <h3><strong> Mantenimiento y soporte técnico mensual del nodo. </strong></h3>
+  <h3><strong> Mantenimiento y soporte técnico mensual de infraestructura </strong></h3>
   <p ><strong>  El nodo  QND0101{{ order.id }} tiene la siguiente infraestructura en nube {{ item.product.cloud_type }}, 
-    con un tiempo de respuesta máxima de 850 ms por cada  {{ item.product.usuarios_simultaneos }} usuarios simultáneos:</strong></p>
+    con un tiempo garantizado de respuesta máxima cliente-servidor de {{ item.product.latencia_aproximada }} milisegundos por cada  {{ item.product.usuarios_simultaneos }} usuarios simultáneos:</strong></p>
 {% endfor %}
   
 {% for item in order.items.all %}
@@ -280,7 +288,7 @@ Este módulo permite generar proyecciones y apoyar la toma de decisiones estrat�
 {% for item in order.items.all %}
   <div contract-note class="code">
     <p style="text-align:justify;">
-      <strong>El alquiler de recursos de computación en la nube es obligatorio</strong> para el despliegue de
+      <strong>El mantenmiento y administración  de recursos computacionales en la nube es obligatorio</strong> para el despliegue de
       los aplicativos y plataformas desarrollados por SmartQuail Inc.
        Esta infraestructura permite desarrollar, implementar y escalar soluciones en tiempo real,
         garantizando alta disponibilidad y rendimiento.
@@ -294,7 +302,6 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
   </div>
 {% endfor %}
 
-
     <div class="contract-note">
       <h3><strong>Términos y condiciones</strong></h3>
 
@@ -304,6 +311,8 @@ Adicionalmente se incorpora una unidad de procesamiento gráfico (GPU) de <stron
       SmartQuail Inc. se reserva el derecho de rechazar, suspender o cancelar la prestación del servicio en caso de que el sistema de información solicitado esté destinado a actividades que contravengan los derechos humanos, las libertades fundamentales o la legislación vigente aplicable; en tales casos, se notificará de manera inmediata al cliente, se gestionará la devolución de los valores pagados y se formalizará la cancelación del pedido de software. Asimismo, SmartQuail Inc. se reserva el derecho de admisión y prestación de servicios conforme a sus políticas internas, estándares éticos, criterios técnicos y lineamientos operativos, incluyendo la facultad de evaluar la viabilidad del proyecto, la naturaleza del uso del sistema y el cumplimiento de buenas prácticas tecnológicas y legales, pudiendo rechazar o discontinuar servicios cuando estos no se alineen con dichos principios.</strong></p>
 
     </div>
+
+    <p><strong>El activo ITC QND0101{{ order.id }} dispone de certificaciones ISO/IEC 27001, 27002 y 27007, garantizando estándares internacionales de seguridad de la información y cumplimiento regulatorio conforme a las disposiciones de la Superintendencia de Protección de Datos Personales del Ecuador (SPDP).  </strong></p>
 
 
     <footer>

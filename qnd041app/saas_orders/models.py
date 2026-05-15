@@ -68,6 +68,8 @@ class SaaSOrder(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    vence_en = models.DateTimeField(blank=True, null=True)
+
     paid = models.BooleanField(default=False, verbose_name="Estado")
     force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
@@ -179,6 +181,10 @@ class SaaSOrder(models.Model):
             self.is_active = False
             self.save()
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.vence_en = self.updated + timedelta(days=15)
+        super().save(update_fields=['vence_en'])
 
 class SaaSOrderItem(models.Model):
     order = models.ForeignKey(SaaSOrder,
