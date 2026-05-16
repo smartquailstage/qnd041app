@@ -47,54 +47,36 @@ class ProductAdmin(ModelAdmin):
         "slug": ("name",)
     }
 
-    readonly_fields = [
-        'created',
-        'updated',
 
-        'price',
-        'price_amount',
-
-        'costo_total_desarrollo',
-        'costo_project_management',
-        'margen_sq',
-        'total',
-        'total_iva',
-
-        'costo_total_nube',
-        'margen_sq_nube',
-        'total_nube',
-        'total_nube_iva',
-
-        'margen_sq_arch',
-        'total_arch',
-        'total_arch_iva',
-
-        'kushki_credit_cost',
-        'kushki_debit_cost',
-
-        'utilidad_bruta',
-        'valor_deducible_iva',
-        'utilidad_liquida',
-    ]
 
     fieldsets = (
+
+        # =========================
+        # GENERAL
+        # =========================
         (
             'Información básica',
             {
                 'fields': (
                     'name',
                     'slug',
-                    'suite',
                     'description',
+                    'cloud_type',
                     'category',
                     'available',
+
                     'is_reaserch',
                     'is_automatitation',
                     'is_intelligent',
+                    'is_gpu',
                 ),
                 'classes': ('tab', 'tab-general', 'active'),
             },
         ),
+
+        # =========================
+        # ITEMS
+        # =========================
         (
             'Items',
             {
@@ -106,17 +88,27 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-items'),
             },
         ),
+
+        # =========================
+        # IMÁGENES
+        # =========================
         (
             'Imágenes',
             {
                 'fields': (
                     'image',
                     'image_2',
+                    'image_2_2',
                     'image_3',
+                    'image_4',
                 ),
                 'classes': ('tab', 'tab-imagenes'),
             },
         ),
+
+        # =========================
+        # CARACTERÍSTICAS
+        # =========================
         (
             'Características técnicas',
             {
@@ -124,9 +116,10 @@ class ProductAdmin(ModelAdmin):
                     'os',
                     'gpu',
                     'cpu',
+                    'memoria',
                     'almacenamiento',
                     'ancho_banda',
-                    'memoria',
+
                     'software',
                     'numero_procesos',
                     'automatizacion',
@@ -137,16 +130,22 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-tecnica'),
             },
         ),
+
+        # =========================
+        # DESARROLLO (I+D)
+        # =========================
         (
-            'Costos de desarrollo',
+            'Desarrollo (I+D)',
             {
                 'fields': (
                     'tiempo_desarrollo',
                     'costo_hora_desarrollo',
                     'costo_total_desarrollo',
+
                     'tiempo_implementacion',
                     'costo_hora_implementacion',
                     'costo_project_management',
+
                     'margen_sq',
                     'total',
                     'iva',
@@ -155,13 +154,62 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-desarrollo'),
             },
         ),
+
+        # =========================
+        # AUTOMATIZACIÓN (+A)
+        # =========================
         (
-            'Nube',
+            'Automatización (+A)',
+            {
+                'fields': (
+                    'tiempo_implementacion_a',
+                    'costo_nodos',
+                    'costo_orquestacion',
+                    'costo_conectores_terceros',
+
+                    'costo_total_n8n',
+                    'margen_sq_n8n',
+                    'total_n8n',
+                    'total_n8n_iva',
+                ),
+                'classes': ('tab', 'tab-automatizacion'),
+            },
+        ),
+
+        # =========================
+        # INTELIGENCIA ARTIFICIAL (+AI)
+        # =========================
+        (
+            'Inteligencia Artificial (+AI)',
+            {
+                'fields': (
+                    'tiempo_implementacion_ai',
+                    'costo_entrenamiento',
+                    'costo_inferencia',
+                    'costo_mantenimiento_ml',
+
+                    'costo_total_ml',
+                    'margen_sq_ml',
+                    'total_ml',
+                    'total_ml_iva',
+                ),
+                'classes': ('tab', 'tab-ai'),
+            },
+        ),
+
+        # =========================
+        # NUBE
+        # =========================
+        (
+            'Infraestructura en la Nube',
             {
                 'fields': (
                     'costo_cpu_mes',
+                    'costo_memory_mes',
                     'costo_bucket_mes',
                     'costo_balanceador_mes',
+                    'costo_gpu_mes',
+
                     'costo_total_nube',
                     'margen_sq_nube',
                     'total_nube',
@@ -170,6 +218,10 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-nube'),
             },
         ),
+
+        # =========================
+        # ARQUITECTURA
+        # =========================
         (
             'Arquitectura',
             {
@@ -177,6 +229,7 @@ class ProductAdmin(ModelAdmin):
                     'tiempo_arquitectura',
                     'costo_hora_arquitectura',
                     'costo_sre',
+
                     'margen_sq_arch',
                     'total_arch',
                     'total_arch_iva',
@@ -184,6 +237,10 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-arquitectura'),
             },
         ),
+
+        # =========================
+        # KUSHKI
+        # =========================
         (
             'Pasarela de Pago (Kushki)',
             {
@@ -201,6 +258,10 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-kushki'),
             },
         ),
+
+        # =========================
+        # RENTABILIDAD
+        # =========================
         (
             'Rentabilidad',
             {
@@ -213,11 +274,30 @@ class ProductAdmin(ModelAdmin):
                 'classes': ('tab', 'tab-rentabilidad'),
             },
         ),
+
+        # =========================
+        # TIEMPOS
+        # =========================
+        (
+            'Tiempo de Entrega',
+            {
+                'fields': (
+                    'total_tiempo',
+                ),
+                'classes': ('tab', 'tab-tiempo'),
+            },
+        ),
+
+        # =========================
+        # PRECIO FINAL
+        # =========================
         (
             'Resumen de precios',
             {
                 'fields': (
                     'price',
+                    'price_amount',
+                    'subtotal',
                 ),
                 'classes': ('tab', 'tab-precio'),
             },

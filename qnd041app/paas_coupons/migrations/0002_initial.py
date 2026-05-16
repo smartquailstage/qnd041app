@@ -10,14 +10,14 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('iaas_orders', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('paas_coupons', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='iaasorder',
+            model_name='coupon',
             name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='iaas_orders', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='paas_coupons', to=settings.AUTH_USER_MODEL),
         ),
     ]

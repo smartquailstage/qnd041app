@@ -237,7 +237,7 @@ def enviar_whatsapp_orden(order_id):
         "to": telefono,
         "type": "template",
         "template": {
-            "name": "adquisicion_de_licencia_app",
+            "name": "adquisicion_de_licencia_plt",
             "language": {
                 "code": "es_EC"
             },
