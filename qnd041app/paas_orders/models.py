@@ -234,9 +234,15 @@ class PaaSOrder(models.Model):
             Decimal('0.01'),rounding=ROUND_HALF_UP
             )
 
-
     def __str__(self):
         return f'SQ02-PLT-15{ self.id }-QND0501{self.id} ({self.get_total_with_discount_interes()} US$)'
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.vence_en = self.updated + timedelta(days=15)
+        super().save(update_fields=['vence_en'])
+        
 
 class PaaSOrderItem(models.Model):
     order = models.ForeignKey(PaaSOrder,

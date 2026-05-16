@@ -200,6 +200,7 @@ class Product(models.Model):
 
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
+    vence_en = models.DateTimeField(null=True, blank=True)
 
     software = models.CharField(choices=SOFTWARE_CHOICES, null=True, blank=True,max_length=200)
     numero_procesos = models.CharField(max_length=5, choices=NUMERO_PROCESOS_CHOICES, default='5', null=True, blank=True)
