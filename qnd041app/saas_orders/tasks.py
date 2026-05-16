@@ -224,17 +224,8 @@ def enviar_whatsapp_orden(order_id):
     parametros_template = [
         {"type": "text", "parameter_name": "nombre_cliente", "text": nombre_cliente},
         {"type": "text", "parameter_name": "numero_orden", "text": str(order.id)},
-        {"type": "text", "parameter_name": "productos", "text": productos},
-        {"type": "text", "parameter_name": "subtotal", "text": subtotal},
-        {"type": "text", "parameter_name": "iva", "text": iva},
-        {"type": "text", "parameter_name": "total", "text": total},
-        {"type": "text", "parameter_name": "codigo_convenio", "text": codigo_convenio},
-        {"type": "text", "parameter_name": "descuento", "text": descuento},
-        {"type": "text", "parameter_name": "estado_pago", "text": estado_pago},
-        {"type": "text", "parameter_name": "mensualidad", "text": mensualidad},
-        {"type": "text", "parameter_name": "total_credito", "text": total_credito},
         {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
-        {"type": "text", "parameter_name": "order_url", "text": order_url},
+
     ]
 
     # ==================================================

@@ -79,6 +79,7 @@ class PaaSOrder(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    vence_en = models.DateTimeField()
     paid = models.BooleanField(default=False, verbose_name="Estado")
     force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
@@ -124,6 +125,7 @@ class PaaSOrder(models.Model):
     is_progress = models.BooleanField(default=False, verbose_name="Esta en Progreso")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
     email_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
+    whatsapp_sent = models.BooleanField(default=False)
 
     # ==================================================
     # 🔐 HASH GENERATOR
