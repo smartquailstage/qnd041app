@@ -31,6 +31,172 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 import weasyprint
 
+import requests
+from decimal import Decimal
+from django.conf import settings
+from django.urls import reverse
+
+from saas_orders.models import SaaSOrder
+import requests
+
+from celery import shared_task
+from django.conf import settings
+from django.urls import reverse
+
+from paas_orders.models import PaaSOrder
+
+
+@shared_task
+def enviar_whatsapp_orden(order_id):
+
+    try:
+        order = PaaSOrder.objects.get(id=order_id)
+
+    except PaaSOrder.DoesNotExist:
+        return "Orden no encontrada"
+
+    domain = "ec.smartquail.io"
+
+    # ==================================================
+    # URLs SEGURAS
+    # ==================================================
+
+    try:
+        pdf_url = (
+            f"https://{domain}"
+            f"{reverse('paas_orders:admin_order_pdf', kwargs={'order_id': order.id})}"
+        )
+    except Exception:
+        pdf_url = f"https://{domain}"
+
+    try:
+        order_url = (
+            f"https://{domain}"
+            f"{reverse('paas_orders:order_detail', kwargs={'order_id': order.id})}"
+        )
+    except Exception:
+        order_url = f"https://{domain}"
+
+    # ==================================================
+    # DATOS SEGUROS
+    # ==================================================
+
+    telefono = str(order.telefono or "").replace("+", "").strip()
+
+    nombre_cliente = (
+        f"{order.first_name or ''} {order.last_name or ''}".strip()
+        or "Cliente SmartQuail"
+    )
+
+    codigo_convenio = (
+        order.coupon.code
+        if order.coupon and order.coupon.code
+        else "Sin convenio"
+    )
+
+    descuento = f"{order.discount or 0}%"
+
+    productos = (
+        ", ".join(
+            [item.product.name for item in order.items.all() if item.product]
+        ) or "Software SmartQuail"
+    )
+
+    estado_pago = "Pagado" if order.paid else "Pendiente"
+
+    # ==================================================
+    # HELPERS MONEY SAFE
+    # ==================================================
+
+    def money(value):
+        try:
+            return f"{float(value or 0):.2f} USD"
+        except Exception:
+            return "0.00 USD"
+
+    subtotal = money(order.get_subtotal())
+    iva = money(order.get_total_iva())
+    total = money(order.get_total_with_discount())
+    total_credito = money(order.get_total_with_discount_interes())
+    mensualidad = money(order.get_total_monthly_suscription())
+
+    # ==================================================
+    # WHATSAPP CLOUD API
+    # ==================================================
+
+    url = (
+        f"https://graph.facebook.com/v20.0/"
+        f"{settings.TWILIO_ACCOUNT_SID}/messages"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {settings.N8N_WEBHOOK_URL}",
+        "Content-Type": "application/json"
+    }
+
+    # ==================================================
+    # TEMPLATE PARAMETERS
+    # ==================================================
+
+    parametros_template = [
+        {"type": "text", "parameter_name": "nombre_cliente", "text": nombre_cliente},
+        {"type": "text", "parameter_name": "numero_orden", "text": str(order.id)},
+        {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
+
+    ]
+
+    # ==================================================
+    # PAYLOAD
+    # ==================================================
+
+    data = {
+        "messaging_product": "whatsapp",
+        "to": telefono,
+        "type": "template",
+        "template": {
+            "name": "adquisicion_de_licencia_plt",
+            "language": {
+                "code": "es_EC"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": parametros_template
+                }
+            ]
+        }
+    }
+
+    # ==================================================
+    # REQUEST
+    # ==================================================
+
+    try:
+        response = requests.post(
+            url,
+            headers=headers,
+            json=data,
+            timeout=30
+        )
+
+        response_data = response.json()
+        
+        print("WHATSAPP RESPONSE:", response_data)
+        
+        return {
+            "status_code": response.status_code,
+            "response": response_data
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
+
+
+
+
+
 
 
 @shared_task

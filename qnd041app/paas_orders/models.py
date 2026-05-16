@@ -79,7 +79,7 @@ class PaaSOrder(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    vence_en = models.DateTimeField()
+    vence_en = models.DateTimeField(null=True,blank=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")
     force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
