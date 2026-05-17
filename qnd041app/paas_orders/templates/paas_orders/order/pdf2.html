@@ -158,46 +158,112 @@
   <p style ="text-align:justify;">
     {% with category=item.product.category.slug %}
 
-      {% if category == 'business-analytics' %}
+    {% if category == 'business-gastronomico' %}
 
-        <strong>SmartBusinessAnalytics®</strong> es un aplicativo web especializado en la gestón, administración y analisis financiero (ERP) especializado para empresas, desarrollado como solución base por SmartQuail Inc.,
-        El aplicativo permite el procesamiento,
-        monitoreo y análisis de datos financieros y operativos en tiempo real,
-        facilitando la toma de decisiones basada en información confiable.
-        Incorpora estándares avanzados de seguridad, incluyendo mecanismos
-        de protección contra accesos no autorizados (RBAC) y amenazas de ciberseguridad,
-        garantizando la integridad, confidencialidad y disponibilidad de la información.
-
-      {% elif category == 'business-media' %}
-
-        <strong>SmartBusinessMedia®</strong>  es un aplicativo web especializado en la gestión de procesos de contenidos multimedia publictario (CRM)
-        (Customer Relationship Management) desarrollada como solución base por smartQuail,Inc,
-        orientada a la automatización integral de procesos de marketing digital y gestión comercial.
-        La solución permite la creación, programación y publicación automatizada de contenidos
-        para sitios web  en tiempo real y redes sociales, optimizando la presencia digital de las empresas.
-
-      {% elif category == 'business-law' %}
-
-      <strong>SmartBusinessLaw®</strong> es un aplicativo web especializado en la gestión y administración de procesos regulatorios, administrativos e institucionales de las empresas (ERP Legal), desarrollado como solución base por smartQuail, Inc., 
-      orientado a la implementación integral de procesos de cumplimiento normativo y gestión corporativa frente a superintendencias,
-       ministerios y organismos de control.
-      La solución permite centralizar, administrar y dar seguimiento en tiempo real a obligaciones regulatorias, 
-      documentación institucional, trámites administrativos, fiscales y procesos legales, 
-      optimizando la eficiencia operativa, el control documental y el cumplimiento regulatorio de las organizaciones
-
-
-      {% endif %}
+    <strong>SmartBusinessFood®</strong> es un aplicativo web especializado en la gestión operativa, administrativa y financiera de negocios gastronómicos (ERP + POS inteligente), desarrollado como solución base por SmartQuail Inc.  
+    Permite controlar ventas, inventarios, recetas, proveedores y procesos de atención al cliente en tiempo real, optimizando la eficiencia operativa de restaurantes, cafeterías y cadenas de alimentos.  
+    Incorpora analítica avanzada para la toma de decisiones basada en consumo, rotación de productos y comportamiento del cliente, garantizando trazabilidad completa de las operaciones.
+    
+    {% elif category == 'business-medico' %}
+    
+    <strong>SmartBusinessHealth®</strong> es un aplicativo web especializado en la gestión clínica, administrativa y financiera de instituciones de salud (HIS/ERP Médico), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración integral de pacientes, historias clínicas, citas médicas, facturación y procesos hospitalarios en tiempo real.  
+    Incorpora estándares de seguridad y protección de datos sensibles en salud, asegurando confidencialidad, integridad y disponibilidad de la información clínica.
+    
+    {% elif category == 'business-tecnologico' %}
+    
+    <strong>SmartBusinessTech®</strong> es un aplicativo web especializado en la gestión de operaciones tecnológicas, infraestructura digital y servicios de software (ITSM/ERP Tech), desarrollado como solución base por SmartQuail Inc.  
+    Permite administrar proyectos de desarrollo, recursos cloud, automatizaciones y monitoreo de sistemas en tiempo real.  
+    Integra capacidades de observabilidad, control de servicios y análisis de rendimiento para empresas tecnológicas y startups digitales.
+    
+    {% elif category == 'business-educar' %}
+    
+    <strong>SmartBusinessEdu®</strong> es un aplicativo web especializado en la gestión académica, administrativa y operativa de instituciones educativas (LMS + ERP Educativo), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de estudiantes, docentes, cursos, evaluaciones y procesos académicos en tiempo real.  
+    Facilita la digitalización de la educación mediante herramientas de seguimiento del rendimiento y gestión institucional centralizada.
+    
+    {% elif category == 'business-ong' %}
+    
+    <strong>SmartBusinessNGO®</strong> es un aplicativo web especializado en la gestión administrativa, financiera y operativa de organizaciones no gubernamentales (ERP Social), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de proyectos sociales, donaciones, beneficiarios y reportes de impacto en tiempo real.  
+    Optimiza la transparencia, trazabilidad y control de recursos en iniciativas sociales y humanitarias.
+    
+    {% elif category == 'business-publico' %}
+    
+    <strong>SmartBusinessGov®</strong> es un aplicativo web especializado en la gestión de procesos administrativos y operativos del sector público (GovTech ERP), desarrollado como solución base por SmartQuail Inc.  
+    Permite la digitalización de trámites, gestión documental, control institucional y atención ciudadana en tiempo real.  
+    Mejora la eficiencia gubernamental mediante automatización de procesos y transparencia en la gestión pública.
+    
+    {% elif category == 'business-privado' %}
+    
+    <strong>SmartBusinessEnterprise®</strong> es un aplicativo web especializado en la gestión empresarial integral para organizaciones privadas (ERP Corporativo), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de procesos financieros, operativos, comerciales y estratégicos en tiempo real.  
+    Facilita la toma de decisiones basada en datos y mejora la eficiencia organizacional mediante automatización avanzada.
+    
+    {% elif category == 'business-servicios' %}
+    
+    <strong>SmartBusinessServices®</strong> es un aplicativo web especializado en la gestión de empresas de servicios profesionales y operativos (Service ERP), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de clientes, proyectos, facturación y recursos humanos en tiempo real.  
+    Optimiza la entrega de servicios mediante control de procesos, automatización y seguimiento de productividad.
+    
+    {% elif category == 'business-industrial' %}
+    
+    <strong>SmartBusinessIndustry®</strong> es un aplicativo web especializado en la gestión de procesos industriales, producción y cadena de suministro (ERP Industrial), desarrollado como solución base por SmartQuail Inc.  
+    Permite el control de inventarios, producción, logística y mantenimiento en tiempo real.  
+    Incorpora analítica operativa para optimizar eficiencia, reducción de costos y control de calidad.
+    
+    {% elif category == 'business-investigacion' %}
+    
+    <strong>SmartBusinessResearch®</strong> es un aplicativo web especializado en la gestión de proyectos de investigación, desarrollo científico y análisis de datos (R&D ERP), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de estudios, datos experimentales, publicaciones y recursos de investigación en tiempo real.  
+    Facilita la colaboración científica y el análisis avanzado de información para innovación tecnológica.
+    
+    {% elif category == 'business-art' %}
+    
+    <strong>SmartBusinessArt®</strong> es un aplicativo web especializado en la gestión de proyectos creativos, artísticos y culturales (Creative ERP), desarrollado como solución base por SmartQuail Inc.  
+    Permite la administración de portafolios, exposiciones, eventos y producción artística en tiempo real.  
+    Potencia la difusión cultural mediante herramientas digitales de gestión y promoción creativa.
+    
+    {% elif category == 'business-marketing' %}
+    
+    <strong>SmartBusinessMarketing®</strong> es un aplicativo web especializado en la gestión de campañas de marketing digital, automatización comercial y CRM avanzado, desarrollado como solución base por SmartQuail Inc.  
+    Permite la creación, ejecución y análisis de campañas multicanal en tiempo real.  
+    Optimiza la captación de clientes mediante segmentación, automatización y analítica de comportamiento.
+    
+    {% elif category == 'business-admin' %}
+    
+    <strong>SmartBusinessAdmin®</strong> es un aplicativo web especializado en la gestión administrativa y operativa general de organizaciones (ERP Administrativo), desarrollado como solución base por SmartQuail Inc.  
+    Permite el control de procesos internos, recursos humanos, finanzas y documentación en tiempo real.  
+    Centraliza la operación empresarial para mejorar eficiencia, control y toma de decisiones.
+    
+    {% elif category == 'business-transporte' %}
+    
+    <strong>SmartBusinessTransport®</strong> es un aplicativo web especializado en la gestión logística, transporte y cadena de distribución (Logistics ERP), desarrollado como solución base por SmartQuail Inc.  
+    Permite el control de rutas, flotas, entregas y operaciones logísticas en tiempo real.  
+    Optimiza la eficiencia del transporte mediante monitoreo, trazabilidad y automatización de procesos logísticos.
+    
+    {% endif %}
 
     {% endwith %}
 
-{% if item.product.is_reaserch  %}
-<strong>El sistema incluye un componente de implementación personalizada (I+D)</strong> ,
-sobre el cual se realiza la investigación, análisis y desarrollo de hasta 
- <strong>({{ item.product.numero_procesos|floatformat:0|intcomma  }}) procesos personalizados operativos o financieros críticos</strong>,
- implementados por profesionales certificados en cada área.
- El tiempo máximo estimado para esta implementación es de <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma  }}) horas</strong>, contadas a partir de la primera sesión de levantamiento de información con el cliente.
-{% endif %}
+    {% if item.product.is_reaserch  %}
 
+    <strong>El sistema incluye un componente de investigación y desarrollo (I+D) distribuido</strong>
+    en las suites de integración <strong>SmartBusinessAnalytics®, SmartBusinessMedia® y SmartBusinessLaw®</strong>,
+    sobre el cual se realiza la investigación, análisis y desarrollo de hasta
+    <strong>({{ item.product.numero_procesos|floatformat:0|intcomma }}) procesos personalizados operativos o financieros críticos</strong>,
+    implementados por profesionales certificados en cada área.
+    
+    Este modelo de I+D permite la integración transversal de procesos entre módulos empresariales,
+    garantizando escalabilidad, interoperabilidad y coherencia en la arquitectura del sistema.
+    
+    El tiempo máximo estimado para esta implementación es de
+    <strong>({{ item.product.tiempo_desarrollo|floatformat:0|intcomma }}) horas</strong>,
+    contadas a partir de la primera sesión de levantamiento de información con el cliente.
+    
+    {% endif %}
+
+    
 {% if item.product.is_automatitation  %}
 Adicionalmente, <strong>integra un módulo de automatización (+A) orientado a la optimización de procesos</strong>
  mediante el {{ item.product.automatizacion }},

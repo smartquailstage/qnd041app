@@ -146,19 +146,19 @@ def enviar_whatsapp_orden(order_id):
 
     try:
         pdf_url = (
-            f"https://{domain}"
+            f"{domain}"
             f"{reverse('saas_orders:admin_order_pdf', kwargs={'order_id': order.id})}"
         )
     except Exception:
-        pdf_url = f"https://{domain}"
+        pdf_url = f"{domain}"
 
     try:
         order_url = (
-            f"https://{domain}"
+            f"{domain}"
             f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
         )
     except Exception:
-        order_url = f"https://{domain}"
+        order_url = f"{domain}"
 
     # ==================================================
     # DATOS SEGUROS
@@ -237,7 +237,7 @@ def enviar_whatsapp_orden(order_id):
         "to": telefono,
         "type": "template",
         "template": {
-            "name": "adquisicion_de_licencia_plt",
+            "name": "adquisicion_de_licencia_app",
             "language": {
                 "code": "es_EC"
             },

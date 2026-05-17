@@ -63,11 +63,11 @@ def enviar_whatsapp_orden(order_id):
 
     try:
         pdf_url = (
-            f"https://{domain}"
+            f"{domain}"
             f"{reverse('paas_orders:admin_order_pdf', kwargs={'order_id': order.id})}"
         )
     except Exception:
-        pdf_url = f"https://{domain}"
+        pdf_url = f"{domain}"
 
     try:
         order_url = (
