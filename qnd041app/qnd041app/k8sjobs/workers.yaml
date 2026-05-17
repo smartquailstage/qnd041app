@@ -16,7 +16,7 @@ spec:
       containers:
         - name: celery
           image: smartquail/qnd041app:latest
-          command: ["celery", "-A", "qnd041app", "worker", "--loglevel=info"]
+          command: ["celery", "-A", "qnd041app", "worker", "--loglevel=info", "--concurrency=1"]
           envFrom:
             - secretRef:
                 name: qnd041app-app-secrets
