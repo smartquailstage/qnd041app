@@ -98,6 +98,8 @@ class Cart:
         self.session.pop('coupon_id', None)
         self.save()
 
+        
+
     def get_total_price(self):
         return sum(
             Decimal(item['price']) * item['quantity']
@@ -105,9 +107,60 @@ class Cart:
         )
 
     def get_discount(self):
-        if self.coupon:
-            return (self.coupon.discount / Decimal('100')) * self.get_total_price()
-        return Decimal('0')
+        if self.coupon and self.coupon.discount:
+            return (
+                Decimal(self.coupon.discount) / Decimal('100')
+            ) * self.get_total_price()
+
+        return Decimal('0.00')
 
     def get_total_price_after_discount(self):
         return self.get_total_price() - self.get_discount()
+
+    # =========================================
+    # CRÉDITO
+    # =========================================
+
+    def has_credit(self):
+        return bool(
+            self.coupon and
+            self.coupon.credito
+        )
+
+    def get_credit_months(self):
+        """
+        Convierte '3' -> 3
+        """
+        if self.has_credit():
+            return int(self.coupon.credito)
+
+        return 0
+
+    def get_monthly_credit_price(self):
+
+        if not self.has_credit():
+            return Decimal('0.00')
+
+        months = Decimal(self.get_credit_months())
+
+        base_monthly = (
+            self.get_total_price_after_discount() / months
+        )
+
+        percent = Decimal(self.coupon.percent_credit or 0)
+
+        interest = (
+            percent / Decimal('100')
+        ) * base_monthly
+
+        return base_monthly + interest
+
+    def get_total_credit_price(self):
+
+        if not self.has_credit():
+            return Decimal('0.00')
+
+        return (
+            self.get_monthly_credit_price() *
+            Decimal(self.get_credit_months())
+        )

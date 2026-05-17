@@ -8,21 +8,176 @@ window.addEventListener("load", (e) => {
   filterForm();
 
   warnWithoutSaving();
+
+  inlines();
+
+  tabNavigation();
+
+  scrollSidebarNav();
 });
+
+/*************************************************************
+ * Switch theme
+ *************************************************************/
+function theme(defaultTheme = "auto") {
+  return {
+    adminTheme: Alpine.$persist(defaultTheme).as('adminTheme'),
+    switchTheme(theme) {
+      this.adminTheme = theme;
+    },
+    themeBindings: {
+      ['x-bind:class']() {
+        if (this.adminTheme === 'dark' || (this.adminTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          return 'dark';
+        }
+
+        if (this.adminTheme === 'light') {
+          return 'light';
+        }
+
+        return '';
+      },
+      ['x-on:keydown.window'](event) {
+        if ((event.metaKey || event.ctrlKey) && event.key === "e") {
+          event.preventDefault();
+
+          if (this.adminTheme == "light") {
+            this.adminTheme = "dark";
+          } else {
+            this.adminTheme = "light";
+          }
+        }
+      }
+    }
+  }
+}
+
+/*************************************************************
+ * Scroll sidebar to active item
+ *************************************************************/
+function scrollSidebarNav() {
+  const sidebarNav = document.getElementById("nav-sidebar-apps");
+
+  if (!sidebarNav) {
+    return;
+  }
+
+  const instance = SimpleBar.instances.get(sidebarNav);
+  const activeItem = sidebarNav.querySelector("a.active");
+
+  if (!instance || !activeItem) {
+    return;
+  }
+
+  function isActiveItemVisible() {
+    const sidebarRect = sidebarNav.getBoundingClientRect();
+    const itemRect = activeItem.getBoundingClientRect();
+
+    return (
+      itemRect.top >= sidebarRect.top && itemRect.bottom <= sidebarRect.bottom
+    );
+  }
+
+  if (instance && !isActiveItemVisible()) {
+    instance.getScrollElement().scroll(0, activeItem.offsetTop);
+  }
+}
+
+/*************************************************************
+ * Move not visible tab items to dropdown
+ *************************************************************/
+function tabNavigation() {
+  const itemsDropdown = document.getElementById("tabs-dropdown");
+  const itemsList = document.getElementById("tabs-items");
+  const widths = [];
+
+  if (!itemsDropdown || !itemsList) {
+    return;
+  }
+
+  handleTabNavigationResize();
+
+  window.addEventListener("resize", function () {
+    handleTabNavigationResize();
+  });
+
+  function handleTabNavigationResize() {
+    const contentWidth = document.getElementById("content").offsetWidth;
+    const tabsWidth = document.getElementById("tabs-wrapper").scrollWidth;
+    const availableWidth =
+      itemsList.parentElement.offsetWidth - itemsList.offsetWidth - 48;
+
+    if (tabsWidth > contentWidth) {
+      const lastTabItem = itemsList ? itemsList.lastElementChild : null;
+
+      if (lastTabItem) {
+        widths.push(lastTabItem.offsetWidth);
+        itemsList.removeChild(lastTabItem);
+        itemsDropdown.appendChild(lastTabItem);
+
+        // If there is still not enough space, move the last item to the dropdown again
+        if (
+          document.getElementById("content").offsetWidth <
+          document.getElementById("tabs-wrapper").scrollWidth
+        ) {
+          handleTabNavigationResize();
+        }
+      }
+    } else if (
+      widths.length > 0 &&
+      widths[widths.length - 1] < availableWidth
+    ) {
+      const lastTabItem = itemsDropdown ? itemsDropdown.lastElementChild : null;
+
+      if (lastTabItem) {
+        itemsDropdown.removeChild(lastTabItem);
+        itemsList.appendChild(lastTabItem);
+        widths.pop();
+      }
+    }
+
+    // Show/hide dropdown based on the number of items in dropdown
+    if (itemsDropdown.childElementCount === 0) {
+      itemsDropdown.parentElement.classList.add("hidden");
+    } else {
+      itemsDropdown.parentElement.classList.remove("hidden");
+    }
+  }
+}
 
 /*************************************************************
  * Alpine.sort.js callback after sorting
  *************************************************************/
-const sortRecords = (e) => {
-  const orderingField = e.from.dataset.orderingField;
+function sortRecords(e) {
+  e.from
+    .querySelectorAll(`.form-group.original`)
+    .forEach(function (row, index) {
+      input = row.querySelector(
+        `input[name$=-${e.from.dataset.orderingField}]`
+      );
+      input.value = index;
+    });
 
-  const weightInputs = Array.from(
-    e.from.querySelectorAll(`.has_original input[name$=-${orderingField}]`)
-  );
+  e.from
+    .querySelectorAll(
+      `td.field-${e.from.dataset.orderingField} input[name$=-${e.from.dataset.orderingField}]`
+    )
+    .forEach(function (input, index) {
+      input.value = index;
+    });
+}
 
-  weightInputs.forEach((input, index) => {
-    input.value = index;
-  });
+/*************************************************************
+ * Alpine.sort.js callback before moving records
+ *************************************************************/
+const moveRecords = (e) => {
+  if (
+    (e.related.classList.contains("template") ||
+      e.related.classList.contains("form-actions")) &&
+    e.willInsertAfter
+  ) {
+    return false;
+  }
 };
 
 /*************************************************************
@@ -68,7 +223,7 @@ function searchDropdown() {
       }
     },
     prevItem() {
-      if (this.currentIndex > 0) {
+      if (this.currentIndex > 1) {
         this.currentIndex--;
       }
     },
@@ -93,6 +248,7 @@ function searchCommand() {
     hasResults: false,
     openCommandResults: false,
     currentIndex: 0,
+    totalItems: 0,
     commandHistory: JSON.parse(localStorage.getItem("commandHistory") || "[]"),
     handleOpen() {
       this.openCommandResults = true;
@@ -102,6 +258,7 @@ function searchCommand() {
       }, 20);
 
       this.items = document.querySelectorAll("#command-history li");
+      this.totalItems = this.items.length;
     },
     handleShortcut(event) {
       if (
@@ -121,21 +278,46 @@ function searchCommand() {
         this.openCommandResults = false;
         this.el.innerHTML = "";
         this.items = undefined;
+        this.totalItems = 0;
         this.currentIndex = 0;
       } else {
         this.$refs.searchInputCommand.value = "";
       }
     },
     handleContentLoaded(event) {
-      this.items = event.target.querySelectorAll("li");
-      this.currentIndex = 0;
-      this.hasResults = this.items.length > 0;
+      if (
+        event.target.id !== "command-results" &&
+        event.target.id !== "command-results-list"
+      ) {
+        return;
+      }
+
+      const commandResultsList = document.getElementById(
+        "command-results-list"
+      );
+      if (commandResultsList) {
+        this.items = commandResultsList.querySelectorAll("li");
+        this.totalItems = this.items.length;
+      } else {
+        this.items = undefined;
+        this.totalItems = 0;
+      }
+
+      if (event.target.id === "command-results") {
+        this.currentIndex = 0;
+
+        if (this.items) {
+          this.totalItems = this.items.length;
+        } else {
+          this.totalItems = 0;
+        }
+      }
+
+      this.hasResults = this.totalItems > 0;
 
       if (!this.hasResults) {
         this.items = document.querySelectorAll("#command-history li");
       }
-
-      new SimpleBar(event.target);
     },
     handleOutsideClick() {
       this.$refs.searchInputCommand.value = "";
@@ -158,7 +340,7 @@ function searchCommand() {
       }
     },
     nextItem() {
-      if (this.currentIndex < this.items.length) {
+      if (this.currentIndex < this.totalItems) {
         this.currentIndex++;
         this.scrollToActiveItem();
       }
@@ -308,7 +490,7 @@ const watchClassChanges = (selector, callback) => {
 /*************************************************************
  * Calendar & clock
  *************************************************************/
-const dateTimeShortcutsOverlay = () => {
+function dateTimeShortcutsOverlay() {
   const observer = new MutationObserver((mutations) => {
     for (const mutationRecord of mutations) {
       const display = mutationRecord.target.style.display;
@@ -322,27 +504,34 @@ const dateTimeShortcutsOverlay = () => {
     }
   });
 
-  const targets = document.querySelectorAll(".calendarbox, .clockbox");
+  const findCalendars = () => {
+    for (const target of document.querySelectorAll(".calendarbox, .clockbox")) {
+      observer.observe(target, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
+    }
+  };
 
-  for (const target of targets) {
-    observer.observe(target, {
-      attributes: true,
-      attributeFilter: ["style"],
-    });
-  }
+  new MutationObserver(findCalendars).observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  findCalendars();
 };
 
 /*************************************************************
  * File upload path
  *************************************************************/
-const fileInputUpdatePath = () => {
-  const checkInputChanged = () => {
+function fileInputUpdatePath() {
+  function checkInputChanged() {
     for (const input of document.querySelectorAll("input[type=file]")) {
       if (input.hasChangeListener) {
         continue;
       }
 
-      input.addEventListener("change", (e) => {
+      input.addEventListener("change", function (e) {
         const parts = e.target.value.split("\\");
         const placeholder =
           input.parentNode.parentNode.parentNode.querySelector(
@@ -353,9 +542,9 @@ const fileInputUpdatePath = () => {
 
       input.hasChangeListener = true;
     }
-  };
+  }
 
-  new MutationObserver(() => {
+  new MutationObserver(function () {
     checkInputChanged();
   }).observe(document.body, {
     childList: true,
@@ -363,7 +552,7 @@ const fileInputUpdatePath = () => {
   });
 
   checkInputChanged();
-};
+}
 
 /*************************************************************
  * Chart
@@ -389,6 +578,12 @@ const DEFAULT_CHART_OPTIONS = {
       pointBorderWidth: 0,
       pointStyle: false,
     },
+    pie: {
+      borderWidth: 0,
+    },
+    doughnut: {
+      borderWidth: 0,
+    },
   },
   plugins: {
     legend: {
@@ -409,6 +604,13 @@ const DEFAULT_CHART_OPTIONS = {
   },
   scales: {
     x: {
+      display: function (context) {
+        if (["pie", "doughnut", "radar"].includes(context.chart.config.type)) {
+          return false;
+        }
+
+        return true;
+      },
       border: {
         dash: [5, 5],
         dashOffset: 2,
@@ -417,6 +619,11 @@ const DEFAULT_CHART_OPTIONS = {
       ticks: {
         color: "#9ca3af",
         display: true,
+        maxTicksLimit: function (context) {
+          return context.chart.data.datasets.find(
+            (dataset) => dataset.maxTicksXLimit
+          )?.maxTicksXLimit;
+        },
       },
       grid: {
         display: true,
@@ -424,15 +631,35 @@ const DEFAULT_CHART_OPTIONS = {
       },
     },
     y: {
+      display: function (context) {
+        if (["pie", "doughnut", "radar"].includes(context.chart.config.type)) {
+          return false;
+        }
+
+        return true;
+      },
       border: {
         dash: [5, 5],
         dashOffset: 5,
         width: 0,
       },
       ticks: {
-        display: false,
-        font: {
-          size: 13,
+        color: "#9ca3af",
+        display: function (context) {
+          return context.chart.data.datasets.some((dataset) => {
+            return (
+              dataset.hasOwnProperty("displayYAxis") && dataset.displayYAxis
+            );
+          });
+        },
+        callback: function (value) {
+          const suffix = this.chart.data.datasets.find(
+            (dataset) => dataset.suffixYAxis
+          )?.suffixYAxis;
+          if (suffix) {
+            return `${value} ${suffix}`;
+          }
+          return value;
         },
       },
       grid: {
@@ -467,8 +694,17 @@ const renderCharts = () => {
     const borderColor = hasDarkClass ? baseColorDark : baseColorLight;
 
     for (const chart of charts) {
-      chart.options.scales.x.grid.color = borderColor;
-      chart.options.scales.y.grid.color = borderColor;
+      if (chart.options.scales.x) {
+        chart.options.scales.x.grid.color = borderColor;
+      }
+
+      if (chart.options.scales.y) {
+        chart.options.scales.y.grid.color = borderColor;
+      }
+
+      if (chart.options.scales.r) {
+        chart.options.scales.r.grid.color = borderColor;
+      }
       chart.update();
     }
   };
@@ -488,7 +724,17 @@ const renderCharts = () => {
     for (const key in parsedData.datasets) {
       const dataset = parsedData.datasets[key];
       const processColor = (colorProp) => {
-        if (dataset?.[colorProp]?.startsWith("var(")) {
+        if (Array.isArray(dataset?.[colorProp])) {
+          for (const [index, prop] of dataset?.[colorProp].entries()) {
+            if (prop.startsWith("var(")) {
+              const cssVar = prop.match(/var\((.*?)\)/)[1];
+              const color = getComputedStyle(document.documentElement)
+                .getPropertyValue(cssVar)
+                .trim();
+              dataset[colorProp][index] = color;
+            }
+          }
+        } else if (dataset?.[colorProp]?.startsWith("var(")) {
           const cssVar = dataset[colorProp].match(/var\((.*?)\)/)[1];
           const color = getComputedStyle(document.documentElement)
             .getPropertyValue(cssVar)
@@ -501,11 +747,30 @@ const renderCharts = () => {
       processColor("backgroundColor");
     }
 
+    CHART_OPTIONS = { ...DEFAULT_CHART_OPTIONS };
+    if (type === "radar") {
+      CHART_OPTIONS.scales = {
+        r: {
+          ticks: {
+            backdropColor: "transparent",
+          },
+          pointLabels: {
+            color: "#9ca3af",
+            font: {
+              size: 12,
+            },
+          },
+        },
+      };
+    }
+    Chart.defaults.font.family = "Inter";
+    Chart.defaults.font.size = 12;
+
     charts.push(
       new Chart(ctx, {
         type: type || "bar",
         data: parsedData,
-        options: options ? JSON.parse(options) : DEFAULT_CHART_OPTIONS,
+        options: options ? JSON.parse(options) : { ...CHART_OPTIONS },
       })
     );
   }
@@ -516,3 +781,287 @@ const renderCharts = () => {
     changeDarkModeSettings();
   });
 };
+
+/*************************************************************
+ * Inlines
+ *************************************************************/
+function inlines() {
+  /**
+   * Replacing: https://github.com/django/django/blob/main/django/contrib/admin/static/admin/js/inlines.js
+   *
+   * Expected HTML structure:
+   *
+   * <div class="formset-wrapper">
+   *     ... management form ...
+   *     <div class="formset">
+   *         <div class="form-group">
+   *             <div class="form-row">inputs</div>
+   *             <div class="form-nested">nested inlines if exists</div>
+   *         </div>
+   *
+   *         ... another form group ...
+   *
+   *         <div class="form-actions">
+   *             <div class="add-row">Add record button</div>
+   *         </div>
+   *     </div>
+   * </div>
+   */
+  document.querySelectorAll(".add-row").forEach(function (el) {
+    el.addEventListener("click", addInlineTemplateHandler);
+  });
+
+  document.querySelectorAll(".delete-template").forEach(function (el) {
+    el.addEventListener("click", deleteInlineTemplateHandler);
+  });
+}
+
+function deleteInlineTemplateHandler(e) {
+  const formset = e.target.closest(".formset");
+  const options = JSON.parse(formset.dataset.inlineFormset).options;
+  const formsetWrapper = e.target.closest(".formset-wrapper");
+  const minNumForms = formsetWrapper.querySelector(
+    "input[type=hidden][name$='MIN_NUM_FORMS']"
+  );
+  const totalForms = formsetWrapper.querySelector(
+    "input[type=hidden][name$='TOTAL_FORMS']"
+  );
+  const maxNumForms = formsetWrapper.querySelector(
+    "input[type=hidden][name$='MAX_NUM_FORMS']"
+  );
+  const rowToDelete = e.target.closest(".form-group");
+
+  if (parseInt(totalForms.value) == parseInt(minNumForms.value)) {
+    return;
+  }
+
+  let reindex = false;
+  formset
+    .querySelectorAll(":scope > .form-group:not(.empty-form)")
+    .forEach((row, index) => {
+      if (rowToDelete.isSameNode(row)) {
+        reindex = true;
+      }
+
+      if (!rowToDelete.isSameNode(row) && reindex) {
+        const content = row.querySelector(":scope > .form-row");
+
+        content.innerHTML = content.innerHTML.replaceAll(
+          `${options.prefix}-${index}`,
+          `${options.prefix}-${index - 1}`
+        );
+
+        // Reindex nested formset
+        const nestedFormset = row.querySelector(":scope .form-nested");
+        if (nestedFormset) {
+          nestedFormset.innerHTML = nestedFormset.innerHTML.replaceAll(
+            `${options.prefix}-${index}`,
+            `${options.prefix}-${index - 1}`
+          );
+        }
+      }
+    });
+
+  const rowToDeleteParent = rowToDelete.parentElement;
+  rowToDelete.remove();
+  updateStackedCounter(rowToDeleteParent);
+
+  // Update total forms count
+  totalForms.value = parseInt(
+    formset.querySelectorAll(":scope > .form-group:not(.empty-form)").length,
+    10
+  );
+
+  // Apply delete event
+  formset.querySelectorAll(".delete-template").forEach(function (el) {
+    el.removeEventListener("click", deleteInlineTemplateHandler);
+    el.addEventListener("click", deleteInlineTemplateHandler);
+  });
+
+  // Show add button
+  if (parseInt(totalForms.value, 10) < parseInt(maxNumForms.value, 10)) {
+    formset.querySelector(".add-row").classList.remove("hidden");
+  }
+
+  applyLastClass(formset);
+  checkFormsetEmpty(formset);
+
+  document.dispatchEvent(
+    new CustomEvent("formset:removed", {
+      detail: {
+        formsetName: options.prefix,
+      },
+    })
+  );
+}
+
+function addInlineTemplateHandler(e) {
+  e.preventDefault();
+
+  const formset = e.target.closest(".formset");
+  const formsetWrapper = e.target.closest(".formset-wrapper");
+  const totalForms = formsetWrapper.querySelector(
+    "input[type=hidden][name$='TOTAL_FORMS']"
+  );
+  const maxNumForms = formsetWrapper.querySelector(
+    "input[type=hidden][name$='MAX_NUM_FORMS']"
+  );
+  const template = formset.querySelector(":scope >.empty-form");
+  const index = formset.querySelectorAll(":scope > .form-group").length - 1;
+  const options = JSON.parse(formset.dataset.inlineFormset).options;
+  const row = template.cloneNode(true);
+
+  row.classList.remove("empty-form");
+
+  if (parseInt(totalForms.value, 10) >= parseInt(maxNumForms.value, 10)) {
+    return;
+  }
+
+  // Insert new row BEFORE template row which is always last in formset
+  formset.insertBefore(row, template);
+  applyLastClass(formset);
+  checkFormsetEmpty(formset);
+
+  // Stacked inlines are having a counter in title
+  updateStackedCounter(row.parentElement);
+
+  // Replace __prefix__ in RECENTLY ADDED row
+  const formRow = row.querySelector(":scope > .form-row");
+  formRow.innerHTML = formRow.innerHTML.replaceAll(/__prefix__/g, index);
+
+  // Update hidden TOTAL_FORMS input value
+  totalForms.value = parseInt(totalForms.value, 10) + 1;
+
+  // Hide add row button if it is not possible to add more rows
+  if (totalForms.value === maxNumForms.value) {
+    e.target.parentElement.classList.add("hidden");
+  }
+
+  // Call special `formsetGroup:added` event to reinitialize inlines
+  row.dispatchEvent(
+    new CustomEvent("formsetGroup:added", {
+      bubbles: true,
+      detail: {
+        formsetName: options.prefix,
+        row: row,
+        index: index,
+      },
+    })
+  );
+}
+
+document.addEventListener("formsetGroup:added", function (e) {
+  if (!e.detail.row) {
+    return;
+  }
+
+  e.detail.row.innerHTML = e.detail.row.innerHTML.replaceAll(
+    `${e.detail.formsetName}-__prefix__`,
+    `${e.detail.formsetName}-${e.detail.index}`
+  );
+
+  if (typeof DateTimeShortcuts !== "undefined") {
+    document.querySelectorAll(".datetimeshortcuts").forEach(function (el) {
+      el.remove();
+    });
+
+    DateTimeShortcuts.init();
+    dateTimeShortcutsOverlay();
+  }
+
+  e.detail.row.querySelector(":scope > .form-row").dispatchEvent(
+    new CustomEvent("formset:added", {
+      bubbles: true,
+      detail: { formsetName: e.detail.formsetName },
+    })
+  );
+
+  e.detail.row
+    .querySelectorAll(".nested-formset > .form-group:not(.empty-form)")
+    .forEach(function (formGroup) {
+      formGroup.querySelector(".form-row").dispatchEvent(
+        new CustomEvent("formset:added", {
+          bubbles: true,
+          detail: { formsetName: e.detail.formsetName },
+        })
+      );
+    });
+
+  e.detail.row.querySelectorAll(".add-row").forEach(function (el) {
+    el.addEventListener("click", addInlineTemplateHandler);
+  });
+
+  e.detail.row.querySelectorAll(".delete-template").forEach(function (el) {
+    el.addEventListener("click", deleteInlineTemplateHandler);
+  });
+});
+
+function checkFormsetEmpty(formset) {
+  const formGroups = formset.querySelectorAll(
+    ":scope > .form-group:not(.empty-form)"
+  );
+
+  if (formGroups.length === 0) {
+    formset.classList.add("empty");
+  } else {
+    formset.classList.remove("empty");
+  }
+}
+
+function applyLastClass(formset) {
+  formset.querySelectorAll(":scope > .form-group").forEach(function (row) {
+    if (row.classList.contains("last")) {
+      row.classList.remove("last");
+    }
+
+    if (
+      row.nextElementSibling.classList.contains("empty-form") ||
+      row.nextElementSibling.classList.contains("form-actions")
+    ) {
+      row.classList.add("last");
+    }
+  });
+}
+
+function updateStackedCounter(rowsParent) {
+  rowsParent
+    .querySelectorAll(":scope > .form-group:not(.empty-form) > .form-row")
+    .forEach(function (row, index) {
+      const counter = row.querySelector(".stacked-counter");
+
+      if (counter) {
+        counter.textContent = index + 1;
+      }
+    });
+}
+
+/*************************************************************
+ * Reinitialize inlines after pagination AJAX request
+ *************************************************************/
+document.addEventListener("htmx:afterSettle", function (e) {
+  e.target.querySelectorAll(".form-row").forEach(function (formRow) {
+    formRow.dispatchEvent(
+      new CustomEvent("formset:added", {
+        bubbles: true,
+        detail: {
+          formsetName: JSON.parse(e.target.dataset.inlineFormset).options
+            .prefix,
+        },
+      })
+    );
+  });
+});
+
+function getCurrentTab() {
+  const fragment = window.location.hash?.replace('#', '');
+
+  if (!fragment) {
+    return null
+  }
+
+  if (!document.getElementById(`${fragment}-group`)) {
+    return null;
+  }
+
+  return fragment
+}

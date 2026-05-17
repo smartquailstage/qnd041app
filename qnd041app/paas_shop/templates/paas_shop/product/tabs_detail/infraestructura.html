@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load static %}
+        
+    
+    <!-- TAB: Infraestructura -->
+    <div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="tab-infraestructura">
+        <div class="card">
+  <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+    <h5 class="mt-3">
+      <ion-icon name="hardware-chip-outline"></ion-icon> 
+      Infraestructura en la Nube, Seguridad y Rendimiento
+    </h5>
+  
+    <p>
+      En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para 
+      <strong>{{ product.name }}</strong>.  
+      Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización, con disponibilidad:
+      <strong>{{ product.get_software_display }}</strong>.
+    </p>
+  
+    <ul>
+  
+      <li>
+        <strong>DNS privado:</strong>
+        Proporcionamos un sistema de nombres de dominio privado para cada cliente, asegurando una identificación única y segura de los entornos de operación.
+      </li>
+  
+      <li>
+        <strong>Certificación SSL con autogeneración:</strong>
+        Todos los entornos se entregan bajo una conexión segura (HTTPS), con certificados SSL generados automáticamente y actualizados periódicamente para garantizar la protección de los datos transmitidos.
+      </li>
+  
+      <li>
+        <strong>Subdominio personalizado incluido:</strong>
+        Asignamos una URL con el siguiente formato:  
+        <code>{{ product.slug }}.smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
+      </li>
+  
+      <li>
+        <strong>Redirección a dominio privado:</strong>
+        Si el cliente prefiere utilizar su propio dominio (por ejemplo, <code>midominio.com</code>), ofrecemos la posibilidad de redirección desde nuestra infraestructura hacia el dominio deseado. Este servicio conlleva un costo adicional, determinado según el nombre del dominio y la configuración requerida.
+      </li>
+  
+      <li>
+        <strong>Almacenamiento:</strong>
+        Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio.  
+        El almacenamiento asignado para este producto es:
+        <strong>{{ product.almacenamiento }} GB</strong>.
+        <ul>
+          <li>Almacenamiento SSD de alta velocidad configurado: {{ product.almacenamiento }} GB.</li>
+          <li>Opciones de expansión disponibles hasta 5TB según la carga de datos.</li>
+        </ul>
+      </li>
+  
+      <li>
+        <strong>Memoria (RAM):</strong>
+        La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones.  
+        RAM asignada al cliente:
+        <strong>{{ product.memoria }} GB</strong>.
+        <ul>
+          <li>RAM base: {{ product.memoria }} GB.</li>
+          <li>Escalable según requerimientos del cliente y módulos activos.</li>
+        </ul>
+      </li>
+  
+      <li>
+        <strong>vCPU (Unidad Central de Procesamiento Virtual):</strong>
+        Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas.  
+        Configuración asignada:
+        <strong>{{ product.cpu }} vCPU</strong>.
+        <ul>
+          <li>Configuración actual: {{ product.cpu }} vCPU.</li>
+          <li>Escalabilidad según carga de trabajo y usuarios concurrentes.</li>
+        </ul>
+      </li>
+  
+      <li>
+        <strong>Nivel de latencia y rendimiento garantizado:</strong>
+        Nivel de latencia contratado:
+        <strong>{{ product.get_latencia_aproximada_display }}</strong>.
+        <ul>
+          <li>Usuarios simultáneos estimados: {{ product.get_usuarios_simultaneos_display }}</li>
+          <li>Conexiones dedicadas de alta velocidad.</li>
+          <li>Balanceo de carga inteligente.</li>
+          <li>Redundancia en múltiples centros de datos.</li>
+        </ul>
+        Además, los clientes pueden contratar niveles de latencia personalizados según sus necesidades, asegurando tiempos de respuesta optimizados para aplicaciones críticas.
+      </li>
+  
+      <li>
+        <strong>Costos de Infraestructura:</strong>  
+        Durante el primer mes de implementación y desarrollo, los <strong>costos de infraestructura</strong> (almacenamiento, vCPU, memoria, etc.) están <strong>cubiertos</strong> sin costo adicional.
+        <br><br>
+        <strong>A partir del segundo mes:</strong>
+        <ul>
+          <li>CPU mensual: {{ product.costo_cpu_mes }}</li>
+          <li>Almacenamiento mensual: {{ product.costo_bucket_mes }}</li>
+          <li>Balanceador: {{ product.costo_balanceador_mes }}</li>
+          <li><strong>Total infraestructura:</strong> {{ product.costo_total_nube }}</li>
+          <li><strong>Total con IVA:</strong> {{ product.total_nube_iva }}</li>
+        </ul>
+      </li>
+  
+    </ul>
+  
+    <p class="mb-1">
+      Esta arquitectura de infraestructura garantiza que cada instancia del ERP, incluyendo 
+      <strong>{{ product.name }}</strong>, esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
+    </p>
+  
+  </div>
+  
+        </div>
+      </div>

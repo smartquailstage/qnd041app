@@ -30,44 +30,114 @@ def tamano_empresa_context(request):
 
 
 
+from business_customer_projects.models import BusinessSystemProject
+from saas_orders.models import SaaSOrder
+from paas_orders.models import PaaSOrder
+
+
 def business_projects_context(request):
+
     if not request.user.is_authenticated:
+
         return {
-            'order': None,
+            'saas_order': None,
+            'paas_order': None,
             'can_create_project': False,
             'all_projects': [],
             'projects_in_progress': [],
         }
 
-    # 🔴 Orden activa
-    active_order = SaaSOrder.objects.filter(
+    # =====================================================
+    # SaaS Orders activas
+    # =====================================================
+
+    active_saas_order = SaaSOrder.objects.filter(
         user=request.user,
         is_active=True,
         force_paid=True
     ).first()
 
-    # 🔴 Verificar si hay alguna en progreso
-    has_order_in_progress = SaaSOrder.objects.filter(
+    # =====================================================
+    # PaaS Orders activas
+    # =====================================================
+
+    active_paas_order = PaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True,
+        force_paid=True
+    ).first()
+
+    # =====================================================
+    # Ordenes SaaS en progreso
+    # =====================================================
+
+    saas_in_progress = SaaSOrder.objects.filter(
         user=request.user,
         is_active=True,
         is_progress=True
     ).exists()
 
-    # ✅ Lógica correcta
-    can_create_project = active_order is not None and not has_order_in_progress
+    # =====================================================
+    # Ordenes PaaS en progreso
+    # =====================================================
 
-    user_projects = BusinessSystemProject.objects.filter(user=request.user)
+    paas_in_progress = PaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True,
+        is_progress=True
+    ).exists()
 
-    completed_projects = user_projects.filter(progress=100)
-    in_progress_projects = user_projects.exclude(progress=100)
+    # =====================================================
+    # Verificar si existe alguna orden válida
+    # =====================================================
+
+    has_valid_order = (
+        active_saas_order is not None or
+        active_paas_order is not None
+    )
+
+    # =====================================================
+    # Verificar si hay proyectos en progreso
+    # =====================================================
+
+    has_order_in_progress = (
+        saas_in_progress or
+        paas_in_progress
+    )
+
+    # =====================================================
+    # Permitir crear proyecto
+    # =====================================================
+
+    can_create_project = (
+        has_valid_order and
+        not has_order_in_progress
+    )
+
+    # =====================================================
+    # Proyectos del usuario
+    # =====================================================
+
+    user_projects = BusinessSystemProject.objects.filter(
+        user=request.user
+    )
+
+    completed_projects = user_projects.filter(
+        progress=100
+    )
+
+    in_progress_projects = user_projects.exclude(
+        progress=100
+    )
 
     return {
-        'order': active_order,
+        'saas_order': active_saas_order,
+        'paas_order': active_paas_order,
         'can_create_project': can_create_project,
         'all_projects': completed_projects,
         'projects_in_progress': in_progress_projects,
     }
-
+    
 from django.db.models import Sum
 from .models import PaymentOrder
 

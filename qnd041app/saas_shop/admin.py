@@ -102,6 +102,7 @@ class ProductAdmin(ModelAdmin):
                     'name',
                     'slug',
                     'description',
+                    'cloud_type',
                     'category',
                     'available',
 

@@ -20,6 +20,8 @@ from django.utils import timezone
 from datetime import timedelta
 from django.conf import settings
 from django.db import models
+from usuarios.models import SmartQuailCrew
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class PaaSOrder(models.Model):
@@ -51,6 +53,15 @@ class PaaSOrder(models.Model):
         null=True,
         blank=True
     )
+
+    project_manager = models.ForeignKey(
+        SmartQuailCrew,
+        on_delete=models.CASCADE,
+        related_name='project_manager',
+        null=True,
+        blank=True
+    )
+
     first_name = models.CharField(_('first name'), max_length=150, null=True, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, null=True, blank=True)
     email = models.EmailField(_('e-mail'),max_length=150, null=True, blank=True)
@@ -68,6 +79,7 @@ class PaaSOrder(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    vence_en = models.DateTimeField(null=True,blank=True)
     paid = models.BooleanField(default=False, verbose_name="Estado")
     force_paid = models.BooleanField(default=False, verbose_name="Forzar estado pagado")
     braintree_id = models.CharField(max_length=150, blank=True)
@@ -113,6 +125,7 @@ class PaaSOrder(models.Model):
     is_progress = models.BooleanField(default=False, verbose_name="Esta en Progreso")
     is_active = models.BooleanField(default=True, verbose_name="Activo")
     email_sent = models.BooleanField(default=False)  # nuevo campo para controlar envío de email
+    whatsapp_sent = models.BooleanField(default=False)
 
     # ==================================================
     # 🔐 HASH GENERATOR
@@ -143,20 +156,93 @@ class PaaSOrder(models.Model):
         verbose_name = 'Software As Service Order'
         verbose_name_plural = 'PaaS Orders'
 
-    def __str__(self):
-        return 'PaaS Order {}'.format(self.id)
+
 
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
         return total_cost - total_cost * (self.discount / Decimal('100'))
 
 
-    def check_active_status(self):
-        """Actualiza el estado a inactivo si han pasado más de 15 días desde la creación."""
-        if self.is_active and self.created + timedelta(days=15) < timezone.now():
-            self.is_active = False
-            self.save()
 
+    def get_subtotal(self):
+        return sum(
+        (item.get_cost() for item in self.items.all()),
+        Money(0, 'USD')  # 👈 CLAVE
+        )
+
+    def get_discount_value(self):
+        subtotal = self.get_subtotal()
+        return subtotal * (Decimal(self.discount) / Decimal('100'))
+
+
+
+    def get_total_iva(self):
+        subtotal = self.get_total_cost()
+        return subtotal*Decimal('0.15')
+
+    def get_total_with_discount(self):
+        subtotal = self.get_total_cost()
+        iva = self.get_total_iva()
+        return subtotal + iva
+
+    def get_total_with_discount_interes(self):
+
+        subtotal = self.get_total_with_discount().amount
+
+        # Si no existe cupón
+        if not self.coupon:
+            return subtotal.quantize(
+                Decimal('0.01'),
+                rounding=ROUND_HALF_UP
+            )
+
+        interes = (
+            Decimal(self.coupon.percent_credit) /
+            Decimal('100')
+        )
+
+        valor_interes = subtotal * interes
+
+        total = subtotal + valor_interes
+
+        # Redondear a 2 decimales
+        return total.quantize(
+            Decimal('0.01'),
+            rounding=ROUND_HALF_UP
+        )
+    
+    def get_total_monthly_suscription(self):
+        if not self.coupon:
+            return Decimal('0.00')
+
+        meses = Decimal(self.coupon.credito)
+
+        interes = (
+            Decimal(self.coupon.percent_credit) /
+            Decimal('100')
+            )
+
+        total = self.get_total_with_discount().amount
+
+        total_intereses = interes * total
+
+        valor_final = total_intereses + total
+
+        valor_a_pagar_mensual = valor_final / meses
+
+        return valor_a_pagar_mensual.quantize(
+            Decimal('0.01'),rounding=ROUND_HALF_UP
+            )
+
+    def __str__(self):
+        return f'SQ02-PLT-15{ self.id }-QND0501{self.id} ({self.get_total_with_discount_interes()} US$)'
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.vence_en = self.updated + timedelta(days=15)
+        super().save(update_fields=['vence_en'])
+        
 
 class PaaSOrderItem(models.Model):
     order = models.ForeignKey(PaaSOrder,

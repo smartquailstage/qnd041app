@@ -4,141 +4,277 @@
 
 {% block content %}
 
+<style>
+.upload-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.upload-card {
+    position: relative;
+}
+
+.upload-input {
+    display: none;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 24px;
+  border: 2px dashed #ffab4d;
+  border-radius: 18px;
+  background: #2e2e2e;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.upload-label:hover {
+    border-color: #ffab4d;
+  background: #ffab4d;
+  transform: translateY(-2px);
+}
+
+.upload-label.dragover {
+    border-color: #198754;
+    background: #ecfff5;
+}
+
+.upload-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.upload-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.upload-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 6px;
+}
+
+.file-name {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #198754;
+}
+</style>
+
 <div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
-
-<!-- Navbar para tabs -->
-<!-- Navbar para tabs -->
+<div class="page-content">
 
 
-<ul class="nav nav-pills" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-selected="true"><ion-icon name="folder-open-outline"></ion-icon></a>
-  </li>
-</ul>
+    <div class="card radius-10">
+        <div class="card-body">
+<hr>
+<h2> <ion-icon name="add-circle-outline"></ion-icon> Crear Activo ITC</h2>
+<p><ion-icon name="information-circle-outline"></ion-icon> 
+    Al crear un nuevo activo ITC, usted está desplegando automáticamente y en tiempo real un sistema de información y comunicación sobre infraestructura física y servidores alojados en centros de datos especializados.
 
-<!-- Tab Content -->
-<div class="tab-content mt-3">
-    <!-- TAB 1: Información General del Proyecto -->
-    <div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
-        <div class="card radius-10">
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="border p-3 rounded">
-                                <h6 class="mb-0 text-uppercase">
-                                 <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-                                </h6>
-                                <p id="typewriter">
-                                 
-                                </p>
+    El siguiente activo dispone de licencias ITC asociadas, las cuales permiten el acceso seguro y autorizado al sistema de información correspondiente. Cada licencia es única y ha sido diseñada para garantizar la protección, integridad y seguridad de los sistemas y datos de nuestros clientes.
+    
+    Toda esta infraestructura tecnológica, operativa y de seguridad es gestionada integralmente por <strong>SmartQuail, Inc.</strong>
+</p>
+<hr>
 
-                                <hr>
-                                
-                                <!-- Nombre del Proyecto -->
-<div class="mb-3">
-    {{ form.is_domain_configured|add_class:"form-check-input" }}
-    {% if form.is_domain_configured.help_text %}
-        <small class="form-text text-muted">{{ form.is_domain_configured.help_text }}</small>
-    {% endif %}
-</div>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
+    <h4><ion-icon name="globe-outline"></ion-icon> Asociar dominio privado</h4>
+    <div class="mb-3">
+        {{ form.is_domain_configured|add_class:"form-check-input" }}
+        {% if form.is_domain_configured.help_text %}
+            <small class="form-text text-muted"> <ion-icon name="information-circle-outline"></ion-icon>  {{ form.is_domain_configured.help_text }}</small>
+        {% endif %}
+    </div>
+    <div id="domain-name-container" class="mb-3" style="display:none;">
+        {{ form.domain_name|add_class:"form-control"|attr:"id:id_domain_name" }}
+    </div>
+    <hr>
 
-<div id="domain-name-container" class="mb-3" style="display: none;">
-    {{ form.domain_name|add_class:"form-control" }}
-    {% if form.domain_name.help_text %}
-        <small class="form-text text-muted">{{ form.domain_name.help_text }}</small>
-    {% endif %}
-</div>
+    <h4><ion-icon name="brush-outline"></ion-icon>  Identidad visual del activo</h4>
+    <p><ion-icon name="information-circle-outline"></ion-icon>  Seleccione o arrastre una imagen de banner representativa de la identidad visual de su negocio. Asimismo, seleccione o arrastre una imagen en formato PNG, JPG o JPEG para asociar oficialmente la identidad visual de su organización al activo ITC correspondiente.
 
-<div class="mb-3">
-    {{ form.logo_rectangular }}
-    {% if form.logo_rectangular.help_text %}
-        <small class="form-text text-muted">{{ form.logo_rectangular.help_text }}</small>
-    {% endif %}
-</div>
+        Toda la información cargada y asociada al activo se encuentra protegida conforme a los términos establecidos en el acuerdo de adquisición y licenciamiento de servicios tecnológicos. </p>
+        <hr>
 
-<div class="mb-3">
-    {{ form.logo_cuadrado }}
-    {% if form.logo_cuadrado.help_text %}
-        <small class="form-text text-muted">{{ form.logo_cuadrado.help_text }}</small>
-    {% endif %}
-</div>
+ <div class="mb-3">
+    <div class="upload-grid">
 
+       
+        <!-- LOGO RECTANGULAR -->
+        <div class="upload-card">
+           
+            <!-- INPUT REAL (IMPORTANTE PARA DJANGO) -->
+            {{ form.logo_rectangular|add_class:"upload-input" }}
 
-                                <!-- Botón de Guardar -->
-                                <div class="col-12 mt-4">
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Continuar <ion-icon name="chevron-forward-outline"></ion-icon></button>
-                                    </div>
-                                </div>
+            <label class="upload-label"
+                   for="{{ form.logo_rectangular.id_for_label }}"
+                   id="drop-rectangular">
 
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                <div class="upload-icon">📁</div>
+
+                <div class="upload-title">Agregar Banner </div>
+
+                <div class="upload-subtitle">
+                    Hacer clic para seleccionar
+                </div>
+
+                <div class="file-name" id="file-name-rectangular"></div>
+
+            </label>
+
+            {% if form.logo_rectangular.help_text %}
+                <small class="text-muted">
+                    {{ form.logo_rectangular.help_text }}
+                </small>
+            {% endif %}
         </div>
+
+        <!-- LOGO CUADRADO -->
+        <div class="upload-card">
+
+            {{ form.logo_cuadrado|add_class:"upload-input" }}
+
+            <label class="upload-label"
+                   for="{{ form.logo_cuadrado.id_for_label }}"
+                   id="drop-cuadrado">
+
+                <div class="upload-icon">🖼️</div>
+
+                <div class="upload-title">Agregar Logo </div>
+
+                <div class="upload-subtitle">
+                    Arrastra o haz clic para seleccionar
+                </div>
+
+                <div class="file-name" id="file-name-cuadrado"></div>
+
+            </label>
+
+            {% if form.logo_cuadrado.help_text %}
+                <small class="text-muted">
+                    {{ form.logo_cuadrado.help_text }}
+                </small>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-warning w-100">
+            <ion-icon name="cloud-download-outline"></ion-icon> Crear Activo ITC
+        </button>
     </div>
 
-    <!-- Otras pestañas de contenido pueden ir aquí -->
-</div>
+</form>
 
 
 </div>
-
-
-
-  </div> <!-- end page content -->
 </div>
 
-
+</div>
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const text = `Hola {{ order.first_name }}, soy el Agente de Inteligencia Artificial de SmartQuail, Inc. Iniciaremos el proceso de creación de tu proyecto IT Cloud Business. Para avanzar, necesitamos algunos datos adicionales sobre tu iniciativa. Por favor, asigna un nombre a tu proyecto e incorpora los logotipos correspondientes en los campos indicados. En pocos minutos tendrás acceso a tu sistema de información en la nube, completamente escalable, autónomo, disponible y seguro.`;
-
-    const speed = 35; // Velocidad en milisegundos por letra
-    let index = 0;
-
-    function typeWriter() {
-        if (index < text.length) {
-            document.getElementById("typewriter").innerHTML += text.charAt(index);
-            index++;
-            setTimeout(typeWriter, speed);
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        function initDragDrop(labelId, inputId, fileNameId) {
+            const label = document.getElementById(labelId);
+            const input = document.getElementById(inputId);
+            const fileName = document.getElementById(fileNameId);
+    
+            if (!label || !input) return;
+    
+            // DRAG OVER
+            label.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                label.classList.add("dragover");
+            });
+    
+            // DRAG LEAVE
+            label.addEventListener("dragleave", () => {
+                label.classList.remove("dragover");
+            });
+    
+            // DROP
+            label.addEventListener("drop", (e) => {
+                e.preventDefault();
+                label.classList.remove("dragover");
+    
+                if (e.dataTransfer.files.length) {
+    
+                    const dt = new DataTransfer();
+                    dt.items.add(e.dataTransfer.files[0]);
+    
+                    input.files = dt.files;
+    
+                    if (fileName) {
+                        fileName.textContent = e.dataTransfer.files[0].name;
+                    }
+                }
+            });
+    
+            // INPUT CHANGE (click selector)
+            input.addEventListener("change", () => {
+                if (input.files.length && fileName) {
+                    fileName.textContent = input.files[0].name;
+                }
+            });
         }
-    }
-
-    typeWriter();
-});
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const checkbox = document.getElementById("id_is_domain_configured");
-    const domainField = document.getElementById("domain-name-container");
-
-    function toggleDomainField() {
-        if (checkbox.checked) {
-            domainField.style.display = "block";
-        } else {
-            domainField.style.display = "none";
-            document.getElementById("id_domain_name").value = "";  // Limpia el campo si se oculta
-        }
-    }
-
-    // Ejecutar al cargar la página (útil si hay errores y vuelve marcada)
-    toggleDomainField();
-
-    // Ejecutar cuando se marque/desmarque
-    checkbox.addEventListener("change", toggleDomainField);
-});
-</script>
-
-
+    
+        // ⚠️ IMPORTANTE: label ID vs input ID (CORRECTO)
+        initDragDrop(
+            "drop-rectangular",
+            "{{ form.logo_rectangular.id_for_label }}",
+            "file-name-rectangular"
+        );
+    
+        initDragDrop(
+            "drop-cuadrado",
+            "{{ form.logo_cuadrado.id_for_label }}",
+            "file-name-cuadrado"
+        );
+    
+    });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            const checkbox = document.getElementById("id_is_domain_configured");
+            const domainField = document.getElementById("domain-name-container");
+            const domainInput = document.getElementById("id_domain_name");
+        
+            if (!checkbox || !domainField) return;
+        
+            function toggleDomainField() {
+                if (checkbox.checked) {
+                    domainField.style.display = "block";
+                } else {
+                    domainField.style.display = "none";
+                    if (domainInput) {
+                        domainInput.value = "";
+                    }
+                }
+            }
+        
+            // Estado inicial
+            toggleDomainField();
+        
+            // Cambio
+            checkbox.addEventListener("change", toggleDomainField);
+        
+        });
+        </script>
+        
 {% endblock %}

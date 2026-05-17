@@ -1,0 +1,57 @@
+
+{% load widget_tweaks %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/login_css/css/mail.css' %}">
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">
+        <img src="{% static 'assets/images/logosmartquail.png' %}" alt="SmartQuail Logo">
+      </div>
+ <hr class="divider">
+
+{% block content %}
+{% endblock %}
+
+
+ <hr class="divider">
+
+      <div class="social-icons">
+<a href="https://wa.me/593963521262" target="_blank" rel="noopener" alt="Facebook">
+  <img src="{% static 'assets/images/whatsapp.png' %}" alt="WhatsApp" style="width:14px; height:14px;">
+</a>
+
+        <a href="https://linkedin.com/company/smartquail" target="_blank">
+          <img src="{% static 'assets/images/linkedin.png' %}" alt="LinkedIn">
+        </a>
+        <a href="https://facebook.com/smartquail" target="_blank">
+          <img src="{% static 'assets/images/instagram.png' %}" alt="Facebook">
+        </a>
+          <a href="https://facebook.com/smartquail" target="_blank">
+          <img src="{% static 'assets/images/twitter.png' %}" alt="Facebook">
+        </a>
+      </div>
+
+ 
+
+
+
+           <div class="contact-info">
+            <a href="https://ec.smartquail.io" target="_blank">
+       <img src="{% static 'assets/images/REDQUAIL.png' %}" alt="SmartQuail Logo" width="50px">
+       </a>
+      </div>
+
+        <p class="legal">
+          © 2025 SmartQuail, Inc. Todos los derechos reservados.<br>
+          Este es un mensaje automático, por favor no responda.
+        </p>
+
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,482 @@
+{% load i18n %}
+{% load static %}
+    
+
+<div class="tab-pane fade" id="uiux" role="tabpanel" aria-labelledby="tab-uiux">
+    <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">
+ <i class="fadeIn animated bx bx-merge"></i>
+  Interfase y Experiencia de usuario (UI/UX)
+</h5>
+
+<p>
+ Desarrollamos procesos avanzados de <strong>Investigación y Desarrollo (I+D)</strong> enfocados en la creación de 
+<strong>interfaces web inteligentes, totalmente personalizadas</strong> para clientes y usuarios finales del sector 
+<strong>{{ product.category.sector }}</strong>.
+Nuestro enfoque garantiza experiencias digitales intuitivas, rápidas, ágiles y optimizadas, alineadas con los objetivos del negocio y las expectativas del usuario.
+</p>
+
+<ul>
+
+<li>
+  <strong>Investigación centrada en el usuario (User-Centered Design):</strong>
+  Realizamos estudios funcionales y de comportamiento para comprender a profundidad las necesidades, flujos de trabajo y patrones de uso de los usuarios finales, asegurando interfaces alineadas a escenarios reales de operación.
+</li>
+
+<li>
+  <strong>Análisis del sector y del producto:</strong>
+  Adaptamos cada interfaz al contexto específico del sector <strong>(( product.sector ))</strong>, considerando normativas, procesos clave, niveles de madurez digital y objetivos estratégicos del cliente.
+</li>
+
+<li>
+  <strong>Arquitectura de experiencia de usuario (UX):</strong>
+  Diseñamos estructuras de navegación claras y jerárquicas que reducen la curva de aprendizaje y mejoran la eficiencia operativa.
+  <ul>
+    <li>Mapeo de flujos de usuario.</li>
+    <li>Definición de journeys y escenarios críticos.</li>
+    <li>Optimización de tiempos de interacción.</li>
+  </ul>
+</li>
+
+<li>
+  <strong>Diseño de interfaz (UI) totalmente personalizado:</strong>
+  Creamos interfaces visuales únicas, alineadas a la identidad del cliente y optimizadas para usabilidad y accesibilidad.
+  <ul>
+    <li>Diseño responsive (desktop, tablet y móvil).</li>
+    <li>Componentes visuales reutilizables.</li>
+    <li>Jerarquía visual clara y consistente.</li>
+  </ul>
+</li>
+
+<li>
+  <strong>Integración automática con sistemas multiforma:</strong>
+  Las interfaces se integran de manera automática y segura con sistemas externos, plataformas multiforma y aplicaciones de terceros, garantizando interoperabilidad y continuidad operativa.
+  <ul>
+    <li>Integraciones vía APIs y servicios web.</li>
+    <li>Conectividad con sistemas empresariales y operativos.</li>
+    <li>Sincronización de datos en tiempo real.</li>
+  </ul>
+</li>
+
+<li>
+  <strong>Integración nativa con la suite SmartQuail:</strong>
+  Todas las interfaces desarrolladas se conectan de forma nativa con la suite completa de SmartQuail, incluyendo:
+  <ul>
+    <li><strong>SmartBusinessAnalytics® SBA</strong>: análisis avanzado de datos, métricas operativas y visualización inteligente.</li>
+    <li><strong>SmartBusinessManagement® SBM</strong>: gestión integral de procesos, flujos de trabajo y operaciones empresariales.</li>
+  </ul>
+  Esta integración permite una comunicación fluida entre usuarios, sistemas y procesos.
+</li>
+
+<li>
+  <strong>Experiencias y comunicaciones personalizadas en tiempo real:</strong>
+  Gracias a la integración automatizada y a la analítica en vivo, las interfaces ofrecen experiencias dinámicas y comunicaciones contextuales adaptadas a cada usuario y proceso.
+  <ul>
+    <li>Notificaciones inteligentes en tiempo real.</li>
+    <li>Flujos de información personalizados según rol y contexto.</li>
+    <li>Interacción directa entre usuarios, procesos y datos.</li>
+  </ul>
+</li>
+
+<li>
+  <strong>Optimización de rendimiento y velocidad:</strong>
+  Todas las interfaces se desarrollan bajo principios de alto rendimiento, asegurando tiempos de carga mínimos y respuestas inmediatas.
+  <ul>
+    <li>Carga optimizada de componentes.</li>
+    <li>Interacciones ágiles y fluidas.</li>
+    <li>Compatibilidad con navegadores modernos.</li>
+  </ul>
+</li>
+
+<li>
+  <strong>Accesibilidad y usabilidad universal:</strong>
+  Diseñamos interfaces inclusivas que facilitan el uso por parte de distintos perfiles de usuario, considerando buenas prácticas de accesibilidad digital.
+</li>
+
+<li>
+  <strong>Evolución y mejora continua:</strong>
+  La interfaz no es estática: se analiza, mide y optimiza continuamente según métricas de uso, comportamiento y rendimiento.
+  <ul>
+    <li>Análisis de interacción.</li>
+    <li>Mejoras iterativas.</li>
+    <li>Adaptación a nuevas necesidades del negocio.</li>
+  </ul>
+</li>
+
+</ul>
+
+<p class="mb-1">
+Este enfoque integral de <strong>Investigación y Desarrollo en interfaces web</strong> permite que cada solución, incluyendo 
+<strong>{{ product.name }}</strong>, ofrezca una experiencia digital moderna, inteligente y conectada, impulsando la adopción, productividad y comunicación en tiempo real entre usuarios y procesos dentro del sector 
+<strong>(( product.sector ))</strong>.
+</p>
+
+
+    </div>
+  </div>
+
+
+{% if product.is_reaserch %}
+  <!-- TAB: Investigación -->
+  <div class="tab-pane fade" id="investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
+    <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3"> (I+D) Investigación & Desarrollo</h5>
+
+<p>
+  Lo que distingue a <strong>{{ product.name }}</strong> es su enfoque centrado en la <strong>investigación y desarrollo (I+D)</strong> aplicado directamente a los procesos empresariales, permitiendo una evolución constante en tiempo real.
+</p>
+
+<p>
+  Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
+</p>
+
+<h5 class="mt-4">Metodología de implementación con I+D:</h5>
+<ul>
+  <li>
+    <strong>1. Entrevistas presenciales o virtuales con Project Managers:</strong>
+    Iniciamos con sesiones de levantamiento de información donde identificamos los procesos clave de la organización y sus puntos críticos.
+  </li>
+  <li>
+    <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
+    Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.  
+    <br>
+    Tiempo estimado de desarrollo: <strong>{{ product.tiempo_desarrollo }} horas</strong>, con costo por hora: <strong>{{ product.costo_hora_desarrollo }}</strong>.
+  </li>
+  <li>
+    <strong>3. Feedback inicial del cliente:</strong>
+    El cliente valida la funcionalidad desarrollada en un entorno controlado, brindando retroalimentación directa sobre el cumplimiento de requerimientos.
+  </li>
+  <li>
+    <strong>4. Adaptación y mejora del desarrollo:</strong>
+    Realizamos ajustes ágiles sobre los módulos para afinar su comportamiento en base a los comentarios recibidos.
+  </li>
+  <li>
+    <strong>5. Segundo feedback de validación final:</strong>
+    Confirmamos que todos los procesos se ajustan a las expectativas del cliente y se encuentran listos para pruebas avanzadas.
+  </li>
+  <li>
+    <strong>6. Entrega al departamento de QA (Quality Assurance):</strong>
+    El sistema es evaluado por nuestros especialistas en pruebas de calidad, seguridad y rendimiento.
+  </li>
+  <li>
+    <strong>7. Feedback final del cliente sobre desempeño:</strong>
+    Validamos junto al cliente el rendimiento del aplicativo, el sistema de backups y la resiliencia ante fallos críticos.
+  </li>
+  <li>
+    <strong>8. Entrega de métricas de recursos contratados:</strong>
+    Presentamos un informe detallado del uso de recursos en la nube:
+    <ul>
+      <li>CPU: <strong>{{ product.cpu }} vCPU</strong></li>
+      <li>Memoria: <strong>{{ product.memoria }} GB</strong></li>
+      <li>Almacenamiento: <strong>{{ product.almacenamiento }} GB</strong></li>
+      <li>Usuarios simultáneos: <strong>{{ product.get_usuarios_simultaneos_display }}</strong></li>
+      <li>Latencia aproximada: <strong>{{ product.get_latencia_aproximada_display }}</strong></li>
+    </ul>
+  </li>
+  <li>
+    <strong>9. Despliegue final en entorno de producción:</strong>
+    El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.  
+    Total estimado de desarrollo + implementación: <strong>{{ product.total }}</strong>, Total con IVA: <strong>{{ product.total_iva }}</strong>.
+  </li>
+</ul>
+</div>
+
+    </div>
+  </div>
+{% else %}
+{% endif %}
+
+{% if product.is_automatitation %}
+  <!-- TAB: Automatización -->
+  <div class="tab-pane fade" id="automatizacion" role="tabpanel" aria-labelledby="tab-automatizacion">
+    <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
+
+<p>
+  En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
+</p>
+
+<ul>
+  <li>
+    <strong>Análisis de ciclos y tiempos:</strong>
+    Mediante entrevistas, pruebas y monitoreo en tiempo real, mapeamos el flujo completo de la información dentro de la organización. Esta información nos permite identificar tareas repetitivas, puntos de fricción y posibles cuellos de botella.
+  </li>
+  <li>
+    <strong>Automatización de procesos internos:</strong>
+    Integramos automatismos dentro del ERP para que ciertas acciones se ejecuten automáticamente según los módulos contratados. Por ejemplo:
+    <ul>
+      {% if product.automatizacion %}
+      <li>{{ product.get_automatizacion_display }}</li>
+      {% else %}
+      <li>No hay módulos de automatización activos.</li>
+      {% endif %}
+    </ul>
+    <br>
+    <!-- Aquí se explica que la automatización se realiza mediante una arquitectura n8n -->
+    <p>
+      Además, nuestro sistema cuenta con una <strong>arquitectura de automatización e integración mediante terceros (n8n)</strong>, que permite:
+      <ul>
+        <li>Conectar aplicaciones y servicios externos de forma automatizada.</li>
+        <li>Crear flujos de trabajo sin intervención manual, basados en eventos y triggers.</li>
+        <li>Reducir errores humanos y mejorar la eficiencia operativa.</li>
+        <li>Escalar la automatización según el crecimiento de la empresa.</li>
+      </ul>
+    </p>
+    <p>
+      Costo total de automatización: <strong>{{ product.total_n8n }}</strong><br>
+      Total con IVA: <strong>{{ product.total_n8n_iva }}</strong>.
+    </p>
+  </li>
+  <li>
+    <strong>Integración con APIs externas:</strong>
+    El sistema está preparado para interactuar con plataformas externas mediante API RESTful, facilitando la conexión con herramientas como CRMs, pasarelas de pago, sistemas contables, plataformas logísticas y más.
+  </li>
+  <li>
+    <strong>Desarrollo de APIs propias:</strong>
+    Cuando el sistema externo no ofrece integración directa, desarrollamos nuestras propias APIs personalizadas, asegurando compatibilidad con los sistemas existentes del cliente.
+  </li>
+  <li>
+    <strong>Eventos y respuestas automatizadas:</strong>
+    Gracias a nuestra arquitectura basada en eventos, cada acción crítica puede desencadenar una respuesta automática del sistema, sin intervención manual. Esto permite ahorrar tiempo y evitar errores humanos.
+  </li>
+  <li>
+    <strong>Lenguaje de desarrollo:</strong>
+    Todo el sistema de automatización está construido sobre lenguaje <code>Python</code>, lo que garantiza flexibilidad, velocidad de desarrollo, y soporte de una comunidad técnica robusta.
+  </li>
+</ul>
+
+<p class="mb-1">
+  Nuestro objetivo es que cada empresa que implemente SmartBusinessMedia® obtenga no solo un sistema de gestión, sino una plataforma inteligente que trabaje en segundo plano, automatizando decisiones, respuestas y tareas clave de manera confiable y transparente.
+</p>
+</div>
+
+
+
+    </div>
+  </div>
+{% else %}
+{% endif %}
+
+{% if product.is_intelligent %}
+  <!-- TAB: Inteligencia Artificial -->
+  <div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel" aria-labelledby="tab-inteligencia">
+    <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada al ERP</h5>
+
+<p>
+  SmartBusinessMedia® incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
+</p>
+
+<ul>
+  <li>
+    <strong>Modelos de ML aplicados a los procesos:</strong>
+    Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).  
+    <p>
+      Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
+    </p>
+  </li>
+  <li>
+    <strong>Predicción en tiempo real:</strong>
+    Gracias al análisis constante de datos en vivo, el sistema puede anticiparse a eventos como:
+    <ul>
+      {% if product.prediccion_stock %}<li>Ruptura de stock</li>{% endif %}
+      {% if product.prediccion_demanda %}<li>Variaciones de demanda</li>{% endif %}
+      {% if product.prediccion_financiera %}<li>Riesgos financieros</li>{% endif %}
+      {% if product.alertas_comportamiento %}<li>Alertas de comportamiento inusual</li>{% endif %}
+    </ul>
+  </li>
+  <li>
+    <strong>Integración con ChatGPT 5.0:</strong>
+    Hemos integrado <strong>modelos de lenguaje avanzados</strong> para la creación de <strong>ChatBots inteligentes</strong>, capaces de:
+    <ul>
+      <li>Asistir en tiempo real a usuarios del sistema</li>
+      <li>Responder consultas de clientes finales</li>
+      <li>Guiar procesos internos como soporte, ventas o logística</li>
+    </ul>
+    Esta integración permite una experiencia conversacional natural, contextual y multilingüe.
+  </li>
+  <li>
+    <strong>Entrenamiento personalizado por industria:</strong>
+    Nuestros modelos de IA se entrenan con datos representativos del sector del cliente (retail, salud, educación, etc.), logrando resultados más precisos y relevantes.
+  </li>
+  <li>
+    <strong>Análisis predictivo + toma de decisiones:</strong>
+    La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.  
+    <p>
+      Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del ERP. Esto garantiza:
+      <ul>
+        <li>Automatización de tareas basadas en análisis de IA.</li>
+        <li>Integración fluida con APIs internas y externas.</li>
+        <li>Escalabilidad y personalización según las necesidades del cliente.</li>
+      </ul>
+    </p>
+  </li>
+  <li>
+    <strong>Costos de IA:</strong>  
+    Costo del módulo IA: <strong>{{ product.total_ml }}</strong><br>
+    Total con IVA: <strong>{{ product.total_ml_iva }}</strong>.
+  </li>
+</ul>
+
+<p class="mb-1">
+  El objetivo de nuestra IA es que las organizaciones pasen de una gestión reactiva a una <strong>gestión proactiva basada en datos reales</strong>, facilitando decisiones inteligentes en tiempo real con un nivel de precisión sin precedentes.
+</p>
+</div>
+
+    </div>
+  </div>
+{% else %}
+{% endif %}
+
+  <!-- TAB: Monitoreo -->
+  <div class="tab-pane fade" id="monitoreo" role="tabpanel" aria-labelledby="tab-monitoreo">
+    <div class="card">
+<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+<h5 class="mt-3"> <ion-icon name="bar-chart-outline"></ion-icon> Monitoreo en Tiempo Real del Sistema ERP</h5>
+
+<p>
+  SmartBusinessMedia® cuenta con un módulo avanzado de <strong>monitoreo en tiempo real</strong> que permite supervisar cada evento crítico, tanto a nivel de infraestructura como de operaciones dentro del sistema de información.
+</p>
+
+<ul>
+  <li>
+    <strong>Monitoreo de Infraestructura:</strong> 
+    Detectamos eventos a nivel de recursos como CPU, memoria RAM, almacenamiento y redes. Esta información se utiliza para garantizar <strong>baja latencia, alta disponibilidad y respuesta inmediata ante fallos</strong>.  
+    <p>
+      Recursos monitoreados: CPU {{ product.vcpu }}, RAM {{ product.ram }} GB, Almacenamiento {{ product.almacenamiento }} GB.
+    </p>
+  </li>
+  <li>
+    <strong>Monitoreo de eventos transaccionales:</strong> 
+    Cada interacción dentro del ERP (creación, modificación, eliminación de datos) queda registrada en tiempo real, asegurando <strong>trazabilidad total de la actividad del usuario</strong>.  
+    <p>
+      Logs activados: {% if product.monitoring_logs %}Sí{% else %}No{% endif %}
+    </p>
+  </li>
+  <li>
+    <strong>Alertas automatizadas:</strong> 
+    El sistema puede enviar alertas en tiempo real sobre comportamientos anómalos o actividades sospechosas dentro del sistema.  
+    <p>
+      Tipos de alertas activas: {% for alerta in product.alertas %}{{ alerta }}{% if not forloop.last %}, {% endif %}{% empty %}No hay alertas configuradas{% endfor %}.
+    </p>
+  </li>
+  <li>
+    <strong>Analítica operacional profunda:</strong> 
+    Se generan dashboards e informes automáticos con <strong>métricas clave de desempeño</strong>, como:
+    <ul>
+      {% if product.metricas %}
+        {% for metrica in product.metricas %}
+          <li>{{ metrica }}</li>
+        {% endfor %}
+      {% else %}
+        <li>No hay métricas activas configuradas.</li>
+      {% endif %}
+    </ul>
+  </li>
+  <li>
+    <strong>Auditoría y cumplimiento:</strong> 
+    Toda la información recopilada es almacenada y organizada para cumplir con normativas de seguridad, privacidad y control interno.  
+    <p>
+      Nivel de auditoría activado: {{ product.audit_level|default:"Básico" }}.
+    </p>
+  </li>
+</ul>
+
+<p class="mb-1">
+  Gracias a este sistema de monitoreo, las empresas pueden actuar de forma proactiva ante riesgos operativos, validar el cumplimiento de sus políticas internas y garantizar un control total del flujo de información en su ERP.
+</p>
+</div>
+
+    </div>
+  </div>
+
+  <!-- TAB: Ciberseguridad -->
+  <div class="tab-pane fade" id="ciberseguridad" role="tabpanel" aria-labelledby="tab-ciberseguridad">
+    <div class="card">
+      <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+         <h5 class="mt-3"><ion-icon name="shield-outline"></ion-icon> Ciberseguridad en la Nube Empresarial</h5>
+<p>
+  La seguridad de la información es una prioridad en <strong>SmartBusinessMedia®</strong>. Nuestra arquitectura cloud ha sido diseñada bajo los más altos estándares de <strong>ciberseguridad corporativa</strong>, garantizando que los datos y procesos de cada organización estén protegidos contra amenazas internas y externas.
+</p>
+
+<ul>
+  <li>
+    <strong>Tokenización de datos sensibles:</strong> 
+    Utilizamos técnicas avanzadas de tokenización y encriptación para proteger los datos desde el origen, asegurando que <strong>ni siquiera nuestros servidores almacenen información en texto plano</strong>.
+  </li>
+  <li>
+    <strong>Certificados SSL de seguridad:</strong> 
+    Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo: 
+    <code>[organizacion].smartquail.io</code>.
+  </li>
+  <li>
+    <strong>DNS privado y aislamiento por cliente:</strong> 
+    Cada instancia del ERP cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
+  </li>
+  <li>
+    <strong>Firewalls y monitoreo activo:</strong> 
+    Implementamos firewalls de aplicación web (WAF) y monitoreo constante de intentos de acceso no autorizados o comportamientos sospechosos.
+  </li>
+  <li>
+    <strong>Autenticación reforzada:</strong> 
+    Integramos mecanismos de autenticación segura como <strong>verificación en dos pasos (2FA)</strong>, y políticas de contraseñas robustas para todos los usuarios del sistema.
+  </li>
+  <li>
+    <strong>Backups automáticos y resiliencia:</strong> 
+    Todos los datos son respaldados automáticamente en intervalos programados y almacenados en ubicaciones seguras, permitiendo <strong>recuperación inmediata ante cualquier incidente</strong>.
+  </li>
+  <li>
+    <strong>Cumplimiento normativo:</strong> 
+    Nos alineamos con normas internacionales de seguridad como <strong>ISO/IEC 27001, GDPR y OWASP</strong>, brindando confianza y cumplimiento legal a nuestros clientes.
+  </li>
+</ul>
+
+<p class="mb-1">
+  Gracias a esta infraestructura y enfoque, nuestros clientes pueden operar con la certeza de que su información empresarial se encuentra protegida por una <strong>barrera multicapa de ciberseguridad en la nube</strong>, adaptable y en constante evolución ante nuevas amenazas.
+</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Soporte -->
+  <div class="tab-pane fade" id="soporte" role="tabpanel" aria-labelledby="tab-soporte">
+    <div class="card">
+      <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+        <h5 class="mt-3">Soporte Técnico y Mantenimiento Continuo</h5>
+<p>
+  En <strong>SmartBusinessMedia®</strong>, la continuidad operativa y evolución constante del sistema son pilares clave. Por eso, ofrecemos un servicio de <strong>soporte técnico 24/7</strong> que garantiza que nunca exista una pérdida total de disponibilidad, ni durante mantenimiento ni ante eventualidades imprevistas.
+</p>
+
+<ul>
+  <li>
+    <strong>Soporte 24/7:</strong> Nuestro equipo técnico está disponible las 24 horas del día, los 7 días de la semana, para resolver consultas, incidencias o acompañar al cliente en la evolución del sistema.
+  </li>
+  <li>
+    <strong>Actualizaciones sin interrupción:</strong> Realizamos mejoras y actualizaciones del sistema de manera controlada y progresiva, sin afectar la disponibilidad general del ERP ni los servicios activos del cliente.
+  </li>
+  <li>
+    <strong>Mantenimiento evolutivo:</strong> No solo damos soporte técnico, también acompañamos el crecimiento del negocio implementando mejoras funcionales y tecnológicas a medida que surgen nuevas necesidades.
+  </li>
+  <li>
+    <strong>Monitorización preventiva:</strong> Nuestro sistema detecta comportamientos anómalos o cuellos de botella antes de que se conviertan en problemas, permitiendo respuestas proactivas y mantenimientos predictivos.
+  </li>
+  <li>
+    <strong>Escalamiento técnico avanzado:</strong> Cualquier problema técnico que supere el soporte inicial es escalado inmediatamente a ingenieros de infraestructura o desarrollo según el caso.
+  </li>
+  <li>
+    <strong>Historial de soporte y trazabilidad:</strong> Cada intervención es registrada y documentada, brindando transparencia y control sobre el mantenimiento del sistema.
+  </li>
+</ul>
+
+<p class="mb-1">
+  Nuestro compromiso es que su empresa nunca se detenga. Gracias a nuestra infraestructura en la nube, sistemas de respaldo y atención técnica continua, podemos garantizar <strong>alta disponibilidad operacional</strong> incluso en escenarios críticos.
+</p>
+      </div>
+    </div>
+  </div>
+
+</div>

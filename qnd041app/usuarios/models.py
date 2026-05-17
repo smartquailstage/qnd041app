@@ -77,14 +77,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     sector_negocios = models.CharField(max_length=100, choices=SECTORES,null=True, blank=True)
 
     phone_regex = RegexValidator(
-        regex=r'^\+?593?\d{9,15}$',
-        message="El número de teléfono debe estar en formato internacional. Ejemplo: +593XXXXXXXXX."
+    regex=r'^593\d{9}$',
+    message="El número debe tener el formato 593XXXXXXXXX (ej: 593963521262)."
     )
-    telefono = PhoneNumberField(
-        verbose_name="Teléfono convencional de contacto",
-        validators=[phone_regex],
-        default='+593',
-        unique=True  # quitar la restricción
+    
+    telefono = models.CharField(
+    verbose_name="Teléfono convencional de whatsapp",
+    max_length=15,
+    unique=True,
+    help_text="El número debe tener el formato 593XXXXXXXXX (ej: 593963521262)."
     )
 
 

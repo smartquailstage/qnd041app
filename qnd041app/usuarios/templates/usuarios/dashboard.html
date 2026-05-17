@@ -10,18 +10,26 @@
   <!-- start page content-->
   <div class="page-content">
 
-  <div class="col-md-8">
-    <h2 class="display-4 mt-3">Bienvenido SmartQuail, Inc</h2>
-    <p id="typewriter" style="color:#fff;"> <ion-icon name="chatbox-ellipses-outline"></ion-icon></p>
-  </div>
 
-
-    <div class="col-md-8">
-    <h2 class="display-4 mt-3">ITC Business Products </h2>
-  </div>
   
     <div class="card radius-10">
       <div class="card-body">
+
+        <div class="col-md-8">
+          <h2 class="display-4 mt-3"><ion-icon name="home-outline"></ion-icon> Bienvenido {{ request.user.first_name }} a Negocios ITC de  SmartQuail, Inc</h2>
+          <hr>
+          <p><ion-icon name="information-circle-outline"></ion-icon> Negocios ITC es una plataforma especializada en la creación, desarrollo, implementación, gestión y administración de activos tecnológicos empresariales en entornos de nube nativa (ITC).
+
+            Para comenzar, le recomendamos explorar las soluciones tecnológicas disponibles y seleccionar aquellas que mejor se adapten a las necesidades y objetivos tecnológicos de su organización.</p>
+        </div>
+      <hr>
+      
+          <div class="col-md-8">
+          <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones ITC </h2>
+        </div>
+
+      <hr>
+
 <div class="row row-cols-1 row-cols-lg-3">
 
 <a href="{% url 'saas_shop:product_list' %}">
@@ -31,9 +39,9 @@
                    <div class="service-box bg-white text-primary">
                     <ion-icon name="browsers-outline"></ion-icon>
                    </div>
-                   <h5>Business Software</h5>
+                   <h5>Aplicaciones</h5>
                    <p class="mb-0">
-                   Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
+                    <ion-icon name="information-circle-outline"></ion-icon> Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
                    Relaciones con Clientes (CRM).
                    </p>
                 </div>
@@ -41,7 +49,7 @@
             </div>
 </a>
 
-<a href="{% url 'saas_shop:product_list' %}">
+<a href="{% url 'paas_shop:product_list' %}">
 
             <div class="col">
               <div class="card radius-10 bg-primary">
@@ -49,38 +57,23 @@
                    <div class="service-box bg-white text-primary">
                    <ion-icon name="grid-outline"></ion-icon>
                    </div>
-                   <h5>Business Platforms  </h5>
+                   <h5>Plataformas </h5>
                    <p class="mb-0">
-                    Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
+                    <ion-icon name="information-circle-outline"></ion-icon>  Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
                    </p>
                 </div>
               </div>
             </div>
 </a>
 
-<a href="{% url 'saas_shop:product_list' %}">
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                    <ion-icon name="cube-outline"></ion-icon>
-                   </div>
-                   <h5>Business Infrastructure</h5>
-                   <p class="mb-0">
-                    Adquiere independencia y soberanía digital con tu propia infraestructura en la nube, totalmente configurada para gestionar tus procesos sin depender de servidores públicos dedicados.
-                    </p>
-                </div>
-              </div>
-            </div>
-</a>
 
 
          </div>
-
+<hr>
   <div class="col-md-8">
-    <h2 class="display-4 mt-3">Business Inteligente News </h2>
+    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación</h2>
   </div>
-
+<hr>
 
        <div class="row row-cols-1 row-cols-lg-3 g-4">
 

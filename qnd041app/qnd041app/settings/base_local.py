@@ -556,6 +556,26 @@ UNFOLD = {
             },
 
             {
+                "title": _("Convenios aplicativos"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_coupons_coupon_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Convenios plataformas"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_coupons_coupon_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+            
+
+            {
                 "title": _("Ordenes (SaaP)"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:saas_orders_saasorder_changelist"),

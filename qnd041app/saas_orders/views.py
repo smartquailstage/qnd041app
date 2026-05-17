@@ -124,14 +124,14 @@ def admin_order_pdf(request, order_id):
     qr = qrcode.QRCode(
     version=3,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=2,
+    box_size=3,
     border=1,
     )
     
     qr_data = f"https://{domain}{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
     qr.add_data(qr_data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color="#4d4d4d", back_color="#E5E1E1")
+    img = qr.make_image(fill_color="#b50f15", back_color="#E5E1E1")
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")
     qr_base64 = base64.b64encode(buffer.getvalue()).decode()

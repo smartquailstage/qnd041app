@@ -170,8 +170,36 @@ def preview_account_activation_email(request):
     })
 
 
+from business_customer_projects.models import BusinessSystemProject
+from saas_orders.models import SaaSOrder
+from paas_orders.models import PaaSOrder
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 
+@login_required
+def activos_licencias(request):
+
+    activos = BusinessSystemProject.objects.filter(
+        user=request.user,
+        is_active=True
+    )
+
+    orders_saas = SaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True
+    )
+
+    orders_paas = PaaSOrder.objects.filter(
+        user=request.user,
+        is_active=True
+    )
+
+    return render(request, "usuarios/activos_licencias.html", {
+        "activos": activos,
+        "orders_saas": orders_saas,
+        "orders_paas": orders_paas
+    })
 
 # usuarios/views.py
 from django.contrib import messages
@@ -568,6 +596,7 @@ def settings(request):
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
+from paas_orders.models import PaaSOrder
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
@@ -586,6 +615,11 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         ).order_by('-created_at')
 
         context["orders"] = SaaSOrder.objects.filter(
+            user=self.request.user,
+            is_active=True
+        ).order_by('-created')
+
+        context["orders_paas"] = PaaSOrder.objects.filter(
             user=self.request.user,
             is_active=True
         ).order_by('-created')

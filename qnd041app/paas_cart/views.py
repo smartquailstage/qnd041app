@@ -9,8 +9,6 @@ from django.contrib.auth.decorators import login_required
 
 
 
-
-
 @login_required
 @require_POST
 def cart_add(request, product_id):
@@ -29,13 +27,23 @@ def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
-    return redirect('paas_cart:cart_detail')
+    return redirect('paas_shop:product_list')
 
 
 from django.contrib.messages import get_messages
 
 from paas_coupons.models import Coupon
 from paas_coupons.forms import CouponApplyForm
+
+
+def cart_clear(request):
+    cart = request.session.get('paas_cart', {})
+
+    cart.clear()
+    request.session['paas_cart'] = cart
+    request.session.modified = True
+
+    return redirect('paas_shop:product_list')
 
 
 def cart_detail(request):

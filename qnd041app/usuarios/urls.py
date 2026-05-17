@@ -32,6 +32,7 @@ urlpatterns = [
     path("dashboard/enterprise/", views.dashboard_enterprise, name="dashboard_enterprise"),
     path("dashboard/user/", views.dashboard_pather, name="dashboard_pather"),
     path('change-password/', views.change_password, name='change_password'),
+    path('activos_licencias/', views.activos_licencias, name='activos_licencias'),
 
     path(
         'politicas-terminos/',

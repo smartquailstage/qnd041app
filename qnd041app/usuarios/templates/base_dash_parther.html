@@ -108,6 +108,63 @@
   <script src="{% static 'assets/js/main.js' %}"></script>
 
 
+  <script>
+    const logs = [
+      "Negocios (ITC) Ecuador",
+    ];
+    
+    
+    const container = document.getElementById('ticker');
+    const typingSpeed = 15; // velocidad de escritura (ms por letra)
+    const linePause = 400;  // pausa entre líneas
+    let currentLog = 0;
+    let charIndex = 0;
+    let cursor = document.querySelector('.cursor');
+    let currentLine = container.querySelector('.line');
+    
+    function getLogClass(log) {
+      if (log.includes('ERROR')) return 'error';
+      if (log.includes('WARN')) return 'warn';
+      return 'info';
+    }
+    
+    function typeLogs() {
+  
+      const logText = logs[currentLog];
+      const logClass = getLogClass(logText);
+    
+      if (charIndex === 0) {
+        currentLine.classList.add(logClass, 'visible');
+      }
+    
+      currentLine.textContent = logText.slice(0, charIndex + 1);
+      currentLine.appendChild(cursor);
+    
+      container.scrollTop = container.scrollHeight;
+    
+      charIndex++;
+    
+      if (charIndex < logText.length) {
+        setTimeout(typeLogs, typingSpeed);
+      } else {
+        currentLog++;
+        charIndex = 0;
+        setTimeout(() => {
+          const newLine = document.createElement('div');
+          newLine.className = 'line';
+          container.appendChild(newLine);
+          setTimeout(() => newLine.classList.add('visible'), 50);
+          currentLine = newLine;
+          typeLogs();
+        }, linePause);
+      }
+    }
+    
+    // iniciar animación
+    typeLogs();
+    </script>
+
+
 
 
 

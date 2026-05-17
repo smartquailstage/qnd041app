@@ -282,8 +282,8 @@ class PaaSOrderAdmin(ModelAdmin):
     list_display = [
         'id', 'first_name', 'last_name', 'email',
         'ruc', 'razon_social', 'telefono', 'paid',
-        order_pdf, order_ebook,
-        'signed_contract_ip', 'signed_contract_dev', 'signed_contract_cloud'
+        order_pdf, order_ebook,contract_ip,
+        #'signed_contract_ip', 'signed_contract_dev', 'signed_contract_cloud'
     ]
 
     list_filter = ['paid', 'is_active', 'terms_accepted', 'created', 'updated']
@@ -294,7 +294,7 @@ class PaaSOrderAdmin(ModelAdmin):
     readonly_fields = [
         'contract_hash_ip', 'contract_hash_dev', 'contract_hash_cloud',
         'contract_signed_at_ip', 'contract_signed_at_dev', 'contract_signed_at_cloud',
-        'created', 'updated'
+        'created', 'updated',
     ]
 
     # -------------------------------
@@ -324,6 +324,7 @@ class PaaSOrderAdmin(ModelAdmin):
         }),
         ('Contratos CLOUD', {
             'fields': (
+                
                 'signed_contract_cloud', 'contract_signed_at_cloud',
                 'contract_verified_cloud', 'contract_hash_cloud'
             ),
@@ -331,7 +332,7 @@ class PaaSOrderAdmin(ModelAdmin):
         }),
         ('Pagos y Descuentos', {
             'fields': (
-                'paid', 'force_paid', 'braintree_id', 'coupon', 'discount'
+                'paid', 'force_paid', 'braintree_id', 'coupon', 'discount',
             ),
             'classes': ('unfold', 'tab-payment'),
         }),
@@ -346,6 +347,3 @@ class PaaSOrderAdmin(ModelAdmin):
             'classes': ('unfold', 'tab-dates'),
         }),
     )
-
-    # Permite collapse/expand dentro de cada tab
-    unfold_fieldsets = True

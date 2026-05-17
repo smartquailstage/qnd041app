@@ -95,7 +95,7 @@ position: fixed;
   left: 0;
   width: 180px;
   height: 100%;
-  background-color:#2e2e2e;
+  background-color:#282829;
   background-clip: padding-box;
   border-right: 0px solid #f8fafb;
   transition: all .2s;
@@ -114,7 +114,7 @@ position: fixed;
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color:#2e2e2e;
+  background-color:#282829;
   border-right: 0px solid #e2e3e4;
   border-bottom: 1px solid #2e2e2e;
   transition: all .2s;
@@ -165,7 +165,7 @@ position: fixed;
 	display: -ms-flexbox;
 	display: flex;
 	padding: 0px;
-	margin-top: 30px;
+	margin-top: 44px;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
 	-ms-flex-direction: column;
@@ -461,7 +461,7 @@ position: fixed;
 }
 
 .top-header .navbar .top-navbar-right .nav-link {
-    color:#717a7b;
+    color:#f7a84f;
     font-size: 18px;
     font-weight: 500;
     padding-right: .7rem;
@@ -781,8 +781,8 @@ position: fixed;
 
 .footer {
   position: absolute;
-  left: 260px;
-  right: 0;
+  left: 27px;
+  right: -10px;
   bottom: 0px;
   padding: 0.7rem;
   color: #bdbdbd;
@@ -1031,7 +1031,7 @@ position: fixed;
 
 
 .user-change-photo {
-	background-color: #ffffff;
+	background-color: #ffab4d;
     width: 140px;
     height: 140px;
     border-radius: 50%;

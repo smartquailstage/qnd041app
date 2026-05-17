@@ -68,6 +68,9 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('paas_shop:product_list_by_category', args=[self.slug])
 
+
+from saas_shop.models import Product
+
 class Suite(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
@@ -84,11 +87,19 @@ class Suite(models.Model):
         ('SmartBusinessLaw® (I+D+A+AI)', 'SmartBusinessLaw® (I+D+A+AI)'),
     ]
 
-    suite = models.CharField(choices=SUITES, null=True, blank=True, max_length=200)
+    suite = models.ManyToManyField(Product, null=True, blank=True, max_length=200)
 
 
     def __str__(self):
-        return self.suite
+        return self.name
+
+
+
+from decimal import Decimal
+from django.db import models
+from django.urls import reverse
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 
 
@@ -108,12 +119,12 @@ class Product(models.Model):
         ('10-20', 'Latencia óptima (10–20 ms)'),
     ]
     USUARIOS_SIMULTANEOS_CHOICES = [
-        ('10-50', 'Baja concurrencia (10–50 usuarios)'),
-        ('50-150', 'Carga ligera (50–150 usuarios)'),
-        ('150-500', 'Carga media (150–500 usuarios)'),
-        ('500-1000', 'Alta concurrencia (500–1000 usuarios)'),
-        ('1000-5000', 'Carga crítica (1000–5000 usuarios)'),
-        ('5000+', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
+        ('100', 'Baja concurrencia (10–50 usuarios)'),
+        ('300', 'Carga ligera (50–150 usuarios)'),
+        ('500', 'Carga media (150–500 usuarios)'),
+        ('800', 'Alta concurrencia (500–1000 usuarios)'),
+        ('1K', 'Carga crítica (1000–5000 usuarios)'),
+        ('+5K', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
     ]
     NUMERO_PROCESOS_CHOICES = [
         ('5', '5 procesos'),
@@ -140,20 +151,22 @@ class Product(models.Model):
         ('prediccion', 'Agente de IA de predicción'),
         ('segmentacion', 'Agente de IA de segmentación'),
         ('recomendacion', 'Agente de IA de recomendación'),
+        ('generativa', 'IA Generativa'),
     ]
+
+    CLOUDE_CHOICES = [
+        ('pública y compartida', 'pública y compartida'),
+        ('pública  y Dedicada', 'pública  y Dedicada'),
+        ('Híbrida', 'Híbrida'),
+        ('Privada y Dedicada', 'Privada y Dedicada'),
+    ]
+
 
 
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-
-    suite = models.ManyToManyField(
-        Suite,
-        blank=True,
-        related_name='products'
-    )
-
-    
+    cloud_type = models.CharField(choices=CLOUDE_CHOICES, null=True, blank=True,max_length=200)
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
@@ -167,9 +180,11 @@ class Product(models.Model):
     ancho_banda = models.IntegerField(verbose_name="Ancho de Banda (Mbps)", null=True, blank=True)
     memoria = models.IntegerField(verbose_name="Memoria (GB)", null=True, blank=True)
 
+
     is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
     is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
     is_intelligent = models.BooleanField(default=True, verbose_name="Tiene inteligencia artificial")
+    is_gpu = models.BooleanField(default=True, verbose_name="Usa procesamiento Grafico")
 
     iva = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="IVA (%)", null=True, blank=True)
 
@@ -177,12 +192,15 @@ class Product(models.Model):
     item2 = models.CharField(max_length=200, null=True, blank=True)
     item3 = models.CharField(max_length=200, null=True, blank=True)
 
-    image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
-    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
-    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Logo de producto")
+    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - Horizontal")
+    image_2_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - vertical")
+    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de producto")
+    image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion")
 
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
+    vence_en = models.DateTimeField(null=True, blank=True)
 
     software = models.CharField(choices=SOFTWARE_CHOICES, null=True, blank=True,max_length=200)
     numero_procesos = models.CharField(max_length=5, choices=NUMERO_PROCESOS_CHOICES, default='5', null=True, blank=True)
@@ -205,6 +223,7 @@ class Product(models.Model):
     total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     # Costos Automatizacion
+    tiempo_implementacion_a = models.FloatField(verbose_name="Horas Implementación automatización", null=True, blank=True)
     costo_nodos = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_orquestacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_conectores_terceros = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
@@ -219,6 +238,7 @@ class Product(models.Model):
 
 
     # Costos Agente AI
+    tiempo_implementacion_ai = models.FloatField(verbose_name="Horas Implementación inteligencia", null=True, blank=True)
     costo_entrenamiento = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_inferencia = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_mantenimiento_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
@@ -236,7 +256,9 @@ class Product(models.Model):
 
     costo_cpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_bucket_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_memory_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_balanceador_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_gpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     costo_total_nube = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     margen_sq_nube = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
@@ -252,26 +274,29 @@ class Product(models.Model):
     total_arch = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_arch_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
+    total_tiempo = models.DecimalField(
+    max_digits=5, decimal_places=2, default=6.30, verbose_name="Tiempo de Entrega",null=True, blank=True)
+
     # Nuevos campos
     # === Kushki / Pasarela de pagos ===
     kushki_credit_percentage = models.DecimalField(
     max_digits=5, decimal_places=2, default=6.30, verbose_name="Kushki % Crédito",null=True, blank=True)
-    
+
     kushki_credit_fixed = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     default=Money(0.50, 'USD'), verbose_name="Kushki fijo Crédito",null=True, blank=True)
 
     kushki_debit_percentage = models.DecimalField(
     max_digits=5, decimal_places=2, default=4.04, verbose_name="Kushki % Débito",null=True, blank=True)
-    
+
     kushki_debit_fixed = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     default=Money(0.50, 'USD'), verbose_name="Kushki fijo Débito",null=True, blank=True)
-    
+
     kushki_credit_cost = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     null=True, blank=True, editable=False)
-    
+
     kushki_debit_cost = MoneyField(
     max_digits=14, decimal_places=2, default_currency='USD',
     null=True, blank=True, editable=False)
@@ -281,17 +306,20 @@ class Product(models.Model):
     ('credit', 'Tarjeta de Crédito'),
     ('debit', 'Tarjeta de Débito'),
     ]
-    
+
     payment_method = models.CharField(
     max_length=10, choices=PAYMENT_METHODS, default='credit'
     )
 
-    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True) 
+    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    valor_total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     inversion_marketing = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_horas_entrega =  models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    subtotal = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-    
+
 
 
     def get_totals(self):
@@ -331,117 +359,452 @@ class Product(models.Model):
             return Money(0, 'USD')
 
     def save(self, *args, **kwargs):
-        # 1) Desarrollo e implementación
-        costo_dev = Decimal(self.tiempo_desarrollo or 0) * self._safe_money(self.costo_hora_desarrollo).amount
-        self.costo_total_desarrollo = Money(costo_dev, 'USD')
+        iva_factor = Decimal(self.iva or 0) / Decimal('100')
 
+        # =========================
+        # 1) DESARROLLO
+        # =========================
+        costo_dev = Decimal(self.tiempo_desarrollo or 0) * self._safe_money(self.costo_hora_desarrollo).amount
         costo_impl = Decimal(self.tiempo_implementacion or 0) * self._safe_money(self.costo_hora_implementacion).amount
+
+
+
+        self.costo_total_desarrollo = Money(costo_dev, 'USD')
         self.costo_project_management = Money(costo_impl, 'USD')
 
-        margen_dev = costo_dev * Decimal('0.15')
-        margen_impl = costo_impl * Decimal('0.10')
+        margen_dev = costo_dev * Decimal('0.65')
+        margen_impl = costo_impl * Decimal('0.35')
+
         self.margen_sq = round(margen_dev + margen_impl, 2)
 
-        total_devimpl = costo_dev + costo_impl + Decimal(self.margen_sq or 0)
-        self.total = Money(total_devimpl, 'USD')
+        total_dev = costo_dev + costo_impl + Decimal(self.margen_sq or 0)
+        self.total = Money(total_dev, 'USD')
+        self.total_iva = Money(total_dev * (1 + iva_factor), 'USD')
 
-        iva_factor = Decimal(self.iva or 0) / Decimal('100')
-        self.total_iva = Money(total_devimpl * (1 + iva_factor), 'USD')
 
-        # 2) Nube
-        costo_nube = (
-            self._safe_money(self.costo_cpu_mes).amount +
-            self._safe_money(self.costo_bucket_mes).amount +
-            self._safe_money(self.costo_balanceador_mes).amount
+            # =========================
+            # 2) AUTOMATIZACIÓN (n8n)
+            # =========================
+        tiempo_total =(
+           Decimal(self.tiempo_desarrollo or 0) +
+           Decimal(self.tiempo_implementacion or 0)+
+           Decimal(self.tiempo_implementacion_a or 0)+
+           Decimal(self.tiempo_implementacion_ai or 0) +
+           Decimal(self.tiempo_arquitectura or 0)
         )
+
+        self.total_tiempo = tiempo_total
+
+        costo_auto = (
+                self._safe_money(self.costo_nodos).amount +
+                self._safe_money(self.costo_orquestacion).amount +
+                self._safe_money(self.costo_conectores_terceros).amount
+        )
+
+
+
+        self.costo_total_n8n = Money(costo_auto, 'USD')
+
+        self.margen_sq_n8n = round(costo_auto * Decimal('0.20'), 2)
+
+        total_n8n_val = costo_auto + Decimal(self.margen_sq_n8n or 0)
+
+        self.total_n8n = Money(total_n8n_val, 'USD')
+        self.total_n8n_iva = Money(total_n8n_val * (1 + iva_factor), 'USD')
+
+        costo_ml = (
+        self._safe_money(self.costo_entrenamiento).amount +
+        self._safe_money(self.costo_inferencia).amount +
+        self._safe_money(self.costo_mantenimiento_ml).amount
+        )
+
+        self.costo_total_ml = Money(costo_ml, 'USD')
+
+        self.margen_sq_ml = round(costo_ml * Decimal('0.25'), 2)
+
+        total_ml_val = costo_ml + Decimal(self.margen_sq_ml or 0)
+
+        self.total_ml = Money(total_ml_val, 'USD')
+        self.total_ml_iva = Money(total_ml_val * (1 + iva_factor), 'USD')
+
+        costo_nube = (
+        self._safe_money(self.costo_cpu_mes).amount +
+        self._safe_money(self.costo_bucket_mes).amount +
+        self._safe_money(self.costo_memory_mes).amount +
+        self._safe_money(self.costo_balanceador_mes).amount +
+        self._safe_money(self.costo_gpu_mes).amount
+        )
+
+        costo_id_a_ai = (
+        self._safe_money(self.total_ml).amount +
+        self._safe_money(self.total_n8n).amount +
+        self._safe_money(self.total).amount )
+
         self.costo_total_nube = Money(costo_nube, 'USD')
         self.margen_sq_nube = round(costo_nube * Decimal('0.20'), 2)
         total_nube_val = costo_nube + Decimal(self.margen_sq_nube or 0)
+
+        self.subtotal =  Money(costo_id_a_ai, 'USD')
+
         self.total_nube = Money(total_nube_val, 'USD')
         self.total_nube_iva = Money(total_nube_val * (1 + iva_factor), 'USD')
 
-        # 3) Arquitectura
+    # =========================
+    # 5) ARQUITECTURA
+    # =========================
         costo_arch = Decimal(self.tiempo_arquitectura or 0) * self._safe_money(self.costo_hora_arquitectura).amount
         costo_sre_val = self._safe_money(self.costo_sre).amount
-        costo_arch_total = costo_arch + costo_sre_val
 
-        self.margen_sq_arch = round(costo_arch_total * Decimal('0.10'), 2)
-        total_arch_val = costo_arch_total + Decimal(self.margen_sq_arch or 0)
+        total_arch_cost = costo_arch + costo_sre_val
+
+        self.margen_sq_arch = round(total_arch_cost * Decimal('0.10'), 2)
+
+        total_arch_val = total_arch_cost + Decimal(self.margen_sq_arch or 0)
+
         self.total_arch = Money(total_arch_val, 'USD')
         self.total_arch_iva = Money(total_arch_val * (1 + iva_factor), 'USD')
-        
+
+    # =========================
+    # 6) BASE PRICE (SUMA REAL)
+    # =========================
         base_price = sum([
-            self._safe_money(self.total_iva).amount,      # Desarrollo + Implementación
-            self._safe_money(self.total_n8n_iva).amount,  # Automatizaciones n8n
-            self._safe_money(self.total_ml_iva).amount,   # IA / ML
-            ], Decimal('0'))
-            
+        self._safe_money(self.total).amount,
+        self._safe_money(self.total_n8n).amount,
+        self._safe_money(self.total_ml).amount,
+        ], Decimal('0'))
+
+    # =========================
+    # 7) KUSHKI
+    # =========================
         if self.payment_method == 'debit':
-            kushki_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
-            kushki_fixed = self._safe_money(self.kushki_debit_fixed).amount
-        else:  # credit (default)
-            kushki_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
-            kushki_fixed = self._safe_money(self.kushki_credit_fixed).amount
-            
-        kushki_cost = (base_price * kushki_percent) + kushki_fixed
-            
-        final_price = base_price + kushki_cost
+            percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
+            fixed = self._safe_money(self.kushki_debit_fixed).amount
+        else:
+            percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
+            fixed = self._safe_money(self.kushki_credit_fixed).amount
+
+        kushki_cost = (base_price * percent) + fixed
+
+        self.kushki_credit_cost = Money(
+        (base_price * (Decimal(self.kushki_credit_percentage or 0) / 100)) +
+        self._safe_money(self.kushki_credit_fixed).amount,
+        'USD'
+        )
+
+        self.kushki_debit_cost = Money(
+        (base_price * (Decimal(self.kushki_debit_percentage or 0) / 100)) +
+        self._safe_money(self.kushki_debit_fixed).amount,
+        'USD'
+        )
+
+    # =========================
+    # 8) PRECIO FINAL ✅
+    # =========================
+        final_price = base_price
+
         self.price = Money(final_price, 'USD')
         self.price_amount = final_price
-            
-        self.price = Money(base_price, 'USD')
-        self.price_amount = base_price
-            
 
-        # 5) Utilidad Bruta (suma de márgenes)
-        total_margen = Decimal(self.margen_sq or 0) + Decimal(self.margen_sq_nube or 0) + Decimal(self.margen_sq_arch or 0)
+    # =========================
+    # 9) UTILIDAD
+    # =========================
+        total_margen = (
+        Decimal(self.margen_sq or 0) +
+        Decimal(self.margen_sq_n8n or 0) +
+        Decimal(self.margen_sq_ml or 0) +
+        Decimal(self.margen_sq_nube or 0) +
+        Decimal(self.margen_sq_arch or 0)
+        )
+
         self.utilidad_bruta = total_margen
 
-        # 6) Valor deducible de impuestos (total_iva - 15%)
         iva_deducible = self._safe_money(self.total_iva).amount * Decimal('0.85')
         self.valor_deducible_iva = Money(iva_deducible, 'USD')
 
-        # 7) Utilidad líquida = utilidad_bruta - inversion_marketing
         utilidad_liquida_val = total_margen - self._safe_money(self.inversion_marketing).amount
         self.utilidad_liquida = Money(utilidad_liquida_val, 'USD')
-
-        # === 4) Costos Kushki (pasarela de pago) ===
-        # Base: total antes de Kushki
-        
-        base_amount = base_price
-        # Crédito
-        
-        kushki_credit_percent = Decimal(self.kushki_credit_percentage or 0) / Decimal('100')
-        kushki_credit_cost_val = (
-            base_amount * kushki_credit_percent
-            + self._safe_money(self.kushki_credit_fixed).amount
-            )
-        self.kushki_credit_cost = Money(kushki_credit_cost_val, 'USD')
-        
-        # Débito
-        
-        kushki_debit_percent = Decimal(self.kushki_debit_percentage or 0) / Decimal('100')
-        kushki_debit_cost_val = (
-            base_amount * kushki_debit_percent
-            + self._safe_money(self.kushki_debit_fixed).amount
-            )
-        self.kushki_debit_cost = Money(kushki_debit_cost_val, 'USD')
-
-
-        self.price_amount = self.price.amount if self.price else None
-
-        # Precio final según medio de pago
-        price_with_credit = base_amount + kushki_credit_cost_val
-        price_with_debit = base_amount + kushki_debit_cost_val
-
-
-
         super().save(*args, **kwargs)
 
+
+
+
     def __str__(self):
-        return f"Name: {self.name}, Usuarios: {self.usuarios_simultaneos}, Price: {self.price}"
+        return f"{self.name}, {self.software}, Inversión: {self.price}"
 
 
 
     def get_absolute_url(self):
         return reverse('paas_shop:product_detail', args=[self.id, self.slug])
+
+
+    # =========================
+    # CHOICES
+    # =========================
+    SOFTWARE_CHOICES = [
+        ('Baja', 'disponibilidad Baja'),
+        ('Mediana', 'disponibilidad Mediana'),
+        ('Alta', 'disponibilidad Alta'),
+        ('Muy Alta', 'disponibilidad Muy Alta'),
+    ]
+
+    LATENCIA_CHOICES = [
+        ('500-800', 'Alta latencia'),
+        ('300-500', 'Latencia elevada'),
+        ('100-300', 'Latencia aceptable'),
+        ('50-100', 'Baja latencia'),
+        ('20-50', 'Muy baja latencia'),
+        ('10-20', 'Óptima'),
+    ]
+
+    USUARIOS_SIMULTANEOS_CHOICES = [
+        ('10-50', '10–50'),
+        ('50-150', '50–150'),
+        ('150-500', '150–500'),
+        ('500-1000', '500–1000'),
+        ('1000-5000', '1000–5000'),
+        ('5000+', '5000+'),
+    ]
+
+    NUMERO_PROCESOS_CHOICES = [
+        ('5', '5'),
+        ('10', '10'),
+        ('20', '20'),
+        ('40', '40'),
+        ('80', '80'),
+        ('100', '100'),
+        ('200+', '200+'),
+    ]
+
+    PAYMENT_METHODS = [
+        ('credit', 'Crédito'),
+        ('debit', 'Débito'),
+    ]
+
+    # =========================
+    # BASIC
+    # =========================
+    name = models.CharField(max_length=200, null=True, blank=True)
+    slug = models.SlugField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    suite = models.ForeignKey('Suite', on_delete=models.CASCADE, null=True, blank=True, related_name='products')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, related_name='products')
+
+    available = models.BooleanField(default=True)
+
+    # =========================
+    # FLAGS (ADMIN FIX)
+    # =========================
+    cloud_type = models.CharField(max_length=100, null=True, blank=True)
+    is_gpu = models.BooleanField(default=False)
+
+    is_reaserch = models.BooleanField(default=True)
+    is_automatitation = models.BooleanField(default=True)
+    is_intelligent = models.BooleanField(default=True)
+
+    # =========================
+    # TECH
+    # =========================
+    os = models.CharField(max_length=100, null=True, blank=True)
+    gpu = models.CharField(max_length=100, null=True, blank=True)
+    cpu = models.IntegerField(null=True, blank=True)
+    memoria = models.IntegerField(null=True, blank=True)
+    almacenamiento = models.IntegerField(null=True, blank=True)
+    ancho_banda = models.IntegerField(null=True, blank=True)
+
+    software = models.CharField(max_length=200, choices=SOFTWARE_CHOICES, null=True, blank=True)
+    numero_procesos = models.CharField(max_length=10, choices=NUMERO_PROCESOS_CHOICES, null=True, blank=True)
+    automatizacion = models.CharField(max_length=200, null=True, blank=True)
+    inteligencia_artificial = models.CharField(max_length=200, null=True, blank=True)
+    latencia_aproximada = models.CharField(max_length=20, choices=LATENCIA_CHOICES, null=True, blank=True)
+    usuarios_simultaneos = models.CharField(max_length=20, choices=USUARIOS_SIMULTANEOS_CHOICES, null=True, blank=True)
+
+    # =========================
+    # IMAGES
+    # =========================
+    image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image_2_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+    image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True)
+
+    # =========================
+    # ITEMS
+    # =========================
+    item1 = models.CharField(max_length=200, null=True, blank=True)
+    item2 = models.CharField(max_length=200, null=True, blank=True)
+    item3 = models.CharField(max_length=200, null=True, blank=True)
+
+    # =========================
+    # COSTOS CLOUD
+    # =========================
+    costo_cpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_memory_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_gpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_bucket_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_balanceador_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # TIEMPOS
+    # =========================
+    tiempo_desarrollo = models.FloatField(null=True, blank=True)
+    tiempo_implementacion = models.FloatField(null=True, blank=True)
+    tiempo_implementacion_a = models.FloatField(null=True, blank=True)
+    tiempo_implementacion_ai = models.FloatField(null=True, blank=True)
+    tiempo_arquitectura = models.FloatField(null=True, blank=True)
+    total_tiempo = models.FloatField(null=True, blank=True)
+
+    # =========================
+    # DESARROLLO COSTOS
+    # =========================
+    costo_hora_desarrollo = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_total_desarrollo = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    costo_hora_implementacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_project_management = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # AUTOMATIZACIÓN / IA
+    # =========================
+    costo_nodos = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_orquestacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_conectores_terceros = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    costo_entrenamiento = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_inferencia = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_mantenimiento_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # NUBE
+    # =========================
+    costo_total_nube = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # ARQUITECTURA
+    # =========================
+    costo_hora_arquitectura = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_sre = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # MÁRGENES
+    # =========================
+    margen_sq = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_nube = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_arch = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+
+    # =========================
+    # TOTALES
+    # =========================
+    total = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_n8n_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_ml_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    total_nube = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_nube_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    total_arch = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    total_arch_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # KUSHKI
+    # =========================
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS, default='credit')
+
+    kushki_credit_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    kushki_debit_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    kushki_credit_fixed = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    kushki_debit_fixed = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    kushki_credit_cost = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    kushki_debit_cost = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    # =========================
+    # FINANZAS
+    # =========================
+    subtotal = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+
+    utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    utilidad_liquida = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    # =========================
+    # SAFE MONEY
+    # =========================
+    def _safe_money(self, val):
+        try:
+            return val if val else Money(0, 'USD')
+        except:
+            return Money(0, 'USD')
+
+
+    def save(self, *args, **kwargs):
+
+        iva_factor = Decimal(self.iva or 0) / Decimal('100')
+
+        # =========================
+        # CLOUD
+        # =========================
+        costo_nube = sum([
+            self._safe_money(self.costo_cpu_mes).amount,
+            self._safe_money(self.costo_memory_mes).amount,
+            self._safe_money(self.costo_gpu_mes).amount,
+            self._safe_money(self.costo_bucket_mes).amount,
+            self._safe_money(self.costo_balanceador_mes).amount,
+        ], Decimal('0'))
+
+        self.costo_total_nube = Money(costo_nube, 'USD')
+        self.margen_sq_nube = costo_nube * Decimal('0.20')
+        total_nube = costo_nube + self.margen_sq_nube
+        self.total_nube = Money(total_nube, 'USD')
+        self.total_nube_iva = Money(total_nube * (1 + iva_factor), 'USD')
+
+        # =========================
+        # BASE
+        # =========================
+        base_price = sum([
+            self._safe_money(self.total_iva).amount,
+            self._safe_money(self.total_n8n_iva).amount,
+            self._safe_money(self.total_ml_iva).amount,
+        ], Decimal('0'))
+
+        self.subtotal = Money(base_price, 'USD')
+
+        # =========================
+        # KUSHKI
+        # =========================
+        if self.payment_method == 'debit':
+            percent = Decimal(self.kushki_debit_percentage or 0) / 100
+            fixed = self._safe_money(self.kushki_debit_fixed).amount
+        else:
+            percent = Decimal(self.kushki_credit_percentage or 0) / 100
+            fixed = self._safe_money(self.kushki_credit_fixed).amount
+
+        kushki_cost = (base_price * percent) + fixed
+
+        self.price = Money(base_price + kushki_cost, 'USD')
+        self.price_amount = base_price + kushki_cost
+
+        # =========================
+        # RENTABILIDAD
+        # =========================
+        self.utilidad_bruta = (
+            Decimal(self.margen_sq or 0) +
+            Decimal(self.margen_sq_nube or 0) +
+            Decimal(self.margen_sq_arch or 0)
+        )
+
+        super().save(*args, **kwargs)

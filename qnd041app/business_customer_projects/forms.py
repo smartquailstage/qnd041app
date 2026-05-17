@@ -136,7 +136,7 @@ class BusinessSystemProjectForm(forms.ModelForm):
 
         help_texts = {
             'name': 'Asigne un nombre representativo a su proyecto IT Cloud.',
-            'is_domain_configured': 'Marque esta opción si desea configurar un dominio privado asociado al proyecto.',
+            'is_domain_configured': 'Marque esta opción si dispone de un dominio privado y desea asociarlo al activo correspondiente.',
             'domain_name': 'Ingrese el dominio privado que desea usar (solo si selecciona la opción anterior).',
         }
 

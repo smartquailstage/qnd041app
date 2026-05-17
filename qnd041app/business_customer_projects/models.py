@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from usuarios.models  import SmartQuailCrew
 from saas_shop.models import Product
+from paas_shop.models import Product as PaaS
 from saas_orders.models import SaaSOrder
+from paas_orders.models import PaaSOrder
 
 
 
@@ -16,13 +18,42 @@ class BusinessSystemProject(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
+    saas_order = models.OneToOneField(
+        SaaSOrder,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="business_project",
+        verbose_name="Asignar licencia Apps"
+    )
+
+
+    paas_order = models.OneToOneField(
+        PaaSOrder,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="business_project_paas",
+        verbose_name="Asiganar licencia Platforms"
+    )
+    
+
     product = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='business_projects',
-        verbose_name='Producto asociado'
+        related_name='product',
+        verbose_name='Asociar Aplicativo'
+    )
+
+    product_paas = models.ForeignKey(
+        PaaS,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='product_paas',
+        verbose_name='Asociar Plataforma'
     )
     usuarios_max = models.IntegerField(default=1, verbose_name='Número máximo de usuarios simultáneos')
     has_automation = models.BooleanField(default=False, verbose_name='¿Incluye automatización?')
@@ -38,14 +69,6 @@ class BusinessSystemProject(models.Model):
 
 
 
-    saas_order = models.OneToOneField(
-        SaaSOrder,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="business_project",
-        verbose_name="Orden SaaS relacionada"
-    )
 
 
     # Nombre y descripción del proyecto
@@ -102,16 +125,16 @@ class BusinessSystemProject(models.Model):
         upload_to="business/logos/rectangular/",
         null=True,
         blank=True,
-        verbose_name="Logotipo rectangular",
-        help_text="Formato recomendado: 4:1 (ancho:alto)"
+        verbose_name="Banner rectangular",
+        help_text="Formato recomendado: 2:4 (ancho:alto)"
     )
 
     logo_cuadrado = models.ImageField(
         upload_to="business/logos/cuadrado/",
         null=True,
         blank=True,
-        verbose_name="Logotipo cuadrado",
-        help_text="Formato recomendado: 1:1 (ancho:alto)"
+        verbose_name="Logotipo rectangular",
+        help_text="Formato recomendado: 4:1 (ancho:alto)"
     )
 
     latencia_aproximada_ms = models.IntegerField(

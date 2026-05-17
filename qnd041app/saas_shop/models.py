@@ -14,14 +14,16 @@ class Category(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name="Tamaño de la Empresa",
+        verbose_name="Tamaño organizacional",
         choices=[
-            ("1-10 usuarios", "pymes"),
-            ("11-50 usuarios", "startups"),
-            ("51-200 usuarios", "enterprises"),
-            ("200+ usuarios", "industrial"),
-        ]
+            ("1-10 usuarios", "PYMES"),
+            ("11-50 usuarios", " STARTUP"),
+            ("51-200 usuarios", "ENTERPRISE"),
+            ("200+ usuarios", "INDUSTRIAL"),
+        ],
+         help_text="Selecciona el tamaño de tu empresa."
     )
+
 
 
     class Meta:
@@ -29,7 +31,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.name or str(self.id)
+        return self.slug or str(self.id)
 
     def get_absolute_url(self):
         return reverse('saas_shop:product_list_by_category', args=[self.slug])
@@ -53,12 +55,12 @@ class Product(models.Model):
         ('10-20', 'Latencia óptima (10–20 ms)'),
     ]
     USUARIOS_SIMULTANEOS_CHOICES = [
-        ('10-50', 'Baja concurrencia (10–50 usuarios)'),
-        ('50-150', 'Carga ligera (50–150 usuarios)'),
-        ('150-500', 'Carga media (150–500 usuarios)'),
-        ('500-1000', 'Alta concurrencia (500–1000 usuarios)'),
-        ('1000-5000', 'Carga crítica (1000–5000 usuarios)'),
-        ('5000+', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
+        ('100', 'Baja concurrencia (10–50 usuarios)'),
+        ('300', 'Carga ligera (50–150 usuarios)'),
+        ('500', 'Carga media (150–500 usuarios)'),
+        ('800', 'Alta concurrencia (500–1000 usuarios)'),
+        ('1K', 'Carga crítica (1000–5000 usuarios)'),
+        ('+5K', 'Alta disponibilidad (>5000 usuarios simultáneos)'),
     ]
     NUMERO_PROCESOS_CHOICES = [
         ('5', '5 procesos'),
@@ -88,11 +90,19 @@ class Product(models.Model):
         ('generativa', 'IA Generativa'),
     ]
 
+    CLOUDE_CHOICES = [
+        ('pública y compartida', 'pública y compartida'),
+        ('pública  y Dedicada', 'pública  y Dedicada'),
+        ('Híbrida', 'Híbrida'),
+        ('Privada y Dedicada', 'Privada y Dedicada'),
+    ]
+
 
 
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    cloud_type = models.CharField(choices=CLOUDE_CHOICES, null=True, blank=True,max_length=200)
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
@@ -105,6 +115,7 @@ class Product(models.Model):
     almacenamiento = models.IntegerField(verbose_name="Almacenamiento (GB)", null=True, blank=True)
     ancho_banda = models.IntegerField(verbose_name="Ancho de Banda (Mbps)", null=True, blank=True)
     memoria = models.IntegerField(verbose_name="Memoria (GB)", null=True, blank=True)
+
 
     is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
     is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
@@ -453,7 +464,7 @@ class Product(models.Model):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name}, {self.software}, Inversión: {self.price}"
 
 
 

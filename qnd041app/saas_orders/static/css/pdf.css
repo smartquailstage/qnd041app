@@ -15,10 +15,10 @@
 
 @page {
   font-family: Pier;
-  margin: 2cm;
+  margin: 0.85cm;
   @bottom-left {
     color: rgb(170, 153, 153) ;
-    content: 'SmartQuail, Inc ® All rights Reserverd';
+    content: 'SmartQuail, Inc - All rights Reserverd ® 2026';
   }
   @bottom-right {
     color: rgb(170, 153, 153);
@@ -56,7 +56,7 @@ aside {
   justify-content: space-between; /* empuja a los extremos */
   margin: 1.5em 1em 1.5em;
   background-color: #E5E1E1;
-  height: 80px;
+  height: 93px;
 }
 
 aside address {
@@ -211,5 +211,5 @@ table#total td:last-child {
 footer {
   content: '';
   display: block;
-  height: 2cm;
+  height: 1.5cm;
 }

@@ -10,9 +10,23 @@
        
         <div class="card radius-10" style="background-color: #2e2e2e;">
 
-                   <div class="card-body" style="background-color: rgb(79, 78, 78);border-radius: 25px;">
-            <h5>Infraestructura en la nube ITC</h5>     
-             <h6 class="mb-0"><ion-icon name="cloud-upload-outline"></ion-icon> {{ project.product }}</h6>           
+                   <div class="card-body" style="background-color: rgb(40, 40, 40);border-radius: 25px;">
+            <h5><ion-icon name="cloud-download-outline"></ion-icon> Activo ITC: {{ project.name }}</h5>  
+            {% if project.paas_order  %}   
+             <h6 class="mb-0">  <ion-icon name="key-outline"></ion-icon> {{ project.paas_order }} </h6>   
+             {% elif project.saas_order  %}
+             <h6 class="mb-0">  <ion-icon name="key-outline"></ion-icon> {{ project.saas_order }}</h6>    
+             {% endif %}     
+
+             {% if project.product_paas  %}   
+             <p>  <ion-icon name="cloud-download-outline"></ion-icon> {{ project.product_paas }} </p>   
+             {% elif project.product  %}
+             <p>  <ion-icon name="cloud-download-outline"></ion-icon> {{ project.product }}</p>    
+             {% endif %}    
+
+  
+             
+             
                   {% if project.is_active %}
                   {% else %}
                    <h5 class="mb-0 text-warning bg-light-warning px-2 rounded py-1">
@@ -21,7 +35,7 @@
                   {% endif %}
                 
                 <p>
-  Timpo total de uso:
+                  <ion-icon name="time-outline"></ion-icon>
   {{ total_hours_used_h }} hrs {{ total_hours_used_min }} min
 </p>
 
