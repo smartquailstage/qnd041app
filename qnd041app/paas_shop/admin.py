@@ -30,8 +30,7 @@ class CategoryAdmin(ModelAdmin):
 class SuiteAdmin(ModelAdmin):
     list_display = ['name',]
 
-@admin.register(Product)
-class ProductAdmin(ModelAdmin):
+
     actions = [duplicar_productos,]
     list_display = (
         'name',
@@ -48,6 +47,71 @@ class ProductAdmin(ModelAdmin):
     }
 
 
+
+@admin.register(Product)
+class ProductAdmin(ModelAdmin):
+
+    list_display = (
+        'name',
+        'category',
+        'payment_method',
+        'price',
+        'available',
+    )
+
+    actions = [duplicar_productos]
+
+    prepopulated_fields = {
+        "slug": ("name",)
+    }
+
+    readonly_fields = [
+        'created',
+        'updated',
+        'total_tiempo',
+
+        'price',
+        'price_amount',
+
+        # Desarrollo
+        'costo_total_desarrollo',
+        'costo_project_management',
+        'margen_sq',
+        'total',
+        'total_iva',
+
+        # Automatización
+        'costo_total_n8n',
+        'margen_sq_n8n',
+        'total_n8n',
+        'total_n8n_iva',
+
+        # AI
+        'costo_total_ml',
+        'margen_sq_ml',
+        'total_ml',
+        'total_ml_iva',
+
+        # Nube
+        'costo_total_nube',
+        'margen_sq_nube',
+        'total_nube',
+        'total_nube_iva',
+
+        # Arquitectura
+        'margen_sq_arch',
+        'total_arch',
+        'total_arch_iva',
+
+        # Kushki
+        'kushki_credit_cost',
+        'kushki_debit_cost',
+
+        # Rentabilidad
+        'utilidad_bruta',
+        'valor_deducible_iva',
+        'utilidad_liquida',
+    ]
 
     fieldsets = (
 
