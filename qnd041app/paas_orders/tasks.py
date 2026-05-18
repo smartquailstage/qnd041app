@@ -446,7 +446,7 @@ def order_created(self, order_id):
 from celery import shared_task
 from django.utils import timezone
 from datetime import timedelta
-from .models import SaaSOrder
+from .models import PaaSOrder
 
 @shared_task
 def deactivate_old_orders():
