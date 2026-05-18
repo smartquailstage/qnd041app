@@ -7,7 +7,7 @@
 
     {% for c in categories %}
     {% if c.slug == "business-medico" and c.tamano_empresa == '1-10 usuarios' %}
-      {% if c.products.all %}
+      {% if c.products_paas.all %}
   
   <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
   
@@ -16,7 +16,7 @@
   
     <div class="carousel-inner">
   
-      {% for product in c.products.all %}
+      {% for product in c.products_paas.all %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
   
         <a href="{{ product.get_absolute_url }}"
