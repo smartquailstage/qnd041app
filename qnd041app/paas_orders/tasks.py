@@ -297,7 +297,7 @@ def order_created(self, order_id):
 
         order_url = (
             f"https://{domain}"
-            f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
+            f"{reverse('paas_orders:order_detail', kwargs={'order_id': order.id})}"
         )
 
     except Exception:

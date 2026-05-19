@@ -2,7 +2,6 @@
 {% load i18n wagtailcore_tags wagtailimages_tags static %}
 
 {% block content %}
-```html
 <div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.7;">
 
     <h2 style="color: #b5181a;">🚀 Activación de Licencia ITC SQ02-PLT-15{{ order.id }}-QND0501{{ order.id}} - SmartQuail Cloud</h2>
@@ -24,11 +23,11 @@
     </p>
 
     <ul>
-        <li><strong>ID de licencia:</strong> ITC-00000{{ order.id }}</li>
+        <li><strong>ID de licencia:</strong> SQ02-PLT-15{{ order.id }}-QND0501{{ order.id}}</li>
         <li><strong>Titular:</strong> {{ order.first_name }} {{ order.last_name }}</li>
         <li><strong>Email registrado:</strong> {{ order.email }}</li>
         <li><strong>Fecha de emisión:</strong> {{ order.created|date:"M d, Y" }}</li>
-        <li><strong>Valor de activación:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
+        <li><strong>Valor de activación:</strong> ${{ order.get_total_with_discount|floatformat:2 }}</li>
     </ul>
 
     <p>
@@ -42,9 +41,6 @@
             <tr style="background-color: #f5f5f5;">
                 <th style="padding: 10px; border: 1px solid #ddd;">#</th>
                 <th style="padding: 10px; border: 1px solid #ddd;">Servicio / Licencia</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Cantidad</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Valor Unitario</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Subtotal</th>
             </tr>
         </thead>
         <tbody>
@@ -52,30 +48,19 @@
             <tr>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.id }}</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.product.name }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.quantity }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.price|floatformat:2 }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ item.get_cost|floatformat:2 }}</td>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <h3 style="color:#b5181a;">Resumen financiero</h3>
-
-    <ul>
-        <li><strong>Subtotal:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
-        <li><strong>I.V.A ({{ order.iva }}%):</strong> ${{ order.tax_subtotal|floatformat:2 }}</li>
-        <li><strong>Total:</strong> ${{ order.total|floatformat:2 }}</li>
-        <li><strong>Descuento / Anticipo:</strong> ${{ order.Anticipo|floatformat:2 }}</li>
-        <li><strong>Valor mensual:</strong> ${{ order.total|floatformat:2 }} / Mes</li>
-    </ul>
 
     <p style="margin-top: 25px;">
         Para habilitar inmediatamente su licencia ITC y comenzar a desplegar sus activos tecnológicos en la nube, utilice el siguiente enlace:
     </p>
 
     <p style="text-align: center;">
-        <a href="https://{{ domain }}{% url 'saas_orders:order_detail' order_id=order.id %}" 
+        <a href="https://{{ domain }}{% url 'paas_orders:order_detail' order_id=order.id %}" 
            style="background-color: #b5181a; color: white; padding: 14px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
            Activar licencia y realizar pago
         </a>
@@ -94,6 +79,5 @@
     </p>
 
 </div>
-```
 
 {% endblock %}
