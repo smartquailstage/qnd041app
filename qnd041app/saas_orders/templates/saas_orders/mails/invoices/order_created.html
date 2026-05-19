@@ -2,76 +2,82 @@
 {% load i18n wagtailcore_tags wagtailimages_tags static %}
 
 {% block content %}
-<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.7;">
 
-    <h2 style="color: #b5181a;">🧾 Confirmación de Orden de Software:SQ-INV021-0203{{ order.id }}</h2>
+    <h2 style="color: #b5181a;">🚀 Activación de Licencia ITC SQ02-APP-12{{ order.id }}-QND0101{{ order.id } - SmartQuail Cloud</h2>
 
     <p>
         Estimado/a <strong>{{ order.first_name }} {{ order.last_name }}</strong>,
     </p>
 
     <p>
-        Gracias por confiar en <strong>SmartQuail</strong> como su plataforma de gestión en la nube para procesos empresariales personalizados. Su orden ha sido registrada exitosamente y estamos listos para habilitar el acceso seguro a su software.
+        Gracias por adquirir su <strong>Licencia ITC SmartQuail</strong>, diseñada para impulsar la creación, administración y escalabilidad de activos tecnológicos empresariales en la nube.
     </p>
 
-    <p>A continuación, los detalles de su orden:</p>
+    <p>
+        Al realizar el pago de los valores descritos en este documento, podrá comenzar a crear y operar sus activos tecnológicos en cuestión de minutos, accediendo a una infraestructura segura, flexible y preparada para el crecimiento de su organización.
+    </p>
+
+    <p>
+        A continuación, encontrará el detalle de su licencia y los servicios habilitados:
+    </p>
 
     <ul>
-        <li><strong>ID de la orden:</strong> SQ-INV021-0203{{ order.id }}</li>
-        <li><strong>Cliente:</strong> {{ order.first_name }} {{ order.last_name }}</li>
-        <li><strong>Email:</strong> {{ order.email }}</li>
-        <li><strong>Fecha de la orden:</strong> {{ order.created|date:"M d, Y" }}</li>
-        <li><strong>Total a pagar:</strong> ${{ order.get_total_with_discount }}</li>
+        <li><strong>ID de licencia:</strong> SQ02-PLT-15{{ order.id }}-QND0501{{ order.id}}</li>
+        <li><strong>Titular:</strong> {{ order.first_name }} {{ order.last_name }}</li>
+        <li><strong>Email registrado:</strong> {{ order.email }}</li>
+        <li><strong>Fecha de emisión:</strong> {{ order.created|date:"M d, Y" }}</li>
+        <li><strong>Valor de activación:</strong> ${{ order.get_total_with_discount|floatformat:2 }}</li>
     </ul>
 
     <p>
-        Se adjunta un comprobante oficial en PDF para sus registros internos y auditorías.
+        Se adjunta un comprobante oficial en formato PDF para sus registros administrativos y validación interna.
     </p>
 
-    <h3>Productos adquiridos:</h3>
+    <h3 style="color:#b5181a;">Componentes tecnológicos incluidos</h3>
+
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <thead>
-            <tr style="background-color: #b5181a;">
-                <th style="padding: 8px; border: 1px solid #ddd;color:#ffff">Licencia de Software</th>
-                <th style="padding: 8px; border: 1px solid #ddd;color:#ffff">Subtotal</th>
-                <th style="padding: 8px; border: 1px solid #ddd;color:#ffff">Total+I.V.A (15%)</th>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 10px; border: 1px solid #ddd;">#</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Servicio / Licencia</th>
             </tr>
         </thead>
         <tbody>
-           
+            {% for item in order.items.all %}
             <tr>
-                {% for item in order.items.all %}
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.id }}</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.product.name }}</td>
-                {% endfor %}
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ order.get_total_cost }}</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${{ order.get_total_with_discount }}</td>
-                
+
             </tr>
-            
+            {% endfor %}
         </tbody>
     </table>
-    <p style="margin-top: 20px;">
-        Para proceder con la activación de su software y comenzar a administrar sus procesos empresariales personalizados, haga clic en el siguiente enlace:
+
+
+    <p style="margin-top: 25px;">
+        Para habilitar inmediatamente su licencia ITC y comenzar a desplegar sus activos tecnológicos en la nube, utilice el siguiente enlace:
     </p>
 
-<p style="text-align: center;">
-    <a href="https://{{ domain }}{% url 'saas_orders:order_detail' order_id=order.id %}" 
-       style="background-color: #b5181a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-       Proceder al pago y activación
-    </a>
-</p>
+    <p style="text-align: center;">
+        <a href="https://{{ domain }}{% url 'paas_orders:order_detail' order_id=order.id %}" 
+           style="background-color: #b5181a; color: white; padding: 14px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+           Activar licencia y realizar pago
+        </a>
+    </p>
 
-    <p style="margin-top: 10px; font-style: italic;">
-        <strong>Nota:</strong> Este enlace es válido por 15 días a partir de la fecha de emisión. Pasado este período, deberá realizar una nueva compra para acceder a la plataforma.
+    <p style="margin-top: 15px; font-style: italic;">
+        <strong>Importante:</strong> El enlace de activación permanecerá disponible durante 15 días desde la fecha de emisión.
     </p>
 
     <p>
-        Nuestro equipo de soporte y consultoría cloud está a su disposición para garantizar una implementación segura, escalable y completamente adaptada a sus necesidades empresariales.
+        Nuestro equipo de especialistas cloud se encuentra disponible para acompañarle en la implementación, configuración y escalabilidad de su ecosistema tecnológico.
     </p>
 
     <p>
-        Gracias por elegir <strong>SmartQuail</strong> como su socio estratégico en la nube.
+        Gracias por confiar en <strong>SmartQuail</strong> como su aliado estratégico para la transformación digital empresarial.
     </p>
 
 </div>
+
 {% endblock %}

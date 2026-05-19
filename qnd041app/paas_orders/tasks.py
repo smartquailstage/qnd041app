@@ -42,6 +42,22 @@ import requests
 from celery import shared_task
 from django.conf import settings
 from django.urls import reverse
+import os
+import io
+import base64
+import qrcode
+import weasyprint
+
+
+
+from django.conf import settings
+from django.urls import reverse
+from django.contrib.staticfiles import finders
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+from weasyprint import HTML, CSS
+
 
 from paas_orders.models import PaaSOrder
 
@@ -141,7 +157,7 @@ def enviar_whatsapp_orden(order_id):
     parametros_template = [
         {"type": "text", "parameter_name": "nombre_cliente", "text": nombre_cliente},
         {"type": "text", "parameter_name": "numero_orden", "text": str(order.id)},
-        {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
+       # {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
 
     ]
 
@@ -198,74 +214,267 @@ def enviar_whatsapp_orden(order_id):
 
 
 
+@shared_task(bind=True, max_retries=3)
+def order_created(self, order_id):
 
-@shared_task
-def order_created(order_id):
-    order = PaaSOrder.objects.get(id=order_id)
+    # =========================================================
+    # 🔎 OBTENER ORDEN
+    # =========================================================
+
+    try:
+
+        order = (
+            PaaSOrder.objects
+            .select_related('user')
+            .prefetch_related('items__product')
+            .get(id=order_id)
+        )
+
+    except PaaSOrder.DoesNotExist:
+        return False
+
+    # =========================================================
+    # 📧 VALIDAR EMAIL
+    # =========================================================
+
+    if not order.email:
+        return False
+
     domain = "ec.smartquail.io"
 
-    # Evitar errores de Fontconfig
-    os.environ['FONTCONFIG_PATH'] = '/tmp/fontconfig'
-    os.environ['FONTCONFIG_CACHE'] = '/tmp/fontconfig_cache'
-    os.makedirs(os.environ['FONTCONFIG_CACHE'], exist_ok=True)
+    # =========================================================
+    # 📦 ITEMS
+    # =========================================================
 
-    # Obtener los nombres de todos los productos de la orden
-    product_names = ", ".join([item.product.name for item in order.items.all()]) or "su software"
+    items = list(order.items.all())
 
-    # Render HTML correo
+    product_names = ", ".join(
+        [
+            item.product.name
+            for item in items
+            if item.product
+        ]
+    ) or "su software"
+
+    # =========================================================
+    # 📩 HTML EMAIL
+    # =========================================================
+
     html_message = render_to_string(
         'paas_orders/mails/invoices/order_created.html',
-        {'order': order, 'domain': domain, 'products': order.items.all()}
+        {
+            'order': order,
+            'domain': domain,
+            'items': items
+        }
     )
 
-    # Asunto del correo
-    subject = f'Su orden de compra del software {product_names} se ha completado con éxito 🎉'
-    from_email = settings.DEFAULT_FROM_EMAIL
-    to_email = [order.email]
+    subject = (
+        f'Su orden de compra del software '
+        f'{product_names} se ha completado con éxito 🎉'
+    )
 
     email = EmailMultiAlternatives(
-        subject,
-        "Su Orden de Software ERP Business Analytics fue creada!",
-        from_email,
-        to_email
-    )
-    email.attach_alternative(html_message, "text/html")
-
-    # ------------------------------
-    # 📄 1) Generar PDF de la orden
-    # ------------------------------
-    html = render_to_string('paas_orders/order/pdf2.html', {'order': order, 'domain': domain})
-    out = BytesIO()
-
-    css_url = "https://qnd03101.sfo3.digitaloceanspaces.com/qnd03101/qnd041app/static/css/pdf.css"
-
-    weasyprint.HTML(string=html, base_url=f"https://{domain}/").write_pdf(
-        out,
-        stylesheets=[weasyprint.CSS(css_url)],
-        presentational_hints=True
+        subject=subject,
+        body="Su orden fue creada correctamente",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[
+            order.email,
+            settings.DEFAULT_FROM_EMAIL
+        ]
     )
 
-    email.attach(f"order_{order.id}.pdf", out.getvalue(), 'application/pdf')
+    email.attach_alternative(
+        html_message,
+        "text/html"
+    )
+
+    # =========================================================
+    # 📌 URL QR
+    # =========================================================
+
+    try:
+
+        order_url = (
+            f"https://{domain}"
+            f"{reverse('paas_orders:order_detail', kwargs={'order_id': order.id})}"
+        )
+
+    except Exception:
+
+        order_url = f"https://{domain}"
+
+    # =========================================================
+    # 📌 GENERAR QR
+    # =========================================================
+
+    qr = qrcode.QRCode(
+        version=3,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=2,
+        border=1,
+    )
+
+    qr.add_data(order_url)
+
+    qr.make(fit=True)
+
+    img = qr.make_image(
+        fill_color="#4d4d4d",
+        back_color="#E5E1E1"
+    )
+
+    buffer = io.BytesIO()
+
+    img.save(
+        buffer,
+        format="PNG"
+    )
+
+    qr_base64 = base64.b64encode(
+        buffer.getvalue()
+    ).decode()
+
+    qr_url = f"data:image/png;base64,{qr_base64}"
+
+    buffer.close()
+
+    # =========================================================
+    # 📄 PDF HTML
+    # =========================================================
+
+    pdf_html = render_to_string(
+        'paas_orders/order/pdf2.html',
+        {
+            'order': order,
+            'domain': domain,
+            'qr_url': qr_url,
+        }
+    )
+
+    out = io.BytesIO()
+
+    # =========================================================
+    # 📄 GENERAR PDF
+    # =========================================================
+
+    try:
+
+        weasyprint.HTML(
+            string=pdf_html,
+            base_url=f"https://{domain}"
+        ).write_pdf(
+            target=out,
+            stylesheets=[
+                weasyprint.CSS(
+                    'paas_orders/static/css/pdf.css'
+                )
+            ],
+            presentational_hints=True
+        )
+
+    except Exception as e:
+
+        raise self.retry(
+            exc=e,
+            countdown=10
+        )
+
+    # =========================================================
+    # 📎 ADJUNTAR PDF
+    # =========================================================
+
+    email.attach(
+        filename=f"Licencia-SQ-{order.id}.pdf",
+        content=out.getvalue(),
+        mimetype='application/pdf'
+    )
+
+    out.close()
+
+    # =========================================================
+    # 📤 ENVIAR EMAIL
+    # =========================================================
+
+    try:
+
+        email.send()
+
+        # -----------------------------------------------------
+        # ✅ MARCAR EMAIL ENVIADO
+        # -----------------------------------------------------
+
+        if hasattr(order, "email_sent"):
+
+            order.email_sent = True
+
+            order.save(
+                update_fields=['email_sent']
+            )
+
+    except Exception as e:
+
+        raise self.retry(
+            exc=e,
+            countdown=10
+        )
+
+    # =========================================================
+    # 📲 ENVIAR WHATSAPP
+    # =========================================================
+
+    try:
+
+        whatsapp_result = enviar_whatsapp_orden(order.id)
+
+        # -----------------------------------------------------
+        # ✅ MARCAR WHATSAPP ENVIADO
+        # -----------------------------------------------------
+
+        if hasattr(order, "whatsapp_sent"):
+
+            order.whatsapp_sent = True
+
+            order.save(
+                update_fields=['whatsapp_sent']
+            )
+
+    except Exception as e:
+
+        whatsapp_result = {
+            "error": str(e)
+        }
+
+    # =========================================================
+    # ✅ RESPONSE
+    # =========================================================
+
+    return {
+        "email": "sent",
+        "whatsapp": whatsapp_result
+    }
 
 
 
-    # ------------------------------
-    # Enviar correo
-    # ------------------------------
-    email.send()
-
-    # Marcar email como enviado
-    order.email_sent = True
-    order.save()
-
-    return True
 
 
 
-import requests
-from decimal import Decimal
-from django.conf import settings
-from django.urls import reverse
+from celery import shared_task
+from django.utils import timezone
+from datetime import timedelta
+from .models import PaaSOrder
+
+@shared_task
+def deactivate_old_orders():
+    """
+    Marca como inactivas las órdenes que superen los 15 días de creación.
+    """
+    cutoff_date = timezone.now() - timedelta(days=15)
+    old_orders = PaaSOrder.objects.filter(is_active=True, created__lt=cutoff_date)
+    count = old_orders.update(is_active=False)
+    return f'{count} órdenes desactivadas.'
+
+
 
 from paas_orders.models import PaaSOrder
 

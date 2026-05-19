@@ -282,7 +282,6 @@ def enviar_whatsapp_orden(order_id):
 
 
 
-
 @shared_task(bind=True, max_retries=3)
 def order_created(self, order_id):
 
@@ -429,15 +428,15 @@ def order_created(self, order_id):
 
     try:
 
-        css_file = finders.find("css/pdf.css")
-
-        HTML(
+        weasyprint.HTML(
             string=pdf_html,
-            base_url=str(settings.BASE_DIR)
+            base_url=f"https://{domain}"
         ).write_pdf(
             target=out,
             stylesheets=[
-                CSS(css_file)
+                weasyprint.CSS(
+                    'saas_orders/static/css/pdf.css'
+                )
             ],
             presentational_hints=True
         )
@@ -522,7 +521,6 @@ def order_created(self, order_id):
         "email": "sent",
         "whatsapp": whatsapp_result
     }
-
 
 
 
