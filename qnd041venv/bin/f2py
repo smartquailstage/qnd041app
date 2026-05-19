@@ -1,4 +1,4 @@
-#!/Users/smartquail/Desktop/QNODES2025/QND0/qnd041app/qnd041venv/bin/python3.13
+#!/Users/smartquail/Desktop/qnd041app/qnd041venv/bin/python3.13
 import sys
 from numpy.f2py.f2py2e import main
 if __name__ == '__main__':

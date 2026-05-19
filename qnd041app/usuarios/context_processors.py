@@ -123,6 +123,7 @@ def user_profile_data(request):
                 'profile_photo': profile.photo.url if profile.photo else None,
                 'name': request.user.first_name,
                 'last_name': request.user.last_name,
+                'tamano_empresa': profile.tamano_empresa,
             }
         except:
             return {
