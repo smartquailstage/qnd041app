@@ -42,6 +42,11 @@ import requests
 from celery import shared_task
 from django.conf import settings
 from django.urls import reverse
+import os
+import io
+import base64
+import qrcode
+import weasyprint
 
 from paas_orders.models import PaaSOrder
 
