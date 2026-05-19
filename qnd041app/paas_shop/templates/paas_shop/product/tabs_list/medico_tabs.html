@@ -6,7 +6,7 @@
   <div class="card-body p-0">
 
     {% for c in categories %}
-    {% if c.slug == "business-medico" and c.tamano_empresa == '1-10 usuarios' %}
+    {% if c.slug == "business-medico" and c.tamano_empresa == tamano_empresa %}
       {% if c.products.all %}
   
   <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
