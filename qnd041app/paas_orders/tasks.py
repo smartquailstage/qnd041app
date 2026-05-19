@@ -157,7 +157,7 @@ def enviar_whatsapp_orden(order_id):
     parametros_template = [
         {"type": "text", "parameter_name": "nombre_cliente", "text": nombre_cliente},
         {"type": "text", "parameter_name": "numero_orden", "text": str(order.id)},
-        {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
+       # {"type": "text", "parameter_name": "pdf_url", "text": pdf_url},
 
     ]
 
@@ -297,7 +297,7 @@ def order_created(self, order_id):
 
         order_url = (
             f"https://{domain}"
-            f"{reverse('paas_orders:order_detail', kwargs={'order_id': order.id})}"
+            f"{reverse('saas_orders:order_detail', kwargs={'order_id': order.id})}"
         )
 
     except Exception:
@@ -360,15 +360,15 @@ def order_created(self, order_id):
 
     try:
 
-        css_file = finders.find("css/pdf.css")
-
-        HTML(
+        weasyprint.HTML(
             string=pdf_html,
-            base_url=str(settings.BASE_DIR)
+            base_url=f"https://{domain}"
         ).write_pdf(
             target=out,
             stylesheets=[
-                CSS(css_file)
+                weasyprint.CSS(
+                    'paas_orders/static/css/pdf.css'
+                )
             ],
             presentational_hints=True
         )
