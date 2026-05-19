@@ -34,17 +34,10 @@ class SuiteAdmin(ModelAdmin):
     actions = [duplicar_productos,]
     list_display = (
         'name',
-        'category',
-        'payment_method',
-        'price',
-        'available',
     )
 
    # autocomplete_fields = ('suite',)
 
-    prepopulated_fields = {
-        "slug": ("name",)
-    }
 
 
 
