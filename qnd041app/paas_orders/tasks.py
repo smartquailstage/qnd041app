@@ -48,6 +48,17 @@ import base64
 import qrcode
 import weasyprint
 
+
+
+from django.conf import settings
+from django.urls import reverse
+from django.contrib.staticfiles import finders
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+from weasyprint import HTML, CSS
+
+
 from paas_orders.models import PaaSOrder
 
 
