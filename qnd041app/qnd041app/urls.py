@@ -35,15 +35,15 @@ urlpatterns += i18n_patterns(
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
     path('smartbusinessanalytics_id/', include('smartbusinessanalytics_id.urls', namespace='smartbusinessanalytics_id')),
     path('smartbusinesslaw/', include('smartbusinesslaw.urls', namespace='smartbusinesslaw')),
-    path('business_customer_projects/', include('business_customer_projects.urls', namespace='business_customer_projects')),
+    path('activos_itc/', include('business_customer_projects.urls', namespace='business_customer_projects')),
     path('services_cart/', include('services_cart.urls', namespace='services_cart')),
     path('billing/', include('billing.urls', namespace='billing')),
     path('services_payment/', include('services_payment.urls', namespace='services_payment')),
-    path('saas_cart/', include('saas_cart.urls', namespace='saas_cart')),
-    path('saas_shop/', include('saas_shop.urls', namespace='saas_shop')),
-    path('saas_orders/', include('saas_orders.urls', namespace='saas_orders')),
-    path('saas_coupons/', include('saas_coupons.urls', namespace='saas_coupons')),
-    path('saas_payment/', include('saas_payment.urls', namespace='saas_payment')),
+    path('apps_carrito/', include('saas_cart.urls', namespace='saas_cart')),
+    path('apps/', include('saas_shop.urls', namespace='saas_shop')),
+    path('apps_licencias/', include('saas_orders.urls', namespace='saas_orders')),
+    path('apps_convenios/', include('saas_coupons.urls', namespace='saas_coupons')),
+    path('apps_metodo_pago/', include('saas_payment.urls', namespace='saas_payment')),
 
 
 
@@ -55,11 +55,11 @@ urlpatterns += i18n_patterns(
     path('iaas_payment/', include('iaas_payment.urls', namespace='iaas_payment')),
 
 
-    path('paas_cart/', include('paas_cart.urls', namespace='paas_cart')),
-    path('paas_shop/', include('paas_shop.urls', namespace='paas_shop')),
-    path('paas_orders/', include('paas_orders.urls', namespace='paas_orders')),
-    path('paas_coupons/', include('paas_coupons.urls', namespace='paas_coupons')),
-    path('paas_payment/', include('paas_payment.urls', namespace='paas_payment')),
+    path('platforms_carrito/', include('paas_cart.urls', namespace='paas_cart')),
+    path('platforms/', include('paas_shop.urls', namespace='paas_shop')),
+    path('platforms_licencias/', include('paas_orders.urls', namespace='paas_orders')),
+    path('platforms_convenios/', include('paas_coupons.urls', namespace='paas_coupons')),
+    path('platforms_metodo_pago/', include('paas_payment.urls', namespace='paas_payment')),
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
 
    # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -81,7 +81,7 @@ urlpatterns += i18n_patterns(
     #path('coupons/', include('coupons.urls', namespace='coupons')),
     #path('payment/', include('payment.urls', namespace='payment')),
    # path('sqorders/', include('SQOrders.urls', namespace='sqorders')),
-    path('itc_business/', include('usuarios.urls', namespace='usuarios')),
+    path('ingresar/', include('usuarios.urls', namespace='usuarios')),
     path('sbmshop/', include('sbmshop.urls', namespace='sbmshop')),
     path('sbashop/', include('sbashop.urls', namespace='sbashop')),
     path('sblshop/', include('sblshop.urls', namespace='sblshop')),
