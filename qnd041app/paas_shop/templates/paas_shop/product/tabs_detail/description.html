@@ -25,16 +25,6 @@
                     <div class="image-container position-relative mb-3">
                       <img src="{{ product.image.url }}" class="d-block w-100" alt="Imagen principal">
               
-                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% elif product.category.name == "Business Media" %}
-                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% endif %}
-              
                     </div>
                   </div>
                   {% endif %}
