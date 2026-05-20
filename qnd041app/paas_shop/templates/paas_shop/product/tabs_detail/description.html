@@ -1,6 +1,131 @@
 {% load i18n %}
 {% load static %}
-    
+
+
+<style>
+
+
+
+  /* Estilo base para todas las tabs */
+  .nav-tabs .nav-link {
+    color: #ffffff;
+    border: none;
+    margin-right: 4px;
+    border-radius: 6px;
+  }
+  
+  /* Colores personalizados para cada tab */
+  .nav-link.infra-tab {
+    background-color: #2196f3; /* Azul infraestructura */
+  }
+  
+  .nav-link.id-tab {
+    background-color: #43a047; /* Verde I+D */
+  }
+  
+  .nav-link.auto-tab {
+    background-color: #fb8c00; /* Naranja automatización */
+  }
+  
+  .nav-link.ia-tab {
+    background-color: #8e24aa; /* Violeta IA */
+  }
+  
+  .nav-link.moni-tab {
+    background-color: #5e35b1; /* Indigo monitoreo */
+  }
+  
+  .nav-link.cyber-tab {
+    background-color: #e53935; /* Rojo ciberseguridad */
+  }
+  
+  .nav-link.support-tab {
+    background-color: #00acc1; /* Cian soporte */
+  }
+  
+  /* Estilo para el tab activo */
+  .nav-tabs .nav-link.active {
+    font-weight: bold;
+    opacity: 1 !important;
+    filter: brightness(1.1);
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+  }
+  
+  
+  /* Estilos para la imagen y el botón de play */
+  .image-container {
+    position: relative; /* Necesario para posicionar el botón dentro de este contenedor */
+  }
+  
+  .play-button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    color: #222121; /* Color del ícono */
+    font-size: 80px; /* Tamaño del ícono */
+    cursor: pointer; /* Hacer el cursor un puntero */
+    z-index: 2; /* Asegura que el ícono esté sobre la imagen */
+  }
+  
+  .play-button:hover {
+    color: #cb0404; /* Color de hover, puedes cambiarlo a lo que desees */
+  }
+  
+  .play-button ion-icon {
+    font-size: 3.5rem; /* Ajuste del tamaño del ícono */
+  }
+  
+  .item {
+    position: relative; /* Asegura que el contenedor del ítem también pueda posicionar elementos hijos */
+  }
+  
+  /* Ajustes adicionales para el contenedor de la galería */
+  .product-gallery {
+    position: relative; /* Necesario para que los elementos internos puedan ser posicionados de forma relativa */
+  }
+  
+  
+  /* Indicadores circulares Bootstrap */
+  .indicators-circle button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid #bbb;
+    margin: 0 5px;
+    transition: 0.3s;
+  }
+  
+  .indicators-circle button.active {
+    background-color: #f7a84f;
+    border-color:#f7a84f;
+    width: 40px;
+    height: 20px;
+    transform: scale(0.5);
+  }
+  
+  
+  
+  @media (max-width: 992px) {
+    .row.mt-4 {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .col-md-6 {
+      flex: 1 1 100%;
+    }
+    dl {
+      grid-template-columns: 40% 60% !important;
+      font-size: 13px;
+    }
+  }
+  
+  
+  
+  
+  </style>
+
+
+
     
     <!-- TAB: Información -->
     <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
