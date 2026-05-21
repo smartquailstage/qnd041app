@@ -241,7 +241,11 @@
     {% endif %}
 
     {% if product.image_3 %}
-    <button data-bs-slide-to="{% if product.image and product.image_2 %}2{% elif product.image or product.image_2 %}1{% else %}0{% endif %}" data-bs-target="#productCarousel"></button>
+    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}2{% else %}0{% endif %}"></button>
+    {% endif %}
+
+    {% if product.image_4 %}
+    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}3{% else %}0{% endif %}"></button>
     {% endif %}
 
   </div>
@@ -262,9 +266,7 @@
 
         <div class="product-info-section p-3">
 
-          {% if product.image_2 %}
-          <img src="{{ product.image_2.url }}" class="img-fluid mb-3 d-none" alt="Vista adicional">
-          {% endif %}
+
 
 
 

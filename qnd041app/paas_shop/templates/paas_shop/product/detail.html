@@ -210,7 +210,7 @@
 
 
 
-{% if product.is_reaserch %}
+
     <!-- Investigación -->
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="tab-uiux" data-bs-toggle="tab" href="#uiux" role="tab"
@@ -220,61 +220,83 @@
         </div>
       </a>
     </li>
-{% else %}
-{% endif %}
 
 
-    {% if product.suite == "SmartBusinessSuite(I+D)" %}
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="tab-sba-investigacion" data-bs-toggle="tab"
-             href="#sba-investigacion" role="tab">
-            <div class="d-flex align-items-center">
-              <div class="tab-title text-uppercase fw-500">
-                <ion-icon name="grid-outline"></ion-icon><sup>I + D</sup>
-              </div>
-            </div>
-          </a>
-        </li>
+    {% if product.suite.name == "Suite(I+D)" %}
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="tab-sba-investigacion"
+         data-bs-toggle="tab"
+         href="#sba-investigacion"
+         role="tab">
+    
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">
+            <ion-icon name="grid-outline"></ion-icon>
+            <sup>I + D</sup>
+          </div>
+        </div>
+    
+      </a>
+    </li>
     {% endif %}
-
-
-
-
-
-    {% if product.suite == "SmartBusinessSuite(+A)" %}
-
+    
+    
+    {% if product.suite.name == "Suite(I+D+A)" %}
     <!-- Automatización -->
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-sba-automatizacion" data-bs-toggle="tab" href="#tab-automatizacion" role="tab"
-         aria-controls="automatizacion" aria-selected="false">
+    
+      <a class="nav-link"
+         id="tab-sba-automatizacion"
+         data-bs-toggle="tab"
+         href="#tab-automatizacion"
+         role="tab"
+         aria-controls="automatizacion"
+         aria-selected="false">
+    
         <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500"> <ion-icon name="grid-outline"></ion-icon> <sup>I + D + A</sup></div>
+          <div class="tab-title text-uppercase fw-500">
+            <ion-icon name="grid-outline"></ion-icon>
+            <sup>I + D + A</sup>
+          </div>
         </div>
+    
       </a>
+    
+    </li>
+    {% endif %}
+    
+    
+    {% if product.suite.name == "Suite(I+D+A+AI)" %}
+    <!-- Inteligencia Artificial -->
+    <li class="nav-item" role="presentation">
+    
+      <a class="nav-link"
+         id="tab-sba-ia"
+         data-bs-toggle="tab"
+         href="#tab-ia"
+         role="tab"
+         aria-controls="tab-ia"
+         aria-selected="false">
+    
+        <div class="d-flex align-items-center">
+          <div class="tab-title text-uppercase fw-500">
+            <ion-icon name="grid-outline"></ion-icon>
+            <sup>I + D + A + AI</sup>
+          </div>
+        </div>
+    
+      </a>
+    
     </li>
     {% endif %}
 
 
 
-    {% if product.suite == "SmartBusinessSuite(I+D+A+AI)" %}
-    <!-- Inteligencia Artificial -->
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-sba-ia" data-bs-toggle="tab" href="#tab-ia" role="tab"
-         aria-controls="tab-ia" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500"> <ion-icon name="grid-outline"></ion-icon> <sup>I + D + A + AI</sup></div>
-        </div>
-      </a>
-    </li>
-    {% endif %}
-
-
-
 
 
     <!-- Inteligencia Artificial -->
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="monitoring data-bs-toggle="tab" href="#monitoring" role="tab"
+      <a class="nav-link" id="monitoring" href="#monitoring" role="tab"
          aria-controls="monitoring" aria-selected="false">
         <div class="d-flex align-items-center">
           <div class="tab-title text-uppercase fw-500"><ion-icon name="bar-chart-outline"></ion-icon> </div>

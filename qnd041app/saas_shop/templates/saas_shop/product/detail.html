@@ -417,6 +417,10 @@
     <button data-bs-slide-to="{% if product.image and product.image_2 %}2{% elif product.image or product.image_2 %}1{% else %}0{% endif %}" data-bs-target="#productCarousel"></button>
     {% endif %}
 
+    {% if product.image_4 %}
+    <button data-bs-slide-to="{% if product.image and product.image_2 %}2{% elif product.image or product.image_2 %}1{% else %}0{% endif %}" data-bs-target="#productCarousel"></button>
+    {% endif %}
+
   </div>
 
 

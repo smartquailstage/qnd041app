@@ -8,6 +8,11 @@ from djmoney.money import Money
 from decimal import Decimal, InvalidOperation
 
 
+
+
+
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True, null=True, blank=True)
     
@@ -139,6 +144,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     cloud_type = models.CharField(choices=CLOUDE_CHOICES, null=True, blank=True,max_length=200)
+    suite =  models.ForeignKey('Suite', related_name='suite', on_delete=models.CASCADE, null=True, blank=True)
 
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     price_amount = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, editable=False)
@@ -151,8 +157,7 @@ class Product(models.Model):
     almacenamiento = models.IntegerField(verbose_name="Almacenamiento (GB)", null=True, blank=True)
     ancho_banda = models.IntegerField(verbose_name="Ancho de Banda (Mbps)", null=True, blank=True)
     memoria = models.IntegerField(verbose_name="Memoria (GB)", null=True, blank=True)
-
-
+    
     is_reaserch = models.BooleanField(default=True, verbose_name="Tiene investigación Y Desarollo")
     is_automatitation = models.BooleanField(default=True, verbose_name="Tiene automatización")
     is_intelligent = models.BooleanField(default=True, verbose_name="Tiene inteligencia artificial")
@@ -509,26 +514,18 @@ class Product(models.Model):
 
 
 
-
-
 class Suite(models.Model):
     name = models.CharField(max_length=200, unique=True,null=True,blank=True)
 
 
     SUITES = [
-        ('SmartBusinessAnalytics® (I+D)', 'SmartBusinessAnalytics® (I+D)'),
-        ('SmartBusinessAnalytics® (I+D+A)', 'SmartBusinessAnalytics® (I+D+A)'),
-        ('SmartBusinessAnalytics® (I+D+A+AI)', 'SmartBusinessAnalytics® (I+D+A+AI)'),
-        ('SmartBusinessMedia® (I+D)', 'SmartBusinessMedia® (I+D)'),
-        ('SmartBusinessMedia® (I+D+A)', 'SmartBusinessMedia® (I+D+A)'),
-        ('SmartBusinessMedia® (I+D+A+AI)', 'SmartBusinessMedia® (I+D+A+AI)'),
-        ('SmartBusinessLaw® (I+D)', 'SmartBusinessLaw® (I+D)'),
-        ('SmartBusinessLaw® (I+D+A)', 'SmartBusinessLaw® (I+D+A)'),
-        ('SmartBusinessLaw® (I+D+A+AI)', 'SmartBusinessLaw® (I+D+A+AI)'),
+        ('Suite(I+D)', 'Suite(I+D)'),
+        ('Suite(I+D+A)', 'Suite(I+D+A)'),
+        ('Suite(I+D+A+AI)', 'Suite(I+D+A+AI)'),
     ]
 
-    suite = models.ManyToManyField(Product, null=True, blank=True, max_length=200)
 
 
     def __str__(self):
         return self.name
+

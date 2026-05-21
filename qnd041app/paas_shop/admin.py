@@ -121,6 +121,7 @@ class ProductAdmin(ModelAdmin):
                     'cloud_type',
                     'category',
                     'available',
+                    'suite',
 
                     'is_reaserch',
                     'is_automatitation',
