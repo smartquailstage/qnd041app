@@ -171,9 +171,9 @@ class Product(models.Model):
 
     image = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - Horizontal")
     image_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de Presentacion - vertical")
-    image_2_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de producto")
-    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion")
-    image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="")
+    image_2_2 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de producto - vertical")
+    image_3 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion - vertical")
+    image_4 = models.ImageField(upload_to='products/%Y/%m/%d', null=True, blank=True,verbose_name="Brand de descripcion - vertical")
 
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
