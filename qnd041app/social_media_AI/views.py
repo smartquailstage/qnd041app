@@ -237,79 +237,75 @@ def update_generated_carousel_slide(request):
         margin = 40
 
         # =========================
-        # 2️⃣ BRANDING (LOGOS FIXED)
+        # 2️⃣ LOGO LOADER (REUTILIZABLE STYLE)
         # =========================
+        def load_logo(logo_obj, max_size):
+            try:
+                if not logo_obj:
+                    return None
+
+                logo_url = getattr(logo_obj, "url", None) or getattr(getattr(logo_obj, "file", None), "url", None)
+
+                if not logo_url:
+                    return None
+
+                res = requests.get(logo_url, timeout=10)
+
+                if res.status_code != 200 or "image" not in res.headers.get("Content-Type", ""):
+                    return None
+
+                img = PILImage.open(BytesIO(res.content)).convert("RGBA")
+                img.thumbnail(max_size, PILImage.LANCZOS)
+                return img
+
+            except Exception as e:
+                print("⚠️ Logo load error:", e)
+                return None
+
+        # =========================
+        # 3️⃣ BRANDING (APLICA EN TODOS LOS SLIDES)
+        # =========================
+
         logo1 = getattr(cat, "logo_1", None)
         logo2 = getattr(cat, "logo_2", None)
 
-        # --- LOGO 1 (TOP LEFT) ---
-        if slide_index == 1 and logo1:
-            try:
-                logo_url = getattr(logo1, "url", None) or getattr(logo1.file, "url", None)
+        # --- LOGO 1 (TOP LEFT - ALL SLIDES) ---
+        img1 = load_logo(
+            logo1,
+            (int(base_width * 0.20), int(base_height * 0.20))
+        )
 
-                if logo_url:
-                    res = requests.get(logo_url, timeout=10)
+        if img1:
+            base_image.paste(img1, (margin, margin), img1)
 
-                    if res.status_code == 200 and "image" in res.headers.get("Content-Type", ""):
-                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                        img.thumbnail(
-                            (int(base_width * 0.20), int(base_height * 0.20)),
-                            PILImage.LANCZOS
-                        )
-                        base_image.paste(img, (margin, margin), img)
+        # --- LOGO 2 (BOTTOM RIGHT - ALL SLIDES) ---
+        img2 = load_logo(
+            logo2,
+            (int(base_width * 0.15), int(base_height * 0.15))
+        )
 
-            except Exception as e:
-                print("⚠️ Error Logo 1:", e)
+        if img2:
+            x = base_width - img2.size[0] - margin
+            y = base_height - img2.size[1] - margin
+            base_image.paste(img2, (x, y), img2)
 
-        # --- LOGO 2 (BOTTOM RIGHT) ---
-        if slide_index == 1 and logo2:
-            try:
-                logo_url = getattr(logo2, "url", None) or getattr(logo2.file, "url", None)
-
-                if logo_url:
-                    res = requests.get(logo_url, timeout=10)
-
-                    if res.status_code == 200 and "image" in res.headers.get("Content-Type", ""):
-                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                        img.thumbnail(
-                            (int(base_width * 0.15), int(base_height * 0.15)),
-                            PILImage.LANCZOS
-                        )
-
-                        x = base_width - img.size[0] - margin
-                        y = base_height - img.size[1] - margin
-
-                        base_image.paste(img, (x, y), img)
-
-            except Exception as e:
-                print("⚠️ Error Logo 2:", e)
-
-        # --- FINAL SLIDE LOGO + COPYRIGHT ---
+        # =========================
+        # 4️⃣ FINAL SLIDE SPECIAL BRANDING
+        # =========================
         last_slide = int(post.slides or 0)
 
         if slide_index == last_slide and logo1:
-            try:
-                logo_url = getattr(logo1, "url", None) or getattr(logo1.file, "url", None)
+            img_final = load_logo(
+                logo1,
+                (int(base_width * 0.35), int(base_height * 0.35))
+            )
 
-                if logo_url:
-                    res = requests.get(logo_url, timeout=10)
+            if img_final:
+                x = (base_width - img_final.size[0]) // 2
+                y = (base_height - img_final.size[1]) // 2
+                base_image.paste(img_final, (x, y), img_final)
 
-                    if res.status_code == 200:
-                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                        img.thumbnail(
-                            (int(base_width * 0.35), int(base_height * 0.35)),
-                            PILImage.LANCZOS
-                        )
-
-                        x = (base_width - img.size[0]) // 2
-                        y = (base_height - img.size[1]) // 2
-
-                        base_image.paste(img, (x, y), img)
-
-            except Exception as e:
-                print("⚠️ Error Logo Final:", e)
-
-            # COPYRIGHT TEXT
+            # COPYRIGHT
             draw = ImageDraw.Draw(base_image)
 
             text = "All copyrights ® reserved 2026 SmartQuail, Inc"
@@ -332,7 +328,7 @@ def update_generated_carousel_slide(request):
             draw.text((x_text, y_text), text, fill="white", font=font)
 
         # =========================
-        # 3️⃣ SAVE TO WAGTAIL
+        # 5️⃣ SAVE TO WAGTAIL
         # =========================
         buffer = BytesIO()
         base_image.save(buffer, format="PNG")
@@ -361,7 +357,7 @@ def update_generated_carousel_slide(request):
         )
 
         # =========================
-        # 4️⃣ STATUS UPDATE
+        # 6️⃣ STATUS UPDATE
         # =========================
         if post.images.count() >= int(post.slides or 0):
             post.status = "sent"
@@ -383,6 +379,7 @@ def update_generated_carousel_slide(request):
         print(f"💥 Error en carousel slide view: {e}")
         return Response({"success": False, "message": str(e)}, status=500)
 
+        
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
