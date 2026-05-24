@@ -197,30 +197,31 @@ def task_instagram_carousel(self, payload):
         ]
 
         # ========================================================
-        # 🎨 N8N PAYLOAD (ROBUST + SAFE)
+        # 🎨 N8N PAYLOAD (FULL DJANGO CONSISTENT)
         # ========================================================
         n8n_payload = {
+            # CORE
             "id": obj.id,
             "prompt": obj.prompt,
             "slides_count": obj.slides,
 
-            # CAMPAIGN
+            # CAMPAIGN (CategoryItem)
             "campaign_name": getattr(cat, "name", "General"),
 
-            # STYLE
+            # STYLE (CategoryItem.style)
             "style": get_value("style", getattr(cat, "style", "futuristic")),
 
-            # BRAND
+            # BRAND (CategoryItem)
             "primary_brand": getattr(cat, "brand_1", "SmartQuail"),
 
-            # LOGOS (SAFE)
+            # LOGOS (CategoryItem)
             "logo_primary": getattr(cat, "image_url_1", None),
             "logo_secondary": getattr(cat, "image_url_2", None),
 
-            # COLORS (FIX REAL + NO NULL BREAK)
+            # COLORS (CategoryItem + override payload)
             "color_primary": get_value(
                 "color_primary",
-                getattr(cat, "color_1", "#FF0000")
+                getattr(cat, "color_1", "#00FFFF")
             ),
 
             "color_secondary": get_value(
@@ -230,7 +231,13 @@ def task_instagram_carousel(self, payload):
 
             "color_palette": get_value(
                 "color_palette",
-                getattr(cat, "color_palette", "Vibrant")
+                getattr(cat, "color_palette", "vibrant")
+            ),
+
+            # 🔥 FIX CRÍTICO QUE TE FALTABA
+            "image_size": get_value(
+                "image_size",
+                getattr(obj, "image_size", "square")
             ),
 
             # SCHEDULE
@@ -240,7 +247,7 @@ def task_instagram_carousel(self, payload):
                 else None
             ),
 
-            # EXISTING
+            # EXISTING IMAGES
             "existing_images": images_payload,
         }
 
@@ -252,7 +259,7 @@ def task_instagram_carousel(self, payload):
         if not response:
             raise Exception("Empty response from n8n")
 
-        # 🔥 FIX CRÍTICO: soporta async n8n ("Workflow was started")
+        # 🔥 FIX CRÍTICO: async workflow (n8n responde esto)
         if isinstance(response, dict) and "message" in response:
             raise Exception(f"n8n async response: {response}")
 
@@ -343,7 +350,6 @@ def task_instagram_carousel(self, payload):
         countdown = 60 * (2 ** self.request.retries)
 
         raise self.retry(exc=exc, countdown=countdown)
-
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_reel(self, payload):
