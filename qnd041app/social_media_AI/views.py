@@ -209,123 +209,179 @@ def update_generated_image(request):
 def update_generated_carousel_slide(request):
     try:
         data = request.data
-        # 0️⃣ Normalización de entrada (Soporta n8n y payloads anteriores)
+
+        # =========================
+        # 0️⃣ INPUT NORMALIZATION
+        # =========================
         post_id = data.get("originalId") or data.get("id")
         image_url = data.get("image_url") or data.get("image")
         slide_index = int(data.get("slide_index", 1))
 
         if not post_id or not image_url:
-            return Response({"success": False, "message": "Faltan parámetros (id/image)"}, status=400)
+            return Response(
+                {"success": False, "message": "Faltan parámetros (id/image)"},
+                status=400
+            )
 
         post = InstagramCarouselPost.objects.get(id=post_id)
         cat = post.categories
-        
+
         # =========================
-        # 1️⃣ Descargar imagen base
+        # 1️⃣ BASE IMAGE
         # =========================
         r = requests.get(image_url, timeout=25)
         r.raise_for_status()
+
         base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
         base_width, base_height = base_image.size
         margin = 40
 
         # =========================
-        # 2️⃣ Branding Dinámico
+        # 2️⃣ BRANDING (LOGOS FIXED)
         # =========================
-        # Slide 1: Logos en esquinas
-        if slide_index == 1:
-            # Logo 1 - Top Left
-            if cat and cat.logo_1 and hasattr(cat.logo_1, 'file'):
-                try:
-                    res = requests.get(cat.logo_1.file.url, timeout=10)
-                    logo = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                    logo.thumbnail((base_width * 0.20, base_height * 0.20), PILImage.LANCZOS)
-                    base_image.paste(logo, (margin, margin), logo)
-                except: print("⚠️ No se pudo cargar Logo 1")
-            
-            # Logo 2 - Bottom Right
-            if cat and cat.logo_2 and hasattr(cat.logo_2, 'file'):
-                try:
-                    res = requests.get(cat.logo_2.file.url, timeout=10)
-                    logo = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                    logo.thumbnail((base_width * 0.15, base_height * 0.15), PILImage.LANCZOS)
-                    base_image.paste(logo, (base_width - logo.size[0] - margin, base_height - logo.size[1] - margin), logo)
-                except: print("⚠️ No se pudo cargar Logo 2")
+        logo1 = getattr(cat, "logo_1", None)
+        logo2 = getattr(cat, "logo_2", None)
 
-        # Último Slide: Logo centrado y legales
-        elif slide_index == post.slides:
-            if cat and cat.logo_1 and hasattr(cat.logo_1, 'file'):
-                try:
-                    res = requests.get(cat.logo_1.file.url, timeout=10)
-                    logo = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                    logo.thumbnail((base_width * 0.35, base_height * 0.35), PILImage.LANCZOS)
-                    x = (base_width - logo.size[0]) // 2
-                    y = (base_height - logo.size[1]) // 2
-                    base_image.paste(logo, (x, y), logo)
-                except: pass
+        # --- LOGO 1 (TOP LEFT) ---
+        if slide_index == 1 and logo1:
+            try:
+                logo_url = getattr(logo1, "url", None) or getattr(logo1.file, "url", None)
+
+                if logo_url:
+                    res = requests.get(logo_url, timeout=10)
+
+                    if res.status_code == 200 and "image" in res.headers.get("Content-Type", ""):
+                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
+                        img.thumbnail(
+                            (int(base_width * 0.20), int(base_height * 0.20)),
+                            PILImage.LANCZOS
+                        )
+                        base_image.paste(img, (margin, margin), img)
+
+            except Exception as e:
+                print("⚠️ Error Logo 1:", e)
+
+        # --- LOGO 2 (BOTTOM RIGHT) ---
+        if slide_index == 1 and logo2:
+            try:
+                logo_url = getattr(logo2, "url", None) or getattr(logo2.file, "url", None)
+
+                if logo_url:
+                    res = requests.get(logo_url, timeout=10)
+
+                    if res.status_code == 200 and "image" in res.headers.get("Content-Type", ""):
+                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
+                        img.thumbnail(
+                            (int(base_width * 0.15), int(base_height * 0.15)),
+                            PILImage.LANCZOS
+                        )
+
+                        x = base_width - img.size[0] - margin
+                        y = base_height - img.size[1] - margin
+
+                        base_image.paste(img, (x, y), img)
+
+            except Exception as e:
+                print("⚠️ Error Logo 2:", e)
+
+        # --- FINAL SLIDE LOGO + COPYRIGHT ---
+        last_slide = int(post.slides or 0)
+
+        if slide_index == last_slide and logo1:
+            try:
+                logo_url = getattr(logo1, "url", None) or getattr(logo1.file, "url", None)
+
+                if logo_url:
+                    res = requests.get(logo_url, timeout=10)
+
+                    if res.status_code == 200:
+                        img = PILImage.open(BytesIO(res.content)).convert("RGBA")
+                        img.thumbnail(
+                            (int(base_width * 0.35), int(base_height * 0.35)),
+                            PILImage.LANCZOS
+                        )
+
+                        x = (base_width - img.size[0]) // 2
+                        y = (base_height - img.size[1]) // 2
+
+                        base_image.paste(img, (x, y), img)
+
+            except Exception as e:
+                print("⚠️ Error Logo Final:", e)
+
+            # COPYRIGHT TEXT
+            draw = ImageDraw.Draw(base_image)
 
             text = "All copyrights ® reserved 2026 SmartQuail, Inc"
-            draw = ImageDraw.Draw(base_image)
+
             try:
                 font = ImageFont.truetype("arial.ttf", 28)
             except:
                 font = ImageFont.load_default()
 
-            # Cálculo de centrado
-            tw = draw.textlength(text, font=font) if hasattr(draw, 'textlength') else draw.textsize(text, font=font)[0]
+            if hasattr(draw, "textbbox"):
+                l, t, r, b = draw.textbbox((0, 0), text, font=font)
+                tw = r - l
+            else:
+                tw = draw.textsize(text, font=font)[0]
+
             x_text = (base_width - tw) // 2
             y_text = base_height - margin - 20
 
-            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font) # Sombra
+            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font)
             draw.text((x_text, y_text), text, fill="white", font=font)
 
         # =========================
-        # 3️⃣ Guardar en Wagtail e Inline
+        # 3️⃣ SAVE TO WAGTAIL
         # =========================
         buffer = BytesIO()
         base_image.save(buffer, format="PNG")
         buffer.seek(0)
-        
+
         ImageModel = get_image_model()
         wagtail_image = ImageModel(title=f"Post {post.id} - Slide {slide_index}")
-        # Guardar archivo físico
-        wagtail_image.file.save(f"carousel_{post.id}_{slide_index}.png", ContentFile(buffer.getvalue()), save=True)
 
-        # Guardar el Slide vinculado (Inline)
+        wagtail_image.file.save(
+            f"carousel_{post.id}_{slide_index}.png",
+            ContentFile(buffer.getvalue()),
+            save=True
+        )
+
         from .models import InstagramCarouselImage
+
         slide, created = InstagramCarouselImage.objects.update_or_create(
             post=post,
             sort_order=slide_index - 1,
             defaults={
-                'image': wagtail_image,
-                'caption': data.get("caption", ""),
-                'copy': data.get("copy", ""),
-                'hashtags': data.get("hashtags", ""),
+                "image": wagtail_image,
+                "caption": data.get("caption", ""),
+                "copy": data.get("copy", ""),
+                "hashtags": data.get("hashtags", ""),
             }
         )
 
         # =========================
-        # 4️⃣ Actualizar metadatos y estado
+        # 4️⃣ STATUS UPDATE
         # =========================
-        # Solo actualizamos el estado global a 'sent' si es el último slide
-        if post.images.count() >= post.slides:
+        if post.images.count() >= int(post.slides or 0):
             post.status = "sent"
-            # Actualizamos también los textos principales del post con el del último slide o el recibido
             post.caption = data.get("caption", post.caption)
             post.hashtags = data.get("hashtags", post.hashtags)
             post.save(update_fields=["status", "caption", "hashtags"])
         else:
-            # Si aún faltan slides, nos aseguramos que esté en 'processing'
             if post.status != "processing":
                 post.status = "processing"
                 post.save(update_fields=["status"])
 
-        return Response({"success": True, "slide": slide_index, "post_id": post.id})
+        return Response({
+            "success": True,
+            "slide": slide_index,
+            "post_id": post.id
+        })
 
     except Exception as e:
         print(f"💥 Error en carousel slide view: {e}")
         return Response({"success": False, "message": str(e)}, status=500)
-
 
 
 @api_view(['POST'])
