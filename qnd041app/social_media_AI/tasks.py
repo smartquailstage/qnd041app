@@ -176,31 +176,28 @@ def task_instagram_carousel(self, payload):
             raise Exception("No se pudo marcar como processing")
 
         # ========================================================
-        # 2. PAYLOAD DATA (SAFE MERGE)
+        # 2. SAFE DATA
         # ========================================================
         payload_data = payload or {}
         cat = obj.categories
 
+        def get_value(key, fallback):
+            v = payload_data.get(key)
+            return v if v not in [None, ""] else fallback
+
         images_payload = [
             {
-                "id": item.id,
-                "sort_order": item.sort_order,
-                "caption": item.caption or "",
-                "copy": item.copy or "",
-                "hashtags": item.hashtags or "",
+                "id": i.id,
+                "sort_order": i.sort_order,
+                "caption": i.caption or "",
+                "copy": i.copy or "",
+                "hashtags": i.hashtags or "",
             }
-            for item in obj.images.all()
+            for i in obj.images.all()
         ]
 
         # ========================================================
-        # 🎨 SAFE OVERRIDE SYSTEM
-        # ========================================================
-        def get_value(key, fallback):
-            value = payload_data.get(key)
-            return value if value not in [None, ""] else fallback
-
-        # ========================================================
-        # 🎨 N8N PAYLOAD (ROBUSTO)
+        # 🎨 N8N PAYLOAD (ROBUST + SAFE)
         # ========================================================
         n8n_payload = {
             "id": obj.id,
@@ -208,32 +205,32 @@ def task_instagram_carousel(self, payload):
             "slides_count": obj.slides,
 
             # CAMPAIGN
-            "campaign_name": cat.name if cat else "General",
+            "campaign_name": getattr(cat, "name", "General"),
 
             # STYLE
-            "style": get_value("style", cat.style if cat else "futuristic"),
+            "style": get_value("style", getattr(cat, "style", "futuristic")),
 
             # BRAND
-            "primary_brand": cat.brand_1 if cat else "SmartQuail",
+            "primary_brand": getattr(cat, "brand_1", "SmartQuail"),
 
-            # LOGOS
+            # LOGOS (SAFE)
             "logo_primary": getattr(cat, "image_url_1", None),
             "logo_secondary": getattr(cat, "image_url_2", None),
 
-            # COLORS (FIX REAL)
+            # COLORS (FIX REAL + NO NULL BREAK)
             "color_primary": get_value(
                 "color_primary",
-                cat.color_1 if cat else "#FF0000"
+                getattr(cat, "color_1", "#FF0000")
             ),
 
             "color_secondary": get_value(
                 "color_secondary",
-                cat.color_2 if cat else "#FFFFFF"
+                getattr(cat, "color_2", "#FFFFFF")
             ),
 
             "color_palette": get_value(
                 "color_palette",
-                cat.color_palette if cat else "Vibrant"
+                getattr(cat, "color_palette", "Vibrant")
             ),
 
             # SCHEDULE
@@ -243,6 +240,7 @@ def task_instagram_carousel(self, payload):
                 else None
             ),
 
+            # EXISTING
             "existing_images": images_payload,
         }
 
@@ -253,6 +251,10 @@ def task_instagram_carousel(self, payload):
 
         if not response:
             raise Exception("Empty response from n8n")
+
+        # 🔥 FIX CRÍTICO: soporta async n8n ("Workflow was started")
+        if isinstance(response, dict) and "message" in response:
+            raise Exception(f"n8n async response: {response}")
 
         images_response = response.get("images")
 
@@ -332,14 +334,15 @@ def task_instagram_carousel(self, payload):
         if obj:
             mark_failed(obj)
 
-        # SOLO retry si no es error fatal
+        # ========================================================
+        # RETRY CONTROLADO
+        # ========================================================
         if "Carousel not found" in str(exc):
             return {"status": "error", "fatal": True}
 
         countdown = 60 * (2 ** self.request.retries)
 
         raise self.retry(exc=exc, countdown=countdown)
-
 
 
 @shared_task(bind=True, max_retries=3)
