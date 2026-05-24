@@ -5,7 +5,26 @@
 {% load menu_tags %}
 {% load i18n wagtailcore_tags wagtailimages_tags %}
 
-  
+  <style>
+    .logo-smartquail{
+    width: 190px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .logo-smartquail{
+        width: 190px;
+    }
+}
+
+@media (max-width:480px){
+    .logo-smartquail{
+        width: 190px;
+    }
+}
+  </style>
   
   <!--=== Footer Start ===-->
   <footer class="footer" id="footer-fixed">
@@ -14,7 +33,11 @@
         <div class="row">
           <div class="col-sm-6 col-md-4">
             <div class="widget widget-text">
-              <div class="logo logo-footer"><a href="{% slugurl 'home' %}"> <img class="logo logo-display"  src="{% static 'img/BA-LOGOS/logo_smartquailred.png' %}" alt="logo" ></a> </div>
+              <div class="logo logo-footer"><a href="{% slugurl 'home' %}"> 
+                <img 
+  class="logo logo-display logo-smartquail"
+  src="{% static 'img/sqwhitel.png' %}" 
+  alt="logo"></a> </div>
               <p style="line-height: 20px;">
                 {% trans 'SmartQuail,Inc es una empresa líder en el desarrollo de soluciones de Tecnologías de la Información y Comunicación (TIC) en la nube, con el objetivo de democratizar el acceso a los sistemas de información a nivel global.' %}
               </p>
@@ -148,7 +171,7 @@
               </li>
 
               <li>
-                SMARTQUAIL.S.A.S - Ecuador <br>
+                SMARTQUAIL.S.A.S  <br>
               </li>
 
           </ul>
@@ -165,7 +188,7 @@
         <div class="row">
           <div class="col-md-6 col-xs-12">
             <ul class="social-media">
-              <li><img src="{% static 'img/BA-LOGOS/powered.png' %}" width="125px"></li>
+              <li><img src="{% static 'img/BA-LOGOS/powered.png' %}" width="100px"></li>
               {% if settings.webapp.SocialMediaSettings.facebook %}
               <li> <a href="{{ settings.webapp.SocialMediaSettings.facebook}}"><i class="icofont icofont-facebook"></i></a> </li>
               {% endif %}
@@ -184,7 +207,7 @@
             </ul>
           </div>
           <div class="col-md-6 col-xs-12">
-            <div class="copy-right text-right">2026 SmartQuail.S.A.S - ©  All rights reserved, Ecuador</div>
+            <div class="copy-right text-right">SmartQuail.S.A.S - © 2026  Todos los derechos reservados, UIO-Ecuador</div>
           </div>
         </div>
       </div>

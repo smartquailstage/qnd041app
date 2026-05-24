@@ -3,7 +3,11 @@
 {% load webapp_0_tags %}
 {% load static %}
 
-
+<style>
+  h4 {
+  font-size: clamp(1.1rem, 2vw, 28px);
+}
+</style>
 
   <!--=== Flex Slider Start ===-->
   <section class="pt-0 pb-0">
@@ -20,7 +24,8 @@
               <div class="container text-center">
                 <h2 class="white-color font-500 letter-spacing-5"></h2>
                 
-                <h1 class="white-color text-uppercase font-700"><img src="{% static 'img/logo_smartquailWhite.png' %}">{{page.banner_title4|richtext}}</h1>
+               <img src="{% static 'img/logo_smartquailWhite.png' %}">
+               {{page.banner_title4|richtext}}
                
                 <h3 class="white-color font-200">{{page.TS_info1}}<br>{{page.info1}}</h3>
                 <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-white btn-rounded btn-animate"><span>{% trans 'Learn more' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
@@ -37,9 +42,11 @@
           <div class="hero-text-wrap-sbm gradient-overlay-bg-sbm">
             <div class="hero-text">
               <div class="container text-center">
-                <h2 style="color:#fff"  class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinessmedia.png' %}">{{page.banner_title5|richtext}}</h2>
-                <h5 class="white-color text-uppercase font-200">{{page.TS_info2}}<br></h5>
-                <h5 class="white-color text-uppercase font-200"> {{page.info2}}</h5>
+                <h1 class="white-color text-uppercase font-700">
+                  <img src="{% static 'img/smartbusinessmedia.png' %}">{{page.banner_title5|richtext}}
+                </h1>
+                <h3 class="white-color text-uppercase font-700">{{page.TS_info2}}<br></h3>
+                <p class="white-color text-uppercase font-700"> {{page.info2}}</p>
                 {% include 'sbmshop/product/sbm_list.html' %}
                 <a href="{% url 'sbmshop:product_list' %}" class=" btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
                
@@ -139,3 +146,7 @@
       </ul>
     </div>
   </section>
+
+
+
+  
