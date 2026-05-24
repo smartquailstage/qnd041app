@@ -144,11 +144,13 @@ from wagtail.models import Collection
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_carousel(self, payload):
-    # Importaciones dentro de la tarea para evitar problemas de carga circular
+
     obj = None
 
     try:
+        # ========================================================
         # 0. VALIDACIÓN
+        # ========================================================
         obj_id = payload.get("id")
         obj = InstagramCarouselPost.objects.filter(id=obj_id).first()
 
@@ -160,124 +162,186 @@ def task_instagram_carousel(self, payload):
             print(f"⚠️ Abortando: El carousel {obj_id} ya está en estado {obj.status}")
             return {"status": "skipped", "message": "Already processed"}
 
+        # ========================================================
         # 1. MARCAR PROCESSING
+        # ========================================================
         obj = mark_processing(InstagramCarouselPost, obj_id)
 
         if not obj:
             raise Exception("No se pudo marcar como processing")
 
-        # 2. BUILD PAYLOAD
-        # Nota: Mandamos los slides actuales (si existen) o el prompt para que n8n los genere
-        images_payload = []
-        for item in obj.images.all():
-            images_payload.append({
+        # ========================================================
+        # 2. PAYLOAD DATA (OVERRIDE + FALLBACK)
+        # ========================================================
+        payload_data = payload or {}
+        cat = obj.categories
+
+        images_payload = [
+            {
                 "id": item.id,
                 "sort_order": item.sort_order,
                 "caption": item.caption or "",
                 "copy": item.copy or "",
                 "hashtags": item.hashtags or "",
-            })
+            }
+            for item in obj.images.all()
+        ]
 
-        payload_data = payload or {}
-        cat = obj.categories
+        # ========================================================
+        # 🎨 N8N PAYLOAD (FIXED + HYBRID OVERRIDE SYSTEM)
+        # ========================================================
         n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
             "slides_count": obj.slides,
+
+            # ====================================================
+            # CAMPAIGN
+            # ====================================================
             "campaign_name": cat.name if cat else "General",
-            "style": payload_data.get("style", cat.style if cat else "futuristic")
+
+            # ====================================================
+            # STYLE (FIXED MISSING COMMA + OVERRIDE)
+            # ====================================================
+            "style": payload_data.get(
+                "style",
+                cat.style if cat else "futuristic"
+            ),
+
+            # ====================================================
+            # BRAND
+            # ====================================================
             "primary_brand": cat.brand_1 if cat else "SmartQuail",
+
+            # ====================================================
+            # LOGOS (SAFE ACCESS)
+            # ====================================================
             "logo_primary": cat.image_url_1 if cat else None,
             "logo_secondary": cat.image_url_2 if cat else None,
-            
+
+            # ====================================================
+            # 🎨 COLORS (FIXED OVERRIDE SYSTEM)
+            # ====================================================
             "color_primary": payload_data.get(
                 "color_primary",
-                cat.color_1 if cat else "#FF0000"),
-                
+                cat.color_1 if cat else "#FF0000"
+            ),
+
             "color_secondary": payload_data.get(
-            "color_secondary",
-            cat.color_2 if cat else "#FFFFFF"
+                "color_secondary",
+                cat.color_2 if cat else "#FFFFFF"
             ),
 
             "color_palette": payload_data.get(
-            "color_palette",
-            cat.color_palette if cat else "Vibrant"
+                "color_palette",
+                cat.color_palette if cat else "Vibrant"
             ),
 
-            "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
-            "existing_images": images_payload
-            }
+            # ====================================================
+            # SCHEDULE
+            # ====================================================
+            "scheduled_date": (
+                obj.scheduled_date.isoformat()
+                if obj.scheduled_date
+                else None
+            ),
 
+            # ====================================================
+            # EXISTING IMAGES
+            # ====================================================
+            "existing_images": images_payload,
+        }
+
+        # ========================================================
         # 3. SEND → n8n
-        # Se asume que n8n devuelve un array de objetos en la clave "images"
+        # ========================================================
         response = send_to_n8n("instagram_carousel", n8n_payload)
         images_response = response.get("images", [])
 
         if not images_response:
             raise Exception("n8n no devolvió imágenes para el carrusel")
 
-        # 4. UPDATE O CREATE INLINE ITEMS
+        # ========================================================
+        # 4. IMAGE PROCESSING
+        # ========================================================
         ImageModel = get_image_model()
-        # Intentamos obtener la colección root para que las imágenes sean visibles
+
         try:
             collection = Collection.objects.get(name="Root")
         except:
             collection = Collection.get_first_root_node()
 
         for index, res in enumerate(images_response):
-            image_url = res.get("image_url") or res.get("image") or res.get("generated_image_url")
-            
+
+            image_url = (
+                res.get("image_url")
+                or res.get("image")
+                or res.get("generated_image_url")
+            )
+
             if not image_url:
                 continue
 
-            # --- Descargar imagen generada ---
+            # --- DOWNLOAD ---
             img_res = requests.get(image_url, timeout=30)
             img_res.raise_for_status()
-            
-            # --- Crear imagen en Wagtail ---
-            img_temp = NamedTemporaryFile(delete=True) # Necesitas importar tempfile o usar BytesIO
+
             file_name = f"carousel_{obj.id}_slide_{index + 1}.png"
-            
+
+            # --- CREATE IMAGE ---
             wagtail_img = ImageModel(
                 title=f"Slide {index + 1} - Carousel {obj.id}",
                 collection=collection
             )
-            wagtail_img.file.save(file_name, ContentFile(img_res.content), save=True)
+            wagtail_img.file.save(
+                file_name,
+                ContentFile(img_res.content),
+                save=True
+            )
 
-            # --- Vincular al Inline (InstagramCarouselImage) ---
-            # Usamos update_or_create basado en el sort_order para evitar duplicados en reintentos
+            # --- INLINE UPDATE ---
             InstagramCarouselImage.objects.update_or_create(
                 post=obj,
                 sort_order=index,
                 defaults={
-                    'image': wagtail_img,
-                    'caption': res.get("caption") or "",
-                    'copy': res.get("copy") or "",
-                    'hashtags': res.get("hashtags") or "",
+                    "image": wagtail_img,
+                    "caption": res.get("caption") or "",
+                    "copy": res.get("copy") or "",
+                    "hashtags": res.get("hashtags") or "",
                 }
             )
 
+        # ========================================================
         # 5. FINALIZAR
+        # ========================================================
         obj.status = "sent"
         obj.updated_at = timezone.now()
-        # Guardamos caption y hashtags globales basados en el primer slide si están vacíos
+
         if images_response and not obj.caption:
             obj.caption = images_response[0].get("caption", "")
             obj.hashtags = images_response[0].get("hashtags", "")
-            
+
         obj.save(update_fields=["status", "updated_at", "caption", "hashtags"])
 
-        return {"status": "success", "carousel_id": obj.id, "slides_processed": len(images_response)}
+        return {
+            "status": "success",
+            "carousel_id": obj.id,
+            "slides_processed": len(images_response),
+        }
 
     except Exception as exc:
+
         print(f"💥 Error en carousel task: {exc}")
+
         if obj:
             mark_failed(obj)
-        
-        # Reintento exponencial
-        raise self.retry(exc=exc, countdown=60)
 
+        # ========================================================
+        # RETRY EXPONENCIAL (MEJORADO)
+        # ========================================================
+        countdown = 60 * (2 ** self.request.retries)
 
+        raise self.retry(exc=exc, countdown=countdown)
 
 @shared_task(bind=True, max_retries=3)
 def task_instagram_reel(self, payload):
