@@ -203,7 +203,6 @@ def update_generated_image(request):
         return Response({"success": False, "message": str(e)}, status=500)
 
 
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def update_generated_carousel_slide(request):
@@ -256,24 +255,29 @@ def update_generated_carousel_slide(request):
         margin = 40
 
         # =========================
-        # 3️⃣ DEBUG LOGOS
+        # 3️⃣ GET LOGOS
         # =========================
         logo1_field = getattr(cat, "logo_1", None)
         logo2_field = getattr(cat, "logo_2", None)
 
-        print("LOGO1:", logo1_field)
-        print("LOGO2:", logo2_field)
+        print("🖼️ LOGO1:", logo1_field)
+        print("🖼️ LOGO2:", logo2_field)
 
         # =========================
-        # 4️⃣ LOGO LOADER
+        # 4️⃣ UNIVERSAL LOGO LOADER
+        # WORKS WITH:
+        # - Local storage
+        # - S3
+        # - DigitalOcean Spaces
+        # - Cloudflare R2
+        # - Wagtail Images
         # =========================
         def load_logo(logo_field, width_percent):
             try:
                 if not logo_field:
-                    print("⚠️ Logo field vacío")
+                    print("⚠️ Logo vacío")
                     return None
 
-                # VALIDAR FILE
                 if not hasattr(logo_field, "file"):
                     print("⚠️ Logo sin atributo file")
                     return None
@@ -282,44 +286,29 @@ def update_generated_carousel_slide(request):
                     print("⚠️ Logo file vacío")
                     return None
 
-                logo_url = logo_field.file.url
+                # ABRIR STORAGE FILE DIRECTAMENTE
+                logo_field.file.open("rb")
 
-                print("🖼️ URL Logo:", logo_url)
-
-                # DESCARGAR LOGO
-                res = requests.get(logo_url, timeout=10)
-
-                print("📡 STATUS:", res.status_code)
-
-                if res.status_code != 200:
-                    print("⚠️ Error descargando logo")
-                    return None
-
-                # VALIDAR CONTENT TYPE
-                content_type = res.headers.get("Content-Type", "")
-
-                print("📦 Content-Type:", content_type)
-
-                if "image" not in content_type:
-                    print("⚠️ El archivo no es imagen")
-                    return None
-
-                # ABRIR IMAGEN
                 logo = PILImage.open(
-                    BytesIO(res.content)
+                    logo_field.file
                 ).convert("RGBA")
+
+                print("✅ Logo abierto correctamente")
 
                 # RESIZE PROPORCIONAL
                 max_w = int(base_width * width_percent)
 
                 ratio = max_w / logo.size[0]
 
+                new_height = int(logo.size[1] * ratio)
+
                 logo = logo.resize(
-                    (
-                        max_w,
-                        int(logo.size[1] * ratio)
-                    ),
+                    (max_w, new_height),
                     PILImage.LANCZOS
+                )
+
+                print(
+                    f"✅ Logo resizeado: {max_w}x{new_height}"
                 )
 
                 return logo
@@ -337,13 +326,17 @@ def update_generated_carousel_slide(request):
         )
 
         if img1:
-            print("✅ Pegando Logo 1")
+            try:
+                base_image.paste(
+                    img1,
+                    (margin, margin),
+                    img1
+                )
 
-            base_image.paste(
-                img1,
-                (margin, margin),
-                img1
-            )
+                print("✅ Logo 1 pegado")
+
+            except Exception as e:
+                print("💥 Error pegando logo1:", e)
 
         # =========================
         # 6️⃣ LOGO 2 (BOTTOM RIGHT)
@@ -354,16 +347,20 @@ def update_generated_carousel_slide(request):
         )
 
         if img2:
-            print("✅ Pegando Logo 2")
+            try:
+                x_l2 = base_width - img2.size[0] - margin
+                y_l2 = base_height - img2.size[1] - margin
 
-            x_l2 = base_width - img2.size[0] - margin
-            y_l2 = base_height - img2.size[1] - margin
+                base_image.paste(
+                    img2,
+                    (x_l2, y_l2),
+                    img2
+                )
 
-            base_image.paste(
-                img2,
-                (x_l2, y_l2),
-                img2
-            )
+                print("✅ Logo 2 pegado")
+
+            except Exception as e:
+                print("💥 Error pegando logo2:", e)
 
         # =========================
         # 7️⃣ FINAL SLIDE SPECIAL
@@ -378,16 +375,20 @@ def update_generated_carousel_slide(request):
             )
 
             if img_final:
-                print("✅ Pegando Logo Final")
+                try:
+                    x = (base_width - img_final.size[0]) // 2
+                    y = (base_height - img_final.size[1]) // 2
 
-                x = (base_width - img_final.size[0]) // 2
-                y = (base_height - img_final.size[1]) // 2
+                    base_image.paste(
+                        img_final,
+                        (x, y),
+                        img_final
+                    )
 
-                base_image.paste(
-                    img_final,
-                    (x, y),
-                    img_final
-                )
+                    print("✅ Logo final pegado")
+
+                except Exception as e:
+                    print("💥 Error pegando logo final:", e)
 
             # =========================
             # COPYRIGHT
@@ -460,6 +461,8 @@ def update_generated_carousel_slide(request):
             save=True
         )
 
+        print("✅ Imagen guardada en Wagtail")
+
         # =========================
         # 9️⃣ SAVE SLIDE
         # =========================
@@ -475,6 +478,8 @@ def update_generated_carousel_slide(request):
                 "hashtags": data.get("hashtags", ""),
             }
         )
+
+        print("✅ Slide guardado")
 
         # =========================
         # 🔟 STATUS UPDATE
@@ -503,8 +508,11 @@ def update_generated_carousel_slide(request):
                 ]
             )
 
+            print("✅ Carousel completado")
+
         else:
             if post.status != "processing":
+
                 post.status = "processing"
 
                 post.save(
@@ -514,10 +522,11 @@ def update_generated_carousel_slide(request):
         return Response({
             "success": True,
             "slide": slide_index,
-            "post_id": post.id
+            "post_id": post.id,
         })
 
     except InstagramCarouselPost.DoesNotExist:
+
         return Response(
             {
                 "success": False,
@@ -527,6 +536,7 @@ def update_generated_carousel_slide(request):
         )
 
     except Exception as e:
+
         print(f"💥 Error en carousel slide view: {e}")
 
         return Response(
@@ -536,6 +546,8 @@ def update_generated_carousel_slide(request):
             },
             status=500
         )
+
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
