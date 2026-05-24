@@ -219,123 +219,240 @@ def update_generated_carousel_slide(request):
 
         if not post_id or not image_url:
             return Response(
-                {"success": False, "message": "Faltan parámetros (id/image)"},
+                {
+                    "success": False,
+                    "message": "Faltan parámetros (id/image)"
+                },
                 status=400
             )
 
+        # =========================
+        # 1️⃣ GET POST
+        # =========================
         post = InstagramCarouselPost.objects.get(id=post_id)
         cat = post.categories
 
         # =========================
-        # 1️⃣ BASE IMAGE
+        # 2️⃣ DOWNLOAD BASE IMAGE
         # =========================
-        r = requests.get(image_url, timeout=25)
-        r.raise_for_status()
+        try:
+            r = requests.get(image_url, timeout=25)
+            r.raise_for_status()
 
-        base_image = PILImage.open(BytesIO(r.content)).convert("RGBA")
+            base_image = PILImage.open(
+                BytesIO(r.content)
+            ).convert("RGBA")
+
+        except Exception as e:
+            return Response(
+                {
+                    "success": False,
+                    "message": f"Error descargando imagen: {str(e)}"
+                },
+                status=400
+            )
+
         base_width, base_height = base_image.size
         margin = 40
 
         # =========================
-        # 2️⃣ LOGO LOADER (REUTILIZABLE STYLE)
+        # 3️⃣ DEBUG LOGOS
         # =========================
-        def load_logo(logo_obj, max_size):
+        logo1_field = getattr(cat, "logo_1", None)
+        logo2_field = getattr(cat, "logo_2", None)
+
+        print("LOGO1:", logo1_field)
+        print("LOGO2:", logo2_field)
+
+        # =========================
+        # 4️⃣ LOGO LOADER
+        # =========================
+        def load_logo(logo_field, width_percent):
             try:
-                if not logo_obj:
+                if not logo_field:
+                    print("⚠️ Logo field vacío")
                     return None
 
-                logo_url = getattr(logo_obj, "url", None) or getattr(getattr(logo_obj, "file", None), "url", None)
-
-                if not logo_url:
+                # VALIDAR FILE
+                if not hasattr(logo_field, "file"):
+                    print("⚠️ Logo sin atributo file")
                     return None
 
+                if not logo_field.file:
+                    print("⚠️ Logo file vacío")
+                    return None
+
+                logo_url = logo_field.file.url
+
+                print("🖼️ URL Logo:", logo_url)
+
+                # DESCARGAR LOGO
                 res = requests.get(logo_url, timeout=10)
 
-                if res.status_code != 200 or "image" not in res.headers.get("Content-Type", ""):
+                print("📡 STATUS:", res.status_code)
+
+                if res.status_code != 200:
+                    print("⚠️ Error descargando logo")
                     return None
 
-                img = PILImage.open(BytesIO(res.content)).convert("RGBA")
-                img.thumbnail(max_size, PILImage.LANCZOS)
-                return img
+                # VALIDAR CONTENT TYPE
+                content_type = res.headers.get("Content-Type", "")
+
+                print("📦 Content-Type:", content_type)
+
+                if "image" not in content_type:
+                    print("⚠️ El archivo no es imagen")
+                    return None
+
+                # ABRIR IMAGEN
+                logo = PILImage.open(
+                    BytesIO(res.content)
+                ).convert("RGBA")
+
+                # RESIZE PROPORCIONAL
+                max_w = int(base_width * width_percent)
+
+                ratio = max_w / logo.size[0]
+
+                logo = logo.resize(
+                    (
+                        max_w,
+                        int(logo.size[1] * ratio)
+                    ),
+                    PILImage.LANCZOS
+                )
+
+                return logo
 
             except Exception as e:
-                print("⚠️ Logo load error:", e)
+                print("💥 Error loading logo:", str(e))
                 return None
 
         # =========================
-        # 3️⃣ BRANDING (APLICA EN TODOS LOS SLIDES)
+        # 5️⃣ LOGO 1 (TOP LEFT)
         # =========================
-
-        logo1 = getattr(cat, "logo_1", None)
-        logo2 = getattr(cat, "logo_2", None)
-
-        # --- LOGO 1 (TOP LEFT - ALL SLIDES) ---
         img1 = load_logo(
-            logo1,
-            (int(base_width * 0.20), int(base_height * 0.20))
+            logo1_field,
+            0.20
         )
 
         if img1:
-            base_image.paste(img1, (margin, margin), img1)
+            print("✅ Pegando Logo 1")
 
-        # --- LOGO 2 (BOTTOM RIGHT - ALL SLIDES) ---
+            base_image.paste(
+                img1,
+                (margin, margin),
+                img1
+            )
+
+        # =========================
+        # 6️⃣ LOGO 2 (BOTTOM RIGHT)
+        # =========================
         img2 = load_logo(
-            logo2,
-            (int(base_width * 0.15), int(base_height * 0.15))
+            logo2_field,
+            0.15
         )
 
         if img2:
-            x = base_width - img2.size[0] - margin
-            y = base_height - img2.size[1] - margin
-            base_image.paste(img2, (x, y), img2)
+            print("✅ Pegando Logo 2")
+
+            x_l2 = base_width - img2.size[0] - margin
+            y_l2 = base_height - img2.size[1] - margin
+
+            base_image.paste(
+                img2,
+                (x_l2, y_l2),
+                img2
+            )
 
         # =========================
-        # 4️⃣ FINAL SLIDE SPECIAL BRANDING
+        # 7️⃣ FINAL SLIDE SPECIAL
         # =========================
         last_slide = int(post.slides or 0)
 
-        if slide_index == last_slide and logo1:
+        if slide_index == last_slide:
+
             img_final = load_logo(
-                logo1,
-                (int(base_width * 0.35), int(base_height * 0.35))
+                logo1_field,
+                0.35
             )
 
             if img_final:
+                print("✅ Pegando Logo Final")
+
                 x = (base_width - img_final.size[0]) // 2
                 y = (base_height - img_final.size[1]) // 2
-                base_image.paste(img_final, (x, y), img_final)
 
+                base_image.paste(
+                    img_final,
+                    (x, y),
+                    img_final
+                )
+
+            # =========================
             # COPYRIGHT
+            # =========================
             draw = ImageDraw.Draw(base_image)
 
             text = "All copyrights ® reserved 2026 SmartQuail, Inc"
 
             try:
-                font = ImageFont.truetype("arial.ttf", 28)
+                font = ImageFont.truetype(
+                    "arial.ttf",
+                    28
+                )
             except:
                 font = ImageFont.load_default()
 
             if hasattr(draw, "textbbox"):
-                l, t, r, b = draw.textbbox((0, 0), text, font=font)
+                l, t, r, b = draw.textbbox(
+                    (0, 0),
+                    text,
+                    font=font
+                )
                 tw = r - l
             else:
-                tw = draw.textsize(text, font=font)[0]
+                tw = draw.textsize(
+                    text,
+                    font=font
+                )[0]
 
             x_text = (base_width - tw) // 2
             y_text = base_height - margin - 20
 
-            draw.text((x_text + 1, y_text + 1), text, fill="black", font=font)
-            draw.text((x_text, y_text), text, fill="white", font=font)
+            # SHADOW
+            draw.text(
+                (x_text + 1, y_text + 1),
+                text,
+                fill="black",
+                font=font
+            )
+
+            # MAIN TEXT
+            draw.text(
+                (x_text, y_text),
+                text,
+                fill="white",
+                font=font
+            )
 
         # =========================
-        # 5️⃣ SAVE TO WAGTAIL
+        # 8️⃣ SAVE IMAGE
         # =========================
         buffer = BytesIO()
-        base_image.save(buffer, format="PNG")
+
+        base_image.save(
+            buffer,
+            format="PNG"
+        )
+
         buffer.seek(0)
 
         ImageModel = get_image_model()
-        wagtail_image = ImageModel(title=f"Post {post.id} - Slide {slide_index}")
+
+        wagtail_image = ImageModel(
+            title=f"Post {post.id} - Slide {slide_index}"
+        )
 
         wagtail_image.file.save(
             f"carousel_{post.id}_{slide_index}.png",
@@ -343,6 +460,9 @@ def update_generated_carousel_slide(request):
             save=True
         )
 
+        # =========================
+        # 9️⃣ SAVE SLIDE
+        # =========================
         from .models import InstagramCarouselImage
 
         slide, created = InstagramCarouselImage.objects.update_or_create(
@@ -357,17 +477,39 @@ def update_generated_carousel_slide(request):
         )
 
         # =========================
-        # 6️⃣ STATUS UPDATE
+        # 🔟 STATUS UPDATE
         # =========================
-        if post.images.count() >= int(post.slides or 0):
+        total_slides = int(post.slides or 0)
+
+        if post.images.count() >= total_slides:
+
             post.status = "sent"
-            post.caption = data.get("caption", post.caption)
-            post.hashtags = data.get("hashtags", post.hashtags)
-            post.save(update_fields=["status", "caption", "hashtags"])
+
+            post.caption = data.get(
+                "caption",
+                post.caption
+            )
+
+            post.hashtags = data.get(
+                "hashtags",
+                post.hashtags
+            )
+
+            post.save(
+                update_fields=[
+                    "status",
+                    "caption",
+                    "hashtags"
+                ]
+            )
+
         else:
             if post.status != "processing":
                 post.status = "processing"
-                post.save(update_fields=["status"])
+
+                post.save(
+                    update_fields=["status"]
+                )
 
         return Response({
             "success": True,
@@ -375,11 +517,25 @@ def update_generated_carousel_slide(request):
             "post_id": post.id
         })
 
+    except InstagramCarouselPost.DoesNotExist:
+        return Response(
+            {
+                "success": False,
+                "message": "Post no encontrado"
+            },
+            status=404
+        )
+
     except Exception as e:
         print(f"💥 Error en carousel slide view: {e}")
-        return Response({"success": False, "message": str(e)}, status=500)
 
-        
+        return Response(
+            {
+                "success": False,
+                "message": str(e)
+            },
+            status=500
+        )
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
