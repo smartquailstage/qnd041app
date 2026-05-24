@@ -178,22 +178,35 @@ def task_instagram_carousel(self, payload):
                 "hashtags": item.hashtags or "",
             })
 
+        payload_data = payload or {}
         cat = obj.categories
         n8n_payload = {
             "id": obj.id,
             "prompt": obj.prompt,
-            "slides_count": obj.slides, # Cantidad de slides a generar
+            "slides_count": obj.slides,
             "campaign_name": cat.name if cat else "General",
-            "style": cat.style if cat else "modern",
+            "style": payload_data.get("style", cat.style if cat else "futuristic")
             "primary_brand": cat.brand_1 if cat else "SmartQuail",
-            "logo_primary": cat.logo_1.file.url if cat and cat.logo_1 else None,
-            "logo_secondary": cat.logo_2.file.url if cat and cat.logo_2 else None,
-            "color_primary": cat.color_1 if cat else "#FF0000",
-            "color_secondary": cat.color_2 if cat else "#FFFFFF",
-            "color_palette": cat.color_palette if cat else "Vibrant",
+            "logo_primary": cat.image_url_1 if cat else None,
+            "logo_secondary": cat.image_url_2 if cat else None,
+            
+            "color_primary": payload_data.get(
+                "color_primary",
+                cat.color_1 if cat else "#FF0000"),
+                
+            "color_secondary": payload_data.get(
+            "color_secondary",
+            cat.color_2 if cat else "#FFFFFF"
+            ),
+
+            "color_palette": payload_data.get(
+            "color_palette",
+            cat.color_palette if cat else "Vibrant"
+            ),
+
             "scheduled_date": obj.scheduled_date.isoformat() if obj.scheduled_date else None,
             "existing_images": images_payload
-        }
+            }
 
         # 3. SEND → n8n
         # Se asume que n8n devuelve un array de objetos en la clave "images"
