@@ -19,7 +19,7 @@
               {% image item.logo_slide original as logo_slide %}
               <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:580px;">
             {% endif %}
-            <h3 style="color:#c7c7c7; margin-left: 54px;">{{ page.title }}</h3>
+            <h3 style="color:rgb(92, 87, 87); margin-left: 54px;">{{ page.title }}</h3>
           </div>
         </div>
       </section>
@@ -27,7 +27,7 @@
   {% endfor %}
 
 
-  <section class="pt-100" style="background-color: #212121;">
+  <section class="pt-100" style="background-color: #fff;">
     <div class="container">
       <div class="row">
 
@@ -49,16 +49,16 @@
             {% endif %}
           {% endfor %}
 
-          <p style="color: #EAEBEE;" class="mt-30">{{ page.bio2|richtext }}</p>
+          <p style="color: #303131;" class="mt-30">{{ page.bio2|richtext }}</p>
 
         </div>
 
 
         <div class="col-md-9">
 
-          <h3 style="color: #fff;">{{ page.banner_title9|richtext }}</h3>
-          <h4 style="color: #fff;">{{ page.TS_info6 }}</h4>
-          <div style="color: #fff;">{{ page.info_title9|richtext }}</div>
+          <h3 style="color: rgb(36, 35, 35);">{{ page.banner_title9|richtext }}</h3>
+          <h4 style="color:rgb(36, 35, 35);">{{ page.TS_info6 }}</h4>
+          <div style="color:rgb(36, 35, 35);">{{ page.info_title9|richtext }}</div>
 
           <div class="portfolio-slider owl-carousel  mt-30">
             {% for item in page.galleria_3.all %}
@@ -81,15 +81,15 @@
             {% endfor %}
           </div>
 
-          <h3 style="color: #fff;text-align: justify;">{{ page.banner_title10|richtext }}</h3>
-          <h4 style="color: #fff;text-align: justify;">{{ page.TS_info7 }}</h4>
+          <h3 style="color: rgb(36, 35, 35);text-align: justify;">{{ page.banner_title10|richtext }}</h3>
+          <h4 style="color:rgb(36, 35, 35);text-align: justify;">{{ page.TS_info7 }}</h4>
           <div style="text-align: justify; letter-spacing: normal;
   line-height: 21px;
   color: #96979B;
   font-weight: 300;">{{ page.info_title10|richtext }}</div>
 
-          <h3 style="color: #fff;text-align: justify;">{{ page.banner_title11|richtext }}</h3>
-          <h4 style="color: #fff;text-align: justify;">{{ page.TS_info8 }}</h4>
+          <h3 style="color:rgb(36, 35, 35);text-align: justify;">{{ page.banner_title11|richtext }}</h3>
+          <h4 style="color: rgb(36, 35, 35);text-align: justify;">{{ page.TS_info8 }}</h4>
           <div style="text-align: justify;">{{ page.info_title11|richtext }}</div>
 
           {% if settings.webapp.GlobalLinksSettings.start_project_SBM %}
@@ -153,7 +153,7 @@
       <div class="row">
         <div class="col-md-6">
           <p class="subtitle">{% trans "Become a Smart IT Cloud Business" %}</p>
-          <h3>{% trans "Let’s build your cloud future together." %}</h3>
+          <h3 style="color:#d2cccc">{% trans "Let’s build your cloud future together." %}</h3>
         </div>
         <div class="col-md-6 text-right">
           <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}"

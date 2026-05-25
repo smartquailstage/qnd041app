@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /Users/smartquail/Desktop/qnd041app/qnd041venv
+set -gx VIRTUAL_ENV /Users/smartquail/Desktop/QNODES2025/QND0/qnd041app/qnd041venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
