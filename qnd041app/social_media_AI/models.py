@@ -175,13 +175,14 @@ class InstagramPost(BasePost):
                 FieldPanel("post_type", classname="col6"),
                 FieldPanel("image_size", classname="col6"),
                 FieldPanel("scheduled_date", classname="col6"),
-                FieldPanel("caption", classname="col6"),
-                FieldPanel("copy", classname="col6"),
-                FieldPanel("hashtags", classname="col6"),
+
             ]),
         ], heading="Configure su Instagram Post"),
         
         FieldPanel("prompt"),
+        FieldPanel("caption"),
+        FieldPanel("copy"),
+        FieldPanel("hashtags"),
     ]
 
 
