@@ -339,7 +339,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 	position: relative;
     z-index: 110;
 	display: table;
-    height: 80px;
+    height: 55px;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
 }
@@ -354,7 +354,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 }
 
 .logo img {
-    max-height: 18px;
+    max-height: 30px;
 	-webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: block;
