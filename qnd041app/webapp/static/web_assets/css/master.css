@@ -354,7 +354,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 }
 
 .logo img {
-    max-height: 33px;
+    max-height: 18px;
 	-webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: block;
@@ -1260,9 +1260,9 @@ button:focus {
 
 
 .btn-red {
-    color: #fff;
-    border-color: #f44336;
-    background-color: #f44336;
+  color: #fff;
+  border-color: #893438;
+  background-color: #b0292d;
 }
 
 .btn-red:hover, .btn-red:active, .btn-red:focus {
@@ -3940,12 +3940,12 @@ ul.footer-gallery li img {
 
 
 .hero-text-wrap-sq {
-	display: table;
+	  display: table;
     table-layout: fixed;
     height: 100%;
     width: 100%;
     position: relative;
-    background-color:rgba(2, 0, 0, 0.72);
+    background-color:rgba(1, 1, 1, 0);
     z-index: 200;
 }
 

@@ -7,6 +7,20 @@
   h4 {
   font-size: clamp(1.1rem, 2vw, 28px);
 }
+
+.logo-responsive{
+    width: 100%;
+    max-width: 49%;
+    height: auto;
+}
+
+@media (max-width: 768px){
+    .logo-responsive{
+        max-width: 100%;
+    }
+}
+
+
 </style>
 
   <!--=== Flex Slider Start ===-->
@@ -17,18 +31,15 @@
         <li>
           {% for item in page.galleria.all %}
           {% image item.image scale-100 as s1 %}
-          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat;opacity: 0.7"></div>
+          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat; opacity: 0.75;"></div>
           {% endfor %}
           <div class="hero-text-wrap-sq gradient-overlay-bg-sq">
-            <div class="hero-text white-color">
+            <div class="hero-text dark-color">
               <div class="container text-center">
-                <h2 class="white-color font-500 letter-spacing-5"></h2>
+                <h2 class="dark-color font-500 letter-spacing-5"></h2>
                 
-               <img src="{% static 'img/logo_smartquailWhite.png' %}">
-               {{page.banner_title4|richtext}}
-               
-                <h3 class="white-color font-200">{{page.TS_info1}}<br>{{page.info1}}</h3>
-                <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-white btn-rounded btn-animate"><span>{% trans 'Learn more' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
+               <img src="{% static 'web_assets/images/smartquail_ini.png' %}" class="logo-responsive">
+                <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-red btn-rounded btn-animate"><span>{% trans 'Learn more' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
               </div>
             </div>
           </div>

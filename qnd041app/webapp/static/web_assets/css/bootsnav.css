@@ -514,7 +514,7 @@ nav.navbar.bootsnav.navbar-fixed{
     position: fixed;
     display: block;
     width: 100%;
-	/* height:60px; */
+	height:70px; 
 }
 
 nav.navbar.bootsnav.no-background{
@@ -713,7 +713,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     }
 
     nav.navbar.bootsnav.navbar-transparent.white{
-        background-color:transparent;
+        background-color:#b0292d;
         /*border-bottom: solid 1px #bbb;*/
 		/* height:80px; */
     }
