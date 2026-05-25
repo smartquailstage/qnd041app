@@ -157,6 +157,7 @@ INSTALLED_APPS = [
  #   "wagtail.contrib.redirects",
     "wagtail.contrib.routable_page",
     "wagtail.contrib.settings",
+    "wagtail.contrib.forms",
 
     # Wagtail plugins
     "wagtailgmaps",

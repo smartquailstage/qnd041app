@@ -131,6 +131,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
+    "wagtail.contrib.forms",
 
 
    # 'cart',
