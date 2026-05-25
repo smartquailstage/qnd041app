@@ -27,7 +27,7 @@
             {% image item.logo_slide scale-100 as l1 %}
             <img class="img-responsive" style="width: 580px; align-content: left;" src="{{ l1.url }}" alt=""/>
           {% endfor %}
-          <h3 style="text-align: left; margin-left: 50px; color:rgb(199, 199, 199)">{{ page.title }}</h3>
+          <h3 style="text-align: left; margin-left: 50px; color:rgb(76, 73, 73)">{{ page.title }}</h3>
         </div>
       </div>
     </section>
@@ -43,7 +43,7 @@
                 {% image item.logo scale-100 as s1 %}
                 <img src="{{ s1.url }}" alt=""/>
               {% endfor %}
-              <li><strong>{% trans 'Author Name' %}: </strong>{{ page.author_name }}</li>
+             
             </ul>
             <ul class="project-type-list">
               <li>
@@ -57,20 +57,12 @@
                     <a href="#">
                       <div class="portfolio-wrap">
                         <!--=== /.project-info ===-->
-                        <ul class="portfolio-details">
-                          <li><a class="alpha-lightbox" href="http://www.incognitothemes.com/scoda/assets/images/portfolio/grid/17.jpg"></a></li>
-                        </ul>
+
                       </div>
                     </a>
                   </div>
                 </div>
               </li>
-            </ul>
-            <ul class="project-detail-box">
-              <li>{{ page.business_title }}</li>
-              <li>{{ page.business_activity }}</li>
-              <li><strong>{% trans 'Sci-Tech Exp' %}: </strong>{{ page.business_experience }} {% trans 'years' %}</li>
-              <li><strong>{% trans 'Updated' %}: </strong>{{ page.updated }}</li>
             </ul>
 
             <div class="post-controls">
@@ -161,25 +153,25 @@
             <hr>
             <h3>{{ page.banner_title12 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title12 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
+            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title13 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title13 | richtext }}</p>
-            <p class="mt-50"><a href="{% slugurl 'smartbusinessmedia' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
+            <p class="mt-50"><a href="{% slugurl 'smartbusinessmedia' %}" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title14 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title14 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
+            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title15 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title15 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
+            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <!-- Repeat similar sections as needed -->
@@ -209,7 +201,7 @@
             {% endfor %}
             <h3 style="text-align: left; margin-left: 50px; color:rgb(199, 199, 199)">{{ page.title }}</h3>
             
-                <p class="mt-50"><a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">{% trans 'Register Now, and create  your IT Cloud Business' %}</a></p>
+                <p class="mt-50"><a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
               
         
             </div>
