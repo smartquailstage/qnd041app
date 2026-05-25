@@ -4,7 +4,7 @@ metadata:
   name: qnd041app-worker
   namespace: www-apps
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: qnd041app-worker
