@@ -39,8 +39,9 @@
             {% endfor %}
 
           </ul>
-          <h2 class="mt-80 font-700" style="color:#0000;">{% trans 'Benefits' %}</h2>
-          <p>{{ self.benefits | richtext}}</p>
+         <!-- Eliminamos los <p> que envolvían al campo -->
+<h2 class="mt-80 font-700" style="color:#0000;">{% trans 'Benefits' %}</h2>
+{{ self.benefits|richtext|safe }}
         </div>
       </div>
     </div>
