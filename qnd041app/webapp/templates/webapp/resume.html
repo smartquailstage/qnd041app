@@ -27,6 +27,16 @@
   opacity: 1;
   position: relative;
 }
+
+
+.profile-photo {
+  border-radius: 50%; /* This creates the circular shape */
+  width: 250px;       /* Set a specific width */
+  height: 250px;      /* The height must be the same to ensure a perfect circle */
+  object-fit: cover;  /* This ensures the image isn't squished inside the circle */
+}
+
+
 </style>
 
 {% main_menu template="webapp/home/header.html" %}
@@ -76,11 +86,15 @@
 </section>
 
 <!-- ================= ABOUT ================= -->
-<section class="main-section" id="about">
+<section class="main-section" style="background-color: #ffff;" id="about">
   <div class="container">
     <div class="row">
       <div class="col-sm-8 section-heading">
         <h1 class="text-uppercase font-700">{% trans 'My Biography' %}</h1>
+            {% for item in page.porfolio_items.all %}
+              {% image item.image_1 scale-100 as img %}
+              <img src="{{ img.url }}" alt="{{ item.porfolio_title }}" class="profile-photo">
+            {% endfor %}
         <div class="mt-30">
           {{ page.aboutus|richtext }}
         </div>
@@ -102,34 +116,6 @@
   </div>
 </section>
 
-<!-- ================= PORTFOLIO ================= -->
-<section class="pt-0 pb-0" id="portfolio">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="portfolio-container text-center">
-
-        <ul id="portfolio-grid" class="three-column hover-two">
-          {% for item in page.porfolio_items.all %}
-          {% image item.image_1 scale-100 as img %}
-          <li class="portfolio-item" data-groups='["all","{{ item.porfolio }}"]'>
-            <div class="portfolio gallery-image-hover">
-              <div class="dark-overlay"></div>
-              <img src="{{ img.url }}" alt="{{ item.porfolio_title }}">
-              <div class="portfolio-wrap">
-                <div class="portfolio-description">
-                  <h3 class="portfolio-title">{{ item.porfolio_title }}</h3>
-                  <span class="links">{{ item.porfolio }}</span>
-                </div>
-              </div>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ================= RESUME ================= -->
 <section class="dark-bg" id="resume">
@@ -175,30 +161,104 @@
 </section>
 
 <!-- ================= CONTACT ================= -->
-<section class="contact-us" id="contact">
+<!-- ================= CONTACT ================= -->
+<section class="contact-us pt-100 pb-100" style="background-color: #fff;" id="contact">
   <div class="container">
-    <div class="row">
-      <div class="col-sm-8 section-heading">
-        <h1 class="text-uppercase font-700">{% trans "Contact Me" %}</h1>
+    
+    <!-- Encabezado Principal Más Grande -->
+    <div class="row mb-60">
+      <div class="col-sm-12 section-heading">
+        <h1 class="text-uppercase font-700 contact-main-title">{% trans "Contact Me" %}</h1>
+        <div class="title-line"></div>
       </div>
     </div>
 
-    <div class="row mt-50">
-      <div class="col-sm-12 col-md-offset-2 col-md-8">
-        <form action="{% pageurl page %}" method="POST">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <p class="text-center">
-            <button type="submit" class="btn btn-color btn-circle">
-              {% trans "Send Request" %}
-            </button>
+    <div class="row match-height">
+  
+      <!-- COLUMNA DE TEXTO INFORMATIVO (Izquierda) -->
+      <div class="col-sm-12 col-md-5 col-lg-5 mb-sm-50">
+        <div class="contact-info-box">
+          <h2 class="text-uppercase font-700 mb-30 contact-subtitle">
+            {% trans "Contacto Directo" %}
+          </h2>
+          
+          <p class="lead-text">
+            {% trans "Le agradezco de antemano su interés en ponerse en contacto conmigo." %}
           </p>
-        </form>
+          
+          <p class="formal-message">
+            {% trans "Es importante destacar que este formulario constituye un canal de comunicación estrictamente personal y directo. Al enviar su mensaje, este será recibido y gestionado directamente por mí, sin intermediarios." %}
+          </p>
+          
+          <p class="formal-message">
+            {% trans "Estaré complacido de evaluar su solicitud o propuesta, y tenga por seguro que recibirá una respuesta de mi parte a la brevedad posible." %}
+          </p>
+          
+          <div class="horizontal-separator mt-40 mb-40"></div>
+          
+          <p class="signature-text font-700 text-uppercase">
+            {% trans "Atentamente," %}<br>
+            <span class="text-color signature-name">{{ page.custom_title }}</span>
+          </p>
+        </div>
       </div>
+    
+      <!-- COLUMNA DEL FORMULARIO (Derecha) -->
+      <div class="col-sm-12 col-md-7 col-lg-7">
+        <div class="form-wrapper-box">
+          <form action="{% pageurl page %}" method="POST" class="wagtail-custom-form" novalidate>
+            {% csrf_token %}
+    
+            {# Errores generales #}
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger p-4 mb-30">
+                {% for error in form.non_field_errors %}
+                  <p class="mb-0 font-600">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+    
+            {# Campos dinámicos de Wagtail #}
+            {% for field in form %}
+              <div class="form-group {% if field.errors %}has-error{% endif %} mb-30">
+                <label for="{{ field.id_for_label }}" class="control-label font-700 text-uppercase">
+                  {{ field.label }}
+                  {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                </label>
+    
+                <div class="input-field-wrapper">
+                  {{ field }}
+                </div>
+    
+                {% if field.help_text %}
+                  <small class="form-text text-muted mt-5 d-block">{{ field.help_text }}</small>
+                {% endif %}
+    
+                {% if field.errors %}
+                  <div class="help-block text-danger mt-10">
+                    {% for error in field.errors %}
+                      <p class="mb-0 font-600"><i class="fa fa-exclamation-triangle"></i> {{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+    
+            {# Botón de envío maximizado #}
+            <div class="mt-40">
+              <button type="submit" class="btn btn-color btn-circle btn-custom-xl">
+                {% trans "Send Request" %}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    
     </div>
+
   </div>
 </section>
-
 <!-- ================= FOOTER ================= -->
 <section class="dark-bg flat-footer">
   <div class="container">
