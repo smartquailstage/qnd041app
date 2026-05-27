@@ -128,7 +128,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     #'citas_regulares',
     #"core",
-    "wagtail_ai",
+    #"wagtail_ai",
     "social_media_AI",
     "wagtail",
     'wagtail.embeds',

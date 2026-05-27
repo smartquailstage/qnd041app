@@ -121,7 +121,7 @@ INSTALLED_APPS = [
    # "core",
     #"webapp",
     "social_media_AI",
-    "wagtail_ai",
+    #"wagtail_ai",
     'wagtail',
     'wagtail.embeds',
     'wagtail.sites',
