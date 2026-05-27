@@ -145,7 +145,7 @@ p a {}
 p a:hover {color: #1a237e;}
 p {
     letter-spacing: normal;
-  line-height: 18px;
+  line-height: 26px;
   color: #343333;
   font-weight: 300;
 }
