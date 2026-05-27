@@ -45,7 +45,7 @@
       </ul>
     </li>
 
-        <li ><a href="{% url 'usuarios:login' %}" class="btn-circle">Negocios ITC</a></li>
+        <li ><a href="{% url 'usuarios:login' %}" class="btn-circle">Ingresar</a></li>
 
 
   </ul>
@@ -143,7 +143,7 @@
                   </div>
 
                                          <div class="col-menu col-md-3">
-                    <h6 class="title">Soluciones Tecnológicas</h6>
+                    <h6 class="title">soluciones Tecnológicas</h6>
 <div class="content">
   <ul class="menu-col">
     <li>
@@ -216,7 +216,7 @@
 
 
 <div class="col-menu col-md-3">
-  <h6 class="title">{% trans "Negocios ITC  Ecuador" %}</h6>
+  <h6 class="title">{% trans "ITC Business Ecuador" %}</h6>
 
   <div class="content">
     <ul class="menu-col">
@@ -241,7 +241,227 @@
               </li>
             </ul>
           </li>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Training & Jobs' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
 
+
+   <div class="col-menu col-md-3">
+  <a href="{% slugurl 'marketing' %}">
+    <h6 class="title" style="color:#bd1818;">Marketing & Publishing</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'cmja' %}?category=community-manager-junior">
+          {% trans "Community Manager Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'cmsa' %}?category=community-manager-senior">
+          {% trans "Community Manager Senior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'ccja' %}?category=content-designer-junior">
+          {% trans "Content Creator Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'ccsa' %}?category=content-designer-senior">
+          {% trans "Content Creator Senior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'softwaredev' %}">
+    <h6 class="title" style="color:#bd1818;">Software Developer</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'fedja' %}?category=uiux-designer-junior">
+          {% trans "Front-End Designer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'fedsa' %}?category=uiux-designer-senior">
+          {% trans "Front-End Designer Senior" %}
+        </a>
+      </li>
+            <li>
+        <a href="{% slugurl 'bedja' %}?category=django-developer-junior">
+          {% trans "Back-End Developer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'bedsa' %}?category=django-developer-senior">
+          {% trans "Back-End Developer Senior" %}
+        </a>
+      </li>
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'management' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Management Position' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'pmsa' %}?category=django-developer-junior">
+          {% trans "Project Manager Senior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'pmaja' %}?category=django-developer-senior">
+          {% trans "Project Manager Junior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'devops' %}">
+    <h6 class="title" style="color:#bd1818;">DevOps & Cloud</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'sreja' %}?category=sre-junior">
+          {% trans "Site Reliability Engineer Junior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'sresa' %}?category=sre-senior">
+          {% trans "Site Reliability Engineer Senior" %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
+
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'About' %}</a>
+            <ul class="dropdown-menu megamenu-content" role="menu">
+              <li>
+                <div class="row">
+
+                  <div class="col-menu col-md-3">
+  <a href="{% slugurl 'aboutus' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Technologies Crew' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'cto' %}">
+          {% trans "Chief Officer Technologies" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'pms' %}">
+          {% trans "Project Manager Senior" %}
+        </a>
+      </li>
+            <li>
+        <a href="{% slugurl 'sds' %}">
+          {% trans "Software Developer Senior" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% slugurl 'iabde' %}">
+          {% trans "IA and Big Data Engineer" %}
+        </a>
+      </li>
+
+
+    </ul>
+  </div>
+</div>
+
+
+                  <div class="col-menu col-md-3">
+  <a href="{% slugurl 'fouders' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Fouders' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'co' %}">
+          {% trans "PhD. Mauricio Silva" %}
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="col-menu col-md-3">
+  <a href="{% slugurl 'fouders' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Policies' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        <a href="{% slugurl 'lodp' %}">
+          {% trans "LOPDP" %}
+        </a>
+      </li>
+
+      <li>
+        <a href="{% slugurl 'iso' %}">
+          {% trans "ISO/IEC" %}
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+                  <div class="col-menu col-md-3">
+  <a href="{% slugurl 'fouders' %}">
+    <h6 class="title" style="color:#bd1818;">{% trans 'Contact us' %}</h6>
+  </a>
+  <div class="content">
+    <ul class="menu-col">
+      <li>
+        SmartQuail.S.A.S - Ecuador <br>
+        IT Cloud Business Foudation <br>
+        <a href="https://api.whatsapp.com/send?phone=593963521262">
+          (+593)963521262</a>  
+          <a href="mailto:smartquail.dev@gmail.com">{% trans 'info@smartquail.io' %}</a> 
+      </li>
+    </ul>
+  </div>
+</div>
+
+                </div>
+                <!--=== end row ===-->
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <!--=== /.navbar-collapse ===-->
