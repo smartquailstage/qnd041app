@@ -52,6 +52,20 @@
             {% endif %}
           {% endfor %}
 
+
+          <div class="post-controls">
+            <div class="post-share">
+              <ul>
+                {% for social, link in settings.webapp.SocialMediaSettings.items %}
+                  <li><a href="{{ link }}" target="_blank"><i class="icofont icofont-{{ social }}"></i></a></li>
+                {% endfor %}
+                <li><a href="https://api.whatsapp.com/send?phone=593963521262" target="_blank"><i class="icofont icofont-whatsapp"></i></a></li>
+                <li><a href="mailto:info@mail.smartquail.io" target="_blank"><i class="icofont icofont-envelope"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          
+
           <p style="color: #303131; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
 
         </div>
