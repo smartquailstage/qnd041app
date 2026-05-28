@@ -18,14 +18,16 @@
             {% if item.logo_slide %}
               {% image item.logo_slide original as logo_slide %}
               <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:392px;
-              margin-top: 436px;margin-left: 47px;">
+              margin-top: 104px;margin-left: 47px;">
             {% endif %}
-            <h3 style="color:rgb(92, 87, 87); margin-left: 54px;">{{ page.title }}</h3>
+            <h3 style="color: rgb(109 107 107); margin-left: 54px;max-width: 31%">{{ page.title }}</h3>
           </div>
         </div>
       </section>
     {% endif %}
   {% endfor %}
+
+
 
 
   <section class="pt-100" style="background-color: #fff;">
@@ -127,21 +129,6 @@
           <hr>
           <h3>{{ page.banner_title12|richtext }}</h3>
           <div>{{ page.info_title12|richtext }}</div>
-
-          <hr>
-          <h3>{{ page.banner_title13|richtext }}</h3>
-          <div>{{ page.info_title13|richtext }}</div>
-          <a href="{% slugurl 'licencias' %}" class="btn btn-color btn-rounded">{% trans "Licencias ITC" %}</a>
-
-          <hr>
-          <h3>{{ page.banner_title14|richtext }}</h3>
-          <div>{{ page.info_title14|richtext }}</div>
-          <a href="{% slugurl 'activos' %}" class="btn btn-color btn-rounded">{% trans "Activos ITC" %}</a>
-
-          <hr>
-          <h3>{{ page.banner_title15|richtext }}</h3>
-          <div>{{ page.info_title15|richtext }}</div>
-          <a href="{% slugurl 'entornos' %}" class="btn btn-color btn-rounded">{% trans "Entornos ITC" %}</a>
 
         </div>
       </div>
