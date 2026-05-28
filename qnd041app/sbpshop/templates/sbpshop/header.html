@@ -40,7 +40,7 @@
       {% if language_code == LANGUAGE_CODE %}
       <div class="attr-nav">
         <ul>
-          <li class="dropdown"> <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown" > <i class="icofont icofont-earth"></i>  </a>
+          <li class="dropdown"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown" > <i class="icofont icofont-earth"></i>  </a>
             {% get_current_language as LANGUAGE_CODE %}
                 {% get_available_languages as LANGUAGES %}
                 {% get_language_info_list for LANGUAGES as languages %}
@@ -100,7 +100,7 @@
       <!--=== Start Header Navigation ===-->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"> <i class="icofont icofont-navigation-menu"></i> </button>
-        <div class="logo"> <a href="{% slugurl 'home' %}"> <img class="logo logo-display" src="{% static 'img/logo_smartquailWhite.png' %}" alt=""> 
+        <div class="logo"> <a href="{% slugurl 'smartquail' %}"> <img class="logo logo-display" src="{% static 'img/logo_smartquailWhite.png' %}" alt=""> 
           <img class="logo logo-scrolled"  src="{% static 'img/logoSQ_responsive.png' %}" alt=""> </a> </div>
       </div>
       <!--=== End Header Navigation ===-->
