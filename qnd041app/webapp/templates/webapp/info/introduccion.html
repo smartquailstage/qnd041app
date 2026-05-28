@@ -4,6 +4,15 @@
 
 {% block content %}
 
+<style>
+@media (min-width: 1200px) {
+    .container
+Specificity: (0,1,0)
+ {
+        width: 1700px;
+    }
+</style>
+
 {% main_menu template="webapp/home/header.html" %}
 
 <div class="wrapper">
@@ -64,7 +73,7 @@
               </ul>
             </div>
           </div>
-          
+
 
           <p style="color: #303131; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
 
