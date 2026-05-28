@@ -5,12 +5,111 @@
 {% block content %}
 
 <style>
-@media (min-width: 1200px) {
-    .container
-Specificity: (0,1,0)
- {
-        width: 1700px;
+
+/* Contenedor exterior */
+.instagram-carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Tamaño ideal estándar estilo post de Instagram */
+    margin: 0 auto;
+    padding-bottom: 25px;
+}
+
+/* El Carrusel con scroll fluido */
+.instagram-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px; /* Bordes suaves estilo interfaz moderna */
+    background-color: #fafafa;
+    border: 1px solid #efefef;
+}
+
+/* Ocultar la barra de scroll nativa en todos los navegadores */
+.instagram-carousel::-webkit-scrollbar {
+    display: none;
+}
+.instagram-carousel {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Cada diapositiva (Post) */
+.carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1; /* Fuerza a que todo sea perfectamente cuadrado */
+    overflow: hidden;
+}
+
+/* Las imágenes dentro del carrusel */
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen sin deformarla ocupando todo el recuadro */
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Contenedor de los puntos indicadores */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    height: 10px;
+}
+
+/* El punto individual */
+.carousel-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #a8a8a8;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+/* El punto activo (Punto azul o negro de Instagram) */
+.carousel-dot.active {
+    background-color: #b0292d; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
+    transform: scale(1.2);
+}
+
+/* =========================================================
+   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+   ========================================================= */
+   .logo-instagram-slide {
+    max-width: 100%; /* Evita que la imagen se desborde si la pantalla es muy chica */
+    width: 392px;    /* Tu ancho objetivo */
+    
+    /* CLAVE PARA CENTRAR EN MÓVILES */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px; /* Un margen superior más prudente y estético para celulares */
+}
+
+/* =========================================================
+   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio / Tablets)
+   ========================================================= */
+@media (min-width: 992px) {
+    .logo-instagram-slide {
+        max-width: 392px;
+        
+        /* Aplicamos tus valores exactos solo en pantallas grandes */
+        margin-top: 104px;
+        margin-left: 47px;
+        margin-right: 0; /* Desactivamos el centrado automático */
     }
+}
+
 </style>
 
 {% main_menu template="webapp/home/header.html" %}
@@ -26,8 +125,7 @@ Specificity: (0,1,0)
           <div class="page-title text-left">
             {% if item.logo_slide %}
               {% image item.logo_slide original as logo_slide %}
-              <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:392px;
-              margin-top: 104px;margin-left: 47px;">
+              <img src="{{ logo_slide.url }}" class="img-responsive logo-instagram-slide" alt="Logo Slide">
             {% endif %}
             <h3 style="color: rgb(109 107 107); margin-left: 54px;max-width: 31%">{{ page.title }}</h3>
           </div>
@@ -45,34 +143,50 @@ Specificity: (0,1,0)
 
         <div class="col-md-3">
 
-          {% for item in page.galleria_3.all %}
-            {% if item.logo %}
-              {% image item.logo scale-100 as logo %}
-              <img src="{{ logo.url }}" class="img-responsive mb-20">
-            {% endif %}
-          {% endfor %}
-
-
-
-          {% for item in page.galleria_3.all %}
-            {% if item.profile_pic %}
-              {% image item.profile_pic scale-100 as profile %}
-              <img src="{{ profile.url }}" class="img-responsive mt-30">
-            {% endif %}
-          {% endfor %}
-
-
-          <div class="post-controls">
-            <div class="post-share">
-              <ul>
-                {% for social, link in settings.webapp.SocialMediaSettings.items %}
-                  <li><a href="{{ link }}" target="_blank"><i class="icofont icofont-{{ social }}"></i></a></li>
-                {% endfor %}
-                <li><a href="https://api.whatsapp.com/send?phone=593963521262" target="_blank"><i class="icofont icofont-whatsapp"></i></a></li>
-                <li><a href="mailto:info@mail.smartquail.io" target="_blank"><i class="icofont icofont-envelope"></i></a></li>
-              </ul>
+          <div class="instagram-carousel-container">
+            <div class="instagram-carousel" id="instaCarousel">
+              
+              {# Bloque para los Logos #}
+              {% for item in page.galleria_3.all %}
+                {% if item.logo %}
+                  {% image item.logo original as logo %}
+                  <div class="carousel-slide">
+                    <img src="{{ logo.url }}" alt="Logo">
+                  </div>
+                {% endif %}
+              {% endfor %}
+          
+              {# Bloque para las Fotos de Perfil #}
+              {% for item in page.galleria_3.all %}
+                {% if item.profile_pic %}
+                  {% image item.profile_pic original as profile %}
+                  <div class="carousel-slide">
+                    <img src="{{ profile.url }}" alt="Profile Picture">
+                  </div>
+                {% endif %}
+              {% endfor %}
+          
             </div>
+          
+            <!-- Indicadores de puntos estilo Instagram -->
+            <div class="carousel-dots" id="carouselDots"></div>
+
+        
+              <div class="post-share">
+                <ul>
+                  {% for social, link in settings.webapp.SocialMediaSettings.items %}
+                    <li><a href="{{ link }}" target="_blank"><i class="icofont icofont-{{ social }}"></i></a></li>
+                  {% endfor %}
+                  <li><a href="https://api.whatsapp.com/send?phone=593963521262" target="_blank"><i class="icofont icofont-whatsapp"></i></a></li>
+                  <li><a href="mailto:info@mail.smartquail.io" target="_blank"><i class="icofont icofont-envelope"></i></a></li>
+                </ul>
+              </div>
+       
+
           </div>
+
+
+
 
 
           <p style="color: #303131; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
@@ -179,4 +293,49 @@ Specificity: (0,1,0)
 </div>
 
 {% include "webapp/home/footer_section.html" %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.getElementById("instaCarousel");
+    const dotsContainer = document.getElementById("carouselDots");
+    const slides = carousel.querySelectorAll(".carousel-slide");
+    
+    if (slides.length <= 1) return; // Si hay una sola imagen, no crea puntos.
+
+    // 1. Crear dinámicamente la cantidad de puntos según las imágenes de Wagtail
+    slides.forEach((_, index) => {
+        const dot = document.createElement("div");
+        dot.classList.add("carousel-dot");
+        if (index === 0) dot.classList.add("active");
+        
+        // Permitir hacer clic en el punto para navegar a esa imagen
+        dot.addEventListener("click", () => {
+            carousel.scrollTo({
+                left: carousel.offsetWidth * index,
+                behavior: "smooth"
+            });
+        });
+        
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll(".carousel-dot");
+
+    // 2. Escuchar el evento de desplazamiento para cambiar el punto activo de manera fluida
+    carousel.addEventListener("scroll", () => {
+        const scrollLeft = carousel.scrollLeft;
+        const width = carousel.offsetWidth;
+        // Calcula el índice de la diapositiva actual basándose en la posición del scroll
+        const activeIndex = Math.round(scrollLeft / width);
+
+        dots.forEach((dot, index) => {
+            if (index === activeIndex) {
+                dot.classList.add("active");
+            } else {
+                dot.classList.remove("active");
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
