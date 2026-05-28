@@ -17,7 +17,8 @@
           <div class="page-title text-left">
             {% if item.logo_slide %}
               {% image item.logo_slide original as logo_slide %}
-              <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:580px;">
+              <img src="{{ logo_slide.url }}" class="img-responsive" style="max-width:392px;
+              margin-top: 436px;margin-left: 47px;">
             {% endif %}
             <h3 style="color:rgb(92, 87, 87); margin-left: 54px;">{{ page.title }}</h3>
           </div>
@@ -49,16 +50,16 @@
             {% endif %}
           {% endfor %}
 
-          <p style="color: #303131;" class="mt-30">{{ page.bio2|richtext }}</p>
+          <p style="color: #303131; text-align: justify;" class="mt-30">{{ page.bio2|richtext }}</p>
 
         </div>
 
 
         <div class="col-md-9">
 
-          <h3 style="color: rgb(36, 35, 35);">{{ page.banner_title9|richtext }}</h3>
-          <h4 style="color:rgb(36, 35, 35);">{{ page.TS_info6 }}</h4>
-          <div style="color:rgb(36, 35, 35);">{{ page.info_title9|richtext }}</div>
+          <h3 style="color: rgb(36, 35, 35);text-align: justify">{{ page.banner_title9|richtext }}</h3>
+          <h4 style="color:rgb(36, 35, 35);text-align: justify">{{ page.TS_info6 }}</h4>
+          <div style="color:rgb(36, 35, 35);text-align: justify">{{ page.info_title9|richtext }}</div>
 
           <div class="portfolio-slider owl-carousel  mt-30">
             {% for item in page.galleria_3.all %}
