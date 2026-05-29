@@ -1111,6 +1111,8 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('es', 'Spanish'),
 ]
 
+LANGUAGE_CODE = 'es'
+
 
 WAGTAIL_I18N_ENABLED = True
 

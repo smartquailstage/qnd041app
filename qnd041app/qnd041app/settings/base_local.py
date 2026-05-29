@@ -963,6 +963,9 @@ ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
 #SITE_ID = 1
 #WagtailAnalitycs
 
+# Asegúrate de que las rutas de traducción de Wagtail estén activas
+WAGTAIL_I18N_ENABLED = True
+
 
 
 #WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME ')

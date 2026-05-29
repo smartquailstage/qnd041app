@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 01:07-0500\n"
+"POT-Creation-Date: 2026-05-29 01:47-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,124 +18,296 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: qnd041app/settings/base_local.py:273 qnd041app/settings/base_prod.py:290
-#: qnd041app/settings/base_stage.py:250 qnd041app/settings/base_stage.py:524
+#: qnd041app/settings/base_local.py:362 qnd041app/settings/base_prod.py:343
+#: qnd041app/settings/base_stage.py:307
 msgid "Usuarios(AUTH)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:274 qnd041app/settings/base_prod.py:291
-#: qnd041app/settings/base_stage.py:251 qnd041app/settings/base_stage.py:525
+#: qnd041app/settings/base_local.py:363 qnd041app/settings/base_prod.py:344
+#: qnd041app/settings/base_stage.py:308
 msgid "Roles(RBAC)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:275 qnd041app/settings/base_prod.py:292
-#: qnd041app/settings/base_stage.py:252 qnd041app/settings/base_stage.py:526
-msgid "Administrativos"
+#: qnd041app/settings/base_local.py:364 qnd041app/settings/base_prod.py:345
+msgid "Regulaciones"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:276 qnd041app/settings/base_prod.py:293
-#: qnd041app/settings/base_stage.py:253 qnd041app/settings/base_stage.py:527
-msgid "Institucionales"
-msgstr ""
-
-#: qnd041app/settings/base_local.py:277 qnd041app/settings/base_prod.py:294
-#: qnd041app/settings/base_stage.py:254 qnd041app/settings/base_stage.py:528
-msgid "Terapeutas"
-msgstr ""
-
-#: qnd041app/settings/base_local.py:278 qnd041app/settings/base_prod.py:295
-#: qnd041app/settings/base_stage.py:529
-msgid "Servicios"
-msgstr ""
-
-#: qnd041app/settings/base_local.py:280 qnd041app/settings/base_prod.py:297
-#: qnd041app/settings/base_stage.py:257 qnd041app/settings/base_stage.py:531
-msgid "Sucursales"
-msgstr ""
-
-#: qnd041app/settings/base_local.py:281 qnd041app/settings/base_prod.py:298
-#: qnd041app/settings/base_stage.py:258 qnd041app/settings/base_stage.py:532
+#: qnd041app/settings/base_local.py:365 qnd041app/settings/base_prod.py:346
+#: qnd041app/settings/base_stage.py:314
 msgid "Monitoreo"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:282 qnd041app/settings/base_prod.py:299
-#: qnd041app/settings/base_stage.py:259 qnd041app/settings/base_stage.py:533
+#: qnd041app/settings/base_local.py:366 qnd041app/settings/base_prod.py:347
+#: qnd041app/settings/base_stage.py:315
 msgid "Soporte"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:360 qnd041app/settings/base_prod.py:385
-#: qnd041app/settings/base_stage.py:337 qnd041app/settings/base_stage.py:611
+#: qnd041app/settings/base_local.py:447 qnd041app/settings/base_prod.py:428
+#: qnd041app/settings/base_stage.py:393
 msgid "Perfil Institucional"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:373 qnd041app/settings/base_prod.py:398
-#: qnd041app/settings/base_stage.py:350 qnd041app/settings/base_stage.py:624
-msgid "Comunicaciones"
+#: qnd041app/settings/base_local.py:460 qnd041app/settings/base_prod.py:441
+msgid "Recursos Legales (I+D)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:378 qnd041app/settings/base_prod.py:403
-#: qnd041app/settings/base_stage.py:355 qnd041app/settings/base_stage.py:629
-msgid "Bandeja de Entrada"
+#: qnd041app/settings/base_local.py:465 qnd041app/settings/base_prod.py:446
+msgid " Registros (SPDP)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:389 qnd041app/settings/base_prod.py:414
-#: qnd041app/settings/base_stage.py:366 qnd041app/settings/base_stage.py:640
-msgid "Registros Administrativos"
+#: qnd041app/settings/base_local.py:474 qnd041app/settings/base_prod.py:455
+msgid "Nombramientos (SCVS)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:394 qnd041app/settings/base_prod.py:419
-#: qnd041app/settings/base_stage.py:371 qnd041app/settings/base_stage.py:645
-msgid "Prospecciones"
+#: qnd041app/settings/base_local.py:484 qnd041app/settings/base_prod.py:465
+msgid "Balances (SCVS)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:402 qnd041app/settings/base_prod.py:427
-#: qnd041app/settings/base_stage.py:379 qnd041app/settings/base_stage.py:653
-msgid "Instituciones"
+#: qnd041app/settings/base_local.py:494 qnd041app/settings/base_prod.py:475
+msgid "Informes (SCVS)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:410 qnd041app/settings/base_stage.py:387
-#: qnd041app/settings/base_stage.py:661
-msgid "Pacientes"
+#: qnd041app/settings/base_local.py:506 qnd041app/settings/base_prod.py:487
+msgid "Anexos (SRI)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:418 qnd041app/settings/base_prod.py:443
-#: qnd041app/settings/base_stage.py:395 qnd041app/settings/base_stage.py:669
-msgid "Agenda"
+#: qnd041app/settings/base_local.py:516 qnd041app/settings/base_prod.py:497
+msgid "Declaraciones (SRI)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:426 qnd041app/settings/base_prod.py:451
-#: qnd041app/settings/base_stage.py:403 qnd041app/settings/base_stage.py:677
-msgid "Pagos"
+#: qnd041app/settings/base_local.py:524 qnd041app/settings/base_prod.py:505
+msgid "Contratos (MT)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:436 qnd041app/settings/base_prod.py:461
-#: qnd041app/settings/base_stage.py:413 qnd041app/settings/base_stage.py:687
-msgid "Registros Terapéuticos"
+#: qnd041app/settings/base_local.py:533 qnd041app/settings/base_prod.py:514
+msgid "Nomina (IESS)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:441 qnd041app/settings/base_prod.py:466
-#: qnd041app/settings/base_stage.py:418 qnd041app/settings/base_stage.py:692
-msgid "Valoraciones"
+#: qnd041app/settings/base_local.py:545 qnd041app/settings/base_prod.py:526
+msgid "Recursos Financieros (I+D)"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:449 qnd041app/settings/base_prod.py:474
-#: qnd041app/settings/base_stage.py:426 qnd041app/settings/base_stage.py:700
-msgid "Terapias"
+#: qnd041app/settings/base_local.py:551 qnd041app/settings/base_prod.py:532
+msgid "Ingresos Mensuales"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:464 qnd041app/settings/base_prod.py:489
-#: qnd041app/settings/base_stage.py:441 qnd041app/settings/base_stage.py:715
+#: qnd041app/settings/base_local.py:560
+msgid "Convenios aplicativos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:570
+msgid "Convenios plataformas"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:580 qnd041app/settings/base_prod.py:541
+msgid "Ordenes (SaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:589 qnd041app/settings/base_prod.py:550
+msgid "Ordenes (PaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:599 qnd041app/settings/base_prod.py:560
+msgid "Pasivos/Activos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:609 qnd041app/settings/base_prod.py:570
+msgid "Ingresos/Egresos"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:620 qnd041app/settings/base_prod.py:581
+msgid "Analisis Financieros"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:634 qnd041app/settings/base_prod.py:595
+msgid "Project Management (I+D)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:640 qnd041app/settings/base_prod.py:601
+msgid "Actividades"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:649 qnd041app/settings/base_prod.py:610
+msgid "Clientes ITC"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:658 qnd041app/settings/base_prod.py:619
+msgid "Proyectos ITC"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:667 qnd041app/settings/base_prod.py:628
+msgid "Recursos ITC "
+msgstr ""
+
+#: qnd041app/settings/base_local.py:680 qnd041app/settings/base_prod.py:650
+msgid "Develop Management (I+D)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:686 qnd041app/settings/base_prod.py:656
+msgid "Quantity Testing"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:693 qnd041app/settings/base_prod.py:663
+msgid "Cloud Resources"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:702 qnd041app/settings/base_prod.py:672
+msgid "Investigación & Desarollo"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:709 qnd041app/settings/base_prod.py:679
+msgid "Automatizaciones"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:716 qnd041app/settings/base_prod.py:686
+msgid "Inteligencia Artificial"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:729 qnd041app/settings/base_prod.py:698
+msgid "Product Management (I+D)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:735 qnd041app/settings/base_prod.py:704
+msgid "Categorías (SaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:742 qnd041app/settings/base_prod.py:711
+msgid "Productos (SaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:749 qnd041app/settings/base_prod.py:718
+msgid "Categorías (PaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:756 qnd041app/settings/base_prod.py:725
+msgid "Productos (PaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:763 qnd041app/settings/base_prod.py:732
+msgid "Categorías (IaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:770 qnd041app/settings/base_prod.py:739
+msgid "Productos (IaaP)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:781 qnd041app/settings/base_prod.py:750
+msgid "Catalogos de Productos (Web)"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:787 qnd041app/settings/base_prod.py:756
+msgid "Categorías SBM"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:794 qnd041app/settings/base_prod.py:763
+msgid "Categorías SBA"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:801 qnd041app/settings/base_prod.py:770
+msgid "Categorías SBL"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:808 qnd041app/settings/base_prod.py:777
+msgid "Categorías SBT"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:816 qnd041app/settings/base_prod.py:785
+msgid "Productos SBM"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:823 qnd041app/settings/base_prod.py:792
+msgid "Productos SBA"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:830 qnd041app/settings/base_prod.py:799
+msgid "Productos SBL"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:837 qnd041app/settings/base_prod.py:806
+msgid "Productos SBT"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:848 qnd041app/settings/base_prod.py:817
+msgid "Ebooks ITC"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:854 qnd041app/settings/base_prod.py:823
+msgid "Ebook Categorías"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:863 qnd041app/settings/base_prod.py:832
+msgid "Crear Ebook"
+msgstr ""
+
+#: qnd041app/settings/base_local.py:885 qnd041app/settings/base_prod.py:854
+#: qnd041app/settings/base_stage.py:497
 msgid "Users"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:527 qnd041app/settings/base_stage.py:777
+#: qnd041app/settings/base_local.py:958 qnd041app/settings/base_stage.py:573
 msgid "Español"
 msgstr ""
 
-#: qnd041app/settings/base_local.py:528 qnd041app/settings/base_stage.py:778
+#: qnd041app/settings/base_local.py:959 qnd041app/settings/base_stage.py:574
 msgid "Inglés"
 msgstr ""
 
-#: qnd041app/settings/base_prod.py:435
-msgid "Historiales"
+#: qnd041app/settings/base_prod.py:637
+msgid "DeV (I+D) ITC "
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:309
+msgid "Institucionales"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:310
+msgid "Terapeutas"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:313
+msgid "Sucursales"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:406
+msgid "Comunicaciones"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:411
+msgid "Bandeja de Entrada"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:422
+msgid "Registros Administrativos"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:427
+msgid "Prospecciones"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:435
+msgid "Instituciones"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:443
+msgid "Pacientes"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:451
+msgid "Agenda"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:459
+msgid "Pagos"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:469
+msgid "Registros Terapéuticos"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:474
+msgid "Valoraciones"
+msgstr ""
+
+#: qnd041app/settings/base_stage.py:482
+msgid "Terapias"
 msgstr ""

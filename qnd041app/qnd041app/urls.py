@@ -90,6 +90,7 @@ urlpatterns += i18n_patterns(
 
     # Wagtail frontend (las páginas creadas en el CMS)
     path("", include(wagtail_urls)),
+    prefix_default_language=True
 )
 
 # Archivos estáticos y media en desarrollo
