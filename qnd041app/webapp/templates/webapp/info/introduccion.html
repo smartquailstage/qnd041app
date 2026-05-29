@@ -70,7 +70,7 @@
 /* El punto individual */
 .carousel-dot {
     width: 6px;
-    height: 6px;
+    height: 12px;
     background-color: #a8a8a8;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -110,6 +110,42 @@
     }
 }
 
+
+/* =========================================================
+   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+   ========================================================= */
+   .hero-custom-title {
+    color: rgb(109, 107, 107);
+    
+    /* TIPOGRAFÍA FLUIDA: Cambia de tamaño según la pantalla */
+    font-size: calc(1.5rem + 1.5vw); 
+    line-height: 1.3;
+    font-weight: 700;
+    
+    /* CLAVE PARA CENTRAR EN MÓVILES */
+    text-align: center;
+    max-width: 90%; /* En móviles dejamos que use casi todo el ancho disponible */
+    margin: 30px auto 0 auto; /* Centrado horizontal, margen superior controlado */
+}
+
+/* =========================================================
+   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio)
+   ========================================================= */
+@media (min-width: 992px) {
+    .hero-custom-title {
+        /* Restablecemos la alineación original a la izquierda */
+        text-align: left;
+        
+        /* Aplicamos tus valores exactos de diseño */
+        margin-left: 54px;
+        margin-top: 40px; /* Ajusta este valor si necesitas coordinarlo con la imagen */
+        max-width: 31%;   /* Se restringe al 31% solo en pantallas anchas */
+        
+        /* Tamaño de fuente controlado para monitores */
+        font-size: 28px; 
+    }
+}
+
 </style>
 
 {% main_menu template="webapp/home/header.html" %}
@@ -127,7 +163,7 @@
               {% image item.logo_slide original as logo_slide %}
               <img src="{{ logo_slide.url }}" class="img-responsive logo-instagram-slide" alt="Logo Slide">
             {% endif %}
-            <h3 style="color: rgb(109 107 107); margin-left: 54px;max-width: 31%">{{ page.title }}</h3>
+            <h3 class="hero-custom-title">{{ page.title }}</h3>
           </div>
         </div>
       </section>
