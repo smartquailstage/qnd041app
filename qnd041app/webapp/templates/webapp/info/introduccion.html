@@ -36,7 +36,7 @@
     scrollbar-width: none;  /* Firefox */
 }
 
-/* Cada diapositiva (Post) */
+/* Cada diapositiva (Contenedor individual) */
 .carousel-slide {
     flex: 0 0 100%;
     width: 100%;
@@ -44,15 +44,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 1 / 1; /* Fuerza a que todo sea perfectamente cuadrado */
+    
+    /* 1. ELIMINAMOS 'aspect-ratio: 1/1' para que ya no obligue a ser cuadrado */
+    /* 2. Definimos una altura máxima para que imágenes muy verticales no rompan la pantalla */
+    height: auto;
+    max-height: 70vh; /* Ocupará como máximo el 70% de la altura de la pantalla */
     overflow: hidden;
 }
 
 /* Las imágenes dentro del carrusel */
 .carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen sin deformarla ocupando todo el recuadro */
+    /* 3. CLAVE: Se adaptan a su ancho y alto real de manera proporcional */
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    
+    /* 4. Mantiene la proporción real sin recortar bordes */
+    object-fit: contain; 
+    
     user-select: none;
     -webkit-user-drag: none;
 }
@@ -69,7 +79,7 @@
 
 /* El punto individual */
 .carousel-dot {
-    width: 6px;
+    width: 12px;
     height: 12px;
     background-color: #a8a8a8;
     border-radius: 50%;
