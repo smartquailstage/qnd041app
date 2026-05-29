@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-29 01:47-0500\n"
-"PO-Revision-Date: 2026-05-26 09:38-0500\n"
+"PO-Revision-Date: 2026-05-29 02:39-0500\n"
 "Last-Translator:   <support@smartquail.io>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -121,8 +121,7 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                                  <p> <li>%(total_items)s  passengers tour "
-"reservation\n"
+"                                  <p> <li>%(total_items)s  passengers tour reservation\n"
 "                                   %(total_items_plural)s:\n"
 "                                    $%(total_price)s</li></p>\n"
 "                                  "
@@ -222,8 +221,8 @@ msgstr ""
 
 #: agenda/templates/admin/auth/user/add_form.html:7
 msgid ""
-"First, enter a username and password. Then, you’ll be able to edit more user "
-"options."
+"First, enter a username and password. Then, you’ll be able to edit more user"
+" options."
 msgstr ""
 
 #: agenda/templates/admin/auth/user/add_form.html:9
@@ -299,8 +298,8 @@ msgstr ""
 #: agenda/templates/admin/delete_confirmation.html:53
 #, python-format
 msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
-"following protected related objects:"
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the"
+" following protected related objects:"
 msgstr ""
 
 #: agenda/templates/admin/delete_confirmation.html:69
@@ -372,8 +371,8 @@ msgstr ""
 #: social_media_AI/templates/admin/login.html:39
 #, python-format
 msgid ""
-"You are authenticated as %(username)s, but are not authorized to access this "
-"page. Would you like to login to a different account?"
+"You are authenticated as %(username)s, but are not authorized to access this"
+" page. Would you like to login to a different account?"
 msgstr ""
 
 #: agenda/templates/admin/login.html:67 core/templates/admin/login.html:63
@@ -413,8 +412,8 @@ msgstr[1] ""
 
 #: agenda/templates/admin/object_history.html:84
 msgid ""
-"This object doesn’t have a change history. It probably wasn’t added via this "
-"admin site."
+"This object doesn’t have a change history. It probably wasn’t added via this"
+" admin site."
 msgstr ""
 
 #: agenda/templates/admin/pagination.html:12
@@ -803,8 +802,7 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"    <p>Your order has been successfully completed. Your order number is "
-"<strong>%(order_id)s</strong>.</p>\n"
+"    <p>Your order has been successfully completed. Your order number is <strong>%(order_id)s</strong>.</p>\n"
 "  "
 msgstr ""
 
@@ -836,14 +834,16 @@ msgstr ""
 
 #: iaas_shop/templates/iaas_shop/base2.html:17
 #: paas_shop/templates/paas_shop/base2.html:17
-#: saas_shop/templates/saas_shop/base2.html:17 shop/templates/shop/base.html:17
+#: saas_shop/templates/saas_shop/base2.html:17
+#: shop/templates/shop/base.html:17
 #: taas_shop/templates/saas_shop/base2.html:17
 msgid "Language"
 msgstr ""
 
 #: iaas_shop/templates/iaas_shop/base2.html:35
 #: paas_shop/templates/paas_shop/base2.html:35
-#: saas_shop/templates/saas_shop/base2.html:35 shop/templates/shop/base.html:33
+#: saas_shop/templates/saas_shop/base2.html:35
+#: shop/templates/shop/base.html:33
 #: taas_shop/templates/saas_shop/base2.html:35
 msgid "Your cart"
 msgstr ""
@@ -855,14 +855,14 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                %(total_items)s item%(total_items_plural)s, %(amount)s "
-"%(currency)s\n"
+"                %(total_items)s item%(total_items_plural)s, %(amount)s %(currency)s\n"
 "              "
 msgstr ""
 
 #: iaas_shop/templates/iaas_shop/base2.html:44
 #: paas_shop/templates/paas_shop/base2.html:44
-#: saas_shop/templates/saas_shop/base2.html:44 shop/templates/shop/base.html:41
+#: saas_shop/templates/saas_shop/base2.html:44
+#: shop/templates/shop/base.html:41
 #: taas_shop/templates/saas_shop/base2.html:44
 msgid "Your cart is empty."
 msgstr ""
@@ -1293,9 +1293,9 @@ msgstr ""
 
 #: sbashop/templates/sbashop/product/list.html:100
 msgid ""
-"Descubre SmartBusinessAnalytics®, el ERP inteligente diseñado para optimizar "
-"todos los procesos de información de tu negocio, desde la gestión de cadenas "
-"de suministro hasta las transacciones bancarias más críticas."
+"Descubre SmartBusinessAnalytics®, el ERP inteligente diseñado para optimizar"
+" todos los procesos de información de tu negocio, desde la gestión de "
+"cadenas de suministro hasta las transacciones bancarias más críticas."
 msgstr ""
 
 #: sbashop/templates/sbashop/product/list.html:104
@@ -1304,8 +1304,8 @@ msgid ""
 "Learning, SmartBusinessAnalytics® te permite integrar, analizar y controlar "
 "cada área de tu empresa en tiempo real. Su arquitectura altamente segura, "
 "disponible y escalable se adapta al crecimiento y a las necesidades "
-"específicas de tus recursos, brindándote el poder de decidir con precisión y "
-"confianza."
+"específicas de tus recursos, brindándote el poder de decidir con precisión y"
+" confianza."
 msgstr ""
 
 #: sbashop/templates/sbashop/product/list.html:108
@@ -1396,8 +1396,8 @@ msgstr ""
 msgid ""
 "SmartBusinessAnalytics® es una plataforma integral desarrollada por "
 "SmartQuail, Inc., diseñada para optimizar la gestión empresarial a través "
-"del análisis inteligente de datos. Su interfaz moderna, intuitiva y centrada "
-"en la experiencia del usuario permite administrar de forma eficiente "
+"del análisis inteligente de datos. Su interfaz moderna, intuitiva y centrada"
+" en la experiencia del usuario permite administrar de forma eficiente "
 "recursos, métricas y procesos desde un único entorno unificado."
 msgstr ""
 
@@ -1407,8 +1407,8 @@ msgid ""
 "operación y la toma de decisiones, integrando módulos avanzados de gestión "
 "de recursos empresariales, monitoreo en tiempo real, estadísticas, modelado "
 "de negocio y visualización dinámica de flujos de trabajo. Cada componente "
-"puede personalizarse según las necesidades específicas de cada organización, "
-"garantizando una automatización precisa y eficiente de los procesos clave."
+"puede personalizarse según las necesidades específicas de cada organización,"
+" garantizando una automatización precisa y eficiente de los procesos clave."
 msgstr ""
 
 #: sbashop/templates/sbashop/product/list.html:371
@@ -1425,8 +1425,8 @@ msgstr ""
 msgid ""
 "Construida sobre infraestructura en la nube segura, escalable y de alto "
 "rendimiento, SmartBusinessAnalytics® representa la evolución de la "
-"inteligencia empresarial moderna. Su tecnología combina precisión analítica, "
-"automatización inteligente y adaptabilidad, ofreciendo a cada empresa una "
+"inteligencia empresarial moderna. Su tecnología combina precisión analítica,"
+" automatización inteligente y adaptabilidad, ofreciendo a cada empresa una "
 "herramienta poderosa para transformar la información en crecimiento "
 "sostenible."
 msgstr ""
@@ -1683,15 +1683,15 @@ msgstr ""
 msgid ""
 "Descubre SmartBusinessLaw®, el ERP legal inteligente diseñado para "
 "administrar y gestionar en tiempo real todos los procesos legales de tu "
-"organización, integrando investigación y desarrollo (I+D) directamente en tu "
-"flujo de trabajo."
+"organización, integrando investigación y desarrollo (I+D) directamente en tu"
+" flujo de trabajo."
 msgstr ""
 
 #: sblshop/templates/sblshop/product/list.html:107
 msgid ""
 "Con la automatización avanzada, SmartBusinessLaw® permite generar contratos "
-"de manera automática y gestionar cada etapa del proceso legal con eficiencia "
-"y seguridad. Además, su inteligencia artificial analiza datos históricos y "
+"de manera automática y gestionar cada etapa del proceso legal con eficiencia"
+" y seguridad. Además, su inteligencia artificial analiza datos históricos y "
 "predice posibles resultados legales, brindándote la capacidad de tomar "
 "decisiones proactivas y estratégicas."
 msgstr ""
@@ -1734,15 +1734,15 @@ msgid ""
 "mediante el análisis inteligente de datos. Su interfaz moderna, intuitiva y "
 "centrada en la experiencia del usuario permite administrar de forma "
 "eficiente contratos, procesos legales, recursos jurídicos y la "
-"autogeneración de contratos certificados, firmados de manera segura desde un "
-"único entorno unificado."
+"autogeneración de contratos certificados, firmados de manera segura desde un"
+" único entorno unificado."
 msgstr ""
 
 #: sblshop/templates/sblshop/product/list.html:306
 msgid ""
 "La solución ofrece control total sobre la operación legal y la toma de "
-"decisiones estratégicas, integrando módulos avanzados de gestión documental, "
-"monitoreo de obligaciones legales, análisis de riesgos, estadísticas "
+"decisiones estratégicas, integrando módulos avanzados de gestión documental,"
+" monitoreo de obligaciones legales, análisis de riesgos, estadísticas "
 "jurídicas y visualización dinámica de flujos de trabajo. Cada componente "
 "puede personalizarse según las necesidades de cada organización, "
 "garantizando automatización precisa y eficiente de los procesos legales "
@@ -1753,8 +1753,8 @@ msgstr ""
 msgid ""
 "Gracias a los modelos de aprendizaje automático e inteligencia artificial "
 "desarrollados por SmartQuail, SmartBusinessLaw® permite anticipar riesgos "
-"legales, optimizar la revisión de documentos, predecir tendencias normativas "
-"y generar contratos certificados automáticamente, asegurando firmas "
+"legales, optimizar la revisión de documentos, predecir tendencias normativas"
+" y generar contratos certificados automáticamente, asegurando firmas "
 "electrónicas seguras y cumplimiento legal en todo momento."
 msgstr ""
 
@@ -1862,8 +1862,8 @@ msgstr ""
 msgid ""
 "El pago será considerado efectivo una vez que el sistema bancario local "
 "confirme la transacción realizada. La validación de la transacción se "
-"llevará a cabo verificando los siguientes aspectos: La identidad del usuario "
-"que realizó el pago. La verificación de los datos del banco y la "
+"llevará a cabo verificando los siguientes aspectos: La identidad del usuario"
+" que realizó el pago. La verificación de los datos del banco y la "
 "transacción. La validación de la fecha y hora en la que se realizó la "
 "compra. Solo después de la confirmación por parte del sistema bancario "
 "local, se procesará el pedido y se iniciará el envío de los productos "
@@ -2461,8 +2461,8 @@ msgstr ""
 #: sbpshop/templates/sbpshop/product/detail.html:120
 msgid ""
 "Este proyecto está licenciado bajo los términos de la Licencia Open Source "
-"correspondiente. Esto significa que puedes usar, modificar y distribuir este "
-"software de forma libre, siempre y cuando cumplas con los términos "
+"correspondiente. Esto significa que puedes usar, modificar y distribuir este"
+" software de forma libre, siempre y cuando cumplas con los términos "
 "establecidos en la licencia MIT."
 msgstr ""
 
@@ -2549,8 +2549,8 @@ msgid ""
 "Descubre SmartBusinessMedia, el CRM diseñado especialmente para agencias de "
 "marketing digital que quieren llevar su gestión al siguiente nivel. "
 "Regístrate y forma parte de una comunidad de profesionales que comparten "
-"ideas, estrategias y herramientas para crecer juntos. Simplifica tu trabajo, "
-"automatiza tus procesos y conecta con otras agencias que, como tú, buscan "
+"ideas, estrategias y herramientas para crecer juntos. Simplifica tu trabajo,"
+" automatiza tus procesos y conecta con otras agencias que, como tú, buscan "
 "innovar y maximizar sus resultados. "
 msgstr ""
 
@@ -2584,8 +2584,8 @@ msgstr ""
 #: sbmshop/templates/sbmshop/product/list.html:357
 msgid ""
 "Uno de sus componentes más innovadores es su sistema inteligente de "
-"algoritmos de recomendación, diseñado para analizar datos de comportamiento, "
-"optimizar estrategias y ofrecer sugerencias personalizadas que impulsan la "
+"algoritmos de recomendación, diseñado para analizar datos de comportamiento,"
+" optimizar estrategias y ofrecer sugerencias personalizadas que impulsan la "
 "eficiencia y el crecimiento de cada agencia o negocio."
 msgstr ""
 
@@ -2704,8 +2704,8 @@ msgstr ""
 
 #: sbpshop/templates/sbpshop/product/list.html:106
 msgid ""
-"La plataforma está diseñada para ser escalable, disponible y personalizable, "
-"permitiendo adaptar sus procesos a diferentes sectores como comercio "
+"La plataforma está diseñada para ser escalable, disponible y personalizable,"
+" permitiendo adaptar sus procesos a diferentes sectores como comercio "
 "electrónico, salud, educación, administración, gastronomía y cadena de "
 "suministro, entre otros."
 msgstr ""
@@ -2728,10 +2728,10 @@ msgstr ""
 
 #: sbpshop/templates/sbpshop/product/list.html:371
 msgid ""
-"Conectamos la lógica de negocio con la experiencia del cliente, logrando que "
-"los procesos se ejecuten e interactúen en tiempo real con los usuarios "
-"finales. Esto te permite tomar el control total de tus operaciones y alinear "
-"tus estrategias con acciones de marketing digital efectivas."
+"Conectamos la lógica de negocio con la experiencia del cliente, logrando que"
+" los procesos se ejecuten e interactúen en tiempo real con los usuarios "
+"finales. Esto te permite tomar el control total de tus operaciones y alinear"
+" tus estrategias con acciones de marketing digital efectivas."
 msgstr ""
 
 #: sbpshop/templates/sbpshop/product/list.html:375
@@ -2744,10 +2744,10 @@ msgstr ""
 
 #: sbpshop/templates/sbpshop/product/list.html:379
 msgid ""
-"Todas nuestras soluciones están desarrolladas sobre infraestructura cloud de "
-"última generación, garantizando seguridad, escalabilidad y alto rendimiento, "
-"para ofrecerte una experiencia confiable y adaptable a las exigencias del "
-"entorno digital moderno."
+"Todas nuestras soluciones están desarrolladas sobre infraestructura cloud de"
+" última generación, garantizando seguridad, escalabilidad y alto "
+"rendimiento, para ofrecerte una experiencia confiable y adaptable a las "
+"exigencias del entorno digital moderno."
 msgstr ""
 
 #: sbpshop/templates/sbpshop/product/list.html:395
@@ -2818,8 +2818,8 @@ msgstr ""
 
 #: sbtshop/templates/sbtshop/product/list.html:108
 msgid ""
-"Asimismo, seguimos los “Principios sobre Inteligencia Artificial” de la OCDE "
-"(OECD AI Principles, 2019), promoviendo una IA centrada en el ser humano, "
+"Asimismo, seguimos los “Principios sobre Inteligencia Artificial” de la OCDE"
+" (OECD AI Principles, 2019), promoviendo una IA centrada en el ser humano, "
 "respetuosa de los derechos humanos, transparente, explicable, robusta y "
 "supervisada."
 msgstr ""
@@ -2868,8 +2868,8 @@ msgstr ""
 msgid ""
 "Además, te invitamos a conocer nuestras soluciones On-Premise, donde "
 "implementamos nuestras arquitecturas en servidores privados. Con esta "
-"modalidad, podrás ofrecer a tus usuarios finales y clientes total autonomía, "
-"independencia y protección de datos personales, contando con tu propio "
+"modalidad, podrás ofrecer a tus usuarios finales y clientes total autonomía,"
+" independencia y protección de datos personales, contando con tu propio "
 "centro de datos dentro de tu organización."
 msgstr ""
 
@@ -2936,8 +2936,8 @@ msgstr ""
 
 #: usuarios/templates/registration/password_change_form.html:35
 msgid ""
-"Please enter your old password, for security’s sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
+"Please enter your old password, for security’s sake, and then enter your new"
+" password twice so we can verify you typed it in correctly."
 msgstr ""
 
 #: webapp/templates/webapp/aboutus.html:23
@@ -3287,7 +3287,7 @@ msgstr ""
 #: webapp/templates/webapp/products/smartbusinesstechnologies/info/info.html:168
 #: webapp/templates/webapp/products/smartbusinesstechnologies/info/info.html:174
 msgid "Learn More"
-msgstr "Explorar"
+msgstr "Saber Más"
 
 #: webapp/templates/webapp/info/historia.html:199
 #: webapp/templates/webapp/info/manifiesto.html:199
