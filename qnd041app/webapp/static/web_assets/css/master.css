@@ -354,7 +354,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 }
 
 .logo img {
-    max-height: 30px;
+    max-height: 15px;
 	-webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: block;
