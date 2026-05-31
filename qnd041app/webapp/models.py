@@ -1360,6 +1360,13 @@ class GaleriadeImagenesSBT(Orderable):
     logo = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Logotipo en texto ')
     profile_pic = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Foto de perfil')
     image = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Banner 1')
+    carousell_1  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell 1')
+    carousell_2  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  2')
+    carousell_3  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  3')
+    carousell_4  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  4')
+    carousell_5  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  5')
+    carousell_6  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  6')
+    carousell_7  = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Carousell  7')
     image_1 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Banner 1')
     image_2_2 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Banner 1')
     image_2 = models.ForeignKey('wagtailimages.Image',null=True,blank=True,on_delete=models.SET_NULL,related_name='+',verbose_name='Imagen Slide Banner 2')
@@ -1375,6 +1382,16 @@ class GaleriadeImagenesSBT(Orderable):
         FieldPanel('logo_slide'),
         FieldPanel('logo'),
         FieldPanel('profile_pic'),
+
+        FieldPanel('carousell_1'),
+        FieldPanel('carousell_2'),
+        FieldPanel('carousell_3'),
+        FieldPanel('carousell_4'),
+        FieldPanel('carousell_5'),
+        FieldPanel('carousell_6'),
+        FieldPanel('carousell_7'),
+
+
         FieldPanel('image'),
         FieldPanel('image_2'),
         FieldPanel('image_3'),
