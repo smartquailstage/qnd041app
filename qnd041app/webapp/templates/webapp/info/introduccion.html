@@ -233,96 +233,74 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-md-3">
-
-          <div class="instagram-carousel-container">
-            <div class="instagram-carousel" id="instaCarousel">
-              
-              {# Bloque para los Logos #}
-              {% for item in page.galleria_3.all %}
-                {% if item.logo %}
-                  {% image item.logo original as logo %}
-                  <div class="carousel-slide">
-                    <img src="{{ logo.url }}" alt="Logo">
-                  </div>
-                {% endif %}
-              {% endfor %}
-          
-              {# Bloque para las Fotos de Perfil #}
-              {% for item in page.galleria_3.all %}
-                {% if item.profile_pic %}
-                  {% image item.profile_pic original as profile %}
-                  <div class="carousel-slide">
-                    <img src="{{ profile.url }}" alt="Profile Picture">
-                  </div>
-                {% endif %}
-              {% endfor %}
-
-              {% for item in page.galleria_3.all %}
-              {% if item.carosuell_1 %}
-                {% image item.carosuell_1 original as c1 %}
-                <div class="carousel-slide">
-                  <img src="{{ c1.url }}" alt="Profile Picture">
-                </div>
-              {% endif %}
-            {% endfor %}
-
-            {% for item in page.galleria_3.all %}
-            {% if item.carosuell_2 %}
-              {% image item.carosuell_1 original as c2 %}
-              <div class="carousel-slide">
-                <img src="{{ c2.url }}" alt="Profile Picture">
-              </div>
-            {% endif %}
-          {% endfor %}
+  <div class="col-md-3">
+  <div class="instagram-carousel-container">
+    <div class="instagram-carousel" id="instaCarousel">
+      
+      {% for item in page.galleria_3.all %}
         
-          {% for item in page.galleria_3.all %}
-          {% if item.carosuell_3 %}
-            {% image item.carosuell_3 original as c3 %}
-            <div class="carousel-slide">
-              <img src="{{ c3.url }}" alt="Profile Picture">
-            </div>
-          {% endif %}
-        {% endfor %}
+        {# 1. Logos #}
+        {% if item.logo %}
+          {% image item.logo original as logo %}
+          <div class="carousel-slide"><img src="{{ logo.url }}" alt="Logo"></div>
+        {% endif %}
+      
+        {# 2. Fotos de Perfil #}
+        {% if item.profile_pic %}
+          {% image item.profile_pic original as profile %}
+          <div class="carousel-slide"><img src="{{ profile.url }}" alt="Profile Picture"></div>
+        {% endif %}
 
-        {% for item in page.galleria_3.all %}
+        {# 3. Carrusel 1 #}
+        {% if item.carosuell_1 %}
+          {% image item.carosuell_1 original as c1 %}
+          <div class="carousel-slide"><img src="{{ c1.url }}" alt="c1"></div>
+        {% endif %}
+
+        {# 4. Carrusel 2 (Corregido) #}
+        {% if item.carosuell_2 %}
+          {% image item.carosuell_2 original as c2 %}
+          <div class="carousel-slide"><img src="{{ c2.url }}" alt="c2"></div>
+        {% endif %}
+    
+        {# 5. Carrusel 3 #}
+        {% if item.carosuell_3 %}
+          {% image item.carosuell_3 original as c3 %}
+          <div class="carousel-slide"><img src="{{ c3.url }}" alt="c3"></div>
+        {% endif %}
+
+        {# 6. Carrusel 4 #}
         {% if item.carosuell_4 %}
           {% image item.carosuell_4 original as c4 %}
-          <div class="carousel-slide">
-            <img src="{{ c4.url }}" alt="Profile Picture">
-          </div>
+          <div class="carousel-slide"><img src="{{ c4.url }}" alt="c4"></div>
         {% endif %}
+
+        {# 7. Carrusel 5 #}
+        {% if item.carosuell_5 %}
+          {% image item.carosuell_5 original as c5 %}
+          <div class="carousel-slide"><img src="{{ c5.url }}" alt="c5"></div>
+        {% endif %}
+
+        {# 8. Carrusel 6 #}
+        {% if item.carosuell_6 %}
+          {% image item.carosuell_6 original as c6 %}
+          <div class="carousel-slide"><img src="{{ c6.url }}" alt="c6"></div>
+        {% endif %}
+
+        {# 9. Carrusel 7 #}
+        {% if item.carosuell_7 %}
+          {% image item.carosuell_7 original as c7 %}
+          <div class="carousel-slide"><img src="{{ c7.url }}" alt="c7"></div>
+        {% endif %}
+        
       {% endfor %}
-
-      {% for item in page.galleria_3.all %}
-      {% if item.carosuell_5 %}
-        {% image item.carosuell_5 original as c5 %}
-        <div class="carousel-slide">
-          <img src="{{ c5.url }}" alt="Profile Picture">
-        </div>
-      {% endif %}
-    {% endfor %}
-
-    {% for item in page.galleria_3.all %}
-    {% if item.carosuell_6 %}
-      {% image item.carosuell_6 original as c6 %}
-      <div class="carousel-slide">
-        <img src="{{ c6.url }}" alt="Profile Picture">
-      </div>
-    {% endif %}
-  {% endfor %}
-
-  {% for item in page.galleria_3.all %}
-  {% if item.carosuell_7 %}
-    {% image item.carosuell_7 original as c7 %}
-    <div class="carousel-slide">
-      <img src="{{ c7.url }}" alt="Profile Picture">
+  
     </div>
-  {% endif %}
-{% endfor %}
-          
-            </div>
-          
+  
+    <!-- Indicadores de puntos estilo Instagram -->
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div> <!-- Cierre de instagram-carousel-container -->
+
             <!-- Indicadores de puntos estilo Instagram -->
             <div class="carousel-dots" id="carouselDots"></div>
 
@@ -454,20 +432,22 @@
   document.addEventListener("DOMContentLoaded", function () {
     const carousel = document.getElementById("instaCarousel");
     const dotsContainer = document.getElementById("carouselDots");
-    const slides = carousel.querySelectorAll(".carousel-slide");
     
+    if (!carousel || !dotsContainer) return; // Evita errores si los elementos no existen en el DOM
+    
+    const slides = carousel.querySelectorAll(".carousel-slide");
     if (slides.length <= 1) return; // Si hay una sola imagen, no crea puntos.
 
     // 1. Crear dinámicamente la cantidad de puntos según las imágenes de Wagtail
-    slides.forEach((_, index) => {
+    slides.forEach((slide, index) => {
         const dot = document.createElement("div");
         dot.classList.add("carousel-dot");
         if (index === 0) dot.classList.add("active");
         
-        // Permitir hacer clic en el punto para navegar a esa imagen
+        // CORRECCIÓN: Usamos offsetLeft para ir EXACTAMENTE al inicio de la imagen seleccionada
         dot.addEventListener("click", () => {
             carousel.scrollTo({
-                left: carousel.offsetWidth * index,
+                left: slide.offsetLeft,
                 behavior: "smooth"
             });
         });
@@ -477,19 +457,28 @@
 
     const dots = dotsContainer.querySelectorAll(".carousel-dot");
 
-    // 2. Escuchar el evento de desplazamiento para cambiar el punto activo de manera fluida
+    // 2. Escuchar el evento de desplazamiento de manera fluida y precisa
     carousel.addEventListener("scroll", () => {
         const scrollLeft = carousel.scrollLeft;
-        const width = carousel.offsetWidth;
-        // Calcula el índice de la diapositiva actual basándose en la posición del scroll
-        const activeIndex = Math.round(scrollLeft / width);
-
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                dot.classList.add("active");
-            } else {
-                dot.classList.remove("active");
+        
+        let activeIndex = 0;
+        
+        // CORRECCIÓN: Buscamos qué slide está más cerca del centro del carrusel en este momento
+        slides.forEach((slide, index) => {
+            // El punto medio de la imagen actual
+            const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+            // El punto medio visible del contenedor del carrusel
+            const carouselCenter = scrollLeft + (carousel.offsetWidth / 2);
+            
+            // Si la imagen cruza el centro, la marcamos como activa
+            if (Math.abs(slideCenter - carouselCenter) < (slide.offsetWidth / 2)) {
+                activeIndex = index;
             }
+        });
+
+        // Actualizar los puntos eficientemente
+        dots.forEach((dot, index) => {
+            dot.classList.toggle("active", index === activeIndex);
         });
     });
 });
