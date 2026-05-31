@@ -421,8 +421,8 @@
   
             <hr>
   
-            <h3 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title11|richtext }}</h3>
-            <h4 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info8 }}</h4>
+            <h3 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title11|richtext }}</h3>
+            <h4 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info8 }}</h4>
             <div style="text-align: justify;line-height: 1;">{{ page.info_title11|richtext }}</div>
   
   
@@ -546,7 +546,7 @@
             {% endfor %}
             <h3 style="text-align: left; margin-left: 50px; color:rgb(199, 199, 199)">{{ page.title }}</h3>
             
-                <p class="mt-50"><a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
+                <p class="mt-50"><a href="{% url 'usuarios:login' %}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
               
         
             </div>
