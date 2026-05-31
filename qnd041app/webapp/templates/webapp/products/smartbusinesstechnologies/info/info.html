@@ -81,14 +81,14 @@
   .carousel-dot {
       width: 12px;
       height: 12px;
-      background-color: #a8a8a8;
+      background-color: #c0bfbf;
       border-radius: 50%;
       transition: all 0.2s ease;
   }
   
   /* El punto activo (Punto azul o negro de Instagram) */
   .carousel-dot.active {
-      background-color: #b0292d; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
+      background-color: #5154f8; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
       transform: scale(1.2);
   }
   
@@ -125,7 +125,7 @@
      COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
      ========================================================= */
      .hero-custom-title {
-      color: rgb(109, 107, 107);
+      color: rgb(255, 255, 255);
       
       /* TIPOGRAFÍA FLUIDA: Cambia de tamaño según la pantalla */
       font-size: calc(1.5rem + 1.5vw); 
@@ -192,13 +192,13 @@
       justify-content: center;
       align-items: center;
       font-size: 24px;         /* Tamaño de los iconos de IcoFont */
-      color:#b4292f;          /* Color gris que estás usando en el proyecto */
+      color:#fcfcfc;          /* Color gris que estás usando en el proyecto */
       transition: color 0.3s ease, transform 0.2s ease;
   }
   
   /* Efecto Hover opcional para interactividad */
   .post-share-centered ul li a:hover {
-      color: rgb(110, 9, 9);             /* Cambia a negro o a tu color corporativo al pasar el mouse */
+      color:rgb(255 255 255);             /* Cambia a negro o a tu color corporativo al pasar el mouse */
       transform: scale(1.1);   /* Crece ligeramente */
   }
   
@@ -333,7 +333,7 @@
   
   
             </div>
-            <p style="color: #303131; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
+            <p style="color: #ffffff; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
             <div class="post-share-centered">
               <ul>
                 <li> 
@@ -364,9 +364,9 @@
   
           <div class="col-md-9">
 
-            <h3 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title9|richtext }}</h3>
-            <h4 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info6 }}</h4>
-            <div style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.info_title9|richtext }}</div>
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title9|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info6 }}</h4>
+            <div style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.info_title9|richtext }}</div>
   
             <div class="portfolio-slider owl-carousel  mt-30">
               {% for item in page.galleria_3.all %}
@@ -389,11 +389,11 @@
               {% endfor %}
             </div>
   
-            <h3 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title10|richtext }}</h3>
-            <h4 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info7 }}</h4>
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title10|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info7 }}</h4>
             <div style="text-align: justify; letter-spacing: normal;
     line-height: 15px;
-    color: #96979B;
+    color: #97a9f1;
     font-weight: 300;">{{ page.info_title10|richtext }}</div>
   
   
@@ -428,8 +428,8 @@
   
           </div>
 
-          <div class="col-md-9 portfolio-left">
-            <h3 style="text-align: justify; color:black">{{ page.banner_title9 | richtext }}</h3>
+          <div class="col-md-9 ">
+            <h3 style="text-align: justify; color:rgb(253, 253, 253)">{{ page.banner_title9 | richtext }}</h3>
             <h4>{{ page.TS_info6 }}</h4>
             <h4 class="mt-20" style="text-align: justify;">{{ page.info_title9 | richtext }}</h4>
 
@@ -460,11 +460,11 @@
               </div>
             </div>
             
-            <h3 style="text-align: left; color:black">{{ page.banner_title10 | richtext }}</h3>
+            <h3 style="text-align: left; color:rgb(255, 255, 255)">{{ page.banner_title10 | richtext }}</h3>
             <h4>{{ page.TS_info7 }}</h4>
             <h4 class="mt-20" style="text-align: justify;">{{ page.info_title10 | richtext }}</h4>
 
-            <h3 style="text-align: left; color:black">{{ page.banner_title11 | richtext }}</h3>
+            <h3 style="text-align: left; color:rgb(255, 255, 255)">{{ page.banner_title11 | richtext }}</h3>
             <h4>{{ page.TS_info8 }}</h4>
             <h4 class="mt-20" style="text-align: justify;">{{ page.info_title11 | richtext }}</h4>
 
@@ -502,25 +502,21 @@
             <hr>
             <h3>{{ page.banner_title12 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title12 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title13 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title13 | richtext }}</p>
-            <p class="mt-50"><a href="{% slugurl 'smartbusinessmedia' %}" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title14 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title14 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <hr>
             <h3>{{ page.banner_title15 | richtext }}</h3>
             <p class="mt-20">{{ page.info_title15 | richtext }}</p>
-            <p class="mt-50"><a href="#" class="btn btn-dark btn-rounded">{% trans 'Learn More' %}</a></p>
             <hr>
 
             <!-- Repeat similar sections as needed -->
