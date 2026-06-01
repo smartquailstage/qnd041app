@@ -122,7 +122,7 @@ def update_generated_image(request):
                 logo1_res = requests.get(logo1_field.file.url, timeout=10)
                 if logo1_res.status_code == 200:
                     logo1 = PILImage.open(BytesIO(logo1_res.content)).convert("RGBA")
-                    max_w = int(base_width * 0.20)
+                    max_w = int(base_width * 0.50)
                     ratio = max_w / logo1.size[0]
                     logo1 = logo1.resize((max_w, int(logo1.size[1] * ratio)), PILImage.LANCZOS)
                     # Pegar en (40, 40)
@@ -134,7 +134,7 @@ def update_generated_image(request):
                 logo2_res = requests.get(logo2_field.file.url, timeout=10)
                 if logo2_res.status_code == 200:
                     logo2 = PILImage.open(BytesIO(logo2_res.content)).convert("RGBA")
-                    max_w = int(base_width * 0.15)
+                    max_w = int(base_width * 0.20)
                     ratio = max_w / logo2.size[0]
                     logo2 = logo2.resize((max_w, int(logo2.size[1] * ratio)), PILImage.LANCZOS)
                     
