@@ -138,17 +138,17 @@ p a:hover {color: #1a237e;}
 p {
     letter-spacing: normal;
     line-height: 1;
-	color: #96979B;
+	color: #c9cdda;
 	font-weight:300;
 }
 a {
     text-decoration: none;
-    color: #d42e22;
+    color: #6ca5f9;
 }
 a:hover, a:focus, a:active {
     outline: none;
     text-decoration: none;
-    color: #e91e63;
+    color: #9bbff5;
 }
 ul {
   list-style: disc;
@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#6ba5f9;
+	background:#131530;
 }
 
 .section-heading {
