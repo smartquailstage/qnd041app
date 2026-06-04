@@ -21,8 +21,14 @@
     <div class="container">
 <div class="attr-nav">
   <ul>
+<li>
+  <div class="logo"> 
+    <a href="{% url 'usuarios:login' %}"> 
+      <img class="logo logo-display" src="{% static 'web_assets/images/white_quail.png'  %}" alt="">
+    <img class="logo logo-scrolled"  src="{% static 'web_assets/images/gray_quail.png'  %}" alt="" height="100px"> </a> 
+  </div>
+</li>
 
-    <li ><a href="{% url 'usuarios:login' %}" class="btn-circle"> <i class="icofont icofont-login font-10px"></i></a></li>
 
     <li class="dropdown">
       {# 1. Idioma actual simplificado (no necesitas un bucle para esto) #}
@@ -69,8 +75,11 @@
       <!--=== Start Header Navigation ===-->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"> <i class="icofont icofont-navigation-menu"></i> </button>
-        <div class="logo"> <a href="{% slugurl 'smartquail' %}"> <img class="logo logo-display" src="{% static 'web_assets/images/white_quail.png'  %}" alt="">
-          <img class="logo logo-scrolled"  src="{% static 'web_assets/images/smartquail_logo_red.png' %}" alt="" height="100px"> </a> </div>
+        <div class="logo"> 
+          <a href="{% slugurl 'smartquail' %}"> 
+            <img class="logo logo-display" src="{% static 'web_assets/images/smartquail_isologo_white.png' %}" alt="">
+          <img class="logo logo-scrolled"  src="{% static 'web_assets/images/smartquail_logo_gray.png' %}" alt="" height="100px"> </a> 
+        </div>
       </div>
       <!--=== End Header Navigation ===-->
 
