@@ -478,7 +478,7 @@ body.on-side{
 =================================*/
 nav.navbar.bootsnav .share{
     padding: 0 30px;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
 }
 
 nav.navbar.bootsnav .share ul{
@@ -514,7 +514,7 @@ nav.navbar.bootsnav.navbar-fixed{
     position: fixed;
     display: block;
     width: 100%;
-	height:70px; 
+	height:58px; 
 }
 
 nav.navbar.bootsnav.no-background{
@@ -578,7 +578,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     }
 
     nav.navbar.bootsnav ul.nav > li > a{
-        padding: 20px 7px;
+        padding: 0px 7px;
     }
 
     nav.navbar.bootsnav ul.nav > li.dropdown > a.dropdown-toggle:after{
@@ -739,8 +739,8 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     nav.navbar.bootsnav.navbar-transparent.white ul.nav > li > a,
     nav.navbar.bootsnav.no-background.white ul.nav > li > a{
         color: #fff;
-		padding-top: 19px;
-    	padding-bottom: 30px;
+		padding-top: 0px;
+    	padding-bottom: 0px;
     }
 
     nav.navbar.bootsnav.navbar-transparent.dark .attr-nav > ul > li > a,
@@ -1138,6 +1138,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         padding: 10px 0;
         border-top: solid 1px #e0e0e0;
         margin-bottom: -1px;
+        line-height: 57px;
     }
 
     nav.navbar.bootsnav .navbar-nav > li:first-child > a{
@@ -1543,8 +1544,8 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     }
 
     li.close-full-menu{
-        padding-top: 15px !important;
-        padding-bottom: 15px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
     }
 }
 
