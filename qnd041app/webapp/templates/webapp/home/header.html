@@ -48,29 +48,35 @@
       <!--=== Collect the nav links, forms, and other content for toggling ===-->
       <div class="collapse navbar-collapse" id="navbar-menu">
         <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
-          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Ecosistemas ITC' %}</a>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Activos ITC' %}</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
                   <div class="col-menu col-md-3">
-                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">Smart Business Media</h6></a>
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessMedia<sup>®</sup></h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Customer Relationship (CRM)'%}</a></li>
-
-                        <li><a href="{% url 'sbmshop:product_list' %}#Staff">{% trans 'MarketingTech Consulting' %}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Publicidad y marketing digital (CRM) '%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Investigación y Desarrollo: CRM<sup>(I+D)</sup>'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Automaización: CRM<sup>(I+D)</sup> + A'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter">{% trans 'Agentes de IA: CRM<sup>(I+D+A)</sup> + AI'%}</a></li>
+              
 
                       </ul>
                     </div>
                   </div>
 
                                     <div class="col-menu col-md-3">
-                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">Smart Business Analytics</h6></a>
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessAnalytics<sup>®</sup> </h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter">{% trans 'Enterprise Resource Planning '%}</a></li>
+                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Análisis financiero y operatividad (EAP)'%}</a></li>
 
-                        <li><a href="{% url 'sbashop:product_list' %}#Staff">{% trans 'FinTech Consulting' %}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: EAP<sup>(I+D)</sup>'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i>{% trans 'Automaización: EAP<sup>(I+D)</sup> + A'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: EAP<sup>(I+D+A)</sup> + IA'%}</a></li>
+
+                      
 
                       </ul>
                     </div>
@@ -79,12 +85,16 @@
 
                   <!--=== end col-3 ===-->
                   <div class="col-menu col-md-3">
-                    <h6 class="title">Smart Business Law</h6>
+                    <h6 class="title">SmartBusinessLaw<sup>®</sup></h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter">{% trans 'Enterprise  Law Planing (ELP)'%}</a></li>
+                        <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Gobernanza administrativa y legal: (ELP)'%}</a></li>
 
-                        <li><a href="{% url 'sblshop:product_list' %}#Staff">{% trans 'LawTech Consulting' %}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: ELP<sup>(I+D)</sup>'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i>{% trans 'Automaización: ELP<sup>(I+D)</sup> + A'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: ELP<sup>(I+D+A)</sup> + IA'%}</a></li>
+
+                 
 
                       </ul>
                     </div>
@@ -92,12 +102,16 @@
 
 
                 <div class="col-menu col-md-3">
-                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">Smart Business Platforms</h6></a>
+                    <a href="{% url 'sbmshop:product_list' %}"> <h6 class="title" style="color:#bd1818;">SmartBusinessPlatforms<sup>®</sup></h6></a>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbpshop:product_list' %}#portfolio-filter">{% trans 'Plataformas para negocios'%}</a></li>
+                        <li><a href="{% url 'sbpshop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Productividad integral: (SUITE)'%}</a></li>
 
-                        <li><a href="{% url 'sbpshop:product_list' %}#Staff">{% trans 'Consultoria' %}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [SUITE<sup>(I+D)</sup>]'%}</a></li>
+                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [SUITE<sup>(I+D)</sup> + A]'%}</a></li>
+                        <li> <a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-brain-alt font-5px default-icon"></i> {% trans 'Agentes de IA: [SUITE<sup>(I+D+A)</sup> + IA]'%}</a></li>
+
+                     
 
                       </ul>
                     </div>
