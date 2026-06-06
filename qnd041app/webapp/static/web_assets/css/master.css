@@ -1285,8 +1285,8 @@ button:focus {
 
 .btn-yellow {
     color: #fff;
-    border-color: #048eb2;
-    background-color: #048eb2;
+    border-color: #f7a94e;
+    background-color: #f7a94e;
 }
 
 .btn-yellow:hover, .btn-yellow:active, .btn-yellow:focus {

@@ -39,7 +39,8 @@
                 <h2 class="dark-color font-500 letter-spacing-5"></h2>
                 
                <img src="{% static 'web_assets/images/smartquail_ini.png' %}" class="logo-responsive">
-                <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-red btn-rounded btn-animate"><span>{% trans 'Learn more' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
+                <p class="text-center mt-30"><a href="{% slugurl 'smartquailinfo' %}" class="btn btn-red btn-rounded btn-animate">
+                  <span>{% trans 'Saber más' %} <i class="icofont icofont-arrow-right"></i></span></a> </p>
               </div>
             </div>
           </div>
@@ -56,8 +57,7 @@
                 <h1 class="white-color text-uppercase font-700">
                   <img src="{% static 'img/smartbusinessmedia.png' %}">
                 </h1>
-                {% include 'sbmshop/product/sbm_list.html' %}
-                <a href="{% url 'sbmshop:product_list' %}" class=" btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+                <a href="{% url 'sbmshop:product_list' %}" class="btn btn-yellow btn-rounded btn-animate">{% trans 'Learn more' %}</a> </p>
                
               </div>
             </div>
@@ -72,9 +72,8 @@
             <div class="hero-text">
               <div class="container text-center">
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/BA-LOGOS/SmartBusinessAnalytcis.png' %}"></h2>
-                {% include 'sbashop/product/sba_list.html' %} 
                
-                <a href="{% url 'sbashop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+                <a href="{% url 'sbashop:product_list' %}" class="btn btn-red  btn-rounded btn-animate">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -88,8 +87,8 @@
             <div class="hero-text">
               <div class="container text-center">
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/SmartBusinessLaw.png' %}"></h2>
-                {% include 'sblshop/product/sbl_list.html' %} 
-                  <a  href="{% url 'sblshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+
+                  <a  href="{% url 'sblshop:product_list' %}" class="btn btn-brown btn-rounded btn-animate">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -104,8 +103,7 @@
             <div class="hero-text">
               <div class="container text-center">
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}"></h2>
-                {% include 'sbpshop/product/sbp_list.html' %} 
-                  <a  href="{% url 'sbpshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+                  <a  href="{% url 'sbpshop:product_list' %}" class="btn btn-plataform btn-rounded btn-animate">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -121,8 +119,7 @@
             <div class="hero-text">
               <div class="container text-center">
                 <h2 class="white-color font-500 letter-spacing-5"><img src="{% static 'img/smartbusinesstechnologies.png' %}"></h2>
-                {% include 'sbtshop/product/sbt_list.html' %}
-                 <a href="{% url 'sbtshop:product_list' %}" class="btn btn-outline-white btn-rounded">{% trans 'Learn more' %}</a> </p>
+                 <a href="{% url 'sbtshop:product_list' %}" class="btn btn-blue btn-rounded btn-animate">{% trans 'Learn more' %}</a> </p>
               </div>
             </div>
           </div>
@@ -139,7 +136,7 @@
                 <h2 class="white-color font-500 letter-spacing-5">{{page.banner_title10|richtext}}</h2>
                 <h1 class="white-color text-uppercase font-700"><img src="{% static 'img/smartquail_iso.png' %}" width="400px"></h1>
                 <h3 class="white-color font-400">{{ page.TS_info7 }}</h3>
-                <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-dark btn-rounded">{% trans 'Register, Now!' %}</a> </p>
+                <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-yellow btn-rounded">{% trans 'Register, Now!' %}</a> </p>
               </div>
             </div>
           </div>
