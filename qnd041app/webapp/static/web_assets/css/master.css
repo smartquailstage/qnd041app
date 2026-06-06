@@ -1283,10 +1283,25 @@ button:focus {
     color: #fff;
 }
 
-.btn-yellow {
+
+.btn-dark-yellow {
     color: #fff;
     border-color: #f7a94e;
     background-color: #f7a94e;
+}
+
+.btn-dark-yellow:hover, .btn-dark-yellow:active, .btn-dark-yellow:focus {
+    background-color: #ad6d05;
+    border-color: #945d04;
+    color: #fff;
+}
+
+
+
+.btn-yellow {
+    color: #fff;
+    border-color: #048eb2;
+    background-color: #048eb2;
 }
 
 .btn-yellow:hover, .btn-yellow:active, .btn-yellow:focus {
