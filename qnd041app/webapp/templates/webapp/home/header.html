@@ -128,55 +128,82 @@
               <li>
                 <div class="row">
                        <div class="col-menu col-md-3">
-                    <h6 class="title">Smart Business Technologies</h6>
+                    <h6 class="title">Arquitectura ITC</h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'Tecnologías de Negocios'%}</a></li>
-                        <li><a href="{% slugurl 'business_mailing' %}">{% trans 'Arquitecturas en la nube nativa' %}</a></li> 
-                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Consultoria' %}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'Disponibilidad,escalabilidad y resiliencia'%}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#portfolio-filter">{% trans 'Microservicios'%}</a></li>
+                        <li><a href="{% slugurl 'business_mailing' %}">{% trans 'Orquestacion y virtualización' %}</a></li> 
+                        <li><a href="{% slugurl 'business_mailing' %}">{% trans 'Correo Electrónico propietario' %}</a></li> 
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Monitoreo y trazabilidad' %}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Ciberseguridad y hacking ético' %}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Ciencia de datos aplicada' %}</a></li>
+                        <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Automatización sbre datos reales' %}</a></li>
+                         <li><a href="{% url 'sbtshop:product_list' %}#Staff">{% trans 'Agentes de inteligencia artificial empresarial' %}</a></li>
+
                       </ul>
                     </div>
                   </div>
 
                                          <div class="col-menu col-md-3">
-                    <h6 class="title">{% trans "Infraestructura Tecnológica" %}</h6>
+                    <h6 class="title">{% trans "Infraestructura ITC" %}</h6>
 <div class="content">
   <ul class="menu-col">
     <li>
       <a href="{% slugurl 'data_center' %}">
-        {% trans "Data centers" %}
+        {% trans "Computación en nube nativa" %}
       </a>
     </li>
 
-    <li>
-      <a href="{% slugurl 'cloud_computing' %}">
-        {% trans "Native Cloud Computing" %}
-      </a>
-    </li>
-
-    <li>
-      <a href="{% slugurl 'virtual_machine' %}">
-        {% trans "Virtual Machine Platform" %}
-      </a>
-    </li>
 
     <li>
       <a href="{% slugurl 'blockchain' %}">
-        {% trans "Block Chain" %}
+        {% trans "Cadena de bloques (BlockChain)" %}
       </a>
     </li>
 
     <li>
       <a href="{% slugurl 'cibersecurity' %}">
-        {% trans "Cibersecurity" %}
+        {% trans "Pasarelas de pagos (SandBox payment)" %}
       </a>
     </li>
 
     <li>
-      <a href="{% slugurl 'monitoring">
-        {% trans "Monitoring" %}
+      <a href="{% slugurl 'monitoring'%}">
+        {% trans "Criptografia empresarial (CryptoCoins)" %}
       </a>
     </li>
+
+            <li>
+      <a href="{% slugurl 'monitoring' %}">
+        {% trans "Integración a terceros (third-party)" %}
+      </a>
+    </li>
+
+                <li>
+      <a href="{% slugurl 'monitoring'%}">
+        {% trans "Modelos de aprendizaje automático (ML)" %}
+      </a>
+    </li>
+
+                    <li>
+      <a href="{% slugurl 'monitoring'%}">
+        {% trans "Modelos de aprendizaje profundo (DL)" %}
+      </a>
+    </li>
+
+      <li>
+        <a href="{% slugurl 'monitoring' %}">
+        {% trans "Modelos de aprendisaje generativo (crean)" %}
+      </a>
+    </li>
+
+        <li>
+      <a href="{% slugurl 'monitoring' %}">
+        {% trans "Modelos de lenguaje natural (LLM)" %}
+      </a>
+    </li>
+
 
 
   </ul>
@@ -185,30 +212,51 @@
                   </div>
 
            <div class="col-menu col-md-3">
-  <h6 class="title">{% trans "DeV-SeC-OpS" %}</h6>
+  <h6 class="title">{% trans "Gobernanza ITC" %}</h6>
 
   <div class="content">
     <ul class="menu-col">
       <li>
         <a href="{% slugurl 'id' %}">
-          {% trans "Development and Research (I+D)" %}
+          {% trans "Ley orgánica de protección de datos" %}
         </a>
       </li>
 
       <li>
         <a href="{% slugurl 'ida' %}">
-          {% trans "Automations (+A)" %}
+          {% trans "Soberania digital y tratamiento de datos" %}
         </a>
       </li>
 
       <li>
         <a href="{% slugurl 'ida-ai' %}">
-          {% trans "Artificial Intelligence (+AI)" %}
+          {% trans "ISO/IEC 27001,9001,25000" %}
         </a>
       </li>
+      <li>
+        <a href="{% slugurl 'ida-ai' %}">
+          {% trans "Green, Clean and Climate Techs" %}
+        </a>
+      </li>
+      <hr>
+<li>
+<li>
+  SmartQuail.S.A.S <br>
+  The Smartest IT Cloud Business <br>
+  Quito - Ecuador.   
+  
+  <br>
+  
+
+</li>
     </ul>
   </div>
 </div>
+
+
+ 
+
+
 
 
 <div class="col-menu col-md-3">
@@ -222,7 +270,7 @@
 
       <li>
 
-        <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-white btn-rounded btn-animate"><span>Register <i class="icofont icofont-arrow-right"></i></span></a> </p>
+        <p class="text-center mt-30"><a href="{% url 'usuarios:register' %}" class="btn btn-white btn-rounded btn-animate"><span>Crear cuenta ITC <i class="icofont icofont-arrow-right"></i></span></a> </p>
 
         </a>
       </li>
