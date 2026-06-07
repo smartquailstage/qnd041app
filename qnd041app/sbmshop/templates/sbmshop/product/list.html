@@ -93,7 +93,7 @@ h3 {
 .carousel-slide {
   min-width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: 616px;
   background-position: center;
   scroll-snap-align: start; 
 }
@@ -102,7 +102,7 @@ h3 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.85); 
+  background-color: rgba(43, 42, 42, 0.85); 
   border: none;
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -165,6 +165,21 @@ h3 {
   }
 }
 
+.instagram-responsive-img {
+  width: 100%;
+  /* Altura para pantallas de celular (móvil) */
+  height: 300px; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* En pantallas más grandes (tablets y PC), le damos más altura */
+@media (min-width: 768px) {
+  .instagram-responsive-img {
+    height: 520px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
+  }
+}
 
 </style>
 
@@ -204,13 +219,11 @@ h3 {
 
 
 <section id="Choose" class="black-bg">
-                <div class="col-md-6 col-sm-4 bg-flex bg-flex-right">
-      <div class="bg-flex-holder bg-flex-cover"  style="background-image: url('{% static 'img/smartbusinessmedia/sbm_login.png' %}');">
-
-      </div>
-
-      
-    </div> 
+<div class="col-12 col-sm-6 col-md-6 bg-flex bg-flex-right">
+  <div class="bg-flex-holder bg-flex-cover instagram-responsive-img"  
+       style="background-image: url('{% static 'img/smartbusinessmedia/sbm_login.png' %}');">
+  </div>
+</div>
   <div class="container">
  
     <div class="row">
@@ -518,40 +531,7 @@ h3 {
           
         </div> </div> </div> </div> </section>
 
-<section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-5">
-        <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'SmartBusinessMedia® CRM – Content Resources Manager' %}</p>
 
-        </div>
-      </div>
-      <div class="col-md-1"></div>
-      <div class="col-md-6">
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans 'SmartBusinessMedia® es un proyecto tecnológico desarrollado por SmartQuail, Inc., diseñado para optimizar la gestión integral de los procesos en el ámbito del marketing digital. Su interfaz moderna, intuitiva y altamente funcional permite a los usuarios centralizar y administrar de forma eficiente todos sus sistemas de información desde una única plataforma.'%}</p>
-
-<p class="mt-20 content-text">{% trans 'La solución integra herramientas avanzadas para la automatización de tareas programadas en redes sociales, facilitando la planificación, publicación y análisis de campañas digitales. Además, incorpora módulos de inteligencia artificial que permiten implementar chatbots inteligentes en WhatsApp, potenciando la comunicación, la atención al cliente y la conversión en tiempo real.'%}</p>
-
-<p class="mt-20 content-text">{% trans 'Uno de sus componentes más innovadores es su sistema inteligente de algoritmos de recomendación, diseñado para analizar datos de comportamiento, optimizar estrategias y ofrecer sugerencias personalizadas que impulsan la eficiencia y el crecimiento de cada agencia o negocio.'%}</p>
-
-<p class="mt-20 content-text">{% trans 'Todas las plataformas desarrolladas por SmartQuail, Inc. son soluciones de computación en la nube de última generación, construidas sobre infraestructuras seguras, escalables y de alto rendimiento. Estas herramientas integran las tecnologías más innovadoras del mercado, garantizando a las agencias de marketing digital una experiencia confiable, eficiente y adaptable a las exigencias del entorno digital moderno.' %}</p>
-        </div>
-        <hr>
-
-        </ul>
-
-
-      </div>
-    </div>
-  </div>
-</section>
 
 <section id="SBM" class="pt-100">
   <div class="container">
@@ -608,48 +588,6 @@ h3 {
 
 
 
-
-<section  id="Staff" style="background: #e63286;" >
-  <div class="container">
-    <div class="row startup-member">
-      <div class="col-sm-8 section-heading">
-        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/3.png' %}" > {% trans 'Consulting us' %}</h2>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
-      </div>
-      {% for staff_item in products_staff %}
-
-      <div class="col-md-3 col-sm-6">
-        <div class="member text-center">
-          <div class="team-member-container">
-            <!-- Aquí debes usar 'staff_item' para acceder a los atributos -->
-            <img src="{{ staff_item.ceo_profile_img.url }}" class="img-responsive" alt="team-01">
-            <div class="member-caption">
-              <div class="member-description text-center">
-                <div class="member-description-wrap">
-                  <ul class="member-icons">
-                    <li class="social-icon"><a href="#"><i class="icofont icofont-user"></i> See My Profile </a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Aquí también debes usar 'staff_item' -->
-          <h4 class="member-title">{{ staff_item.ceo_name }} {{ staff_item.ceo_lastname }}</h4>
-          <p class="member-subtitle" style="color: #ffbf00;">{{ staff_item.ceo_sector }}</p>
-        </div>
-      </div>
-    {% endfor %}
-
-
-
-      <!--=== Member End ===-->
-
-
-
-
-    </div>
-  </div>
-</section>
 
 
 <section style="background: #fdc64f;" class="pt-50 pb-50 black-bg">
