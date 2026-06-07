@@ -18,8 +18,8 @@
 
 p {
     letter-spacing: normal;
-    line-height: 12px;
-    color: #151414;
+    line-height: 15px;
+    color: #c2bebe;
     font-weight: 300;
 }
 h3 {
@@ -47,9 +47,124 @@ h3 {
 
 .btn-white {
     color: #f1f1f1;
-    border-color: #e14a83;
-    background-color: #e14a83;
+    border-color: #ffffff;
+    background-color: #ffffff;
 }
+/* ==========================================================================
+   ESTILOS BASE Y RESPONSIVE (Móviles primero)
+   ========================================================================== */
+.split-section {
+  position: relative;
+  width: 100%;
+  padding: 50px 0;
+}
+
+.bg-flex {
+  width: 100%;
+  padding: 0 15px 30px 15px; /* Margen inferior para separar del texto en móviles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes del Carrusel para que sea grande y adaptable */
+.instagram-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Tamaño máximo ideal para el carrusel */
+  aspect-ratio: 10 / 7; 
+  border-radius: 8px; 
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory; 
+  scroll-behavior: smooth;
+  scrollbar-width: none; 
+  -webkit-overflow-scrolling: touch; 
+}
+
+.carousel-track::-webkit-scrollbar { display: none; }
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  scroll-snap-align: start; 
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.85); 
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px;
+  z-index: 10;
+}
+.dot { width: 6px; height: 6px; background-color: rgba(255,255,255,0.5); border-radius: 50%; }
+.dot.active { background-color: #fff; transform: scale(1.2); }
+
+@media (max-width: 768px) {
+  .carousel-btn { display: none; } /* Ocultar flechas en móviles */
+}
+
+/* ==========================================================================
+   PANTALLAS GRANDES (Desktop / Tablets en Horizontal)
+   ========================================================================== */
+@media (min-width: 992px) {
+  .split-section {
+    padding: 80px 0;
+    display: flex;
+    align-items: center; /* Centra verticalmente el contenido */
+    min-height: 600px;  /* Altura mínima de la sección */
+  }
+
+  /* El bloque toma exactamente la mitad izquierda de toda la pantalla */
+  .bg-flex {
+    position: absolute !important;
+    top: 0;
+    left: 0 !important;
+    bottom: 0;
+    width: 50% !important;
+    height: 100%;
+    padding: 0;
+    z-index: 5;
+  }
+
+  /* Forzamos a que el carrusel use todo el ancho permitido del 50% */
+  .instagram-carousel {
+    max-width: 85%; /* Ajusta este porcentaje si quieres que el carrusel sea aún más grande */
+    height: auto;
+  }
+
+  /* Un colchón extra de padding a la columna derecha para un diseño elegante */
+  .col-content-right {
+    padding-left: 50px;
+  }
+}
+
 
 </style>
 
@@ -77,7 +192,7 @@ h3 {
                 <div class="animate-caption capitalize mt-50">
                   <h3 class="mt-30 text-left" style="color:#e14a83" ><span class="rotate" style="color:#e14a83"> (CRM) {% trans 'Customer Relationship Management' %}  | +(I+D) {% trans 'Implentation & Front End Devlopment' %} | (+A) {% trans 'Marketing process automation' %} | and |  (+AI) {% trans 'Marketing Artificial Inteligent' %}</span></h3>
                 </div>
-                <a href="#Choose" class="btn btn-white btn-circle">{% trans 'Start Your Business Media Project' %}</a>
+                <a href="#Choose" class="btn btn-red btn-circle">{% trans 'Start Your Business Media Project' %}</a>
 
             </div>
           </div>
@@ -89,10 +204,21 @@ h3 {
 
 
 <section id="Choose" class="black-bg">
+                <div class="col-md-6 col-sm-4 bg-flex bg-flex-right">
+      <div class="bg-flex-holder bg-flex-cover"  style="background-image: url('{% static 'img/smartbusinessmedia/sbm_login.png' %}');">
+
+      </div>
+
+      
+    </div> 
   <div class="container">
+ 
     <div class="row">
       <div class="col-md-6">
-        <h1>{% trans "Let’s Start" %}</h1>
+  
+    
+
+        <h1>{% trans "SmartBusinessMedia®" %}</h1>
         <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Descubre SmartBusinessMedia, el CRM diseñado especialmente para agencias de marketing digital que quieren llevar su gestión al siguiente nivel. Regístrate y forma parte de una comunidad de profesionales que comparten ideas, estrategias y herramientas para crecer juntos. Simplifica tu trabajo, automatiza tus procesos y conecta con otras agencias que, como tú, buscan innovar y maximizar sus resultados. '%}</p>
 
         <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Con SmartBusinessMedia, no solo gestionas tu negocio, ¡lo transformas!' %}</h3>
@@ -333,6 +459,65 @@ h3 {
 </section>
 
 
+  <!--=== Our Service Start ======-->
+<section class="dark-bg split-section">
+  
+  <div class="bg-flex bg-flex-left">
+    <div class="instagram-carousel">
+      
+      <div class="carousel-track">
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+      </div>
+
+      <button class="carousel-btn prev-btn" aria-label="Anterior">&#10094;</button>
+      <button class="carousel-btn next-btn" aria-label="Siguiente">&#10095;</button>
+
+      <div class="carousel-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      
+    </div>
+  </div>
+    
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-md-offset-6 col-content-right">
+        
+        <h2 class="font-700 wow fadeTop" data-wow-delay="0.1s">SmartBusinessMedia CRM</h2>
+        <h4 class="mt-10 line-height-26 wow fadeTop" data-wow-delay="0.2s">We develop big ideas that sell.</h4>
+        
+        <div class="left-service-box pt-40 pb-20 row">
+          
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.1s">
+            <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
+            <div class="pull-right">
+              <h4 class="mt-0"><a href="#">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</a></h4>
+              <p>Designing a good website that accommodates a lot of content is a tricky balancing act to pull off.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.2s">
+            <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
+            <div class="pull-right">
+              <h4 class="mt-0">Automatización de Procesos [CRM<sup>(I+D)</sup>+A] </h4>
+              <p>We build mobile apps for the conference, integrating unique content and branding to create.</p>
+            </div>
+          </div>
+          
+          <div class="col-md-12 feature-box text-left col-sm-6 wow fadeTop" data-wow-delay="0.3s">
+            <div class="pull-left"><i class="icofont icofont-brain-alt font-60px default-icon"></i></div>
+            <div class="pull-right">
+              <h4 class="mt-0">Agentes de IA [CRM<sup>(I+D+A)</sup>+AI]</h4>
+              <p>Google has made this important since 1998 when it launched. Content became, and still is king since websites.</p>
+            </div>
+          </div>
+          
+        </div> </div> </div> </div> </section>
+
 <section id= "Products" class="pt-50 pb-50 dark-bg cta-block">
   <div class="container">
     <div class="row">
@@ -492,6 +677,55 @@ h3 {
 
 
 {% include 'webapp/home/footer_section.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+
+  // Función para mover el scroll
+  function btnClick(direction) {
+    const slideWidth = track.clientWidth;
+    if (direction === "next") {
+      track.scrollBy({ left: slideWidth, behavior: "smooth" });
+    } else {
+      track.scrollBy({ left: -slideWidth, behavior: "smooth" });
+    }
+  }
+
+  prevBtn.addEventListener("click", () => btnClick("prev"));
+  nextBtn.addEventListener("click", () => btnClick("next"));
+
+  // Actualizar los puntitos usando Intersection Observer (detecta qué slide está visible)
+  const observerOptions = {
+    root: track,
+    threshold: 0.5 // Se activa cuando el 50% del slide es visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Obtenemos el índice del slide visible
+        const index = Array.from(slides).indexOf(entry.target);
+        
+        // Actualizamos los puntitos
+        dots.forEach((dot, dotIndex) => {
+          if (dotIndex === index) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  slides.forEach((slide) => observer.observe(slide));
+});
+</script>
 
 
 {% endblock %}
