@@ -9,6 +9,205 @@
       .portfolio-cover-bg {
         background-image: url("{{ s1.url }}");
       }
+
+  /* Contenedor exterior */
+.instagram-carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Tamaño ideal estándar estilo post de Instagram */
+    margin: 0 auto;
+    padding-bottom: 25px;
+}
+
+/* El Carrusel con scroll fluido */
+.instagram-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px; /* Bordes suaves estilo interfaz moderna */
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+/* Ocultar la barra de scroll nativa en todos los navegadores */
+.instagram-carousel::-webkit-scrollbar {
+    display: none;
+}
+.instagram-carousel {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Cada diapositiva (Contenedor individual) */
+.carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 1. ELIMINAMOS 'aspect-ratio: 1/1' para que ya no obligue a ser cuadrado */
+    /* 2. Definimos una altura máxima para que imágenes muy verticales no rompan la pantalla */
+    height: auto;
+    max-height: 70vh; /* Ocupará como máximo el 70% de la altura de la pantalla */
+    overflow: hidden;
+}
+
+/* Las imágenes dentro del carrusel */
+.carousel-slide img {
+    /* 3. CLAVE: Se adaptan a su ancho y alto real de manera proporcional */
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    
+    /* 4. Mantiene la proporción real sin recortar bordes */
+    object-fit: contain; 
+    
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Contenedor de los puntos indicadores */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    height: 10px;
+}
+
+/* El punto individual */
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #a8a8a8;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+/* El punto activo (Punto azul o negro de Instagram) */
+.carousel-dot.active {
+    background-color: #b0292d; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
+    transform: scale(1.2);
+}
+
+/* =========================================================
+   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+   ========================================================= */
+   .logo-instagram-slide {
+    max-width: 100%; /* Evita que la imagen se desborde si la pantalla es muy chica */
+    width: 392px;    /* Tu ancho objetivo */
+    
+    /* CLAVE PARA CENTRAR EN MÓVILES */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 292px; /* Un margen superior más prudente y estético para celulares */
+}
+
+/* =========================================================
+   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio / Tablets)
+   ========================================================= */
+@media (min-width: 992px) {
+    .logo-instagram-slide {
+        max-width: 392px;
+        
+        /* Aplicamos tus valores exactos solo en pantallas grandes */
+        margin-top: 100px;
+        margin-left: 47px;
+        margin-right: 0; /* Desactivamos el centrado automático */
+
+    }
+}
+
+
+/* =========================================================
+   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+   ========================================================= */
+   .hero-custom-title {
+    color: rgb(87 83 83);
+    
+    /* TIPOGRAFÍA FLUIDA: Cambia de tamaño según la pantalla */
+    font-size: calc(1.5rem + 1.5vw); 
+    line-height: 1.3;
+    font-weight: 700;
+    line-height: 1;
+    
+    /* CLAVE PARA CENTRAR EN MÓVILES */
+    text-align: center;
+    max-width: 90%; /* En móviles dejamos que use casi todo el ancho disponible */
+    margin: 30px auto 0 auto; /* Centrado horizontal, margen superior controlado */
+    margin-top: 0px;
+}
+
+/* =========================================================
+   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio)
+   ========================================================= */
+@media (min-width: 992px) {
+    .hero-custom-title {
+        /* Restablecemos la alineación original a la izquierda */
+        text-align: left;
+        
+        /* Aplicamos tus valores exactos de diseño */
+        margin-left: 54px;
+        margin-top: 0px; /* Ajusta este valor si necesitas coordinarlo con la imagen */
+        max-width: 31%;   /* Se restringe al 31% solo en pantallas anchas */
+        
+        /* Tamaño de fuente controlado para monitores */
+        font-size: 28px; 
+        line-height: 1;
+    }
+}
+
+
+/* Contenedor principal centrado */
+.post-share-centered {
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;     /* Centrado vertical */
+    width: 100%;
+    margin: 20px 0;          /* Espaciado opcional arriba y abajo */
+}
+
+/* Resetear la lista e iconos */
+.post-share-centered ul {
+    list-style: none;        /* Quita los puntos de la lista */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-share-centered ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;         /* Permite que los iconos se acomoden si la pantalla es muy chica */
+    gap: 20px;               /* Separación limpia y uniforme entre cada icono */
+}
+
+/* Estilo de los enlaces e iconos (Ajusta los tamaños a tu gusto) */
+.post-share-centered ul li a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;         /* Tamaño de los iconos de IcoFont */
+    color:#e63286;          /* Color gris que estás usando en el proyecto */
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto Hover opcional para interactividad */
+.post-share-centered ul li a:hover {
+    color: rgb(219, 76, 164);             /* Cambia a negro o a tu color corporativo al pasar el mouse */
+    transform: scale(1.1);   /* Crece ligeramente */
+}
+
     </style>
   {% endfor %}
 
@@ -16,7 +215,7 @@
     {% main_menu template="webapp/home/header.html" %}
 
   <!--=== Wrapper Start ======-->
-  <div class="wrapper">
+  <div class="wrapper" >
 
     <!--=== Header Start ======-->
     
@@ -42,7 +241,7 @@
     <!--=== page-title-section end ===-->
 
     <!--=== Portfolio Start ======-->
-    <section class="pt-100 pt-100">
+    <section class="pt-100 pt-100" style="background-color: #323232;">
       <div class="container">
         <div class="row">
           <div class="col-md-3">
@@ -243,32 +442,22 @@
     <!--=== Portfolio End ======-->
 
     <!--=== Call to Action Start ======-->
-    <section class="pt-50 pb-50 default-bg">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-5">
-            <div class="cta-heading-left">
-              <p class="subtitle mt-20">{% trans 'Become Now! your business, a Smart IT Cloud Business ' %}</p>
-              <h3>{% trans 'Lets create your Smart IT Cloud Business, together.' %}</h3>
-            </div>
-          </div>
-          <div class="col-md-1"></div>
-          <div class="col-md-6">
-            <div class="cta-heading-right">
-              {% for item in page.galleria_SBM.all %}
-              {% image item.logo_slide scale-100 as l1 %}
-              <img class="img-responsive" style="width: 580px; align-content: left;" src="{{ l1.url }}" alt=""/>
-            {% endfor %}
-            <h3 style="text-align: left; margin-left: 50px; color:rgb(19 21 48)">{{ page.title }}</h3>
-            
-                <p class="mt-50"><a href="{% url 'usuarios:login' %}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
-              
-        
-            </div>
-          </div>
+   <section class="pt-50 pb-50 default-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="subtitle" style="color:#e9e9e9">{% trans "Become a Smart IT Cloud Business" %}</p>
+          <h3 style="color:#d2cccc">{% trans "Let’s build your cloud future together." %}</h3>
+        </div>
+        <div class="col-md-6 text-right">
+          <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}"
+             class="btn btn-rounded btn-white">
+            {% trans "Crear Cuenta ITC" %}
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
     <!--=== Call to Action End ======-->
 
     <!--=== Footer Start ======-->
@@ -276,7 +465,7 @@
     <!--=== Footer End ======-->
 
     <!--=== GO TO TOP  ===-->
-    <a href="single-portfolio.html#" id="back-to-top" title="Back to top">&uarr;</a>
+    <a href="#" id="back-to-top" title="Back to top">&uarr;</a>
     <!--=== GO TO TOP End ===-->
 
   </div>
