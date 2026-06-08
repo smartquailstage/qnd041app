@@ -12,7 +12,8 @@
     </style>
   {% endfor %}
 
-  {% main_menu template="webapp/home/header.html" %}
+
+    {% main_menu template="webapp/home/header.html" %}
 
   <!--=== Wrapper Start ======-->
   <div class="wrapper">
@@ -20,183 +21,222 @@
     <!--=== Header Start ======-->
     
     <!--=== page-title-section start ===-->
-    <section class="title-hero-bg portfolio-cover-bg" data-stellar-background-ratio="0.2">
-      <div class="container">
-        <div class="page-title text-center">
-          {% for item in page.galleria_SBM.all %}
-            {% image item.logo_slide scale-100 as l1 %}
-            <img class="img-responsive" style="width: 580px; align-content: left;" src="{{ l1.url }}" alt=""/>
-          {% endfor %}
-          <h3 style="text-align: left; margin-left: 50px; color:rgb(199, 199, 199)">{{ page.title }}</h3>
+    {% for item in page.galleria_SBM.all %}
+    {% if item.banner_background %}
+      {% image item.banner_background original as bg %}
+      <section class="title-hero-bg portfolio-cover-bg"
+        style="background-image:url('{{ bg.url }}'); background-size:cover; background-position:center;background-color:#020202; ">
+        <div class="container">
+          <div class="page-title text-left">
+            {% if item.logo_slide %}
+              {% image item.logo_slide original as logo_slide %}
+              <img src="{{ logo_slide.url }}" class="img-responsive logo-instagram-slide" alt="Logo Slide">
+            {% endif %}
+            <h3 class="hero-custom-title">{{ page.title }}</h3>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    {% endif %}
+  {% endfor %}
+  
     <!--=== page-title-section end ===-->
 
     <!--=== Portfolio Start ======-->
     <section class="pt-100 pt-100">
       <div class="container">
         <div class="row">
-          <div class="col-md-3 portfolio-right">
-            <ul class="project-detail-box">
-              {% for item in page.galleria_SBM.all %}
-                {% image item.logo scale-100 as s1 %}
-                <img src="{{ s1.url }}" alt=""/>
-              {% endfor %}
-              <li><strong>{% trans 'Author Name' %}: </strong>{{ page.author_name }}</li>
-            </ul>
-            <ul class="project-type-list">
-              <li>
-                <div class="portfolio-item wow fadeIn" data-wow-delay="0.6s" data-groups='["all", "design", "web"]'>
-                  <div class="portfolio gallery-image-hover portfolio-masonry-item">
-                    <div class="dark-overlay"></div>
-                    {% for item in page.galleria_SBM.all %}
-                      {% image item.profile_pic scale-100 as p1 %}
-                      <img src="{{ p1.url }}" alt="">
-                    {% endfor %}
-                    <a href="#">
-                      <div class="portfolio-wrap">
-                        <!--=== /.project-info ===-->
-                        <ul class="portfolio-details">
-                          <li><a class="alpha-lightbox" href="http://www.incognitothemes.com/scoda/assets/images/portfolio/grid/17.jpg"></a></li>
-                        </ul>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <ul class="project-detail-box">
-              <li>{{ page.business_title }}</li>
-              <li>{{ page.business_activity }}</li>
-              <li><strong>{% trans 'Sci-Tech Exp' %}: </strong>{{ page.business_experience }} {% trans 'years' %}</li>
-              <li><strong>{% trans 'Updated' %}: </strong>{{ page.updated }}</li>
-            </ul>
+          <div class="col-md-3">
 
-            <div class="post-controls">
-              <div class="post-share">
-                <ul>
-                  {% for social, link in settings.webapp.SocialMediaSettings.items %}
-                    <li><a href="{{ link }}" target="_blank"><i class="icofont icofont-{{ social }}"></i></a></li>
-                  {% endfor %}
-                  <li><a href="https://api.whatsapp.com/send?phone=593963521262" target="_blank"><i class="icofont icofont-whatsapp"></i></a></li>
-                  <li><a href="mailto:info@mail.smartquail.io" target="_blank"><i class="icofont icofont-envelope"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <p class="mt-30">{{ page.bio2 | richtext }}</p>
-          </div>
-
-          <div class="col-md-9 portfolio-left">
-            <h3 style="text-align: justify; color:black">{{ page.banner_title9 | richtext }}</h3>
-            <h4>{{ page.TS_info6 }}</h4>
-            <h4 class="mt-20" style="text-align: justify;">{{ page.info_title9 | richtext }}</h4>
-
-            <div class="portfolio-slider owl-carousel">
-              <div class="item">
+            <div class="instagram-carousel-container">
+              <div class="instagram-carousel" id="instaCarousel">
+                
+                {# Bloque para los Logos #}
                 {% for item in page.galleria_SBM.all %}
-                  {% image item.image_1 scale-100 as s1 %}
-                  <img class="img-responsive" src="{{ s1.url }}" alt=""/>
+                  {% if item.logo %}
+                    {% image item.logo original as logo %}
+                    <div class="carousel-slide">
+                      <img src="{{ logo.url }}" alt="Logo">
+                    </div>
+                  {% endif %}
                 {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_2_2 scale-100 as s2 %}
-                  <img class="img-responsive" src="{{ s2.url }}" alt=""/>
-                {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_3_3 scale-100 as s3 %}
-                  <img class="img-responsive" src="{{ s3.url }}" alt=""/>
-                {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_4_4 scale-100 as s4 %}
-                  <img class="img-responsive" src="{{ s4.url }}" alt=""/>
-                {% endfor %}
-              </div>
-            </div>
             
-            <h3 style="text-align: left; color:black">{{ page.banner_title10 | richtext }}</h3>
-            <h4>{{ page.TS_info7 }}</h4>
-            <h4 class="mt-20" style="text-align: justify;">{{ page.info_title10 | richtext }}</h4>
-
-            <h3 style="text-align: left; color:black">{{ page.banner_title11 | richtext }}</h3>
-            <h4>{{ page.TS_info8 }}</h4>
-            <h4 class="mt-20" style="text-align: justify;">{{ page.info_title11 | richtext }}</h4>
-
-            {% if settings.webapp.GlobalLinksSettings.start_project_SBM %}
-              <p class="mt-50"><a href="{{ settings.webapp.GlobalLinksSettingsSBM.start_project_SBM }}" class="btn btn-color btn-rounded">{% trans 'Start a Project' %}</a></p>
+                {# Bloque para las Fotos de Perfil #}
+                {% for item in page.galleria_SBM.all %}
+                  {% if item.profile_pic %}
+                    {% image item.profile_pic original as profile %}
+                    <div class="carousel-slide">
+                      <img src="{{ profile.url }}" alt="Profile Picture">
+                    </div>
+                  {% endif %}
+                {% endfor %}
+  
+                {% for item in page.galleria_SBM.all %}
+                {% if item.carousell_1   %}
+                  {% image item.carousell_1 original as c1 %}
+                  <div class="carousel-slide">
+                    <img src="{{ c1.url }}" alt="Profile Picture">
+                  </div>
+                {% endif %}
+              {% endfor %}
+  
+              {% for item in page.galleria_SBM.all %}
+              {% if item.carousell_2 %}
+                {% image item.carousell_2 original as c2 %}
+                <div class="carousel-slide">
+                  <img src="{{ c2.url }}" alt="Profile Picture">
+                </div>
+              {% endif %}
+            {% endfor %}
+          
+            {% for item in page.galleria_SBM.all %}
+            {% if item.carousell_3 %}
+              {% image item.carousell_3 original as c3 %}
+              <div class="carousel-slide">
+                <img src="{{ c3.url }}" alt="Profile Picture">
+              </div>
             {% endif %}
-
-            <div class="portfolio-slider owl-carousel">
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image scale-100 as s1 %}
-                  <img class="img-responsive" src="{{ s1.url }}" alt=""/>
-                {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_2 scale-100 as s2 %}
-                  <img class="img-responsive" src="{{ s2.url }}" alt=""/>
-                {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_3 scale-100 as s3 %}
-                  <img class="img-responsive" src="{{ s3.url }}" alt=""/>
-                {% endfor %}
-              </div>
-              <div class="item">
-                {% for item in page.galleria_SBM.all %}
-                  {% image item.image_4 scale-100 as s4 %}
-                  <img class="img-responsive" src="{{ s4.url }}" alt=""/>
-                {% endfor %}
-              </div>
+          {% endfor %}
+  
+          {% for item in page.galleria_SBM.all %}
+          {% if item.carousell_4 %}
+            {% image item.carousell_4 original as c4 %}
+            <div class="carousel-slide">
+              <img src="{{ c4.url }}" alt="Profile Picture">
             </div>
-
-            <hr>
-            <h3>{{ page.banner_title12 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title12 | richtext }}</p>
-
-            <hr>
-
-            <hr>
-            <h3>{{ page.banner_title13 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title13 | richtext }}</p>
-            <p class="mt-50"><a href="{% url 'sbmshop:product_list' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
-            <hr>
-
-            <hr>
-            <h3>{{ page.banner_title14 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title14 | richtext }}</p>
-            <p class="mt-50"><a href="{% url 'sbmshop:product_list' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
-            <hr>
-
-            <hr>
-            <h3>{{ page.banner_title15 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title15 | richtext }}</p>
-            <p class="mt-50"><a href="{% url 'sbmshop:product_list' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
-            <hr>
-
-            <hr>
-            <h3>{{ page.banner_title16 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title16 | richtext }}</p>
-            <p class="mt-50"><a href="{% url 'sbmshop:product_list' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
-            <hr>
-
-            <hr>
-            <h3>{{ page.banner_title17 | richtext }}</h3>
-            <p class="mt-20">{{ page.info_title17 | richtext }}</p>
-            <p class="mt-50"><a href="{% url 'sbmshop:product_list' %}" class="btn btn-color btn-rounded">{% trans 'Learn More' %}</a></p>
-            <hr>
-
-            <!-- Repeat similar sections as needed -->
-
+          {% endif %}
+        {% endfor %}
+  
+        {% for item in page.galleria_SBM.all %}
+        {% if item.carousell_5 %}
+          {% image item.carousell_5 original as c5 %}
+          <div class="carousel-slide">
+            <img src="{{ c5.url }}" alt="Profile Picture">
           </div>
+        {% endif %}
+      {% endfor %}
+  
+      {% for item in page.galleria_SBM.all %}
+      {% if item.carousell_6 %}
+        {% image item.carousell_6 original as c6 %}
+        <div class="carousel-slide">
+          <img src="{{ c6.url }}" alt="Profile Picture">
+        </div>
+      {% endif %}
+    {% endfor %}
+  
+    {% for item in page.galleria_SBM.all %}
+    {% if item.carousell_7 %}
+      {% image item.carousell_7 original as c7 %}
+      <div class="carousel-slide">
+        <img src="{{ c7.url }}" alt="Profile Picture">
+      </div>
+    {% endif %}
+  {% endfor %}
+            
+              </div>
+            
+              <!-- Indicadores de puntos estilo Instagram -->
+              <div class="carousel-dots" id="carouselDots"></div>
+  
+          
+  
+  
+            </div>
+            <p style="color: #6ba5f9; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
+            <div class="post-share-centered">
+              <ul>
+                <li> 
+                  <a href="https://api.whatsapp.com/send?phone=593963521262">
+                    <i class="icofont icofont-whatsapp"></i>
+                  </a> 
+                  <a href="mailto:info@mail.smartquail.io"> 
+                    <i class="icofont icofont-mail"></i>
+                  </a>
+                  {% if settings.webapp.SocialMediaSettings.facebook %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.facebook }}"><i class="icofont icofont-facebook"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.twitter %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.linkedin %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.linkedin }}"><i class="icofont icofont-linkedin"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.instagram %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.instagram }}"><i class="icofont icofont-instagram"></i></a> 
+                  {% endif %}   
+                </li>
+              </ul>
+            </div>
+  
+          </div>
+  
+  
+          <div class="col-md-9">
+
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title9|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info6 }}</h4>
+            <div style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.info_title9|richtext }}</div>
+  
+            <div class="portfolio-slider owl-carousel  mt-30">
+              {% for item in page.galleria_SBM.all %}
+                {% if item.image_1 %}
+                  {% image item.image_1 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_2_2 %}
+                  {% image item.image_2_2 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_3_3 %}
+                  {% image item.image_3_3 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_4_4 %}
+                  {% image item.image_4_4 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+              {% endfor %}
+            </div>
+  
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title10|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info7 }}</h4>
+            <div style="text-align: justify; letter-spacing: normal;
+    line-height: 15px;
+    color: #97a9f1;
+    font-weight: 300;">{{ page.info_title10|richtext }}</div>
+  
+  
+          
+            <div class="portfolio-slider owl-carousel mt-40">
+              {% for item in page.galleria_SBM.all %}
+                {% if item.image %}
+                  {% image item.image original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_2 %}
+                  {% image item.image_2 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_3 %}
+                  {% image item.image_3 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_4 %}
+                  {% image item.image_4 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+              {% endfor %}
+            </div>
+  
+            <hr>
+  
+            <h3 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title11|richtext }}</h3>
+            <h4 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info8 }}</h4>
+            <div style="text-align: justify;line-height: 1;">{{ page.info_title11|richtext }}</div>
+  
+  
+          </div>
+
         </div>
       </div>
     </section>
@@ -219,9 +259,9 @@
               {% image item.logo_slide scale-100 as l1 %}
               <img class="img-responsive" style="width: 580px; align-content: left;" src="{{ l1.url }}" alt=""/>
             {% endfor %}
-            <h3 style="text-align: left; margin-left: 50px; color:rgb(199, 199, 199)">{{ page.title }}</h3>
+            <h3 style="text-align: left; margin-left: 50px; color:rgb(19 21 48)">{{ page.title }}</h3>
             
-                <p class="mt-50"><a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">{% trans 'Register Now, and create  your IT Cloud Business' %}</a></p>
+                <p class="mt-50"><a href="{% url 'usuarios:login' %}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
               
         
             </div>
@@ -243,5 +283,51 @@
   <!--=== Wrapper End ======-->
 
   {% include 'webapp/home/footer_section.html' %}
-
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const carousel = document.getElementById("instaCarousel");
+      const dotsContainer = document.getElementById("carouselDots");
+      const slides = carousel.querySelectorAll(".carousel-slide");
+      
+      if (slides.length <= 1) return; // Si hay una sola imagen, no crea puntos.
+  
+      // 1. Crear dinámicamente la cantidad de puntos según las imágenes de Wagtail
+      slides.forEach((_, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add("carousel-dot");
+          if (index === 0) dot.classList.add("active");
+          
+          // Permitir hacer clic en el punto para navegar a esa imagen
+          dot.addEventListener("click", () => {
+              carousel.scrollTo({
+                  left: carousel.offsetWidth * index,
+                  behavior: "smooth"
+              });
+          });
+          
+          dotsContainer.appendChild(dot);
+      });
+  
+      const dots = dotsContainer.querySelectorAll(".carousel-dot");
+  
+      // 2. Escuchar el evento de desplazamiento para cambiar el punto activo de manera fluida
+      carousel.addEventListener("scroll", () => {
+          const scrollLeft = carousel.scrollLeft;
+          const width = carousel.offsetWidth;
+          // Calcula el índice de la diapositiva actual basándose en la posición del scroll
+          const activeIndex = Math.round(scrollLeft / width);
+  
+          dots.forEach((dot, index) => {
+              if (index === activeIndex) {
+                  dot.classList.add("active");
+              } else {
+                  dot.classList.remove("active");
+              }
+          });
+      });
+  });
+  </script>
 {% endblock %}
+
+
+
