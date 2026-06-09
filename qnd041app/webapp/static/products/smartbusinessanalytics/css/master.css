@@ -389,7 +389,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 	font-size:65px;
 }
 
-.dark-bg{background-color:#212121;}
+.dark-bg{background-color:#2d2d2d;}
 .white-bg{background-color: #fff;}
 .default-bg{background-color:#6d6a6a}
 .red-bg{background:#f44336;}
@@ -1420,12 +1420,16 @@ button:focus {
 
 .feature-box, .feature-box-right {
 	float:left;
+   
 }
 
 .feature-box i {
 	margin-bottom:20px;
 	display: inline-block;
   position: relative;
+   top: 15px;
+  
+  
 }
 /* .radius-icon i:after{content: '';position: absolute;top:-15px;left: -50px;width: 80px;height: 80px;border-radius: 50%;
 background: rgba(238,56,56,0.6);
@@ -5451,9 +5455,10 @@ font-family: 'Jost', sans-serif;
     color: #fff;
     border-color: #f1f1f1;
     padding: 22px 15px 22px 64px;
-    background-color: #d42e22;
-	border-bottom: 1px solid #d42e22;
+    background-color: #c91b1b;
+    border-bottom: #c91b1b;
 }
+
 .accordion-color .panel-default>.panel-heading+.panel-collapse>.panel-body {
     border: 1px solid #fff;
 	background: #fff;

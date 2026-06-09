@@ -351,7 +351,7 @@ def is_all(request):
 
 
 UNFOLD = {
-    "SITE_TITLE": "SmartQuail IT Cloud Business (I+D)®      Planificador de Recursos Empresariales",
+    "SITE_TITLE": "SmartBusinessAnalytics® (EAP)        Planificador financiero y analítico ",
     "SITE_HEADER": "SmartQuail",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",

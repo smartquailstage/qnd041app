@@ -8,105 +8,221 @@
 {% endblock %}
 
 {% block content %}
-{% include 'shop/header.html' %}
+{% include 'webapp/home/header.html' %}
 
-<section class="pt-50 pb-50 dark-bg">
+<style>
+
+body {
+  color: #e23185;
+  font-size: 15px;
+  font-family: 'Hind', sans-serif;
+  text-align: justify;
+  background-color: #0d0d0d;
+}
+ 
+  section {
+   padding-top: 120px;
+   padding-bottom: 120px;
+   position: relative;
+   z-index: 10;
+   background:#212121;
+ }
+
+ .dark-bg {
+  background-color: #212121;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #f8c44d;
+  margin: 10px 0;
+  font-style: normal;
+  font-family: 'Jost', sans-serif;
+}
+
+
+.grey {
+  color: #d01b1b !important;
+}
+
+.btn-color {
+  color: #fff;
+  border-color: #e23285;
+  background-color: #e23185;
+}
+
+strong {
+  color: #fff;
+}
+
+.blog-cover-bg {
+  background-image: url('{{ product.background.url }}');
+}
+
+.white-bg {
+  background-color: #0d0d0d;
+}
+
+.panel-default > .panel-heading {
+  color: #fbec15;
+  background-color: #0d0d0d;
+  border-color: #de2f82;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel-default {
+  border-color: #0d0d0d;
+}
+
+.panel {
+  margin-bottom: 20px;
+  background-color: #327f9c;
+  border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.accordion-color .panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border: 1px solid #353535;
+  background: #353535;
+}
+ 
+  </style>
+
+
+
+<section class="blog-cover-bg" data-stellar-background-ratio="0.1">
   <div class="container">
-    <div class="row">
-      <div class="col-md-5">
-       
-      </div>
-      <div class="col-md-1"></div>
    
-    </div>
-  </div>
-</section>
-
-
-<section>
-  <div class="container">
+    <h2 class="subtitle" style ="line-height: 31px ; color:#f1f1f1;">Gestor relacional de clientes (CRM)</h2>
     <div class="row">
+
       <div class="col-md-6">
         <div class="product-slider flexslider">
           <ul class="slides">
-            <li data-thumb="assets/images/shop/single-product-01.jpg"> <img src="http://www.incognitothemes.com/scoda/assets/images/shop/single-product-01.jpg" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image.url }}"> <img src="{{ product.image.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image1.url }}"> <img src="{{ product.image1.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image2.url }}"> <img src="{{ product.image2.url }}" class="img-responsive" alt="single-product" /> </li>
+            <li data-thumb="{{ product.image3.url }}"> <img src="{{ product.image3.url }}" class="img-responsive" alt="single-product" /> </li>
           </ul>
+
+          
         </div>
+        <p>
+          {% trans 'El ecosistema de información que transforma tus redes y publicidad en un retorno de inversión de entre el 150% y el 600%, garantizado.' %}
+        </p>
+
+        
+
+       
+
+
       </div>
       <div class="col-md-6">
-        <h2> <i class="icofont {{product.icon}} font-50px default-icon"></i> {{ product.name }}</h2>
-        <h3 class="grey">$ {{ product.price }}</h3>
-        <div class="single-product-des">
-          <h5>Product Desription</h5>
-          <p><strong>{% trans 'Features' %}</strong> {{ product.description|linebreaks }} </p>
-        </div>
-        <div class="single-product-qty">
-          <form action="{% url "sbacart:cart_add" product.id %}" method="post" >
-            {% csrf_token %}
-            {% for hidden_field in cart_product_form.hidden_fields %}
-              {{ hidden_field }}
-            {% endfor %}
-          
-            {% if cart_product_form.non_field_errors %}
-              <div class="alert alert-danger" role="alert">
-                {% for error in cart_product_form.non_field_errors %}
-                  {{ error }}
-                {% endfor %}
-              </div>
-            {% endif %}
-          
+       
+        <h3> <i class="icofont font-50px default-icon"></i> Ecosistema SmartBusinessMedia para {{product.category }}</h3>
+
+        <div class="panel-group accordion-color mt-50" id="accordion-color">
+
+          <div class="panel panel-default ">
+        
+            <div class="panel-heading">
+             
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
+                  Arquitectura: {{ product.name }}  </a>
+                 </h3>
+                
+            </div>
+  
             
-              <div class="form-group ">
-                {% for field in cart_product_form.visible_fields %}
-                {{ field.label_tag }}
-          
-                {% if form.is_bound %}
-                  {% if field.errors %}
-                    {% render_field field class="form-control is-invalid" %}
-                    {% for error in field.errors %}
-                      <div class="invalid-feedback">
-                        {{ error }}
-                      </div>
-                    {% endfor %}
-                  {% else %}
-                    {% render_field field class="form-control is-valid" %}
-                  {% endif %}
-                {% else %}
-                  {% render_field field class="form-control" %}
-                {% endif %}
-          
-                {% if field.help_text %}
-                  <small class="form-text text-muted">{{ field.help_text }}</small>
+            <div id="collapseOne" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+                <p style="line-height: 16px;color: #fff;">{{ product.description|richtext }}</p> 
+              </div> 
+            </div>
+          </div>
+
+          <div class="panel panel-default ">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo"> 
+                  {% trans 'Infraestructura Tecnológica' %} </a>
+                 </h3> 
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse ">
+              <div class="panel-body">
+                <p style="line-height: 10px;color: #fff;">{{ product.cloud_technologies|richtext }}</p>
+              </div>
+             
+              
+            </div>
+          </div>
+
+          <div class="panel panel-default ">
+        
+            <div class="panel-heading">
+             
+              <h3 class="panel-title">
+                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree"> 
+                  {% trans 'Gobernanza IT y Garantías' %} </a>
+                 </h3>
+                
+            </div>
+  
+            
+            <div id="collapseTree" class="panel-collapse collapse ">
+              
+              <div class="panel-body">
+              
+                
+                <p style="line-height: 10px;color: #fff;">{{ product.cloud_requirements|richtext }}</p>                 
+              </div>
+             
+              
+            </div>
+          </div>
+
+        </div>
+        <p>{% trans 'Lleva tus activos digitales y proyectos de marketing a la nube en cuestión de minutos. Adquiere nuestra licencia ITC' %} {{product.name }} </p>
+        <h3 class="grey">{% trans 'Valor de Inversión'  %}:  {{ product.price }} $USD </h3>
+        
+    
+        {% if product.coupon %}
+        <p>{% trans "This product subscription includes a promotional discount—don't miss out on this opportunity!" %}</p>
+        <h5>{% trans "Promotional Expire at" %}: {{ product.coupon.valid_from }} </h5>
+       {% endif %}
+
       
-                {% endif %}
-                {% endfor %} 
+        <p ><strong>{% trans 'Para explorar la versión demo en tiempo real y obtener la licencia del producto, inicia sesión en nuestra plataforma de gestión de activos digitales Negocios ITC.' %}</strong></p>
 
-                <input type="submit" value="{% trans 'Order Now' %}" class="btn btn-color btn-circle">
 
-          </form>
-        </div>
-        <div class="product-fabric-detail">
-          <h5>{%trans 'Characteristcs'%}</h5>
-          <p>
-            <ul>
-              <li>{{ product.item1 }}</li>
-              <li>{{ product.item2 }}</li>
-              <li>{{ product.item3 }}</li>
-              <li>{{ product.item4 }}</li>
-            </ul>
-            </p>
-          <h5>{% trans 'Terms & Conditions' %}</h5>
-          <p>Machine wash cold Do not bleach or wash with chlorine based detergent or water Wash/dry inside out Do not iron directly on prints Dry promptly in shade
-            Dry on a flat surface as hanging may cause measurement variations Product color may vary little due to photography Wash with similar clothes.</p>
-        </div>
+
+
+       <a class="btn btn-outline-white  btn-default" href="{% url 'sbmshop:product_list' %}#SBM"  ><i class="icon icofont-arrow-left"></i>  {% trans 'Volver' %}</a>
+       <a class="btn btn-outline-blue btn-default" href="{% url 'usuarios:login' %}">  {% trans 'Iniciar Sesión' %} <i class="icon icofont-arrow-right"></i>  </a>
+  
+         
+      
+
+      
+
       </div>
-    </div>
 
+    </div>
   </div>
 </section>
 
 
-
+{% include 'webapp/home/footer_section.html' %}
 
 
 
