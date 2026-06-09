@@ -378,13 +378,13 @@ h3 {
                       <p class="portfolio-title">{% trans 'Próximamente' %}</p>
                     {% endif %}
                     <p class="portfolio-title"> {{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %} $ {{ product.price }} </a>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %}  {{ product.price }} $USD </a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available %}
                     <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"><i class="icofont icofont-key  font-45px default-icon"></i> Obtener Licencia</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"> Learn more</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"> Obtener Licencia</a></li>
                     {% endif %}
                   </ul>
                 </div>
