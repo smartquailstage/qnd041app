@@ -187,7 +187,7 @@ h3 {
 {% include 'webapp/home/header.html' %}
 
 
-<section class="pt-0 pb-0">
+<section class="pt-0 pb-0" id="SmartBusinessMedia" >
   <div class="slider-bg flexslider">
     <ul class="slides">
       <!--=== SLIDE 1 ===-->
@@ -291,7 +291,7 @@ h3 {
           <div class="panel panel-default">
             {% for c in categories %}
             <div class="panel-heading">
-              {% if c.title == 'Stage' %}
+              {% if c.title == 'PYMES' %}
               <h3 class="panel-title">
                  <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo">
                     {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
@@ -526,24 +526,32 @@ h3 {
           <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.1s">
             <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
             <div class="pull-right">
-              <h4 class="mt-0"><a href="#">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</a></h4>
+              <a href="{% slugurl 'crm_id' %}">
+              <h4 class="mt-0">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</h4>
               <p>Implementamos tu estrategia de marketing digital en el CRM mediante la investigación y el desarrollo de procesos optimizados. Datos precisos, resultados tangibles.</p>
+              </a>
             </div>
           </div>
           
           <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.2s">
             <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
+            <a href="{% slugurl 'crm_a' %}">
             <div class="pull-right">
-              <h4 class="mt-0">Automatización de Procesos [CRM<sup>(I+D)</sup>+A] </h4>
-              <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
+              
+                <h4 class="mt-0">Automatización de Procesos [CRM<sup>(I+D)</sup>+A] </h4>
+                <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
+             
             </div>
+             </a>
           </div>
           
           <div class="col-md-12 feature-box text-left col-sm-6 wow fadeTop" data-wow-delay="0.3s">
             <div class="pull-left"><i class="icofont icofont-brain-alt font-60px default-icon"></i></div>
             <div class="pull-right">
-              <h4 class="mt-0">Agentes de IA [CRM<sup>(I+D+A)</sup>+AI]</h4>
-              <p>Google has made this important since 1998 when it launched. Content became, and still is king since websites.</p>
+              <a href="{% slugurl 'crm_ai' %}">
+                <h4 class="mt-0">Agentes de IA [CRM<sup>(I+D+A)</sup>+AI]</h4>
+                <p>Tu agente de IA integrado al CRM: desde modelos de Machine Learning hasta la autogeneración inteligente de tus contenidos para redes sociales.</p>
+              </a>
             </div>
           </div>
           
@@ -579,12 +587,12 @@ h3 {
                   <div class="portfolio-description">
                     <h3 class="portfolio-title">{{ product.name }}</h3>
                     {% if product.available  %}
-                      <p class="portfolio-title">{% trans 'Available' %}</p>
+                      <p class="portfolio-title">{% trans 'Disponible' %}</p>
                     {% else %}
-                      <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
+                      <p class="portfolio-title">{% trans 'Próximamente' %}</p>
                     {% endif %}
-                    <p class="portfolio-title">{% trans 'Marketing Business Model:' %} {{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
+                    <p class="portfolio-title">{% trans 'Modelo de Negocio:' %} {{ product.category  }}</p>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %} $ {{ product.price }} </a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available %}
