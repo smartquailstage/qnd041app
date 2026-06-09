@@ -122,7 +122,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     line-height: 1.2;
 }
 
-h1 { font-size: 48px;}
+h1 { font-size: 33px;}
 h2 { font-size: 36px;}
 h3 { font-size: 24px;}
 h4 { font-size: 18px;}
@@ -1686,7 +1686,7 @@ ul#portfolio-filter.filter-rounded li.active{
 
 /*Filter Transparent Style*/
 ul#portfolio-filter.filter-transparent li{
-    color:#1f8eb2;
+    color:#e53086;
     padding: 5px 20px;
     font-size: 20px;
     text-transform: uppercase;

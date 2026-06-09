@@ -177,7 +177,7 @@ h3 {
 /* En pantallas más grandes (tablets y PC), le damos más altura */
 @media (min-width: 768px) {
   .instagram-responsive-img {
-    height: 520px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
+    height: 613px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
   }
 }
 
@@ -196,20 +196,36 @@ h3 {
 
         <div class="hero-text-wrap">
           <div class="hero-text white-color">
-            <div class="container text-left">
+<div class="container text-left">
 
+  <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/2.png' %}" >
 
-              <img src="{% static 'products/smartbusinessmedia/images/smartbusinessmedia/2.png' %}" >
+  <!-- Eslogan principal enfocado en activos, contenidos y redes -->
+  <h3 style="color:#358eb2" class="white-color">
+    {% trans 'Centraliza tus contenidos, redes y publicidad en un solo ecosistema de información nativo en la nube (ITC)' %}
+  </h3>
+  
+  <!-- Concepto unificado de Arte + Tecnología -->
+  <h3 style="color:#358eb2" >
+    {% trans 'Implementa tu estrategia de marketing y publicidad en tiempo real' %}
+  </h3>
 
-              <h3 style="color:#358eb2" class="white-color">{% trans 'Your smartest IT Cloud Growth partner for Marketing Business Models.' %}</h3>
-              <h3 style="color:#358eb2" >{% trans 'Where Art and Technology Meet' %}</h3>
+  <div class="animate-caption capitalize mt-50">
+    <h3 class="mt-30 text-left" style="color:#e14a83" >
+      <span class="rotate" style="color:#e14a83">
+        <!-- Todo el ecosistema técnico traducido correctamente al español y sin errores tipográficos -->
+        (CRM) {% trans 'Gestión de Relaciones con Clientes' %} | 
+        (+I+D) {% trans 'Implementación y Desarrollo Front-End' %} | 
+        (+A) {% trans 'Automatización de Procesos de Marketing' %} | 
+        y | 
+        (+IA) {% trans 'Inteligencia Artificial aplicada al Marketing' %}
+      </span>
+    </h3>
+  </div>
+  
+  <a href="#SBM" class="btn btn-red btn-circle">{% trans 'Obtentén  tu licencia ITC ahora!' %}</a>
 
-                <div class="animate-caption capitalize mt-50">
-                  <h3 class="mt-30 text-left" style="color:#e14a83" ><span class="rotate" style="color:#e14a83"> (CRM) {% trans 'Customer Relationship Management' %}  | +(I+D) {% trans 'Implentation & Front End Devlopment' %} | (+A) {% trans 'Marketing process automation' %} | and |  (+AI) {% trans 'Marketing Artificial Inteligent' %}</span></h3>
-                </div>
-                <a href="#Choose" class="btn btn-red btn-circle">{% trans 'Start Your Business Media Project' %}</a>
-
-            </div>
+</div>
           </div>
         </div>
       </li>
@@ -231,10 +247,12 @@ h3 {
   
     
 
-        <h1>{% trans "SmartBusinessMedia®" %}</h1>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">{% trans 'Descubre SmartBusinessMedia, el CRM diseñado especialmente para agencias de marketing digital que quieren llevar su gestión al siguiente nivel. Regístrate y forma parte de una comunidad de profesionales que comparten ideas, estrategias y herramientas para crecer juntos. Simplifica tu trabajo, automatiza tus procesos y conecta con otras agencias que, como tú, buscan innovar y maximizar sus resultados. '%}</p>
-
-        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'Con SmartBusinessMedia, no solo gestionas tu negocio, ¡lo transformas!' %}</h3>
+        <h1>{% trans "SmartBusinessMedia CRM" %}</h1>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
+          {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato. Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
+        </p>
+<p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia de marketing digital, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
+        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'El centro de control inteligente para crear y  gestionar tus contenidos multimedia, automatizar tus redes y unificar tu información publicitaria, en tiempo real.' %}</h3>
 
 
         <div class="panel-group accordion-color mt-50" id="accordion-color">
@@ -500,8 +518,8 @@ h3 {
     <div class="row">
       <div class="col-md-6 col-sm-12 col-md-offset-6 col-content-right">
         
-        <h2 class="font-700 wow fadeTop" data-wow-delay="0.1s">SmartBusinessMedia CRM</h2>
-        <h4 class="mt-10 line-height-26 wow fadeTop" data-wow-delay="0.2s">We develop big ideas that sell.</h4>
+        <h2 class="font-700 wow fadeTop" data-wow-delay="0.1s" style="font-size: 30px;"> Marketing digital nativo en la nube </h2>
+        <h4 class="mt-10 line-height-26 wow fadeTop" data-wow-delay="0.2s">Profesionales en implementación, desarollo, automatización de procesos de marketing digital.</h4>
         
         <div class="left-service-box pt-40 pb-20 row">
           
@@ -509,7 +527,7 @@ h3 {
             <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
             <div class="pull-right">
               <h4 class="mt-0"><a href="#">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</a></h4>
-              <p>Designing a good website that accommodates a lot of content is a tricky balancing act to pull off.</p>
+              <p>Implementamos tu estrategia de marketing digital en el CRM mediante la investigación y el desarrollo de procesos optimizados. Datos precisos, resultados tangibles.</p>
             </div>
           </div>
           
@@ -517,7 +535,7 @@ h3 {
             <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
             <div class="pull-right">
               <h4 class="mt-0">Automatización de Procesos [CRM<sup>(I+D)</sup>+A] </h4>
-              <p>We build mobile apps for the conference, integrating unique content and branding to create.</p>
+              <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
             </div>
           </div>
           
@@ -537,8 +555,8 @@ h3 {
   <div class="container">
     <div class="row">
       <div class="portfolio-container text-center">
-        <h2>{% trans 'IT Cloud Business Media CRM' %}</h2>
-        <p style="color:#e6e6e6;">{% trans 'Select the SmartBusinessMedia CRM that best aligns with your marketing business model.' %} </p>
+        <h2>{% trans 'Licencias SmartBusinessMedia CRM' %}</h2>
+        <p style="color:#e6e6e6;">{% trans 'Elige la licencia ITC que mejor se alinee con tu estrategia de marketing y modelo de negocio digital' %} </p>
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
           <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
@@ -560,7 +578,7 @@ h3 {
                 <div class="portfolio-wrap">
                   <div class="portfolio-description">
                     <h3 class="portfolio-title">{{ product.name }}</h3>
-                    {% if product.available == 'True' %}
+                    {% if product.available  %}
                       <p class="portfolio-title">{% trans 'Available' %}</p>
                     {% else %}
                       <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
@@ -569,10 +587,10 @@ h3 {
                     <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
                   </div>
                   <ul class="portfolio-details">
-                    {% if product.available == 'True' %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Subscribe Now</a></li>
+                    {% if product.available %}
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"><i class="icofont icofont-key  font-45px default-icon"></i> Obtener Licencia</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Learn more</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"> Learn more</a></li>
                     {% endif %}
                   </ul>
                 </div>
