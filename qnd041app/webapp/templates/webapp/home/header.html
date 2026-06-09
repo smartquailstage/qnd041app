@@ -59,9 +59,9 @@
                     <div class="content">
                       <ul class="menu-col">
                         <li><a href="{% url 'sbmshop:product_list' %}#SmartBusinessMedia"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Publicidad y marketing digital (CRM) '%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [CRM<sup>(I+D)</sup>]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [CRM<sup>(I+D)</sup> + A]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [CRM<sup>(I+D+A)</sup> + AI]'%}</a></li>
+                        <li><a href="{% slugurl 'crm_id' %}"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [CRM<sup>(I+D)</sup>]'%}</a></li>
+                        <li><a href="{% slugurl 'crm_a' %}"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [CRM<sup>(I+D)</sup> + A]'%}</a></li>
+                        <li><a href="{% slugurl 'crm_ai' %}"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [CRM<sup>(I+D+A)</sup> + AI]'%}</a></li>
               
 
                       </ul>
@@ -74,7 +74,7 @@
                       SmartBusinessAnalytics<sup>®</sup> </h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="{% url 'sbashop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Optimización y Análisis financiero: (EAP)'%}</a></li>
+                        <li><a href="{% url 'sbashop:product_list' %}#SmartBusinessAnalytics"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Optimización y Análisis financiero: (EAP)'%}</a></li>
 
                         <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [EAP<sup>(I+D)</sup>]'%}</a></li>
                         <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [EAP<sup>(I+D)</sup> + A]'%}</a></li>
