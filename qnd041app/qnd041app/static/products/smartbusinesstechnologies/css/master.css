@@ -137,18 +137,18 @@ p a {}
 p a:hover {color: #1a237e;}
 p {
     letter-spacing: normal;
-    line-height: 24px;
-	color: #96979B;
+    line-height: 1;
+	color: #c9cdda;
 	font-weight:300;
 }
 a {
     text-decoration: none;
-    color: #d42e22;
+    color: #6ca5f9;
 }
 a:hover, a:focus, a:active {
     outline: none;
     text-decoration: none;
-    color: #e91e63;
+    color: #9bbff5;
 }
 ul {
   list-style: disc;
@@ -206,7 +206,7 @@ section {
 	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#6ba5f9;
+	background:#131530;
 }
 
 .section-heading {
@@ -345,7 +345,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 }
 
 .logo img {
-    max-height: 33px;
+    max-height: 12px;
 	-webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: block;
@@ -391,7 +391,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 
 .dark-bg{background-color:#212121;}
 .white-bg{background-color: #fff;}
-.default-bg{background-color:#6d6a6a}
+.default-bg{background-color:#6ca6fa}
 .red-bg{background:#f44336;}
 .grey-bg{background:#eee;}
 .yellow-bg{background:#FDD835;}
@@ -4921,11 +4921,11 @@ ul.footer-gallery li img {
 	background-repeat:no-repeat;
 	background-position:center center;
     position: relative;
-    min-height: 450px;
+    min-height: 550px;
 }
 .title-hero-bg::before {
     content: "";
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(29, 27, 27, 0.17);
     width: 100%;
     height: 100%;
     position: absolute;

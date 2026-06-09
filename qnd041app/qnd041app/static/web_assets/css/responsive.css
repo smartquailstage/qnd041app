@@ -29,14 +29,15 @@
 
 @media (max-width:991px){
 	nav.navbar.bootsnav.navbar-fixed{height:auto;}
-	nav.navbar.bootsnav.navbar-transparent .logo, .logo{text-align: center;display: inline-block;height: 22px;margin-left: -11px;
-    margin-top: 3px;}
+	nav.navbar.bootsnav.navbar-transparent .logo, .logo{text-align: center;display: inline-block;height: 12px;margin-left: 0px;
+    margin-top: 0px;}
 	nav .logo > a{padding-top: 12px;padding-bottom: 10px;}
 	.footer-height {display: none;}
 	.testimonial .slick-arrow {display: none;visibility: hidden;}
 	[class*="col-"] > .team-member-container {margin-top: 20px;margin-bottom: 20px;}
 	.left_parallax, .right_parallax{display: none;}
 }
+
 
 
 @media (max-width:767px){

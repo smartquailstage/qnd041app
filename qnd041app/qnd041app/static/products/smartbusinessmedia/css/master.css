@@ -122,7 +122,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     line-height: 1.2;
 }
 
-h1 { font-size: 48px;}
+h1 { font-size: 33px;}
 h2 { font-size: 36px;}
 h3 { font-size: 24px;}
 h4 { font-size: 18px;}
@@ -346,7 +346,7 @@ nav.navbar.bootsnav.navbar-transparent .logo {
 }
 
 .logo img {
-    max-height: 33px;
+    max-height: 12px;
 	-webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: block;
@@ -390,7 +390,7 @@ nav.bootsnav.navbar-sidebar ul.nav {
 	font-size:65px;
 }
 
-.dark-bg{background-color:#212121;}
+.dark-bg{background-color:#323232;}
 .white-bg{background-color: #fff;}
 .default-bg{background-color:#6d6a6a}
 .red-bg{background:#f44336;}
@@ -1228,13 +1228,13 @@ button:focus {
 
 .btn-red {
     color: #fff;
-    border-color: #f44336;
-    background-color: #f44336;
+    border-color: #e14a83;
+    background-color: #e14a83;
 }
 
 .btn-red:hover, .btn-red:active, .btn-red:focus {
-    background-color: #d32f2f;
-    border-color: #d32f2f;
+    border-color: #e14a83;
+    background-color: #e14a83;
     color: #fff;
 }
 
@@ -1456,7 +1456,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee3838', end
 }
 
 .default-icon {
-	color: #d42e22;
+	color: #368fb2;
 }
 
 .dark-icon {
@@ -1686,7 +1686,7 @@ ul#portfolio-filter.filter-rounded li.active{
 
 /*Filter Transparent Style*/
 ul#portfolio-filter.filter-transparent li{
-    color:#1f8eb2;
+    color:#e53086;
     padding: 5px 20px;
     font-size: 20px;
     text-transform: uppercase;
@@ -4369,43 +4369,68 @@ ul.footer-gallery li img {
   background-size: cover;
 }
 
-.bg-flex.bg-flex-left {
-    left: 0;
-}
 
-.bg-flex.bg-flex-right {
-    right: 0;
-}
+/* ==========================================================================
+   2. TU DISPOSICIÓN ORIGINAL (Para pantallas grandes: Tablets y Desktop)
+   ========================================================================== */
+/* ==========================================================================
+   2. TU DISPOSICIÓN ORIGINAL (Para pantallas grandes: Tablets y Desktop)
+   ========================================================================== */
+@media (min-width: 768px) {
+    /* Forzamos a la sección madre a ser el punto de referencia */
+    section.dark-bg {
+        position: relative !important;
+    }
 
-.bg-flex{
-  padding: 0;
-  position: absolute!important;
-  top: 0px;
-  height: 100%;
-  overflow: hidden;
-  z-index: 100;
-}
+    .bg-flex {
+        position: absolute !important;
+        top: 142px;
+        bottom: 0;
+        /* En lugar de heredar el ancho de la columna de Bootstrap, 
+           ocupamos exactamente la mitad de la pantalla */
+        width: 50% !important; 
+        height: calc(100% - 42px);
+        overflow: hidden;
+        z-index: 100;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.bg-flex-holder {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
+    /* Extremo Izquierdo Absoluto */
+    .bg-flex.bg-flex-left {
+        left: 0 !important;
+        right: auto !important;
+    }
 
-.bg-flex-cover {
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
+    /* Extremo Derecho Absoluto */
+    .bg-flex.bg-flex-right {
+        right: 0 !important;
+        left: auto !important;
+    }
 
-.bg-flex-right{
-  position: absolute;
-  padding: 0;
-  right:0;
-  top:0;
-  bottom: 0;
-  overflow: hidden;
+    /* Quitamos cualquier conflicto de anidación previo */
+    .bg-flex-right {
+        position: absolute;
+        padding: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .bg-flex-holder {
+        height: 100%;
+        width: 100%;
+    }
+
+    .bg-flex-cover {
+        background-size: contain; 
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
 }
 
 

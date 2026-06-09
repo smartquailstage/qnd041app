@@ -181,6 +181,19 @@ h3 {
   }
 }
 
+.box-sombreado {
+  background-color: #323232; /* Fondo gris claro (puedes usar #eee o #f4f4f4) */
+  border-radius: 12px;        /* Esquinas redondeadas */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al pasar el mouse */
+}
+
+/* Opcional: Un ligero efecto interactivo cuando el usuario pasa el mouse por encima */
+.box-sombreado:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
 </style>
 
 
@@ -251,237 +264,10 @@ h3 {
         <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
           {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato. Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
         </p>
-<p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia de marketing digital, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
+<p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia SEO y SEM, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
         <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'El centro de control inteligente para crear y  gestionar tus contenidos multimedia, automatizar tus redes y unificar tu información publicitaria, en tiempo real.' %}</h3>
 
 
-        <div class="panel-group accordion-color mt-50" id="accordion-color">
-
-
-          <div class="panel panel-default">
-            {% for c in categories %}
-            <div class="panel-heading">
-              {% if c.title == 'Pre-Seed' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne">
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
-            </div>
-
-          {% endfor %}
-
-            <div id="collapseOne" class="panel-collapse collapse">
-
-              <div class="panel-body">
-                {% for c in categories %}
-
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                {% endfor %}
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="panel panel-default">
-            {% for c in categories %}
-            <div class="panel-heading">
-              {% if c.title == 'PYMES' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo">
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
-            </div>
-
-          {% endfor %}
-
-            <div id="collapseTwo" class="panel-collapse collapse ">
-
-              <div class="panel-body">
-                {% for c in categories %}
-
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                {% endfor %}
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="panel panel-default ">
-            {% for c in categories %}
-            <div class="panel-heading">
-              {% if c.title == 'Stage-A' %}
-              <h3 class="panel-title">
-                 <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree">
-                    {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                 </h3>
-                 {% else %}
-                 {% endif %}
-            </div>
-
-          {% endfor %}
-
-            <div id="collapseTree" class="panel-collapse collapse ">
-
-              <div class="panel-body">
-                {% for c in categories %}
-
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                <p style="line-height: 10px;color: #333;">{% if c.title == 'Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                {% endfor %}
-              </div>
-
-
-            </div>
-          </div>
-
-
-        </div>
-
-        </div>
-
-        <div class="col-md-6">
-
-          <div class="panel-group accordion-color mt-50" id="accordion-color">
-
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Growth-Stage' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFour">
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-
-            {% endfor %}
-
-              <div id="collapseFour" class="panel-collapse collapse">
-
-                <div class="panel-body">
-                  {% for c in categories %}
-
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                  {% endfor %}
-                </div>
-
-
-              </div>
-            </div>
-
-
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Growth-Stage-A' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFive">
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-
-            {% endfor %}
-
-              <div id="collapseFive" class="panel-collapse collapse">
-
-                <div class="panel-body">
-                  {% for c in categories %}
-
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                  {% endfor %}
-                </div>
-
-
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Scale-Up' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSix">
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-
-            {% endfor %}
-
-              <div id="collapseSix" class="panel-collapse collapse ">
-
-                <div class="panel-body">
-                  {% for c in categories %}
-
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                  {% endfor %}
-                </div>
-
-
-              </div>
-            </div>
-
-            <div class="panel panel-default ">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Unicorn' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSeven">
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-
-            {% endfor %}
-
-              <div id="collapseSeven" class="panel-collapse collapse ">
-
-                <div class="panel-body">
-                  {% for c in categories %}
-
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p>
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p>
-
-                  {% endfor %}
-                </div>
-
-
-              </div>
-            </div>
-
-
-          </div>
-
-          </div>
 
 
 
@@ -523,17 +309,17 @@ h3 {
         
         <div class="left-service-box pt-40 pb-20 row">
           
-          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.1s">
-            <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
-            <div class="pull-right">
-              <a href="{% slugurl 'crm_id' %}">
-              <h4 class="mt-0">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</h4>
-              <p>Implementamos tu estrategia de marketing digital en el CRM mediante la investigación y el desarrollo de procesos optimizados. Datos precisos, resultados tangibles.</p>
-              </a>
-            </div>
-          </div>
+<div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.1s">
+  <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
+  <div class="pull-right">
+    <a href="{% slugurl 'crm_id' %}">
+      <h4 class="mt-0">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</h4>
+      <p>Implementamos tu estrategia de marketing digital en el CRM mediante la investigación y el desarrollo de procesos optimizados. Datos precisos, resultados tangibles.</p>
+    </a>
+  </div>
+</div>
           
-          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop" data-wow-delay="0.2s">
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.2s">
             <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
             <a href="{% slugurl 'crm_a' %}">
             <div class="pull-right">
@@ -545,7 +331,7 @@ h3 {
              </a>
           </div>
           
-          <div class="col-md-12 feature-box text-left col-sm-6 wow fadeTop" data-wow-delay="0.3s">
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.3s">
             <div class="pull-left"><i class="icofont icofont-brain-alt font-60px default-icon"></i></div>
             <div class="pull-right">
               <a href="{% slugurl 'crm_ai' %}">
@@ -564,7 +350,7 @@ h3 {
     <div class="row">
       <div class="portfolio-container text-center">
         <h2>{% trans 'Licencias SmartBusinessMedia CRM' %}</h2>
-        <p style="color:#e6e6e6;">{% trans 'Elige la licencia ITC que mejor se alinee con tu estrategia de marketing y modelo de negocio digital' %} </p>
+        <p style="color:#e6e6e6;">{% trans 'Elige la licencia ITC que mejor se alinee con tu estrategia de marketing y tamaño de empresa' %} </p>
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
           <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
@@ -591,7 +377,7 @@ h3 {
                     {% else %}
                       <p class="portfolio-title">{% trans 'Próximamente' %}</p>
                     {% endif %}
-                    <p class="portfolio-title">{% trans 'Modelo de Negocio:' %} {{ product.category  }}</p>
+                    <p class="portfolio-title"> {{ product.category  }}</p>
                     <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %} $ {{ product.price }} </a>
                   </div>
                   <ul class="portfolio-details">
