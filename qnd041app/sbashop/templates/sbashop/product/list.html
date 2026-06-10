@@ -226,6 +226,7 @@ h3 {
   border-radius: 12px;        /* Esquinas redondeadas */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al pasar el mouse */
+  height: 120px;
 }
 
 /* Opcional: Un ligero efecto interactivo cuando el usuario pasa el mouse por encima */
@@ -445,5 +446,53 @@ h3 {
 
 {% include 'webapp/home/footer_section.html' %}
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+
+  // Función para mover el scroll
+  function btnClick(direction) {
+    const slideWidth = track.clientWidth;
+    if (direction === "next") {
+      track.scrollBy({ left: slideWidth, behavior: "smooth" });
+    } else {
+      track.scrollBy({ left: -slideWidth, behavior: "smooth" });
+    }
+  }
+
+  prevBtn.addEventListener("click", () => btnClick("prev"));
+  nextBtn.addEventListener("click", () => btnClick("next"));
+
+  // Actualizar los puntitos usando Intersection Observer (detecta qué slide está visible)
+  const observerOptions = {
+    root: track,
+    threshold: 0.5 // Se activa cuando el 50% del slide es visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Obtenemos el índice del slide visible
+        const index = Array.from(slides).indexOf(entry.target);
+        
+        // Actualizamos los puntitos
+        dots.forEach((dot, dotIndex) => {
+          if (dotIndex === index) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  slides.forEach((slide) => observer.observe(slide));
+});
+</script>
 
 {% endblock %}

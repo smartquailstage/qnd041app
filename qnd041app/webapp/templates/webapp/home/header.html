@@ -48,7 +48,7 @@
       <!--=== Collect the nav links, forms, and other content for toggling ===-->
       <div class="collapse navbar-collapse" id="navbar-menu">
         <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
-          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Activos ITC' %}</a>
+          <li class="dropdown megamenu-fw"> <a href="{% slugurl 'smartquail' %}" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Ecosistemas ITC' %}</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
@@ -76,9 +76,9 @@
                       <ul class="menu-col">
                         <li><a href="{% url 'sbashop:product_list' %}#SmartBusinessAnalytics"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Optimización y Análisis financiero: (EAP)'%}</a></li>
 
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [EAP<sup>(I+D)</sup>]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [EAP<sup>(I+D)</sup> + A]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [EAP<sup>(I+D+A)</sup> + IA]'%}</a></li>
+                        <li><a href="{% slugurl 'eap_id' %}"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [EAP<sup>(I+D)</sup>]'%}</a></li>
+                        <li><a href="{% slugurl 'eap_a' %}"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [EAP<sup>(I+D)</sup> + A]'%}</a></li>
+                        <li><a href="{% slugurl 'eap_ai' %}"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [EAP<sup>(I+D+A)</sup> + IA]'%}</a></li>
 
                       
 
@@ -96,9 +96,9 @@
                       <ul class="menu-col">
                         <li><a href="{% url 'sblshop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Gobernanza administrativa y legal: (ELP)'%}</a></li>
 
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [ELP<sup>(I+D)</sup>]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [ELP<sup>(I+D)</sup> + A]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [ELP<sup>(I+D+A)</sup> + IA]'%}</a></li>
+                        <li><a href="{% slugurl 'elp_id' %}"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [ELP<sup>(I+D)</sup>]'%}</a></li>
+                        <li><a href="{% slugurl 'elp_a' %}"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [ELP<sup>(I+D)</sup> + A]'%}</a></li>
+                        <li><a href="{% slugurl 'elp_ai' %}"> <i class="icofont icofont-brain-alt font-5px default-icon"></i>  {% trans 'Agentes de IA: [ELP<sup>(I+D+A)</sup> + IA]'%}</a></li>
 
                  
 
@@ -116,9 +116,9 @@
                       <ul class="menu-col">
                         <li><a href="{% url 'sbpshop:product_list' %}#portfolio-filter"><i class="icofont icofont-key font-5px default-icon"></i> {% trans 'Productividad integral: (SUITE)'%}</a></li>
 
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [SUITE<sup>(I+D)</sup>]'%}</a></li>
-                        <li><a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [SUITE<sup>(I+D)</sup> + A]'%}</a></li>
-                        <li> <a href="{% url 'sbmshop:product_list' %}#portfolio-filter"><i class="icofont icofont-brain-alt font-5px default-icon"></i> {% trans 'Agentes de IA: [SUITE<sup>(I+D+A)</sup> + IA]'%}</a></li>
+                        <li><a href="{% slugurl 'suite_id' %}"><i class="icofont icofont-laboratory font-5px default-icon"></i> {% trans 'Investigación y Desarrollo: [SUITE<sup>(I+D)</sup>]'%}</a></li>
+                        <li><a href="{% slugurl 'suite_a' %}"><i class="icofont icofont-robot-face font-5px default-icon"></i> {% trans 'Automaización: [SUITE<sup>(I+D)</sup> + A]'%}</a></li>
+                        <li> <a href="{% slugurl 'suite_ai' %}"><i class="icofont icofont-brain-alt font-5px default-icon"></i> {% trans 'Agentes de IA: [SUITE<sup>(I+D+A)</sup> + IA]'%}</a></li>
 
                      
 

@@ -1424,10 +1424,12 @@ button:focus {
 }
 
 .feature-box i {
-	margin-bottom:20px;
-	display: inline-block;
+margin-bottom: 21px;
+  display: inline-block;
   position: relative;
-   top: 15px;
+  margin-top: 25px;
+  margin-left: 20px;
+}
   
   
 }
@@ -1575,6 +1577,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee3838', end
 
 .feature-box .pull-left {
     width: 15%;
+    margin-top: 25px;
+    
 }
 
 .feature-box .pull-right {

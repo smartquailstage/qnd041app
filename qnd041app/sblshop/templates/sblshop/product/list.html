@@ -51,6 +51,152 @@ h3 {
     background-color: #f15a24;
 }
 
+/* ==========================================================================
+   ESTILOS BASE Y RESPONSIVE (Móviles primero)
+   ========================================================================== */
+.split-section {
+  position: relative;
+  width: 100%;
+  padding: 50px 0;
+}
+
+.bg-flex {
+  width: 100%;
+  padding: 0 15px 30px 15px; /* Margen inferior para separar del texto en móviles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ajustes del Carrusel para que sea grande y adaptable */
+.instagram-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Tamaño máximo ideal para el carrusel */
+  aspect-ratio: 10 / 7; 
+  border-radius: 8px; 
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory; 
+  scroll-behavior: smooth;
+  scrollbar-width: none; 
+  -webkit-overflow-scrolling: touch; 
+}
+
+.carousel-track::-webkit-scrollbar { display: none; }
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  background-size: 616px;
+  background-position: center;
+  scroll-snap-align: start; 
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(43, 42, 42, 0.85); 
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px;
+  z-index: 10;
+}
+.dot { width: 6px; height: 6px; background-color: rgba(255,255,255,0.5); border-radius: 50%; }
+.dot.active { background-color: #fff; transform: scale(1.2); }
+
+@media (max-width: 768px) {
+  .carousel-btn { display: none; } /* Ocultar flechas en móviles */
+}
+
+/* ==========================================================================
+   PANTALLAS GRANDES (Desktop / Tablets en Horizontal)
+   ========================================================================== */
+@media (min-width: 992px) {
+  .split-section {
+    padding: 80px 0;
+    display: flex;
+    align-items: center; /* Centra verticalmente el contenido */
+    min-height: 600px;  /* Altura mínima de la sección */
+  }
+
+  /* El bloque toma exactamente la mitad izquierda de toda la pantalla */
+  .bg-flex {
+    position: absolute !important;
+    top: 53px;
+    left: 1 !important;
+    bottom: 0;
+    width: 50% !important;
+    height: 100%;
+    padding: 0;
+    z-index: 5;
+  }
+
+  /* Forzamos a que el carrusel use todo el ancho permitido del 50% */
+  .instagram-carousel {
+    max-width: 85%; /* Ajusta este porcentaje si quieres que el carrusel sea aún más grande */
+    height: auto;
+  }
+
+  /* Un colchón extra de padding a la columna derecha para un diseño elegante */
+  .col-content-right {
+    padding-left: 50px;
+  }
+}
+
+.instagram-responsive-img {
+  width: 70%;
+  /* Altura para pantallas de celular (móvil) */
+  height: 216px; 
+  top:28px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* En pantallas más grandes (tablets y PC), le damos más altura */
+@media (min-width: 768px) {
+  .instagram-responsive-img {
+    height: 616px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
+  }
+}
+
+.box-sombreado {
+  background-color: #323232; /* Fondo gris claro (puedes usar #eee o #f4f4f4) */
+  border-radius: 12px;        /* Esquinas redondeadas */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al pasar el mouse */
+}
+
+/* Opcional: Un ligero efecto interactivo cuando el usuario pasa el mouse por encima */
+.box-sombreado:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+
 
 </style>
 
@@ -95,226 +241,100 @@ h3 {
 
 
 <section id="Choose" class="black-bg">
-  <div class="container">
-    <div class="row">
-     <div class="col-md-6">
-    <h1>{% trans "Empecemos" %}</h1>
-    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
-        {% trans 'Descubre SmartBusinessLaw®, el ERP legal inteligente diseñado para administrar y gestionar en tiempo real todos los procesos legales de tu organización, integrando investigación y desarrollo (I+D) directamente en tu flujo de trabajo.' %}
-    </p>
-
-    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
-        {% trans 'Con la automatización avanzada, SmartBusinessLaw® permite generar contratos de manera automática y gestionar cada etapa del proceso legal con eficiencia y seguridad. Además, su inteligencia artificial analiza datos históricos y predice posibles resultados legales, brindándote la capacidad de tomar decisiones proactivas y estratégicas.' %}
-    </p>
-
-    <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
-        {% trans 'Simplifica la gestión legal, aumenta la productividad y lleva la operación de tu área jurídica al siguiente nivel con una plataforma que combina innovación, automatización y análisis predictivo.' %}
-    </p>
-
-        <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
-        {% trans 'Cumple con la Ley de Protección de Datos de Ecuador, garantizando los derechos ARCO de tus clientes, y está respaldado por la certificación ISO 27001, que asegura la confidencialidad, integridad y disponibilidad de toda tu información.' %}
-    </p>
-
-    <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">
-        {% trans 'Donde la información legal se convierte en decisiones inteligentes.' %}
-    </h3>
-
-    <div class="panel-group accordion-color mt-50" id="accordion-color">
-        <div class="panel panel-default">
-            {% for c in categories %}
-            <div class="panel-heading">
-                {% if c.title == 'Pre-Seed' %}
-                <h3 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
-                        {{ c.title }} (1-{{c.name }} {% trans 'Clientes' %} / 1-{{ c.name }} {% trans 'Empleados' %})  
-                    </a>
-                </h3>
-                {% else %}
-                {% endif %}
-            </div>
-            {% endfor %}
-            <div id="collapseOne" class="panel-collapse collapse">
-                <div class="panel-body">
-                    {% for c in categories %}
-                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                    <p style="line-height: 10px;color: #333;">{% if c.title == 'Pre-Seed' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-                    {% endfor %} 
-                </div>
-            </div>
-        </div>
-
-        <!-- Repetir estructura para Stage y Stage-A como en tu código original -->
-
-    </div>
+<div class="col-12 col-sm-6 col-md-6 bg-flex bg-flex-right">
+  <div class="bg-flex-holder bg-flex-cover instagram-responsive-img"  
+       style="background-image: url('{% static 'img/smartbusinessanalytics/sba_login.png' %}');">
+  </div>
 </div>
-
-
-        <div class="col-md-6">
-               
-          <div class="panel-group accordion-color mt-50" id="accordion-color">
-
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Growth-Stage' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFour"> 
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
+  <div class="container">
+ 
+    <div class="row">
+      <div class="col-md-6">
   
-            {% endfor %} 
-              
-              <div id="collapseFour" class="panel-collapse collapse">
-                
-                <div class="panel-body">
-                  {% for c in categories %}
-                  
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-                 
-                  {% endfor %} 
-                </div>
-               
-                
-              </div>
-            </div>
-           
-           
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Growth-Stage-A' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseFive"> 
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-  
-            {% endfor %} 
-              
-              <div id="collapseFive" class="panel-collapse collapse">
-                
-                <div class="panel-body">
-                  {% for c in categories %}
-                  
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Growth-Stage-A' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-                 
-                  {% endfor %} 
-                </div>
-               
-                
-              </div>
-            </div>
-  
-            <div class="panel panel-default">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Scale-Up' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSix"> 
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-  
-            {% endfor %} 
-              
-              <div id="collapseSix" class="panel-collapse collapse ">
-                
-                <div class="panel-body">
-                  {% for c in categories %}
-                  
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Scale-Up' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-                 
-                  {% endfor %} 
-                </div>
-               
-                
-              </div>
-            </div>
-  
-            <div class="panel panel-default ">
-              {% for c in categories %}
-              <div class="panel-heading">
-                {% if c.title == 'Unicorn' %}
-                <h3 class="panel-title">
-                   <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseSeven"> 
-                      {{ c.title }} (1-{{c.name }} {% trans 'Customers' %} / 1-{{ c.name }} {% trans 'Employes' %})  </a>
-                   </h3>
-                   {% else %}
-                   {% endif %}
-              </div>
-  
-            {% endfor %} 
-              
-              <div id="collapseSeven" class="panel-collapse collapse ">
-                
-                <div class="panel-body">
-                  {% for c in categories %}
-                  
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p1|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p2|richtext }}{% else %}{% endif %}</p> 
-                  <p style="line-height: 10px;color: #333;">{% if c.title == 'Unicorn' %}{{ c.sbmmodels_p3|richtext }}{% else %}{% endif %}</p> 
-                 
-                  {% endfor %} 
-                </div>
-               
-                
-              </div>
-            </div>
-  
-          
-          </div>
-  
-          </div>
-      
     
 
-   
+        <h1 style="font-size: 45px;">{% trans "SmartBusinessAnalytics EAP" %}</h1>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
+          {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato. Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
+        </p>
+<p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia SEO y SEM, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
+        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'El centro de control inteligente para crear y  gestionar tus contenidos multimedia, automatizar tus redes y unificar tu información publicitaria, en tiempo real.' %}</h3>
+
+
+
+
+
+
   </div>
 </section>
 
-<section id="Products" class="pt-50 pb-50 dark-bg cta-block">
+<section class="dark-bg split-section">
+  
+  <div class="bg-flex bg-flex-left">
+    <div class="instagram-carousel">
+      
+      <div class="carousel-track">
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+      </div>
+
+      <button class="carousel-btn prev-btn" aria-label="Anterior">&#10094;</button>
+      <button class="carousel-btn next-btn" aria-label="Siguiente">&#10095;</button>
+
+      <div class="carousel-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      
+    </div>
+  </div>
+    
   <div class="container">
     <div class="row">
-      <div class="col-md-5">
-        <div class="cta-heading-left">
-          <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'SmartBusinessLaw® ERP - Legal Management System' %}</p>
-        </div>
-      </div>
-      <div class="col-md-1"></div>
-      <div class="col-md-6"></div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="cta-heading-right">
-          <p class="mt-20 content-text">{% trans 'SmartBusinessLaw® es una plataforma integral desarrollada por SmartQuail, Inc., diseñada para optimizar la gestión legal y el cumplimiento normativo mediante el análisis inteligente de datos. Su interfaz moderna, intuitiva y centrada en la experiencia del usuario permite administrar de forma eficiente contratos, procesos legales, recursos jurídicos y la autogeneración de contratos certificados, firmados de manera segura desde un único entorno unificado.' %}</p>
-
-          <p class="mt-20 content-text">{% trans 'La solución ofrece control total sobre la operación legal y la toma de decisiones estratégicas, integrando módulos avanzados de gestión documental, monitoreo de obligaciones legales, análisis de riesgos, estadísticas jurídicas y visualización dinámica de flujos de trabajo. Cada componente puede personalizarse según las necesidades de cada organización, garantizando automatización precisa y eficiente de los procesos legales clave.' %}</p>
-
-          <p class="mt-20 content-text">{% trans 'Gracias a los modelos de aprendizaje automático e inteligencia artificial desarrollados por SmartQuail, SmartBusinessLaw® permite anticipar riesgos legales, optimizar la revisión de documentos, predecir tendencias normativas y generar contratos certificados automáticamente, asegurando firmas electrónicas seguras y cumplimiento legal en todo momento.' %}</p>
-
-          <p class="mt-20 content-text">{% trans 'Construida sobre infraestructura en la nube segura, escalable y de alto rendimiento, SmartBusinessLaw® garantiza el cumplimiento de la Ley de Protección de Datos de Ecuador y los derechos ARCO, respaldado por la certificación ISO 27001. Su tecnología combina precisión analítica, automatización inteligente y adaptabilidad, ofreciendo a cada empresa una herramienta poderosa para transformar la información legal en crecimiento sostenible, seguridad jurídica y procesos contractuales totalmente automatizados.' %}</p>
-        </div>
-
-        <hr>
-      </div>
-    </div>
+      <div class="col-md-6 col-sm-12 col-md-offset-6 col-content-right">
+        
+        <h2 class="font-700 wow fadeTop" data-wow-delay="0.1s" style="font-size: 30px;"> Marketing digital nativo en la nube </h2>
+        <h4 class="mt-10 line-height-26 wow fadeTop" data-wow-delay="0.2s">Profesionales en implementación, desarollo, automatización de procesos de marketing digital.</h4>
+        
+        <div class="left-service-box pt-40 pb-20 row">
+          
+<div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.1s">
+  <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
+  <div class="pull-right">
+    <a href="{% slugurl 'eap_id' %}">
+      <h4 class="mt-0">Investigación y Desarollo [EAP<sup>(I+D)</sup>]</h4>
+      <p>Implementamos tu gestor analitico y financiero EAP, mediante la investigación y el desarrollo de procesos  operativos y estrategicos. Datos reales, desiciones acertadas.</p>
+    </a>
   </div>
-</section>
+</div>
+          
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.2s">
+            <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
+            <a href="{% slugurl 'eap_a' %}">
+            <div class="pull-right">
+              
+                <h4 class="mt-0">Automatización de Procesos EAP<sup>(I+D)</sup>+A] </h4>
+                <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
+             
+            </div>
+             </a>
+          </div>
+          
+          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.3s">
+            <div class="pull-left"><i class="icofont icofont-brain-alt font-60px default-icon"></i></div>
+            <div class="pull-right">
+              <a href="{% slugurl 'eap_ai' %}">
+                <h4 class="mt-0">Agentes de IA [EAP<sup>(I+D+A)</sup>+AI]</h4>
+                <p>Tu agente de IA integrado al EAP: desde modelos de Machine Learning hasta la autogeneración inteligente de tus contenidos para redes sociales.</p>
+              </a>
+            </div>
+          </div>
+          
+        </div> </div> </div> </div> </section>
+
+
 
 
 <section id="SBM" class="pt-100">
@@ -374,51 +394,9 @@ h3 {
 
 
 
-<section  id="Staff" style="background-color: #65615f" >
-  <div class="container">
-    <div class="row startup-member">
-      <div class="col-sm-8 section-heading">
-        <h2 class="wow fadeTop josefin-font" data-wow-delay="0.1s">  <img src="{% static 'img/SmartBusinessLaw.png'  %}" > {% trans 'Conócenos' %}</h2>
-        <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">{% trans 'Expertos en derecho, cumplimiento normativo y tecnología legal.' %}</p>
-
-      </div>
-      {% for staff_item in products_staff %}
-
-      <div class="col-md-3 col-sm-6">
-        <div class="member text-center">
-          <div class="team-member-container">
-            <!-- Aquí debes usar 'staff_item' para acceder a los atributos -->
-            <img src="{{ staff_item.ceo_profile_img.url }}" class="img-responsive" alt="team-01">
-            <div class="member-caption">
-              <div class="member-description text-center">
-                <div class="member-description-wrap">
-                  <ul class="member-icons">
-                    <li class="social-icon"><a href="#"><i class="icofont icofont-user"></i> See My Profile </a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Aquí también debes usar 'staff_item' -->
-          <h4 class="member-title">{{ staff_item.ceo_name }} {{ staff_item.ceo_lastname }}</h4>
-          <p class="member-subtitle">{{ staff_item.ceo_sector }}</p>
-        </div>
-      </div>
-    {% endfor %}
-    
-
-     
-      <!--=== Member End ===-->
-
-    
 
 
-    </div>
-  </div>
-</section>
-
-
-<section style="background:#f15a24;" class="pt-50 pb-50 black-bg">
+<section style="background: #2d2d2d;"  class="pt-50 pb-50 black-bg">
   <div class="container">
     <div class="row">
       <div id="client-slider" class="owl-carousel">
@@ -438,5 +416,52 @@ h3 {
 
 {% include 'webapp/home/footer_section.html' %}
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
 
+  // Función para mover el scroll
+  function btnClick(direction) {
+    const slideWidth = track.clientWidth;
+    if (direction === "next") {
+      track.scrollBy({ left: slideWidth, behavior: "smooth" });
+    } else {
+      track.scrollBy({ left: -slideWidth, behavior: "smooth" });
+    }
+  }
+
+  prevBtn.addEventListener("click", () => btnClick("prev"));
+  nextBtn.addEventListener("click", () => btnClick("next"));
+
+  // Actualizar los puntitos usando Intersection Observer (detecta qué slide está visible)
+  const observerOptions = {
+    root: track,
+    threshold: 0.5 // Se activa cuando el 50% del slide es visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Obtenemos el índice del slide visible
+        const index = Array.from(slides).indexOf(entry.target);
+        
+        // Actualizamos los puntitos
+        dots.forEach((dot, dotIndex) => {
+          if (dotIndex === index) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  slides.forEach((slide) => observer.observe(slide));
+});
+</script>
 {% endblock %}
