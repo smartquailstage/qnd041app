@@ -1263,15 +1263,19 @@ button:focus {
 
 .btn-brown {
     color: #fff;
-    border-color: #D09E88;
-    background-color: #D09E88;
+    border-color: #f15a24;
+    background-color: #f15a24;
 }
 
 .btn-brown:hover, .btn-brown:active, .btn-brown:focus {
-    background-color: #b1775d;
-    border-color: #b1775d;
+    background-color: #f15a24;
+    border-color: #f15a24;
     color: #fff;
 }
+
+
+
+
 
 .btn.btn-xs, .btn.btn-group-xs {
     padding: 0 16px;
