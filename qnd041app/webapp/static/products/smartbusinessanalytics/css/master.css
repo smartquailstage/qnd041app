@@ -204,10 +204,9 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 section {
 	padding-top:120px;
-	padding-bottom:120px;
 	position: relative;
 	z-index: 10;
-	background:#1f8eb2;
+	background:#dc402b;
 }
 
 .section-heading {
@@ -1227,9 +1226,9 @@ button:focus {
 }
 
 .btn-red {
-    color: #fff;
-    border-color: #e14a83;
-    background-color: #e14a83;
+  color: #fff;
+  border-color: #dc402b;
+  background-color: #dc402b;
 }
 
 .btn-red:hover, .btn-red:active, .btn-red:focus {
@@ -1456,7 +1455,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee3838', end
 }
 
 .default-icon {
-	color: #368fb2;
+	color: #dc402b;
 }
 
 .dark-icon {
@@ -3684,7 +3683,7 @@ ul.footer-gallery li img {
     height: 35px;
     text-align: center;
     line-height: 35px;
-    background: #1f8eb2;
+    background: #dc402b;
     color: #fff;
     cursor: pointer;
     border: 0;
@@ -3839,7 +3838,7 @@ ul.footer-gallery li img {
     width: 100%;
     z-index: 10;
     color: #fff;
-    top:220px;
+    top: 284px;
 }
 .slider-bg .hero-text P{
 	line-height: 50px;

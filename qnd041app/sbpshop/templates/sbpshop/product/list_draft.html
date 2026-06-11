@@ -1,0 +1,85 @@
+
+
+<section id="Products" class="pt-50 pb-50 dark-bg cta-block">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="cta-heading-left">
+            <p class="subtitle" style="line-height: 18px; color:#f1f1f1;">
+              {% trans 'SmartBusinessPlatforms® – IT Cloud Business Platforms' %}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6"></div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="cta-heading-right">
+  
+            <p class="mt-20 content-text">
+              {% trans 'SmartBusinessPlatforms® es un ecosistema digital desarrollado por SmartQuail, Inc. que integra las soluciones SmartBusinessAnalytics® ERP y SmartBusinessMedia® CRM para transformar la manera en que las empresas gestionan, comunican y automatizan sus procesos.' %}
+            </p>
+  
+            <p class="mt-20 content-text">
+              {% trans 'Conectamos la lógica de negocio con la experiencia del cliente, logrando que los procesos se ejecuten e interactúen en tiempo real con los usuarios finales. Esto te permite tomar el control total de tus operaciones y alinear tus estrategias con acciones de marketing digital efectivas.' %}
+            </p>
+  
+            <p class="mt-20 content-text">
+              {% trans 'Nuestra plataforma te ayuda a ampliar tu alcance, fortalecer tu marca y construir tu propia comunidad dentro de tu ecosistema digital. Con SmartBusinessPlatforms®, tu negocio crece de forma más inteligente, ágil y conectada.' %}
+            </p>
+  
+            <p class="mt-20 content-text">
+              {% trans 'Todas nuestras soluciones están desarrolladas sobre infraestructura cloud de última generación, garantizando seguridad, escalabilidad y alto rendimiento, para ofrecerte una experiencia confiable y adaptable a las exigencias del entorno digital moderno.' %}
+            </p>
+  
+          </div>
+  
+          <hr>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section  id="Staff" style="background: #231d20;" >
+    <div class="container">
+      <div class="row startup-member">
+        <div class="col-sm-8 section-heading">
+          <h2 class="wow fadeTop josefin-font" style ="line-height: 18px ; color:#fff;" data-wow-delay="0.1s">  <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" > {% trans 'Consulting us' %}</h2>
+          <p class="subtitle" style ="line-height: 18px ; color:#fff;">{% trans 'We are professional, creative, smart, and fun!' %}</p>
+        </div>
+        {% for staff_item in products_staff %}
+  
+        <div class="col-md-3 col-sm-6">
+          <div class="member text-center">
+            <div class="team-member-container">
+              <!-- Aquí debes usar 'staff_item' para acceder a los atributos -->
+              <img src="{{ staff_item.ceo_profile_img.url }}" class="img-responsive" alt="team-01">
+              <div class="member-caption">
+                <div class="member-description text-center">
+                  <div class="member-description-wrap">
+                    <ul class="member-icons">
+                      <li class="social-icon"><a href="#"><i class="icofont icofont-user"></i> See My Profile </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Aquí también debes usar 'staff_item' -->
+            <h4 class="member-title">{{ staff_item.ceo_name }} {{ staff_item.ceo_lastname }}</h4>
+            <p class="member-subtitle" style="color: #ffbf00;">{{ staff_item.ceo_sector }}</p>
+          </div>
+        </div>
+      {% endfor %}
+      
+  
+       
+        <!--=== Member End ===-->
+  
+      
+  
+  
+      </div>
+    </div>
+  </section>

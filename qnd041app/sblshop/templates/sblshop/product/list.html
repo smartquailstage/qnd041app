@@ -10,196 +10,228 @@
 {% block content %}
 
 <style>
+
+  .blog-cover-bg {
+   background-image: url("{% static 'img/smartbusinessmedia/2.png' %}");
+ }
  
- .blog-cover-bg {
-  background-image: url("{% static 'img/smartbusinessanalytics/1.png' %}");
-}
-
-
-p {
-    letter-spacing: normal;
-    line-height: 12px;
-    color: #151414;
-    font-weight: 300;
-}
-h3 {
-  font-size: 20px;
-}
-
-.portfolio:hover .portfolio-description .portfolio-title {
-  top: 15px;
-  opacity: 1;
-  visibility: visible;
-}
-
-.portfolio-wrap {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  margin-top: -95px;
-}
-
-.flexslider .slides img {
-  width: 81%;
-  display: block;
-}
-
-.btn-white {
-    color: #f1f1f1;
-    border-color: #f15a24;
-    background-color: #f15a24;
-}
-
-/* ==========================================================================
-   ESTILOS BASE Y RESPONSIVE (Móviles primero)
-   ========================================================================== */
-.split-section {
-  position: relative;
-  width: 100%;
-  padding: 50px 0;
-}
-
-.bg-flex {
-  width: 100%;
-  padding: 0 15px 30px 15px; /* Margen inferior para separar del texto en móviles */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Ajustes del Carrusel para que sea grande y adaptable */
-.instagram-carousel {
-  position: relative;
-  width: 100%;
-  max-width: 500px; /* Tamaño máximo ideal para el carrusel */
-  aspect-ratio: 10 / 7; 
-  border-radius: 8px; 
-  overflow: hidden;
-}
-
-.carousel-track {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory; 
-  scroll-behavior: smooth;
-  scrollbar-width: none; 
-  -webkit-overflow-scrolling: touch; 
-}
-
-.carousel-track::-webkit-scrollbar { display: none; }
-
-.carousel-slide {
-  min-width: 100%;
-  height: 100%;
-  background-size: 616px;
-  background-position: center;
-  scroll-snap-align: start; 
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(43, 42, 42, 0.85); 
-  border: none;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-  z-index: 10;
-}
-.prev-btn { left: 10px; }
-.next-btn { right: 10px; }
-
-.carousel-dots {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex; gap: 6px;
-  z-index: 10;
-}
-.dot { width: 6px; height: 6px; background-color: rgba(255,255,255,0.5); border-radius: 50%; }
-.dot.active { background-color: #fff; transform: scale(1.2); }
-
-@media (max-width: 768px) {
-  .carousel-btn { display: none; } /* Ocultar flechas en móviles */
-}
-
-/* ==========================================================================
-   PANTALLAS GRANDES (Desktop / Tablets en Horizontal)
-   ========================================================================== */
-@media (min-width: 992px) {
-  .split-section {
-    padding: 80px 0;
-    display: flex;
-    align-items: center; /* Centra verticalmente el contenido */
-    min-height: 600px;  /* Altura mínima de la sección */
-  }
-
-  /* El bloque toma exactamente la mitad izquierda de toda la pantalla */
-  .bg-flex {
-    position: absolute !important;
-    top: 53px;
-    left: 1 !important;
-    bottom: 0;
-    width: 50% !important;
-    height: 100%;
-    padding: 0;
-    z-index: 5;
-  }
-
-  /* Forzamos a que el carrusel use todo el ancho permitido del 50% */
-  .instagram-carousel {
-    max-width: 85%; /* Ajusta este porcentaje si quieres que el carrusel sea aún más grande */
-    height: auto;
-  }
-
-  /* Un colchón extra de padding a la columna derecha para un diseño elegante */
-  .col-content-right {
-    padding-left: 50px;
-  }
-}
-
-.instagram-responsive-img {
-  width: 70%;
-  /* Altura para pantallas de celular (móvil) */
-  height: 216px; 
-  top:28px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* En pantallas más grandes (tablets y PC), le damos más altura */
-@media (min-width: 768px) {
-  .instagram-responsive-img {
-    height: 616px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
-  }
-}
-
-.box-sombreado {
-  background-color: #323232; /* Fondo gris claro (puedes usar #eee o #f4f4f4) */
-  border-radius: 12px;        /* Esquinas redondeadas */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al pasar el mouse */
-}
-
-/* Opcional: Un ligero efecto interactivo cuando el usuario pasa el mouse por encima */
-.box-sombreado:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-
-
-</style>
-
+ p {
+     letter-spacing: normal;
+     line-height: 15px;
+     color: #c2bebe;
+     font-weight: 300;
+ }
+ h3 {
+   font-size: 20px;
+ }
+ 
+ .portfolio:hover .portfolio-description .portfolio-title {
+   top: 15px;
+   opacity: 1;
+   visibility: visible;
+ }
+ 
+ .portfolio-wrap {
+   position: absolute;
+   top: 50%;
+   left: 0;
+   width: 100%;
+   margin-top: -95px;
+ }
+ 
+ .flexslider .slides img {
+   width: 81%;
+   display: block;
+ }
+ 
+ .btn-white {
+     color: #f1f1f1;
+     border-color: #ffffff;
+     background-color: #ffffff;
+ }
+ /* ==========================================================================
+    ESTILOS BASE Y RESPONSIVE (Móviles primero)
+    ========================================================================== */
+ .split-section {
+   position: relative;
+   width: 100%;
+   padding: 50px 0;
+ }
+ 
+ .bg-flex {
+   width: 100%;
+   padding: 0 15px 30px 15px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ /* Ajustes del Carrusel para que sea grande y adaptable */
+ .instagram-carousel {
+   position: relative;
+   width: 100%;
+   max-width: 500px;
+   aspect-ratio: 10 / 7; 
+   border-radius: 8px; 
+   overflow: hidden;
+ }
+ 
+ .carousel-track {
+   display: flex;
+   width: 100%;
+   height: 100%;
+   overflow-x: auto;
+   scroll-snap-type: x mandatory; 
+   scroll-behavior: smooth;
+   scrollbar-width: none; 
+   -webkit-overflow-scrolling: touch; 
+ }
+ 
+ .carousel-track::-webkit-scrollbar { display: none; }
+ 
+ .carousel-slide {
+   min-width: 100%;
+   height: 100%;
+   background-size: 758px;
+   background-position: center;
+   scroll-snap-align: start; 
+ }
+ 
+ .carousel-btn {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   background-color: rgba(43, 42, 42, 0.85); 
+   border: none;
+   width: 36px; height: 36px;
+   border-radius: 50%;
+   font-size: 16px;
+   cursor: pointer;
+   display: flex; align-items: center; justify-content: center;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+   z-index: 10;
+ }
+ .prev-btn { left: 10px; }
+ .next-btn { right: 10px; }
+ 
+ .carousel-dots {
+   position: absolute;
+   bottom: 15px;
+   left: 50%;
+   transform: translateX(-50%);
+   display: flex; gap: 6px;
+   z-index: 10;
+ }
+ .dot { width: 6px; height: 6px; background-color: rgba(255,255,255,0.5); border-radius: 50%; }
+ .dot.active { background-color: #fff; transform: scale(1.2); }
+ 
+ @media (max-width: 768px) {
+   .carousel-btn { display: none; }
+ }
+ 
+ /* ==========================================================================
+    PANTALLAS GRANDES (Desktop / Tablets en Horizontal)
+    ========================================================================== */
+ @media (min-width: 992px) {
+   .split-section {
+     padding: 80px 0;
+     display: flex;
+     align-items: center;
+     min-height: 600px;  
+   }
+ 
+   .bg-flex {
+     position: absolute !important;
+     top: 0;
+     left: 0 !important;
+     bottom: 0;
+     width: 50% !important;
+     height: 100%;
+     padding: 0;
+     z-index: 5;
+   }
+ 
+   .instagram-carousel {
+     max-width: 85%;
+     height: auto;
+   }
+ 
+   .col-content-right {
+     padding-left: 50px;
+   }
+ }
+ 
+ .instagram-responsive-img {
+   width: 71%;
+   height: 354px; 
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   margin-top: 67px;
+ }
+ 
+ @media (min-width: 768px) {
+   .instagram-responsive-img {
+     height: 612px;
+   }
+ }
+ 
+ /* ==========================================================================
+    NUEVA SOLUCIÓN MODERNA PARA LOS BOXES INTERNOS (Sombreados y Seguros)
+    ========================================================================== */
+ .box-sombreado {
+   background-color: #323232 !important; 
+   border-radius: 12px !important;        
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important; 
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   padding: 24px !important;
+   margin-bottom: 30px !important; /* Espacio uniforme entre cajas */
+   height: auto !important; /* El alto se calcula dinámicamente según el texto */
+   display: block;
+   overflow: hidden;
+ }
+ 
+ .box-sombreado:hover {
+   transform: translateY(-3px);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+ }
+ 
+ /* Forzar que el layout se comporte de forma segura usando Flexbox sin depender de floats viejos */
+ .flex-box-container {
+   display: flex !important;
+   flex-direction: row;
+   align-items: flex-start;
+   width: 100%;
+ }
+ 
+ .flex-icon {
+   flex-shrink: 0;
+   margin-right: 20px;
+ }
+ 
+ .flex-text {
+   flex-grow: 1;
+ }
+ 
+ .flex-text p {
+   margin-bottom: 0px !important;
+   line-height: 20px !important;
+ }
+ 
+ /* Ajustes Responsive Críticos para Smartphones */
+ @media (max-width: 767px) {
+   .flex-box-container {
+     flex-direction: column !important; /* Apilado vertical seguro */
+     align-items: center !important;
+     text-align: center !important;
+   }
+   .flex-icon {
+     margin-right: 0px !important;
+     margin-bottom: 15px !important; /* Separación del icono con el título inferior */
+   }
+ }
+ 
+ </style>
 
 {% include 'webapp/home/header.html' %}
 
