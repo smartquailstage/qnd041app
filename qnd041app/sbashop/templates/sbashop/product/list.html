@@ -10,50 +10,10 @@
 {% block content %}
 
 <style>
- 
+
  .blog-cover-bg {
-  background-image: url("{% static 'img/smartbusinessanalytics/1.png' %}");
+  background-image: url("{% static 'img/smartbusinessmedia/2.png' %}");
 }
-
-
-p {
-    letter-spacing: normal;
-    line-height: 12px;
-    color: #151414;
-    font-weight: 300;
-}
-h3 {
-  font-size: 20px;
-}
-
-.portfolio:hover .portfolio-description .portfolio-title {
-  top: 15px;
-  opacity: 1;
-  visibility: visible;
-}
-
-.portfolio-wrap {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  margin-top: -95px;
-}
-
-.flexslider .slides img {
-  width: 81%;
-  display: block;
-}
-
-.btn-white {
-    color: #f1f1f1;
-    border-color: #da0404;
-    background-color:#da0404;
-}
-
-
-
-
 
 p {
     letter-spacing: normal;
@@ -100,7 +60,7 @@ h3 {
 
 .bg-flex {
   width: 100%;
-  padding: 0 15px 30px 15px; /* Margen inferior para separar del texto en móviles */
+  padding: 0 15px 30px 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,7 +70,7 @@ h3 {
 .instagram-carousel {
   position: relative;
   width: 100%;
-  max-width: 500px; /* Tamaño máximo ideal para el carrusel */
+  max-width: 500px;
   aspect-ratio: 10 / 7; 
   border-radius: 8px; 
   overflow: hidden;
@@ -166,7 +126,7 @@ h3 {
 .dot.active { background-color: #fff; transform: scale(1.2); }
 
 @media (max-width: 768px) {
-  .carousel-btn { display: none; } /* Ocultar flechas en móviles */
+  .carousel-btn { display: none; }
 }
 
 /* ==========================================================================
@@ -176,15 +136,14 @@ h3 {
   .split-section {
     padding: 80px 0;
     display: flex;
-    align-items: center; /* Centra verticalmente el contenido */
-    min-height: 600px;  /* Altura mínima de la sección */
+    align-items: center;
+    min-height: 600px;  
   }
 
-  /* El bloque toma exactamente la mitad izquierda de toda la pantalla */
   .bg-flex {
     position: absolute !important;
-    top: 53px;
-    left: 1 !important;
+    top: 0;
+    left: 0 !important;
     bottom: 0;
     width: 50% !important;
     height: 100%;
@@ -192,51 +151,86 @@ h3 {
     z-index: 5;
   }
 
-  /* Forzamos a que el carrusel use todo el ancho permitido del 50% */
   .instagram-carousel {
-    max-width: 85%; /* Ajusta este porcentaje si quieres que el carrusel sea aún más grande */
+    max-width: 85%;
     height: auto;
   }
 
-  /* Un colchón extra de padding a la columna derecha para un diseño elegante */
   .col-content-right {
     padding-left: 50px;
   }
 }
 
 .instagram-responsive-img {
-  width: 70%;
-  /* Altura para pantallas de celular (móvil) */
-  height: 216px; 
-  top:28px;
+  width: 100%;
+  height: 300px; 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* En pantallas más grandes (tablets y PC), le damos más altura */
 @media (min-width: 768px) {
   .instagram-responsive-img {
-    height: 616px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
+    height: 613px;
   }
 }
 
+/* ==========================================================================
+   NUEVA SOLUCIÓN MODERNA PARA LOS BOXES INTERNOS (Sombreados y Seguros)
+   ========================================================================== */
 .box-sombreado {
-  background-color: #323232; /* Fondo gris claro (puedes usar #eee o #f4f4f4) */
-  border-radius: 12px;        /* Esquinas redondeadas */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efecto suave al pasar el mouse */
-  height: 120px;
+  background-color: #323232 !important; 
+  border-radius: 12px !important;        
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 24px !important;
+  margin-bottom: 30px !important; /* Espacio uniforme entre cajas */
+  height: auto !important; /* El alto se calcula dinámicamente según el texto */
+  display: block;
+  overflow: hidden;
 }
 
-/* Opcional: Un ligero efecto interactivo cuando el usuario pasa el mouse por encima */
 .box-sombreado:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Forzar que el layout se comporte de forma segura usando Flexbox sin depender de floats viejos */
+.flex-box-container {
+  display: flex !important;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.flex-icon {
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.flex-text {
+  flex-grow: 1;
+}
+
+.flex-text p {
+  margin-bottom: 0px !important;
+  line-height: 20px !important;
+}
+
+/* Ajustes Responsive Críticos para Smartphones */
+@media (max-width: 767px) {
+  .flex-box-container {
+    flex-direction: column !important; /* Apilado vertical seguro */
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .flex-icon {
+    margin-right: 0px !important;
+    margin-bottom: 15px !important; /* Separación del icono con el título inferior */
+  }
 }
 
 </style>
-
 
 {% include 'webapp/home/header.html' %}
 
@@ -275,31 +269,37 @@ h3 {
 </section>  
 
 
-<section id="Choose" class="black-bg">
-<div class="col-12 col-sm-6 col-md-6 bg-flex bg-flex-right">
-  <div class="bg-flex-holder bg-flex-cover instagram-responsive-img"  
-       style="background-image: url('{% static 'img/smartbusinessanalytics/sba_login.png' %}');">
-  </div>
-</div>
-  <div class="container">
- 
-    <div class="row">
-      <div class="col-md-6">
-  
-    
-
-        <h1 style="font-size: 45px;">{% trans "SmartBusinessAnalytics EAP" %}</h1>
-        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
-          {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato. Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
+<section id="Choose" class="black-bg-custom py-5">
+  <div class="container-fluid container-custom">
+    <div class="row align-items-center-custom">
+      
+      <!-- SECCIÓN TEXTO (Izquierda en pantallas grandes, Primero en móvil) -->
+      <div class="col-12 col-md-6 content-column">
+        <h1 style="font-size: 35px; color: #ffffff;">
+          {% trans "SmartBusiness Analytics EAP (Enterprise Analytics Planning)." %}
+        </h1>
+        
+        <p class="subtitle" style="line-height: 1.6; color: #f1f1f1; font-size: 16px;">
+          {% trans 'En el entorno empresarial moderno, los datos desfasados son decisiones perdidas. SmartBusiness Analytics EAP nace para cambiar las reglas del juego financiero. No somos un software de registro; somos una plataforma analítica de alta disponibilidad diseñada para unificar la gestión de tus procesos financieros y estadísticos.'%}
         </p>
-<p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia SEO y SEM, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
-        <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'El centro de control inteligente para crear y  gestionar tus contenidos multimedia, automatizar tus redes y unificar tu información publicitaria, en tiempo real.' %}</h3>
 
+        <p style="line-height: 1.6; color: #f1f1f1; font-weight: 300; font-size: 15px;">
+          {% trans 'Desde el control milimétrico de activos y pasivos, hasta el flujo constante de ingresos y egresos, nuestro ecosistema nativo en la nube transforma transacciones en métricas reales y consistentes al instante. La infraestructura operativa de tu empresa, respaldada por la certeza de la analítica en tiempo real.'%}
+        </p>
 
+        <h3 class="text-uppercase font-700 mt-4 wow fadeIn" data-wow-delay="0.1s" style="color: #ffffff; font-size: 20px;">
+          {% trans 'Gobierna tus procesos financieros con alta disponibilidad en la nube y asegura hasta un 450% de ROI con métricas en tiempo real.' %}
+        </h3>
+      </div>
 
+      <!-- SECCIÓN IMAGEN (Derecha en pantallas grandes, Abajo en móvil) -->
+      <div class="col-12 col-md-6 image-column">
+        <div class="bg-flex-holder bg-flex-cover instagram-responsive-img"  
+             style="background-image: url('{% static 'img/smartbusinessanalytics/sba_login.png' %}');">
+        </div>
+      </div>
 
-
-
+    </div> 
   </div>
 </section>
 
@@ -307,7 +307,6 @@ h3 {
   
   <div class="bg-flex bg-flex-left">
     <div class="instagram-carousel">
-      
       <div class="carousel-track">
         <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
         <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
@@ -322,7 +321,6 @@ h3 {
         <span class="dot"></span>
         <span class="dot"></span>
       </div>
-      
     </div>
   </div>
     
@@ -335,40 +333,53 @@ h3 {
         
         <div class="left-service-box pt-40 pb-20 row">
           
-<div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.1s">
-  <div class="pull-left"><i class="icofont icofont-test-tube-alt font-60px default-icon"></i></div>
-  <div class="pull-right">
-    <a href="{% slugurl 'eap_id' %}">
-      <h4 class="mt-0">Investigación y Desarollo [EAP<sup>(I+D)</sup>]</h4>
-      <p>Implementamos tu gestor analitico y financiero EAP, mediante la investigación y el desarrollo de procesos  operativos y estrategicos. Datos reales, desiciones acertadas.</p>
-    </a>
-  </div>
-</div>
-          
-          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.2s">
-            <div class="pull-left"><i class="icofont icofont-robot-face font-60px default-icon"></i></div>
-            <a href="{% slugurl 'eap_a' %}">
-            <div class="pull-right">
-              
-                <h4 class="mt-0">Automatización de Procesos EAP<sup>(I+D)</sup>+A] </h4>
-                <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
-             
-            </div>
-             </a>
-          </div>
-          
-          <div class="col-md-12 feature-box text-left mb-50 col-sm-6 wow fadeTop box-sombreado p-4" data-wow-delay="0.3s">
-            <div class="pull-left"><i class="icofont icofont-brain-alt font-60px default-icon"></i></div>
-            <div class="pull-right">
-              <a href="{% slugurl 'eap_ai' %}">
-                <h4 class="mt-0">Agentes de IA [EAP<sup>(I+D+A)</sup>+AI]</h4>
-                <p>Tu agente de IA integrado al EAP: desde modelos de Machine Learning hasta la autogeneración inteligente de tus contenidos para redes sociales.</p>
-              </a>
+          <div class="col-xs-12 col-sm-12 col-md-12 feature-box text-left wow fadeTop box-sombreado" data-wow-delay="0.1s">
+            <div class="flex-box-container">
+              <div class="flex-icon">
+                <i class="icofont icofont-test-tube-alt font-60px default-icon"></i>
+              </div>
+              <div class="flex-text">
+                <a href="{% slugurl 'crm_id' %}">
+                  <h4 class="mt-0">Investigación y Desarollo [CRM<sup>(I+D)</sup>]</h4>
+                  <p>Implementamos tu estrategia de marketing digital en el CRM mediante la investigación y el desarrollo de procesos optimizados. Datos precisos, resultados tangibles.</p>
+                </a>
+              </div>
             </div>
           </div>
           
-        </div> </div> </div> </div> </section>
-
+          <div class="col-xs-12 col-sm-12 col-md-12 feature-box text-left wow fadeTop box-sombreado" data-wow-delay="0.2s">
+            <div class="flex-box-container">
+              <div class="flex-icon">
+                <i class="icofont icofont-robot-face font-60px default-icon"></i>
+              </div>
+              <div class="flex-text">
+                <a href="{% slugurl 'crm_a' %}">
+                  <h4 class="mt-0">Automatización de Procesos [CRM<sup>(I+D)</sup>+A] </h4>
+                  <p>Orquestamos de forma inteligente tus procesos de marketing: desde chatbots y APIs de Meta hasta webhooks avanzados, diseñando sistemas consistentes de captación de leads en tiempo real.</p>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-xs-12 col-sm-12 col-md-12 feature-box text-left wow fadeTop box-sombreado" data-wow-delay="0.3s">
+            <div class="flex-box-container">
+              <div class="flex-icon">
+                <i class="icofont icofont-brain-alt font-60px default-icon"></i>
+              </div>
+              <div class="flex-text">
+                <a href="{% slugurl 'crm_ai' %}">
+                  <h4 class="mt-0">Agentes de IA [CRM<sup>(I+D+A)</sup>+AI]</h4>
+                  <p>Tu agente de IA integrado al CRM: desde modelos de Machine Learning hasta la autogeneración inteligente de tus contenidos para redes sociales.</p>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+        </div> 
+      </div> 
+    </div> 
+  </div> 
+</section>
 
 
 <section id="SBM" class="pt-100">
