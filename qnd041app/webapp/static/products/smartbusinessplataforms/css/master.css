@@ -1353,15 +1353,15 @@ button:focus {
 }
 
 .btn-outline-blue {
-    color: #f15a24;
-    border-color: #f15a24;
+    color: #ffd701;
+    border-color: #ffd701;
     background-color: transparent;
 }
 
 .btn-outline-blue:hover, .btn-outline-blue:active, .btn-outline-blue:focus {
     color: #fff;
-    border-color: #f15a24;
-    background-color: #f15a24;
+    border-color: #ffd701;
+    background-color: #ffd701;
 }
 
 .btn-dark {
@@ -5508,8 +5508,8 @@ font-family: 'Jost', sans-serif;
     color: #fff;
     border-color: #f1f1f1;
     padding: 22px 15px 22px 64px;
-    background-color: #d42275;
-    border-bottom: 1px solid #d42275;
+    background-color: #ffd701;
+    border-bottom: 1px solid #ffd701;
 }
 .accordion-color .panel-default>.panel-heading+.panel-collapse>.panel-body {
     border: 1px solid #fff;

@@ -1,4 +1,4 @@
-{% extends "sbmshop/base.html" %}
+{% extends "sbpshop/base.html" %}
 {% load i18n wagtailcore_tags wagtailimages_tags %}
 {% load static %}
 {% load widget_tweaks %}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-{% include 'sbmshop/header.html' %}
+{% include 'webapp/home/header.html' %}
 
 <style>
 
@@ -25,11 +25,11 @@ body {
    padding-bottom: 120px;
    position: relative;
    z-index: 10;
-   background: {{product.color}};
+   background:#212121;
  }
 
  .dark-bg {
-  background-color: {{product.color}};
+  background-color: #212121;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -41,7 +41,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .grey {
-  color: #1f8db0 !important;
+  color: #ffd701 !important;
 }
 
 .btn-color {
@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 strong {
-  color: #e23185;
+  color:#ffd701;
 }
 
 .blog-cover-bg {
@@ -78,7 +78,7 @@ strong {
 
 .panel {
   margin-bottom: 20px;
-  background-color: #0d0d0d;
+  background-color: #327f9c;
   border: 1px solid transparent;
     border-top-color: transparent;
     border-right-color: transparent;
@@ -90,8 +90,8 @@ strong {
 }
 
 .accordion-color .panel-default > .panel-heading + .panel-collapse > .panel-body {
-  border: 1px solid #d42275;
-  background: #fff
+  border: 1px solid #353535;
+  background: #353535;
 }
  
   </style>
@@ -101,7 +101,7 @@ strong {
 <section class="blog-cover-bg" data-stellar-background-ratio="0.1">
   <div class="container">
    
-    <h3> <i class="icofont font-50px default-icon"></i> {% trans 'Where the Art & Technologies Meet' %}.</h3>
+    <h2 class="subtitle" style ="line-height: 31px ; color:#f1f1f1;">Sistema de Plataformas (SUITE)</h2>
     <div class="row">
 
       <div class="col-md-6">
@@ -115,9 +115,8 @@ strong {
 
           
         </div>
-        <h5>{% trans 'OpenSource Licence' %}</h5>
         <p>
-          {% trans 'Este proyecto está licenciado bajo los términos de la Licencia Open Source correspondiente. Esto significa que puedes usar, modificar y distribuir este software de forma libre, siempre y cuando cumplas con los términos establecidos en la licencia MIT.' %}
+          {% trans 'El ecosistema de información que transforma tus redes y publicidad en un retorno de inversión de entre el 150% y el 600%, garantizado.' %}
         </p>
 
         
@@ -127,8 +126,8 @@ strong {
 
       </div>
       <div class="col-md-6">
-        <h2 class="subtitle" style ="line-height: 31px ; color:#f1f1f1;">{{ product.name }} {{product.category }} Environment.</h2>
        
+        <h3> <i class="icofont font-50px default-icon"></i> Ecosistema SmartBusinessMedia para {{product.category }}</h3>
 
         <div class="panel-group accordion-color mt-50" id="accordion-color">
 
@@ -138,7 +137,7 @@ strong {
              
               <h3 class="panel-title">
                  <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseOne"> 
-                  {{ product.name }} {{ product.category }} Environ {% trans 'Description' %}  </a>
+                  Arquitectura: {{ product.name }}  </a>
                  </h3>
                 
             </div>
@@ -147,7 +146,7 @@ strong {
             <div id="collapseOne" class="panel-collapse collapse ">
               
               <div class="panel-body">
-                <p style="line-height: 16px;color: #333;">{{ product.description|richtext }}</p> 
+                <p style="line-height: 16px;color: #fff;">{{ product.description|richtext }}</p> 
               </div> 
             </div>
           </div>
@@ -156,12 +155,12 @@ strong {
             <div class="panel-heading">
               <h3 class="panel-title">
                  <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTwo"> 
-                  {% trans 'Cloud Computing Software Requirements' %} </a>
+                  {% trans 'Infraestructura Tecnológica' %} </a>
                  </h3> 
             </div>
             <div id="collapseTwo" class="panel-collapse collapse ">
               <div class="panel-body">
-                <p style="line-height: 10px;color: #333;">{{ product.cloud_technologies|richtext }}</p>
+                <p style="line-height: 10px;color: #fff;">{{ product.cloud_technologies|richtext }}</p>
               </div>
              
               
@@ -174,7 +173,7 @@ strong {
              
               <h3 class="panel-title">
                  <a data-toggle="collapse" data-parent="#accordion-color" href="#collapseTree"> 
-                  {% trans 'Cloud Computing Hadware Resources Requirements' %} </a>
+                  {% trans 'Gobernanza IT y Garantías' %} </a>
                  </h3>
                 
             </div>
@@ -185,7 +184,7 @@ strong {
               <div class="panel-body">
               
                 
-                <p style="line-height: 10px;color: #333;">{{ product.cloud_requirements|richtext }}</p>                 
+                <p style="line-height: 10px;color: #fff;">{{ product.cloud_requirements|richtext }}</p>                 
               </div>
              
               
@@ -193,8 +192,8 @@ strong {
           </div>
 
         </div>
-        <p>{% trans 'Buy now you CRM Software and scale your Marketing business projects to the cloud in minutes with' %} {{product.name }} by SmartQuail,Inc®</p>
-        <h3 class="grey">{% trans 'Suscription'  %} {% trans 'Price' %}: $ {{ product.price }} {% trans 'monthly' %}</h3>
+        <p>{% trans 'Lleva tus activos digitales y proyectos de marketing a la nube en cuestión de minutos. Adquiere nuestra licencia ITC' %} {{product.name }} </p>
+        <h3 class="grey">{% trans 'Valor de Inversión'  %}:  {{ product.price }} $USD </h3>
         
     
         {% if product.coupon %}
@@ -203,13 +202,13 @@ strong {
        {% endif %}
 
       
-        <p ><strong>{% trans 'Delivery Software time since subscription becomes effective: 120 minutes.' %}</strong></p>
+        <p ><strong>{% trans 'Para explorar la versión demo en tiempo real y obtener la licencia del producto, inicia sesión en nuestra plataforma de gestión de activos digitales Negocios ITC.' %}</strong></p>
 
 
 
 
-       <a class="btn btn-outline-white  btn-default" href="{% url 'sbmshop:product_list' %}#SBM"  >{% trans 'Keep Looking' %}</a>
-       <a class="btn btn-outline-blue btn-default" href="{% url 'usuarios:register' %}"  > {% trans 'View Demo' %} </a>
+       <a class="btn btn-outline-white  btn-default" href="{% url 'sbpshop:product_list' %}#SBM"  ><i class="icon icofont-arrow-left"></i>  {% trans 'Volver' %}</a>
+       <a class="btn btn-outline-blue btn-default" href="{% url 'usuarios:login' %}">  {% trans 'Iniciar Sesión' %} <i class="icon icofont-arrow-right"></i>  </a>
   
          
       
@@ -224,6 +223,7 @@ strong {
 
 
 {% include 'webapp/home/footer_section.html' %}
+
 
 
 
