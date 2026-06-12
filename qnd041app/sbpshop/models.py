@@ -36,7 +36,7 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-            return reverse('sbmshop:product_list_by_category',
+            return reverse('sbpshop:product_list_by_category',
                            args=[self.slug])
 
 
@@ -70,15 +70,15 @@ class SBPProduct(models.Model):
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, null=True, blank=True)
-    image = models.ImageField(upload_to='products/smartbusinessmedia/bannering/%Y/%m/%d',
+    image = models.ImageField(upload_to='products/smartbusinessplatforms/bannering/%Y/%m/%d',
                               blank=True)
-    image1 = models.ImageField(upload_to='products/smartbusinessmedia/scren1/%Y/%m/%d',
+    image1 = models.ImageField(upload_to='products/smartbusinessplatforms/scren1/%Y/%m/%d',
                               blank=True)
-    image2 = models.ImageField(upload_to='products/smartbusinessmedia/scren2/%Y/%m/%d',
+    image2 = models.ImageField(upload_to='products/smartbusinessplatforms/scren2/%Y/%m/%d',
                               blank=True)
-    image3 = models.ImageField(upload_to='products/smartbusinessmedia/scren3/%Y/%m/%d',
+    image3 = models.ImageField(upload_to='products/smartbusinessplatforms/scren3/%Y/%m/%d',
                               blank=True)
-    background = models.ImageField(upload_to='products/smartbusinessmedia/background/%Y/%m/%d',
+    background = models.ImageField(upload_to='products/smartbusinessplatforms/background/%Y/%m/%d',
                               blank=True)
     coupon = models.ForeignKey(Coupon,
                                  related_name='coupon_sbp',
@@ -113,7 +113,7 @@ class SBPProduct(models.Model):
         return self.name
 
     def get_absolute_url(self):
-            return reverse('sbmshop:product_detail',
+            return reverse('sbpshop:product_detail',
                            args=[self.id, self.slug])
 
     def get_staff(self):
@@ -134,13 +134,13 @@ class SBPStaffItem(models.Model):
     ("Chief Officer SmartBusinessMedia", "Chief Officer SmartBusinessMedia "),
 
     )
-    sbmproducts = models.ForeignKey(SBPProduct,
+    sbpproducts = models.ForeignKey(SBPProduct,
                                  related_name='staffproducts',
                                  on_delete=models.CASCADE)
     ceo_name = models.CharField(max_length=200, db_index=True)
     ceo_lastname = models.CharField(max_length=200, db_index=True)
     ceo_sector = models.CharField(choices=COLORS_CHOICE, max_length=200, db_index=True)
-    ceo_profile_img= models.ImageField(upload_to='products/smartbusinessmedia/sbmstaff/%Y/%m/%d',
+    ceo_profile_img= models.ImageField(upload_to='products/smartbusinessmedia/sbpstaff/%Y/%m/%d',
                               blank=True)
 
     def __str__(self):
@@ -164,9 +164,9 @@ class SBPTechnologiesItem(models.Model):
         ("High", "High"),
 
     )
-    logo_img = models.ImageField(upload_to='products/smartbusinessmedia/sbmtechnologies/%Y/%m/%d',
+    logo_img = models.ImageField(upload_to='products/smartbusinessmedia/sbptechnologies/%Y/%m/%d',
                               blank=True,null=True)
-    sbmproductstechno = models.ForeignKey(SBPProduct,
+    sbpproductstechno = models.ForeignKey(SBPProduct,
                                  related_name='technologies_products',
                                  on_delete=models.CASCADE)
     version = models.CharField(max_length=200, db_index=True,null=True,blank=True)

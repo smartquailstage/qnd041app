@@ -1,18 +1,33 @@
 import csv
 import datetime
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from django.http import HttpResponse
 from sbmorders.models import Order, OrderItem, BankTransfer
-from .models import SBPStaffItem,SBPTechnologiesItem
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from .models import Category,SBPProduct,SBPProductManual,ManualItem, SBPStaffItem,SBPTechnologiesItem
 
 
+from unfold.decorators import action
 
+@admin.action(description="Duplicar Categorias seleccionados")
+def duplicar_mensajes(modeladmin, request, queryset):
+    for sbmshop_category in queryset:
+        sbmshop_category.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        sbmshop_category.slug = None
+        sbmshop_category.save()
+
+
+@admin.action(description="Duplicar Productos seleccionados")
+def duplicar_productos(modeladmin, request, queryset):
+    for sbmproduct in queryset:
+        sbmproduct.pk = None  # Elimina la clave primaria para crear una nueva entrada
+        sbmproduct.slug = None
+        sbmproduct.save()
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
  
@@ -25,7 +40,7 @@ class SBPTechnologiesItemInline(admin.TabularInline):
 
 
 @admin.register(SBPProduct)
-class SBMProductAdmin(admin.ModelAdmin):
+class SBMProductAdmin(ModelAdmin):
     list_display = ['name', 'slug', 'price',
                     'available', 'created', 'updated']
     list_filter = ['available', 'created', 'updated']
