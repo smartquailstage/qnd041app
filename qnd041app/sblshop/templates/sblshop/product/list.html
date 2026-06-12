@@ -369,7 +369,7 @@
 
 
 
-<section id="SBM" class="pt-100">
+<section id="SBL" class="pt-100">
   <div class="container">
     <div class="row">
       <div class="portfolio-container text-center">  
@@ -398,18 +398,18 @@
                   <div class="portfolio-description">
                     <h3 class="portfolio-title">{{ product.name }}</h3>
                     {% if product.available == 'True' %}
-                      <p class="portfolio-title">{% trans 'Available' %}</p>
+                      <p class="portfolio-title">{% trans 'Disponible' %}</p>
                     {% else %}
-                      <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
+                      <p class="portfolio-title">{% trans 'Proximamente' %}</p>
                     {% endif %}
-                    <p class="portfolio-title">{% trans 'Marketing Business Model:' %} {{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
+                    <p class="portfolio-title">{{ product.category  }}</p>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %}  {{ product.price }} $USD</a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available == 'True' %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Subscribe Now</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Obtener Licencia</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Learn more</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Obtener Licencia</a></li>
                     {% endif %}
                   </ul>
                 </div>

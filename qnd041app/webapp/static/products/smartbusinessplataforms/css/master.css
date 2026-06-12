@@ -1353,15 +1353,15 @@ button:focus {
 }
 
 .btn-outline-blue {
-    color: #f93491;
-    border-color: #f93491;
+    color: #f15a24;
+    border-color: #f15a24;
     background-color: transparent;
 }
 
 .btn-outline-blue:hover, .btn-outline-blue:active, .btn-outline-blue:focus {
     color: #fff;
-    border-color: #f93491;
-    background-color: #f93491;
+    border-color: #f15a24;
+    background-color: #f15a24;
 }
 
 .btn-dark {
