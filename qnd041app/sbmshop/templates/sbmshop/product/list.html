@@ -93,7 +93,7 @@ h3 {
 .carousel-slide {
   min-width: 100%;
   height: 87%;
-  background-size: 759px;
+  background-size: 393px;
   background-position: center;
   scroll-snap-align: start; 
 }
@@ -177,9 +177,20 @@ h3 {
 /* En pantallas más grandes (tablets y PC), le damos más altura */
 @media (min-width: 768px) {
   .instagram-responsive-img {
-    height: 613px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
+    height: 618px; /* O puedes usar 100vh si quieres que ocupe toda la pantalla vertical */
   }
+
+  .carousel-slide {
+  min-width: 100%;
+  height: 87%;
+  background-size: 629px;
+  background-position: center;
+  scroll-snap-align: start; 
 }
+}
+
+
+
 
 .box-sombreado {
   background-color: #323232; /* Fondo gris claro (puedes usar #eee o #f4f4f4) */
@@ -262,7 +273,11 @@ h3 {
 
         <h1>{% trans "SmartBusinessMedia CRM" %}</h1>
         <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
-          {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato. Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
+          {% trans 'El marketing digital de hoy no espera. En SmartBusinessMedia<sup>®</sup> transformamos el caos de contenidos dispersos en un motor operativo inmediato.'%}
+         
+        </p>
+        <p class="subtitle" style ="line-height: 18px ; color:#f1f1f1;">
+           {% trans 'Somos tu aliado tecnológico para gobernar tus activos de contenido, optimizar la gestión de tus redes sociales y unificar tu sistema de información publicitario.'%}
         </p>
 <p style="line-height: 18px;color:#f1f1f1;font-weight: 300;">{% trans 'Con SmartBusinessMedia CRM, cada pieza de contenido, cada interacción en redes sociales y cada dato publicitario se convierte en una oportunidad para actuar. Nuestra plataforma nativa en la nube te permite centralizar tu estrategia SEO y SEM, automatizar procesos clave y tomar decisiones informadas en tiempo real.' %}</p>
         <h3 class="text-uppercase font-700 mt-0 wow fadeIn" data-wow-delay="0.1s">{% trans 'El centro de control inteligente para crear y  gestionar tus contenidos multimedia, automatizar tus redes y unificar tu información publicitaria, en tiempo real.' %}</h3>
