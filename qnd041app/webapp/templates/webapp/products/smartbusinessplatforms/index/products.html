@@ -1,0 +1,42 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+
+<section class="p-0">
+    <div class="container-fluid">
+      <div class="row row-flex">
+        <div class="col-md-4">
+          <div class="col-inner spacer dark-bg">
+            <div class="text-center white-color"> <i class="icofont icofont-google-map font-50px white-icon"></i>
+              <h2> Our Crew </h2>
+              <p>SmartBusinessMedia <br>
+                ON M5B 2H1, Canada</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col-inner spacer gradient-bg">
+            <div class="text-center white-color"> <i class="icofont icofont-email font-50px white-icon"></i>
+              <a href = "{% url "shop:product_list" %}" ><h2>Our Business Plans</h2>
+              <p class="mb-0">SmartBusinessMedia</p>
+              <p>jobs@scoda.com</p>
+            </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col-inner spacer dark-bg">
+            <div class="text-center white-color"> <i class="icofont icofont-iphone font-50px white-icon"></i>
+              <h2>Our Projects</h2>
+              <p class="mb-0">SmartBusinessMedia</p>
+              <p>(+1) 613 555-0105</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -16,8 +16,6 @@
 <link rel="stylesheet" href="{% static 'products/smartbusinessplatforms/css/audio.css' %}">
 <link rel="stylesheet" href="{% static 'products/smartbusinessplatforms/icofont/icofont.min.css' %}">
 
-
-
 </head>
 <body>
 
@@ -71,34 +69,6 @@
       }
     });
   }
-
-
-// Filtrar los productos según la categoría
-function filterByCategory(categorySlug) {
-  // Seleccionar todos los elementos de producto
-  const items = document.querySelectorAll('.portfolio-item');
-  
-  // Recorremos todos los productos
-  items.forEach(item => {
-    // Obtener las categorías de este producto
-    const groups = JSON.parse(item.getAttribute('data-groups'));
-    
-    // Si la categoría seleccionada está en las categorías del producto, mostrarlo
-    if (groups.includes(categorySlug) || categorySlug === 'all') {
-      item.style.display = 'block';  // Mostrar el producto
-    } else {
-      item.style.display = 'none';   // Ocultar el producto
-    }
-  });
-}
-
-// Mostrar todos los productos al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-  // Por defecto, mostrar todos los productos
-  filterByCategory('all');
-});
-
-
 </script>
 
 </body>

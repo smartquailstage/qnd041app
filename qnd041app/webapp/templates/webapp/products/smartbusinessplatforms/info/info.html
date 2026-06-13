@@ -1,0 +1,521 @@
+{% extends "webapp/products/smartbusinessplatforms/base.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+{% load widget_tweaks webapp_0_tags menu_tags %}
+
+
+{% block content %}
+<style>
+
+  /* Contenedor exterior */
+  .instagram-carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px; /* Tamaño ideal estándar estilo post de Instagram */
+      margin: 0 auto;
+      padding-bottom: 25px;
+  }
+  
+  /* El Carrusel con scroll fluido */
+  .instagram-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px; /* Bordes suaves estilo interfaz moderna */
+      background-color: #131530;
+      border: 1px solid #131530;
+  }
+  
+  /* Ocultar la barra de scroll nativa en todos los navegadores */
+  .instagram-carousel::-webkit-scrollbar {
+      display: none;
+  }
+  .instagram-carousel {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Cada diapositiva (Contenedor individual) */
+  .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      /* 1. ELIMINAMOS 'aspect-ratio: 1/1' para que ya no obligue a ser cuadrado */
+      /* 2. Definimos una altura máxima para que imágenes muy verticales no rompan la pantalla */
+      height: auto;
+      max-height: 70vh; /* Ocupará como máximo el 70% de la altura de la pantalla */
+      overflow: hidden;
+  }
+  
+  /* Las imágenes dentro del carrusel */
+  .carousel-slide img {
+      /* 3. CLAVE: Se adaptan a su ancho y alto real de manera proporcional */
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      
+      /* 4. Mantiene la proporción real sin recortar bordes */
+      object-fit: contain; 
+      
+      user-select: none;
+      -webkit-user-drag: none;
+  }
+  
+  /* Contenedor de los puntos indicadores */
+  .carousel-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      height: 10px;
+  }
+  
+  /* El punto individual */
+  .carousel-dot {
+      width: 12px;
+      height: 12px;
+      background-color: #c0bfbf;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+  }
+  
+  /* El punto activo (Punto azul o negro de Instagram) */
+  .carousel-dot.active {
+      background-color: #6ba5f9; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
+      transform: scale(1.2);
+  }
+  
+  /* =========================================================
+     COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+     ========================================================= */
+     .logo-instagram-slide {
+      max-width: 100%; /* Evita que la imagen se desborde si la pantalla es muy chica */
+      width: 392px;    /* Tu ancho objetivo */
+      
+      /* CLAVE PARA CENTRAR EN MÓVILES */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 40px; /* Un margen superior más prudente y estético para celulares */
+  }
+  
+  /* =========================================================
+     COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio / Tablets)
+     ========================================================= */
+  @media (min-width: 992px) {
+      .logo-instagram-slide {
+          max-width: 392px;
+          
+          /* Aplicamos tus valores exactos solo en pantallas grandes */
+          margin-top: 104px;
+          margin-left: 47px;
+          margin-right: 0; /* Desactivamos el centrado automático */
+      }
+  }
+  
+  
+  /* =========================================================
+     COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
+     ========================================================= */
+     .hero-custom-title {
+      color: rgb(255, 255, 255);
+      
+      /* TIPOGRAFÍA FLUIDA: Cambia de tamaño según la pantalla */
+      font-size: calc(1.5rem + 1.5vw); 
+      line-height: 1.3;
+      font-weight: 700;
+      line-height: 1;
+      
+      /* CLAVE PARA CENTRAR EN MÓVILES */
+      text-align: center;
+      max-width: 90%; /* En móviles dejamos que use casi todo el ancho disponible */
+      margin: 30px auto 0 auto; /* Centrado horizontal, margen superior controlado */
+  }
+  
+  /* =========================================================
+     COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio)
+     ========================================================= */
+  @media (min-width: 992px) {
+      .hero-custom-title {
+          /* Restablecemos la alineación original a la izquierda */
+          text-align: left;
+          
+          /* Aplicamos tus valores exactos de diseño */
+          margin-left: 54px;
+          margin-top: 40px; /* Ajusta este valor si necesitas coordinarlo con la imagen */
+          max-width: 31%;   /* Se restringe al 31% solo en pantallas anchas */
+          
+          /* Tamaño de fuente controlado para monitores */
+          font-size: 28px; 
+          line-height: 1;
+      }
+  }
+  
+  
+  /* Contenedor principal centrado */
+  .post-share-centered {
+      display: flex;
+      justify-content: center; /* Centrado horizontal */
+      align-items: center;     /* Centrado vertical */
+      width: 100%;
+      margin: 20px 0;          /* Espaciado opcional arriba y abajo */
+  }
+  
+  /* Resetear la lista e iconos */
+  .post-share-centered ul {
+      list-style: none;        /* Quita los puntos de la lista */
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .post-share-centered ul li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;         /* Permite que los iconos se acomoden si la pantalla es muy chica */
+      gap: 20px;               /* Separación limpia y uniforme entre cada icono */
+  }
+  
+  /* Estilo de los enlaces e iconos (Ajusta los tamaños a tu gusto) */
+  .post-share-centered ul li a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;         /* Tamaño de los iconos de IcoFont */
+      color:#ffd701;          /* Color gris que estás usando en el proyecto */
+      transition: color 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Efecto Hover opcional para interactividad */
+  .post-share-centered ul li a:hover {
+      color:#ffd701;             /* Cambia a negro o a tu color corporativo al pasar el mouse */
+      transform: scale(1.1);   /* Crece ligeramente */
+  }
+  
+  </style>
+
+  {% main_menu template="webapp/home/header.html" %}
+
+  <!--=== Wrapper Start ======-->
+  <div class="wrapper">
+
+    <!--=== Header Start ======-->
+    
+    <!--=== page-title-section start ===-->
+    {% for item in page.galleria_3.all %}
+    {% if item.banner_background %}
+      {% image item.banner_background original as bg %}
+      <section class="title-hero-bg portfolio-cover-bg"
+        style="background-image:url('{{ bg.url }}'); background-size:cover; background-position:center;background-color:#020202; ">
+        <div class="container">
+          <div class="page-title text-left">
+            {% if item.logo_slide %}
+              {% image item.logo_slide original as logo_slide %}
+              <img src="{{ logo_slide.url }}" class="img-responsive logo-instagram-slide" alt="Logo Slide">
+            {% endif %}
+            <h3 class="hero-custom-title">{{ page.title }}</h3>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+  
+    <!--=== page-title-section end ===-->
+
+    <!--=== Portfolio Start ======-->
+    <section style="background-color: #020513;" class="pt-100 pt-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+
+            <div class="instagram-carousel-container">
+              <div class="instagram-carousel" id="instaCarousel">
+                
+                {# Bloque para los Logos #}
+                {% for item in page.galleria_3.all %}
+                  {% if item.logo %}
+                    {% image item.logo original as logo %}
+                    <div class="carousel-slide">
+                      <img src="{{ logo.url }}" alt="Logo">
+                    </div>
+                  {% endif %}
+                {% endfor %}
+            
+                {# Bloque para las Fotos de Perfil #}
+                {% for item in page.galleria_3.all %}
+                  {% if item.profile_pic %}
+                    {% image item.profile_pic original as profile %}
+                    <div class="carousel-slide">
+                      <img src="{{ profile.url }}" alt="Profile Picture">
+                    </div>
+                  {% endif %}
+                {% endfor %}
+  
+                {% for item in page.galleria_3.all %}
+                {% if item.carousell_1   %}
+                  {% image item.carousell_1 original as c1 %}
+                  <div class="carousel-slide">
+                    <img src="{{ c1.url }}" alt="Profile Picture">
+                  </div>
+                {% endif %}
+              {% endfor %}
+  
+              {% for item in page.galleria_3.all %}
+              {% if item.carousell_2 %}
+                {% image item.carousell_2 original as c2 %}
+                <div class="carousel-slide">
+                  <img src="{{ c2.url }}" alt="Profile Picture">
+                </div>
+              {% endif %}
+            {% endfor %}
+          
+            {% for item in page.galleria_3.all %}
+            {% if item.carousell_3 %}
+              {% image item.carousell_3 original as c3 %}
+              <div class="carousel-slide">
+                <img src="{{ c3.url }}" alt="Profile Picture">
+              </div>
+            {% endif %}
+          {% endfor %}
+  
+          {% for item in page.galleria_3.all %}
+          {% if item.carousell_4 %}
+            {% image item.carousell_4 original as c4 %}
+            <div class="carousel-slide">
+              <img src="{{ c4.url }}" alt="Profile Picture">
+            </div>
+          {% endif %}
+        {% endfor %}
+  
+        {% for item in page.galleria_3.all %}
+        {% if item.carousell_5 %}
+          {% image item.carousell_5 original as c5 %}
+          <div class="carousel-slide">
+            <img src="{{ c5.url }}" alt="Profile Picture">
+          </div>
+        {% endif %}
+      {% endfor %}
+  
+      {% for item in page.galleria_3.all %}
+      {% if item.carousell_6 %}
+        {% image item.carousell_6 original as c6 %}
+        <div class="carousel-slide">
+          <img src="{{ c6.url }}" alt="Profile Picture">
+        </div>
+      {% endif %}
+    {% endfor %}
+  
+    {% for item in page.galleria_3.all %}
+    {% if item.carousell_7 %}
+      {% image item.carousell_7 original as c7 %}
+      <div class="carousel-slide">
+        <img src="{{ c7.url }}" alt="Profile Picture">
+      </div>
+    {% endif %}
+  {% endfor %}
+            
+              </div>
+            
+              <!-- Indicadores de puntos estilo Instagram -->
+              <div class="carousel-dots" id="carouselDots"></div>
+  
+          
+  
+  
+            </div>
+            <p style="color: #ffd701; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
+            <div class="post-share-centered">
+              <ul>
+                <li> 
+                  <a href="https://api.whatsapp.com/send?phone=593963521262">
+                    <i class="icofont icofont-whatsapp"></i>
+                  </a> 
+                  <a href="mailto:info@mail.smartquail.io"> 
+                    <i class="icofont icofont-mail"></i>
+                  </a>
+                  {% if settings.webapp.SocialMediaSettings.facebook %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.facebook }}"><i class="icofont icofont-facebook"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.twitter %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.linkedin %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.linkedin }}"><i class="icofont icofont-linkedin"></i></a> 
+                  {% endif %}
+                  {% if settings.webapp.SocialMediaSettings.instagram %}
+                    <a href="{{ settings.webapp.SocialMediaSettings.instagram }}"><i class="icofont icofont-instagram"></i></a> 
+                  {% endif %}   
+                </li>
+              </ul>
+            </div>
+  
+          </div>
+  
+  
+          <div class="col-md-9">
+
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title9|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info6 }}</h4>
+            <div style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.info_title9|richtext }}</div>
+  
+            <div class="portfolio-slider owl-carousel  mt-30">
+              {% for item in page.galleria_3.all %}
+                {% if item.image_1 %}
+                  {% image item.image_1 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_2_2 %}
+                  {% image item.image_2_2 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_3_3 %}
+                  {% image item.image_3_3 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_4_4 %}
+                  {% image item.image_4_4 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+              {% endfor %}
+            </div>
+  
+            <h3 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title10|richtext }}</h3>
+            <h4 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info7 }}</h4>
+            <div style="text-align: justify; letter-spacing: normal;
+    line-height: 15px;
+    color: #97a9f1;
+    font-weight: 300;">{{ page.info_title10|richtext }}</div>
+  
+  
+          
+            <div class="portfolio-slider owl-carousel mt-40">
+              {% for item in page.galleria_3.all %}
+                {% if item.image %}
+                  {% image item.image original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_2 %}
+                  {% image item.image_2 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_3 %}
+                  {% image item.image_3 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+                {% if item.image_4 %}
+                  {% image item.image_4 original as img %}
+                  <img src="{{ img.url }}" class="img-responsive">
+                {% endif %}
+              {% endfor %}
+            </div>
+  
+            <hr>
+  
+            <h3 style="color:rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.banner_title11|richtext }}</h3>
+            <h4 style="color: rgb(255, 255, 255);text-align: justify;line-height: 1;">{{ page.TS_info8 }}</h4>
+            <div style="text-align: justify;line-height: 1;">{{ page.info_title11|richtext }}</div>
+  
+  
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!--=== Portfolio End ======-->
+
+    <!--=== Call to Action Start ======-->
+    <section class="pt-50 pb-50 default-bg">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="cta-heading-left">
+              <p class="subtitle mt-20">{% trans 'Become Now! your business, a Smart IT Cloud Business ' %}</p>
+              <h3>{% trans 'Lets create your Smart IT Cloud Business, together.' %}</h3>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-6">
+            <div class="cta-heading-right">
+              {% for item in page.galleria_SBM.all %}
+              {% image item.logo_slide scale-100 as l1 %}
+              <img class="img-responsive" style="width: 580px; align-content: left;" src="{{ l1.url }}" alt=""/>
+            {% endfor %}
+            <h3 style="text-align: left; margin-left: 50px; color:rgb(19 21 48)">{{ page.title }}</h3>
+            
+                <p class="mt-50"><a href="{% url 'usuarios:login' %}" class="btn btn-rounded btn-white">{% trans 'Crear cuenta ITC' %}</a></p>
+              
+        
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--=== Call to Action End ======-->
+
+    <!--=== Footer Start ======-->
+    
+    <!--=== Footer End ======-->
+
+    <!--=== GO TO TOP  ===-->
+    <a href="single-portfolio.html#" id="back-to-top" title="Back to top">&uarr;</a>
+    <!--=== GO TO TOP End ===-->
+
+  </div>
+  <!--=== Wrapper End ======-->
+
+  {% include 'webapp/home/footer_section.html' %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const carousel = document.getElementById("instaCarousel");
+      const dotsContainer = document.getElementById("carouselDots");
+      const slides = carousel.querySelectorAll(".carousel-slide");
+      
+      if (slides.length <= 1) return; // Si hay una sola imagen, no crea puntos.
+  
+      // 1. Crear dinámicamente la cantidad de puntos según las imágenes de Wagtail
+      slides.forEach((_, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add("carousel-dot");
+          if (index === 0) dot.classList.add("active");
+          
+          // Permitir hacer clic en el punto para navegar a esa imagen
+          dot.addEventListener("click", () => {
+              carousel.scrollTo({
+                  left: carousel.offsetWidth * index,
+                  behavior: "smooth"
+              });
+          });
+          
+          dotsContainer.appendChild(dot);
+      });
+  
+      const dots = dotsContainer.querySelectorAll(".carousel-dot");
+  
+      // 2. Escuchar el evento de desplazamiento para cambiar el punto activo de manera fluida
+      carousel.addEventListener("scroll", () => {
+          const scrollLeft = carousel.scrollLeft;
+          const width = carousel.offsetWidth;
+          // Calcula el índice de la diapositiva actual basándose en la posición del scroll
+          const activeIndex = Math.round(scrollLeft / width);
+  
+          dots.forEach((dot, index) => {
+              if (index === activeIndex) {
+                  dot.classList.add("active");
+              } else {
+                  dot.classList.remove("active");
+              }
+          });
+      });
+  });
+  </script>
+{% endblock %}

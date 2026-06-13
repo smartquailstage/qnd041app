@@ -1,0 +1,37 @@
+{% load i18n wagtailcore_tags wagtailimages_tags %}
+{% load widget_tweaks %}
+{% load webapp_0_tags %}
+{% load static %}
+{% load menu_tags %}
+
+
+<section class="pt-0 pb-0" id="home">
+    {% for item in page.galleria.all %}
+    {% image item.profile_pic scale-100 as b1 %}
+    <div class="full-screen-bg" style="background: url('{{b1.url}}')no-repeat center center / cover">
+      <div class="hero-text-wrap-sbm app-gradient-overlay-sbm">
+        <div class="hero-text white-color hero-text-sm">
+          <div class="container text-left">
+            <div class="row">
+              <div class="col-md-6 pt-120 pb-100 col-sm-6">
+                <h2 class="white-color wow fadeInUp font-100" data-wow-delay="0.1s">
+                    <img src="{% static 'img/SBM-Blogo.png' %}">
+                    <span class="font-700">{{page.banner_title4|richtext }}</span> {{page.TS_info1}}<span class="font-700">{{page.info1}}</span></h2>
+                <p class="white-color mt-30 wow fadeInUp lead" data-wow-delay="0.3s">{{page.banner_title5|richtext}}</p>
+                <p class="text-left mt-30 wow fadeInUp app-btns" data-wow-delay="0.4s"><a class="btn btn-white btn-circle">{% trans 'Order now' %}</a></p>
+              </div>
+              <div class="col-md-4 col-md-offset-2 col-sm-4 col-sm-offset-2 mt-80">
+                <div class="i-phones">
+                  <img class="img-responsive wow fadeInRight" data-wow-delay="0.1s" src="http://www.incognitothemes.com/scoda/assets/images/slides/iPhone-01.png" alt=""/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-shape-img">
+        <img class="img-responsive" alt="wave-shape" src="" />
+      </div>
+    </div>
+    {% endfor %}
+  </section>
