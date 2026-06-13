@@ -122,7 +122,7 @@ INSTALLED_APPS = [
     #"webapp",
     "social_media_AI",
     #"wagtail_ai",
-    'wagtail',
+    
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -132,6 +132,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     "wagtail.contrib.forms",
+    'wagtail',
 
 
    # 'cart',
