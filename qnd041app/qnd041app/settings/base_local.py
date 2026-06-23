@@ -132,6 +132,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     "wagtail.contrib.forms",
+    'wagtail.contrib.sitemaps',
     'wagtail',
 
 

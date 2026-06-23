@@ -8,9 +8,29 @@ from django.contrib.auth import views as auth_views
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.contrib.sitemaps.views import sitemap
+
+
+from django.http import HttpResponse
+from django.urls import path
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "Disallow: /ingresar/",
+        "Disallow: */ingresar/",  # Bloquea /es/ingresar/, /en/ingresar/, etc.
+        "Disallow: /businessmedia/",  # Tu ruta real de Wagtail Admin
+        "Disallow: /smartbusinessanalytics/", # Tu Django Admin tradicional
+        "",
+        "Sitemap: https://ec.smartquail.io/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
 
 # Base (no traducibles)
 urlpatterns = [
+    path('robots.txt', robots_txt),
+    path('sitemap.xml', sitemap),
     
     path('studio_leads_ai/', include('studio_leads_ai.urls', namespace='studio_leads_ai')),
 

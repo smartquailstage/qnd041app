@@ -122,6 +122,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     'django.contrib.sites',
+    'wagtail.contrib.sitemaps',
 
     "django.contrib.staticfiles",
     "django.contrib.humanize",
