@@ -13,46 +13,44 @@ from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from wagtail.models import Page
 
-from django.http import HttpResponse
 from django.urls import path
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def robots_txt(request):
     lines = [
         "User-agent: *",
         "Allow: /",
         "Disallow: /ingresar/",
-        "Disallow: */ingresar/",  # Bloquea /es/ingresar/, /en/ingresar/, etc.
-        "Disallow: /businessmedia/",  # Tu ruta real de Wagtail Admin
-        "Disallow: /smartbusinessanalytics/", # Tu Django Admin tradicional
+        "Disallow: */ingresar/",
+        "Disallow: /businessmedia/",
+        "Disallow: /smartbusinessanalytics/",
         "",
         "Sitemap: https://ec.smartquail.io/sitemap.xml"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
 
-
-
-
-# Creamos una clase estricta para decirle a Django qué indexar sin que Wagtail adivine el Hostname
-class WagtailPagesSitemap(Sitemap):
-    changefreq = "weekly"
-    priority = 0.5
-
-    def items(self):
-        # Tomamos solo las páginas que estén publicadas y no sean privadas
-        return Page.objects.live().public()
-
-    def location(self, obj):
-        # Forzamos la obtención de la URL relativa de la página
-        return obj.relative_url(obj.get_site())
-
-sitemaps = {
-    'wagtail': WagtailPagesSitemap,
-}
+@csrf_exempt
+def sitemap_plano(request):
+    # Escupimos el XML crudo como un string puro. Cero base de datos, cero middlewares.
+    xml_content = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/</loc>\n'
+        '    <changefreq>daily</changefreq>\n'
+        '    <priority>1.0</priority>\n'
+        '  </url>\n'
+        '</urlset>'
+    )
+    return HttpResponse(xml_content, content_type="application/xml")
 
 # Base (no traducibles)
 urlpatterns = [
     path('robots.txt', robots_txt),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap_plano), # <--- Reemplazá la vista nativa por esta plana temporal
+    # ... tus otras rutas
     # ... el resto de tus rutas intac
     
     path('studio_leads_ai/', include('studio_leads_ai.urls', namespace='studio_leads_ai')),
