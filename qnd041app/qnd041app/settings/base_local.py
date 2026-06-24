@@ -383,7 +383,11 @@ UNFOLD = {
     "SITE_COPYRIGHT": "Copyright © 2025 SmartQuail S.A.S Todos los derechos reservados.",
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "SITE_DROPDOWN": [
-        {"icon": "person", "title": _("Usuarios(AUTH)"), "link": reverse_lazy("admin:auth_user_changelist")},
+        {
+        "icon": "person", 
+        "title": _("Usuarios(AUTH)"), 
+        "link": reverse_lazy("admin:auth_user_changelist")
+        },
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
         {"icon": "map", "title": _("Regulaciones"), "link": reverse_lazy("admin:smartbusinesslaw_regulacion_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
@@ -655,16 +659,16 @@ UNFOLD = {
     },
 
     {
-        "title": _("SmartBusinessAnalytics (EAL)"),
+        "title": _("Gestor Financiero & Analítico"),
         "separator": True,
         "collapsible": True,
         "items": [
 
             {
-                "title": _("Pasivos/Activos"),
+                "title": _("Activos/Pasivos"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:smartbusinessanalytics_demo_activos_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_activos",
                 "badge_color": "custom-red-alert",
                 "permission": is_staff_activo,
             },
@@ -674,7 +678,7 @@ UNFOLD = {
                 "title": _("Ingresos/Egresos"),
                 "icon": "archive",
                 "link": reverse_lazy("admin:smartbusinessanalytics_demo_movimientofinanciero_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_ingresos_egresos",
                 "badge_color": "custom-red-alert",
                 "permission": is_staff_activo,
             },
@@ -682,10 +686,10 @@ UNFOLD = {
 
 
             {
-                    "title": _("Analisis Financieros"),
+                    "title": _("Resultados"),
                     "icon": "analytics",
                     "link": reverse_lazy("admin:smartbusinessanalytics_demo_estadofinanciero_changelist"),
-                    "badge": "usuarios.unfold_config.badge_callback_analisis",
+                    "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_notificaciones",
                     "badge_color": "custom-red-alert",
                     "permission": is_staff_activo,
         },

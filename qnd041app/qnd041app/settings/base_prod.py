@@ -194,6 +194,7 @@ INSTALLED_APPS = [
     "business_customer_projects",
     'smartbusinesslaw',
     'smartbusinessanalytics_id',
+    'smartbusinessanalytics_demo',
 
              # Apps propias del proyecto
     "usuarios",
@@ -326,8 +327,28 @@ def is_admin_o_terapeuta(request):
 def is_admin_o_financiero(request):
     return is_administrativo(request) or is_financiero(request) or is_superuser(request)
 
+def is_staff_activo(request):
+    """
+    Filtro de seguridad I+D: Verifica que el usuario sea 
+    miembro del staff autorizado y su cuenta esté activa.
+    """
+    return request.user.is_authenticated and request.user.is_staff and request.user.is_active
+
 def is_all(request):
-    return is_administrativo(request) or is_financiero(request) or is_superuser(request) or is_terapeuta(request) or is_institucional(request)
+    """
+    Control de acceso total a la Suite. Permite la visualización si cumple 
+    con los roles específicos del holding O si es un usuario Staff Activo.
+    """
+    # Si cumple con la condición base de Staff Activo, se le concede acceso inmediato
+
+    # Evaluación por grupos tradicionales
+    return (
+        is_administrativo(request) or 
+        is_financiero(request) or 
+        is_superuser(request) or 
+        is_terapeuta(request) or 
+        is_institucional(request)
+    )
 
 
 
@@ -585,6 +606,47 @@ UNFOLD = {
                     "badge": "usuarios.unfold_config.badge_callback_analisis",
                     "badge_color": "custom-red-alert",
                     "permission": is_all,
+        },
+
+
+
+        ],
+    },
+
+    {
+        "title": _("Gestor Financiero & Analítico"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Activos/Pasivos"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:smartbusinessanalytics_demo_activos_changelist"),
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_activos",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Ingresos/Egresos"),
+                "icon": "archive",
+                "link": reverse_lazy("admin:smartbusinessanalytics_demo_movimientofinanciero_changelist"),
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_ingresos_egresos",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+
+            {
+                    "title": _("Resultados"),
+                    "icon": "analytics",
+                    "link": reverse_lazy("admin:smartbusinessanalytics_demo_estadofinanciero_changelist"),
+                    "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_staff_activo,
         },
 
 

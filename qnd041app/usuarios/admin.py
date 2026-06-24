@@ -62,6 +62,70 @@ from datetime import timedelta, time, date
 from datetime import datetime
 from django.contrib.auth import get_user_model
 
+
+
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name}.csv'
+    writer = csv.writer(response)
+
+    # Solo campos concretos del modelo
+    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
+
+    # Escribir encabezados
+    writer.writerow([field.verbose_name for field in fields])
+
+    # Escribir datos
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+
+    return response
+
+export_to_csv.short_description = 'Exportar a CSV'
+
+
+def export_to_excel(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name_plural}.xlsx'
+
+    # xlsxwriter requiere un objeto tipo archivo (BytesIO)
+    import io
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+
+    # Solo campos concretos del modelo
+    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
+
+    # Escribir encabezados
+    for i, field in enumerate(fields):
+        worksheet.write(0, i, field.verbose_name)
+
+    # Escribir datos
+    for row_num, obj in enumerate(queryset, start=1):
+        for col_num, field in enumerate(fields):
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime):
+                value = value.strftime('%d/%m/%Y')
+            worksheet.write(row_num, col_num, str(value))  # Convertir a string
+
+    workbook.close()
+    output.seek(0)
+    response.write(output.read())
+
+    return response
+
+export_to_excel.short_description = 'Exportar a Excel'
+
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin, ModelAdmin):
     add_form = CustomUserCreationForm
@@ -279,66 +343,7 @@ class ComentariosCitaSection(TableSection):
 #profile_pdf.short_description = 'Perfil de usuario'
 
 
-def export_to_csv(modeladmin, request, queryset):
-    opts = modeladmin.model._meta
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name}.csv'
-    writer = csv.writer(response)
 
-    # Solo campos concretos del modelo
-    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
-
-    # Escribir encabezados
-    writer.writerow([field.verbose_name for field in fields])
-
-    # Escribir datos
-    for obj in queryset:
-        data_row = []
-        for field in fields:
-            value = getattr(obj, field.name)
-            if isinstance(value, datetime):
-                value = value.strftime('%d/%m/%Y')
-            data_row.append(value)
-        writer.writerow(data_row)
-
-    return response
-
-export_to_csv.short_description = 'Exportar a CSV'
-
-
-def export_to_excel(modeladmin, request, queryset):
-    opts = modeladmin.model._meta
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name_plural}.xlsx'
-
-    # xlsxwriter requiere un objeto tipo archivo (BytesIO)
-    import io
-    output = io.BytesIO()
-    workbook = xlsxwriter.Workbook(output)
-    worksheet = workbook.add_worksheet()
-
-    # Solo campos concretos del modelo
-    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
-
-    # Escribir encabezados
-    for i, field in enumerate(fields):
-        worksheet.write(0, i, field.verbose_name)
-
-    # Escribir datos
-    for row_num, obj in enumerate(queryset, start=1):
-        for col_num, field in enumerate(fields):
-            value = getattr(obj, field.name)
-            if isinstance(value, datetime):
-                value = value.strftime('%d/%m/%Y')
-            worksheet.write(row_num, col_num, str(value))  # Convertir a string
-
-    workbook.close()
-    output.seek(0)
-    response.write(output.read())
-
-    return response
-
-export_to_excel.short_description = 'Exportar a Excel'
 
 
 # Inline de mensajes enviados

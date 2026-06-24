@@ -6,6 +6,74 @@ from unfold.admin import ModelAdmin
 from .models import Ingreso
 from django.template.loader import render_to_string
 from unfold.components import BaseComponent, register_component
+import csv
+import xlsxwriter
+from django.http import HttpResponse
+
+
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name}.csv'
+    writer = csv.writer(response)
+
+    # Solo campos concretos del modelo
+    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
+
+    # Escribir encabezados
+    writer.writerow([field.verbose_name for field in fields])
+
+    # Escribir datos
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+
+    return response
+
+export_to_csv.short_description = 'Exportar a CSV'
+
+
+def export_to_excel(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename={opts.verbose_name_plural}.xlsx'
+
+    # xlsxwriter requiere un objeto tipo archivo (BytesIO)
+    import io
+    output = io.BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+
+    # Solo campos concretos del modelo
+    fields = [field for field in opts.fields if not field.many_to_many and not field.one_to_many]
+
+    # Escribir encabezados
+    for i, field in enumerate(fields):
+        worksheet.write(0, i, field.verbose_name)
+
+    # Escribir datos
+    for row_num, obj in enumerate(queryset, start=1):
+        for col_num, field in enumerate(fields):
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime):
+                value = value.strftime('%d/%m/%Y')
+            worksheet.write(row_num, col_num, str(value))  # Convertir a string
+
+    workbook.close()
+    output.seek(0)
+    response.write(output.read())
+
+    return response
+
+export_to_excel.short_description = 'Exportar a Excel'
+
+
 
 def REPORTE_MOVIMIENTO_FINANCIERO_PDF(obj):
     # Genera la URL del reporte PDF usando el reverse y el ID del objeto
@@ -40,6 +108,40 @@ from django.db.models import Sum
 from django.template.loader import render_to_string
 from decimal import Decimal
 from .models import MovimientoFinanciero
+
+
+@admin.action(description="Duplicar Balance Financiero")
+def duplicar_balances(modeladmin, request, queryset):
+    for obj in queryset:
+
+        related_data = []
+
+        # 🔍 Detectar automáticamente TODOS los inlines reales
+        for rel in obj._meta.related_objects:
+            accessor = rel.get_accessor_name()
+            try:
+                items = list(getattr(obj, accessor).all())
+                related_data.append((rel, items))
+            except Exception:
+                continue  # evita errores tipo "no existe"
+
+        # 🧬 Clonar padre
+        obj.pk = None
+        obj.save()
+
+        # 🔁 Clonar hijos
+        for rel, items in related_data:
+            for item in items:
+                item.pk = None
+
+                # encontrar el FK correcto dinámicamente
+                for field in item._meta.fields:
+                    if isinstance(field, models.ForeignKey) and field.related_model == obj.__class__:
+                        setattr(item, field.name, obj)
+
+                item.save()
+
+
 
 
 @register_component
@@ -115,6 +217,13 @@ class MovimientoFinancieroAdmin(ModelAdmin):
     # ----------------------------------
     list_sections = [
         MovimientoFinancieroResumenComponentDemo,
+    ]
+
+    actions =[
+    duplicar_balances,
+    export_to_csv,
+    export_to_excel,
+
     ]
 
     # ----------------------------------
@@ -1034,6 +1143,12 @@ class EstadoFinancieroAdmin(ModelAdmin):
         EstadoResumenContableComponentDemo,
     ]
 
+    actions =[
+    duplicar_balances,
+    export_to_csv,
+    export_to_excel,
+    ]
+
    
     # ----------------------------------
     # Fieldsets (tabs)
@@ -1387,6 +1502,12 @@ class ActivosAdmin(ModelAdmin):
     # =============================
     list_sections = [
         ActivoPasivoResumenComponentDemo,
+    ]
+
+    actions =[
+    duplicar_balances,
+    export_to_csv,
+    export_to_excel,
     ]
 
     # =============================

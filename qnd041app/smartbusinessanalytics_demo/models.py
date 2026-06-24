@@ -20,7 +20,7 @@ class MovimientoFinanciero(models.Model):
     # ======================================================
     hash_registro = models.CharField(
         max_length=64,
-        unique=True,
+       # unique=True,
         editable=False,
         null=True,
         blank=True,
@@ -344,7 +344,7 @@ class Ingreso(models.Model):
 
     codigo_referencia = models.CharField(
         max_length=50,
-        unique=True,
+      #  unique=True,
         verbose_name="Código de referencia",
         help_text="Identificador único del ingreso, como número de factura o recibo."
     )
@@ -646,7 +646,7 @@ class Egreso(models.Model):
     # ======================================================
     codigo_referencia = models.CharField(
         max_length=50,
-        unique=True,
+       # unique=True,
         verbose_name="Código de referencia",
         help_text="Identificador único del egreso, como número de factura o comprobante."
     )
@@ -1552,6 +1552,8 @@ class EstadoFinanciero(models.Model):
     class Meta:
         app_label = "smartbusinessanalytics_demo"
         ordering = ["-fecha_inicio"]
+        verbose_name = "Estado de Resultados"
+        verbose_name_plural = "Estados de Resultados"
 
     def save(self, *args, **kwargs):
         recalcular = kwargs.pop("recalcular", True)
@@ -1587,7 +1589,7 @@ class activos(models.Model):
     # =========================
     asset_code = models.CharField(
         max_length=50,
-        unique=True,
+        # unique=True,
         null=True,
         blank=True,
         verbose_name="Código del activo",
@@ -1825,7 +1827,7 @@ class activos(models.Model):
         max_length=50,
         null=True,
         blank=True,
-        unique=True,
+        # unique=True,
         verbose_name="Código del pasivo",
         help_text="Identificador único interno del pasivo."
     )
@@ -2047,7 +2049,11 @@ class activos(models.Model):
         blank=True,
         verbose_name="Fecha de actualización",
         help_text="Última fecha de modificación del registro."
+
+    
     )
+
+
 
     # ==========================================================
     # ================= PROPIEDADES DE CÁLCULO ==================
@@ -2151,6 +2157,12 @@ class activos(models.Model):
             if self.total_shares_issued > 0:
                 return (self.shares_equivalent_nominal / self.total_shares_issued) * 100
         return None
+
+    class Meta:
+        app_label = "smartbusinessanalytics_demo"
+        verbose_name = "Movimiento Patrimonial"
+        verbose_name_plural = "Movimientos Patrimoniales"
+        ordering = ["-updated_at"]
 
     def save(self, *args, **kwargs):
         self.book_value = self.net_book_value
