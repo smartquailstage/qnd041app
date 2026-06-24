@@ -206,7 +206,7 @@ section {
 	padding-top:45px;
 	position: relative;
 	z-index: 10;
-	background:#ffd701;
+	background:#ff0;
 }
 
 .section-heading {
@@ -1475,7 +1475,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee3838', end
 }
 
 .default-icon {
-	color: #ffd701;
+	color: #ff0;
 }
 
 .dark-icon {
