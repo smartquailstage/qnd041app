@@ -655,7 +655,7 @@ UNFOLD = {
     },
 
     {
-        "title": _("SmartBusinessAnalytics (I+D)"),
+        "title": _("SmartBusinessAnalytics (EAL)"),
         "separator": True,
         "collapsible": True,
         "items": [
