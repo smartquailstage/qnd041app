@@ -98,6 +98,19 @@ h3 {
 }
 
 
+/* Opcional: Ajustes específicos para pantallas móviles (Menos de 768px) */
+@media (max-width: 768px) {
+  .carousel-slide {
+    /* En móviles a veces es mejor reducir el alto para que no tape toda la pantalla */
+    height: 25vh; 
+    
+    /* 'contain' muestra la imagen completa si es un banner con texto importante, 
+       de lo contrario mantén 'cover' */
+    background-size: cover; 
+  }
+}
+
+
 
 .carousel-btn {
   position: absolute;
@@ -422,13 +435,13 @@ h3 {
                       <p class="portfolio-title">{% trans 'Coming Soon' %}</p>
                     {% endif %}
                     <p class="portfolio-title">{% trans 'Marketing Business Model:' %} {{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} {% trans 'Monthly' %}</a>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Subscription:' %} $ {{ product.price }} </a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available == 'True' %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Subscribe Now</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Proximamente</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Learn more</a></li>
+                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Obtener Licencia </a></li>
                     {% endif %}
                   </ul>
                 </div>
