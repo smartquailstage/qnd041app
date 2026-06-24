@@ -9,6 +9,7 @@ import uuid
 import hashlib
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class MovimientoFinanciero(models.Model):
     """
