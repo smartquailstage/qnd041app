@@ -193,6 +193,7 @@ INSTALLED_APPS = [
     "django_social_share",
     "business_customer_projects",
     'smartbusinesslaw',
+    'smartbusinesslaw_demo',
     'smartbusinessanalytics_id',
     'smartbusinessanalytics_demo',
 
