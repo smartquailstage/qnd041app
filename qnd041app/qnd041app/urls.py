@@ -38,7 +38,7 @@ def sitemap_plano(request):
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         '  <url>\n'
-        '    <loc>https://ec.smartquail.io/</loc>\n'
+        '    <loc>https://ec.smartquail.io/es/</loc>\n'
         '    <changefreq>daily</changefreq>\n'
         '    <priority>1.0</priority>\n'
         '  </url>\n'
