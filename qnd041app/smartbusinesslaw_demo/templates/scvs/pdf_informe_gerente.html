@@ -1,0 +1,72 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}">
+    </div>
+
+    <div class="header-center">
+        SCVS-GERENTE-{{ acta.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Ecuador, {{ acta.gerente_fecha_emision|date:"d" }} de
+            {{ acta.gerente_fecha_emision|date:"F" }} de
+            {{ acta.gerente_fecha_emision|date:"Y" }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>INFORME DEL GERENTE GENERAL</h2>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Identificación</h3>
+    <p>
+        <strong>Gerente:</strong> {{ acta.gerente_nombre }}<br>
+        <strong>Cargo:</strong> {{ acta.gerente_cargo }}<br>
+        <strong>Periodo:</strong> {{ acta.gerente_periodo_informado }}
+    </p>
+
+    <h3>2. Introducción</h3>
+    <p>{{ acta.gerente_introduccion }}</p>
+
+    <h3>3. Situación Financiera</h3>
+    <p>{{ acta.gerente_situacion_financiera }}</p>
+
+    <h3>4. Desempeño Operativo</h3>
+    <p>{{ acta.gerente_desempeno_operativo }}</p>
+
+    <h3>5. Cumplimiento del Objeto Social</h3>
+    <p>{{ acta.gerente_objeto_social }}</p>
+
+    <h3>6. Riesgos y Cumplimiento Normativo</h3>
+    <p>{{ acta.gerente_riesgos }}</p>
+    <p>{{ acta.gerente_cumplimiento_legal }}</p>
+
+</div>
+
+<hr>
+<h3><strong>DECLARACIÓN Y FIRMA</strong></h3>
+
+<div class="certificaciones">
+    <div class="cert-sign">
+        <div class="signature-box"></div>
+        <p><strong>GERENTE GENERAL</strong></p>
+    </div>
+
+    <div class="cert-sign">
+        <div class="signature-box"></div>
+        <p><strong>ABOGADO PATROCINADOR</strong></p>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 SmartQuail, Inc.</p>
+</footer>

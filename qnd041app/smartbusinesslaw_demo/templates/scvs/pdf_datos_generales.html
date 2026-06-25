@@ -1,0 +1,18 @@
+{% extends "pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>INFORMACIÓN GENERAL DE LA COMPAÑÍA</h2>
+</div>
+
+<div class="clausulas">
+    <p>
+        <strong>Razón Social:</strong> {{ reporte.company_name }}<br>
+        <strong>RUC:</strong> {{ reporte.ruc }}<br>
+        <strong>Tipo de Sociedad:</strong> {{ reporte.get_company_type_display }}<br>
+        <strong>Año Fiscal:</strong> {{ reporte.fiscal_year }}<br>
+        <strong>Actividad Económica:</strong> {{ reporte.economic_activity }}<br>
+        <strong>Moneda:</strong> {{ reporte.currency }}
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>ESTADO DE RESULTADOS INTEGRAL</h2>
+</div>
+
+<div class="clausulas">
+    <p>
+        Ingresos operativos: {{ reporte.operating_revenue }}<br>
+        Costo de ventas: {{ reporte.cost_of_sales }}<br>
+        Utilidad bruta: {{ reporte.gross_profit }}<br>
+        Gastos administrativos: {{ reporte.administrative_expenses }}<br>
+        Gastos financieros: {{ reporte.financial_expenses }}<br>
+        Impuesto a la renta: {{ reporte.income_tax }}<br>
+        <strong>Resultado neto:</strong> {{ reporte.net_income }}
+    </p>
+</div>
+{% endblock %}

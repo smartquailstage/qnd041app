@@ -1,0 +1,118 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        RAT-SQ20{{ delegado.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>Ecuador, {{ delegado.fecha_nombramiento|date:"d" }} de {{ delegado.fecha_nombramiento|date:"F" }} de {{ delegado.fecha_nombramiento|date:"Y" }}</strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>REGISTRO DE ACTIVIDADES DE TRATAMIENTO (RAT)</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+        El presente documento consolida las actividades de tratamiento de datos personales supervisadas por el Delegado de Protección de Datos (DPD), conforme a lo establecido en la <strong>Ley Orgánica de Protección de Datos Personales de Ecuador (LOPDP)</strong> y sus reglamentos.  
+        Se detallan las bases legales aplicables, las categorías de datos tratados, los titulares y los destinatarios de los datos, así como los registros de todas las operaciones de tratamiento realizadas bajo la responsabilidad del delegado.  
+        Asimismo, este informe incluye la certificación mediante un <strong>hash único</strong> y un <strong>código QR</strong>, con el fin de garantizar la integridad y autenticidad de la información ante el <strong>Servicio de Protección de Datos Personales (SPDP)</strong>, ente regulador encargado de supervisar el cumplimiento de la normativa vigente.
+    </p>
+</div>
+
+
+<div class="clausulas">
+
+    <h3>1. Datos del Delegado</h3>
+    <p>
+        <strong>Nombre:</strong> {{ delegado.nombre_delegado }}<br>
+        <strong>Identificación:</strong> {{ delegado.identificacion_delegado }}<br>
+        <strong>Correo electrónico:</strong> {{ delegado.correo_delegado }}<br>
+        <strong>Teléfono:</strong> {{ delegado.telefono_delegado }}
+    </p>
+
+    <h3>2. Base Legal y Categorías</h3>
+    <p>
+        <strong>Base legal:</strong> {{ rat_base_legal }}<br>
+        <strong>Categoría de datos:</strong> {{ rat_categoria_datos }}<br>
+        <strong>Categoría de titulares:</strong> {{ rat_categoria_titulares }}<br>
+        <strong>Categoría de destinatarios:</strong> {{ rat_categoria_destinatarios }}<br>
+        <strong>Transferencias internacionales:</strong> {% if delegado.rat_transferencias_internacionales %}Sí{% else %}No{% endif %}<br>
+        {% if delegado.rat_pais_transferencia %}<strong>País de transferencia:</strong> {{ delegado.rat_pais_transferencia }}{% endif %}
+    </p>
+
+    <h3>3. Registros de Tratamiento</h3>
+    <table class="table-rat">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario Titular</th>
+            <th>Nombre del Tratamiento</th>
+            <th>Finalidad</th>
+            <th>Responsable</th>
+            <th>Medidas Técnicas</th>
+            <th>Medidas Organizativas</th>
+            <th>Plazo de Conservación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rat in rat_registros %}
+        <tr>
+            <td>{{ rat.id }}</td>
+            <td>{{ rat.rat_titular_datos.username }}</td>
+            <td>{{ rat.rat_nombre_tratamiento }}</td>
+            <td>{{ rat.rat_finalidad }}</td>
+            <td>{{ rat.rat_responsable_tratamiento }}</td>
+            <td>{{ rat.rat_medidas_tecnicas }}</td>
+            <td>{{ rat.rat_medidas_organizativas }}</td>
+            <td>{{ rat.rat_plazo_conservacion }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" style="text-align:center;">No hay registros de tratamiento</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN DEL REGISTRO DE TRATAMIENTO</strong></h3>
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>RESPONSABLE / DPD</strong></p>
+        </div>
+    </div>
+
+</div>
+<hr>
+<div class="contract-note">
+    <strong>TOKEN ID RAT: {{ delegado.rat_hash }}</strong>
+</div>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>

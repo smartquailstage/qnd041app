@@ -1,0 +1,54 @@
+{% load static %}
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="Logo">
+    </div>
+
+    <div class="header-center">
+        {{ codigo_documento }}
+    </div>
+
+    <div class="header-right">
+        Ecuador, {{ reporte.created_at|date:"d" }} de {{ reporte.created_at|date:"F" }} de {{ reporte.created_at|date:"Y" }}
+    </div>
+</header>
+
+{% block contenido %}{% endblock %}
+
+<hr>
+
+<h3><strong>CERTIFICACIÓN DEL DOCUMENTO</strong></h3>
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR">
+        <p><strong>SMARTQUAIL S.A.S</strong></p>
+    </div>
+
+    <div class="cert-right">
+
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>{{ firmante_1 }}</strong></p>
+        </div>
+
+        {% if firmante_2 %}
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>{{ firmante_2 }}</strong></p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<footer>
+    <p>
+        Documento generado electrónicamente — SmartQuail<br>
+        © {{ reporte.fiscal_year }}
+    </p>
+</footer>

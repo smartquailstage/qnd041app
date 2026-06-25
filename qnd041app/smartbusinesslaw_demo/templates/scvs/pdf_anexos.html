@@ -1,0 +1,17 @@
+{% extends "pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>ANEXOS A LOS ESTADOS FINANCIEROS</h2>
+</div>
+
+<div class="clausulas">
+    <p>
+        Cuentas por cobrar relacionadas: {{ reporte.accounts_receivable_related }}<br>
+        Cuentas por pagar relacionadas: {{ reporte.accounts_payable_related }}<br>
+        Activos fijos (costo): {{ reporte.fixed_assets_cost }}<br>
+        Depreciación acumulada: {{ reporte.fixed_assets_depreciation }}<br>
+        Obligaciones financieras: {{ reporte.financial_obligations_total }}
+    </p>
+</div>
+{% endblock %}

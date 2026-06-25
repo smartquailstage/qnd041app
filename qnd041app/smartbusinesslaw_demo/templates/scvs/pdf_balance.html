@@ -1,0 +1,25 @@
+{% extends "pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>ESTADO DE SITUACIÓN FINANCIERA</h2>
+</div>
+
+<div class="clausulas">
+    <h3>ACTIVOS</h3>
+    <p>
+        Efectivo y equivalentes: {{ reporte.cash_and_equivalents }}<br>
+        Cuentas por cobrar: {{ reporte.accounts_receivable }}<br>
+        Inventarios: {{ reporte.inventories }}<br>
+        Propiedad, planta y equipo: {{ reporte.property_plant_equipment }}
+    </p>
+
+    <h3>PASIVOS Y PATRIMONIO</h3>
+    <p>
+        Cuentas por pagar: {{ reporte.accounts_payable }}<br>
+        Préstamos: {{ reporte.long_term_loans }}<br>
+        Capital social: {{ reporte.share_capital }}<br>
+        Resultado del ejercicio: {{ reporte.net_income }}
+    </p>
+</div>
+{% endblock %}
