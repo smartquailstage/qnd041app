@@ -893,6 +893,7 @@ class SCVSFinancialReport(models.Model):
 
     class Meta:
         unique_together = ('ruc', 'fiscal_year')
+        app_label = "smartbusinesslaw_demo"
         verbose_name = "Balance: SuperIntendencia de Compañías, Valores y Seguros"
         verbose_name_plural = "Balances: SuperIntendencia de Compañías, Valores y Seguros"
 

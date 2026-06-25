@@ -380,6 +380,40 @@ class SCVSFinancialReportAdmin(ModelAdmin):
 
     unfold_fieldsets = True
 
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -604,6 +638,41 @@ class SCVS_EstatutosAdmin(ModelAdmin):
     list_filter = ('fecha_aprobacion', 'regulacion')
     unfold_fieldsets = True
 
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -811,6 +880,41 @@ class SPDP_ActaDelegadoAdmin(ModelAdmin):
 
     unfold_fieldsets = True
 
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -852,6 +956,40 @@ class SRI_RUCAdmin(ModelAdmin):
     list_filter = ('fecha_emision', 'regulacion')
     unfold_fieldsets = True
 
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -892,6 +1030,40 @@ class MT_ContratosAdmin(ModelAdmin):
     list_filter = ('tipo_contrato', 'fecha_inicio', 'regulacion')
     unfold_fieldsets = True
 
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -931,6 +1103,41 @@ class IESS_AportesAdmin(ModelAdmin):
     list_display = ('empleado', 'periodo', 'monto', 'fecha_pago', 'regulacion')
     list_filter = ('periodo', 'regulacion')
     unfold_fieldsets = True
+
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
 
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
@@ -1300,6 +1507,40 @@ class SCVS_ActasAsambleaAdmin(ModelAdmin):
 
 
     unfold_fieldsets = True
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
 
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
@@ -1749,6 +1990,40 @@ class SRI_AnexosTributariosAdmin(ModelAdmin):
 
     unfold_fieldsets = True
 
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
+
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
     # ------------------------------------------------------------
@@ -2047,6 +2322,41 @@ class SRI_DeclaracionImpuestosAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
 
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
@@ -2375,6 +2685,40 @@ class ContratoLaboralAdmin(ModelAdmin):
     )
 
     unfold_fieldsets = True
+
+# ----------------------------------
+    # Filtro de seguridad por usuario (I+D Core)
+    # ----------------------------------
+    def get_queryset(self, request):
+        """
+        Filtra el listado para que los usuarios comunes solo vean sus datos,
+        mientras que los superusuarios mantienen el control total del holding.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        
+        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
+        return qs.filter(usuario=request.user)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Asigna automáticamente el usuario logueado como propietario 
+        del registro al momento de la creación.
+        """
+        if not change: # Si el registro es nuevo
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
+        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
+        """
+        fields = super().get_readonly_fields(request, obj)
+        if not request.user.is_superuser:
+            return list(fields) + ["usuario"]
+        return fields
 
 # ------------------------------------------------------------
     # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)

@@ -660,8 +660,8 @@ UNFOLD = {
     },
 
     {
-        "title": _("Gestión administrativa & legal"),
-        "separator": True,
+        "title": _("Gestor administrativo & legal"),
+        "separator": False,
         "collapsible": True,
         "items": [
             {
