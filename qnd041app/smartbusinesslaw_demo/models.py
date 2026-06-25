@@ -1533,6 +1533,7 @@ class SRI_AnexosTributarios(models.Model):
         verbose_name="RUC",
         help_text="Registro Único de Contribuyentes de la sociedad, 13 dígitos."
     )
+    cantidad_empleados = models.IntegerField(default=0)  # Make sure this exists!
     razon_social = models.CharField(
         max_length=255,
         verbose_name="Razón social",
