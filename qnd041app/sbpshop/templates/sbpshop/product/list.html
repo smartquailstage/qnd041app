@@ -315,9 +315,9 @@
   <div class="bg-flex bg-flex-left">
     <div class="instagram-carousel">
       <div class="carousel-track">
-        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sba_scren1.png' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
-        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessmedia/sbm_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessplatforms/sbp_scren1.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessplatforms/sbp_scren2.png' %}');"></div>
+        <div class="carousel-slide" style="background-image: url('{% static 'img/smartbusinessplatforms/sbp_scren3.png' %}');"></div>
       </div>
 
       <button class="carousel-btn prev-btn" aria-label="Anterior">&#10094;</button>
@@ -474,6 +474,53 @@
 
 
 {% include 'webapp/home/footer_section.html' %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll(".dot");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
 
+  // Función para mover el scroll
+  function btnClick(direction) {
+    const slideWidth = track.clientWidth;
+    if (direction === "next") {
+      track.scrollBy({ left: slideWidth, behavior: "smooth" });
+    } else {
+      track.scrollBy({ left: -slideWidth, behavior: "smooth" });
+    }
+  }
+
+  prevBtn.addEventListener("click", () => btnClick("prev"));
+  nextBtn.addEventListener("click", () => btnClick("next"));
+
+  // Actualizar los puntitos usando Intersection Observer (detecta qué slide está visible)
+  const observerOptions = {
+    root: track,
+    threshold: 0.5 // Se activa cuando el 50% del slide es visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Obtenemos el índice del slide visible
+        const index = Array.from(slides).indexOf(entry.target);
+        
+        // Actualizamos los puntitos
+        dots.forEach((dot, dotIndex) => {
+          if (dotIndex === index) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  slides.forEach((slide) => observer.observe(slide));
+});
+</script>
 
 {% endblock %}
