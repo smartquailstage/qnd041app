@@ -375,20 +375,25 @@
         <p style="color:#e6e6e6;">{% trans 'Elige el SmartBusinessLaw® que mejor se adapte al modelo legal y de cumplimiento de tu empresa.' %}</p>
 
         <ul id="portfolio-filter" class="list-inline filter-transparent">
-          {% for c in categories %}
-          <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
-            {{ c.title }} 
-          
+          <li>
+            <a href="?categoria=" {% if not active_category %}class="active"{% endif %}>
+              {% trans 'Todos' %}
+            </a>
           </li>
-     
+          {% for c in categories %}
+          <li>
+            <a href="?categoria={{ c.slug }}" {% if active_category == c.slug %}class="active"{% endif %}>
+              {{ c.title }}
+            </a>
+          </li>
           {% endfor %}
         </ul>
         <hr>
         
-        <!-- Portfolio of products -->
+        <!-- Portfolio of products - SOLO muestra los productos filtrados -->
         <ul id="portfolio-grid" class="four-column hover-two">
           {% for product in products %}
-            <li class="portfolio-item" data-groups='[ "{{ product.category }}" ]'>
+            <li class="portfolio-item">
               <div class="portfolio">
                 <div class="dark-overlay"></div>
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -400,14 +405,14 @@
                     {% else %}
                       <p class="portfolio-title">{% trans 'Proximamente' %}</p>
                     {% endif %}
-                    <p class="portfolio-title">{{ product.category  }}</p>
-                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %}  {{ product.price }} $USD</a>
+                    <p class="portfolio-title">{{ product.category }}</p>
+                    <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %} {{ product.price }} $USD</a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available == 'True' %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Obtener Licencia</a></li>
+                    <li><a class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">{% trans 'Obtener Licencia' %}</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">Obtener Licencia</a></li>
+                    <li><a class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}">{% trans 'Proximamente' %}</a></li>
                     {% endif %}
                   </ul>
                 </div>
@@ -420,7 +425,25 @@
   </div>
 </section>
 
+<style>
+#portfolio-filter a.active {
+  color: #4a90d9;
+  font-weight: bold;
+  border-bottom: 2px solid #4a90d9;
+  padding-bottom: 5px;
+}
 
+#portfolio-filter a {
+  text-decoration: none;
+  color: inherit;
+  padding: 5px 15px;
+  transition: all 0.3s ease;
+}
+
+#portfolio-filter a:hover {
+  color: #4a90d9;
+}
+</style>
 
 
 
