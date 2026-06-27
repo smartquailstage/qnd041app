@@ -8,14 +8,18 @@ from django.contrib.auth import views as auth_views
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
-from wagtail.contrib.sitemaps.views import sitemap
+#from wagtail.contrib.sitemaps.views import sitemap
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from wagtail.models import Page
 
+
 from django.urls import path
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+# Buscá tus imports de sitemaps y dejalos así:
+from wagtail.contrib.sitemaps.views import Sitemap as WagtailSitemap
+
 
 @csrf_exempt
 def robots_txt(request):
@@ -49,7 +53,7 @@ def sitemap_plano(request):
 # Base (no traducibles)
 urlpatterns = [
     path('robots.txt', robots_txt),
-    path('sitemap.xml', sitemap_plano), # <--- Reemplazá la vista nativa por esta plana temporal
+    path('sitemap.xml', sitemap, {'sitemaps': {'wagtail': WagtailSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
     # ... tus otras rutas
     # ... el resto de tus rutas intac
     
