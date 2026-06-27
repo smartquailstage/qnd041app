@@ -80,6 +80,7 @@ urlpatterns += i18n_patterns(
     path('estimador/', include('cloudcalc.urls', namespace='cloudcalc')),
     path('smartbusinessanalytics_id/', include('smartbusinessanalytics_id.urls', namespace='smartbusinessanalytics_id')),
     path('smartbusinesslaw/', include('smartbusinesslaw.urls', namespace='smartbusinesslaw')),
+    path('smartbusinesslaw_demo/', include('smartbusinesslaw_demo.urls', namespace='smartbusinesslaw_demo')),
     path('activos_itc/', include('business_customer_projects.urls', namespace='business_customer_projects')),
     path('services_cart/', include('services_cart.urls', namespace='services_cart')),
     path('billing/', include('billing.urls', namespace='billing')),

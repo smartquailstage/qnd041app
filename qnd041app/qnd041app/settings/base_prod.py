@@ -193,6 +193,7 @@ INSTALLED_APPS = [
     "django_social_share",
     "business_customer_projects",
     'smartbusinesslaw',
+    'smartbusinesslaw_demo',
     'smartbusinessanalytics_id',
     'smartbusinessanalytics_demo',
 
@@ -607,6 +608,77 @@ UNFOLD = {
                     "badge_color": "custom-red-alert",
                     "permission": is_all,
         },
+
+
+
+        ],
+    },
+
+    {
+        "title": _("Gestor administrativo & legal"),
+        "separator": False,
+        "collapsible": True,
+        "items": [
+            {
+                "title": _(" Registros (SPDP)"),
+                "icon": "create",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_spdp_actadelegado_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+
+
+            {
+                "title": _("Balances (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_scvsfinancialreport_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Informes (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_scvs_actasasamblea_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+
+
+            {
+                "title": _("Anexos (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_sri_anexostributarios_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Declaraciones (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_sri_declaracionimpuestos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+            {
+                "title": _("Contratos (MT)"),
+                "icon": "signature",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_contratolaboral_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
 
 
 

@@ -1,0 +1,174 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        CONTRATO LABORAL No. {{ contrato.id|stringformat:"05d" }}
+    </div>
+
+    <div class="header-right">
+        <strong>
+            Quito,
+            {{ contrato.fecha_firma|date:"d" }} de
+            {{ contrato.fecha_firma|date:"F" }} de
+            {{ contrato.fecha_firma|date:"Y" }}
+        </strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>CONTRATO DE TRABAJO</h2>
+    <p><strong>{{ contrato.empleador_razon_social }}</strong></p>
+</div>
+
+<div class="preambulo">
+    <p>
+        En la ciudad de <strong>{{ contrato.lugar_firma }}</strong>, a los
+        {{ contrato.fecha_firma|date:"d" }} días del mes de
+        {{ contrato.fecha_firma|date:"F" }} de
+        {{ contrato.fecha_firma|date:"Y" }},
+        de conformidad con el Código del Trabajo del Ecuador, las disposiciones del Ministerio de Trabajo,
+        y la normativa vigente del Instituto Ecuatoriano de Seguridad Social (IESS),
+        se celebra el presente <strong>Contrato Laboral</strong> entre:
+    </p>
+
+    <p>
+        Por una parte, <strong>{{ contrato.empleador_razon_social }}</strong>, con RUC
+        <strong>{{ contrato.empleador_ruc }}</strong>, representada legalmente por
+        <strong>{{ contrato.empleador_representante_legal }}</strong>, domiciliada en
+        <strong>{{ contrato.empleador_domicilio }}</strong>, en adelante EL EMPLEADOR;
+        y, por la otra parte, <strong>{{ contrato.trabajador_nombres }}</strong>,
+        portadora del pasaporte <strong>{{ contrato.trabajador_identificacion }}</strong>,
+        de nacionalidad <strong>{{ contrato.trabajador_nacionalidad }}</strong>,
+        nacida el <strong>{{ contrato.trabajador_fecha_nacimiento }}</strong>,
+        domiciliada en <strong>{{ contrato.trabajador_domicilio }}</strong>, en adelante LA TRABAJADORA.
+    </p>
+
+    <p>
+        Ambas partes convienen en celebrar el presente Contrato Laboral, conforme a la legislación laboral vigente en el Ecuador,
+        sujetándose a los términos y condiciones que se detallan en las cláusulas siguientes.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>1. Objeto del Contrato</h3>
+    <p>
+        LA TRABAJADORA se obliga a desempeñar las funciones del cargo de
+        <strong>{{ contrato.cargo }}</strong>, realizando las tareas descritas a continuación:
+    </p>
+    <p>
+        {{ contrato.funciones|linebreaks }}
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>2. Jornada Laboral</h3>
+    <p>
+        La jornada laboral será de tipo <strong>presencial</strong>,
+        cumpliendo <strong>40 horas semanales</strong>, de lunes a viernes, según la legislación ecuatoriana vigente.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>3. Remuneración</h3>
+    <p>
+        EL EMPLEADOR pagará a LA TRABAJADORA un salario mensual de
+        <strong>$1.340,00</strong>, mediante depósito bancario mensual.
+    </p>
+    <p>
+        Además, LA TRABAJADORA recibirá los beneficios adicionales: participación en utilidades proporcional y revisión salarial cada seis meses según desempeño.
+    </p>
+    <p>
+        LA TRABAJADORA estará afiliada al IESS: <strong>Sí</strong>.<br>
+        Recibirá décimo tercer sueldo: <strong>Sí</strong>, décimo cuarto sueldo: <strong>Sí</strong>.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>4. Confidencialidad y No Competencia</h3>
+    <p>
+        Cláusula de confidencialidad: <strong>Sí</strong>.<br>
+        Cláusula de no competencia: <strong>Sí</strong>.<br>
+        Penalidades e incumplimiento: La TRABAJADORA deberá pagar a favor de SMARTQUAIL S.A.S. una penalidad contractual mínima de USD 10.000 y máxima de USD 250.000, según la gravedad del incumplimiento, sin perjuicio de resarcir daños adicionales y de acciones legales conforme a la legislación ecuatoriana.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>5. Vacaciones</h3>
+    <p>
+        LA TRABAJADORA tendrá derecho a quince (15) días calendario de vacaciones anuales pagadas, irrenunciables, acumulables según ley hasta un máximo permitido. En caso de terminación de la relación laboral, se pagará proporcionalmente el valor correspondiente a vacaciones no gozadas.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>6. Permisos</h3>
+    <p>
+        LA TRABAJADORA tendrá derecho a permisos por salud, calamidad doméstica o fallecimiento de familiares directos, conforme a la normativa laboral vigente. En caso de fallecimiento de la TRABAJADORA, el EMPLEADOR liquidará todos los beneficios legales a favor de sus herederos.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>7. Terminación del Contrato</h3>
+    <p>
+        Las causales de terminación del contrato serán: mutuo acuerdo, renuncia voluntaria con preaviso, despido justificado conforme al Código del Trabajo, fuerza mayor, incapacidad comprobada, cierre de actividades de la empresa, y demás causales legales previstas en la normativa ecuatoriana.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>8. Jurisdicción</h3>
+    <p>
+        Las partes se someten a la jurisdicción de los jueces competentes de la República del Ecuador.
+    </p>
+</div>
+
+<div class="clausulas">
+    <h3>9. Firmas</h3>
+    <p>
+        En constancia de lo acordado, firman el presente contrato en la ciudad de
+        <strong>{{ contrato.lugar_firma }}</strong>, el día
+        <strong>{{ contrato.fecha_firma|date:"d" }} de {{ contrato.fecha_firma|date:"F" }} de {{ contrato.fecha_firma|date:"Y" }}</strong>.
+    </p>
+    <p>
+        <strong>Por EL EMPLEADOR:</strong> {{ contrato.empleador_firma }}<br>
+        <strong>Por LA TRABAJADORA:</strong> {{ contrato.trabajador_firma }}
+    </p>
+</div>
+
+<hr>
+
+<h3><strong>CERTIFICACIÓN</strong></h3>
+
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>{{ contrato.empleador_razon_social }}</strong></p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p>
+                <strong>FIRMAS CERTIFICADAS</strong><br>
+                Hash de contrato: {{ contrato.hash_contrato }}
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<hr>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>

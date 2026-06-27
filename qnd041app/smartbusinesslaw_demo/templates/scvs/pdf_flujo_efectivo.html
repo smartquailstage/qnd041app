@@ -1,0 +1,16 @@
+{% extends "smartbusinesslaw/pdf_base.html" %}
+
+{% block contenido %}
+<div class="titulos">
+    <h2>ESTADO DE FLUJOS DE EFECTIVO</h2>
+</div>
+
+<div class="clausulas">
+    <p>
+        Flujo de operación: {{ reporte.cashflow_operating }}<br>
+        Flujo de inversión: {{ reporte.cashflow_investing }}<br>
+        Flujo de financiamiento: {{ reporte.cashflow_financing }}<br>
+        <strong>Flujo neto:</strong> {{ reporte.net_cash_flow }}
+    </p>
+</div>
+{% endblock %}

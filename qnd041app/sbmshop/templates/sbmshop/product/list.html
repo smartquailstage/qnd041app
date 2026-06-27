@@ -363,21 +363,19 @@ h3 {
       <div class="portfolio-container text-center">
         <h2>{% trans 'Licencias SmartBusinessMedia CRM' %}</h2>
         <p style="color:#e6e6e6;">{% trans 'Elige la licencia ITC que mejor se alinee con tu estrategia de marketing y tamaño de empresa' %} </p>
+        
         <ul id="portfolio-filter" class="list-inline filter-transparent">
           {% for c in categories %}
-          <li data-group="{{ c.slug }}" onclick="filterByCategory('{{ c.slug }}')">
+          <li data-group="{{ c.slug }}">
             {{ c.title }}
-
           </li>
-
           {% endfor %}
         </ul>
         <hr>
 
-        <!-- Portfolio of products -->
         <ul id="portfolio-grid" class="four-column hover-two">
           {% for product in products %}
-            <li class="portfolio-item" data-groups='[ "{{ product.category }}" ]'>
+            <li class="portfolio-item" data-groups='["{{ product.category.slug }}"]'>
               <div class="portfolio">
                 <div class="dark-overlay"></div>
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -389,14 +387,14 @@ h3 {
                     {% else %}
                       <p class="portfolio-title">{% trans 'Próximamente' %}</p>
                     {% endif %}
-                    <p class="portfolio-title"> {{ product.category  }}</p>
+                    <p class="portfolio-title"> {{ product.category.name }}</p>
                     <a href="{{ product.get_absolute_url }}" class="links">{% trans 'Inversión:' %}  {{ product.price }} $USD </a>
                   </div>
                   <ul class="portfolio-details">
                     {% if product.available %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"><i class="icofont icofont-key  font-45px default-icon"></i> Obtener Licencia</a></li>
+                    <li><a class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"><i class="icofont icofont-key font-45px default-icon"></i> Obtener Licencia</a></li>
                     {% else %}
-                    <li><a  class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"> Obtener Licencia</a></li>
+                    <li><a class="btn btn-outline-blue btn-sm" href="{{ product.get_absolute_url }}"> Obtener Licencia</a></li>
                     {% endif %}
                   </ul>
                 </div>
@@ -408,7 +406,6 @@ h3 {
     </div>
   </div>
 </section>
-
 
 
 

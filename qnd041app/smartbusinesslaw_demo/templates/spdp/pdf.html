@@ -1,0 +1,135 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DPD - SPDP #{{ delegado.id }}</title>
+    <link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+</head>
+<body>
+
+{% block header %}
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo" height="50">
+    </div>
+    <div class="header-center">
+        DPD-SPDP #{{ delegado.id }}
+    </div>
+    <div class="header-right">
+        <strong>Ecuador, {{ delegado.fecha_nombramiento|date:"d" }} de {{ delegado.fecha_nombramiento|date:"F" }} de {{ delegado.fecha_nombramiento|date:"Y" }}</strong>
+    </div>
+</header>
+{% endblock header %}
+
+{% block titulo %}
+<div class="titulos">
+    <h2>DELEGADO DE PROTECCIÓN DE DATOS PERSONALES (DPD)</h2>
+</div>
+{% endblock titulo %}
+
+{% block preambulo %}
+<div class="preambulo">
+    <p>
+        Se certifica el nombramiento de <strong>{{ delegado.nombre_delegado }}</strong>, identificado con 
+        <strong>{{ delegado.identificacion_delegado }}</strong>, como Delegado de Protección de Datos (DPD) bajo la regulación 
+        <strong>{{ delegado.regulacion.nombre_registro }}</strong>.  
+        Este documento detalla sus funciones, los tratamientos de datos personales bajo su supervisión y los incidentes registrados.
+    </p>
+</div>
+{% endblock preambulo %}
+
+{% block dpd %}
+<div class="clausulas">
+    <h3>1. Información del Delegado</h3>
+    <ul>
+        <li>Correo: {{ delegado.correo_delegado }}</li>
+        <li>Teléfono: {{ delegado.telefono_delegado }}</li>
+        <li>Tipo de vinculación: {{ delegado.tipo_vinculacion }}</li>
+        <li>Acto de designación: {{ delegado.acto_designacion }}</li>
+        <li>Funciones: {{ delegado.funciones_delegado }}</li>
+        <li>Declaración de independencia: {% if delegado.declaracion_independencia %}Sí{% else %}No{% endif %}</li>
+        <li>Declaración de confidencialidad: {% if delegado.declaracion_confidencialidad %}Sí{% else %}No{% endif %}</li>
+    </ul>
+</div>
+{% endblock dpd %}
+
+{% block rat %}
+<div class="clausulas">
+    <h3>2. Registro de Actividades de Tratamiento (RAT)</h3>
+    <ul>
+        <li>Nombre del tratamiento: {{ delegado.rat_nombre_tratamiento }}</li>
+        <li>Finalidad: {{ delegado.rat_finalidad }}</li>
+        <li>Base legal: {% for base in delegado.rat_base_legal %}{{ base }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+        <li>Categorías de datos: {{ delegado.rat_categoria_datos }}</li>
+        <li>Categorías de titulares: {{ delegado.rat_categoria_titulares }}</li>
+        <li>Destinatarios de datos: {{ delegado.rat_categoria_destinatarios }}</li>
+        <li>Responsable del tratamiento: {{ delegado.rat_responsable_tratamiento }}</li>
+        <li>Plazo de conservación: {{ delegado.rat_plazo_conservacion }}</li>
+        <li>Transferencias internacionales: {% if delegado.rat_transferencias_internacionales %}Sí{% else %}No{% endif %}</li>
+        {% if delegado.rat_transferencias_internacionales %}
+            <li>País de transferencia: {{ delegado.rat_pais_transferencia }}</li>
+        {% endif %}
+        <li>Medidas técnicas: {{ delegado.rat_medidas_tecnicas }}</li>
+        <li>Medidas organizativas: {{ delegado.rat_medidas_organizativas }}</li>
+    </ul>
+</div>
+{% endblock rat %}
+
+{% block incidentes %}
+<div class="clausulas">
+    <h3>3. Registro de Incidentes y Mitigaciones</h3>
+    <ul>
+        <li>Identificación: {{ delegado.incidente_identificacion }}</li>
+        <li>Fecha de detección: {{ delegado.incidente_fecha_deteccion|date:"d/m/Y" }}</li>
+        <li>Tipo de incidente: {{ delegado.incidente_tipo }}</li>
+        <li>Descripción: {{ delegado.incidente_descripcion }}</li>
+        <li>Datos afectados: {{ delegado.incidente_datos_afectados }}</li>
+        <li>Titulares afectados: {{ delegado.incidente_titulares_afectados }}</li>
+        <li>Nivel de riesgo: {{ delegado.incidente_riesgo }}</li>
+        <li>Notificado a SPDP: {% if delegado.incidente_notificado_spdp %}Sí{% else %}No{% endif %}</li>
+        {% if delegado.incidente_notificado_spdp %}
+            <li>Fecha de notificación: {{ delegado.incidente_fecha_notificacion|date:"d/m/Y" }}</li>
+        {% endif %}
+        <li>Medidas de mitigación: {{ delegado.incidente_medidas_mitigacion }}</li>
+        <li>Medidas correctivas: {{ delegado.incidente_medidas_correctivas }}</li>
+        <li>Estado: {{ delegado.incidente_estado }}</li>
+    </ul>
+</div>
+{% endblock incidentes %}
+
+{% block control %}
+<hr>
+<h3>4. Control y Observaciones</h3>
+<p>{{ delegado.observaciones }}</p>
+{% endblock control %}
+
+{% block certificacion %}
+<hr>
+<h3><strong>CERTIFICACIÓN Y FIRMA</strong></h3>
+<div class="certificaciones">
+    <div class="cert-left">
+        <!-- QR de certificación -->
+        <img src="{{ qr_url }}" alt="QR de certificación" height="100">
+        <p><strong>SMARTQUAIL S.A.S</strong></p>
+    </div>
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>DELEGADO</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock certificacion %}
+
+<footer>
+    <p>
+        SPDP – Sistema de Protección de Datos Personales | Documento generado automáticamente<br>
+        Fecha de actualización: {{ delegado.fecha_actualizacion|date:"d/m/Y H:i" }}
+    </p>
+</footer>
+
+</body>
+</html>

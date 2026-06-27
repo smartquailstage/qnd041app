@@ -1,0 +1,85 @@
+{% load i18n %}
+{% load static %}
+
+<div class="page-number"></div>
+
+<header>
+    <div class="header-left">
+        <img src="{% static 'css/logosmartquail.png' %}" alt="SmartQuail Logo">
+    </div>
+
+    <div class="header-center">
+        DPD-SQ20{{ delegado.id }}
+    </div>
+
+    <div class="header-right">
+        <strong>Ecuador, {{ delegado.fecha_nombramiento|date:"d" }} de {{ delegado.fecha_nombramiento|date:"F" }} de {{ delegado.fecha_nombramiento|date:"Y" }}</strong>
+    </div>
+</header>
+
+<div class="titulos">
+    <h2>DELEGADO DE PROTECCIÓN DE DATOS (DPD)</h2>
+</div>
+
+<div class="preambulo">
+    <p>
+        Este documento certifica la designación y funciones del Delegado de Protección de Datos (DPD) bajo la responsabilidad de <strong>SmartQuail, Inc.</strong>.
+        Se registran los datos personales, fecha de nombramiento, acto administrativo, funciones asignadas, declaraciones de independencia y confidencialidad, así como la certificación del presente registro mediante hash único y código QR.
+    </p>
+</div>
+
+<div class="clausulas">
+
+    <h3>1. Datos del Delegado</h3>
+    <p>
+        <strong>Nombre:</strong> {{ delegado.nombre_delegado }}<br>
+        <strong>Identificación:</strong> {{ delegado.identificacion_delegado }}<br>
+        <strong>Correo electrónico:</strong> {{ delegado.correo_delegado }}<br>
+        <strong>Teléfono:</strong> {{ delegado.telefono_delegado }}<br>
+        <strong>Fecha de nombramiento:</strong> {{ delegado.fecha_nombramiento|date:"d/m/Y" }}<br>
+        <strong>Acto de designación:</strong> {{ delegado.acto_designacion }}<br>
+        <strong>Tipo de vinculación:</strong> {{ delegado.get_tipo_vinculacion_display }}
+    </p>
+
+    <h3>2. Funciones del Delegado</h3>
+    <p>
+        {{ delegado.funciones_delegado }}
+    </p>
+
+    <h3>3. Declaraciones</h3>
+    <p>
+        <strong>Independencia:</strong> {% if delegado.declaracion_independencia %}Sí{% else %}No{% endif %}<br>
+        <strong>Confidencialidad:</strong> {% if delegado.declaracion_confidencialidad %}Sí{% else %}No{% endif %}
+    </p>
+
+</div>
+
+<hr>
+<h3><strong>CERTIFICACIÓN DEL DELEGADO</strong></h3>
+<div class="certificaciones">
+
+    <div class="cert-left">
+        <img src="{{ qr_url }}" alt="QR de certificación">
+        <p><strong>SMARTQUAIL.S.A.S</strong></p>
+    </div>
+
+    <div class="cert-right">
+        <div class="cert-sign">
+            <div class="signature-box"></div>
+            <p><strong>RESPONSABLE / DPD</strong></p>
+        </div>
+    </div>
+
+</div>
+<hr>
+<div class="contract-note">
+    <strong>TOKEN ID DELEGADO: {{ delegado.hash_incidente }}</strong>
+</div>
+
+<footer>
+    <p>
+        SmartQuail, Inc. — Innovación en Soluciones Tecnológicas<br>
+        Web: smartquail.io | Email: support@smartquail.io | Tel: +1 (305) 901-5734<br>
+        © 2026 SmartQuail, Inc. Todos los derechos reservados.
+    </p>
+</footer>
