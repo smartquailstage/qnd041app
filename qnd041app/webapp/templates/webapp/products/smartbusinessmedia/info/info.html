@@ -453,10 +453,10 @@
       </div>
     
       <div class="col-md-6 d-flex justify-content-end gap-3">
-        <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">
+        <a href="{% url 'sbmshop:product_list' %}" class="btn btn-rounded btn-white">
           {% trans "Volver" %}
         </a>
-        <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn btn-rounded btn-white">
+        <a href="{% url 'usuarios:register' %}" class="btn btn-rounded btn-white">
           {% trans "Crear Cuenta ITC" %}
         </a>
       </div>
