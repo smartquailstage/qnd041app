@@ -26,10 +26,22 @@ def robots_txt(request):
     lines = [
         "User-agent: *",
         "Allow: /",
+        # Bloqueos de idioma y logins
         "Disallow: /ingresar/",
         "Disallow: */ingresar/",
         "Disallow: /businessmedia/",
         "Disallow: /smartbusinessanalytics/",
+        "",
+        # Bloqueos de flujos transaccionales (Evita el 'Crawled - currently not indexed')
+        "Disallow: */apps_carrito/",
+        "Disallow: */apps_metodo_pago/",
+        "Disallow: */services_cart/",
+        "Disallow: */services_payment/",
+        "Disallow: */billing/",
+        "Disallow: */platforms_carrito/",
+        "Disallow: */platforms_metodo_pago/",
+        "Disallow: */iaas_cart/",
+        "Disallow: */iaas_payment/",
         "",
         "Sitemap: https://ec.smartquail.io/sitemap.xml"
     ]
@@ -53,7 +65,8 @@ def sitemap_plano(request):
 # Base (no traducibles)
 urlpatterns = [
     path('robots.txt', robots_txt),
-    path('sitemap.xml', sitemap, {'sitemaps': {'wagtail': WagtailSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
+   # path('sitemap.xml', sitemap, {'sitemaps': {'wagtail': WagtailSitemap}}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', sitemap_plano, name='sitemap'),
     # ... tus otras rutas
     # ... el resto de tus rutas intac
     
