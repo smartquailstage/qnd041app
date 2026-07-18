@@ -31,7 +31,8 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.slug or str(self.id)
+        # Devuelve el slug y el tamaño, manejando valores nulos si es necesario
+        return f"{self.slug or 'Sin-Slug'} | {self.get_tamano_empresa_display() or 'Sin-Tamaño'}"
 
     def get_absolute_url(self):
         return reverse('saas_shop:product_list_by_category', args=[self.slug])

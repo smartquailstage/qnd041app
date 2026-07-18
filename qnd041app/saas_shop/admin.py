@@ -31,7 +31,10 @@ class ProductAdmin(ModelAdmin):
     list_display = (
         'name',
         'category',
-        'payment_method',
+        'costo_total_desarrollo',
+        'costo_project_management',
+        'margen_sq',
+        'total_iva',
         'price',
         'available',
     )
