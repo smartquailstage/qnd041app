@@ -133,13 +133,13 @@
   <!-- BOTÓN -->
   {% if item.product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
   <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-     {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+     {% trans 'Explorar Demo'  %}
   </a>
   {% elif item.product.category.slug == 'business-media' %}
  
   
   <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-    {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+    {% trans 'Explorar Demo'  %}
   </a>
   {% endif %}
 
