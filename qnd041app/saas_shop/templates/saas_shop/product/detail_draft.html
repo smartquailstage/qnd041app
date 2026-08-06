@@ -364,6 +364,9 @@
     <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
     {% endif %}
 
+    {% if product.image_2 %}
+    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}1{% else %}0{% endif %}"></button>
+    {% endif %}
 
     {% if product.image_3 %}
     <button data-bs-slide-to="{% if product.image and product.image_2 %}2{% elif product.image or product.image_2 %}1{% else %}0{% endif %}" data-bs-target="#productCarousel"></button>
@@ -485,7 +488,27 @@
 </div>
 
 
+<div class="card"
+     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
+            border-radius: 8px; padding: 20px; text-align: center;">
+  <!-- BOTÓN -->
+  {% if product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
+  <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+     {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+  </a>
+  {% elif product.category.slug == 'business-media' %}
+ 
+  
+  <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+    {% trans 'Explorar Demo: SBA.V.1.0.1'  %}
+  </a>
+  {% endif %}
 
+  
+
+
+
+</div>
 
 <div class="card"
      style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
