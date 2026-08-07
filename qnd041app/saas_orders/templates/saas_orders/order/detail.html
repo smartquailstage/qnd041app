@@ -127,27 +127,6 @@
        
         </li>
 
-        <div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: center;">
-  <!-- BOTÓN -->
-  {% if item.product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
-  <a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-     {% trans 'Explorar Demo'  %}
-  </a>
-  {% elif item.product.category.slug == 'business-media' %}
- 
-  
-  <a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
-    {% trans 'Explorar Demo'  %}
-  </a>
-  {% endif %}
-
-  
-
-
-
-</div>
         {% endfor %}
 <hr>
 
@@ -175,6 +154,28 @@
 
     </div>
   </div>
+
+
+  {% for item in order.items.all %}
+
+  <div class="card"
+  style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
+         border-radius: 8px; padding: 20px; text-align: center;">
+<!-- BOTÓN -->
+{% if item.product.category.slug == 'business-analytics' or product.category.slug == 'business-law'  %}
+<a href="{% url 'admin:index' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+  {% trans 'Explorar Demo'  %}
+</a>
+{% elif item.product.category.slug == 'business-media' %}
+
+
+<a href="{% url 'wagtailadmin_login' %}" class="btn btn-outline-warning btn-ecomm d-flex justify-content-center">
+ {% trans 'Explorar Demo'  %}
+</a>
+{% endif %}
+</div>
+
+{% endfor %}
 
 {% else %}
   <!-- Orden Expirada -->
