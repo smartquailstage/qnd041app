@@ -421,86 +421,48 @@
 
 
 
-<div class="row mt-5" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: stretch;">
+       <div class="row mt-5" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
 
-  <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
-  <div class="col-md-6" style="flex: 1; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;">
-    <h6>{{ product.name }}</h6>
-    <h5>Funcionalidades</h5>
-    <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
+        <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
+        <div class="col-12 col-md-6" style="flex: 1 1 300px; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;">
+          <h6>{{ product.name }}</h6>
+          <h5>Funcionalidades</h5>
+          <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
 
-    <!-- Precio -->
-    <div class="d-flex align-items-center gap-2">
-      <h4 class="mb-0" style="color:#fff">Inversión: <strong>{{ product.price }}</strong></h4>
-  </div>
+          <!-- Precio -->
+          <div class="d-flex align-items-center gap-2">
+            <h4 class="mb-0" style="color:#fff">Inversión: <strong>{{ product.price }}</strong></h4>
+          </div>
+        </div>
 
+        <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
+        <div class="col-12 col-md-5" style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 20px;">
 
+          <!-- RECUADRO DE GARANTÍAS -->
+          <div class="card" style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: left;">
+            <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Certificaciones</h4>
+            <p>ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.</p>
+          </div>
 
-  </div>
+          <!-- RECUADRO DE INFORMACIÓN DEL SERVICIO -->
+          <div class="card" style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: left;">
+            <h4><i class="fadeIn animated bx bx-support"></i> Soporte y mantenimiento</h4>
+            <p>{{ product.total_nube_iva }} / mes (Incluye recursos de nube y soporte 24/7)</p>
+          </div>
 
+          <div class="card" style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a; border-radius: 8px; padding: 20px; text-align: left;">
+            <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
+              {% csrf_token %}
+              {{ cart_product_form.quantity }}
+              {{ cart_product_form.update }}
+              <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
+                <ion-icon name="key-outline"></ion-icon>{% trans 'Obtener licencia propietaria' %}
+              </button>
+            </form>
+          </div>
 
-
-  <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
- <div class="col-md-6" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
-
-
-      <!-- RECUADRO DE GARANTÍAS -->
-  <div class="card"
-       style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-              border-radius: 8px; padding: 20px; text-align: left;">
-
-    <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Certificaciones</h4>
-
-    <p>
-      ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.
-    </p>
-
-  </div>
-
-
-
-
-  <!-- RECUADRO DE INFORMACIÓN DEL SERVICIO -->
-<div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: left;">
-    <h4>   <i class="fadeIn animated bx bx-support"></i> Soporte y mantenimiento</h4>
-    <p>
-      {{ product.total_nube_iva }} /  mes (Incluye recursos de nube y soporte 24/7)
-    </p>
-
-
-
-</div>
-
-
-
-
-<div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: left;">
-
-  <form action="{% url 'saas_cart:cart_add' product.id %}" method="post">
-    {% csrf_token %}
-    {{ cart_product_form.quantity }}   <!-- Campo oculto -->
-    {{ cart_product_form.update }}     <!-- Campo oculto -->
-
-    <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
-
-      <ion-icon name="key-outline"></ion-icon>{% trans 'Obtener licencia propietaria' %}
-    </button>
-
-</form>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
+        </div>
+      </div>
 
 
 
