@@ -248,18 +248,6 @@
 {% else %}
 {% endif %}
 
-    <!-- Monitoreo -->
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-monitoreo" data-bs-toggle="tab" href="#monitoreo" role="tab"
-         aria-controls="monitoreo" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">
-            <ion-icon name="bar-chart-outline"></ion-icon>
-          </div>
-        </div>
-      </a>
-    </li>
-
     <!-- Ciberseguridad -->
     <li class="nav-item" role="presentation">
       <a class="nav-link" id="tab-ciberseguridad" data-bs-toggle="tab" href="#ciberseguridad" role="tab"
@@ -427,24 +415,25 @@
        {% endif %}
 
 
+
+
+
+
+
+
+<div class="row mt-5" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: stretch;">
+
+  <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
+  <div class="col-md-6" style="flex: 1; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;">
+    <h6>{{ product.name }}</h6>
+    <h5>Funcionalidades</h5>
+    <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
+
     <!-- Precio -->
     <div class="d-flex align-items-center gap-2">
       <h4 class="mb-0" style="color:#fff">Inversión: <strong>{{ product.price }}</strong></h4>
   </div>
 
-
-
-
-
-
-
-<div class="row mt-4" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: stretch;">
-
-  <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
-  <div class="col-md-6" style="flex: 1; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;">
-
-    <h6>{{ product.name }}</h6>
-    <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
 
 
   </div>
@@ -498,7 +487,7 @@
 
     <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
 
-      <ion-icon name="key-outline"></ion-icon>{% trans 'Generar licencia propietaria ITC ' %}
+      <ion-icon name="key-outline"></ion-icon>{% trans 'Obtener licencia propietaria' %}
     </button>
 
 </form>
@@ -544,7 +533,7 @@
   </h5>
 
   <p>
-    En SmartBusinessMedia®, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para
+    En SmartQuail, garantizamos una infraestructura de despliegue robusta, segura y altamente eficiente para
     <strong>{{ product.name }}</strong>.
     Esta infraestructura no solo asegura un alto nivel de seguridad, sino también un rendimiento excelente, adaptado a las necesidades específicas de cada organización, con disponibilidad:
     <strong>{{ product.get_software_display }}</strong>.
@@ -565,7 +554,7 @@
     <li>
       <strong>Subdominio personalizado incluido:</strong>
       Asignamos una URL con el siguiente formato:
-      <code>{{ product.slug }}.smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
+      <code>TOKEN_LICENCIA.smartquail.io</code>, lista para su uso inmediato y configurada con una infraestructura de alta disponibilidad.
     </li>
 
     <li>
@@ -576,8 +565,8 @@
     <li>
       <strong>Almacenamiento:</strong>
       Usamos almacenamiento en la nube de alta capacidad y rendimiento, que permite escalar según las necesidades del negocio.
-      El almacenamiento asignado para este producto es:
-      <strong>{{ product.almacenamiento }} GB</strong>.
+      El almacenamiento asignado para este software es:
+
       <ul>
         <li>Almacenamiento SSD de alta velocidad configurado: {{ product.almacenamiento }} GB.</li>
         <li>Opciones de expansión disponibles hasta 5TB según la carga de datos.</li>
@@ -587,8 +576,8 @@
     <li>
       <strong>Memoria (RAM):</strong>
       La infraestructura estándar ofrece una configuración de memoria optimizada para mantener un rendimiento ágil y sin interrupciones.
-      RAM asignada al cliente:
-      <strong>{{ product.memoria }} GB</strong>.
+      RAM asignada al sistema contratado:
+
       <ul>
         <li>RAM base: {{ product.memoria }} GB.</li>
         <li>Escalable según requerimientos del cliente y módulos activos.</li>
@@ -599,7 +588,7 @@
       <strong>vCPU (Unidad Central de Procesamiento Virtual):</strong>
       Contamos con unidades de procesamiento optimizadas para cargas empresariales intensivas.
       Configuración asignada:
-      <strong>{{ product.cpu }} vCPU</strong>.
+
       <ul>
         <li>Configuración actual: {{ product.cpu }} vCPU.</li>
         <li>Escalabilidad según carga de trabajo y usuarios concurrentes.</li>
@@ -623,7 +612,7 @@
   </ul>
 
   <p class="mb-1">
-    Esta arquitectura de infraestructura garantiza que cada instancia del ERP, incluyendo
+    Esta arquitectura de infraestructura garantiza que cada instancia de software, incluyendo
     <strong>{{ product.name }}</strong>, esté protegida, optimizada y preparada para escalar de acuerdo con las necesidades del negocio, todo ello manteniendo un nivel de latencia bajo y un rendimiento excepcional.
   </p>
 
@@ -643,7 +632,7 @@
   </p>
 
   <p>
-    Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el ERP no solo responde a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
+    Adoptamos un enfoque ágil y colaborativo de desarrollo, integrando tanto a nuestros expertos como al equipo del cliente desde el inicio. Esta metodología nos permite asegurar que el software no solo responda a necesidades actuales, sino que también anticipa escenarios futuros con base en la mejora continua y el feedback iterativo.
   </p>
 
   <h5 class="mt-4">Metodología de implementación con I+D:</h5>
@@ -655,8 +644,6 @@
     <li>
       <strong>2. Desarrollo personalizado e implementación sobre base de datos tokenizada:</strong>
       Modelamos los flujos empresariales utilizando técnicas de tokenización para reforzar la seguridad y la privacidad desde el diseño.
-      <br>
-      Tiempo estimado de desarrollo: <strong>{{ product.tiempo_desarrollo }} horas</strong>, con costo por hora: <strong>{{ product.costo_hora_desarrollo }}</strong>.
     </li>
     <li>
       <strong>3. Feedback inicial del cliente:</strong>
@@ -678,21 +665,10 @@
       <strong>7. Feedback final del cliente sobre desempeño:</strong>
       Validamos junto al cliente el rendimiento del aplicativo, el sistema de backups y la resiliencia ante fallos críticos.
     </li>
+
     <li>
-      <strong>8. Entrega de métricas de recursos contratados:</strong>
-      Presentamos un informe detallado del uso de recursos en la nube:
-      <ul>
-        <li>CPU: <strong>{{ product.cpu }} vCPU</strong></li>
-        <li>Memoria: <strong>{{ product.memoria }} GB</strong></li>
-        <li>Almacenamiento: <strong>{{ product.almacenamiento }} GB</strong></li>
-        <li>Usuarios simultáneos: <strong>{{ product.get_usuarios_simultaneos_display }}</strong></li>
-        <li>Latencia aproximada: <strong>{{ product.get_latencia_aproximada_display }}</strong></li>
-      </ul>
-    </li>
-    <li>
-      <strong>9. Despliegue final en entorno de producción:</strong>
+      <strong>8. Despliegue final en entorno de producción:</strong>
       El sistema se libera oficialmente para su uso operativo, con alta disponibilidad, escalabilidad y soporte continuo.
-      Total estimado de desarrollo + implementación: <strong>{{ product.total }}</strong>, Total con IVA: <strong>{{ product.total_iva }}</strong>.
     </li>
   </ul>
 </div>
@@ -710,7 +686,7 @@
   <h5 class="mt-3">(+A) Automatización de Procesos Empresariales</h5>
 
   <p>
-    En SmartBusinessMedia® creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
+    En SmartQuail creemos firmemente en que la automatización inteligente puede marcar una diferencia significativa en la eficiencia operativa de cualquier organización. Nuestra metodología incluye una evaluación detallada y precisa de los ciclos de cada proceso de negocio, con el objetivo de identificar oportunidades de automatización y optimización.
   </p>
 
   <ul>
@@ -720,7 +696,7 @@
     </li>
     <li>
       <strong>Automatización de procesos internos:</strong>
-      Integramos automatismos dentro del ERP para que ciertas acciones se ejecuten automáticamente según los módulos contratados. Por ejemplo:
+      Integramos automatismos dentro del software de manera nativa para que ciertas acciones se ejecuten automáticamente según los módulos contratados. Por ejemplo:
       <ul>
         {% if product.automatizacion %}
         <li>{{ product.get_automatizacion_display }}</li>
@@ -739,10 +715,7 @@
           <li>Escalar la automatización según el crecimiento de la empresa.</li>
         </ul>
       </p>
-      <p>
-        Costo total de automatización: <strong>{{ product.total_n8n }}</strong><br>
-        Total con IVA: <strong>{{ product.total_n8n_iva }}</strong>.
-      </p>
+
     </li>
     <li>
       <strong>Integración con APIs externas:</strong>
@@ -763,7 +736,7 @@
   </ul>
 
   <p class="mb-1">
-    Nuestro objetivo es que cada empresa que implemente SmartBusinessMedia® obtenga no solo un sistema de gestión, sino una plataforma inteligente que trabaje en segundo plano, automatizando decisiones, respuestas y tareas clave de manera confiable y transparente.
+    Nuestro objetivo es que cada empresa que implemente software propietario obtenga no solo un sistema de gestión, sino una plataforma inteligente que trabaje en segundo plano, automatizando decisiones, respuestas y tareas clave de manera confiable y transparente.
   </p>
 </div>
 
@@ -779,16 +752,16 @@
     <div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel" aria-labelledby="tab-inteligencia">
       <div class="card">
 <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-  <h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada al ERP</h5>
+  <h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada (Agentica)</h5>
 
   <p>
-    SmartBusinessMedia® incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
+    Nuestros software incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
   </p>
 
   <ul>
     <li>
       <strong>Modelos de ML aplicados a los procesos:</strong>
-      Cada proceso dentro del ERP puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
+      Cada proceso dentro del sistema puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
       <p>
         Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
       </p>
@@ -804,9 +777,10 @@
       </ul>
     </li>
     <li>
-      <strong>Integración con ChatGPT 5.0:</strong>
+      <strong>Integración con Modelos de lenguaje comerciales:</strong>
       Hemos integrado <strong>modelos de lenguaje avanzados</strong> para la creación de <strong>ChatBots inteligentes</strong>, capaces de:
       <ul>
+        <li>Autogeneracion de contenidos textuales y multimedia</li>
         <li>Asistir en tiempo real a usuarios del sistema</li>
         <li>Responder consultas de clientes finales</li>
         <li>Guiar procesos internos como soporte, ventas o logística</li>
@@ -821,7 +795,7 @@
       <strong>Análisis predictivo + toma de decisiones:</strong>
       La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
       <p>
-        Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del ERP. Esto garantiza:
+        Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del software. Esto garantiza:
         <ul>
           <li>Automatización de tareas basadas en análisis de IA.</li>
           <li>Integración fluida con APIs internas y externas.</li>
@@ -829,11 +803,7 @@
         </ul>
       </p>
     </li>
-    <li>
-      <strong>Costos de IA:</strong>
-      Costo del módulo IA: <strong>{{ product.total_ml }}</strong><br>
-      Total con IVA: <strong>{{ product.total_ml_iva }}</strong>.
-    </li>
+
   </ul>
 
   <p class="mb-1">
@@ -914,7 +884,7 @@
         <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
            <h5 class="mt-3"><ion-icon name="shield-outline"></ion-icon> Ciberseguridad en la Nube Empresarial</h5>
   <p>
-    La seguridad de la información es una prioridad en <strong>SmartBusinessMedia®</strong>. Nuestra arquitectura cloud ha sido diseñada bajo los más altos estándares de <strong>ciberseguridad corporativa</strong>, garantizando que los datos y procesos de cada organización estén protegidos contra amenazas internas y externas.
+    La seguridad de la información es una prioridad en <strong>SmartQuail</strong>. Nuestra arquitectura cloud ha sido diseñada bajo los más altos estándares de <strong>ciberseguridad corporativa</strong>, garantizando que los datos y procesos de cada organización estén protegidos contra amenazas internas y externas.
   </p>
 
   <ul>
@@ -924,12 +894,12 @@
     </li>
     <li>
       <strong>Certificados SSL de seguridad:</strong>
-      Todos los entornos de SmartBusinessMedia cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo:
+      Todos los entornos de nuestro siftware cuentan con <strong>certificación SSL de 256 bits</strong>, activada por defecto y autogenerada en subdominios del cliente del tipo:
       <code>[organizacion].smartquail.io</code>.
     </li>
     <li>
       <strong>DNS privado y aislamiento por cliente:</strong>
-      Cada instancia del ERP cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
+      Cada instancia de nuestro siftware cuenta con su propio DNS aislado, lo cual permite mantener <strong>entornos seguros, escalables y separados por cliente</strong>. También ofrecemos redirección a dominios privados personalizados (con costo adicional).
     </li>
     <li>
       <strong>Firewalls y monitoreo activo:</strong>
@@ -962,7 +932,7 @@
         <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
           <h5 class="mt-3">Soporte Técnico y Mantenimiento Continuo</h5>
   <p>
-    En <strong>SmartBusinessMedia®</strong>, la continuidad operativa y evolución constante del sistema son pilares clave. Por eso, ofrecemos un servicio de <strong>soporte técnico 24/7</strong> que garantiza que nunca exista una pérdida total de disponibilidad, ni durante mantenimiento ni ante eventualidades imprevistas.
+    En <strong>SmartQuail</strong>, la continuidad operativa y evolución constante del sistema son pilares clave. Por eso, ofrecemos un servicio de <strong>soporte técnico 24/7</strong> que garantiza que nunca exista una pérdida total de disponibilidad, ni durante mantenimiento ni ante eventualidades imprevistas.
   </p>
 
   <ul>
