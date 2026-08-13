@@ -255,7 +255,18 @@ class Product(models.Model):
     total_horas_entrega =  models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     subtotal = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-
+    def calcular_tiempo_entrega(self):
+        """
+        Suma todas las horas de trabajo para obtener el tiempo total de entrega.
+        """
+        tiempo_total = (
+            Decimal(str(self.tiempo_desarrollo or 0)) +
+            Decimal(str(self.tiempo_implementacion or 0)) +
+            Decimal(str(self.tiempo_implementacion_a or 0)) +
+            Decimal(str(self.tiempo_implementacion_ai or 0)) +
+            Decimal(str(self.tiempo_arquitectura or 0))
+        )
+        return tiempo_total
 
 
     def get_totals(self):
@@ -296,6 +307,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         iva_factor = Decimal(self.iva or 0) / Decimal('100')
+        self.total_horas_entrega = self.calcular_tiempo_entrega()
 
         # =========================
         # 1) DESARROLLO
