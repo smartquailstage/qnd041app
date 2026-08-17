@@ -45,6 +45,17 @@ class ProductAdmin(ModelAdmin):
         "slug": ("name",)
     }
 
+
+    list_filter = (
+       'category',
+       'name',
+    )
+
+    search_fields = (
+       'name',
+    )
+        
+
     readonly_fields = [
         'created',
         'updated',
