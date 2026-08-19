@@ -8,7 +8,7 @@
       <div class="card-body p-0" style="background-color: #2e2e2e;">
         {% for c in categories %}
     
-        {% if c.slug == "business-law" and c.tamano_empresa == tamano_empresa %}
+        {% if c.slug == "business-media" and c.tamano_empresa == tamano_empresa %}
           {% if c.products.all %}
             <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
       
@@ -23,7 +23,7 @@
               
                     <!-- DESKTOP (Usa image_2 horizontal) -->
                     <div class="position-relative d-none d-md-block w-100"
-                         style="height: 420px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                         style="height: 820px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                       <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
                         <h2 class="text-warning" style="font-size: 16px;">
                           {{ product.name }} - 
