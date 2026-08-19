@@ -35,7 +35,7 @@ class ProductAdmin(ModelAdmin):
         'costo_project_management',
         'margen_sq',
         'total_iva',
-        'price',
+        'total_nube_iva',
         'available',
     )
 

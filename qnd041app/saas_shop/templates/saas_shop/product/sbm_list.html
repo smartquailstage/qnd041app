@@ -17,92 +17,57 @@
     
                   {% for product in c.products.all %}
                   <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                
+                  
                     <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
                     <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
                 
                       <!-- DESKTOP -->
                       <div class="position-relative d-none d-md-block"
-                        style="height: 1038px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                        style="height: 925px; background-image: url('{% if product.image_1 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                 
                         <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
                 
                           <h2 class="text-warning" style="font-size: 16px;">
-                            {{ product.name }} 
-                            <sup>
-                              I+D {% if product.is_automatitation %} +A {% endif %}
-                              {% if product.is_intelligent %} +AI {% endif %}
-                            </sup>
-    
-                 
-                           / Implementación y Desarollo personalizado (I+D)
-            
-                
-                            {% if product.is_automatitation %}
-                            ,Automatización (+A)
-                            {% endif %}
-                
-                            {% if product.is_intelligent %}
-                              ,Inteligencia Artificial (+AI). 
-                            {% endif %}
-                            Disponibilidad: {% if product.usuarios_simultaneos == '10-50'%} baja (100 usuarios)
-                            {% elif product.usuarios_simultaneos == '150-500' %}  media/baja (500 usuarios)
-                            {% elif product.usuarios_simultaneos == '500-1000' %} media/alta  (1000 usuarios)
-                            {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
-                            {% endif %}
+                            {{ product.name }}- 
+      
+                          
+                              <strong>Disponibilidad:</strong> 
+                              {% if product.usuarios_simultaneos == '100' %}10–50 usuarios maximos, ROI del 75%
+                              {% elif product.usuarios_simultaneos == '300' %} 50–150 usuarios maximos, ROI del 85%
+                              {% elif product.usuarios_simultaneos == '500' %150–500 usuarios maximos,ROI del 95%
+                              {% elif product.usuarios_simultaneos == '800' %}500–1000 usuarios maximos,ROI del 95%
+                              {% elif product.usuarios_simultaneos == '1K' %}1000–5000 usuarios maximos,ROI del 100%
+                              {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
+                              {% endif %}
+                    
                           </h2>
-                       
-                          <p>
-                            Es una plataforma inteligente de gestión comercial y marketing digital (CRM avanzado en la nube), diseñada para centralizar, optimizar y escalar la interacción con clientes, la administración de contenidos multimedia y la ejecución de estrategias digitales en tiempo real. Su arquitectura cloud permite acceso seguro desde cualquier dispositivo, garantizando sincronización continua de la información, trazabilidad de las interacciones y soporte a la toma de decisiones basada en datos.
-                            
-                            Desde una perspectiva operativa y estratégica, SmartBusinessMedia integra la gestión completa de leads, permitiendo su captación, segmentación, seguimiento y conversión a través de embudos personalizados. Además, incorpora flujos de trabajo automatizados que facilitan la implementación de procesos comerciales y de marketing, alineando equipos y asegurando consistencia en cada etapa del ciclo de negocio.
-                            
-                            A nivel de contenido, la plataforma ofrece un gestor multimedia robusto que permite crear, administrar y distribuir contenido digital de forma eficiente, junto con un sistema de gestión web en tiempo real que facilita la actualización dinámica de sitios y activos digitales sin dependencia técnica.
-                            
-                            Esta solución está especialmente orientada a organizaciones que buscan fortalecer su presencia digital, optimizar sus estrategias de posicionamiento SEO y SEM, y mejorar la conversión de oportunidades comerciales mediante el uso inteligente de datos, automatización y contenido relevante.
-                            </p>
-                  
-                          
-                          
-                          {% if product.is_automatitation %}
-                          <p>
-                          Incorpora automatización avanzada en la generación de reportes financieros en formato PDF, incluyendo la autogeneración de identificadores únicos mediante códigos QR, lo que permite validar, rastrear y auditar la información de manera ágil y segura.
-                          
-                          Además, se integra con los sistemas de facturación electrónica del Servicio de Rentas Internas (SRI), asegurando cumplimiento normativo y optimizando los procesos fiscales.
-                          
-                          A nivel operativo, permite la gestión automatizada del catálogo de productos y servicios, así como el control de stock e inventarios en tiempo real, mejorando la eficiencia en la administración de recursos y reduciendo riesgos operativos.
-                          </p>
-                          {% endif %}
-    
-                          {% if product.is_intelligent %}
-                          <p>
-                             El modelo de agente de inteligencia artificial (Agenthic) está diseñado para analizar el comportamiento del negocio en función de los valores y parámetros financieros definidos por la organización. Este agente permite interpretar tendencias, identificar patrones y generar recomendaciones que fortalecen la toma de decisiones estratégicas, aportando una visión predictiva y analítica del desempeño empresarial.
-                          </p>
-                          {% endif %}
-    
+      
+      
                 
                         </div>
                         
                       </div>
-                
-                      <!-- MOBILE -->
-                      <div class="position-relative d-block d-md-none"
-                        style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                
-                        <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-                
-                          <h2 style="color:#fff; font-size: 14px;">
-                          {{ product.name }}
-                          </h2>
-                
-                          <p class="text-warning mb-1">
-                            Inversión: ${{ product.price_amount }}
-                          </p>
-                
-                        </div>
-                      </div>
-                
                     </a>
+                
+                    <div class="position-relative d-block d-md-none"
+                    style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+            
+                    <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+            
+                      <h2 style="color:#fff; font-size: 14px;">
+                      {{ product.name }}
+                      </h2>
+            
+                      <p class="text-warning mb-1">
+                        Inversión: ${{ product.price_amount }}
+                      </p>
+            
+                    </div>
+                  </div>
+            
+                    
+      
+      
                 
                   </div>
                   {% endfor %}
