@@ -22,9 +22,9 @@
                       <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
                   
                         <!-- DESKTOP -->
-                        <div class="position-relative d-none d-md-block"
-                          style="height: 925px; background-image: url('{% if product.image_1 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                  
+                        <div class="position-relative d-block w-100"
+                        style="height: 420px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                        
                           <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
                             <h2 class="text-warning" style="font-size: 16px;">
                               {{ product.name }}- 
@@ -73,7 +73,10 @@
                     {% endfor %}
                   
                   </div>
-                 
+
+                </div>
+
+                                 
                               <!-- Indicadores estilo Instagram -->
                               <div class="carousel-indicators custom-instagram-indicators">
                                 <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -81,7 +84,6 @@
                                 <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="2" aria-label="Slide 3"></button>
                                 <!-- Agrega más <button> si tienes más de 3 elementos, incrementando el data-bs-slide-to="X" -->
                               </div>
-                </div>
                 {% else %}
                   <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
                 {% endif %}
