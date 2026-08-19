@@ -36,7 +36,6 @@ class ProductAdmin(ModelAdmin):
         'margen_sq',
         'total_iva',
         'total_nube_iva',
-        'available',
     )
 
     actions = [duplicar_productos]

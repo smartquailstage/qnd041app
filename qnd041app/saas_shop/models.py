@@ -148,11 +148,11 @@ class Product(models.Model):
     # Desarrollo
     tiempo_desarrollo = models.FloatField(verbose_name="Horas Desarrollo", null=True, blank=True)
     costo_hora_desarrollo = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
-    costo_total_desarrollo = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_total_desarrollo = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True, verbose_name='Costo DeV')
 
     tiempo_implementacion = models.FloatField(verbose_name="Horas Implementación", null=True, blank=True)
     costo_hora_implementacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
-    costo_project_management = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+    costo_project_management = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True, verbose_name='Costo PM')
 
     margen_sq = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
