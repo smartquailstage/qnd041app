@@ -7,97 +7,73 @@
   
           <div class="card-body p-0" style="background-color: #2e2e2e;">
             {% for c in categories %}
-              
-            
+    
             {% if c.slug == "business-law" and c.tamano_empresa == tamano_empresa %}
-                {% if c.products.all %}
+              {% if c.products.all %}
                 <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
-
+          
                   <div class="carousel-inner">
-        
+          
                     {% for product in c.products.all %}
+                    <!-- El carrusel-item debe ser el elemento directo -->
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                  
-                      <!-- 🔥 LINK ENVUELVE TODO (CLICK EN IMAGEN FUNCIONA SIEMPRE) -->
+                      
+                      <!-- El enlace envuelve el contenido interno de cada slide -->
                       <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
                   
-                        <!-- DESKTOP -->
-                        <div class="position-relative d-block w-100"
-                        style="height: 420px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                        
+                        <!-- DESKTOP (Usa image_2 horizontal) -->
+                        <div class="position-relative d-none d-md-block w-100"
+                             style="height: 420px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                           <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
                             <h2 class="text-warning" style="font-size: 16px;">
-                              {{ product.name }}- 
-        
-                            
-                                <strong>Disponibilidad:</strong> 
-                                {% if product.usuarios_simultaneos == '100' %}10–50 usuarios maximos, ROI del 75%
-                                {% elif product.usuarios_simultaneos == '300' %} 50–150 usuarios maximos, ROI del 85%
-                                {% elif product.usuarios_simultaneos == '500' %150–500 usuarios maximos,ROI del 95%
-                                {% elif product.usuarios_simultaneos == '800' %}500–1000 usuarios maximos,ROI del 95%
-                                {% elif product.usuarios_simultaneos == '1K' %}1000–5000 usuarios maximos,ROI del 100%
-                                {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
-                                {% endif %}
-                      
+                              {{ product.name }} - 
+                              <strong>Disponibilidad:</strong> 
+                              {% if product.usuarios_simultaneos == '100' %}50 usuarios máximos, ROI del 75%
+                              {% elif product.usuarios_simultaneos == '300' %}150 usuarios máximos, ROI del 85%
+                              {% elif product.usuarios_simultaneos == '500' %}500 usuarios máximos, ROI del 95%
+                              {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máximos, ROI del 95%
+                              {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máximos, ROI del 100%
+                              {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
+                              {% endif %}
                             </h2>
-                         
-        
-        
-                  
                           </div>
-                          
                         </div>
-                      </a>
-                  
-                      <div class="position-relative d-block d-md-none"
-                      style="height: 420px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-              
-                      <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-              
-                        <h2 style="color:#fff; font-size: 14px;">
-                        {{ product.name }}
-                        </h2>
-              
-                        <p class="text-warning mb-1">
-                          Inversión: ${{ product.price_amount }}
-                        </p>
-              
-                      </div>
-                    </div>
-              
                       
-        
-        
-                  
+                        <!-- MÓVIL (Usa image_2_2 vertical) -->
+                        <div class="position-relative d-block d-md-none w-100"
+                             style="height: 700px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
+                          <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
+                            <h2 style="color:#fff; font-size: 14px;">
+                              {{ product.name }}
+                            </h2>
+                            <p class="text-warning mb-1">
+                              Inversión: ${{ product.price_amount }}
+                            </p>
+                          </div>
+                        </div>
+          
+                      </a>
+          
                     </div>
                     {% endfor %}
                   
                   </div>
-
+          
+                  <!-- Indicadores estilo Instagram -->
+                  <div class="carousel-indicators custom-instagram-indicators">
+                    <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <!-- Agrega más <button> si tienes más elementos -->
+                  </div>
+          
                 </div>
-
-                                 
-                              <!-- Indicadores estilo Instagram -->
-                              <div class="carousel-indicators custom-instagram-indicators">
-                                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                <!-- Agrega más <button> si tienes más de 3 elementos, incrementando el data-bs-slide-to="X" -->
-                              </div>
-                {% else %}
-                  <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
-                {% endif %}
-                {% endif %}
-        
-        
-        
-
-        
-
-        
-        
-    
-            {% endfor %}
+          
+              {% else %}
+                <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+              {% endif %}
+            {% endif %}     
+          {% endfor %}
         
         
             
