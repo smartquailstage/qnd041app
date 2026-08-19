@@ -467,8 +467,13 @@
               <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
                 <ion-icon name="key-outline"></ion-icon>{% trans 'Obtener licencia propietaria' %}
               </button>
+
             </form>
+
           </div>
+          <a href="{% url 'saas_shop:product_list' %}" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
+            <ion-icon name="chevron-back-outline"></ion-icon> {% trans 'Ver más opciones' %}
+          </a>
 
         </div>
       </div>
@@ -722,65 +727,75 @@
     <!-- TAB: Inteligencia Artificial -->
     <div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel" aria-labelledby="tab-inteligencia">
       <div class="card">
-<div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-  <h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada (Agentica)</h5>
-
-  <p>
-    Nuestros software incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
-  </p>
-
-  <ul>
-    <li>
-      <strong>Modelos de ML aplicados a los procesos:</strong>
-      Cada proceso dentro del sistema puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
-      <p>
-        Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
-      </p>
-    </li>
-    <li>
-      <strong>Predicción en tiempo real:</strong>
-      Gracias al análisis constante de datos en vivo, el sistema puede anticiparse a eventos como:
-      <ul>
-        {% if product.prediccion_stock %}<li>Ruptura de stock</li>{% endif %}
-        {% if product.prediccion_demanda %}<li>Variaciones de demanda</li>{% endif %}
-        {% if product.prediccion_financiera %}<li>Riesgos financieros</li>{% endif %}
-        {% if product.alertas_comportamiento %}<li>Alertas de comportamiento inusual</li>{% endif %}
-      </ul>
-    </li>
-    <li>
-      <strong>Integración con Modelos de lenguaje comerciales:</strong>
-      Hemos integrado <strong>modelos de lenguaje avanzados</strong> para la creación de <strong>ChatBots inteligentes</strong>, capaces de:
-      <ul>
-        <li>Autogeneracion de contenidos textuales y multimedia</li>
-        <li>Asistir en tiempo real a usuarios del sistema</li>
-        <li>Responder consultas de clientes finales</li>
-        <li>Guiar procesos internos como soporte, ventas o logística</li>
-      </ul>
-      Esta integración permite una experiencia conversacional natural, contextual y multilingüe.
-    </li>
-    <li>
-      <strong>Entrenamiento personalizado por industria:</strong>
-      Nuestros modelos de IA se entrenan con datos representativos del sector del cliente (retail, salud, educación, etc.), logrando resultados más precisos y relevantes.
-    </li>
-    <li>
-      <strong>Análisis predictivo + toma de decisiones:</strong>
-      La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
-      <p>
-        Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del software. Esto garantiza:
-        <ul>
-          <li>Automatización de tareas basadas en análisis de IA.</li>
-          <li>Integración fluida con APIs internas y externas.</li>
-          <li>Escalabilidad y personalización según las necesidades del cliente.</li>
-        </ul>
-      </p>
-    </li>
-
-  </ul>
-
-  <p class="mb-1">
-    El objetivo de nuestra IA es que las organizaciones pasen de una gestión reactiva a una <strong>gestión proactiva basada en datos reales</strong>, facilitando decisiones inteligentes en tiempo real con un nivel de precisión sin precedentes.
-  </p>
-</div>
+        <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
+          <h5 class="mt-3">(+AI) Inteligencia Artificial Aplicada (Agéntica)</h5>
+        
+          <p>
+            Nuestros software incorpora módulos de Inteligencia Artificial (IA) basados en algoritmos de <strong>aprendizaje automático (Machine Learning)</strong>, diseñados para transformar los procesos empresariales tradicionales en flujos de trabajo inteligentes, predictivos y adaptativos.
+          </p>
+        
+          <ul>
+            <li>
+              <strong>Modelos de ML aplicados a los procesos:</strong>
+              Cada proceso dentro del sistema puede incorporar modelos de aprendizaje automático que <u>clasifican, reconocen patrones y predicen comportamientos futuros</u> basados en grandes volúmenes de datos (Big Data).
+              <p>
+                Módulos activos: {% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}No hay módulos ML activos.{% endif %}
+              </p>
+            </li>
+            <li>
+              <strong>Predicción en tiempo real:</strong>
+              Gracias al análisis constante de datos en vivo, el sistema puede anticiparse a eventos como:
+              <ul>
+                {% if product.prediccion_stock %}<li>Ruptura de stock</li>{% endif %}
+                {% if product.prediccion_demanda %}<li>Variaciones de demanda</li>{% endif %}
+                {% if product.prediccion_financiera %}<li>Riesgos financieros</li>{% endif %}
+                {% if product.alertas_comportamiento %}<li>Alertas de comportamiento inusual</li>{% endif %}
+              </ul>
+            </li>
+            <li>
+              <strong>Implementación y Personalización con Modelos de Vanguardia:</strong>
+              El sistema permite conectar, desplegar y personalizar arquitecturas de IA líderes en el mercado y de código abierto según los requerimientos de gobernanza y privacidad de la empresa:
+              <ul>
+                <li><strong>Google Gemini:</strong> Integración para procesamiento multimodal avanzado y análisis a gran escala.</li>
+                <li><strong>Anthropic Claude:</strong> Optimizado para razonamiento complejo, análisis documental profundo y seguridad corporativa.</li>
+                <li><strong>Ollama:</strong> Despliegue de modelos locales en servidores propios para máxima privacidad y cumplimiento normativo de datos.</li>
+                <li><strong>Zhipu AI:</strong> Adaptación de modelos especializados para procesamiento de lenguaje y flujos automatizados de alta velocidad.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Integración con Modelos de lenguaje comerciales (ChatBots):</strong>
+              Hemos integrado <strong>modelos de lenguaje avanzados</strong> para la creación de asistentes inteligentes capaces de:
+              <ul>
+                <li>Autogeneración de contenidos textuales y multimedia</li>
+                <li>Asistir en tiempo real a usuarios del sistema</li>
+                <li>Responder consultas de clientes finales</li>
+                <li>Guiar procesos internos como soporte, ventas o logística</li>
+              </ul>
+              Esta integración permite una experiencia conversacional natural, contextual y multilingüe.
+            </li>
+            <li>
+              <strong>Entrenamiento personalizado por industria:</strong>
+              Nuestros modelos de IA se entrenan con datos representativos del sector del cliente (legal, corporativo, retail, etc.), logrando resultados más precisos y relevantes.
+            </li>
+            <li>
+              <strong>Análisis predictivo + toma de decisiones:</strong>
+              La IA no solo analiza, sino que también sugiere acciones automáticas o semiautomáticas según los patrones detectados.
+              <p>
+                Además, la arquitectura de IA está integrada con <strong>n8n</strong>, permitiendo que los resultados de predicción y decisiones automatizadas se conecten directamente con otros sistemas y procesos del software. Esto garantiza:
+                <ul>
+                  <li>Automatización de tareas basadas en análisis de IA.</li>
+                  <li>Integración fluida con APIs internas y externas.</li>
+                  <li>Escalabilidad y personalización según las necesidades del cliente.</li>
+                </ul>
+              </p>
+            </li>
+        
+          </ul>
+        
+          <p class="mb-1">
+            El objetivo de nuestra IA es que las organizaciones pasen de una gestión reactiva a una <strong>gestión proactiva basada en datos reales</strong>, facilitando decisiones inteligentes en tiempo real con un nivel de precisión sin precedentes.
+          </p>
+        </div>
 
       </div>
     </div>
