@@ -9,6 +9,31 @@
 
 {% block content %}
 
+
+<style>
+  .custom-instagram-indicators {
+  bottom: 100px;
+  margin-bottom: 0;
+}
+
+.custom-instagram-indicators button {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border: none !important;
+  margin: 0 4px !important;
+  transition: all 0.3s ease;
+}
+
+.custom-instagram-indicators button.active {
+  background-color: #ffffff !important;
+  width: 22px !important; /* Se estira sutilmente a pastilla cuando está activo, muy estilo IG */
+  border-radius: 4px !important;
+}
+</style>
+
+
 <div class="page-content-wrapper">
           <!-- start page content-->
          <div class="page-content" style="padding: 0.5rem;">

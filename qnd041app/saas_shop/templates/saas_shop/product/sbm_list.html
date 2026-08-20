@@ -10,7 +10,7 @@
     
         {% if c.slug == "business-media" and c.tamano_empresa == tamano_empresa %}
           {% if c.products.all %}
-            <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselSmartMedia" class="carousel slide" data-bs-ride="carousel">
       
               <div class="carousel-inner">
       
@@ -56,16 +56,18 @@
       
                 </div>
                 {% endfor %}
-              
-              </div>
-      
+
+                      
               <!-- Indicadores estilo Instagram -->
               <div class="carousel-indicators custom-instagram-indicators">
-                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselMedia" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselSmartMedia" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselSmartMedia" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 <!-- Agrega más <button> si tienes más elementos -->
               </div>
+              
+              </div>
+
       
             </div>
       
