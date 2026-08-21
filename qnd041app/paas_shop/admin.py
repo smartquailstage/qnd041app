@@ -65,6 +65,7 @@ class ProductAdmin(ModelAdmin):
 
     search_fields = (
        'name',
+       'suite',
     )
 
     actions = [duplicar_productos]
