@@ -47,9 +47,10 @@ class ProductAdmin(ModelAdmin):
     list_display = (
         'name',
         'category',
-        'payment_method',
-        'price',
-        'available',
+        'suite',
+        'valor_total_iva,
+        'total_nube_iva',
+        'total_tiempo',
     )
 
     actions = [duplicar_productos]
