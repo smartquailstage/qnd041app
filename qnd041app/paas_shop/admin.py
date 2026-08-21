@@ -57,6 +57,16 @@ class ProductAdmin(ModelAdmin):
         'total_tiempo',
     )
 
+
+    list_filter = (
+       'category',
+       'name',
+    )
+
+    search_fields = (
+       'name',
+    )
+
     actions = [duplicar_productos]
 
     prepopulated_fields = {
