@@ -55,6 +55,8 @@ class ProductAdmin(ModelAdmin):
         'total_iva',
         'total_nube_iva',
         'total_tiempo',
+        'roi',
+        'payback',
     )
 
 
@@ -344,6 +346,8 @@ class ProductAdmin(ModelAdmin):
                     'valor_deducible_iva',
                     'inversion_marketing',
                     'utilidad_liquida',
+                    'roi',
+                    'payback',
                 ),
                 'classes': ('tab', 'tab-rentabilidad'),
             },

@@ -36,6 +36,8 @@ class ProductAdmin(ModelAdmin):
         'margen_sq',
         'total_iva',
         'total_nube_iva',
+        'roi',
+        'payback',
     )
 
     actions = [duplicar_productos]
@@ -324,6 +326,8 @@ class ProductAdmin(ModelAdmin):
                     'valor_deducible_iva',
                     'inversion_marketing',
                     'utilidad_liquida',
+                    'roi',
+                    'payback',
                 ),
                 'classes': ('tab', 'tab-rentabilidad'),
             },

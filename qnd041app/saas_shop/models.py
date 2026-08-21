@@ -247,6 +247,9 @@ class Product(models.Model):
     max_length=10, choices=PAYMENT_METHODS, default='credit'
     )
 
+    roi = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, verbose_name="ROI(%)")
+    payback = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True, verbose_name="PayBack(meses)")
+
     utilidad_bruta = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
     valor_deducible_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     valor_total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
