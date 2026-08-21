@@ -69,7 +69,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.name or str(self.id)
+        return f"{self.name} {self.tamano_empresa}"
 
     def get_absolute_url(self):
         return reverse('paas_shop:product_list_by_category', args=[self.slug])
@@ -520,9 +520,9 @@ class Suite(models.Model):
 
 
     SUITES = [
-        ('Suite(I+D)', 'Suite(I+D)'),
-        ('Suite(I+D+A)', 'Suite(I+D+A)'),
-        ('Suite(I+D+A+AI)', 'Suite(I+D+A+AI)'),
+        ('Core', 'Core'),
+        ('Synthex', 'Synthex'),
+        ('Agentic', 'Agentic'),
     ]
 
 
