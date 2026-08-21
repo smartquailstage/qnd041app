@@ -69,7 +69,7 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return f"{self.name} {self.tamano_empresa}"
+        return f"{self.get_tamano_empresa_display() or 'Sin-Tamaño'}"
 
     def get_absolute_url(self):
         return reverse('paas_shop:product_list_by_category', args=[self.slug])

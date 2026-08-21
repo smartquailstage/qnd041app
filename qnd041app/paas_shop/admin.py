@@ -48,7 +48,7 @@ class ProductAdmin(ModelAdmin):
         'name',
         'category',
         'suite',
-        'valor_total_iva,
+        'valor_total_iva',
         'total_nube_iva',
         'total_tiempo',
     )
