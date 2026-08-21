@@ -195,7 +195,6 @@ class Product(models.Model):
     costo_hora_implementacion = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_project_management = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-    margen_sq = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
@@ -209,7 +208,6 @@ class Product(models.Model):
     costo_total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     # Margen y totales
-    margen_sq_n8n = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total_n8n = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_n8n_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
@@ -224,9 +222,16 @@ class Product(models.Model):
     costo_total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     # Margen y totales
-    margen_sq_ml = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total_ml = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_ml_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
+
+
+    # Cambia estos 5 campos de max_digits=6 a max_digits=14:
+    margen_sq = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_n8n = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_ml = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_nube = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
+    margen_sq_arch = models.DecimalField(max_digits=14, decimal_places=2, null=True, blank=True)
 
 
     # Nube
@@ -238,7 +243,6 @@ class Product(models.Model):
     costo_gpu_mes = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
     costo_total_nube = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
-    margen_sq_nube = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total_nube = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_nube_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
@@ -247,7 +251,6 @@ class Product(models.Model):
     costo_hora_arquitectura = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     costo_sre = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
-    margen_sq_arch = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     total_arch = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
     total_arch_iva = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True, blank=True)
 
