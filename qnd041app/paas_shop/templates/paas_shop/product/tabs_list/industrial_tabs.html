@@ -2,64 +2,142 @@
 {% load static %}
 
 <div class="tab-pane fade" id="industries" role="tabpanel" aria-labelledby="tab-tags">
-    <div class="card-body p-0">
+  <div class="card-body p-0">
 
-
-  {% for c in categories %}
-    {% if c.slug == "business-industrial" %}
+    {% for c in categories %}
+    {% if c.slug == "business-industrial" and c.tamano_empresa == tamano_empresa %}
       {% if c.products.all %}
+  
+  <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+  
+    <!-- INDICADORES (opcional pero recomendado) -->
 
-      
-      <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          {% for product in c.products.all %}
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
-            <div class="position-relative" style="height: 500px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-              
-              <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50 text-white">
-                <h2 style="color:#ffff; font-size: 16px;"><i class="fadeIn animated bx bx-shape-polygon"></i>{{ product.name }}<sup>I+D</sup>
-, maximo {{ product.numero_procesos }}  Procesos </h2>
-                 <p class="mb-1 text-warning" style="margin-top: -12px;">Inversión: $ {{ product.price_amount  }} (Incluye I.V.A) </p>
-              
+  
+    <div class="carousel-inner">
+  
+      {% for product in c.products.all %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+  
+        <a href="{{ product.get_absolute_url }}"
+           class="text-decoration-none text-white d-block">
+  
+          <!-- DESKTOP -->
+          <div class="position-relative d-none d-md-block"
+               style="height: 925px;
+                      background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                      background-size: cover;
+                      background-position: center;">
+  
+            <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
+  
+              <h2 class="text-warning" style="font-size: 16px;">
+                <i class="fadeIn animated bx bx-health"></i>
+                {{ product.name }} {{ product.suite}}
+                
+                <strong>Disponibilidad:</strong> 
+                {% if product.usuarios_simultaneos == '100' %}50 usuarios máximos, ROI del 75%
+                {% elif product.usuarios_simultaneos == '300' %}150 usuarios máximos, ROI del 85%
+                {% elif product.usuarios_simultaneos == '500' %}500 usuarios máximos, ROI del 95%
+                {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máximos, ROI del 95%
+                {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máximos, ROI del 100%
+                {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
+                {% endif %}
+              </h2>
+  
+  
+            </div>
+          </div>
+  
+          <!-- MOBILE -->
+          <div class="position-relative d-block d-md-none w-100"
+               style="height: 79vh;
+                      background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
+                      background-size: cover;
+                      background-position: center;">
+  
+            <div class="position-absolute top-0 start-0 w-100 h-100"
+                 style="background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.35));">
+  
+              <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
+                   style="max-height: 75vh; overflow-y: auto;">
+  
+                <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
+                  <i class="fadeIn animated bx bx-health"></i>
+                  {{ product.name }}
+                  <sup>
+                    I+D {% if product.is_automatitation %}+A{% endif %}
+                    {% if product.is_intelligent %}+AI{% endif %}
+                  </sup>
+                </h2>
+  
+                <p class="text-light mb-2" style="font-size: 12px;">
+                  Plataforma médica y terapéutica en la nube
+                  {% if product.is_automatitation %} • Automatización{% endif %}
+                  {% if product.is_intelligent %} • IA{% endif %}
+                  <br>
+                  <strong>Disponibilidad:</strong>
+                  {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
+                  {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                  {% endif %}
+                </p>
+  
+                <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
+                  Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras.
+                </p>
+  
+                {% if product.is_automatitation %}
+                <p class="text-light mb-2" style="font-size: 13px;">
+                  Automatiza procesos clínicos, reportes médicos y control operativo en tiempo real.
+                </p>
+                {% endif %}
+  
+                {% if product.is_intelligent %}
+                <p class="text-light mb-2" style="font-size: 13px;">
+                  IA para análisis clínico, predicción y apoyo en decisiones médicas.
+                </p>
+                {% endif %}
+  
+                <p class="text-light mb-2" style="font-size: 13px;">
+                  Infraestructura cloud segura y escalable para atención eficiente y confiable.
+                </p>
+  
+  
               </div>
             </div>
-            </a>
           </div>
-          {% endfor %}
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">{% trans "Previous" %}</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">{% trans "Next" %}</span>
-        </button>
+  
+        </a>
+  
       </div>
+      {% endfor %}
+  
+    </div>
+  
+    <!-- CONTROLES DEL CAROUSEL (ESTO TE FALTABA) -->
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#carouselMedia" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+  
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#carouselMedia" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  
+  </div>
+  
       {% else %}
-        <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
+        <p class="ps-3 pb-3">No hay productos disponibles.</p>
       {% endif %}
     {% endif %}
   {% endfor %}
-</div>
 
-<div class="card" style="margin-top: 19px;">
-<div class="card-body p-0" style="color: #ededed;
-text-align: justify;
-font-family: 'Segoe UI', sans-serif;
-font-size: 14px;
-line-height: 1.2;
-background-color: #2e2e2e;
-border-radius: 25px;">
-  <p>
-    <strong>SmartBusinessLaw®</strong>
-     es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas,
-      estudios legales e instituciones. Su arquitectura en la nube permite trabajar de forma segura, en tiempo real y con alta disponibilidad,
-     garantizando la trazabilidad y control total de los expedientes, contratos y procedimientos legales. Para mayor información sobre tecnologías y novedades. <a href="{% url 'business_customer_projects:lista' %}" class="text-warning">Ver documentación</a>
-  </p>
- 
-</div>
+
+
 </div>
 
 
