@@ -33,37 +33,18 @@
   
               <h2 class="text-warning" style="font-size: 16px;">
                 <i class="fadeIn animated bx bx-health"></i>
-                {{ product.name }}
-                <sup>
-                  I+D {% if product.is_automatitation %}+A{% endif %}
-                  {% if product.is_intelligent %}+AI{% endif %}
-                </sup>
-                / Plataforma Médica & Terapéutica /               <strong>Disponibilidad:</strong>
-                {% if product.usuarios_simultaneos == '10-50'%} Baja (100 usuarios maximos simultáneos)
-                {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 usuarios maximos simultáneos)
-                {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 usuarios maximos simultáneos)
-                {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
+                {{ product.name }} {{ product.suite}}
+                
+                <strong>Disponibilidad:</strong> 
+                {% if product.usuarios_simultaneos == '100' %}50 usuarios máximos, ROI del 75%
+                {% elif product.usuarios_simultaneos == '300' %}150 usuarios máximos, ROI del 85%
+                {% elif product.usuarios_simultaneos == '500' %}500 usuarios máximos, ROI del 95%
+                {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máximos, ROI del 95%
+                {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máximos, ROI del 100%
+                {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
                 {% endif %}
               </h2>
   
-              <p class="mb-1 text-warning" style="margin-top: -10px;">
-                <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
-                 Es una plataforma integral de inteligencia operativa para clínicas y hospitales que unifica CRM (SmartBusinessMedia), ERP(SmartBusinessAnalytics) y una plataforma web para pacientes en un solo ecosistema digital. Su objetivo es centralizar la gestión médica, administrativa y operativa, optimizando la relación con los pacientes, el control de recursos y la toma de decisiones en tiempo real.
-                 A través de analítica avanzada y una arquitectura basada en I+D aplicada a procesos reales de salud, la solución transforma datos operativos en información accionable, mejora la eficiencia interna y reduce la carga manual en las instituciones. Incluye además una experiencia digital personalizada para pacientes con diseño UI/UX enfocado en accesibilidad y usabilidad. 
-                 
-                 {% if product.is_automatitation %}
-                 La plataforma incorpora automatización de procesos operativos y administrativos médicos mediante autocompletado inteligente de entradas, 
-                 autogeneración de historiales clínicos, facturación electrónica, reducción de tareas manuales repetitivas y sincronización de información entre módulos. Además, integra conectividad con WhatsApp, 
-                 correo electrónico, redes sociales y APIs (KAPIs), permitiendo la automatización de citas, recordatorios, notificaciones, seguimiento de pacientes y flujos administrativos en tiempo real.
-                  Esta integración multicanal fortalece la comunicación institucional, optimiza la atención al paciente y mejora significativamente la eficiencia operativa.
-                  {% endif %}
-                  {% if product.is_intelligent %}
-                  También incorpora tecnologías de Inteligencia Artificial orientadas a la optimización clínica y administrativa, incluyendo chatbots inteligentes con modelos de 
-                  lenguaje natural para atención automatizada, asistencia al paciente y soporte operativo. La plataforma permite además la implementación personalizada de modelos de aprendizaje automático (Machine Learning) para análisis predictivo, apoyo al diagnóstico médico, detección de patrones clínicos, clasificación de información y generación de recomendaciones basadas en datos reales. Asimismo, integra modelos de IA generativa para análisis avanzado de imágenes médicas, facilitando la interpretación asistida de estudios clínicos, identificación de patrones visuales y generación de soporte analítico para procesos diagnósticos especializados.
-                  {% endif %}
-  
-                </p>
-
   
             </div>
           </div>
