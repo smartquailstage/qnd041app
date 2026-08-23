@@ -570,6 +570,7 @@ def update_generated_reel(request):
 
         # 1️⃣ Actualizar Metadatos (Textos)
         # Guardamos lo que generó la IA
+        reel.id = data.get("id") or reel.id or ""
         reel.caption = data.get("caption") or reel.caption or ""
         reel.copy = data.get("copy") or reel.copy or ""
         reel.hashtags = data.get("hashtags") or reel.hashtags or ""
