@@ -118,9 +118,9 @@ urlpatterns = [
     # Descarga ZIP Beneficiarios Finales
     # ==================================================
     path(
-        'beneficiarios/zip/<str:ruc>/<int:ejercicio>/<int:mes>/',
-        views.zip_beneficiarios_finales,
-        name='zip_beneficiarios_finales'
+    'smartbusinesslaw/beneficiarios/zip/<str:ruc>/<int:ejercicio>/<int:mes>/', 
+    views.zip_beneficiarios_finales, 
+    name='zip_beneficiarios_finales'
     ),
 
 
