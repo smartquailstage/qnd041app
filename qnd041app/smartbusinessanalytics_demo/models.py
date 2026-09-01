@@ -896,6 +896,12 @@ from decimal import Decimal
 from djmoney.models.fields import MoneyField
 
 
+from decimal import Decimal, ROUND_HALF_UP
+from django.conf import settings
+from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+
 class EstadoFinanciero(models.Model):
 
     BANCOS_CHOICES = [
@@ -934,7 +940,7 @@ class EstadoFinanciero(models.Model):
 
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT, # Evita borrar transacciones si se elimina el usuario (Gobernanza)
+        on_delete=models.PROTECT, 
         verbose_name="Usuario Propietario",
         related_name="estados_financieros",
         blank=True,
@@ -948,7 +954,7 @@ class EstadoFinanciero(models.Model):
     )
 
     fecha_fin = models.DateField(
-        verbose_name="Elegir fecha de inicio para análisis",
+        verbose_name="Elegir fecha de fin para análisis",
         help_text="Fecha de corte del período contable analizado"
     )
 
@@ -1001,7 +1007,7 @@ class EstadoFinanciero(models.Model):
         null=True,
         blank=True,
         verbose_name="Efectivo Contable",
-        help_text="Total de Efectivo  contable"
+        help_text="Total de Efectivo contable"
     )
 
     total_ingresos = MoneyField(
@@ -1055,7 +1061,6 @@ class EstadoFinanciero(models.Model):
         help_text="Diferencia absoluta entre ingresos bancarios y contables"
     )
 
-
     diferencia_egresos = MoneyField(
         max_digits=12,
         decimal_places=2,
@@ -1076,13 +1081,12 @@ class EstadoFinanciero(models.Model):
     )
 
     umbral_conciliacion = models.DecimalField(
-    max_digits=5,
-    decimal_places=2,
-    default=Decimal('1.00'),
-    verbose_name="Umbral de conciliación (%)",
-    help_text="Porcentaje máximo permitido para considerar conciliado"
+        max_digits=5,
+        decimal_places=2,
+        default=Decimal('1.00'),
+        verbose_name="Umbral de conciliación (%)",
+        help_text="Porcentaje máximo permitido para considerar conciliado"
     )
-
 
     conciliado = models.BooleanField(
         default=False,
@@ -1090,7 +1094,7 @@ class EstadoFinanciero(models.Model):
         help_text="Indica si la conciliación bancaria es aceptable"
     )
 
-    # INDICADORES FINANCIEROS
+    # INDICADORES FINANCIEROS Y DE UNIDAD (ESTILO PAAP / SMARTQUAIL)
     margen_utilidad_bruta = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -1118,9 +1122,99 @@ class EstadoFinanciero(models.Model):
     ratio_cobertura = models.DecimalField(
         max_digits=6,
         decimal_places=2,
+        default_currency=None,
         default=Decimal('0.00'),
         verbose_name="Ratio de cobertura",
         help_text="Capacidad de cubrir obligaciones financieras"
+    )
+
+    # NUEVAS MÉTRICAS FINANCIERAS AGREGADAS (LTV, CAC, LTV:CAC, Payback, ARPU, Churn, NRR, Gross Margin, Burn Rate, Runway)
+    arpu = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="ARPU",
+        help_text="Ingreso promedio por usuario o cuenta corporativa activa"
+    )
+
+    cac = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="CAC",
+        help_text="Costo de adquisición de clientes"
+    )
+
+    ltv = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="LTV",
+        help_text="Valor de vida del cliente"
+    )
+
+    ratio_ltv_cac = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Ratio LTV:CAC",
+        help_text="Eficiencia de capital comercial y adquisición"
+    )
+
+    payback_period_meses = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Payback Period (meses)",
+        help_text="Periodo de recuperación del CAC en meses"
+    )
+
+    churn_rate = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Churn Rate (%)",
+        help_text="Tasa de cancelación mensual o del período"
+    )
+
+    nrr = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Net Revenue Retention (NRR %)",
+        help_text="Retención neta de ingresos de clientes existentes"
+    )
+
+    gross_margin_porcentaje = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Gross Margin (%)",
+        help_text="Porcentaje de margen bruto de entrega del servicio"
+    )
+
+    burn_rate = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Burn Rate",
+        help_text="Tasa de quema de caja neta mensual"
+    )
+
+    runway_meses = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name="Runway (meses)",
+        help_text="Meses de supervivencia financiera con la caja actual"
     )
 
     # GASTOS Y APLICACIONES
@@ -1304,7 +1398,7 @@ class EstadoFinanciero(models.Model):
     # ==============================
     # MÉTODO PRINCIPAL
     # ==============================
-    def calcular_estado_financiero(self, tasa_dividendo=Decimal('0.50')):
+    def calcular_estado_financiero(self, tasa_dividendo=Decimal('0.50'), caja_disponible_total=Decimal('340000.00'), churn_default=Decimal('0.08'), cac_default=Decimal('3500.00')):
         if not self.fecha_inicio or not self.fecha_fin:
             return
 
@@ -1342,6 +1436,8 @@ class EstadoFinanciero(models.Model):
                     total += val
             return total
 
+
+
         def sumar_por_categoria_ingresos(qs, categoria_ingresos, campo='monto_neto'):
             total = Money(0, 'USD')
             for obj in qs.filter(categoria_ingresos=categoria_ingresos):
@@ -1352,64 +1448,45 @@ class EstadoFinanciero(models.Model):
 
         def sumar_iva_duduccion(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_egreso=True):
+            for obj in qs.filter(es_egreso=True):
                 if obj.iva:
                     total += obj.iva
-                    
             return total
 
         def sumar_iva_declaracion(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_ingreso=True):
+            for obj in qs.filter(es_ingreso=True):
                 if obj.iva:
                     total += obj.iva
-                    
             return total
 
         def sumar_cuentas_pagar(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_egreso=True,confirmado=False):
+            for obj in qs.filter(es_egreso=True, confirmado=False):
                 if obj.monto_neto:
                     total += obj.monto_neto
-                    
             return total
 
         def sumar_cuentas_cobrar(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_ingreso=True,confirmado=False):
+            for obj in qs.filter(es_ingreso=True, confirmado=False):
                 if obj.monto_neto:
                     total += obj.monto_neto
-                    
             return total
 
         def sumar_deudas_pagar(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_egreso=True,categoria='pago_deuda'):
+            for obj in qs.filter(es_egreso=True, categoria='pago_deuda'):
                 if obj.monto_neto:
                     total += obj.monto_neto
-                    
             return total
 
         def sumar_acciones_legales_pagar(qs):
             total = Money(0, 'USD')
-            
-            for obj in qs.filter(
-                es_ingreso=True,categoria_ingresos='acciones_legales'):
+            for obj in qs.filter(es_ingreso=True, categoria_ingresos='acciones_legales'):
                 if obj.monto_neto:
                     total += obj.monto_neto
-                    
             return total
-
 
         def ratio(num, den):
             if den <= 0:
@@ -1421,7 +1498,7 @@ class EstadoFinanciero(models.Model):
         # ------------------------------
         self.ventas = sumar_por_categoria_ingresos(ingresos, 'ventas')
         self.inversiones = sumar_por_categoria_ingresos(ingresos, 'inversion')
-        self.acciones_legales =sumar_acciones_legales_pagar(ingresos)
+        self.acciones_legales = sumar_acciones_legales_pagar(ingresos)
         self.gastos_operativos = sumar_por_categoria(egresos, 'gastos_operativos')
         self.gastos_nomina = sumar_por_categoria(egresos, 'gastos_nomina')
         self.gastos_tributarios = sumar_por_categoria(egresos, 'gastos_tributarios')
@@ -1430,9 +1507,8 @@ class EstadoFinanciero(models.Model):
         self.declaracion_iva = sumar_iva_declaracion(ingresos)
         self.deduccion_gastos = sumar_iva_duduccion(egresos)
         self.cuentas_pagar = sumar_cuentas_pagar(egresos)
-        self.deudas_pagar = sumar_cuentas_cobrar(egresos)
-        self.cuentas_cobrar = sumar_cuentas_cobrar(ingresos)
         self.deudas_pagar = sumar_deudas_pagar(egresos)
+        self.cuentas_cobrar = sumar_cuentas_cobrar(ingresos)
 
 
         # ------------------------------
@@ -1454,12 +1530,67 @@ class EstadoFinanciero(models.Model):
         self.porcentaje_ventas = ratio(ventas_v, utilidad_neta_v).quantize(Decimal('1'), rounding=ROUND_HALF_UP)
 
         # ------------------------------
-        # Indicadores
+        # Indicadores Financieros Base
         # ------------------------------
         self.margen_utilidad_bruta = ratio(d(self.utilidad_bruta.amount), ingresos_v)
         self.margen_utilidad_neta = ratio(utilidad_neta_v, ingresos_v)
         self.rentabilidad = ratio(utilidad_neta_v, ingresos_v)
         self.ratio_cobertura = ratio(ingresos_v, egresos_v)
+
+        # ------------------------------
+        # Métricas de Unidad y PaaP Automáticas (ARPU, LTV, CAC, Payback, Churn, NRR, Gross Margin, Burn Rate, Runway)
+        # ------------------------------
+        
+        # 1. ARPU mensual estimado según los ingresos totales o conteo de clientes implícito
+        # Si hay ventas registradas, calculamos un ARPU mensual representativo
+        num_clientes_estimado = max(1, ingresos.count()) # Proxy basado en transacciones de ingreso si no hay modelo de clientes directo
+        arpu_val = (ingresos_v / Decimal(num_clientes_estimado)).quantize(Decimal('0.01')) if num_clientes_estimado > 0 else Decimal('0.00')
+        self.arpu = Money(arpu_val, 'USD')
+
+        # 2. Gross Margin (%)
+        gm_val = self.margen_utilidad_bruta
+        self.gross_margin_porcentaje = gm_val
+
+        # 3. Churn Rate (%)
+        self.churn_rate = churn_default
+
+        # 4. LTV (Valor de vida del cliente) -> LTV = (ARPU * Gross Margin %) / Churn Rate
+        gm_decimal = gm_val / Decimal('100')
+        churn_dec = self.churn_rate
+        if churn_dec > 0:
+            ltv_val = ((arpu_val * gm_decimal) / churn_dec).quantize(Decimal('0.01'))
+        else:
+            ltv_val = Decimal('0.00')
+        self.ltv = Money(ltv_val, 'USD')
+
+        # 5. CAC (Costo de Adquisición de Clientes)
+        self.cac = Money(cac_default, 'USD')
+        cac_val = d(self.cac.amount)
+
+        # 6. Ratio LTV:CAC
+        if cac_val > 0:
+            self.ratio_ltv_cac = (ltv_val / cac_val).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        else:
+            self.ratio_ltv_cac = Decimal('0.00')
+
+        # 7. Payback Period del CAC (meses) -> CAC / (ARPU * Gross Margin %)
+        den_payback = arpu_val * gm_decimal
+        if den_payback > 0:
+            self.payback_period_meses = (cac_val / den_payback).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        else:
+            self.payback_period_meses = Decimal('0.00')
+
+        # 8. NRR (Net Revenue Retention) predeterminado saludable para PaaP (ej. 110%)
+        self.nrr = Decimal('110.00')
+
+        # 9. Burn Rate (Egresos netos mensuales)
+        self.burn_rate = Money(egresos_v, 'USD')
+
+        # 10. Runway (meses) -> Caja / Burn Rate
+        if egresos_v > 0:
+            self.runway_meses = (caja_disponible_total / egresos_v).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        else:
+            self.runway_meses = Decimal('99.99')
 
         # ------------------------------
         # Punto de equilibrio
@@ -1489,8 +1620,10 @@ class EstadoFinanciero(models.Model):
             "utilidad_neta": float(utilidad_neta_v),
             "ingresos_pct": float(ratio(ingresos_v, flujo_total)),
             "egresos_pct": float(ratio(egresos_v, flujo_total)),
+            "ltv_cac_ratio": float(self.ratio_ltv_cac),
+            "payback_meses": float(self.payback_period_meses),
+            "runway_meses": float(self.runway_meses),
         }
-
 
         # ------------------------------
         # CONCILIACIÓN BANCARIA
@@ -1519,7 +1652,7 @@ class EstadoFinanciero(models.Model):
             'USD'
         )
 
-        # Diferencia absoluta de ingresos
+        # Diferencia absoluta de egresos
         diferencia_egresos = abs(bancos_egr - egresos_v)
 
         self.diferencia_egresos = Money(
@@ -1544,8 +1677,6 @@ class EstadoFinanciero(models.Model):
         self.conciliado = (
             self.error_conciliacion_porcentaje <= umbral
         )
-
-
 
     # ==============================
     # Meta y Métodos
