@@ -786,8 +786,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
         # ==========================
         # CONTROL PREVENTIVO: Validación del Árbol de Datos
         # ==========================
-        # Consultamos si existen movimientos financieros asociados para este rango.
-        # Nota: El filtro 'usuario=self.request.user' garantiza el aislamiento del operador staff.
         ingresos_qs = MovimientoFinanciero.objects.filter(
             fecha_devengo__range=(start, end),
             es_ingreso=True
@@ -814,7 +812,8 @@ class EstadoResumenContableComponentDemo(BaseComponent):
                 "header_stats": [],
                 "cards": [],
                 "gastos": [],
-                "ingresos_corrientes": []
+                "ingresos_corrientes": [],
+                "metricas_paap": []
             })
             return context
 
@@ -849,6 +848,22 @@ class EstadoResumenContableComponentDemo(BaseComponent):
             {"title": "Fecha de fin", "value": end, "badge": "Fin", "badge_color": "success"},
         ]
 
+        # ==========================
+        # MÉTRICAS OPERATIVAS Y PAAP (SmartBusinessPlatforms)
+        # ==========================
+        metricas_paap = [
+            {"title": "ARPU", "value": e.arpu, "badge": "Unidad", "badge_color": "info"},
+            {"title": "CAC", "value": e.cac, "badge": "Adquisición", "badge_color": "secondary"},
+            {"title": "LTV", "value": e.ltv, "badge": "Valor Vida", "badge_color": "success"},
+            {"title": "Ratio LTV:CAC", "value": e.ratio_ltv_cac, "badge": "Eficiencia", "badge_color": "primary"},
+            {"title": "Payback Period", "value": f"{e.payback_period_meses} meses", "badge": "Recuperación", "badge_color": "warning"},
+            {"title": "Churn Rate", "value": f"{e.churn_rate}%", "badge": "Bajas", "badge_color": "danger"},
+            {"title": "NRR (Net Revenue Retention)", "value": f"{e.nrr}%", "badge": "Retención", "badge_color": "success"},
+            {"title": "Gross Margin", "value": f"{e.gross_margin_porcentaje}%", "badge": "Margen Bruto", "badge_color": "primary"},
+            {"title": "Burn Rate", "value": e.burn_rate, "badge": "Quema de Caja", "badge_color": "danger"},
+            {"title": "Runway", "value": f"{e.runway_meses} meses", "badge": "Supervivencia", "badge_color": "warning"},
+        ]
+
         raw_gastos = [
             {"title": "Gastos Fijos", "value": e.gastos_fijos},
             {"title": "Gastos Operativos", "value": e.gastos_operativos},
@@ -881,7 +896,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
             mes_inicio = current
             mes_fin = current.replace(day=last_day)
 
-            # Reutilizamos los filtros del queryset base aplicando el aislamiento por usuario
             m_ing_qs = ingresos_qs.filter(fecha_devengo__range=(mes_inicio, mes_fin))
             m_egr_qs = egresos_qs.filter(fecha_devengo__range=(mes_inicio, mes_fin))
 
@@ -897,7 +911,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
                 month=(current.month % 12) + 1,
             )
 
-        # Conversión a estructuras numéricas robustas
         x_vals = np.array(ingresos, dtype=float)
         y_vals = np.array(egresos, dtype=float)
         utilidades_vals = np.array(utilidades, dtype=float)
@@ -932,7 +945,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
         x_bank = money_to_float(e.total_ingresos_bancos)
         y_bank = money_to_float(e.total_egresos_bancos)
 
-        # Control estructural: Si los arreglos temporales están vacíos o contienen puros ceros, calculamos errores estáticos
         if len(x_vals) > 0 and x_vals[0] != 0:
             x_err = np.array([abs(x_bank - x_vals[0]) * 0.5])
         else:
@@ -948,7 +960,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
             fmt="s", markersize=8, color="#e82b0c", ecolor="#e82b0c", elinewidth=2, capsize=6, alpha=0.85
         )
 
-        # Evitamos regresión lineal con dispersión nula o varianza cero para impedir fallos matemáticos
         if len(x_vals) > 1 and np.std(x_vals) > 0:
             m, b = np.polyfit(x_vals, y_vals, 1)
             ax2.plot(x_vals, m * x_vals + b, "--", color="gray", linewidth=3)
@@ -985,7 +996,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
 
         fig3, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 5))
 
-        # Renderizado condicional interno: Solo dibuja si existen componentes numéricos mayores a cero
         if sum(ingresos_values) > 0:
             ax3.pie(
                 ingresos_values, labels=ingresos_labels, autopct="%1.1f%%", startangle=90,
@@ -1004,7 +1014,6 @@ class EstadoResumenContableComponentDemo(BaseComponent):
             ax4.text(0.5, 0.5, "Sin Egresos", ha="center", va="center", color="gray")
             ax4.axis("off")
 
-        # Aseguramos la contención espacial mediante tight_layout de forma segura
         plt.tight_layout()
         buffer3 = io.BytesIO()
         fig3.savefig(buffer3, format="png", dpi=100, transparent=True, bbox_inches="tight")
@@ -1056,6 +1065,7 @@ class EstadoResumenContableComponentDemo(BaseComponent):
             "table": table_context,
             "header_stats": header_stats,
             "cards": cards,
+            "metricas_paap": metricas_paap,
             "gastos": gastos,
             "ingresos_corrientes": ingresos_corrientes,
             "chart_image": bar_chart,
