@@ -429,6 +429,23 @@
 </div>
 {% endfor %}
 
+{% for metrica in metricas_paap %}
+<div class="flex flex-col gap-2 relative w-full">
+
+    <div class="flex flex-row relative z-20">
+        <h3 class="text-font-important-light dark:text-font-important-dark text-sm">
+            {{ metrica.title }}
+        </h3>
+
+        <strong class="bg-gray-100 font-medium text-gray-700 ml-auto px-1.5 py-1 rounded-default text-xs
+                       dark:text-font-important-light dark:bg-base-700">
+            {{ metrica.value }}
+        </strong>
+    </div>
+
+</div>
+{% endfor %}
+
 
 
 

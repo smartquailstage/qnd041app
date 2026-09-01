@@ -1243,6 +1243,23 @@ class EstadoFinancieroAdmin(ModelAdmin):
             ),
             "classes": ("unfold", "tab-avanzado"),
         }),
+
+        ("VIII. Métricas Financieras y Operativas PaaP", {
+            "fields": (
+                "arpu",
+                "cac",
+                "ltv",
+                "ratio_ltv_cac",
+                "payback_period_meses",
+                "churn_rate",
+                "nrr",
+                "gross_margin_porcentaje",
+                "burn_rate",
+                "runway_meses",
+            ),
+            "classes": ("unfold", "tab-avanzado"),
+        }),
+
     )
 
 
@@ -1304,6 +1321,20 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "diferencia_egresos",
         "error_conciliacion_porcentaje",
         "umbral_conciliacion",
+
+        
+        # Nuevas métricas operativas y PaaP
+        "arpu",
+        "ltv",
+        "ratio_ltv_cac",
+        "payback_period_meses",
+        "gross_margin_porcentaje",
+        "burn_rate",
+        "runway_meses",
+        
+        # Opcionales (si prefieres que el usuario no los edite manualmente y se calculen o fijen por defecto)
+        "churn_rate",
+        "nrr",
       
 
     )
