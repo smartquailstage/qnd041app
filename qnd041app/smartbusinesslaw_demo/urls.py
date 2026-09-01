@@ -118,11 +118,10 @@ urlpatterns = [
     # Descarga ZIP Beneficiarios Finales
     # ==================================================
     path(
-    '/zip/befics/<str:ruc>/<int:ejercicio>/<int:mes>/', 
+    'zip/befics/<str:ruc>/<int:ejercicio>/<int:mes>/', 
     views.zip_beneficiarios_finales, 
     name='zip_beneficiarios_finales'
     ),
-
 
     path('zip/ats/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_ats, name='zip_ats'),
     path('zip/rdep/<str:ruc>/<int:ejercicio>/<int:mes>/', views.zip_rdep, name='zip_rdep'),
