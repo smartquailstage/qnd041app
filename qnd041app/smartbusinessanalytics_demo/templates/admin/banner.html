@@ -87,74 +87,65 @@
 
 
 
-<div class="grow relative">
+                        <div class="grow relative">
 
-                              <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
-    
-                        Distrubución Financiera:
-                            <span class="font-semibold  bg-green-light-100 text-green-light--700 rounded-default" >+ Ingresos</span> 
-    <span class="font-semibold bg-yellow-600 text-yellow-700 rounded-default" >- Egresos</span> 
-    <span class="font-semibold bg-blue-100 text-blue-700 dark:bg-primary-500/20 dark:text-primary-400 rounded-default" >Utilidad Neta</span>
-                    
-</div>
-
-
-
-                        <div class="relative w-full">
-   <img src="{{ chart_image }}" alt="Ingresos vs Egresos" class="w-full h-auto rounded-default shadow-xs"/>
-</div>
-
-
-  <div class="bg-base-200 dark:bg-base-800 dark:border-base-800 h-px my-6"></div>
-
-
-
-             <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
-    
-                        Dinámica Financiera (Engresos vs Ingresos)
-                    
-</div>
-
-
-                        <div class="relative w-full">
-<img src="{{ scatter_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
-                    
-
-
-             <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
-    
-                        Partes por 100 (Engresos - Ingresos)
-                    
-</div>
-                    
-     <div class="relative w-full">
-            <img src="{{ pie_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
-        </div>
-    
-
-    
-</div>
-
-{% for metrica in metricas_paap %}
-<div class="flex flex-col gap-2 relative w-full">
-
-    <div class="flex flex-row relative z-20">
-        <h3 class="text-font-important-light dark:text-font-important-dark text-sm">
-            {{ metrica.title }}
-        </h3>
-
-        <strong class="bg-gray-100 font-medium text-gray-700 ml-auto px-1.5 py-1 rounded-default text-xs
-                       dark:text-font-important-light dark:bg-base-700">
-            {{ metrica.value }}
-        </strong>
-    </div>
-
-</div>
-{% endfor %}
-
-
-</div>
-
+                            <!-- Sección de Gráficos (Tu código actual) -->
+                            <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
+                                Distrubución Financiera:
+                                <span class="font-semibold bg-green-light-100 text-green-light--700 rounded-default">+ Ingresos</span> 
+                                <span class="font-semibold bg-yellow-600 text-yellow-700 rounded-default">- Egresos</span> 
+                                <span class="font-semibold bg-blue-100 text-blue-700 dark:bg-primary-500/20 dark:text-primary-400 rounded-default">Utilidad Neta</span>
+                            </div>
+                        
+                            <div class="relative w-full">
+                                <img src="{{ chart_image }}" alt="Ingresos vs Egresos" class="w-full h-auto rounded-default shadow-xs"/>
+                            </div>
+                        
+                            <div class="bg-base-200 dark:bg-base-800 dark:border-base-800 h-px my-6"></div>
+                        
+                            <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base">
+                                Dinámica Financiera (Engresos vs Ingresos)
+                            </div>
+                        
+                            <div class="relative w-full">
+                                <img src="{{ scatter_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
+                            </div>
+                        
+                            <div class="font-semibold text-2xl text-font-important-light tracking-tight dark:text-font-important-dark text-base mt-6">
+                                Partes por 100 (Engresos - Ingresos)
+                            </div>
+                                            
+                            <div class="relative w-full mb-6">
+                                <img src="{{ pie_chart_image }}" alt="Gráfico de Dispersión" class="w-full h-auto" />
+                            </div>
+                        
+                            <!-- SECCIÓN DE MÉTRICAS PAAP CORREGIDA Y VISIBLE -->
+                            <div class="bg-base-100 dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-default p-4 mt-6 shadow-xs">
+                                <h4 class="font-semibold text-lg text-font-important-light dark:text-font-important-dark mb-4">
+                                    Métricas PAAP
+                                </h4>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {% for metrica in metricas_paap %}
+                                    <div class="flex flex-col gap-2 p-3 bg-base-50 dark:bg-base-800 rounded-default border border-base-200 dark:border-base-700 w-full">
+                                        <div class="flex flex-row items-center justify-between relative z-20">
+                                            <h3 class="text-font-important-light dark:text-font-important-dark text-sm font-medium">
+                                                {{ metrica.title }}
+                                            </h3>
+                        
+                                            <strong class="bg-gray-100 font-medium text-gray-700 px-2 py-1 rounded-default text-xs
+                                                           dark:text-font-important-light dark:bg-base-700">
+                                                {{ metrica.value }}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 col-span-2">No hay métricas PAAP disponibles.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        
+                        </div>
                 
      
 
