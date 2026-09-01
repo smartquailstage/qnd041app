@@ -740,7 +740,7 @@ from unfold.components import BaseComponent, register_component
 
 @register_component
 class EstadoResumenContableComponentDemo(BaseComponent):
-    template_name = "admin/banner.html"
+    template_name = "admin/demo/banner.html"
     name = "Resumen Contable"
 
     def __init__(self, request, instance=None):
@@ -1082,7 +1082,7 @@ class EstadoResumenContableComponentDemo(BaseComponent):
 
 @register_component
 class EstadoKPIsComponentDemo(BaseComponent):
-    template_name = "admin/profile_card.html"
+    template_name = "admin/demo/profile_card.html"
     name = "Indicadores Financieros"
 
     def __init__(self, request, instance=None):
@@ -1405,7 +1405,7 @@ from decimal import Decimal
 
 @register_component
 class ActivoPasivoResumenComponentDemo(BaseComponent):
-    template_name = "admin/activos_resumen.html"
+    template_name = "admin/demo/activos_resumen.html"
     name = "Resumen Financiero"
 
     def __init__(self, request, instance=None):
