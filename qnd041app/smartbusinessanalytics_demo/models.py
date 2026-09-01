@@ -1122,7 +1122,6 @@ class EstadoFinanciero(models.Model):
     ratio_cobertura = models.DecimalField(
         max_digits=6,
         decimal_places=2,
-        default_currency=None,
         default=Decimal('0.00'),
         verbose_name="Ratio de cobertura",
         help_text="Capacidad de cubrir obligaciones financieras"
@@ -1436,8 +1435,6 @@ class EstadoFinanciero(models.Model):
                     total += val
             return total
 
-
-
         def sumar_por_categoria_ingresos(qs, categoria_ingresos, campo='monto_neto'):
             total = Money(0, 'USD')
             for obj in qs.filter(categoria_ingresos=categoria_ingresos):
@@ -1510,7 +1507,6 @@ class EstadoFinanciero(models.Model):
         self.deudas_pagar = sumar_deudas_pagar(egresos)
         self.cuentas_cobrar = sumar_cuentas_cobrar(ingresos)
 
-
         # ------------------------------
         # Totales
         # ------------------------------
@@ -1540,21 +1536,15 @@ class EstadoFinanciero(models.Model):
         # ------------------------------
         # Métricas de Unidad y PaaP Automáticas (ARPU, LTV, CAC, Payback, Churn, NRR, Gross Margin, Burn Rate, Runway)
         # ------------------------------
-        
-        # 1. ARPU mensual estimado según los ingresos totales o conteo de clientes implícito
-        # Si hay ventas registradas, calculamos un ARPU mensual representativo
-        num_clientes_estimado = max(1, ingresos.count()) # Proxy basado en transacciones de ingreso si no hay modelo de clientes directo
+        num_clientes_estimado = max(1, ingresos.count())
         arpu_val = (ingresos_v / Decimal(num_clientes_estimado)).quantize(Decimal('0.01')) if num_clientes_estimado > 0 else Decimal('0.00')
         self.arpu = Money(arpu_val, 'USD')
 
-        # 2. Gross Margin (%)
         gm_val = self.margen_utilidad_bruta
         self.gross_margin_porcentaje = gm_val
 
-        # 3. Churn Rate (%)
         self.churn_rate = churn_default
 
-        # 4. LTV (Valor de vida del cliente) -> LTV = (ARPU * Gross Margin %) / Churn Rate
         gm_decimal = gm_val / Decimal('100')
         churn_dec = self.churn_rate
         if churn_dec > 0:
@@ -1563,30 +1553,23 @@ class EstadoFinanciero(models.Model):
             ltv_val = Decimal('0.00')
         self.ltv = Money(ltv_val, 'USD')
 
-        # 5. CAC (Costo de Adquisición de Clientes)
         self.cac = Money(cac_default, 'USD')
         cac_val = d(self.cac.amount)
 
-        # 6. Ratio LTV:CAC
         if cac_val > 0:
             self.ratio_ltv_cac = (ltv_val / cac_val).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         else:
             self.ratio_ltv_cac = Decimal('0.00')
 
-        # 7. Payback Period del CAC (meses) -> CAC / (ARPU * Gross Margin %)
         den_payback = arpu_val * gm_decimal
         if den_payback > 0:
             self.payback_period_meses = (cac_val / den_payback).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         else:
             self.payback_period_meses = Decimal('0.00')
 
-        # 8. NRR (Net Revenue Retention) predeterminado saludable para PaaP (ej. 110%)
         self.nrr = Decimal('110.00')
-
-        # 9. Burn Rate (Egresos netos mensuales)
         self.burn_rate = Money(egresos_v, 'USD')
 
-        # 10. Runway (meses) -> Caja / Burn Rate
         if egresos_v > 0:
             self.runway_meses = (caja_disponible_total / egresos_v).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         else:
@@ -1628,14 +1611,11 @@ class EstadoFinanciero(models.Model):
         # ------------------------------
         # CONCILIACIÓN BANCARIA
         # ------------------------------
-
-        # Efectivo contable
         self.total_efectivo = Money(
             (ingresos_v - egresos_v).quantize(Decimal('0.01')),
             'USD'
         )
 
-        # Efectivo bancario
         bancos_ing = d(self.total_ingresos_bancos.amount) if self.total_ingresos_bancos else Decimal('0')
         bancos_egr = d(self.total_egresos_bancos.amount) if self.total_egresos_bancos else Decimal('0')
 
@@ -1644,23 +1624,18 @@ class EstadoFinanciero(models.Model):
             'USD'
         )
 
-        # Diferencia absoluta de ingresos
         diferencia = abs(bancos_ing - ingresos_v)
-
         self.diferencia_ingresos = Money(
             diferencia.quantize(Decimal('0.01')),
             'USD'
         )
 
-        # Diferencia absoluta de egresos
         diferencia_egresos = abs(bancos_egr - egresos_v)
-
         self.diferencia_egresos = Money(
             diferencia_egresos.quantize(Decimal('0.01')),
             'USD'
         )
 
-        # Error de conciliación (%)
         if ingresos_v > 0:
             self.error_conciliacion_porcentaje = (
                 (diferencia / ingresos_v) * Decimal('100')
@@ -1695,8 +1670,6 @@ class EstadoFinanciero(models.Model):
 
     def __str__(self):
         return f"Estado Financiero {self.fecha_inicio} - {self.fecha_fin}"
-
-
 
 from django.db import models
 from decimal import Decimal
