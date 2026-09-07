@@ -13,77 +13,75 @@
 
     <div class="product-more-info mt-4" >
           <!-- Nav pills -->
-<ul class="nav nav-pills mb-2 text-success rounded text-success bg-light-success" id="custom-tabs" role="tablist">
+          <ul class="nav nav-pills mb-2 text-success rounded text-success bg-light-success" id="custom-tabs" role="tablist">
 
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true">
-      <div class="d-flex align-items-center">
-        <div class="tab-title"><ion-icon name="cloud-download-outline"></ion-icon> <ion-icon name="checkmark-done-circle-outline"></ion-icon></div>
-      </div>
-    </a>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link " data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-        {% for member in staff %}
-        {% for process in member.assigned_processes.all %}
-        <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
-          {% if process.progress == 100 %}
-           <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-           {% else %}
-          <span class="spinner-border spinner-border-sm text-warning"></span>
-          {% endif %}
-          {% endfor %}
-          {% endfor %}
-        </div>
-      </div>
-    </a>
-  </li>
-
-
-
-{% if project.has_automation %}
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-
-        <div class="tab-title">
+            <!-- Pestaña 1: General -->
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true">
+                <div class="d-flex align-items-center">
+                  <div class="tab-title">
+                    <ion-icon name="cloud-download-outline"></ion-icon> 
+                    <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                  </div>
+                </div>
+              </a>
+            </li>
           
-                    
-          {% for automation in automations %}
-          {% if automation.progress == 100 %}
-          <i class="fadeIn animated bx bx-bot"></i><ion-icon name="checkmark-done-circle-outline"></ion-icon>
-          {% else %}
-          <i class="fadeIn animated bx bx-bot"></i><span class="spinner-border spinner-border-sm text-warning"></span> <span class="spinner-border spinner-border-sm text-warning"></span>
-         {% endif %}
-         {% endfor %}
-        
-        </div>
-      </div>
-    </a>
-  </li>
-  {% endif %}
-
-    {% if project.has_ai %}
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title"> 
-            <i class="fadeIn animated bx bx-brain"></i>
-           
-                                          <span class="spinner-border spinner-border-sm text-warning"></span></div>
-        </div>
-      </a>
-    </li>
-    {% endif %}
-
-
-
-
-</ul>
-
+            <!-- Pestaña 2: Desarrollo -->
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
+                <div class="d-flex align-items-center">
+                  <div class="tab-title">
+                    <ion-icon name="create-outline"></ion-icon>
+                    {% for member in staff %}
+                      {% for process in member.assigned_processes.all %}
+                        {% if process.progress == 100 %}
+                          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                        {% else %}
+                          <span class="spinner-border spinner-border-sm text-warning"></span>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </li>
+          
+            <!-- Pestaña 3: Automatización -->
+            {% if project.has_automation %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
+                <div class="d-flex align-items-center">
+                  <div class="tab-title">
+                    <i class="fadeIn animated bx bx-bot"></i>
+                    {% for automation in automations %}
+                      {% if automation.progress == 100 %}
+                        <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                      {% else %}
+                        <span class="spinner-border spinner-border-sm text-warning"></span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </li>
+            {% endif %}
+          
+            <!-- Pestaña 4: IA -->
+            {% if project.has_ai %}
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
+                <div class="d-flex align-items-center">
+                  <div class="tab-title"> 
+                    <i class="fadeIn animated bx bx-brain"></i>
+                    <span class="spinner-border spinner-border-sm text-warning"></span>
+                  </div>
+                </div>
+              </a>
+            </li>
+            {% endif %}
+          
+          </ul>
 
 <div class="tab-content mt-3">
 
