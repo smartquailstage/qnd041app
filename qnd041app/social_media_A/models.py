@@ -57,10 +57,66 @@ class BasePost(models.Model):
         abstract = True
 
 
+from django.db import models
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
+
+
+@register_snippet
+class InstagramAccount(models.Model):
+    """
+    Modelo Snippet para gestionar cuentas de Instagram desde Wagtail.
+    """
+    account_name = models.CharField(
+        max_length=100,
+        verbose_name="Nombre de la cuenta",
+        help_text="Ejemplo: @mi_empresa o Nombre Visible"
+    )
+    account_id = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="ID de Instagram",
+        help_text="ID numérico o identificador único de la cuenta/API de Instagram"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="¿Activa?",
+        help_text="Indica si esta cuenta está disponible para su uso en el sitio"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Fecha de creación"
+    )
+
+    # Configuración de los campos visibles en el formulario de Wagtail
+    panels = [
+        FieldPanel('account_name'),
+        FieldPanel('account_id'),
+        FieldPanel('is_active'),
+    ]
+
+    # Columnas visibles en la lista del panel de administración de Wagtail
+    admin_cols = ['account_name', 'account_id', 'is_active', 'created_at']
+
+    class Meta:
+        verbose_name = "Cuenta de Instagram"
+        verbose_name_plural = "Cuentas de Instagram"
+        ordering = ['account_name']
+
+    def __str__(self):
+        return f"{self.account_name} ({self.account_id})"
+
 # =========================
 # 🔹 INSTAGRAM POST
 # =========================
 class InstagramPost(BasePost):
+
+    account = models.ForeignKey(
+        InstagramAccount,
+        null=True,
+        blank=True, 
+        on_delete=models.SET_NULL
+    )
 
     IMAGE_SIZE_CHOICES = [
         ('square', 'Cuadrado'),
@@ -90,6 +146,7 @@ class InstagramPost(BasePost):
     )
 
     panels = [
+        FieldPanel("account"),
         FieldPanel("image_size"),
         FieldPanel("categories"),
         FieldPanel("caption"),

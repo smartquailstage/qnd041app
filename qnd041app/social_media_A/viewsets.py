@@ -9,6 +9,7 @@ from .models import (
     FacebookCarouselPost,
     TwitterPost,
     LinkedInPost,
+    InstagramAccount
 )
 
 class InstagramPostViewSet(ModelViewSet):
@@ -19,6 +20,7 @@ class InstagramPostViewSet(ModelViewSet):
     add_to_admin_menu = False
 
     list_display = ( 
+        "account",
         "caption",
         "image_thumb",
         "categories",
