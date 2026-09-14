@@ -248,6 +248,7 @@ INSTALLED_APPS = [
     'smartbusinesslaw',
     "sbmpayments",
     "whatsappbot",
+    "mailing",
     #"sbacart",
     #"sbashop",
     #"sbaorders",

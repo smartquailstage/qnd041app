@@ -1,0 +1,124 @@
+{% extends "emails/base_mail.html" %}
+{% load widget_tweaks %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="{{ mailing.idioma }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ mailing.titulo }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <!-- Cabecera -->
+        <tr>
+            <td align="center" style="background-color: #0f172a; padding: 30px 20px; color: #ffffff;">
+                <h1 style="margin: 0; font-size: 24px;">SmartQuail, Inc.</h1>
+            </td>
+        </tr>
+        
+        <!-- Cuerpo del Correo -->
+        <tr>
+            <td style="padding: 30px; color: #333333;">
+                
+                <!-- Saludo personalizado según el idioma -->
+                {% if mailing.idioma == 'en' %}
+                    <p style="font-size: 16px;">Hello, <strong>{{ user.first_name|default:user.email }}</strong>:</p>
+                {% elif mailing.idioma == 'fr' %}
+                    <p style="font-size: 16px;">Bonjour, <strong>{{ user.first_name|default:user.email }}</strong> :</p>
+                {% else %}
+                    <p style="font-size: 16px;">Hola, <strong>{{ user.first_name|default:user.email }}</strong>:</p>
+                {% endif %}
+
+                <!-- CONDICIONALES POR TIPO DE MAILING E IDIOMA -->
+                
+                <!-- 1. INFORMATIVO -->
+                {% if mailing.tipo_mailing == 'informativo' %}
+                    <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+                        {% if mailing.idioma == 'en' %}
+                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail Corporate Information</p>
+                            <p style="margin: 10px 0 0 0;">We share official updates and relevant corporate information from SmartQuail, Inc.</p>
+                        {% elif mailing.idioma == 'fr' %}
+                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">Information Institutionnelle SmartQuail</p>
+                            <p style="margin: 10px 0 0 0;">Nous partageons des informations officielles et des actualités de SmartQuail, Inc.</p>
+                        {% else %}
+                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">Información Institucional de SmartQuail</p>
+                            <p style="margin: 10px 0 0 0;">Te compartimos actualizaciones oficiales e información corporativa relevante de SmartQuail, Inc.</p>
+                        {% endif %}
+                    </div>
+
+                <!-- 2. COMUNICATIVO (Bienvenida y Soporte Técnico) -->
+                {% elif mailing.tipo_mailing == 'comunicativo' %}
+                    <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0;">
+                        {% if mailing.idioma == 'en' %}
+                            <p style="margin: 0; font-weight: bold; color: #166534;">Welcome & Technical Support</p>
+                            <p style="margin: 10px 0 0 0;">Welcome aboard! If you need assistance, our specialized technical support team is here to help you.</p>
+                        {% elif mailing.idioma == 'fr' %}
+                            <p style="margin: 0; font-weight: bold; color: #166534;">Bienvenue & Support Technique</p>
+                            <p style="margin: 10px 0 0 0;">Bienvenue ! Si vous avez besoin d'aide, notre équipe de support technique est à votre disposition.</p>
+                        {% else %}
+                            <p style="margin: 0; font-weight: bold; color: #166534;">Bienvenida y Soporte Técnico</p>
+                            <p style="margin: 10px 0 0 0;">¡Bienvenido a nuestra plataforma! Si requieres asistencia, cuentas con el respaldo de nuestro equipo de soporte técnico.</p>
+                        {% endif %}
+                    </div>
+
+                <!-- 3. FINANCIERO -->
+                {% elif mailing.tipo_mailing == 'financiero' %}
+                    <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
+                        {% if mailing.idioma == 'en' %}
+                            <p style="margin: 0; font-weight: bold; color: #991b1b;">Service Payment Request</p>
+                            <p style="margin: 10px 0 0 0;">You have a pending service payment request. Please review the details below.</p>
+                        {% elif mailing.idioma == 'fr' %}
+                            <p style="margin: 0; font-weight: bold; color: #991b1b;">Demande de Paiement de Service</p>
+                            <p style="margin: 10px 0 0 0;">Vous avez une demande de paiement de service en attente. Veuillez vérifier les détails ci-dessous.</p>
+                        {% else %}
+                            <p style="margin: 0; font-weight: bold; color: #991b1b;">Solicitud de Pago por Servicio</p>
+                            <p style="margin: 10px 0 0 0;">Tienes una solicitud de pago por servicio pendiente. Por favor revisa los detalles a continuación.</p>
+                        {% endif %}
+                    </div>
+
+                <!-- 4. PUBLICITARIO -->
+                {% elif mailing.tipo_mailing == 'publicitario' %}
+                    <div style="background-color: #fdf4ff; border-left: 4px solid #a855f7; padding: 15px; margin: 20px 0;">
+                        {% if mailing.idioma == 'en' %}
+                            <p style="margin: 0; font-weight: bold; color: #6b21a8;">New Tech Products & Innovations</p>
+                            <p style="margin: 10px 0 0 0;">Discover our new technological products and solutions designed to scale your business operations.</p>
+                        {% elif mailing.idioma == 'fr' %}
+                            <p style="margin: 0; font-weight: bold; color: #6b21a8;">Nouveaux Produits Technologiques</p>
+                            <p style="margin: 10px 0 0 0;">Découvrez nos nouveaux produits technologiques conçus pour optimiser votre activité.</p>
+                        {% else %}
+                            <p style="margin: 0; font-weight: bold; color: #6b21a8;">Nuevos Productos Tecnológicos</p>
+                            <p style="margin: 10px 0 0 0;">Descubre nuestros nuevos productos y soluciones tecnológicas diseñadas para potenciar tu negocio.</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <!-- Contenido dinámico escrito en el campo de texto de Wagtail -->
+                <div style="margin-top: 25px; line-height: 1.6; color: #4b5563;">
+                    {{ mailing.contenido|linebreaks }}
+                </div>
+
+            </td>
+        </tr>
+        
+        <!-- Pie de página -->
+        <tr>
+            <td align="center" style="background-color: #f8fafc; padding: 20px; font-size: 12px; color: #94a3b8;">
+                {% if mailing.idioma == 'en' %}
+                    <p style="margin: 0;">© 2026 SmartQuail, Inc. All rights reserved.</p>
+                {% elif mailing.idioma == 'fr' %}
+                    <p style="margin: 0;">© 2026 SmartQuail, Inc. Tous droits réservés.</p>
+                {% else %}
+                    <p style="margin: 0;">© 2026 SmartQuail, Inc. Todos los derechos reservados.</p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+
+{% endblock %}
