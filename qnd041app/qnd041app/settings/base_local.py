@@ -261,7 +261,7 @@ INSTALLED_APPS = [
     "taggit",
     'studio_leads_ai',
     #"social_media_ID",
-    #"social_media_A",
+    "social_media_A",
 
 
     

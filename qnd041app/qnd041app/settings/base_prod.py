@@ -262,6 +262,7 @@ INSTALLED_APPS = [
     "taggit",
     'studio_leads_ai',
     'wagtail.contrib.sitemaps',
+    "social_media_A",
 ]
 
 #LOGINGS REDIRECT

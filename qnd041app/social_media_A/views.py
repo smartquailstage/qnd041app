@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
-from .models import InstagramPost, InstagramReel, FacebookImagePost
+from .models import InstagramPost, InstagramReel, FacebookImagePost,InstagramAccount
 
 
 MODEL_MAP = {
