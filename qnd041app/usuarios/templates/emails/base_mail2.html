@@ -1,0 +1,73 @@
+{% load widget_tweaks %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+
+<!DOCTYPE html>
+<html lang="{{ mailing.idioma }}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/login_css/css/mail.css' %}">
+    <title>{{ mailing.titulo }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">\
+    <div class="email-header">
+        <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="310px">
+      </div>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <!-- Cabecera -->
+        {% block content %}
+        {% endblock %}
+
+        
+        <!-- Cuerpo del Correo -->
+
+        <!-- Pie de página -->
+ <!-- Pie de página -->
+ <tr>
+    <td align="center" style="background-color: #f8fafc; padding: 25px 20px; font-size: 12px; color: #94a3b8;">
+        
+        <!-- Logo de SmartQuail en el pie -->
+        <div style="margin-bottom: 15px;">
+            <a href="https://ec.smartquail.io" target="_blank" style="text-decoration: none;">
+                <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="110" style="display: block; margin: 0 auto; border: 0;">
+            </a>
+        </div>
+
+        <!-- Iconos de Redes Sociales -->
+        <div style="margin-bottom: 15px;">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/593963521262" target="_blank" rel="noopener" style="display: inline-block; margin: 0 6px; text-decoration: none;">
+                <img src="{% static 'assets/images/whatsapp.png' %}" alt="WhatsApp" width="16" height="16" style="display: inline-block; border: 0;">
+            </a>
+            
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/company/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
+                <img src="{% static 'assets/images/linkedin.png' %}" alt="LinkedIn" width="16" height="16" style="display: inline-block; border: 0;">
+            </a>
+            
+            <!-- Instagram -->
+            <a href="https://instagram.com/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
+                <img src="{% static 'assets/images/instagram.png' %}" alt="Instagram" width="16" height="16" style="display: inline-block; border: 0;">
+            </a>
+            
+            <!-- Twitter / X -->
+            <a href="https://twitter.com/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
+                <img src="{% static 'assets/images/twitter.png' %}" alt="Twitter" width="16" height="16" style="display: inline-block; border: 0;">
+            </a>
+        </div>
+
+        <!-- Copyright Multiidioma -->
+        {% if mailing.idioma == 'en' %}
+            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. All rights reserved.</p>
+        {% elif mailing.idioma == 'fr' %}
+            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. Tous droits réservés.</p>
+        {% else %}
+            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. Todos los derechos reservados.</p>
+        {% endif %}
+    </td>
+</tr>
+
+
+</table>
+</body>
+</html>

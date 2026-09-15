@@ -10,40 +10,26 @@ from .tasks import enviar_mailing_task
 
 @staff_member_required
 def enviar_mailing_view(request, pk):
-    """Vista protegida que dispara la orden de envío y redirige
-
-    de vuelta al listado del panel de Wagtail de forma segura.
-    """
     mailing = get_object_or_404(MailingItem, pk=pk)
 
-    if mailing.estado == "enviado":
-        messages.warning(
-            request,
-            f"El mailing '{mailing.titulo}' ya fue enviado anteriormente.",
-        )
-    else:
-        try:
-            # Lanza la tarea de Celery en segundo plano
-            enviar_mailing_task.delay(mailing.pk)
+    # BLOQUEO DE SEGURIDAD: Si ya fue enviado o programado, no hacer nada
+    if mailing.estado == 'enviado':
+        messages.warning(request, f"Este mailing ya fue enviado.")
+        return redirect(request.META.get('HTTP_REFERER', reverse('wagtailsnippets:index')))
 
-            # Actualiza el estado a programado
-            mailing.estado = "programado"
-            mailing.save(update_fields=["estado"])
+    try:
+        # 1. Cambiamos el estado a 'enviado' PRIMERO para bloquear cualquier doble clic
+        mailing.estado = 'enviado'
+        mailing.save(update_fields=['estado'])
 
-            messages.success(
-                request,
-                f"¡Orden de envío procesada con éxito para '{mailing.titulo}'!",
-            )
-        except Exception as e:
-            messages.error(
-                request, f"Error al intentar enviar el mailing: {str(e)}"
-            )
+        # 2. Lanzamos la tarea a Celery una sola vez
+        enviar_mailing_task.delay(mailing.pk)
 
-    # Redirección segura utilizando la página anterior o el índice general de snippets
-    return redirect(
-        request.META.get("HTTP_REFERER", reverse("wagtailsnippets:index"))
-    )
+        messages.success(request, f"¡Correo enviado con éxito!")
+    except Exception as e:
+        messages.error(request, f"Error: {str(e)}")
 
+    return redirect(request.META.get('HTTP_REFERER', reverse('wagtailsnippets:index')))
 
 @staff_member_required
 def previsualizar_mailing_view(request, pk):
