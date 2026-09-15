@@ -62,7 +62,7 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
 
 
-@register_snippet
+#@register_snippet
 class InstagramAccount(models.Model):
     """
     Modelo Snippet para gestionar cuentas de Instagram desde Wagtail.
