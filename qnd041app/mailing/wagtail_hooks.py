@@ -46,12 +46,3 @@ def snippet_listing_buttons(snippet, user, next_url=None):
             priority=5
         )
 
-        # 2. Botón de Enviar (Solo si no ha sido enviado)
-        if snippet.estado != 'enviado':
-            enviar_url = reverse('mailing:enviar_mailing_admin', args=[snippet.pk])
-            yield wagtailsnippets_widgets.SnippetListingButton(
-                '🚀 Enviar Ahora',
-                enviar_url,
-                attrs={'aria-label': f'Enviar {snippet.titulo}', 'class': 'button button-small button-secondary'},
-                priority=10
-            )
