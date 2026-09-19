@@ -22,18 +22,112 @@
                 
                 <!-- 1. INFORMATIVO -->
                 {% if mailing.tipo_mailing == 'informativo' %}
-                    <div style="background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
-                        {% if mailing.idioma == 'en' %}
-                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail Corporate Information</p>
-                            <p style="margin: 10px 0 0 0;">We share official updates and relevant corporate information from SmartQuail, Inc.</p>
-                        {% elif mailing.idioma == 'fr' %}
-                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">Information Institutionnelle SmartQuail</p>
-                            <p style="margin: 10px 0 0 0;">Nous partageons des informations officielles et des actualités de SmartQuail, Inc.</p>
-                        {% else %}
-                            <p style="margin: 0; font-weight: bold; color: #1e3a8a;">Información Institucional de SmartQuail</p>
-                            <p style="margin: 10px 0 0 0;">Te compartimos actualizaciones oficiales e información corporativa relevante de SmartQuail, Inc.</p>
-                        {% endif %}
+                <div style="font-family: Arial, sans-serif; color: #333333; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+
+                    {% if mailing.idioma == 'en' %}
+                        <!-- INGLÉS -->
+                        <p style="margin: 0 0 15px 0;">Dear {{ user.get_full_name|default:user.email }},</p>
+                        <p style="margin: 0 0 15px 0;">It is a pleasure to greet you cordially.</p>
+                        
+                        <p style="margin: 0 0 15px 0;">At <strong>SmartQuail, Inc.</strong> —a cloud-native information and communication technology company— we transform your data systems into real digital assets of high value for your business or startup.</p>
+                        
+                        <p style="margin: 0 0 10px 0; font-weight: bold; color: #1e3a8a;">Our proposal is based on key pillars to empower your business:</p>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px;">
+                            <li style="margin-bottom: 8px;"><strong>Custom Development:</strong> We build multi-platform web systems and mobile applications tailored exactly to your operational requirements, starting from a precise technical diagnosis on our <strong>Negocios ITC</strong> platform.</li>
+                            <li style="margin-bottom: 8px;"><strong>Smart & Secure Management (CRM & ERP):</strong> We offer fully customizable and scalable solutions designed under strict compliance standards and protected by Ecuador's Organic Data Protection Law (LOPDP).</li>
+                            <li style="margin-bottom: 8px;"><strong>Private & Autonomous Artificial Intelligence:</strong> We specialize in native AI models deploying exclusive autonomous agents for your organization —including multi-agent systems implemented and deployed in real time, where you no longer pay per token, but a fixed price for unlimited AI resource usage— safeguarding your information against current public and commercial vulnerabilities.</li>
+                            <li style="margin-bottom: 8px;"><strong>Efficiency & Financial Control:</strong> Predict technology costs accurately and turn your tech investment into a real-time digital asset.</li>
+                            <li style="margin-bottom: 8px;"><strong>Integrated Legal Security:</strong> When acquiring your license, we instantly auto-generate essential legal contracts: professional services and development agreements, intellectual property assignment, privacy agreements, and non-compete clauses.</li>
+                        </ul>
+                        
+                        <p style="margin: 0 0 15px 0; background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px;">
+                            <strong>Get started today:</strong> You can acquire your infrastructure development license for free by visiting <strong>Negocios ITC</strong>. In a matter of minutes, you will have your entire infrastructure operational, legally backed, and ready to boost your team's productivity.
+                        </p>
+                        
+                        <p style="margin: 0 0 15px 0;">We also invite you to follow us on our social media channels to stay up to date with our technological innovations and success stories.</p>
+                        
+                        <p style="margin: 0 0 5px 0;">We remain at your entire disposal to schedule a consultation.</p>
+                        <p style="margin: 0 0 20px 0;">Sincerely,</p>
+                        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+                
+                    {% elif mailing.idioma == 'fr' %}
+                        <!-- FRANCÉS -->
+                        <p style="margin: 0 0 15px 0;">Cher/Chère {{ user.get_full_name|default:user.email }},</p>
+                        <p style="margin: 0 0 15px 0;">C'est un plaisir de vous saluer cordialement.</p>
+                        
+                        <p style="margin: 0 0 15px 0;">Chez <strong>SmartQuail, Inc.</strong> —entreprise de technologies de l'information et de la communication native dans le nuage—, nous transformons vos systèmes de données en véritables actifs numériques à forte valeur ajoutée pour votre entreprise ou startup.</p>
+                        
+                        <p style="margin: 0 0 10px 0; font-weight: bold; color: #1e3a8a;">Notre proposition repose sur des piliers clés pour dynamiser votre activité :</p>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px;">
+                            <li style="margin-bottom: 8px;"><strong>Développement sur mesure :</strong> Nous créons des systèmes Web multiplateformes et des applications mobiles adaptés exactement à vos besoins opérationnels, à partir d'un diagnostic technique précis sur notre plateforme <strong>Negocios ITC</strong>.</li>
+                            <li style="margin-bottom: 8px;"><strong>Gestion intelligente et sécurisée (CRM et ERP) :</strong> Nous offrons des solutions entièrement personnalisables et évolutives, conçues selon des normes de conformité strictes et protégées par la Loi organique sur la protection des données personnelles en Équateur.</li>
+                            <li style="margin-bottom: 8px;"><strong>Intelligence Artificielle Privée et Autonome :</strong> Nous nous spécialisons dans les modèles d'IA natifs qui déployant des agents autonomes exclusifs pour votre organisation —incluant des systèmes multi-agents mis en œuvre et déployés en temps réel, où vous ne payez plus par jeton, mais un prix fixe pour une utilisation illimitée des ressources d'IA— tout en protégeant vos informations contre les vulnérabilités actuelles.</li>
+                            <li style="margin-bottom: 8px;"><strong>Efficacité et contrôle financier :</strong> Prédisez avec précision le coût technologique et transformez votre investissement en actif numérique en temps réel.</li>
+                            <li style="margin-bottom: 8px;"><strong>Sécurité juridique intégrée :</strong> Lors de l'acquisition de votre licence, nous générons automatiquement les contrats essentiels : services professionnels, propriété intellectuelle, confidentialité et non-concurrence.</li>
+                        </ul>
+                        
+                        <p style="margin: 0 0 15px 0; background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px;">
+                            <strong>Commencez dès aujourd'hui :</strong> Obtenez votre licence de développement d'infrastructure gratuitement sur <strong>Negocios ITC</strong>. En quelques minutes, votre infrastructure sera opérationnelle et prête à l'emploi.
+                        </p>
+                        
+                        <p style="margin: 0 0 15px 0;">Nous vous invitons également à nous suivre sur nos réseaux sociaux pour rester informé de nos innovations.</p>
+                        
+                        <p style="margin: 0 0 5px 0;">Restant à votre entière disposition pour planifier une consultation.</p>
+                        <p style="margin: 0 0 20px 0;">Cordialement,</p>
+                        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+                
+                    {% else %}
+                        <!-- ESPAÑOL (Por defecto) -->
+                        <p style="margin: 0 0 15px 0;">Estimado/a {{ user.get_full_name|default:user.email }},</p>
+                        <p style="margin: 0 0 15px 0;">Es un placer saludarle cordialmente.</p>
+                        
+                        <p style="margin: 0 0 15px 0;">En <strong>SmartQuail, Inc.</strong> —empresa de tecnologías de información y comunicación nativa en la nube— transformamos sus sistemas de datos en activos digitales reales de alto valor para su empresa o emprendimiento.</p>
+                        
+                        <p style="margin: 0 0 10px 0; font-weight: bold; color: #1e3a8a;">Nuestra propuesta se fundamenta en pilares clave para potenciar su negocio:</p>
+                        <ul style="margin: 0 0 15px 0; padding-left: 20px;">
+                            <li style="margin-bottom: 8px;"><strong>Desarrollo a la medida:</strong> Creamos sistemas multiplataforma web y aplicativos móviles adaptados exactamente a los requerimientos de su operación, partiendo de un diagnóstico técnico preciso en nuestra plataforma <strong>Negocios ITC</strong>.</li>
+                            <li style="margin-bottom: 8px;"><strong>Gestión inteligente y segura (CRM y ERP):</strong> Ofrecemos soluciones totalmente personalizables y escalables, diseñadas bajo estrictos estándares de cumplimiento y protegidas por la Ley Orgánica de Protección de Datos Personales en Ecuador.</li>
+                            <li style="margin-bottom: 8px;"><strong>Inteligencia Artificial Privada y Autónoma:</strong> Nos especializamos en el desarrollo de modelos nativos de IA que despliegan agentes autónomos exclusivos para su organización —incluyendo sistemas multiagente implementados y desplegados en tiempo real, donde usted ya no paga por tokens, sino un precio fijo por el uso ilimitado de recursos de IA—, resguardando su información frente a las vulnerabilidades de los entornos públicos y comerciales actuales.</li>
+                            <li style="margin-bottom: 8px;"><strong>Eficiencia y control financiero:</strong> Prediga con precisión el costo por tecnología y convierta su inversión tecnológica en un activo digital en tiempo real.</li>
+                            <li style="margin-bottom: 8px;"><strong>Seguridad legal integrada:</strong> Al momento de adquirir su licencia, autogeneramos de forma inmediata los contratos esenciales para su tranquilidad jurídica: prestación de servicios profesionales y desarrollo, cesión de propiedad intelectual, acuerdos de privacidad y cláusulas de no competencia.</li>
+                        </ul>
+                        
+                        <p style="margin: 0 0 15px 0; background-color: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px;">
+                            <strong>Comience hoy mismo:</strong> Puede adquirir su licencia de desarrollo de infraestructura de forma gratuita ingresando en <strong>Negocios ITC</strong>. En cuestión de minutos, tendrá toda su infraestructura operativa, legalmente respaldada y lista para impulsar la productividad de su equipo.
+                        </p>
+                        
+                        <p style="margin: 0 0 15px 0;">Le invitamos también a seguirnos en nuestras redes sociales para mantenerse al día con nuestras innovaciones tecnológicas y casos de éxito.</p>
+                        
+                        <p style="margin: 0 0 5px 0;">Quedamos a su entera disposición para agendar una consultoría y conversar sobre cómo llevar su organización al siguiente nivel.</p>
+                        <p style="margin: 0 0 20px 0;">Atentamente,</p>
+                        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+                    {% endif %}
+                
+                    <!-- BLOQUE DE REDES SOCIALES (Estética Profesional con Íconos Limpios) -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; text-align: center;">
+                        <p style="margin: 0 0 10px 0; font-size: 12px; color: #666666; text-transform: uppercase; letter-spacing: 1px;">
+                            {% if mailing.idioma == 'en' %}Follow us
+                            {% elif mailing.idioma == 'fr' %}Suivez-nous
+                            {% else %}Síguenos en redes sociales
+                            {% endif %}
+                        </p>
+                        <div style="font-size: 0;">
+                            <!-- LinkedIn -->
+                            <a href="https://linkedin.com/company/smartquailtech" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+                                <span style="background-color: #0a66c2; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">in</span>
+                            </a>
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/smartquailtech" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+                                <span style="background-color: #e4405f; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">ig</span>
+                            </a>
+                            <!-- Web / Global -->
+                            <a href="https://ec.smartquail.io" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
+                                <span style="background-color: #3b82f6; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">🌐</span>
+                            </a>
+                        </div>
                     </div>
+                
+                </div>
 
                 <!-- 2. COMUNICATIVO (Bienvenida y Soporte Técnico) -->
                 {% elif mailing.tipo_mailing == 'comunicativo' %}
