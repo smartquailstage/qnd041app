@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import enviar_mailing_view, previsualizar_mailing_view
+from .views import previsualizar_mailing_view
 
 app_name = 'mailing'
 
