@@ -5,31 +5,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from .models import MailingItem
-from .tasks import enviar_mailing_task
 
-
-@staff_member_required
-def enviar_mailing_view(request, pk):
-    mailing = get_object_or_404(MailingItem, pk=pk)
-
-    # BLOQUEO DE SEGURIDAD: Si ya fue enviado o programado, no hacer nada
-    if mailing.estado == 'enviado':
-        messages.warning(request, f"Este mailing ya fue enviado.")
-        return redirect(request.META.get('HTTP_REFERER', reverse('wagtailsnippets:index')))
-
-    try:
-        # 1. Cambiamos el estado a 'enviado' PRIMERO para bloquear cualquier doble clic
-        mailing.estado = 'enviado'
-        mailing.save(update_fields=['estado'])
-
-        # 2. Lanzamos la tarea a Celery una sola vez
-        enviar_mailing_task.delay(mailing.pk)
-
-        messages.success(request, f"¡Correo enviado con éxito!")
-    except Exception as e:
-        messages.error(request, f"Error: {str(e)}")
-
-    return redirect(request.META.get('HTTP_REFERER', reverse('wagtailsnippets:index')))
 
 @staff_member_required
 def previsualizar_mailing_view(request, pk):
