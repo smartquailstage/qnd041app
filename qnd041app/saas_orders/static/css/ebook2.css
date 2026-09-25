@@ -51,9 +51,11 @@
 }
 
 
-/* Page rules */
+
 
 @page {
+  size: A4;
+  margin: 2cm; /* Ajusta los márgenes según tus necesidades */
   margin-top: 2cm;
   @top-left {
     background: var(--red);
@@ -63,6 +65,7 @@
     text-align: center;
     width: 1cm;
     color: var(--white);
+    line-height: 1cm; /* Centra verticalmente el número del contador */
   }
   @top-center {
   content: url("");
@@ -153,7 +156,7 @@ h2 {
 }
 h3 {
   font-weight: 300;
-  font-size: 15pt;
+  font-size: 12pt;
 }
 h4 {
   font-size: 13pt;
@@ -164,6 +167,8 @@ h4 {
   display: flex;
   flex-wrap: wrap;
   height: 297mm;
+  font-size: 10pt;
+  line-height: 1;
 
   address {
     background: var(--red);

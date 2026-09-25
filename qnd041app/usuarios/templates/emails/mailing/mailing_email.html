@@ -7,16 +7,12 @@
 
 
         <tr>
-            <td style="padding: 30px; color: #333333;">
+            <td style="padding: 45px; color: #333333;">
                 
                 <!-- Saludo personalizado según el idioma -->
-                {% if mailing.idioma == 'en' %}
-                    <p style="font-size: 16px;">Hello, <strong>{{ user.first_name|default:user.email }}</strong>:</p>
-                {% elif mailing.idioma == 'fr' %}
-                    <p style="font-size: 16px;">Bonjour, <strong>{{ user.first_name|default:user.email }}</strong> :</p>
-                {% else %}
-                    <p style="font-size: 16px;">Hola, <strong>{{ user.first_name|default:user.email }}</strong>:</p>
-                {% endif %}
+                <div class="email-header">
+                    <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="110px">
+                  </div>
 
                 <!-- CONDICIONALES POR TIPO DE MAILING E IDIOMA -->
                 
@@ -125,28 +121,6 @@
                     {% endif %}
                 
                     <!-- BLOQUE DE REDES SOCIALES (Estética Profesional con Íconos Limpios) -->
-                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eaeaea; text-align: center;">
-                        <p style="margin: 0 0 10px 0; font-size: 12px; color: #666666; text-transform: uppercase; letter-spacing: 1px;">
-                            {% if mailing.idioma == 'en' %}Follow us
-                            {% elif mailing.idioma == 'fr' %}Suivez-nous
-                            {% else %}Síguenos en redes sociales
-                            {% endif %}
-                        </p>
-                        <div style="font-size: 0;">
-                            <!-- LinkedIn -->
-                            <a href="https://linkedin.com/company/smartquailtech" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
-                                <span style="background-color: #0a66c2; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">in</span>
-                            </a>
-                            <!-- Instagram -->
-                            <a href="https://instagram.com/smartquailtech" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
-                                <span style="background-color: #e4405f; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">ig</span>
-                            </a>
-                            <!-- Web / Global -->
-                            <a href="https://ec.smartquail.io" target="_blank" style="display: inline-block; margin: 0 8px; text-decoration: none;">
-                                <span style="background-color: #3b82f6; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; display: inline-block; text-align: center; line-height: 32px; font-size: 14px; font-weight: bold;">🌐</span>
-                            </a>
-                        </div>
-                    </div>
                 
                 </div>
 

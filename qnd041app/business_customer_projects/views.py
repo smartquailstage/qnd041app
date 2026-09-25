@@ -33,6 +33,12 @@ from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
 from django.views.generic import DetailView
 from django.db.models import Avg, Sum
 from .models import BusinessSystemProject, BusinessAutomation, BusinessContracts
+from django.contrib.admin.views.decorators import staff_member_required
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+from django.contrib.auth.decorators import login_required
 
 import matplotlib.pyplot as plt
 #import seaborn as sns
@@ -873,7 +879,27 @@ class NoticiaDetailView(DetailView):
         context['form_comentario'] = form
         return self.render_to_response(context)
 
+@staff_member_required
+def admin_noticias_pdf(request, noticia_id):
+    news = get_object_or_404(Noticia, id=noticia_id)
 
+    # Renderizamos la plantilla del eBook
+    html = render_to_string('saas_orders/ebook/noticas_template.html', {'news': news, 'domain': 'ec.smartquail.io'})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=noticia_{news.id}.pdf'
+
+    # Generamos el PDF usando WeasyPrint
+    weasyprint.HTML(
+        string=html,
+        base_url=request.build_absolute_uri()
+    ).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS('saas_orders/static/css/ebook2.css')],
+        presentational_hints=True
+    )
+
+    return response
 
 # views.py
 from django.http import JsonResponse

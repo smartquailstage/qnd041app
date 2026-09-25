@@ -1,6 +1,8 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 from .models import BusinessProcess,BusinessSystemProject,BusinessAutomation,BusinessIntelligent,QATest,CloudResource
+from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 
 @admin.register(BusinessSystemProject)
@@ -471,6 +473,12 @@ class PaymentOrderAdmin(ModelAdmin):
 from .models import Noticia, ComentarioNoticia
 
 
+def order_ebook(obj):
+    return mark_safe('<a href="{}" target="_blank">eBook PDF</a>'.format(
+        reverse('saas_orders:admin_ebook_pdf', args=[obj.id])
+    ))
+order_ebook.short_description = 'eBook'
+
 class ComentarioNoticiaInline(admin.TabularInline):
     model = ComentarioNoticia
     extra = 0
@@ -493,7 +501,11 @@ class NoticiaMetricasInline(admin.StackedInline):
         'ultima_actualizacion',
     )
 
-
+def noticia_ebook(obj):
+    return mark_safe('<a href="{}" target="_blank">Noticia PDF</a>'.format(
+        reverse('business_customer_projects:admin_noticias_pdf', args=[obj.id])
+    ))
+noticia_ebook.short_description = 'Noticias'
 
 @admin.register(Noticia)
 class NoticiaAdmin(ModelAdmin):
@@ -513,8 +525,10 @@ class NoticiaAdmin(ModelAdmin):
     list_display = [
         'titulo_1',
         'autor_nombre',
+        noticia_ebook,
         'fecha_publicacion',
         'activa',
+        
     ]
 
     list_filter = [

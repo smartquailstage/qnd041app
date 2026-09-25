@@ -34,6 +34,7 @@ urlpatterns = [
     path('Noticias/', NoticiaListView.as_view(), name='lista'),
     path('Noticias/<int:pk>/', NoticiaDetailView.as_view(), name='detalle'),
     path('Noticias/<int:pk>/metricas/', views.actualizar_metricas, name='actualizar_metricas'),
+    path('admin/news/<int:noticia_id>/ebook/', views.admin_noticias_pdf, name='admin_noticias_pdf'),
 
     # -------------------------------------------------
     # SOPORTE

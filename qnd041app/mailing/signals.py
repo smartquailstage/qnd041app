@@ -1,19 +1,26 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import MailingItem
-from .tasks import enviar_mailing_task  # Importa tu tarea de Celery creada anteriormente
+from .tasks import enviar_mailing_task
 
 @receiver(post_save, sender=MailingItem)
 def disparar_mailing_signal(sender, instance, created, **kwargs):
     """
-    Señal que detecta cuando un MailingItem es guardado y su estado 
-    cambia a 'programado' (o listo para enviar).
+    Señal robusta que evita duplicidades al verificar el estado 
+    y prevenir ejecuciones múltiples por guardados internos de Wagtail.
     """
-    # Si el estado es programado, lanzamos la tarea de Celery en segundo plano
+    # Si viene de una carga cruda de la base de datos o guardados internos de Wagtail, ignorar
+    if kwargs.get('raw', False):
+        return
+
+    # Solo nos interesa actuar si el estado actual es 'programado'
     if instance.estado == 'programado':
-        # Llamamos a Celery usando .delay() para que corra de manera asíncrona
+        # ⚠️ TRUCO CLAVE: Verificamos en la base de datos el estado REAL actual del registro.
+        # Si en la BD ya figura como 'enviado' o 'procesando', evitamos lanzar otra tarea.
+        # Esto frena los guardados múltiples consecutivos de Wagtail.
+        db_instance = MailingItem.objects.filter(pk=instance.pk).only('estado').first()
+        if db_instance and db_instance.estado == 'enviado':
+            return
+
+        # Lanzamos la tarea de Celery únicamente si pasa la validación
         enviar_mailing_task.delay(instance.pk)
-        
-        # Opcional: Si quieres que pase a 'enviado' o a otro estado intermedio 
-        # para que la señal no se dispare en bucle al guardar dentro de la misma tarea:
-        # (Nota: es recomendable manejar el cambio a 'enviado' dentro de la propia task).
