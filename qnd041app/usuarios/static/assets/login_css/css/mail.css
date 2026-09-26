@@ -33,6 +33,7 @@ body {
 .email-header img {
     max-width: 250px;
     height: auto;
+    margin-left: 400px;
 }
 
 .email-title {

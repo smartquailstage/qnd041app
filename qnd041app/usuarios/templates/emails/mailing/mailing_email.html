@@ -10,7 +10,8 @@
             <td style="padding: 25px; color: #333333;">
                 
                 <!-- Saludo personalizado según el idioma -->
-                <div class="email-header">
+                
+<div class="email-header" style="text-align: left; margin-bottom: 20px; padding: 40px 30px; background-color: #1e3a8a; background-image: url('{% static 'portada2.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px 8px 0 0;">
                     <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="210px">
                   </div>
 
@@ -39,11 +40,10 @@
                 {% endif %}
 
                 <!-- Contenido dinámico escrito en el campo de texto de Wagtail -->
-                <div style="margin-top: 25px; line-height: 1.6; color: #4b5563;">
-                    {{ mailing.contenido|linebreaks }}
-                </div>
+
 
             </td>
         </tr>
         
 {% endblock %}
+
