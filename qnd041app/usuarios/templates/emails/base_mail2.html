@@ -17,52 +17,76 @@
         {% endblock %}
 
         
-        <!-- Cuerpo del Correo -->
-
-        <!-- Pie de página -->
- <!-- Pie de página -->
- <tr>
-    <td align="center" style="background-color: #f8fafc; padding: 35px 30px; font-size: 12px; color: #94a3b8;">
-        
-        <!-- Logo de SmartQuail en el pie -->
-        <div style="margin-bottom: 15px;">
-            <a href="https://ec.smartquail.io" target="_blank" style="text-decoration: none;">
-                <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="110" style="display: block; margin: 0 auto; border: 0;">
-            </a>
-        </div>
 
         <!-- Iconos de Redes Sociales -->
-        <div style="margin-bottom: 15px;">
-            <!-- WhatsApp -->
-            <a href="https://wa.me/593963521262" target="_blank" rel="noopener" style="display: inline-block; margin: 0 6px; text-decoration: none;">
-                <img src="{% static 'assets/images/whatsapp.png' %}" alt="WhatsApp" width="16" height="16" style="display: inline-block; border: 0;">
-            </a>
-            
-            <!-- LinkedIn -->
-            <a href="https://linkedin.com/company/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
-                <img src="{% static 'assets/images/linkedin.png' %}" alt="LinkedIn" width="16" height="16" style="display: inline-block; border: 0;">
-            </a>
-            
-            <!-- Instagram -->
-            <a href="https://instagram.com/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
-                <img src="{% static 'assets/images/instagram.png' %}" alt="Instagram" width="16" height="16" style="display: inline-block; border: 0;">
-            </a>
-            
-            <!-- Twitter / X -->
-            <a href="https://twitter.com/smartquail" target="_blank" style="display: inline-block; margin: 0 6px; text-decoration: none;">
-                <img src="{% static 'assets/images/twitter.png' %}" alt="Twitter" width="16" height="16" style="display: inline-block; border: 0;">
+<!-- Pie de página corporativo y moderno -->
+<tr>
+    <td align="center" style="background-color: #f8fafc; padding: 40px 30px 30px 30px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
+        
+
+        <!-- Texto de invitación / Call to Action -->
+        {% if mailing.idioma == 'en' %}
+            <p style="margin: 0 0 15px 0; font-size: 13px; color: #475569; font-weight: 600; letter-spacing: -0.2px;">Connect with our tech ecosystem & support</p>
+        {% elif mailing.idioma == 'fr' %}
+            <p style="margin: 0 0 15px 0; font-size: 13px; color: #475569; font-weight: 600; letter-spacing: -0.2px;">Connectez-vous à notre écosystème technologique</p>
+        {% else %}
+            <p style="margin: 0 0 15px 0; font-size: 13px; color: #475569; font-weight: 600; letter-spacing: -0.2px;">Conéctate con nuestro ecosistema tecnológico</p>
+        {% endif %}
+
+        <!-- Iconos de Redes Sociales con estilo de píldora / contenedores modernos -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto 20px auto;">
+            <tr>
+                <!-- WhatsApp -->
+                <td align="center" style="padding: 0 5px;">
+                    <a href="https://wa.me/593963521262" target="_blank" rel="noopener" style="display: inline-block; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <img src="{% static 'assets/images/whatsapp.png' %}" alt="WhatsApp" width="16" height="16" style="display: block; border: 0;">
+                    </a>
+                </td>
+                <!-- LinkedIn -->
+                <td align="center" style="padding: 0 5px;">
+                    <a href="https://linkedin.com/company/smartquail" target="_blank" rel="noopener" style="display: inline-block; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <img src="{% static 'assets/images/linkedin.png' %}" alt="LinkedIn" width="16" height="16" style="display: block; border: 0;">
+                    </a>
+                </td>
+                <!-- Instagram -->
+                <td align="center" style="padding: 0 5px;">
+                    <a href="https://instagram.com/smartquailtech" target="_blank" rel="noopener" style="display: inline-block; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <img src="{% static 'assets/images/instagram.png' %}" alt="Instagram" width="16" height="16" style="display: block; border: 0;">
+                    </a>
+                </td>
+                <!-- Twitter / X -->
+                <td align="center" style="padding: 0 5px;">
+                    <a href="https://twitter.com/smartquail" target="_blank" rel="noopener" style="display: inline-block; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <img src="{% static 'assets/images/twitter.png' %}" alt="Twitter" width="16" height="16" style="display: block; border: 0;">
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <div style="margin-bottom: 20px;">
+            <a href="https://ec.smartquail.io" target="_blank" style="text-decoration: none;">
+                <img src="{% static 'img/BA-LOGOS/logo_sq_header.png' %}" alt="SmartQuail Logo" width="120" style="display: block; margin: 0 auto; border: 0;">
             </a>
         </div>
+
+        <!-- Enlace rápido de contacto o sitio web corporativo -->
+
+                <!-- Logo de SmartQuail en el pie -->
+
+        
 
         <!-- Copyright Multiidioma -->
         {% if mailing.idioma == 'en' %}
-            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. All rights reserved.</p>
+            <p style="margin: 0; color: #94a3b8; font-size: 11px;">© 2026 SmartQuail, Inc. All rights reserved. Cloud Native ICT Solutions.</p>
         {% elif mailing.idioma == 'fr' %}
-            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. Tous droits réservés.</p>
+            <p style="margin: 0; color: #94a3b8; font-size: 11px;">© 2026 SmartQuail, Inc. Tous droits réservés. Solutions TIC Cloud Native.</p>
         {% else %}
-            <p style="margin: 0; color: #94a3b8;">© 2026 SmartQuail, Inc. Todos los derechos reservados.</p>
+            <p style="margin: 0; color: #94a3b8; font-size: 11px;">© 2026 SmartQuail, Inc. Todos los derechos reservados. Soluciones TIC Cloud Native Ecuador.</p>
         {% endif %}
     </td>
+</tr>
+
+
 </tr>
 
 

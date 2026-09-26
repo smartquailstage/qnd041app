@@ -1,0 +1,12 @@
+<div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0;">
+    {% if mailing.idioma == 'en' %}
+        <p style="margin: 0; font-weight: bold; color: #166534;">Welcome & Technical Support</p>
+        <p style="margin: 10px 0 0 0;">Welcome aboard! If you need assistance, our specialized technical support team is here to help you.</p>
+    {% elif mailing.idioma == 'fr' %}
+        <p style="margin: 0; font-weight: bold; color: #166534;">Bienvenue & Support Technique</p>
+        <p style="margin: 10px 0 0 0;">Bienvenue ! Si vous avez besoin d'aide, notre équipe de support technique est à votre disposition.</p>
+    {% else %}
+        <p style="margin: 0; font-weight: bold; color: #166534;">Bienvenida y Soporte Técnico</p>
+        <p style="margin: 10px 0 0 0;">¡Bienvenido a nuestra plataforma! Si requieres asistencia, cuentas con el respaldo de nuestro equipo de soporte técnico.</p>
+    {% endif %}
+</div>

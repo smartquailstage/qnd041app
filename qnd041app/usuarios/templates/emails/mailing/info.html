@@ -1,0 +1,331 @@
+{% load static %}
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; line-height: 1.3; max-width: 650px; margin: 0 auto; padding: 10px; background-color: #ffffff; text-align: left;">
+
+    {% if mailing.idioma == 'en' %}
+        <!-- INGLÉS -->
+        <p style="margin: 0 0 15px 0;">Dear {{ user.get_full_name|default:user.email }},</p>
+        <p style="margin: 0 0 15px 0;">It is a pleasure to greet you cordially.</p>
+        
+        <p style="margin: 0 0 20px 0;">At <strong>SmartQuail, Inc.</strong> —a cloud-native information and communication technology company— we transform your data systems into real digital assets of high value for your business or startup.</p>
+        
+        <!-- Bloque de Propuesta de Valor (EN) -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 25px;">
+            <tr>
+                <td style="padding: 28px 24px 20px 24px; border-bottom: 2px solid #f1f5f9;">
+                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #b5181a; background-color: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;">Tech Proposal</span>
+                    <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+                        Our value proposition
+                    </h3>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px 24px;">
+                    <!-- Ítem 1 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚡</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Custom Development</strong>
+                                        We build multi-platform web systems and mobile apps tailored to your requirements, starting from a precise technical diagnosis on our <strong>Negocios ITC</strong> platform.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 2 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🛡️</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Smart & Secure Management (CRM & ERP)</strong>
+                                        Scalable solutions designed under strict standards and protected by Ecuador's Organic Data Protection Law (LOPDP).
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 3 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🤖</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Private & Autonomous AI</strong>
+                                        Exclusive autonomous and multi-agent systems in real time. Pay a fixed price for unlimited AI usage instead of per-token costs.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 4 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">📊</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Efficiency & Financial Control</strong>
+                                        Predict technology costs accurately and turn your tech investment into a real-time digital asset.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 5 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚖️</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Integrated Legal Security</strong>
+                                        Instant auto-generation of essential legal contracts: services, IP assignment, privacy, and non-compete clauses.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- CREDENCIALES (EN) -->
+        <div style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin: 25px 0;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: #b5181a;">Your access credentials for the ITC platform:</p>
+            <p style="margin: 5px 0;"><strong>Username:</strong> {{ user.email }}</p>
+            <p style="margin: 5px 0;"><strong>Temporary Password:</strong> smartquailuser12345</p>
+        </div>
+
+        <p style="margin: 0 0 20px 0; background-color: #f8fafc; border-left: 4px solid #b5181a; padding: 15px;">
+            <strong>Get started right now:</strong> Access the <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">Negocios ITC link</a> now to claim your free infrastructure development license.
+        </p>
+        
+        <p style="margin: 0 0 15px 0;">We remain at your entire disposal to schedule a consultation.</p>
+        <p style="margin: 0 0 15px 0;">Sincerely,</p>
+        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+
+    {% elif mailing.idioma == 'fr' %}
+        <!-- FRANCÉS -->
+        <p style="margin: 0 0 15px 0;">Cher/Chère {{ user.get_full_name|default:user.email }},</p>
+        <p style="margin: 0 0 15px 0;">C'est un plaisir de vous saluer cordialement.</p>
+        
+        <p style="margin: 0 0 20px 0;">Chez <strong>SmartQuail, Inc.</strong> —entreprise de technologies de l'information et de la communication native dans le nuage— nous transformons vos systèmes de données en véritables actifs numériques à forte valeur ajoutée.</p>
+        
+        <!-- Bloque de Propuesta de Valor (FR) -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 25px;">
+            <tr>
+                <td style="padding: 28px 24px 20px 24px; border-bottom: 2px solid #f1f5f9;">
+                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #b5181a; background-color: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;">Proposition Technologique</span>
+                    <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+                        Notre proposition de valeur
+                    </h3>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px 24px;">
+                    <!-- Ítem 1 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚡</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Développement sur mesure</strong>
+                                        Création de systèmes web et applications mobiles adaptés à vos besoins à partir d'un diagnostic technique sur <strong>Negocios ITC</strong>.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 2 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🛡️</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Gestion intelligente et sécurisée (CRM et ERP)</strong>
+                                        Solutions personnalisables et évolutives protégées par la Loi sur la protection des données personnelles en Équateur.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 3 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🤖</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Intelligence Artificielle Privée et Autonome</strong>
+                                        Agents autonomes et multi-agents en temps réel. Prix fixe pour un usage illimité sans payer par jeton.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 4 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">📊</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Efficacité et contrôle financier</strong>
+                                        Prédisez les coûts technologiques et transformez votre investissement en actif numérique.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 5 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚖️</td>
+                                    <td style="font-size: 14px; line-height: 1.5; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Sécurité juridique intégrée</strong>
+                                        Génération automatique de contrats essentiels : services professionnels, propriété intellectuelle, confidentialité et non-concurrence.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- CREDENCIALES (FR) -->
+        <div style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin: 25px 0;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: #b5181a;">Vos identifiants d'accès pour la plateforme ITC :</p>
+            <p style="margin: 5px 0;"><strong>Nom d'utilisateur :</strong> {{ user.email }}</p>
+            <p style="margin: 5px 0;"><strong>Mot de passe temporaire :</strong> smartquailuser12345</p>
+        </div>
+
+        <p style="margin: 0 0 20px 0; background-color: #f8fafc; border-left: 4px solid #b5181a; padding: 15px;">
+            <strong>Commencez dès maintenant :</strong> Accédez au <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">lien Negocios ITC</a> pour acquérir votre licence de développement d'infrastructure.
+        </p>
+        
+        <p style="margin: 0 0 15px 0;">Restant à votre entière disposition pour planifier une consultation.</p>
+        <p style="margin: 0 0 15px 0;">Cordialement,</p>
+        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+
+    {% else %}
+        <!-- ESPAÑOL (Por defecto) -->
+        <p style="margin: 0 0 15px 0;">Estimado/a {{ user.get_full_name|default:user.email }},</p>
+        <p style="margin: 0 0 15px 0;">Es un placer saludarle cordialmente.</p>
+        
+        <p style="margin: 0 0 20px 0;text-align: justify;">En <strong>SmartQuail, Inc.</strong>, empresa de TIC nativa en la nube, potenciamos su negocio transformando sus datos y sistemas en soluciones a la medida y activos digitales estratégicos, diseñados para generar un retorno de inversión en menos de doce meses.</p>
+        <!-- Bloque de Propuesta de Valor (ES) -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; text-align: justify; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 25px;">
+            <tr>
+                <td style="padding: 28px 24px 20px 24px; border-bottom: 2px solid #f1f5f9;">
+                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #b5181a; background-color: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;">¿Cómo lo logramos?</span>
+                    <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
+                        Nuestro valor diferencial
+                    </h3>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px 24px;">
+                    <!-- Ítem 1 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚡</td>
+                                    <td style="font-size: 14px; line-height: 1.2; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Plataforma de Negocios ITC y Activos Digitales</strong>
+                                        Transformamos sus sistemas de información en potentes activos digitales mediante nuestra plataforma integral <strong>Negocios ITC</strong>, logrando implementaciones en tiempo real diseñadas específicamente para la validación continua de usuarios.
+                                        <div style="margin-top: 12px; text-align: center;">
+                                            <img src="{% static 'pic1.png' %}" alt="Plataforma Negocios ITC" width="100%" style="max-width: 100%; height: auto; border-radius: 6px; display: block; border: 1px solid #e2e8f0;" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 2 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🚀</td>
+                                    <td style="font-size: 14px; line-height: 1.2; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Infraestructura en Producción en Minutos</strong>
+                                        Desplegamos arquitecturas robustas y escalables directamente en entornos de producción en cuestión de minutos, permitiendo que sus soluciones y flujos de negocio operen de inmediato sin fricciones técnicas.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 3 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🤖</td>
+                                    <td style="font-size: 14px; line-height: 1.2; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Inteligencia Artificial Privada y Autónoma</strong>
+                                        Desarrollamos modelos nativos de IA y sistemas multiagente implementados en tiempo real dentro de su ecosistema. Olvídese de los cobros por token: disfrute de un costo fijo para el uso ilimitado de recursos, garantizando total privacidad y soberanía de sus datos frente a entornos públicos.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 4 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">📊</td>
+                                    <td style="font-size: 14px; line-height: 1.2; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Eficiencia, Control y Cumplimiento Normativo</strong>
+                                        Asegure una gestión inteligente (CRM y ERP) totalmente alineada con la Ley Orgánica de Protección de Datos Personales en Ecuador, prediciendo costos con precisión y convirtiendo su inversión en rentabilidad medible.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                    <!-- Ítem 5 -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
+                        <tr><td style="padding: 14px;">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚖️</td>
+                                    <td style="font-size: 14px; line-height: 1.2; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Seguridad Legal Integrada</strong>
+                                        Al adquirir su solución, autogeneramos de forma inmediata los contratos esenciales para su tranquilidad jurídica: prestación de servicios profesionales y desarrollo, cesión de propiedad intelectual, acuerdos de privacidad y cláusulas de no competencia.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- CREDENCIALES (ES) -->
+        <div style="background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin: 25px 0;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; color: #b5181a;">Tus credenciales de acceso para la plataforma ITC:</p>
+            <p style="margin: 5px 0;"><strong>Usuario:</strong> {{ user.email }}</p>
+            <p style="margin: 5px 0;"><strong>Contraseña:</strong> smartquailuser12345</p>
+        </div>
+
+        <p style="margin: 0 0 20px 0; background-color: #f8fafc; border-left: 4px solid #b5181a; padding: 15px;">
+            <strong>Comienza ahora mismo:</strong> Ingresa en este momento al <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">enlace de Negocios ITC</a> para adquirir tu licencia de desarrollo de infraestructura gratis. En cuestión de minutos, tendrás toda tu infraestructura operativa y lista para trabajar para ti.
+        </p>
+        
+        <p style="margin: 0 0 15px 0;">Quedamos a su entera disposición para agendar una consultoría y conversar sobre cómo llevar su organización al siguiente nivel.</p>
+        <p style="margin: 0 0 15px 0;">Atentamente,</p>
+        <p style="margin: 0; font-weight: bold; color: #1e3a8a;">SmartQuail, Inc.<br><span style="font-size: 12px; font-weight: normal; color: #666;">IT Cloud Business</span></p>
+    {% endif %}
+
+</div>

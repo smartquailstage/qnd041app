@@ -1,0 +1,12 @@
+<div style="background-color: #fdf4ff; border-left: 4px solid #a855f7; padding: 15px; margin: 20px 0;">
+    {% if mailing.idioma == 'en' %}
+        <p style="margin: 0; font-weight: bold; color: #6b21a8;">New Tech Products & Innovations</p>
+        <p style="margin: 10px 0 0 0;">Discover our new technological products and solutions designed to scale your business operations.</p>
+    {% elif mailing.idioma == 'fr' %}
+        <p style="margin: 0; font-weight: bold; color: #6b21a8;">Nouveaux Produits Technologiques</p>
+        <p style="margin: 10px 0 0 0;">Découvrez nos nouveaux produits technologiques conçus pour optimiser votre activité.</p>
+    {% else %}
+        <p style="margin: 0; font-weight: bold; color: #6b21a8;">Nuevos Productos Tecnológicos</p>
+        <p style="margin: 10px 0 0 0;">Descubre nuestros nuevos productos y soluciones tecnológicas diseñadas para potenciar tu negocio.</p>
+    {% endif %}
+</div>

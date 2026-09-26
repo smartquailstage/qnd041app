@@ -1,0 +1,12 @@
+<div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
+    {% if mailing.idioma == 'en' %}
+        <p style="margin: 0; font-weight: bold; color: #991b1b;">Service Payment Request</p>
+        <p style="margin: 10px 0 0 0;">You have a pending service payment request. Please review the details below.</p>
+    {% elif mailing.idioma == 'fr' %}
+        <p style="margin: 0; font-weight: bold; color: #991b1b;">Demande de Paiement de Service</p>
+        <p style="margin: 10px 0 0 0;">Vous avez une demande de paiement de service en attente. Veuillez vérifier les détails ci-dessous.</p>
+    {% else %}
+        <p style="margin: 0; font-weight: bold; color: #991b1b;">Solicitud de Pago por Servicio</p>
+        <p style="margin: 10px 0 0 0;">Tienes una solicitud de pago por servicio pendiente. Por favor revisa los detalles a continuación.</p>
+    {% endif %}
+</div>
