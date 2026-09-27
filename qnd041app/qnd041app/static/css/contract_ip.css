@@ -1,0 +1,358 @@
+@font-face {
+  font-family: "pacifico";
+  src: url("PierSans-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "soon";
+  src: url("PierSans-Regular.ttf") format('truetype');
+}
+
+@page {
+  size: A4;
+  margin: 1.5cm 1cm 2cm 1cm;
+
+  @top-left {
+    content: element(page-header);
+  }
+
+  @bottom-center {
+    content: element(page-footer);
+  }
+}
+
+
+/* HEADER REPETIDO */
+header.page-header {
+  position: running(page-header);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 1cm;
+  padding: 0 1mm;
+  background-color: white;
+  position: relative;
+}
+
+body {
+  font-family: "soon";
+  margin: 0;
+}
+
+/* HEADER PRINCIPAL */
+header {
+  display: flex;
+  align-items: center;          /* centra verticalmente los bloques */
+  justify-content: space-between; /* bloques izquierdo y derecho separados */
+  height: 0.5cm;                  /* altura total del header */
+  padding: 0 5mm;               /* espacio interno a los lados */
+  background-color: white;      /* fondo limpio */
+  position: relative;
+}
+
+
+/* BLOQUE IZQUIERDO (LUGAR Y FECHA) */
+.header-left {
+  z-index: 1;                    /* delante del logo */
+  font-family: "soon", sans-serif;
+  font-size: 9pt;
+  color: #333;
+}
+
+/* BLOQUE CENTRAL (CÓDIGO DE CONTRATO) */
+.header-center {
+  z-index: 1;                    /* delante del logo */
+  font-family: "soon", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;                       /* ocupa todo el espacio disponible */
+}
+
+
+/* BLOQUE DERECHO */
+.header-right {
+  z-index: 1;                     /* delante del logo si aplica */
+  font-family: "soon", sans-serif;
+  font-size: 9pt;
+  color: #333;
+  text-align: right;              /* alinea a la derecha */
+  flex-shrink: 0;                 /* evita que se encoja */
+}
+
+
+
+/* LOGO */
+header img {
+  width: 4cm;           /* tamaño del logo */
+  height: auto;         /* mantiene proporción */
+}
+
+
+hr {
+  border-top: 1px solid  rgb(1, 1, 1);
+  border-bottom: none;
+  margin: 5mm 0;
+}
+
+p {
+  font-family: "soon", sans-serif;
+  line-height: 13pt;
+  margin-top: 5mm;
+  font-size: 10pt;
+  text-align: justify;
+}
+
+
+.preambulo {
+  margin-top: 9mm;
+  margin-bottom: 10mm;
+  background-color: #d7d7d7;
+}
+
+.preambulo p {
+  font-family: "soon", sans-serif;
+  font-size: 9pt;
+  line-height: 10pt;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 1mm;
+  margin-bottom: 1mm; 
+}
+
+.preambulo strong {
+  font-weight: 600;
+}
+
+
+.clausulas {
+  margin-top: 2mm;
+}
+
+/* Títulos de cláusulas */
+.clausulas h3 {
+  font-family: "soon", sans-serif;
+  font-size: 10.5pt;
+  font-weight: 600;
+  margin-top: 1mm;
+  margin-bottom: 1mm;
+  text-transform: uppercase;
+}
+
+/* Texto de cláusulas */
+.clausulas p {
+  font-family: "soon", sans-serif;
+  font-size: 9pt;
+  line-height: 10pt;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 1mm;
+  margin-bottom: 1mm;
+  hyphens: auto;
+}
+
+/* Separación visual entre cláusulas */
+.clausulas h3:first-child {
+  margin-top: 0;
+}
+
+
+
+body > div {
+  margin: 0 auto;
+  padding: 0 9mm;
+}
+
+body > div:first-of-type, body > div:last-of-type {
+  margin: 0.5cm 0 0.5cm 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 2mm;
+}
+
+legend {
+  font-family: "pacifico", serif;
+  font-size: 18pt;
+  margin-bottom: 5mm;
+}
+
+input {
+  height: 1.5em;
+}
+
+textarea {
+  height: 4em;
+}
+
+input, textarea {
+  border: none;
+  display: block;
+  width: 100%;
+}
+
+input::before, textarea::before, textarea::after {
+  content: leader(dotted);
+  display: block;
+}
+
+footer p {
+  text-align: center;
+  font-size: 8pt;
+  line-height: 10pt;
+}
+
+
+/* PIE DE PÁGINA */
+footer.page-footer {
+  position: running(page-footer);
+  text-align: center;
+  font-size: 8pt;
+  font-family: "soon", sans-serif;
+  color: #666;
+  padding: 2mm 0;
+  border-top: 1px solid #ccc;   
+  margin-bottom: 1px;
+  width: 100%;
+}
+
+/* Para mostrar número de página en PDF con WeasyPrint */
+span.pageNumber::before {
+  content: counter(page);
+}
+
+
+/* HEADER */
+.doc-header {
+  display: flex;
+  align-items: center;
+  gap: 10mm;
+  margin-bottom: 8mm;
+}
+
+/* LOGO */
+.doc-header img {
+  width: 40mm;
+  height: auto;
+}
+
+/* TEXTO */
+.header-text span {
+  display: block;
+  font-size: 11pt;
+  font-weight: 600;
+}
+
+.header-text small {
+  font-size: 9pt;
+  color: #555;
+}
+
+/* BLOQUE PRINCIPAL */
+.certificaciones {
+  display: flex;
+  justify-content: space-between; /* separa QR y datos */
+  align-items: center;            /* centra verticalmente los contenidos */
+  margin-top: 10mm;
+  padding: 5mm;
+  border-top: 1px solid #ccc;    /* línea superior opcional */
+  border-bottom: 1px solid #ccc; /* línea inferior opcional */
+  background-color: #f7f7f7;     /* color de fondo opcional */
+}
+
+/* SUB-BLOQUE IZQUIERDO: QR */
+.cert-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cert-left img {
+  display: block;
+}
+
+.cert-left p {
+  margin-top: 2mm;
+  font-family: "soon", sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+.cert-right p {
+   margin: 2mm 0;
+  align-items: right;
+  justify-content: right;               /* espacio entre líneas */
+}
+
+
+.cert-right {
+  display: flex;
+  justify-content: space-between; /* separa info y firma */
+  align-items: right;           /* alinea verticalmente */
+  width: 35%;
+  font-family: "soon", sans-serif;
+  font-size: 10pt;
+}
+
+.cert-info {
+  flex: 1;                       /* ocupa todo el espacio restante */
+}
+
+
+
+.cert-info p {
+  margin: 2mm 0;
+  align-items: right;
+  justify-content: right;
+}
+
+/* BLOQUE DE FIRMA */
+.cert-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: right;
+  margin-left: 10mm;            /* separación de la info */
+}
+
+.signature-box {
+  width: 4cm;                    /* tamaño del cuadrado */
+  height: 1.5cm;
+  border: 1px dashed #000;        /* borde del cuadrado */
+  margin-bottom: 2mm;
+  background-color: #ffffff;   /* fondo blanco */
+}
+
+
+/* BLOQUE DE NOTA DE VALIDACIÓN */
+.contract-note {
+  margin-top: 5mm;
+  padding: 4mm 6mm;
+  background-color: #f6f6f4; /* color amarillo suave para alerta */
+  border-left: 4px solid #6c6c6b; /* barra lateral amarilla */
+  font-family: "soon", sans-serif;
+  font-size: 7.5pt;
+  line-height: 12pt;
+  color: #000000;
+  text-align: justify;
+  border-radius: 5px;
+}
+
+.contract-note code {
+  font-family: "soon", monospace;
+  background-color: #f1f1f1;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+
+
+@media print {
+  input[type="submit"] {
+    display: none;
+  }
+}
