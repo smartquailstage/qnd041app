@@ -1,5 +1,7 @@
+import os
 import numpy as np
 import pandas as pd
+from django.conf import settings
 import timesfm
 from .models import EstadoFinanciero
 
@@ -41,9 +43,14 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Cargar el modelo TimesFM usando la ruta local del checkpoint descargado
-  # (Apunta a la carpeta checkpoints dentro del snapshot que encontraste)
-  checkpoint_path = "/Users/smartquail/.cache/huggingface/hub/models--google--timesfm-1.0-200m/snapshots/8775f7531211ac864b739fe776b0b255c277e2be/checkpoints"
+  # 3. Cargar el modelo TimesFM usando la ruta dinámica del proyecto (Docker / Producción y Desarrollo)
+  checkpoint_path = os.path.join(
+      settings.BASE_DIR, 
+      "models", 
+      "timesfm", 
+      "checkpoints", 
+      "checkpoints"
+  )
 
   model = timesfm.TimesFm(
       backend="torch",
@@ -57,7 +64,6 @@ def predecir_metrica_financiera_torch(
   model.load_from_checkpoint(checkpoint_path)
 
   # 4. Ejecutar inferencia (TimesFM requiere una lista de inputs y frecuencia)
-  # frequency=0 indica datos de alta frecuencia/mensuales según la API estándar
   point_forecast, quantile_forecast = model.forecast(
       inputs=[context_data],
       freq=[0] * len([context_data]), 
