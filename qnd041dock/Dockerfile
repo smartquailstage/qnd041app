@@ -87,10 +87,13 @@ RUN mkdir -p \
 # Descarga de Pesos IA (TimesFM)
 # -----------------------------
 # Descarga los pesos directamente en la ruta del modelo dentro del proyecto clonado
+# -----------------------------
+# Descarga de Pesos IA (TimesFM)
+# -----------------------------
 RUN /py/bin/pip install huggingface_hub && \
-    /py/bin/huggingface-cli download google/timesfm-1.0-200m --local-dir models/timesfm/checkpoints
+    /py/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='google/timesfm-1.0-200m', local_dir='models/timesfm/checkpoints')"
 
-    
+
 # -----------------------------
 # PATH
 # -----------------------------
