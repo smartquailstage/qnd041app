@@ -1,7 +1,5 @@
-import os
 import numpy as np
 import pandas as pd
-from django.conf import settings
 import timesfm
 from .models import EstadoFinanciero
 
@@ -42,34 +40,24 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Ruta exacta del checkpoint descargado en el Dockerfile
-  checkpoint_path = os.path.join(
-      settings.BASE_DIR, 
-      "models", 
-      "timesfm", 
-      "checkpoints", 
-      "checkpoints", 
-      "checkpoint_1100000"
+  # 3. Carga oficial del modelo pre-entrenado compatible con la librería instalada
+  model = timesfm.TimesFM_2p5_200M_torch.from_pretrained(
+      "google/timesfm-2.5-200m-pytorch"
   )
 
-  # CORRECCIÓN: Usar timesfm.TimesFM (con 'FM' en mayúsculas)
-  model = timesfm.TimesFM(
-      backend="torch",
-      context_len=512,
-      horizon_len=horizonte_meses,
-      input_patch_len=32,
-      output_patch_len=128,
-      num_layers=20,
-      model_dims=1280,
+  model.compile(
+      timesfm.ForecastConfig(
+          max_context=512,
+          max_horizon=horizonte_meses,
+          normalize_inputs=True,
+          use_continuous_quantile_head=True,
+          fix_quantile_crossing=True,
+      )
   )
-  
-  # Cargar los pesos locales desde la ruta construida en Docker
-  model.load_from_checkpoint(checkpoint_path)
 
-  # 4. Ejecutar inferencia
+  # 4. Ejecutar inferencia (TimesFM recibe la lista de arreglos de contexto)
   point_forecast, quantile_forecast = model.forecast(
       inputs=[context_data],
-      freq=[0] * len([context_data]), 
   )
 
   return {
