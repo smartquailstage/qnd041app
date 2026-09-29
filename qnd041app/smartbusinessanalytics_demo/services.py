@@ -41,23 +41,26 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Cargar el modelo TimesFM con PyTorch (compatible con CPU / Intel i5)
-  model = timesfm.TimesFM_2p5_200M_torch.from_pretrained(
-      "google/timesfm-2.5-200m-pytorch"
-  )
+  # 3. Cargar el modelo TimesFM usando la ruta local del checkpoint descargado
+  # (Apunta a la carpeta checkpoints dentro del snapshot que encontraste)
+  checkpoint_path = "/Users/smartquail/.cache/huggingface/hub/models--google--timesfm-1.0-200m/snapshots/8775f7531211ac864b739fe776b0b255c277e2be/checkpoints"
 
-  model.compile(
-      timesfm.ForecastConfig(
-          max_context=512,
-          max_horizon=horizonte_meses,
-          normalize_inputs=True,
-          infer_is_positive=False if metrica == "utilidad_neta" else True,
-      )
+  model = timesfm.TimesFm(
+      backend="torch",
+      horizon_len=horizonte_meses,
+      input_patch_len=32,
+      output_patch_len=128,
+      num_layers=20,
+      model_dims=1280,
   )
+  
+  model.load_from_checkpoint(checkpoint_path)
 
-  # 4. Ejecutar inferencia
+  # 4. Ejecutar inferencia (TimesFM requiere una lista de inputs y frecuencia)
+  # frequency=0 indica datos de alta frecuencia/mensuales según la API estándar
   point_forecast, quantile_forecast = model.forecast(
-      horizon=horizonte_meses, inputs=[context_data]
+      inputs=[context_data],
+      freq=[0] * len([context_data]), 
   )
 
   return {

@@ -82,6 +82,15 @@ RUN mkdir -p \
         /var/log/uwsgi \
         /${NODE_VERSION}
 
+
+# -----------------------------
+# Descarga de Pesos IA (TimesFM)
+# -----------------------------
+# Descarga los pesos directamente en la ruta del modelo dentro del proyecto clonado
+RUN /py/bin/pip install huggingface_hub && \
+    /py/bin/huggingface-cli download google/timesfm-1.0-200m --local-dir models/timesfm/checkpoints
+
+    
 # -----------------------------
 # PATH
 # -----------------------------
