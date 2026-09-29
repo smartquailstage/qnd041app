@@ -1143,6 +1143,41 @@ class EstadoAnalisisAvanzadoComponentDemo(BaseComponent):
 
 from .models import EstadoFinanciero
 
+
+from django.contrib import admin, messages
+from django.utils.html import format_html
+from unfold.admin import ModelAdmin
+
+# ==========================================
+# 1. ACCIÓN PARA EL ADMIN (Listado y Detalle)
+# ==========================================
+@admin.action(description="🤖 Ejecutar Predicción IA (TimesFM - 6 meses)")
+def ejecutar_prediccion_ia_action(modeladmin, request, queryset):
+    """
+    Acción de administrador para ejecutar el pronóstico de IA 
+    en los estados financieros seleccionados.
+    """
+    exitosos = 0
+    errores = 0
+
+    for obj in queryset:
+        # Ejecutamos el método que creamos en el modelo
+        resultado = obj.ejecutar_y_guardar_prediccion_individual(metrica='utilidad_neta', meses=6)
+        
+        if resultado.get("success"):
+            exitosos += 1
+        else:
+            errores += 1
+            # Opcional: mostrar el error específico del objeto si falla
+            messages.error(request, f"Error en ID {obj.id}: {resultado.get('error')}")
+
+    if exitosos > 0:
+        messages.success(request, f"Predicción de IA ejecutada con éxito para {exitosos} registro(s).")
+    if errores > 0:
+        messages.warning(request, f"Hubo {errores} registro(s) que no pudieron procesarse.")
+
+        
+
 @admin.register(EstadoFinanciero)
 class EstadoFinancieroAdmin(ModelAdmin):
 
@@ -1154,22 +1189,25 @@ class EstadoFinancieroAdmin(ModelAdmin):
     ]
 
     actions =[
-    duplicar_balances,
-    export_to_csv,
-    export_to_excel,
+        duplicar_balances,
+        export_to_csv,
+        export_to_excel,
+        ejecutar_prediccion_ia_action,
     ]
 
-   
     # ----------------------------------
     # Fieldsets (tabs)
     # ----------------------------------
     fieldsets = (
         ("I. Crear Analítica", {
-            
-            "fields": ("nombre_banco","total_ingresos_bancos","total_egresos_bancos","fecha_inicio", "fecha_fin", 
+            "fields": (
+                "nombre_banco",
+                "total_ingresos_bancos",
+                "total_egresos_bancos",
+                "fecha_inicio", 
+                "fecha_fin", 
             ),
             "classes": ("unfold", "tab-periodo"),
-
         }),
 
         ("II. Resumen Contable", {
@@ -1192,12 +1230,9 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "declaracion_iva",
                 "cuentas_pagar",
                 "cuentas_cobrar",
-
             ),
             "classes": ("unfold", "tab-egresos"),
         }),
-
-
 
         ("IV. Detalle Ingresos", {
             "fields": (
@@ -1208,7 +1243,6 @@ class EstadoFinancieroAdmin(ModelAdmin):
             ),
             "classes": ("unfold", "tab-ingresos"),
         }),
-
 
         ("V. Indicadores Financieros", {
             "fields": (
@@ -1229,9 +1263,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
             "classes": ("unfold", "tab-avanzado"),
         }),
 
-        ("VII. Concliliación Bancaria", {
+        ("VII. Conciliación Bancaria", {
             "fields": (
-               
                 "total_efectivo_bancos",
                 "total_efectivo",
                 "diferencia_ingresos",
@@ -1239,9 +1272,8 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "error_conciliacion_porcentaje",
                 "umbral_conciliacion",
                 "conciliado",
-
             ),
-            "classes": ("unfold", "tab-avanzado"),
+            "classes": ("unfold", "tab-conciliacion"),
         }),
 
         ("VIII. Métricas Financieras y Operativas PaaP", {
@@ -1257,14 +1289,22 @@ class EstadoFinancieroAdmin(ModelAdmin):
                 "burn_rate",
                 "runway_meses",
             ),
-            "classes": ("unfold", "tab-avanzado"),
+            "classes": ("unfold", "tab-paap"),
         }),
 
+        ("IX. Predicciones IA (TimesFM)", {
+            "fields": (
+                "pred_mes_1",
+                "pred_mes_2",
+                "pred_mes_3",
+                "pred_mes_4",
+                "pred_mes_5",
+                "pred_mes_6",
+                "fecha_ultima_prediccion",
+            ),
+            "classes": ("unfold", "tab-predicciones"),
+        }),
     )
-
-
-
-
 
     # ----------------------------------
     # Listado
@@ -1276,14 +1316,13 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "total_egresos",
     )
 
-    search_fields = ["nombre_banco",]
-
     list_filter = (
         "fecha_inicio",
         "fecha_fin",
     )
 
     search_fields = (
+        "nombre_banco",
         "fecha_inicio",
         "fecha_fin",
     )
@@ -1321,81 +1360,78 @@ class EstadoFinancieroAdmin(ModelAdmin):
         "diferencia_egresos",
         "error_conciliacion_porcentaje",
         "umbral_conciliacion",
-
         
-        # Nuevas métricas operativas y PaaP
+        # Métricas operativas y PaaP
         "arpu",
+        "cac",
         "ltv",
         "ratio_ltv_cac",
         "payback_period_meses",
+        "churn_rate",
+        "nrr",
         "gross_margin_porcentaje",
         "burn_rate",
         "runway_meses",
-        
-        # Opcionales (si prefieres que el usuario no los edite manualmente y se calculen o fijen por defecto)
-        "churn_rate",
-        "nrr",
-      
 
+        # Predicciones de IA (calculadas por el método torch/TimesFM)
+        "pred_mes_1",
+        "pred_mes_2",
+        "pred_mes_3",
+        "pred_mes_4",
+        "pred_mes_5",
+        "pred_mes_6",
+        "fecha_ultima_prediccion",
     )
 
     unfold_fieldsets = True
 
-# ----------------------------------
+    # ----------------------------------
     # Filtro de seguridad por usuario (I+D Core)
     # ----------------------------------
     def get_queryset(self, request):
-        """
-        Filtra el listado para que los usuarios comunes solo vean sus datos,
-        mientras que los superusuarios mantienen el control total del holding.
-        """
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
-        
-        # Suponiendo que tu campo en el modelo se llama 'usuario' o 'owner'
         return qs.filter(usuario=request.user)
 
     def save_model(self, request, obj, form, change):
-        """
-        Asigna automáticamente el usuario logueado como propietario 
-        del registro al momento de la creación.
-        """
-        if not change: # Si el registro es nuevo
+        if not change: 
             obj.usuario = request.user
         super().save_model(request, obj, form, change)
 
     def get_readonly_fields(self, request, obj=None):
-        """
-        Si agregas el campo 'usuario' a los fieldsets, este método asegura 
-        que nadie pueda alterarlo de forma manual, blindando el rastro de auditoría.
-        """
         fields = super().get_readonly_fields(request, obj)
         if not request.user.is_superuser:
             return list(fields) + ["usuario"]
         return fields
 
-# ------------------------------------------------------------
-    # Permisos Nativos Forzados para Staff Activo (Gobernanza Automatizada)
+    # ------------------------------------------------------------
+    # Permisos Nativos Forzados para Staff Activo
     # ------------------------------------------------------------
     def has_view_permission(self, request, obj=None):
-        """Permite ver el listado si es staff activo."""
         return request.user.is_authenticated and request.user.is_staff and request.user.is_active
 
     def has_add_permission(self, request):
-        """Permite crear registros si es staff activo."""
         return request.user.is_authenticated and request.user.is_staff and request.user.is_active
 
     def has_change_permission(self, request, obj=None):
-        """Permite editar sus propios registros (get_queryset ya aislará el objeto)."""
         return request.user.is_authenticated and request.user.is_staff and request.user.is_active
 
     def has_delete_permission(self, request, obj=None):
-        """Bloquea el borrado a usuarios comunes si lo deseas, o pon True si pueden borrar lo suyo."""
         if request.user.is_superuser:
             return True
-        return False # Por seguridad en el histórico del holding
+        return False
 
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        
+        # Si estamos editando un objeto existente, añadimos un indicador o contexto si es necesario
+        obj = self.get_object(request, object_id)
+        if obj and obj.usuario:
+            extra_context['mostrar_boton_ia'] = True
+            
+        return super().change_view(request, object_id, form_url, extra_context=extra_context)
 
 
 from django.template.loader import render_to_string

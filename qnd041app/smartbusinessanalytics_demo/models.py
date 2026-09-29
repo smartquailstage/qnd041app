@@ -1393,6 +1393,73 @@ class EstadoFinanciero(models.Model):
         help_text="Información detallada del flujo de caja en formato estructurado"
     )
 
+    # CAMPOS DE PREDICCIÓN INDIVIDUALIZADA (TIMESFM - 6 MESES ADELANTE)
+    pred_mes_1 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +1",
+        help_text="Valor pronosticado por IA (TimesFM) para el primer mes siguiente al período de análisis."
+    )
+
+    pred_mes_2 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +2",
+        help_text="Valor pronosticado por IA (TimesFM) para el segundo mes hacia adelante."
+    )
+
+    pred_mes_3 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +3",
+        help_text="Valor pronosticado por IA (TimesFM) para el tercer mes hacia adelante."
+    )
+
+    pred_mes_4 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +4",
+        help_text="Valor pronosticado por IA (TimesFM) para el cuarto mes hacia adelante."
+    )
+
+    pred_mes_5 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +5",
+        help_text="Valor pronosticado por IA (TimesFM) para el quinto mes hacia adelante."
+    )
+
+    pred_mes_6 = MoneyField(
+        max_digits=12,
+        decimal_places=2,
+        default_currency='USD',
+        null=True,
+        blank=True,
+        verbose_name="Predicción Mes +6",
+        help_text="Valor pronosticado por IA (TimesFM) para el sexto mes hacia adelante (cierre del horizonte trimestral/semestral)."
+    )
+
+    fecha_ultima_prediccion = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Fecha de última predicción",
+        help_text="Marca temporal exacta de cuándo se ejecutó por última vez el modelo de series temporales."
+    )
 
     # ==============================
     # MÉTODO PRINCIPAL
@@ -1652,6 +1719,43 @@ class EstadoFinanciero(models.Model):
         self.conciliado = (
             self.error_conciliacion_porcentaje <= umbral
         )
+
+    # ==============================
+    # MÉTODO DE PREDICCIÓN INDIVIDUAL
+    # ==============================
+    def ejecutar_y_guardar_prediccion_individual(self, metrica='utilidad_neta', meses=6):
+        if not self.usuario:
+            return {"error": "Este estado financiero no tiene un usuario asociado."}
+        
+        from .services import predecir_metrica_financiera_torch
+        
+        try:
+            resultado = predecir_metrica_financiera_torch(
+                usuario_id=self.usuario.id,
+                metrica=metrica,
+                horizonte_meses=meses
+            )
+            
+            puntos = resultado.get("pronostico_punto", [])
+            campos_meses = ['pred_mes_1', 'pred_mes_2', 'pred_mes_3', 'pred_mes_4', 'pred_mes_5', 'pred_mes_6']
+            campos_actualizados = ['fecha_ultima_prediccion']
+            
+            for i, campo_nombre in enumerate(campos_meses):
+                if i < len(puntos):
+                    val = round(float(puntos[i]), 2)
+                    setattr(self, campo_nombre, Money(val, 'USD'))
+                else:
+                    setattr(self, campo_nombre, None)
+                
+                campos_actualizados.append(campo_nombre)
+            
+            self.fecha_ultima_prediccion = timezone.now()
+            self.save(update_fields=campos_actualizados)
+            
+            return {"success": True, "valores_guardados": puntos}
+            
+        except Exception as e:
+            return {"error": str(e)}
 
     # ==============================
     # Meta y Métodos
