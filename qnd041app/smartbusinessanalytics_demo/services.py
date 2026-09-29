@@ -21,7 +21,6 @@ def predecir_metrica_financiera_torch(
   registros = []
   for obj in qs:
     valor_obj = getattr(obj, metrica)
-    # Manejar si el campo es MoneyField (djmoney) o Decimal puro
     if hasattr(valor_obj, "amount"):
       val = float(valor_obj.amount)
     elif valor_obj is not None:
@@ -43,29 +42,28 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Inicializar TimesFM utilizando la estructura oficial de hiperparámetros y ruta local de checkpoints
+  # 3. Apuntar exactamente a la carpeta del hito donde vive 'descriptor', 'metadata' y 'state'
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
       "timesfm", 
       "checkpoints", 
-      "checkpoints"
+      "checkpoints", 
+      "checkpoint_1100000"
   )
 
+  # Instanciación correcta de TimesFm para PyTorch
   model = timesfm.TimesFm(
-      hparams=timesfm.TimesFmHparams(
-          backend="torch",
-          context_len=512,
-          horizon_len=horizonte_meses,
-          input_patch_len=32,
-          output_patch_len=128,
-          num_layers=20,
-          model_dims=1280,
-      ),
-      checkpoint=timesfm.TimesFmCheckpoint(
-          path=checkpoint_path
-      ),
+      backend="torch",
+      horizon_len=horizonte_meses,
+      input_patch_len=32,
+      output_patch_len=128,
+      num_layers=20,
+      model_dims=1280,
   )
+  
+  # Carga directa del checkpoint apuntando a la ruta que contiene los archivos binarios
+  model.load_from_checkpoint(checkpoint_path)
 
   # 4. Ejecutar inferencia
   point_forecast, quantile_forecast = model.forecast(
