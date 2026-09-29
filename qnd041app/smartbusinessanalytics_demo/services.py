@@ -43,7 +43,7 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Cargar el modelo TimesFM usando la ruta dinámica del proyecto (Docker / Producción y Desarrollo)
+  # 3. Inicializar TimesFM utilizando la estructura oficial de hiperparámetros y ruta local de checkpoints
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
@@ -53,17 +53,21 @@ def predecir_metrica_financiera_torch(
   )
 
   model = timesfm.TimesFm(
-      backend="torch",
-      horizon_len=horizonte_meses,
-      input_patch_len=32,
-      output_patch_len=128,
-      num_layers=20,
-      model_dims=1280,
+      hparams=timesfm.TimesFmHparams(
+          backend="torch",
+          context_len=512,
+          horizon_len=horizonte_meses,
+          input_patch_len=32,
+          output_patch_len=128,
+          num_layers=20,
+          model_dims=1280,
+      ),
+      checkpoint=timesfm.TimesFmCheckpoint(
+          path=checkpoint_path
+      ),
   )
-  
-  model.load_from_checkpoint(checkpoint_path)
 
-  # 4. Ejecutar inferencia (TimesFM requiere una lista de inputs y frecuencia)
+  # 4. Ejecutar inferencia
   point_forecast, quantile_forecast = model.forecast(
       inputs=[context_data],
       freq=[0] * len([context_data]), 
