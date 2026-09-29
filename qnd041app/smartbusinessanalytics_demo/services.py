@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from django.conf import settings
-from timesfm.timesfm_torch import TimesFm
+import timesfm
 from .models import EstadoFinanciero
 
 
@@ -42,8 +42,7 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Ruta exacta basada en tu árbol de directorios de producción:
-  # models/timesfm/checkpoints/ (local_dir del Dockerfile) + checkpoints/checkpoint_1100000
+  # 3. Ruta exacta que coincide con tu terminal de Docker
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
@@ -53,8 +52,8 @@ def predecir_metrica_financiera_torch(
       "checkpoint_1100000"
   )
 
-  # Instanciar el modelo con la clase correcta de TimesFM 1.0 (Torch)
-  model = TimesFm(
+  # Instanciar usando la clase expuesta por la librería raíz
+  model = timesfm.TimesFm(
       backend="torch",
       horizon_len=horizonte_meses,
       input_patch_len=32,
@@ -63,7 +62,7 @@ def predecir_metrica_financiera_torch(
       model_dims=1280,
   )
   
-  # Cargar los pesos desde la ruta profunda que generó el snapshot de Hugging Face
+  # Cargar el checkpoint local de Hugging Face
   model.load_from_checkpoint(checkpoint_path)
 
   # 4. Ejecutar inferencia
