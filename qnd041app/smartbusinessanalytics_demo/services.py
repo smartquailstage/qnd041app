@@ -42,7 +42,7 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Apuntar exactamente a la carpeta del hito donde vive 'descriptor', 'metadata' y 'state'
+  # 3. Ruta exacta del checkpoint descargado en el Dockerfile
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
@@ -52,9 +52,10 @@ def predecir_metrica_financiera_torch(
       "checkpoint_1100000"
   )
 
-  # Instanciación correcta de TimesFm para PyTorch
-  model = timesfm.TimesFm(
+  # CORRECCIÓN: Usar timesfm.TimesFM (con 'FM' en mayúsculas)
+  model = timesfm.TimesFM(
       backend="torch",
+      context_len=512,
       horizon_len=horizonte_meses,
       input_patch_len=32,
       output_patch_len=128,
@@ -62,7 +63,7 @@ def predecir_metrica_financiera_torch(
       model_dims=1280,
   )
   
-  # Carga directa del checkpoint apuntando a la ruta que contiene los archivos binarios
+  # Cargar los pesos locales desde la ruta construida en Docker
   model.load_from_checkpoint(checkpoint_path)
 
   # 4. Ejecutar inferencia
