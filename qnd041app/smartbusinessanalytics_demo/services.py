@@ -1,6 +1,8 @@
+import os
 import numpy as np
 import pandas as pd
-import timesfm
+from django.conf import settings
+from timesfm.timesfm_torch import TimesFm
 from .models import EstadoFinanciero
 
 
@@ -40,24 +42,34 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Carga oficial del modelo pre-entrenado compatible con la librería instalada
-  model = timesfm.TimesFM_2p5_200M_torch.from_pretrained(
-      "google/timesfm-2.5-200m-pytorch"
+  # 3. Ruta exacta basada en tu árbol de directorios de producción:
+  # models/timesfm/checkpoints/ (local_dir del Dockerfile) + checkpoints/checkpoint_1100000
+  checkpoint_path = os.path.join(
+      settings.BASE_DIR, 
+      "models", 
+      "timesfm", 
+      "checkpoints", 
+      "checkpoints", 
+      "checkpoint_1100000"
   )
 
-  model.compile(
-      timesfm.ForecastConfig(
-          max_context=512,
-          max_horizon=horizonte_meses,
-          normalize_inputs=True,
-          use_continuous_quantile_head=True,
-          fix_quantile_crossing=True,
-      )
+  # Instanciar el modelo con la clase correcta de TimesFM 1.0 (Torch)
+  model = TimesFm(
+      backend="torch",
+      horizon_len=horizonte_meses,
+      input_patch_len=32,
+      output_patch_len=128,
+      num_layers=20,
+      model_dims=1280,
   )
+  
+  # Cargar los pesos desde la ruta profunda que generó el snapshot de Hugging Face
+  model.load_from_checkpoint(checkpoint_path)
 
-  # 4. Ejecutar inferencia (TimesFM recibe la lista de arreglos de contexto)
+  # 4. Ejecutar inferencia
   point_forecast, quantile_forecast = model.forecast(
       inputs=[context_data],
+      freq=[0] * len([context_data]), 
   )
 
   return {
