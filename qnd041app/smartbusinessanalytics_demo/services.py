@@ -42,7 +42,7 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Ruta exacta que coincide con tu terminal de Docker
+  # 3. Ruta exacta del checkpoint descargado por tu Dockerfile
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
@@ -52,7 +52,7 @@ def predecir_metrica_financiera_torch(
       "checkpoint_1100000"
   )
 
-  # Instanciar usando la clase expuesta por la librería raíz
+  # CORRECCIÓN: Usar timesfm.TimesFm (con minúsculas tal como lo define el paquete oficial)
   model = timesfm.TimesFm(
       backend="torch",
       horizon_len=horizonte_meses,
@@ -60,10 +60,8 @@ def predecir_metrica_financiera_torch(
       output_patch_len=128,
       num_layers=20,
       model_dims=1280,
+      checkpoint=checkpoint_path,
   )
-  
-  # Cargar el checkpoint local de Hugging Face
-  model.load_from_checkpoint(checkpoint_path)
 
   # 4. Ejecutar inferencia
   point_forecast, quantile_forecast = model.forecast(
