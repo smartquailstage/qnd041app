@@ -56,7 +56,7 @@
                                                 {% elif order.pago_verificado %}
                                                     <span class="badge bg-danger">Vencido</span>
                                                 {% else %}
-                                                    <span class="spinner-border spinner-border-sm text-warning"></span> <a href="{% url 'business_customer_projects:paymentorder_detail' order.pk %}" class="text-primary">Pendiente </a> 
+                                                    <span class="spinner-border spinner-border-sm text-warning"></span> <a href="#" class="text-primary">Pendiente </a> 
                                                 {% endif %}
                                             </td>
                                             <td> <a href="#" class="text-primary">
@@ -67,7 +67,7 @@
 <td>{{ order.expiration_date|date:"d/m/Y" }}</td>
 <td>{{ order.second_expiration_date|date:"d/m/Y" }}</td>
 
-                                                                                         <a href="{% url 'business_customer_projects:project_detail' order.project.pk %}">
+                                                                                         <a href="#">
                                             <td>{{ order.get_service_type_display }}</td>
                                             </a>
                                             <!-- Acciones -->
