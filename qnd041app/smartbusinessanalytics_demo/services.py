@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from django.conf import settings
-import timesfm
+from timesfm3 import TimesFM3Evaluator, ModelConfig
 from .models import EstadoFinanciero
 
 
@@ -42,7 +42,7 @@ def predecir_metrica_financiera_torch(
 
   context_data = df["valor"].astype(np.float32).values
 
-  # 3. Ruta exacta del checkpoint descargado por tu Dockerfile
+  # 3. Ruta exacta del checkpoint local o nombre del modelo de Hugging Face
   checkpoint_path = os.path.join(
       settings.BASE_DIR, 
       "models", 
@@ -51,31 +51,38 @@ def predecir_metrica_financiera_torch(
       "checkpoints", 
       "checkpoint_1100000"
   )
+  
+  # Si prefieres usar la ruta local que armaste, asegúrate de que exista, 
+  # o usa directamente el identificador si descargas online: "google/timesfm-3.0-pytorch"
+  path_a_usar = checkpoint_path if os.path.exists(checkpoint_path) else "google/timesfm-3.0-pytorch"
 
-  # CORRECCIÓN: Usar timesfm.TimesFm (con minúsculas tal como lo define el paquete oficial)
-  model = timesfm.TimesFm(
-      backend="torch",
-      horizon_len=horizonte_meses,
-      input_patch_len=32,
-      output_patch_len=128,
-      num_layers=20,
-      model_dims=1280,
-      checkpoint=checkpoint_path,
+  # CORRECCIÓN: Inicialización oficial para TimesFM 3.0
+  config = ModelConfig(
+      checkpoint_path=path_a_usar,
+      per_core_batch_size=32,
+      device="cuda"  # Cambiar a "cpu" si tu entorno de Docker no cuenta con GPU disponible
+  )
+  forecaster = TimesFM3Evaluator(config)
+
+  # 4. Ejecutar inferencia por lotes (retorna una lista de resultados)
+  outputs = list(
+      forecaster.predict_batch(
+          [context_data], 
+          horizon=horizonte_meses, 
+          return_quantiles=True, 
+          use_symmetric_averaging=False
+      )
   )
 
-  # 4. Ejecutar inferencia
-  point_forecast, quantile_forecast = model.forecast(
-      inputs=[context_data],
-      freq=[0] * len([context_data]), 
-  )
+  resultado = outputs[0]
 
   return {
       "historico": df["valor"].tolist(),
       "fechas_historico": df.index.strftime("%Y-%m-%d").tolist(),
-      "pronostico_punto": point_forecast[0].tolist(),
+      "pronostico_punto": resultado.forecast.tolist(),
       "cuantiles": (
-          quantile_forecast[0].tolist()
-          if quantile_forecast is not None
+          resultado.quantiles.tolist()
+          if hasattr(resultado, "quantiles") and resultado.quantiles is not None
           else None
       ),
   }
