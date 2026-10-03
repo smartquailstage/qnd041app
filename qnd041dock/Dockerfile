@@ -83,8 +83,7 @@ RUN mkdir -p \
     && chown -R ${USER}:${USER} \
         static \
         media \
-        models/hf_cache \
-        models/torch_cache \
+        models \
         staticfiles \
         /var/log/uwsgi \
         /${NODE_VERSION}
