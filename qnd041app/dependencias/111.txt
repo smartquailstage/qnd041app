@@ -22,7 +22,7 @@ wagtail-modeltranslation
 wagtail_modeladmin
 wagtail-ai>=0.1.0
 
-timesfm
+timesfm[torch]
 
 
 # Django Bootstrap Datepicker Plus
