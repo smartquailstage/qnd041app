@@ -10,6 +10,9 @@ ENV NODE_APP_NAME=qnd041app
 ENV USER=qnd111
 ENV VERSION=111
 
+ENV HF_HOME="/${NODE_VERSION}/${NODE_APP_NAME}/models/hf_cache"
+ENV TORCH_HOME="/${NODE_VERSION}/${NODE_APP_NAME}/models/torch_cache"
+
 # -----------------------------
 # Dependencias del sistema
 # (uWSGI + WeasyPrint + Pillow)
@@ -73,11 +76,15 @@ RUN useradd --no-create-home --shell /usr/sbin/nologin ${USER}
 RUN mkdir -p \
         static \
         media \
+        models/hf_cache \
+        models/torch_cache \
         staticfiles \
         /var/log/uwsgi \
     && chown -R ${USER}:${USER} \
         static \
         media \
+        models/hf_cache \
+        models/torch_cache \
         staticfiles \
         /var/log/uwsgi \
         /${NODE_VERSION}
@@ -91,7 +98,7 @@ RUN mkdir -p \
 # Descarga de Pesos IA (TimesFM)
 # -----------------------------
 RUN /py/bin/pip install huggingface_hub && \
-    /py/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='google/timesfm-1.0-200m', local_dir='models/timesfm/checkpoints')"
+    /py/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='google/timesfm-3.0-pytorch', local_dir='models/timesfm/checkpoints')"
 
 
 # -----------------------------

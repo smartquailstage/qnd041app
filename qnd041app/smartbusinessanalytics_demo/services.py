@@ -60,7 +60,7 @@ def predecir_metrica_financiera_torch(
   config = ModelConfig(
       checkpoint_path=path_a_usar,
       per_core_batch_size=32,
-      device="cuda"  # Cambiar a "cpu" si tu entorno de Docker no cuenta con GPU disponible
+      device="cpu"  # Cambiar a "cpu" si tu entorno de Docker no cuenta con GPU disponible
   )
   forecaster = TimesFM3Evaluator(config)
 
