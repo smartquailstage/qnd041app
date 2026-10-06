@@ -165,7 +165,7 @@ INSTALLED_APPS = [
     "wagtailmenus",
 
     # "wagtail_modeltranslation",  # Descomentar si se usa
-
+    'import_export',
     # Terceros / externos
     "rest_framework",
     #"ckeditor",

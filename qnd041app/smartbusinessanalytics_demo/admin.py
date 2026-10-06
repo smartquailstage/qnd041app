@@ -9,7 +9,12 @@ from unfold.components import BaseComponent, register_component
 import csv
 import xlsxwriter
 from django.http import HttpResponse
-
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import (
+    ExportForm,
+    ImportForm,
+    SelectableFieldsExportForm,
+)
 
 
 def export_to_csv(modeladmin, request, queryset):
@@ -211,7 +216,7 @@ from .models import MovimientoFinanciero
 
 
 @admin.register(MovimientoFinanciero)
-class MovimientoFinancieroAdmin(ModelAdmin):
+class MovimientoFinancieroAdmin(ModelAdmin,ImportExportModelAdmin):
     # ----------------------------------
     # Componentes visuales
     # ----------------------------------
@@ -225,6 +230,10 @@ class MovimientoFinancieroAdmin(ModelAdmin):
     export_to_excel,
 
     ]
+
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+
 
     # ----------------------------------
     # Fieldsets en tabs

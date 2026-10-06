@@ -15,6 +15,80 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.contrib.auth import get_user_model
+from celery import shared_task
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+from celery import shared_task
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import get_user_model
+from django.utils.html import strip_tags
+
+User = get_user_model()
+from celery import shared_task
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth import get_user_model
+from django.utils.html import strip_tags
+
+User = get_user_model()
+
+@shared_task(bind=True, autoretry_for=(Exception,), retry_kwargs={'max_retries': 3, 'countdown': 60})
+def send_bulk_mailing_task(self, user_ids):
+    """
+    Envía correos masivos con asunto fijo 'Bienvenido a SmartQuail.' 
+    renderizando la plantilla basada en el sector del usuario.
+    """
+    users = User.objects.filter(id__in=user_ids)
+    success_count = 0
+    subject = "Bienvenido a SmartQuail."
+    
+    for user in users:
+        if not user.email:
+            continue
+            
+        # Contexto exclusivo con el usuario
+        context = {
+            "user": user,
+            "titulo": subject,
+        }
+
+        try:
+            # Renderizar la plantilla HTML principal que selecciona el sector por condicionales
+            html_content = render_to_string(
+                "emails/mailing/mailing_email_admin.html", context
+            )
+            # Generar texto plano automáticamente a partir del HTML
+            text_content = strip_tags(html_content)
+            
+        except Exception as exc:
+            # Respaldo de emergencia
+            text_content = f"Bienvenido a SmartQuail, {user.first_name}."
+            html_content = (
+                f"<div style='font-family: Arial, sans-serif;'>"
+                f"<h2>{subject}</h2>"
+                f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
+                f"</div>"
+            )
+
+        try:
+            email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            email.attach_alternative(html_content, "text/html")
+            email.send(fail_silently=False)
+            
+            success_count += 1
+        except Exception as exc:
+            print(f"Error enviando correo a {user.email}: {exc}")
+
+    return f"Mailing masivo enviado exitosamente a {success_count} de {len(user_ids)} usuarios."
 
 
 from django.utils.html import strip_tags
@@ -25,6 +99,9 @@ logger = logging.getLogger(__name__)
 
 
 from twilio.rest import Client
+
+
+
 
 
 @shared_task

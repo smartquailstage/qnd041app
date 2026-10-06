@@ -224,6 +224,7 @@ INSTALLED_APPS = [
     'saas_cart',
     'saas_coupons',
     'saas_payment',
+    'import_export',
 
     #SmartBusinessANALYTICS
     "sbacart",
@@ -426,6 +427,12 @@ UNFOLD = {
     ],
     "SCRIPTS": [lambda request: static("unfold/js/script.js")],
     "BORDER_RADIUS": "6px",
+    "COMMAND": {
+        "search_models": True,  # Default: False
+        "search_callback": "utils.search_callback",
+        "show_history": True,  # Enable history
+    },
+
     "COLORS": {
         "custom": {
             "green-success": "69 162 67",
@@ -481,9 +488,11 @@ UNFOLD = {
             ],
         },
     ],
+
+    
     "SIDEBAR": {
-        "show_search": False,
-        "show_all_applications": False,
+        "show_search": True,
+        "show_all_applications": True,
 "navigation": [
 
     {

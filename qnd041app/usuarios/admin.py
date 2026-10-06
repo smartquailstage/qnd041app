@@ -62,7 +62,9 @@ from datetime import timedelta, time, date
 from datetime import datetime
 from django.contrib.auth import get_user_model
 
-
+from django.contrib import admin, messages
+# Importa tu tarea desde tasks.py (ajusta la ruta según tu app, ej: from tu_app.tasks import send_bulk_emails_task)
+from .tasks import send_bulk_mailing_task
 
 
 def export_to_csv(modeladmin, request, queryset):
@@ -126,11 +128,44 @@ def export_to_excel(modeladmin, request, queryset):
 
 export_to_excel.short_description = 'Exportar a Excel'
 
+
+
+
+def send_email_to_selected_users(modeladmin, request, queryset):
+    """
+    Acción de Django Admin que delega el envío masivo de correos a Celery.
+    """
+    # Extraemos únicamente los IDs del queryset para pasarlos de forma ligera al broker
+    user_ids = list(queryset.values_list('id', flat=True))
+    
+    if not user_ids:
+        modeladmin.message_user(request, "No se seleccionó ningún usuario válido.", level=messages.WARNING)
+        return
+
+    # Despachamos la tarea a segundo plano con Celery
+    send_bulk_mailing_task.delay(user_ids)
+
+    modeladmin.message_user(
+        request, 
+        f'La tarea de envío de correos para {len(user_ids)} usuario(s) ha sido encolada exitosamente.', 
+        level=messages.SUCCESS
+    )
+
+send_email_to_selected_users.short_description = 'Enviar correo electrónico'
+
+
+
+
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin, ModelAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
+    actions =[
+    send_email_to_selected_users,
+    export_to_csv,
+    export_to_excel,
+    ]
 
     list_display = ['email', 'first_name','last_name','telefono','is_staff']
     ordering = ('email',)
@@ -145,7 +180,7 @@ class CustomUserAdmin(UserAdmin, ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name','last_name', 'password1', 'password2'),
+            'fields': ('email', 'first_name','last_name','sector_negocios', 'password1', 'password2'),
         }),
     )
 

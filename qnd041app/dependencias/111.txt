@@ -31,6 +31,8 @@ django-bootstrap-datepicker-plus
 
 django-multiselectfield
 django-modeltranslation
+django-import-export
+
 
 fontawesome
 

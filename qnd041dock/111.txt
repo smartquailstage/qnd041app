@@ -26,7 +26,7 @@ timesfm[torch]
 # Django Bootstrap Datepicker Plus
 django-bootstrap-datepicker-plus
 
-
+django-import-export
 django-multiselectfield
 django-modeltranslation
 

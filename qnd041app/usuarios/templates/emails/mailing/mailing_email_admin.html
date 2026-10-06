@@ -1,0 +1,84 @@
+{% extends "emails/base_mail_admin.html" %}
+{% load widget_tweaks %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+
+{% load static %}
+
+{% block content %}
+<tr>
+    <td style="padding: 25px; color: #333333;">
+        
+        <!-- Cabecera institucional con portada y logo -->
+        <div class="email-header" style="text-align: left; margin-bottom: 20px; padding: 40px 30px; background-color: #1e3a8a; background-image: url('{% static 'portada2.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px 8px 0 0;">
+            <img src="{% static 'assets/images/logo5.png' %}" alt="SmartQuail Logo" width="210px">
+        </div>
+
+        <!-- CONDICIONALES POR SECTOR DE NEGOCIO -->
+        {% if user.sector_negocios == 'G' %}
+            {% include 'emais/mailing/sectores/gastronomico.html' %}
+
+        {% elif user.sector_negocios == 'T' %}
+            {% include 'emails/mailing/sectores/turismo.html' %}
+
+        {% elif user.sector_negocios == 'TH' %}
+            {% include 'emails/mailing/sectores/tecnologia.html' %}
+
+        {% elif user.sector_negocios == 'IND' %}
+            {% include 'emails/mailing/sectores/industrial.html' %}
+
+        {% elif user.sector_negocios == 'AG' %}
+            {% include 'emails/mailing/sectores/agricola.html' %}
+
+        {% elif user.sector_negocios == 'CORP' %}
+            {% include 'emails/mailing/sectores/corporativo.html' %}
+
+        {% elif user.sector_negocios == 'E' %}
+            {% include 'emails/mailing/sectores/educativo.html' %}
+
+        {% elif user.sector_negocios == 'ADM' %}
+            {% include 'emails/mailing/sectores/administrativo.html' %}
+
+        {% elif user.sector_negocios == 'FIN' %}
+            {% include 'emails/mailing/sectores/financiero_sector.html' %}
+
+        {% elif user.sector_negocios == 'MED' %}
+            {% include 'emails/mailing/sectores/medico.html' %}
+
+        {% elif user.sector_negocios == 'CONST' %}
+            {% include 'emails/mailing/sectores/constructivo.html' %}
+
+        {% elif user.sector_negocios == 'COM' %}
+            {% include 'emails/mailing/sectores/comercial.html' %}
+
+        {% elif user.sector_negocios == 'L' %}
+            {% include 'emails/mailing/sectores/legal.html' %}
+
+        {% elif user.sector_negocios == 'ENT' %}
+            {% include 'emails/mailing/sectores/entretenimiento.html' %}
+
+        {% elif user.sector_negocios == 'MKT' %}
+            {% include 'emails/mailing/sectores/marketing.html' %}
+
+        {% elif user.sector_negocios == 'GO' %}
+            {% include 'emails/mailing/sectores/gubernamental.html' %}
+
+        {% elif user.sector_negocios == 'ONG' %}
+            {% include 'emails/mailing/sectores/ong.html' %}
+
+
+        {% else %}
+            <!-- Plantilla por defecto si no coincide con ninguno -->
+            {% include 'emails/mailing/sectores/otro.html' %}
+
+        {% endif %}
+
+        <!-- Contenido dinámico general ingresado en el sistema -->
+        <div style="margin-top: 30px; font-size: 15px; line-height: 1.6; color: #4b5563;">
+            {{ contenido|safe }}
+        </div>
+
+    </td>
+</tr>
+{% endblock %}
+
