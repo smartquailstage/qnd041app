@@ -59,7 +59,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ('I', 'Coorporativo'),
         ('E', 'Educativo'),
         ('A', 'Administrativo'),
-        ('A', 'Finaciero'),
+        ('F', 'Finaciero'),
         ('M', 'Medico & Salud'),
         ('C', 'Contructivo'),
         ('Co', 'Comercial'),
