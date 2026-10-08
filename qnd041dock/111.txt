@@ -1,5 +1,5 @@
 # Django
-django>=4.2,<5.0
+django>=5.0,<6.0
 
 # Django Baton
 #django-baton==2.6.2
