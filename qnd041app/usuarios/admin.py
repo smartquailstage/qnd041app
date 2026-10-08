@@ -66,6 +66,15 @@ from django.contrib import admin, messages
 # Importa tu tarea desde tasks.py (ajusta la ruta según tu app, ej: from tu_app.tasks import send_bulk_emails_task)
 from .tasks import send_bulk_mailing_task
 
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import (
+    ExportForm,
+    ImportForm,
+    SelectableFieldsExportForm,
+)
+
+
+
 
 def export_to_csv(modeladmin, request, queryset):
     opts = modeladmin.model._meta
@@ -157,7 +166,10 @@ send_email_to_selected_users.short_description = 'Enviar correo electrónico'
 
 
 @admin.register(CustomUser)
-class CustomUserAdmin(UserAdmin, ModelAdmin):
+class CustomUserAdmin(UserAdmin, ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
