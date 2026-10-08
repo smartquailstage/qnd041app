@@ -85,6 +85,7 @@ try:
             first_name, last_name = dividir_nombre(nombre_completo)
             telefono = limpiar_telefono(telefono_raw)
             
+            # Generar contraseña: parte izquierda del correo + 12345
             nombre_usuario_mail = correo.split('@')[0]
             password_temporal = f"{nombre_usuario_mail}12345"
             
@@ -95,6 +96,7 @@ try:
                     first_name=first_name,
                     last_name=last_name,
                     nombre_empresa=nombre_empresa,
+                    sector_negocios='O',  # 👈 Asignado por defecto a 'Otro'
                     telefono=telefono,
                     is_active=True,
                     is_staff=True,
