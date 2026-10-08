@@ -75,6 +75,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30, blank=True, verbose_name="Nombres")
     last_name = models.CharField(max_length=150, blank=True, verbose_name="Apellidos")
     sector_negocios = models.CharField(max_length=100, choices=SECTORES,null=True, blank=True)
+    nombre_empresa = models.CharField(max_length=200, null=True, blank=True)
 
     phone_regex = RegexValidator(
     regex=r'^593\d{9}$',
