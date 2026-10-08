@@ -55,10 +55,14 @@ def send_bulk_mailing_task(self, user_ids):
         if not user.email:
             continue
             
-        # Contexto exclusivo con el usuario
+        # Extraer el prefijo del correo antes del '@'
+        email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
+
+        # Contexto exclusivo con el usuario y la variable calculada
         context = {
             "user": user,
             "titulo": subject,
+            "email_prefix": email_prefix,
         }
 
         try:
