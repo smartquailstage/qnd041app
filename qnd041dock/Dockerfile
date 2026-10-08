@@ -52,8 +52,7 @@ RUN git clone https://github.com/smartquailstage/${NODE_VERSION}.git
 COPY ./${VERSION}.txt /${VERSION}.txt
 COPY ./scripts /scripts
 COPY ./uwsgi_pro.ini /${NODE_VERSION}/${NODE_APP_NAME}/uwsgi_pro.ini
-COPY ./migrates /${NODE_VERSION}/${NODE_APP_NAME}/migrates
-COPY ./entrada.csv /${NODE_VERSION}/${NODE_APP_NAME}/entrada.csv
+COPY ./migrates/entrada.csv /${NODE_VERSION}/${NODE_APP_NAME}/entrada.csv
 
 # -----------------------------
 # Directorio de trabajo
