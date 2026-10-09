@@ -1,5 +1,5 @@
 # Django
-django>=5.0,<6.0
+django>=4.2,<5.0
 
 # Django Baton
 #django-baton==2.6.2
@@ -13,7 +13,7 @@ pandas
 numpy
 
 # Wagtail
-wagtail==8.0
+wagtail==7.2.0
 wagtailmedia
 wagtail_localize
 wagtailgmaps
@@ -23,6 +23,8 @@ wagtail_modeladmin
 wagtail-ai>=0.1.0
 
 timesfm[torch]
+torch>=2.0.0
+
 # Django Bootstrap Datepicker Plus
 django-bootstrap-datepicker-plus
 
