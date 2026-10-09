@@ -1,41 +1,18 @@
 from .base_prod import *
 
-
-
-
 # Obtener las variables de entorno desde Kubernetes
 IP = os.environ.get("IP")
 DOMAIN = os.environ.get("DOMAIN")
 HOST = os.environ.get("HOST")
 
-ALLOWED_HOSTS='127.0.0.1',"localhost","https://ec.smartquail.io", "ec.smartquail.io","64.23.178.103"
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://ec.smartquail.io', 'ec.smartquail.io', '64.23.178.103']
 
-#import wagtail_ai
-
-#WAGTAIL_AI_PROMPTS = wagtail_ai.DEFAULT_PROMPTS + [
-#    {
-#        "label": "Simplify",
-#        "description": "Rewrite your text in a simpler form",
-#        "prompt": "Rewrite the following text to make it simper and more succinct",
-#        "method": "replace",
-#    }
-#]
-
-
-#CSRF_COOKIE_DOMAIN="http://qnd03101.smartquail.io"
-#CSRF_COOKIE_SECURE = True
-#CSRF_TRUSTED_ORIGINS = ['https://qnd03101.smartquail.io','https://meddes.smartquail.io/','https://146.190.164.22']
 CORS_ALLOWED_ORIGINS = [
-    'https://ec.smartquail.io','ec.smartquail.io'
-    # Otros orígenes permitidos si los hay
+    'https://ec.smartquail.io',
+    'ec.smartquail.io'
 ]
 
-
-
-
-# settings.py
-
-
+# Base de datos por defecto (SQLite de respaldo si no hay PostgreSQL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -51,7 +28,6 @@ DB_HOST = os.environ.get("POSTGRES_HOST")
 DB_PORT = os.environ.get("POSTGRES_PORT")
 DB_ENGINE = os.environ.get("POSTGRES_ENGINE")
 
-# Verificación de disponibilidad de las variables necesarias para PostgreSQL
 DB_IS_AVAILABLE = all([
     DB_USERNAME,
     DB_PASSWORD,
@@ -60,7 +36,6 @@ DB_IS_AVAILABLE = all([
     DB_PORT
 ])
 
-# Configuración condicional para PostgreSQL
 if DB_IS_AVAILABLE:
     DATABASES = {
         'default': {
@@ -73,29 +48,12 @@ if DB_IS_AVAILABLE:
         }
     }
 
-#Static files DevMod
-
-
-
-
-
-
-
-
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# celery setup
-
-
-
-
-
-REDIS_HOST=os.environ.get('REDIS_HOST')
-REDIS_PORT=os.environ.get('REDIS_PORT')
-REDIS_DB =os.environ.get('REDIS_DB')
+# Celery setup
+REDIS_HOST = os.environ.get('REDIS_HOST')
+REDIS_PORT = os.environ.get('REDIS_PORT')
+REDIS_DB = os.environ.get('REDIS_DB')
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -103,92 +61,64 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_TIME_LIMIT = 30
 
 CELERY_BEAT_SCHEDULE = {
     'deactivate_old_orders': {
         'task': 'saas_orders.tasks.deactivate_old_orders',
-        'schedule': 86400.0,  # se ejecuta cada 24 horas
+        'schedule': 86400.0,
     },
 }
 
-
-# social auth settings
+# Social auth settings
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 SOCIAL_AUTH_TWITTER_KEY = os.environ.get('SOCIAL_AUTH_TWITTER_KEY')
-SOCIAL_AUTH_TWITTER_SECRET =  os.environ.get('SOCIAL_AUTH_TWITTER_SECRET')
+SOCIAL_AUTH_TWITTER_SECRET = os.environ.get('SOCIAL_AUTH_TWITTER_SECRET')
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
-import os
 def env(key, default=None):
     return os.getenv(key, default)
-
-
 
 N8N_WEBHOOKS_A = {
     "instagram_post": env("N8N_A_INSTAGRAM_POST"),
     "instagram_carousel": env("N8N_A_INSTAGRAM_CAROUSEL"),
     "instagram_reel": env("N8N_A_INSTAGRAM_REEL"),
-
     "facebook_image": env("N8N_A_FACEBOOK_IMAGE"),
     "facebook_video": env("N8N_A_FACEBOOK_VIDEO"),
     "facebook_carousel": env("N8N_A_FACEBOOK_CAROUSEL"),
-
     "twitter_post": env("N8N_A_TWITTER_POST"),
     "linkedin_post": env("N8N_A_LINKEDIN_POST"),
 }
-
 
 N8N_WEBHOOKS_AI = {
     "instagram_post": env("N8N_AI_INSTAGRAM_POST"),
     "instagram_carousel": env("N8N_AI_INSTAGRAM_CAROUSEL"),
     "instagram_reel": env("N8N_VIDEO_WEBHOOK_URL"),
-
     "facebook_image": env("N8N_AI_FACEBOOK_IMAGE"),
     "facebook_video": env("N8N_AI_FACEBOOK_VIDEO"),
     "facebook_carousel": env("N8N_AI_FACEBOOK_CAROUSEL"),
-
     "twitter_post": env("N8N_AI_TWITTER_POST"),
     "linkedin_post": env("N8N_AI_LINKEDIN_POST"),
 }
 
-
-
-
-N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL")         # Para enviar desde Django a n8n
-N8N_SECRET = os.environ.get("N8N_SECRET")                   # Para validar callbacks iniciales
-N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")  # Para el callback de Gemini
+N8N_WEBHOOK_URL = os.environ.get("N8N_WEBHOOK_URL")
+N8N_SECRET = os.environ.get("N8N_SECRET")
+N8N_GEMINI_CALLBACK_SECRET = os.environ.get("N8N_GEMINI_SECRET")
 N8N_META_WEBHOOK_URL = os.environ.get("N8N_META_WEBHOOK_URL")
 N8N_PUBLISH_WEBHOOK_URL = os.environ.get("N8N_PUBLISH_WEBHOOK_URL")
-
-N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL = os.environ.get("N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL")
-
 N8N_POST_INSTAGRAM_WEBHOOK_URL = os.environ.get("N8N_POST_INSTAGRAM_WEBHOOK_URL")
 N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL = os.environ.get("N8N_INSTAGRAM_CAROUSELL_WEBHOOK_URL")
-N8N_VIDEO_WEBHOOK_URL= os.environ.get("N8N_VIDEO_WEBHOOK_URL")
+N8N_VIDEO_WEBHOOK_URL = os.environ.get("N8N_VIDEO_WEBHOOK_URL")
 N8N_EDIT_WEBHOOK_URL = os.environ.get("N8N_EDIT_WEBHOOK_URL")
-
 N8N_CHATBOT_WEBHOOK_WHATSAPP = os.environ.get("N8N_CHATBOT_WEBHOOK_WHATSAPP")
 WHATSAPP_BUSINESS_API = os.environ.get("WHATSAPP_BUSINESS_API")
-# settings.py
-
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# celery setup
-
-# celery setup
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-
 
 CACHES = {
     "default": {
@@ -200,49 +130,29 @@ CACHES = {
     }
 }
 
-
-
-
-
-# Configuración de serialización actualizada (según las advertencias)
-accept_content = ['json']  # Esto reemplaza 'CELERY_ACCEPT_CONTENT'
-task_serializer = 'json'   # Esto reemplaza 'CELERY_TASK_SERIALIZER'
-result_serializer = 'json'  # Esto reemplaza 'CELERY_RESULT_SERIALIZER'
-
-# Si deseas mantener el comportamiento de reconexión automática en el inicio del broker, usa:
-#broker_connection_retry_on_startup = True
-
-
-
-
-
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
 
-
-from .cdn.conf import * #noqa
-
-# Configuración de AWS
+# Configuración de AWS S3
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")  # Ej: https://qnd031-static.s3.amazonaws.com
+AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")
 
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
-    "ACL": "public-read"  # Cambia a 'private' si los archivos deben ser privados
+    "ACL": "public-read"
 }
 
+AWS_LOCATION = os.environ.get("AWS_LOCATION", "qn041app")
 
-# Configuración de almacenamiento
-# Carpetas de static y media dentro del bucket
-AWS_LOCATION = os.environ.get("AWS_LOCATION")  # default = qn041app
-
-# Asegúrate de que la URL de los archivos estáticos esté correcta
 STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
-MEDIA_URL =  f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
-DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE")
-STATICFILES_STORAGE =  os.environ.get("STATICFILES_STORAGE")
-# Directorio local temporal donde collectstatic junta los archivos antes de enviarlos a S3 u otro almacenamiento
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
+
+# Forzamos los storages a S3 para evitar que caiga en el FileSystemStorage local
+DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE", "storages.backends.s3boto3.S3Boto3Storage")
+STATICFILES_STORAGE = os.environ.get("STATICFILES_STORAGE", "storages.backends.s3boto3.S3Boto3Storage")
+
+# Directorio local temporal obligatorio para que collectstatic junte los archivos antes de subirlos a S3
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
