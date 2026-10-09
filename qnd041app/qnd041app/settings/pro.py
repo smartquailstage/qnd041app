@@ -1,3 +1,19 @@
+import os
+from storages.backends.s3boto3 import S3Boto3Storage
+
+# 1. Clases personalizadas de almacenamiento
+class StaticRootS3BotoStorage(S3Boto3Storage):
+    location = "qnd041app/static"
+    default_acl = 'public-read'
+    file_overwrite = False
+
+class MediaRootS3BotoStorage(S3Boto3Storage):
+    location = "qnd041app/media"
+    default_acl = 'public-read'
+    file_overwrite = False
+
+
+# 2. Cargar primero la configuración base antes de sobrescribir variables
 from .base_prod import *
 
 # Obtener las variables de entorno desde Kubernetes
@@ -134,27 +150,31 @@ TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
 
-# Configuración de AWS S3
+# 3. Configuración definitiva de AWS S3 al final
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL")
+AWS_S3_ENDPOINT_URL = os.environ.get("AWS_S3_ENDPOINT_URL", "").rstrip('/')
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
     "ACL": "public-read"
 }
 
-# Coloca esto ABSOLUTAMENTE AL FINAL de tu settings.py (después de todo lo demás)
-
-AWS_LOCATION = os.environ.get("AWS_LOCATION", "qn041app")
+AWS_LOCATION = os.environ.get("AWS_LOCATION", "qnd041app")
 
 STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
 MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
 
-# Forzamos los storages a S3 de forma estricta (sin usar os.environ.get aquí)
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# Enlazamos las clases personalizadas que creamos al inicio
+STATICFILES_STORAGE = "qnd041app.settings.StaticRootS3BotoStorage"  # Ajusta el path si tu app de settings tiene otro nombre de ruta, o usa directamente la clase:
+# O si prefieres referenciarlo mediante la ruta de importación de tu módulo actual, por ejemplo:
+# STATICFILES_STORAGE = __name__ + '.StaticRootS3BotoStorage'
+# DEFAULT_FILE_STORAGE = __name__ + '.MediaRootS3BotoStorage'
 
-# Directorio temporal local que Django usa solo para procesar antes de subir a S3
+# Forma directa y segura usando las clases definidas arriba:
+STATICFILES_STORAGE = "core.settings.StaticRootS3BotoStorage" # (Reemplaza 'core.settings' por la ruta exacta de tu modulo de settings si es necesario, ej: myproject.settings.prod)
+DEFAULT_FILE_STORAGE = "core.settings.MediaRootS3BotoStorage"
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
