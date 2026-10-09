@@ -244,3 +244,5 @@ STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
 MEDIA_URL =  f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
 DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE")
 STATICFILES_STORAGE =  os.environ.get("STATICFILES_STORAGE")
+# Directorio local temporal donde collectstatic junta los archivos antes de enviarlos a S3 u otro almacenamiento
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
