@@ -145,14 +145,16 @@ AWS_S3_OBJECT_PARAMETERS = {
     "ACL": "public-read"
 }
 
+# Coloca esto ABSOLUTAMENTE AL FINAL de tu settings.py (después de todo lo demás)
+
 AWS_LOCATION = os.environ.get("AWS_LOCATION", "qn041app")
 
 STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/static/'
 MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/media/'
 
-# Forzamos los storages a S3 para evitar que caiga en el FileSystemStorage local
-DEFAULT_FILE_STORAGE = os.environ.get("MEDIA_STORAGE", "storages.backends.s3boto3.S3Boto3Storage")
-STATICFILES_STORAGE = os.environ.get("STATICFILES_STORAGE", "storages.backends.s3boto3.S3Boto3Storage")
+# Forzamos los storages a S3 de forma estricta (sin usar os.environ.get aquí)
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-# Directorio local temporal obligatorio para que collectstatic junte los archivos antes de subirlos a S3
+# Directorio temporal local que Django usa solo para procesar antes de subir a S3
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
