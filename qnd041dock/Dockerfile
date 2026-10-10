@@ -79,13 +79,13 @@ RUN mkdir -p \
         media \
         #models/hf_cache \
         #models/torch_cache \
-        staticfiles \
+        #staticfiles \
         /var/log/uwsgi \
     && chown -R ${USER}:${USER} \
         static \
         media \
         #models \
-        staticfiles \
+        #staticfiles \
         /var/log/uwsgi \
         /${NODE_VERSION}
 
