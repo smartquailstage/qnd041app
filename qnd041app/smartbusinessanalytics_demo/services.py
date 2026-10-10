@@ -86,3 +86,43 @@ def predecir_metrica_financiera_torch(
           else None
       ),
   }
+
+
+  #Esto va en models.py--------------------------------------------------------
+
+      # ==============================
+    # MÉTODO DE PREDICCIÓN INDIVIDUAL
+    # ==============================
+    def ejecutar_y_guardar_prediccion_individual(self, metrica='utilidad_neta', meses=6):
+        if not self.usuario:
+            return {"error": "Este estado financiero no tiene un usuario asociado."}
+        
+        from .services import predecir_metrica_financiera_torch
+        
+        try:
+            resultado = predecir_metrica_financiera_torch(
+                usuario_id=self.usuario.id,
+                metrica=metrica,
+                horizonte_meses=meses
+            )
+            
+            puntos = resultado.get("pronostico_punto", [])
+            campos_meses = ['pred_mes_1', 'pred_mes_2', 'pred_mes_3', 'pred_mes_4', 'pred_mes_5', 'pred_mes_6']
+            campos_actualizados = ['fecha_ultima_prediccion']
+            
+            for i, campo_nombre in enumerate(campos_meses):
+                if i < len(puntos):
+                    val = round(float(puntos[i]), 2)
+                    setattr(self, campo_nombre, Money(val, 'USD'))
+                else:
+                    setattr(self, campo_nombre, None)
+                
+                campos_actualizados.append(campo_nombre)
+            
+            self.fecha_ultima_prediccion = timezone.now()
+            self.save(update_fields=campos_actualizados)
+            
+            return {"success": True, "valores_guardados": puntos}
+            
+        except Exception as e:
+            return {"error": str(e)}
