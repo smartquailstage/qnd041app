@@ -13,7 +13,6 @@ python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
 
 # Realiza las migraciones de la base de datos (sin necesidad de intervención del usuario)
 echo "Realizando migraciones..."
-python3 manage.py migrate wagtailcore  0079_rename_taskstate_page_revision --settings=$NODE_NAME.settings.pro --noinput
 python3 manage.py migrate --settings=$NODE_NAME.settings.pro --noinput
 
 # Crea el superusuario si no existe. Si ya existe, no causa un error
