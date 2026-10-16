@@ -112,7 +112,7 @@ urlpatterns = [
 
 #OPENCLAW WEBHOOKS
 
-   path('api/webhooks/openclaw/mailing/', views.openclaw_mailing_webhook_presentacion, name='openclaw_mailing_webhook_presentacion'),
+   path('api/webhooks/openclaw/mailing_presentacion/', views.openclaw_mailing_webhook_presentacion, name='openclaw_mailing_webhook_presentacion'),
    # path('actividades_espacio_publico/', views.user_activity_login, name='login_activity'),
    # path('Reserva_de_espacio_publico/', views.user_activity_login, name='login_activity'),
   

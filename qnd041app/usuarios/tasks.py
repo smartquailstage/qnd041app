@@ -70,7 +70,7 @@ def send_admin_batch_mailing_task_presentacion(self, user_ids):
                     f"</div>"
                 )
 
-            email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL_INFO, [user.email])
             email.attach_alternative(html_content, "text/html")
             email.send(fail_silently=False)
             
