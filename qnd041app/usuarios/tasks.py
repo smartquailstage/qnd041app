@@ -21,78 +21,72 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-from celery import shared_task
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.contrib.auth import get_user_model
-from django.utils.html import strip_tags
-
-User = get_user_model()
-from celery import shared_task
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.contrib.auth import get_user_model
 from django.utils.html import strip_tags
 
 User = get_user_model()
 
-@shared_task(bind=True, autoretry_for=(Exception,), retry_kwargs={'max_retries': 3, 'countdown': 60})
-def send_bulk_mailing_task(self, user_ids):
+
+
+
+
+
+@shared_task(
+    bind=True, 
+    time_limit=40000,      # Límite duro en segundos (~11 horas) para evitar que Celery mate la tarea
+    soft_time_limit=39000  # Límite suave
+)
+def send_admin_batch_mailing_task_presentacion(self, user_ids):
     """
-    Envía correos masivos con asunto fijo 'Bienvenido a SmartQuail.' 
-    renderizando la plantilla basada en el sector del usuario.
+    Recibe la lista de IDs seleccionados desde el Django Admin (ej. 200 usuarios),
+    los procesa secuencialmente y espera 3 minutos (180 segundos) entre cada correo.
     """
-    users = User.objects.filter(id__in=user_ids)
     success_count = 0
+    total_users = len(user_ids)
     subject = "Bienvenido a SmartQuail."
     
-    for user in users:
-        if not user.email:
-            continue
-            
-        # Extraer el prefijo del correo antes del '@'
-        email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
-
-        # Contexto exclusivo con el usuario y la variable calculada
-        context = {
-            "user": user,
-            "titulo": subject,
-            "email_prefix": email_prefix,
-        }
-
+    for index, user_id in enumerate(user_ids):
         try:
-            # Renderizar la plantilla HTML principal que selecciona el sector por condicionales
-            html_content = render_to_string(
-                "emails/mailing/mailing_email_admin.html", context
-            )
-            # Generar texto plano automáticamente a partir del HTML
-            text_content = strip_tags(html_content)
+            user = User.objects.get(id=user_id)
+            if not user.email:
+                continue
+                
+            email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
             
-        except Exception as exc:
-            # Respaldo de emergencia
-            text_content = f"Bienvenido a SmartQuail, {user.first_name}."
-            html_content = (
-                f"<div style='font-family: Arial, sans-serif;'>"
-                f"<h2>{subject}</h2>"
-                f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
-                f"</div>"
-            )
+            context = {
+                "user": user,
+                "titulo": subject,
+                "email_prefix": email_prefix,
+            }
 
-        try:
+            try:
+                html_content = render_to_string("emails/mailing/mailing_email_admin.html", context)
+                text_content = strip_tags(html_content)
+            except Exception:
+                text_content = f"Bienvenido a SmartQuail, {user.first_name}."
+                html_content = (
+                    f"<div style='font-family: Arial, sans-serif;'>"
+                    f"<h2>{subject}</h2>"
+                    f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
+                    f"</div>"
+                )
+
             email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
             email.attach_alternative(html_content, "text/html")
             email.send(fail_silently=False)
             
             success_count += 1
+            
+        except User.DoesNotExist:
+            print(f"Usuario con ID {user_id} no encontrado.")
         except Exception as exc:
-            print(f"Error enviando correo a {user.email}: {exc}")
+            print(f"Error enviando correo al usuario {user_id}: {exc}")
 
-    return f"Mailing masivo enviado exitosamente a {success_count} de {len(user_ids)} usuarios."
+        # Pausa de 3 minutos (180 segundos) antes de procesar el siguiente usuario,
+        # omitiendo la espera en el último elemento del lote.
+        if index < total_users - 1:
+            time.sleep(180)
+
+    return f"Lote procesado: {success_count} de {total_users} correos enviados exitosamente."
 
 
 from django.utils.html import strip_tags

@@ -1444,3 +1444,51 @@ class CitaDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Cita.objects.filter(profile__user=self.request.user)
+
+
+#---------------------OPENCLAW WEBHOOKS
+
+import json
+from django.http import JsonResponse
+from .tasks import send_admin_batch_mailing_task_presentacion
+from django.views.decorators.csrf import csrf_exempt
+
+User = get_user_model()
+
+@csrf_exempt
+def openclaw_mailing_webhook_presentacion(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Método no permitido"}, status=405)
+    
+    # Validar token de seguridad usando el nuevo diccionario OPENCLAW_WEBHOOKS
+    auth_header = request.headers.get('Authorization')
+    expected_token = settings.OPENCLAW_WEBHOOKS.get('secret_token', 'tu-token-super-secreto')
+    
+    if not auth_header or auth_header != f"Bearer {expected_token}":
+        return JsonResponse({"error": "No autorizado"}, status=401)
+
+    try:
+        data = json.loads(request.body) if request.body else {}
+        limit = data.get('limit', 200)
+        page = data.get('page', 1) # Ej: Página 1, 2, 3...
+        
+        # Calcular el offset (ej: página 2 con límite 200 empieza en el registro 200)
+        offset = (page - 1) * limit
+        
+        user_ids = list(
+            User.objects.filter(is_active=True)
+            .values_list('id', flat=True)[offset : offset + limit]
+        )
+        
+        if not user_ids:
+            return JsonResponse({"status": "success", "message": f"No hay usuarios en la página {page}."}, status=200)
+
+        send_admin_batch_mailing_task.delay(user_ids)
+        
+        return JsonResponse({
+            "status": "success",
+            "message": f"Lote de la página {page} encolado ({len(user_ids)} usuarios)."
+        }, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+

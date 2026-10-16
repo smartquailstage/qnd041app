@@ -64,7 +64,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib import admin, messages
 # Importa tu tarea desde tasks.py (ajusta la ruta según tu app, ej: from tu_app.tasks import send_bulk_emails_task)
-from .tasks import send_bulk_mailing_task
+from .tasks import send_admin_batch_mailing_task_presentacion
 
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import (
@@ -152,7 +152,7 @@ def send_email_to_selected_users(modeladmin, request, queryset):
         return
 
     # Despachamos la tarea a segundo plano con Celery
-    send_bulk_mailing_task.delay(user_ids)
+    send_admin_batch_mailing_task_presentacion.delay(user_ids)
 
     modeladmin.message_user(
         request, 
@@ -160,7 +160,7 @@ def send_email_to_selected_users(modeladmin, request, queryset):
         level=messages.SUCCESS
     )
 
-send_email_to_selected_users.short_description = 'Enviar correo electrónico'
+send_email_to_selected_users.short_description = 'Enviar correo electrónico(presentacion)'
 
 
 
@@ -178,8 +178,22 @@ class CustomUserAdmin(UserAdmin, ModelAdmin, ImportExportModelAdmin):
     export_to_csv,
     export_to_excel,
     ]
+    list_filter = (
+        "sector_negocios",
+        "is_active",
+        "is_staff",
+    )
 
-    list_display = ['email', 'first_name','last_name','telefono','is_staff']
+    search_fields = (
+        "email",
+        "telefono",
+        "first_name",
+        "last_name",
+    )
+
+    list_per_page = 200
+
+    list_display = ['email', 'get_full_name', 'sector_negocios', 'telefono', 'is_staff']
     ordering = ('email',)
 
     fieldsets = (

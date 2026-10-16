@@ -157,6 +157,11 @@ N8N_WEBHOOKS_AI = {
     "linkedin_post": env("N8N_AI_LINKEDIN_POST"),
 }
 
+OPENCLAW_WEBHOOKS = {
+    "secret_token_": config("OPENCLAW_WEBHOOK_SECRET", default="tu-token-super-secreto"),
+    # O si tienes una URL base de OpenClaw, puedes añadirla aquí también:
+    # "base_url": env("OPENCLAW_BASE_URL", default=""),
+}
 
 
 
