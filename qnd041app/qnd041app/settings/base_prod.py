@@ -1095,6 +1095,8 @@ EMAIL_HOST_USER_INFO = config("EMAIL_HOST_USER_INFO", default="info@tudominio.co
 EMAIL_HOST_USER_LICENCIAS = config("EMAIL_HOST_USER_LICENCIAS", default="licencias@tudominio.com")
 EMAIL_HOST_USER_ACTIVOS = config("EMAIL_HOST_USER_ACTIVOS", default="licencias@tudominio.com")
 EMAIL_HOST_USER_CTO = config("EMAIL_HOST_USER_CTO", default="licencias@tudominio.com")
+
+
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL_LICENCIAS = EMAIL_HOST_USER_LICENCIAS 

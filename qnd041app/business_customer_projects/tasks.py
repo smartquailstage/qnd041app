@@ -123,7 +123,7 @@ def send_process_completed_email_task(process_id):
         }
 
         try:
-            html_content = render_to_string("emails/process_completed.html", context)
+            html_content = render_to_string("emails/new_project_user.html", context)
             text_content = strip_tags(html_content)
         except Exception:
             text_content = f"El proceso {process.name} del proyecto {process.project.name} ha alcanzado el 100% de desarrollo."
@@ -172,7 +172,7 @@ def send_project_completed_email_task(project_id):
         }
 
         try:
-            html_content = render_to_string("emails/project_completed.html", context)
+            html_content = render_to_string("emails/new_project_user.html", context)
             text_content = strip_tags(html_content)
         except Exception:
             text_content = f"El proyecto {project.name} ha alcanzado el 100% de desarrollo e implementación."
