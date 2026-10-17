@@ -88,6 +88,9 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+
+from datetime import timedelta  # ✅ Correcto
+
 CELERY_BEAT_SCHEDULE = {
     'deactivate_old_orders': {
         'task': 'saas_orders.tasks.deactivate_old_orders',
