@@ -25,12 +25,29 @@ from .tasks import (
 
 
 def serialize(instance):
+    """Serializa los datos comunes y específicos de cualquier post para n8n."""
     return {
         "id": instance.id,
         "model": instance.__class__.__name__,
+        "status": getattr(instance, "status", "draft"),
         "caption": getattr(instance, "caption", "") or getattr(instance, "message", ""),
-        "scheduled_date": str(getattr(instance, "scheduled_date", None)),
-        "created_by": getattr(instance.created_by, "id", None),
+        "copy": getattr(instance, "copy", ""),
+        "hashtags": getattr(instance, "hashtags", ""),
+        "image_size": getattr(instance, "image_size", "square"),
+        "scheduled_date": instance.scheduled_date.isoformat() if getattr(instance, "scheduled_date", None) else None,
+        "created_by": instance.created_by.username if getattr(instance, "created_by", None) else None,
+        
+        # URL de la imagen si el modelo la soporta
+        "image_url": instance.image.file.url if hasattr(instance, "image") and instance.image else None,
+        
+        # Cuenta asociada (si el modelo la tiene)
+        "account_id": instance.account.account_id if hasattr(instance, "account") and instance.account else None,
+        "account_name": instance.account.account_name if hasattr(instance, "account") and instance.account else None,
+        
+        # Categoría asociada
+        "category_id": instance.categories.id if hasattr(instance, "categories") and instance.categories else (
+            instance.category.id if hasattr(instance, "category") and instance.category else None
+        ),
     }
 
 
