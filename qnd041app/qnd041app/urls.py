@@ -94,7 +94,7 @@ urlpatterns = [
     path('ingresar/', include('usuarios.urls', namespace='usuarios')),
 
     #mailing
-    path('mailing/', include('mailing.urls', namespace='mailing')),
+    #path('mailing/', include('mailing.urls', namespace='mailing')),
 
     # Shops
     path('sbmshop/', include('sbmshop.urls', namespace='sbmshop')),
