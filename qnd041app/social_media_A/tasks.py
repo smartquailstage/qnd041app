@@ -219,51 +219,67 @@ def task_linkedin_post(self, payload):
 
 
 
+import requests
 from datetime import timedelta
 from celery import shared_task
+from django.conf import settings
 from django.utils import timezone
-from .models import InstagramPost  # O importa los demás modelos si deseas unificarlos
+from .models import InstagramPost  # (O puedes generalizarlo para los demás modelos)
 
 @shared_task
 def publish_scheduled_instagram_posts():
     """
-    Tarea periódica que revisa cada minuto los posts de Instagram programados
-    cuya fecha de publicación ya haya llegado o pasado, y los procesa para su envío.
+    Celery Beat ejecuta esta tarea cada minuto. 
+    Busca posts programados y dispara un Webhook hacia n8n para su publicación.
     """
     now = timezone.now()
     
-    # 1. Buscar posts programados cuya fecha sea menor o igual a la actual
+    # 1. Buscar posts cuya fecha programada ya se cumplió
     scheduled_posts = InstagramPost.objects.filter(
         status='scheduled',
         scheduled_date__lte=now
     )
 
-    published_count = 0
-
     for post in scheduled_posts:
         try:
-            # Cambiamos a 'processing' para evitar que otra ejecución los tome simultáneamente
+            # Bloqueamos el estado temporalmente para evitar duplicidad
             post.status = 'processing'
             post.save(update_fields=['status'])
 
-            # ==========================================
-            # 🚀 AQUÍ INTEGRAS TU LÓGICA DE PUBLICACIÓN REAL
-            # (Ej: Llamada a la API de Meta/Instagram Graph API, 
-            # o disparar un webhook hacia n8n para que ejecute el posteo)
-            # ==========================================
+            # 2. Obtener la URL del webhook de n8n desde la configuración
+            webhook_url = settings.N8N_WEBHOOKS_A.get("instagram_post")
             
-            # Simulación de envío exitoso:
-            # response = enviar_a_instagram_api(post)
-            
-            # Si el envío es exitoso, marcamos como 'sent' (enviado)
-            post.status = 'sent'
+            if not webhook_url:
+                raise ValueError("No se encontró la URL del webhook 'instagram_post' en N8N_WEBHOOKS_A")
+
+            # 3. Preparar el paquete de datos (Payload) para n8n
+            payload = {
+                "post_id": post.id,
+                "caption": post.caption,
+                "copy": post.copy,
+                "hashtags": post.hashtags,
+                # Si tienes imagen en Wagtail, enviamos la URL absoluta o relativa
+                "image_url": post.image.file.url if post.image else None,
+                "account_id": post.account.account_id if post.account else None,
+                "scheduled_date": post.scheduled_date.isoformat() if post.scheduled_date else None,
+            }
+
+            # 4. Disparar el Webhook POST hacia n8n
+            response = requests.post(webhook_url, json=payload, timeout=30)
+
+            # 5. Evaluar respuesta de n8n
+            if response.status_code in [200, 201]:
+                post.status = 'sent'
+            else:
+                post.status = 'failed'
+                print(f"n8n rechazó el post {post.id}. Código: {response.status_code} - Resuesta: {response.text}")
+
             post.save(update_fields=['status'])
-            published_count += 1
 
         except Exception as exc:
-            # Si ocurre un fallo, marcamos el post como 'failed' para auditoría
+            # Si hay error de red o timeout, marcamos como fallido para auditoría
             post.status = 'failed'
             post.save(update_fields=['status'])
-            print(f"Error publicando post ID {post.id}: {exc}")
+            print(f"Error crítico enviando webhook a n8n para el post ID {post.id}: {exc}")
 
-    return f"Se procesaron y publicaron {published_count} posts programados de Instagram."
+    return f"Proceso de publicación por Webhook completado."

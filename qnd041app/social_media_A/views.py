@@ -57,9 +57,11 @@ Image = get_image_model()
 @csrf_exempt
 @require_POST
 def n8n_instagram_webhook(type_self, request):
-    # 🔒 Validación de seguridad por Token (Cabecera: Authorization: Bearer TU_TOKEN_SECRETO)
+    
     auth_header = request.headers.get('Authorization', '')
-    if auth_header != 'Bearer TU_TOKEN_SECRETO_SUPER_SEGURO':
+    expected_token = f"Bearer {settings.N8N_SECRET}"
+    
+    if auth_header != expected_token:
         return JsonResponse({'error': 'No autorizado'}, status=401)
 
     try:
