@@ -219,12 +219,13 @@ def task_linkedin_post(self, payload):
 
 
 
+
 import requests
 from datetime import timedelta
 from celery import shared_task
 from django.conf import settings
 from django.utils import timezone
-from .models import InstagramPost  # (O puedes generalizarlo para los demás modelos)
+from .models import InstagramPost
 
 @shared_task
 def publish_scheduled_instagram_posts():
@@ -252,16 +253,38 @@ def publish_scheduled_instagram_posts():
             if not webhook_url:
                 raise ValueError("No se encontró la URL del webhook 'instagram_post' en N8N_WEBHOOKS_A")
 
-            # 3. Preparar el paquete de datos (Payload) para n8n
+            # 3. Preparar el paquete de datos (Payload) para n8n con todos los campos del modelo
             payload = {
                 "post_id": post.id,
+                "model": "InstagramPost",
+                "status": post.status,
+                "scheduled_date": post.scheduled_date.isoformat() if post.scheduled_date else None,
+                
+                # Relación con la cuenta de Instagram
+                "account": {
+                    "id": post.account.id if post.account else None,
+                    "account_id": post.account.account_id if post.account else None,
+                    "account_name": post.account.account_name if post.account else None,
+                } if post.account else None,
+                
+                "image_size": post.image_size,
+                
+                # Relación con la categoría
+                "category": {
+                    "id": post.categories.id if post.categories else None,
+                    "name": post.categories.name if post.categories else None,
+                } if post.categories else None,
+                
                 "caption": post.caption,
                 "copy": post.copy,
                 "hashtags": post.hashtags,
-                # Si tienes imagen en Wagtail, enviamos la URL absoluta o relativa
+                
+                # URL absoluta de la imagen de Wagtail
                 "image_url": post.image.file.url if post.image else None,
-                "account_id": post.account.account_id if post.account else None,
-                "scheduled_date": post.scheduled_date.isoformat() if post.scheduled_date else None,
+                
+                # Datos de control
+                "created_by": post.created_by.username if post.created_by else None,
+                "created_at": post.created_at.isoformat() if post.created_at else None,
             }
 
             # 4. Disparar el Webhook POST hacia n8n
@@ -272,7 +295,7 @@ def publish_scheduled_instagram_posts():
                 post.status = 'sent'
             else:
                 post.status = 'failed'
-                print(f"n8n rechazó el post {post.id}. Código: {response.status_code} - Resuesta: {response.text}")
+                print(f"n8n rechazó el post {post.id}. Código: {response.status_code} - Respuesta: {response.text}")
 
             post.save(update_fields=['status'])
 
@@ -282,4 +305,4 @@ def publish_scheduled_instagram_posts():
             post.save(update_fields=['status'])
             print(f"Error crítico enviando webhook a n8n para el post ID {post.id}: {exc}")
 
-    return f"Proceso de publicación por Webhook completado."
+    return "Proceso de publicación por Webhook completado."
