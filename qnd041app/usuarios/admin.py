@@ -191,9 +191,11 @@ class CustomUserAdmin(UserAdmin, ModelAdmin, ImportExportModelAdmin):
         "last_name",
     )
 
+    list_editable = ['is_active']
+
     list_per_page = 200
 
-    list_display = ['email', 'get_full_name', 'sector_negocios', 'telefono', 'is_staff']
+    list_display = ['email', 'get_full_name', 'sector_negocios', 'telefono', 'is_active']
     ordering = ('email',)
 
     fieldsets = (

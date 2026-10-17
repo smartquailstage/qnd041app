@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # usuarios/tasks.py
+import time
 from celery import shared_task
 from django.core.mail import send_mail,BadHeaderError,EmailMultiAlternatives
 import requests
@@ -26,9 +27,7 @@ from django.utils.html import strip_tags
 User = get_user_model()
 
 
-
-
-
+User = get_user_model()
 
 @shared_task(
     bind=True, 
@@ -37,8 +36,9 @@ User = get_user_model()
 )
 def send_admin_batch_mailing_task_presentacion(self, user_ids):
     """
-    Recibe la lista de IDs seleccionados desde el Django Admin (ej. 200 usuarios),
-    los procesa secuencialmente y espera 3 minutos (180 segundos) entre cada correo.
+    Recibe la lista de IDs seleccionados desde el Django Admin.
+    Solo envía correos a usuarios que estén simultáneamente ACTIVOS (is_active=True) 
+    y sean STAFF (is_staff=True). Espera 180 segundos entre cada envío.
     """
     success_count = 0
     total_users = len(user_ids)
@@ -46,7 +46,11 @@ def send_admin_batch_mailing_task_presentacion(self, user_ids):
     
     for index, user_id in enumerate(user_ids):
         try:
-            user = User.objects.get(id=user_id)
+            # 🔒 FILTRO CLAVE: Garantiza que is_staff=True e is_active=True de forma explícita.
+            # Si el usuario responde "desuscribir" y cambias su is_active a False, 
+            # el ORM lanzará DoesNotExist y la tarea saltará automáticamente este envío.
+            user = User.objects.get(id=user_id, is_active=True, is_staff=True)
+            
             if not user.email:
                 continue
                 
@@ -61,7 +65,8 @@ def send_admin_batch_mailing_task_presentacion(self, user_ids):
             try:
                 html_content = render_to_string("emails/mailing/mailing_email_admin.html", context)
                 text_content = strip_tags(html_content)
-            except Exception:
+            except Exception as render_err:
+                print(f"Error renderizando plantilla HTML para usuario {user_id}: {render_err}")
                 text_content = f"Bienvenido a SmartQuail, {user.first_name}."
                 html_content = (
                     f"<div style='font-family: Arial, sans-serif;'>"
@@ -70,14 +75,19 @@ def send_admin_batch_mailing_task_presentacion(self, user_ids):
                     f"</div>"
                 )
 
-            email = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL_INFO, [user.email])
+            email = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=settings.DEFAULT_FROM_EMAIL_INFO,
+                to=[user.email]
+            )
             email.attach_alternative(html_content, "text/html")
             email.send(fail_silently=False)
             
             success_count += 1
             
         except User.DoesNotExist:
-            print(f"Usuario con ID {user_id} no encontrado.")
+            print(f"Usuario con ID {user_id} omitido (no existe, está inactivo o no es staff).")
         except Exception as exc:
             print(f"Error enviando correo al usuario {user_id}: {exc}")
 
