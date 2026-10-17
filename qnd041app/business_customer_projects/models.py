@@ -13,6 +13,7 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 
+
 class BusinessSystemProject(models.Model):
     # Campo para el usuario logueado (asociado con el modelo de usuario)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -200,7 +201,7 @@ class BusinessSystemProject(models.Model):
 
 
     def save(self, *args, **kwargs):
-        
+
         if self.saas_order:
             item = self.saas_order.items.first()
             if item:
@@ -224,8 +225,10 @@ class BusinessSystemProject(models.Model):
             if total_gb > 0:
                 self.porcentaje_memoria = round(
                     (self.memoria_aproximada_gb / total_gb) * 100, 2)
+
                     
-        super().save(*args, **kwargs)
+    def __str__(self):
+        return f"{self.name} - Proyecto Cloud Native"
 
 
 @property
@@ -412,6 +415,7 @@ class BusinessProcess(models.Model):
 
     def save(self, *args, **kwargs):
 
+
         # ✅ Días de desarrollo
         if self.start_date and self.delivery_date:
             delta = self.delivery_date - self.start_date
@@ -419,25 +423,22 @@ class BusinessProcess(models.Model):
         else:
             self.total_development_days = None
 
-        # ✅ % memoria
+        # ✅ % memoria, CPU y almacenamiento
         self.memory_percent_used = (
             round((self.memory_consumption / self.total_memory_available) * 100, 2)
             if self.total_memory_available > 0 else 0
         )
-
-        # ✅ % CPU
         self.cpu_percent_used = (
             round((self.cpu_consumption / self.total_cpu_available) * 100, 2)
             if self.total_cpu_available > 0 else 0
         )
-
-        # ✅ % almacenamiento
         self.storage_percent_used = (
             round((self.storage_consumption / self.total_storage_available) * 100, 2)
             if self.total_storage_available > 0 else 0
         )
 
         super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f"{self.name} - {self.project.name} I+D"
