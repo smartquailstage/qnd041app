@@ -1077,32 +1077,20 @@ REDIS_DB  = os.environ.get('REDIS_DB')
 
 #WEBAPP SETTINGS
 
-# Variable que define si estás en entorno local
-ENVIRONMENT = config("ENVIRONMENT", default="production")  # local, staging, production
 
-if ENVIRONMENT == "production":
-    EMAIL_BACKEND = config("EMAIL_BACKEND")
-    EMAIL_HOST = config("EMAIL_HOST")
-    EMAIL_PORT = config("EMAIL_PORT", cast=int)
-    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-    EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
-    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-    EMAIL_HOST_USER_INFO = config("EMAIL_HOST_USER_INFO")
-    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-    DEFAULT_FROM_EMAIL_INFO = EMAIL_HOST_USER_INFO
-else:
-    # Configuración de producción u otros entornos
-    EMAIL_BACKEND = config("EMAIL_BACKEND")
-    EMAIL_HOST = config("EMAIL_HOST")
-    EMAIL_PORT = config("EMAIL_PORT", cast=int)
-    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-    EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
-    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-    EMAIL_HOST_USER_INFO = config("EMAIL_HOST_USER_INFO")
-    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-    DEFAULT_FROM_EMAIL_INFO = EMAIL_HOST_USER_INFO
+
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_USER_INFO = config("EMAIL_HOST_USER_INFO")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL_INFO = EMAIL_HOST_USER_INFO
+
+
 
 CART_SESSION_ID = 'cart'
 SBLCART_SESSION_ID = 'cart'
