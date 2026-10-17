@@ -204,261 +204,142 @@ body {
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const items = document.querySelectorAll(".rotate-item");
-    let index = 0;
-  
-    function showNext() {
-      if (items.length === 0) return;
-      items[index].classList.remove("active");
-      index = (index + 1) % items.length;
-      items[index].classList.add("active");
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".rotate-item");
+  let index = 0;
+
+  function showNext() {
+    if (items.length === 0) return;
+    items[index].classList.remove("active");
+    index = (index + 1) % items.length;
+    items[index].classList.add("active");
+  }
+
+  setInterval(showNext, 2500); // velocidad (2.5s)
+});
+</script>
+
+<script>
+var canvas = document.querySelector("canvas");
+var ctx = canvas.getContext("2d");
+
+// Función para ajustar el canvas al tamaño completo de la pantalla
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+var TAU = 2 * Math.PI;
+
+function Ball(startX, startY, startVelX, startVelY) {
+  this.x = startX || Math.random() * canvas.width;
+  this.y = startY || Math.random() * canvas.height;
+  this.radius = 3.5; // Tamaño de los nodos
+  this.vel = {
+    x: startVelX || (Math.random() - 0.5) * 1.8,
+    y: startVelY || (Math.random() - 0.5) * 1.8
+  };
+
+  this.update = function (can) {
+    if (this.x > can.width + 20 || this.x < -20) {
+      this.vel.x = -this.vel.x;
     }
-  
-    setInterval(showNext, 2500); // velocidad (2.5s)
-  });
-  </script>
-  
-  <script>
-  var canvas = document.querySelector("canvas");
-  var ctx = canvas.getContext("2d");
-  
-  // Función para ajustar el canvas al tamaño completo de la pantalla
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-  
-  var TAU = 2 * Math.PI;
-  
-  function Ball(startX, startY, startVelX, startVelY) {
-    this.x = startX || Math.random() * canvas.width;
-    this.y = startY || Math.random() * canvas.height;
-    this.radius = 3.5; // Tamaño de los nodos
-    this.vel = {
-      x: startVelX || (Math.random() - 0.5) * 1.8,
-      y: startVelY || (Math.random() - 0.5) * 1.8
-    };
-  
-    this.update = function (can) {
-      if (this.x > can.width + 20 || this.x < -20) {
-        this.vel.x = -this.vel.x;
-      }
-      if (this.y > can.height + 20 || this.y < -20) {
-        this.vel.y = -this.vel.y;
-      }
-      this.x += this.vel.x;
-      this.y += this.vel.y;
-    };
-  
-    this.draw = function (ctx) {
-      ctx.beginPath();
-      var distM = distMouse(this);
-  
-      // Si el mouse está cerca, el nodo resalta intensamente
-      if (distM < 200) {
-        ctx.fillStyle = '#ff4d4d'; // Rojo brillante
-        ctx.globalAlpha = 1 - (distM / 200);
-      } else {
-        ctx.fillStyle = '#b5181a'; // Rojo corporativo SmartQuail
-        ctx.globalAlpha = 0.85;     // Alta visibilidad
-      }
-  
-      ctx.arc(this.x | 0, this.y | 0, this.radius, 0, TAU, false);
-      ctx.fill();
-    };
-  }
-  
-  // Generación de partículas proporcional a la resolución
-  var balls = [];
-  var numBalls = Math.floor((canvas.width * canvas.height) / 12000);
-  for (var i = 0; i < numBalls; i++) {
-    balls.push(new Ball());
-  }
-  
-  var mouseX = -1e9, mouseY = -1e9;
-  document.addEventListener('mousemove', function (event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
-  
-  function distMouse(ball) {
-    return Math.hypot(ball.x - mouseX, ball.y - mouseY);
-  }
-  
-  function update() {
-    for (var index = 0; index < balls.length; index++) {
-      balls[index].update(canvas);
+    if (this.y > can.height + 20 || this.y < -20) {
+      this.vel.y = -this.vel.y;
     }
+    this.x += this.vel.x;
+    this.y += this.vel.y;
+  };
+
+  this.draw = function (ctx) {
+    ctx.beginPath();
+    var distM = distMouse(this);
+
+    // 🎨 COLOR DE PUNTOS: #2e2e2e
+    ctx.fillStyle = '#2e2e2e';
+
+    // Si el cursor se acerca, los puntos aumentan su presencia
+    if (distM < 200) {
+      ctx.globalAlpha = 1.0;
+    } else {
+      ctx.globalAlpha = 0.90; // Alta opacidad y nitidez
+    }
+
+    ctx.arc(this.x | 0, this.y | 0, this.radius, 0, TAU, false);
+    ctx.fill();
+  };
+}
+
+// Generación de partículas proporcional a la resolución
+var balls = [];
+var numBalls = Math.floor((canvas.width * canvas.height) / 12000);
+for (var i = 0; i < numBalls; i++) {
+  balls.push(new Ball());
+}
+
+var mouseX = -1e9, mouseY = -1e9;
+document.addEventListener('mousemove', function (event) {
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+});
+
+function distMouse(ball) {
+  return Math.hypot(ball.x - mouseX, ball.y - mouseY);
+}
+
+function update() {
+  for (var index = 0; index < balls.length; index++) {
+    balls[index].update(canvas);
   }
-  
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-    for (var index = 0; index < balls.length; index++) {
-      var ball = balls[index];
-  
-      for (var index2 = index + 1; index2 < balls.length; index2++) {
-        var ball2 = balls[index2];
-        var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
-  
-        // Distancia de conexión entre líneas
-        if (dist < 130) {
-          ctx.beginPath();
-          var distM = distMouse(ball2);
-  
-          // 🎨 COLOR DE LÍNEAS: #f2a34b
-          ctx.strokeStyle = "#f2a34b";
-  
-          // Si el mouse se acerca a las conexiones, se vuelven aún más brillantes e intensas
-          if (distM < 180) {
-            ctx.globalAlpha = (1 - dist / 130) * 0.95;
-            ctx.lineWidth = 1.6;
-          } else {
-            ctx.globalAlpha = (1 - dist / 130) * 0.55; // Opacidad nítida y bien visible
-            ctx.lineWidth = 1.1;
-          }
-  
-          ctx.moveTo(ball.x | 0, ball.y | 0);
-          ctx.lineTo(ball2.x | 0, ball2.y | 0);
-          ctx.stroke();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (var index = 0; index < balls.length; index++) {
+    var ball = balls[index];
+
+    for (var index2 = index + 1; index2 < balls.length; index2++) {
+      var ball2 = balls[index2];
+      var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
+
+      // Distancia de conexión entre líneas
+      if (dist < 130) {
+        ctx.beginPath();
+        var distM = distMouse(ball2);
+
+        // 🎨 COLOR DE LÍNEAS: #f2a34b
+        ctx.strokeStyle = "#f2a34b";
+
+        // Si el mouse se acerca a las conexiones, se vuelven aún más brillantes e intensas
+        if (distM < 180) {
+          ctx.globalAlpha = (1 - dist / 130) * 0.95;
+          ctx.lineWidth = 1.6;
+        } else {
+          ctx.globalAlpha = (1 - dist / 130) * 0.55;
+          ctx.lineWidth = 1.1;
         }
+
+        ctx.moveTo(ball.x | 0, ball.y | 0);
+        ctx.lineTo(ball2.x | 0, ball2.y | 0);
+        ctx.stroke();
       }
-  
-      ball.draw(ctx);
     }
+
+    ball.draw(ctx);
   }
-  
-  function loop() {
-    update();
-    draw();
-    requestAnimationFrame(loop);
-  }
-  
-  loop();
-  </script>
-  
-  <script>
-  var canvas = document.querySelector("canvas");
-  var ctx = canvas.getContext("2d");
-  
-  // Función para ajustar el canvas al tamaño completo de la pantalla
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-  
-  var TAU = 2 * Math.PI;
-  
-  function Ball(startX, startY, startVelX, startVelY) {
-    this.x = startX || Math.random() * canvas.width;
-    this.y = startY || Math.random() * canvas.height;
-    this.radius = 3.5; // Tamaño de los nodos
-    this.vel = {
-      x: startVelX || (Math.random() - 0.5) * 1.8,
-      y: startVelY || (Math.random() - 0.5) * 1.8
-    };
-  
-    this.update = function (can) {
-      if (this.x > can.width + 20 || this.x < -20) {
-        this.vel.x = -this.vel.x;
-      }
-      if (this.y > can.height + 20 || this.y < -20) {
-        this.vel.y = -this.vel.y;
-      }
-      this.x += this.vel.x;
-      this.y += this.vel.y;
-    };
-  
-    this.draw = function (ctx) {
-      ctx.beginPath();
-      var distM = distMouse(this);
-  
-      // Si el mouse está cerca, el nodo brilla intensamente
-      if (distM < 200) {
-        ctx.fillStyle = '#ff4d4d'; // Rojo brillante
-        ctx.globalAlpha = 1 - (distM / 200);
-      } else {
-        ctx.fillStyle = '#b5181a'; // Rojo corporativo
-        ctx.globalAlpha = 0.85;     // Mucho más claro y visible
-      }
-  
-      ctx.arc(this.x | 0, this.y | 0, this.radius, 0, TAU, false);
-      ctx.fill();
-    };
-  }
-  
-  // Generación de partículas proporcional a la resolución
-  var balls = [];
-  var numBalls = Math.floor((canvas.width * canvas.height) / 12000);
-  for (var i = 0; i < numBalls; i++) {
-    balls.push(new Ball());
-  }
-  
-  var mouseX = -1e9, mouseY = -1e9;
-  document.addEventListener('mousemove', function (event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
-  
-  function distMouse(ball) {
-    return Math.hypot(ball.x - mouseX, ball.y - mouseY);
-  }
-  
-  function update() {
-    for (var index = 0; index < balls.length; index++) {
-      balls[index].update(canvas);
-    }
-  }
-  
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-    for (var index = 0; index < balls.length; index++) {
-      var ball = balls[index];
-  
-      for (var index2 = index + 1; index2 < balls.length; index2++) {
-        var ball2 = balls[index2];
-        var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
-  
-        // Distancia de conexión entre líneas
-        if (dist < 130) {
-          ctx.beginPath();
-          var distM = distMouse(ball2);
-  
-          // Si el mouse se acerca a las conexiones, se vuelven super claras y llamativas
-          if (distM < 180) {
-            ctx.strokeStyle = "#ff4d4d";
-            ctx.globalAlpha = (1 - dist / 130) * 0.9;
-            ctx.lineWidth = 1.5;
-          } else {
-            ctx.strokeStyle = "#e2e8f0"; // Blanco brillante/Plateado para las redes
-            ctx.globalAlpha = (1 - dist / 130) * 0.45; // Aumentado para alta visibilidad
-            ctx.lineWidth = 1.0;
-          }
-  
-          ctx.moveTo(ball.x | 0, ball.y | 0);
-          ctx.lineTo(ball2.x | 0, ball2.y | 0);
-          ctx.stroke();
-        }
-      }
-  
-      ball.draw(ctx);
-    }
-  }
-  
-  function loop() {
-    update();
-    draw();
-    requestAnimationFrame(loop);
-  }
-  
-  loop();
-  </script>
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
   
 <script>
 document.addEventListener("DOMContentLoaded", function () {
