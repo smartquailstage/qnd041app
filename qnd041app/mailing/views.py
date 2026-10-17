@@ -25,7 +25,7 @@ def previsualizar_mailing_view(request, pk):
 
     try:
         html_content = render_to_string(
-            "emails/mailing/mailing_email.html", context
+            "emails/mailing/mailing_email_admin.html", context
         )
     except Exception:
         html_content = (
