@@ -3923,7 +3923,7 @@ textarea.form-control-lg {
 	--bs-card-cap-color: ;
 	--bs-card-height: ;
 	--bs-card-color: #fff;
-	--bs-card-bg: rgb(46, 46, 46);
+	--bs-card-bg: rgba(46, 46, 46, 0);
 	--bs-card-img-overlay-padding: 1rem;
 	--bs-card-group-margin: 0.75rem;
 	position: relative;
