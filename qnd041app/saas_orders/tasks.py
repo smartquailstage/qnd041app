@@ -345,10 +345,10 @@ def order_created(self, order_id):
     email = EmailMultiAlternatives(
         subject=subject,
         body="Su orden fue creada correctamente",
-        from_email=settings.DEFAULT_FROM_EMAIL,
+        from_email=settings.DEFAULT_FROM_EMAIL_LICENCIAS,
         to=[
             order.email,
-            settings.DEFAULT_FROM_EMAIL
+            settings.DEFAULT_FROM_EMAIL_LICENCIAS
         ]
     )
 
