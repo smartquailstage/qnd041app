@@ -17,6 +17,8 @@ class InstagramPostViewSet(ModelViewSet):
     icon = "mobile-alt"
     menu_order = 200
     add_to_admin_menu = False
+    url_prefix = "a_instagram-post"
+    name = "a_instagram_post"
 
     list_display = ( 
         #"prompt",
