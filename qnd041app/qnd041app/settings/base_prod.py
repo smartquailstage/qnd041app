@@ -30,8 +30,7 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io
 SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
 
 CORS_ALLOWED_ORIGINS = [
-    "https://ec.smartquail.io",
-    "https://www.smartquail.io",
+    "https://ec.smartquail.io",  # ✅ Correcto
 ]
 
 
