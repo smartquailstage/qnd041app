@@ -82,6 +82,7 @@ class BusinessSystemProject(models.Model):
     
     politicas_privacidad = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
 
+
     # Fecha de creación
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -832,6 +833,7 @@ class QATest(models.Model):
 
 class CloudResource(models.Model):
     project = models.ForeignKey(BusinessSystemProject, on_delete=models.CASCADE, related_name='cloud_resources')
+    system_key = models.FileField(upload_to='Key_Systems/', blank=True, null=True)
 
     RESOURCE_TYPES = [
         ('compute', 'Compute (VM, EC2, etc.)'),
