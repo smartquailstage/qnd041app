@@ -10,9 +10,13 @@
     <td style="padding: 25px; color: #333333;">
         
         <!-- Cabecera institucional con portada y logo -->
-        <div class="email-header" style="text-align: left; margin-bottom: 20px; padding: 40px 30px; background-color: #1e3a8a; background-image: url('{% static 'portada2.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px 8px 0 0;">
-            <img src="{% static 'assets/images/logo5.png' %}" alt="SmartQuail Logo" width="210px">
-        </div>
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1e3a8a; background-image: url('{% static 'portada2.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 8px 8px 0 0;">
+            <tr>
+                <td style="padding: 20px 30px; height: 180px; vertical-align: bottom;" align="right">
+                    <img src="{% static 'assets/images/logo5.png' %}" alt="SmartQuail Logo" width="210" style="display: block; border: 0; outline: none; text-decoration: none;">
+                </td>
+            </tr>
+        </table>
 
         <!-- CONDICIONALES POR SECTOR DE NEGOCIO -->
         {% if user.sector_negocios == 'G' %}
