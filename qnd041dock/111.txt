@@ -39,6 +39,7 @@ google-generativeai
 # Django Social Share
 django-social-share
 django_extensions
+django-cors-headers
 
 django-tinymce==4.1.0
 

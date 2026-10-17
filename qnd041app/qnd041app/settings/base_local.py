@@ -196,9 +196,6 @@ INSTALLED_APPS = [
     #"SQOrders",
     #"SQShop",
     'chatbot_ai',
-   
-
-
     "serviceapp",
     'billing',
     #"citas_regulares",

@@ -43,7 +43,7 @@ def enviar_mailing_task(mailing_id):
             "emails/mailing/mailing_email.txt", context
         )
         html_content = render_to_string(
-            "emails/mailing/mailing_email.html", context
+            "emails/mailing/mailing_email_admin.html", context
         )
     except Exception:
         # Respaldo si no existen las plantillas físicas en el proyecto

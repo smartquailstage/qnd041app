@@ -29,6 +29,11 @@ domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io')
 SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
 
+CORS_ALLOWED_ORIGINS = [
+    "https://ec.smartquail.io",
+    "https://www.smartquail.io",
+]
+
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 #DEBUG = config('DEBUG', default=False, cast=bool)
@@ -265,6 +270,7 @@ INSTALLED_APPS = [
     'studio_leads_ai',
     'wagtail.contrib.sitemaps',
     "social_media_A",
+    'corsheaders',
 ]
 
 #LOGINGS REDIRECT
@@ -1011,6 +1017,7 @@ UNFOLD = {
 
 MIDDLEWARE = [
     #'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
