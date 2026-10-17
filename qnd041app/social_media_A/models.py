@@ -155,6 +155,7 @@ class InstagramPost(BasePost):
         FieldPanel("image"),
         FieldPanel("scheduled_date"),
         FieldPanel("created_by"),
+        FieldPanel("status"),
     ]
 
     def image_thumb(self):

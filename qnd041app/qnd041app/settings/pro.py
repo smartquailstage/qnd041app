@@ -93,6 +93,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'saas_orders.tasks.deactivate_old_orders',
         'schedule': 86400.0,  # se ejecuta cada 24 horas
     },
+    'publish-instagram-posts-every-minute': {
+        'task': 'social_media_A.tasks.publish_scheduled_instagram_posts',
+        'schedule': timedelta(minutes=1),  # Se ejecuta cada 1 minuto
+    },
 }
 
 

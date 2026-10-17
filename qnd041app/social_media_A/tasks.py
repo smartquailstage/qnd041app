@@ -216,3 +216,54 @@ def task_linkedin_post(self, payload):
         if obj:
             mark_failed(obj)
         raise self.retry(exc=exc)
+
+
+
+from datetime import timedelta
+from celery import shared_task
+from django.utils import timezone
+from .models import InstagramPost  # O importa los demás modelos si deseas unificarlos
+
+@shared_task
+def publish_scheduled_instagram_posts():
+    """
+    Tarea periódica que revisa cada minuto los posts de Instagram programados
+    cuya fecha de publicación ya haya llegado o pasado, y los procesa para su envío.
+    """
+    now = timezone.now()
+    
+    # 1. Buscar posts programados cuya fecha sea menor o igual a la actual
+    scheduled_posts = InstagramPost.objects.filter(
+        status='scheduled',
+        scheduled_date__lte=now
+    )
+
+    published_count = 0
+
+    for post in scheduled_posts:
+        try:
+            # Cambiamos a 'processing' para evitar que otra ejecución los tome simultáneamente
+            post.status = 'processing'
+            post.save(update_fields=['status'])
+
+            # ==========================================
+            # 🚀 AQUÍ INTEGRAS TU LÓGICA DE PUBLICACIÓN REAL
+            # (Ej: Llamada a la API de Meta/Instagram Graph API, 
+            # o disparar un webhook hacia n8n para que ejecute el posteo)
+            # ==========================================
+            
+            # Simulación de envío exitoso:
+            # response = enviar_a_instagram_api(post)
+            
+            # Si el envío es exitoso, marcamos como 'sent' (enviado)
+            post.status = 'sent'
+            post.save(update_fields=['status'])
+            published_count += 1
+
+        except Exception as exc:
+            # Si ocurre un fallo, marcamos el post como 'failed' para auditoría
+            post.status = 'failed'
+            post.save(update_fields=['status'])
+            print(f"Error publicando post ID {post.id}: {exc}")
+
+    return f"Se procesaron y publicaron {published_count} posts programados de Instagram."
