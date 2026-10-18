@@ -153,10 +153,20 @@
                       <div class="col-12 col-lg-6">
                         <div class="split-image-wrapper"
                              style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
-                          <div class="split-image-overlay d-flex align-items-end p-4">
-                            <div>
+                          <!-- Overlay alineado en la mitad vertical (align-items-center) y a la izquierda (justify-content-start text-start) -->
+                          <div class="split-image-overlay d-flex align-items-center justify-content-start p-4 text-start">
+                            <div style="max-width: 90%;">
                               <span class="tech-badge-orange mb-2 d-inline-block">// BUSINESS ANALYTICS & BI Envelopment</span>
-                             
+                              
+                              <!-- NOMBRE DEL PRODUCTO DESTACADO EN GRANDE -->
+                              <h1 class="text-white fw-bold display-6 mb-2 text-uppercase tracking-tight">
+                                {{ product.name }}
+                              </h1>
+                      
+                              <!-- SUBTÍTULO TÉCNICO EN LA MITAD DE LA IMAGEN -->
+                              <p class="font-monospace small mb-0 accent-text" style="letter-spacing: 0.05em; font-size: 0.85rem;">
+                                The smartest Growth Financial Technologies partner.
+                              </p>
                             </div>
                           </div>
                         </div>
