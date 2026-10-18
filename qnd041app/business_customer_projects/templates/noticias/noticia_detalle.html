@@ -5,54 +5,43 @@
 
 <style>
   :root {
-    --tech-bg: #0b0f19;
-    --tech-card-bg: rgba(17, 24, 39, 0.7);
-    --tech-border: rgba(255, 255, 255, 0.08);
-    --tech-border-glow: rgba(56, 189, 248, 0.3);
-    --cyan-neon: #38bdf8;
-    --violet-neon: #818cf8;
-    --emerald-neon: #34d399;
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
   }
 
   body {
-    background-color: var(--tech-bg) !important;
+    background-color: var(--bg-main) !important;
   }
 
-  /* Efecto Glassmorphism Futurista */
-  .tech-glass-card {
-    background: var(--tech-card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--tech-border);
+  /* Tarjetas con la paleta solicitada */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease;
   }
 
-  .tech-glass-card:hover {
-    border-color: var(--tech-border-glow);
-    box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+  .tech-card:hover {
+    border-color: rgba(247, 168, 79, 0.4);
   }
 
-  /* Tipografía e Identidad */
   .tech-title {
-    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
     font-weight: 800;
     letter-spacing: -0.02em;
   }
 
-  .tech-gradient-text {
-    background: linear-gradient(135deg, var(--cyan-neon) 0%, var(--violet-neon) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .accent-text {
+    color: var(--accent-orange) !important;
   }
 
   .article-body-text {
-    font-size: 1.08rem;
+    font-size: 1.05rem;
     line-height: 1.8;
-    color: #cbd5e1;
+    color: #d1d5db;
     font-weight: 300;
   }
 
@@ -60,28 +49,27 @@
     margin-bottom: 1.5rem;
   }
 
-  /* Badge de Categoría con Neón */
+  /* Badge con color de acento */
   .tech-badge {
-    background: rgba(56, 189, 248, 0.1);
-    color: var(--cyan-neon);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
     font-family: monospace;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 6px 14px;
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
   }
 
-  /* Botones e Iconos Interactivos */
+  /* Botones e Interacciones */
   .tech-action-btn {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--tech-border);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     color: #94a3b8;
     cursor: pointer;
@@ -89,21 +77,19 @@
   }
 
   .tech-action-btn:hover {
-    background: rgba(56, 189, 248, 0.1);
-    color: #ffffff;
-    border-color: var(--cyan-neon);
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
     transform: translateY(-2px);
   }
 
-  /* Avatar con Borde Neón */
+  /* Avatar con borde naranja */
   .tech-avatar-glow {
-    position: relative;
     border-radius: 50%;
     padding: 2px;
-    background: linear-gradient(135deg, var(--cyan-neon), var(--violet-neon));
+    background: linear-gradient(135deg, var(--accent-orange), #ffc107);
   }
 
-  /* Animación del desplegable de comentarios */
   #commentFormWrapper {
     animation: techSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -119,13 +105,13 @@
     <div class="row g-4">
 
       <!-- ==========================================
-           COLUMNA PRINCIPAL (ARTÍCULO TÉCNICO)
+           COLUMNA PRINCIPAL (ARTÍCULO)
       =========================================== -->
       <div class="col-12 col-lg-8 col-xl-9">
 
-        <article class="tech-glass-card overflow-hidden mb-4">
+        <article class="tech-card overflow-hidden mb-4">
 
-          <!-- PORTADA HERO DE ALTO IMPACTO -->
+          <!-- PORTADA -->
           <div class="position-relative"
                style="
                 background-image: url('{% if noticia.imagen_portada %}{{ noticia.imagen_portada.url }}{% else %}{% static 'assets/images/default-cover.jpg' %}{% endif %}');
@@ -134,12 +120,10 @@
                 min-height: 380px;
                ">
             
-            <!-- Overlay ciberpunk con malla de sombra -->
             <div class="position-absolute top-0 start-0 w-100 h-100"
-                 style="background: linear-gradient(180deg, rgba(11,15,25,0.2) 0%, rgba(11,15,25,0.95) 100%);">
+                 style="background: linear-gradient(180deg, rgba(40,40,41,0.2) 0%, rgba(40,40,41,0.95) 100%);">
             </div>
 
-            <!-- Header Info -->
             <div class="position-absolute bottom-0 start-0 p-4 p-md-5 w-100">
               {% if noticia.categoria %}
                 <span class="tech-badge mb-3 d-inline-block">
@@ -150,15 +134,15 @@
               <h1 class="tech-title display-5 mb-3">{{ noticia.titulo_1 }}</h1>
 
               {% if noticia.subtitulo_1 %}
-                <p class="lead text-slate-400 opacity-90 fs-5 mb-0" style="color: #94a3b8;">
+                <p class="lead text-muted opacity-90 fs-5 mb-0">
                   {{ noticia.subtitulo_1 }}
                 </p>
               {% endif %}
             </div>
           </div>
 
-          <!-- AUTOR & METADATOS TÉCNICOS -->
-          <div class="border-bottom border-top border-white border-opacity-10 px-4 px-md-5 py-3" style="background: rgba(0,0,0,0.2);">
+          <!-- AUTOR & METADATOS -->
+          <div class="border-bottom border-top border-secondary border-opacity-25 px-4 px-md-5 py-3" style="background-color: #232324;">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
               
               <div class="d-flex align-items-center gap-3">
@@ -173,7 +157,7 @@
                 <div>
                   <h6 class="mb-0 text-white fw-bold d-flex align-items-center gap-2">
                     {{ noticia.autor_nombre }}
-                    <ion-icon name="checkmark-circle" style="color: var(--cyan-neon);"></ion-icon>
+                    <ion-icon name="checkmark-circle" style="color: var(--accent-orange);"></ion-icon>
                   </h6>
                   {% if noticia.autor_bio %}
                     <small class="text-muted d-block" style="font-size: 12px;">{{ noticia.autor_bio }}</small>
@@ -182,32 +166,32 @@
               </div>
 
               <div class="text-md-end font-monospace text-muted small">
-                <span style="color: var(--cyan-neon);">[STAMP]</span> {{ noticia.fecha_publicacion|date:"Y-m-d H:i" }} UTC
+                <span class="accent-text">[STAMP]</span> {{ noticia.fecha_publicacion|date:"Y-m-d H:i" }} UTC
               </div>
 
             </div>
           </div>
 
-          <!-- CUERPO DEL ARTÍCULO (SECCIÓN 1) -->
+          <!-- CUERPO SECCIÓN 1 -->
           <div class="article-body-text px-4 px-md-5 py-4">
             {% if noticia.cuerpo_1 %}
-              <p class="fs-5 fw-normal text-white mb-4 border-start border-3 border-info ps-3" style="border-color: var(--cyan-neon) !important;">
+              <p class="fs-5 fw-normal text-white mb-4 border-start border-3 ps-3" style="border-color: var(--accent-orange) !important;">
                 {{ noticia.cuerpo_1 }}
               </p>
             {% endif %}
 
             {% if noticia.subtitulo_2 %}
-              <h3 class="tech-gradient-text mt-4 mb-3 h4">{{ noticia.subtitulo_2 }}</h3>
+              <h3 class="accent-text mt-4 mb-3 h4">{{ noticia.subtitulo_2 }}</h3>
             {% endif %}
 
             {% if noticia.cuerpo_2 %}<p>{{ noticia.cuerpo_2 }}</p>{% endif %}
             {% if noticia.cuerpo_3 %}<p>{{ noticia.cuerpo_3 }}</p>{% endif %}
           </div>
 
-          <!-- CARRUSEL TÉCNICO MEDIA -->
+          <!-- CARRUSEL -->
           {% if noticia.imagen_comercial or noticia.imagen_datos_estadisticos or noticia.imagen_informativo %}
             <div class="px-4 px-md-5 py-2">
-              <div id="techMediaCarousel" class="carousel slide rounded-4 overflow-hidden border border-white border-opacity-10 shadow-lg" data-bs-ride="carousel">
+              <div id="techMediaCarousel" class="carousel slide rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow-lg" data-bs-ride="carousel">
                 <div class="carousel-inner">
 
                   {% if noticia.imagen_comercial %}
@@ -240,14 +224,14 @@
             </div>
           {% endif %}
 
-          <!-- CUERPO DEL ARTÍCULO (SECCIÓN 2) -->
+          <!-- CUERPO SECCIÓN 2 -->
           <div class="article-body-text px-4 px-md-5 py-4">
             {% if noticia.titulo_2 %}
               <h2 class="tech-title h3 mb-3">{{ noticia.titulo_2 }}</h2>
             {% endif %}
 
             {% if noticia.subtitulo_3 %}
-              <h4 class="text-info mb-3 h5" style="color: var(--cyan-neon) !important;">{{ noticia.subtitulo_3 }}</h4>
+              <h4 class="accent-text mb-3 h5">{{ noticia.subtitulo_3 }}</h4>
             {% endif %}
 
             {% if noticia.cuerpo_4 %}<p>{{ noticia.cuerpo_4 }}</p>{% endif %}
@@ -268,30 +252,29 @@
             {% if noticia.cuerpo_9 %}<p>{{ noticia.cuerpo_9 }}</p>{% endif %}
           </div>
 
-          <!-- DASHBOARD DE METRICAS Y SOCIAL -->
-          <div class="border-top border-white border-opacity-10 p-4 p-md-5" style="background: rgba(0,0,0,0.25);">
+          <!-- DASHBOARD DE MÉTRICAS -->
+          <div class="border-top border-secondary border-opacity-25 p-4 p-md-5" style="background-color: #232324;">
+            
+            {% csrf_token %}
+
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
 
               <div class="d-flex align-items-center gap-2 flex-wrap">
-                <!-- Like -->
                 <div class="tech-action-btn rate-action" data-action="like" data-noticia-id="{{ noticia.id }}">
                   <ion-icon name="heart-outline" class="text-danger fs-5"></ion-icon>
                   <span id="likes-count-{{ noticia.id }}" class="font-monospace fw-bold">{{ noticia.metricas.likes|default:0 }}</span>
                 </div>
 
-                <!-- Comentarios -->
                 <div id="toggleCommentForm" class="tech-action-btn">
-                  <ion-icon name="chatbubble-ellipses-outline" class="text-warning fs-5"></ion-icon>
+                  <ion-icon name="chatbubble-ellipses-outline" class="accent-text fs-5"></ion-icon>
                   <span class="font-monospace fw-bold">{{ noticia.comentarios.count|default:0 }}</span>
                 </div>
 
-                <!-- Share Redes -->
                 <div class="tech-action-btn rate-action" data-action="share_social" data-noticia-id="{{ noticia.id }}">
                   <ion-icon name="share-social-outline" class="text-info fs-5"></ion-icon>
                   <span id="shares-count-{{ noticia.id }}" class="font-monospace fw-bold">{{ noticia.metricas.compartidos_redes|default:0 }}</span>
                 </div>
 
-                <!-- Share Email -->
                 <div class="tech-action-btn rate-action" data-action="share_email" data-noticia-id="{{ noticia.id }}">
                   <ion-icon name="paper-plane-outline" class="text-success fs-5"></ion-icon>
                   <span id="email-count-{{ noticia.id }}" class="font-monospace fw-bold">{{ noticia.metricas.compartidos_email|default:0 }}</span>
@@ -299,23 +282,23 @@
               </div>
 
               <div class="font-monospace text-muted small">
-                STATUS: <span class="text-success">● LIVE</span>
+                STATUS: <span class="accent-text">● LIVE</span>
               </div>
 
             </div>
 
-            <!-- FORMULARIO DE COMENTARIOS FLOTANTE TIPO CONSOLA -->
-            <div id="commentFormWrapper" class="mt-4 p-4 rounded-3 border border-white border-opacity-10" style="display:none; background: rgba(15, 23, 42, 0.8);">
+            <!-- FORMULARIO DE COMENTARIOS FLOTANTE -->
+            <div id="commentFormWrapper" class="mt-4 p-4 rounded-3 border border-secondary border-opacity-25" style="display:none; background-color: #1e1e1f;">
               <form method="post" action="">
                 {% csrf_token %}
                 <div class="d-flex align-items-start gap-3">
                   <img src="{% if request.user.profile.photo %}{{ request.user.profile.photo.url }}{% else %}{% static 'assets/images/QUAIL.png' %}{% endif %}"
-                       width="42" height="42" class="rounded-circle object-fit-cover border border-info" alt="User">
+                       width="42" height="42" class="rounded-circle object-fit-cover border border-secondary" alt="User">
 
                   <div class="flex-grow-1">
-                    <textarea name="comentario" class="form-control bg-dark text-white border-secondary font-monospace" rows="3" placeholder="// Escribe un comentario en el log..." style="font-size: 0.9rem;" required></textarea>
+                    <textarea name="comentario" class="form-control bg-dark text-white border-secondary font-monospace" rows="3" placeholder="// Escribe tu comentario..." style="font-size: 0.9rem;" required></textarea>
                     <div class="text-end mt-3">
-                      <button type="submit" class="btn btn-info btn-sm px-4 fw-bold font-monospace" style="background: var(--cyan-neon); color: #000; border: none;">
+                      <button type="submit" class="btn btn-sm px-4 fw-bold font-monospace" style="background-color: var(--accent-orange); color: #1e1e1f; border: none;">
                         SUBMIT_LOG
                       </button>
                     </div>
@@ -327,33 +310,31 @@
 
         </article>
 
-        <!-- SECCIÓN DE COMENTARIOS REGISTRADOS -->
-        <section class="tech-glass-card p-4 p-md-5">
+        <!-- SECCIÓN DE COMENTARIOS -->
+        <section class="tech-card p-4 p-md-5">
           <h5 class="text-white font-monospace mb-4 d-flex align-items-center gap-2">
-            <ion-icon name="terminal-outline" style="color: var(--cyan-neon);"></ion-icon>
+            <ion-icon name="terminal-outline" class="accent-text"></ion-icon>
             THREAD_COMMENTS ({{ noticia.comentarios.count }})
           </h5>
 
           <div class="review-list">
             {% for comentario in noticia.comentarios.all %}
-              {% if comentario.activo %}
-                <div class="d-flex align-items-start mb-4">
-                  <img src="{% if comentario.usuario.profile.photo %}{{ comentario.usuario.profile.photo.url }}{% else %}{% static 'assets/images/avatars/05.png' %}{% endif %}"
-                       width="45" height="45" class="rounded-circle border border-secondary object-fit-cover" alt="User">
+              <div class="d-flex align-items-start mb-4">
+                <img src="{% if comentario.usuario.profile.photo %}{{ comentario.usuario.profile.photo.url }}{% else %}{% static 'assets/images/avatars/05.png' %}{% endif %}"
+                     width="45" height="45" class="rounded-circle border border-secondary object-fit-cover" alt="User">
 
-                  <div class="ms-3 w-100 p-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                      <h6 class="mb-0 text-white font-monospace" style="font-size: 0.9rem;">
-                        @{{ comentario.usuario.username }}
-                      </h6>
-                      <small class="font-monospace text-muted" style="font-size: 0.75rem;">
-                        {{ comentario.fecha_creacion|date:"Y-m-d" }}
-                      </small>
-                    </div>
-                    <p class="text-slate-300 mb-0 small" style="color: #94a3b8;">{{ comentario.comentario }}</p>
+                <div class="ms-3 w-100 p-3 rounded-3" style="background-color: #232324; border: 1px solid rgba(255,255,255,0.05);">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="mb-0 text-white font-monospace" style="font-size: 0.9rem;">
+                      @{{ comentario.usuario.username }}
+                    </h6>
+                    <small class="font-monospace text-muted" style="font-size: 0.75rem;">
+                      {{ comentario.fecha_creacion|date:"Y-m-d H:i" }}
+                    </small>
                   </div>
+                  <p class="text-muted mb-0 small" style="color: #cbd5e1;">{{ comentario.comentario }}</p>
                 </div>
-              {% endif %}
+              </div>
             {% empty %}
               <div class="text-muted font-monospace small py-3">// No hay comentarios registrados en este hilo.</div>
             {% endfor %}
@@ -363,23 +344,22 @@
       </div>
 
       <!-- ==========================================
-           COLUMNA LATERAL (WIDGETS TECH)
+           COLUMNA LATERAL (WIDGETS)
       =========================================== -->
       <aside class="col-12 col-lg-4 col-xl-3">
 
-        <!-- WIDGET METADATOS SISTEMA -->
-        <div class="tech-glass-card p-4 mb-4">
-          <h6 class="text-white font-monospace mb-3 border-bottom border-white border-opacity-10 pb-2">
+        <div class="tech-card p-4 mb-4">
+          <h6 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
             // METADATA
           </h6>
           <div class="font-monospace small">
-            <div class="d-flex justify-content-between py-1 border-bottom border-white border-opacity-5">
+            <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-10">
               <span class="text-muted">CREATED:</span>
               <span class="text-white">{{ noticia.fecha_publicacion|date:"d/m/Y" }}</span>
             </div>
-            <div class="d-flex justify-content-between py-1 border-bottom border-white border-opacity-5">
+            <div class="d-flex justify-content-between py-1 border-bottom border-secondary border-opacity-10">
               <span class="text-muted">STATUS:</span>
-              <span style="color: var(--emerald-neon);">{% if noticia.activa %}ACTIVE{% else %}DISABLED{% endif %}</span>
+              <span class="accent-text">{% if noticia.activa %}ACTIVE{% else %}DISABLED{% endif %}</span>
             </div>
             <div class="d-flex justify-content-between py-1">
               <span class="text-muted">AUTHOR_MAIL:</span>
@@ -388,34 +368,17 @@
           </div>
         </div>
 
-        <!-- WIDGET REFERENCIAS TÉCNICAS -->
         {% if noticia.refencia_1 or noticia.refencia_2 or noticia.refencia_3 or noticia.refencia_4 %}
-          <div class="tech-glass-card p-4">
-            <h6 class="text-white font-monospace mb-3 border-bottom border-white border-opacity-10 pb-2 d-flex align-items-center gap-2">
-              <ion-icon name="link-outline" style="color: var(--cyan-neon);"></ion-icon>
+          <div class="tech-card p-4">
+            <h6 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2 d-flex align-items-center gap-2">
+              <ion-icon name="link-outline" class="accent-text"></ion-icon>
               REFERENCES
             </h6>
             <ul class="list-unstyled mb-0 font-monospace small">
-              {% if noticia.refencia_1 %}
-                <li class="mb-2 text-truncate">
-                  <a href="#" class="text-muted text-decoration-none hover-cyan">▸ {{ noticia.refencia_1 }}</a>
-                </li>
-              {% endif %}
-              {% if noticia.refencia_2 %}
-                <li class="mb-2 text-truncate">
-                  <a href="#" class="text-muted text-decoration-none hover-cyan">▸ {{ noticia.refencia_2 }}</a>
-                </li>
-              {% endif %}
-              {% if noticia.refencia_3 %}
-                <li class="mb-2 text-truncate">
-                  <a href="#" class="text-muted text-decoration-none hover-cyan">▸ {{ noticia.refencia_3 }}</a>
-                </li>
-              {% endif %}
-              {% if noticia.refencia_4 %}
-                <li class="mb-2 text-truncate">
-                  <a href="#" class="text-muted text-decoration-none hover-cyan">▸ {{ noticia.refencia_4 }}</a>
-                </li>
-              {% endif %}
+              {% if noticia.refencia_1 %}<li class="mb-2 text-truncate"><a href="#" class="text-muted text-decoration-none">▸ {{ noticia.refencia_1 }}</a></li>{% endif %}
+              {% if noticia.refencia_2 %}<li class="mb-2 text-truncate"><a href="#" class="text-muted text-decoration-none">▸ {{ noticia.refencia_2 }}</a></li>{% endif %}
+              {% if noticia.refencia_3 %}<li class="mb-2 text-truncate"><a href="#" class="text-muted text-decoration-none">▸ {{ noticia.refencia_3 }}</a></li>{% endif %}
+              {% if noticia.refencia_4 %}<li class="mb-2 text-truncate"><a href="#" class="text-muted text-decoration-none">▸ {{ noticia.refencia_4 }}</a></li>{% endif %}
             </ul>
           </div>
         {% endif %}
@@ -426,15 +389,15 @@
   </div>
 </div>
 
-<!-- SCRIPTS INTERACTIVOS AJAX -->
+<!-- SCRIPTS -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Desplegable de formulario
     const toggleBtn = document.getElementById('toggleCommentForm');
     const formWrapper = document.getElementById('commentFormWrapper');
 
     if (toggleBtn && formWrapper) {
-      toggleBtn.addEventListener('click', function () {
+      toggleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
         const isHidden = formWrapper.style.display === 'none' || formWrapper.style.display === '';
         formWrapper.style.display = isHidden ? 'block' : 'none';
         if (isHidden) {
@@ -443,7 +406,6 @@
       });
     }
 
-    // Peticiones AJAX
     const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
     const csrftoken = csrfInput ? csrfInput.value : '';
 
@@ -472,7 +434,7 @@
             if (action === 'share_email') document.getElementById(`email-count-${noticiaId}`).innerText = data.compartidos_email;
           }
         })
-        .catch(err => console.error("Error en la solicitud AJAX:", err));
+        .catch(err => console.error("Error AJAX:", err));
       });
     });
   });
