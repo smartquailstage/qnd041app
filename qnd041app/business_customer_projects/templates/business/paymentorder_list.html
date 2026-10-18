@@ -1,133 +1,297 @@
 {% load widget_tweaks %}
 {% load static %}
+
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  /* Tarjetas Cyber/Tech */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Badges tecnológicos monospaciados */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-green {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-warning {
+    background: rgba(250, 204, 21, 0.1);
+    color: #facc15;
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Tabla Cyber */
+  .table-cyber {
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+
+  .table-cyber th {
+    background-color: #121213 !important;
+    color: var(--accent-orange) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 12px;
+  }
+
+  .table-cyber td {
+    background-color: var(--card-bg-subtle) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 14px 12px;
+    vertical-align: middle;
+  }
+
+  .table-cyber tbody tr:hover td {
+    background-color: rgba(247, 168, 79, 0.03) !important;
+  }
+
+  /* Controles de Formulario e Input Buscador */
+  .form-control-cyber {
+    background-color: #121213 !important;
+    border: 1px solid var(--border-color) !important;
+    color: #ffffff !important;
+    border-radius: 8px 0 0 8px;
+    padding: 8px 14px;
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+
+  .form-control-cyber:focus {
+    border-color: var(--accent-orange) !important;
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.2) !important;
+    outline: none;
+  }
+
+  .btn-cyber-search {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    border-radius: 0 8px 8px 0;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-cyber-search:hover {
+    background-color: #f39c12;
+    color: #000;
+  }
+
+  /* Paginación Cyber */
+  .pagination .page-item .page-link {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid var(--border-color);
+    color: #cbd5e1;
+    font-family: monospace;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .pagination .page-item.active .page-link {
+    background-color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    color: #1e1e1f;
+    font-weight: bold;
+  }
+
+  .pagination .page-item.disabled .page-link {
+    background-color: #1a1a1b;
+    border-color: rgba(255, 255, 255, 0.05);
+    color: #64748b;
+  }
+
+  .tech-link {
+    color: #38bdf8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .tech-link:hover {
+    color: #7dd3fc;
+    text-decoration: underline;
+  }
+</style>
+
 <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
-    <hr class="my-4">
-    <div class="card radius-10">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12 d-flex">
-                    <div class="card radius-10 w-100">
-                          <h5 class="mb-0"> <ion-icon name="list"></ion-icon> Resumen de cuenta</h5>
-                        <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px; color: #eca04a;">
-                           
-                            <!-- Encabezado y búsqueda -->
-                            <div class="d-flex align-items-center mb-3">
-                               
-                                <form method="get" class="ms-auto d-flex align-items-center position-relative" style="max-width: 300px;">
-                                    <!-- Ícono dentro del input -->
-                                    <!-- Input -->
-                                    <input 
-                                        class="form-control" 
-                                        type="text" 
-                                        name="search" 
-                                        placeholder="Buscar por servicio" 
-                                        value="{{ search }}"
-                                        style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                    <!-- Botón -->
-                                    <button type="submit" class="btn btn-warning" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                                       <ion-icon name="search-sharp"></ion-icon>
-                                    </button>
-                                </form>
-                            </div>
+  
+  <div class="tech-card p-4 p-md-5 mb-4">
+    <div class="card-body p-0">
 
-                            <!-- Tabla de pagos -->
-                            <div class="table-responsive mt-3">
-                                <table class="table align-middle">
-                                    <thead class="table-secondary">
-                                        <tr>
-                                            <th>Estado</th>
-                                            <th># Factura</th>
-                                              <th>Emisión</th>
-                                               <th>Vencimiento</th>
-                                                 <th>2da Vencimiento </th>
-                                            <th>Servicio</th>
-                                          
-                                           
-                                          
-                                            <th>Valor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for order in payment_orders %}
-                                        <tr>
-                                            <td>
-                                                {% if order.pago_verificado %}
-                                                    <span class="badge bg-success"><ion-icon name="checkmark-done-circle-outline"></ion-icon>Pagado</span>
-                                                {% elif order.pago_verificado %}
-                                                    <span class="badge bg-danger">Vencido</span>
-                                                {% else %}
-                                                    <span class="spinner-border spinner-border-sm text-warning"></span> <a href="#" class="text-primary">Pendiente </a> 
-                                                {% endif %}
-                                            </td>
-                                            <td> <a href="#" class="text-primary">
-                                              {{ order.invoice_number }}
-                                                </a></td>
-
-                                           <td>{{ order.date_issued|date:"d/m/Y" }}</td>
-<td>{{ order.expiration_date|date:"d/m/Y" }}</td>
-<td>{{ order.second_expiration_date|date:"d/m/Y" }}</td>
-
-                                                                                         <a href="#">
-                                            <td>{{ order.get_service_type_display }}</td>
-                                            </a>
-                                            <!-- Acciones -->
-                                            <td>
-                                                $US {{ order.cost_with_iva|floatformat:2 }}
-                                            </td>
-                                        </tr>
-                                        {% empty %}
-                                        <tr>
-                                            <td colspan="11" class="text-center py-4">
-                                                <strong>No existen órdenes de pago registradas en este proyecto.</strong>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Paginador -->
-                            {% if is_paginated %}
-                            <nav aria-label="Page navigation" class="mt-3">
-                                <ul class="pagination justify-content-center">
-                                    {% if page_obj.has_previous %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-                                    {% endif %}
-
-                                    {% for num in paginator.page_range %}
-                                        {% if page_obj.number == num %}
-                                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                                        {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-                                            <li class="page-item">
-                                                <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}">{{ num }}</a>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-
-                                    {% if page_obj.has_next %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                            {% endif %}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- CABECERA Y BUSCADOR -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 border-bottom border-secondary border-opacity-25 pb-3">
+        <div>
+          <span class="tech-badge-orange mb-2 d-inline-block">// FACTURACIÓN & GESTIÓN DE PAGOS</span>
+          <h4 class="text-white fw-bold d-flex align-items-center gap-2 mb-0">
+            <ion-icon name="list-outline" class="accent-text"></ion-icon> 
+            Resumen de Cuenta & Facturación
+          </h4>
         </div>
-    </div>
-</div>
 
+        <!-- FORMULARIO DE BÚSQUEDA -->
+        <form method="get" class="d-flex align-items-center position-relative" style="max-width: 320px; width: 100%;">
+          <input class="form-control form-control-cyber w-100" 
+                 type="text" 
+                 name="search" 
+                 placeholder="Buscar por servicio..." 
+                 value="{{ search }}">
+          <button type="submit" class="btn btn-cyber-search d-flex align-items-center justify-content-center">
+            <ion-icon name="search-sharp" class="fs-5"></ion-icon>
+          </button>
+        </form>
+      </div>
+
+      <!-- CONTENEDOR DE TABLA ESTILO CYBER -->
+      <div class="tech-card-subtle p-3 p-md-4">
+        
+        <div class="table-responsive">
+          <table class="table table-cyber align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Estado</th>
+                <th># Factura</th>
+                <th>Emisión</th>
+                <th>Vencimiento</th>
+                <th>2do Vencimiento</th>
+                <th>Servicio</th>
+                <th class="text-end">Valor Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in payment_orders %}
+              <tr>
+                <!-- ESTADO -->
+                <td>
+                  {% if order.pago_verificado %}
+                    <span class="tech-badge-green d-inline-flex align-items-center gap-1">
+                      <ion-icon name="checkmark-done-circle-outline"></ion-icon> Pagado
+                    </span>
+                  {% else %}
+                    <span class="tech-badge-warning d-inline-flex align-items-center gap-1">
+                      <span class="spinner-border spinner-border-sm text-warning" style="width: 8px; height: 8px;"></span> 
+                      <a href="#" class="tech-link text-warning fw-bold text-decoration-none">Pendiente</a>
+                    </span>
+                  {% endif %}
+                </td>
+
+                <!-- NÚMERO DE FACTURA -->
+                <td>
+                  <a href="#" class="tech-link fw-bold">
+                    {{ order.invoice_number }}
+                  </a>
+                </td>
+
+                <!-- FECHAS -->
+                <td>{{ order.date_issued|date:"d/m/Y" }}</td>
+                <td>{{ order.expiration_date|date:"d/m/Y" }}</td>
+                <td>{{ order.second_expiration_date|date:"d/m/Y"|default:"N/A" }}</td>
+
+                <!-- SERVICIO -->
+                <td>
+                  <span class="text-white">{{ order.get_service_type_display }}</span>
+                </td>
+
+                <!-- VALOR -->
+                <td class="text-end font-monospace fw-bold accent-text">
+                  $US {{ order.cost_with_iva|floatformat:2 }}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="7" class="text-center py-5 font-monospace text-muted">
+                  <ion-icon name="receipt-outline" class="fs-2 mb-2 accent-text d-block mx-auto"></ion-icon>
+                  // No existen órdenes de pago registradas en este proyecto actualmente.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PAGINADOR CYBER -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination justify-content-center mb-0">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for num in paginator.page_range %}
+              {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+              {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}">{{ num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

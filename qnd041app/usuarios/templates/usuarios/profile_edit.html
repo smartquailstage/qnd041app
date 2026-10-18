@@ -2,170 +2,297 @@
 {% load widget_tweaks %}
 {% load static %}
 
-{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+{% block title %}Información y Permisos - Editar Perfil ITC{% endblock %}
 
 {% block content %}
 
-<div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-<div class="row">
-  <div class="col-lg-8 mx-auto">
-    <div class="card radius-10">
-      <div class="card-body">
+  body {
+    background-color: var(--bg-main) !important;
+  }
 
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
+  /* Tarjeta Cyber/Tech principal */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
 
-          <h2><ion-icon name="document-lock-outline"></ion-icon>Información y Permisos </h2>
-          <hr>
-          <div class="mb-4 d-flex flex-column gap-3 align-items-center justify-content-center">
-            <div class="user-change-photo shadow">
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
 
-              {% if profile.photo %}
-                <img src="{{ profile.photo.url }}" alt="Foto de perfil" width="120" class="rounded-circle">
-              {% else %}
-                  <img  src="{% static 'assets/images/default.png' %}" alt="Foto de perfil" width="120" class="rounded-circle">
-              {% endif %}
-            
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Badges tecnológicos monospaciados */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Avatar y fotograma Cyber */
+  .user-change-photo {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent-orange), rgba(247, 168, 79, 0.2));
+    box-shadow: 0 0 20px rgba(247, 168, 79, 0.25);
+  }
+
+  .user-change-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1e1e1f;
+  }
+
+  /* Override de Controles de Formulario */
+  .form-control, .form-select, select, input[type="text"], input[type="email"], input[type="number"] {
+    background-color: #121213 !important;
+    border: 1px solid var(--border-color) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+
+  .form-control:focus, .form-select:focus, select:focus {
+    border-color: var(--accent-orange) !important;
+    box-shadow: 0 0 12px rgba(247, 168, 79, 0.25) !important;
+    outline: none;
+  }
+
+  .form-label {
+    color: #cbd5e1;
+    font-family: monospace;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Botón interactivo Cyber */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px 24px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.35);
+  }
+
+  .btn-outline-cyber {
+    background: rgba(247, 168, 79, 0.05);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.8rem;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-outline-cyber:hover {
+    background: var(--accent-orange);
+    color: #1e1e1f;
+    box-shadow: 0 0 12px rgba(247, 168, 79, 0.3);
+  }
+</style>
+
+<div class="page-content-wrapper py-3">
+  <div class="page-content container-fluid px-2 px-md-3">
+
+    <div class="row">
+      <div class="col-lg-9 col-xl-8 mx-auto">
+
+        <div class="tech-card p-4 p-md-5">
+          <div class="card-body p-0">
+
+            <!-- CABECERA PRINCIPAL -->
+            <div class="mb-4">
+              <span class="tech-badge-orange mb-2 d-inline-block">// CONFIGURACIÓN DE IDENTIDAD Y PERMISOS</span>
+              <h2 class="text-white fw-bold d-flex align-items-center gap-2 mb-1">
+                <ion-icon name="document-lock-outline" class="accent-text"></ion-icon> 
+                Información y Permisos
+              </h2>
+              <p class="text-muted small font-monospace mb-0" style="color: #cbd5e1 !important;">
+                Actualice la identidad corporativa, representante legal y parámetros de escalabilidad de su negocio ITC.
+              </p>
             </div>
 
-<div>
-    <!-- Input real (oculto) -->
-    <input 
-        type="file"
-        name="photo"
-        id="id_photo"
-        accept="image/*"
-        style="display: none;"
-    >
+            <hr class="border-secondary border-opacity-25 my-4">
 
-    <!-- Botón personalizado -->
-    <button 
-        type="button"
-        class="btn btn-outline-warning  btn-sm radius-30 px-4"
-        onclick="document.getElementById('id_photo').click();"
-    >
-        <ion-icon name="image-sharp"></ion-icon>
-        Cambiar foto de perfil
-    </button>
-  
-</div>
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <!-- FOTO DE PERFIL / IDENTIDAD VISUAL DE CUENTA -->
+              <div class="tech-card-subtle p-4 mb-4 text-center">
+                <div class="d-flex flex-column align-items-center justify-content-center gap-3">
+                  <div class="user-change-photo">
+                    {% if profile.photo %}
+                      <img src="{{ profile.photo.url }}" id="profile-preview-img" alt="Foto de perfil">
+                    {% else %}
+                      <img src="{% static 'assets/images/default.png' %}" id="profile-preview-img" alt="Foto de perfil">
+                    {% endif %}
+                  </div>
+
+                  <div>
+                    <!-- Input oculto pero vinculado -->
+                    <input type="file" name="photo" id="id_photo" accept="image/*" style="display: none;">
+
+                    <!-- Botón personalizado Cyber -->
+                    <button type="button" class="btn btn-outline-cyber d-inline-flex align-items-center gap-2" id="btnCambiarFoto">
+                      <ion-icon name="image-sharp" class="fs-5"></ion-icon>
+                      <span>Cambiar Foto de Perfil</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECCIÓN 1: DATOS CORPORATIVOS Y REPRESENTACIÓN -->
+              <div class="mb-4">
+                <h5 class="text-white fw-bold d-flex align-items-center gap-2 mb-3">
+                  <ion-icon name="business-outline" class="accent-text"></ion-icon>
+                  Negocio ITC & Representación
+                </h5>
+
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Representante Legal
+                    </label>
+                    {{ form.nombre_completo }}
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Razón Social / Empresa
+                    </label>
+                    {{ form.nombre_empresa }}
+                  </div>
+                </div>
+              </div>
+
+              <hr class="border-secondary border-opacity-25 my-4">
+
+              <!-- SECCIÓN 2: ESCALABILIDAD Y PARÁMETROS TECNOLÓGICOS -->
+              <div class="mb-4">
+                <h5 class="text-white fw-bold d-flex align-items-center gap-2 mb-3">
+                  <ion-icon name="trending-up-outline" class="accent-text"></ion-icon>
+                  Escalabilidad & Perfil Nube
+                </h5>
+
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Actividad Económica / Sector
+                    </label>
+                    {{ form.sector_negocio }}
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Nivel de Experiencia Cloud
+                    </label>
+                    {{ form.nivel_experiencia_cloud }}
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Tamaño de Empresa
+                    </label>
+                    {{ form.tamano_empresa }}
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">
+                      <ion-icon name="create-outline" class="accent-text"></ion-icon> Presupuesto Estimado de Inversión
+                    </label>
+                    {{ form.presupuesto_estimado }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOTÓN DE GUARDADO -->
+              <div class="mt-5">
+                <button type="submit" class="btn btn-tech-orange w-100 d-flex align-items-center justify-content-center gap-2">
+                  <ion-icon name="save-outline" class="fs-5"></ion-icon>
+                  <span>ACTUALIZAR PERFIL E IDENTIDAD ITC</span>
+                </button>
+              </div>
+
+            </form>
 
           </div>
-
-          <h5 class="mb-0 mt-4">Negocio ITC</h5>
-          <hr>
-
-          <div class="row g-3">
-
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Representante legal</label>
-              {{ form.nombre_completo }}
-            </div>
-
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Razón Social</label>
-              {{ form.nombre_empresa }}
-            </div>
-
-
-          </div>
-<hr>
-
-<h5 class="mb-0 mt-4">Escalabilidad </h5>
-<hr>
-
-          <div class="row g-3">
-
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Actividad económica</label>
-              {{ form.sector_negocio }}
-            </div>
-
-
-
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Nivel de Experiencia</label>
-              {{ form.nivel_experiencia_cloud }}
-            </div>
-            
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Tamaño Empresa</label>
-              {{ form.tamano_empresa }}
-            </div>
-
-            <div class="col-6">
-              <label class="form-label"><ion-icon name="create-outline"></ion-icon> Presupuesto Estimado de inversion</label>
-              {{ form.presupuesto_estimado }}
-            </div>
-
-
-         
-            <button type="submit" class="btn btn-warning px-4">Actualizar perfil</button>
-       
-
-        </form>
+        </div>
 
       </div>
     </div>
+
   </div>
 </div>
 
-
-
-  </div>
-  <!-- end page content-->
-</div>
-
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    function typeWriterEffect(elementId, text, speed) {
-        let index = 0;
-        function type() {
-            if (index < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(index);
-                index++;
-                setTimeout(type, speed);
-            }
-        }
-        type();
-    }
-
-   
-    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
-    typeWriterEffect("typewriter", text_start, 35);
-
-
-});
-</script>
-
+<!-- SCRIPT PREVIEW DE FOTO DE PERFIL -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const btnCambiarFoto = document.getElementById("btnCambiarFoto");
     const inputPhoto = document.getElementById("id_photo");
-    const previewImg = document.querySelector(".user-change-photo img");
+    const previewImg = document.getElementById("profile-preview-img");
 
-    btnCambiarFoto.addEventListener("click", function () {
-        inputPhoto.click();
-    });
+    if (btnCambiarFoto && inputPhoto) {
+        btnCambiarFoto.addEventListener("click", function () {
+            inputPhoto.click();
+        });
+    }
 
-    inputPhoto.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                previewImg.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (inputPhoto && previewImg) {
+        inputPhoto.addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    previewImg.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 });
 </script>
 
- 
 {% endblock %}

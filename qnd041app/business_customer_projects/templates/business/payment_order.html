@@ -2,38 +2,118 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block title %}Inversiones ITC & Historial de Pagos | SmartQuail Sovereign Cloud{% endblock %}
+
 {% block content %}
-<div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
 
-    <!-- Breadcrumb -->
-    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-      <div class="breadcrumb-title pe-3">
-        <ion-icon name="card"></ion-icon> Inversiones ITC
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Breadcrumb Cyber */
+  .tech-breadcrumb-title {
+    color: #ffffff;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Nav Pills estilo Cyber */
+  .nav-pills-cyber {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 6px;
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .nav-pills-cyber .nav-link {
+    color: #cbd5e1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+  }
+
+  .nav-pills-cyber .nav-link:hover {
+    color: #ffffff;
+    border-color: var(--accent-orange);
+    background-color: rgba(247, 168, 79, 0.05);
+  }
+
+  .nav-pills-cyber .nav-link.active {
+    background-color: var(--accent-orange) !important;
+    color: #1e1e1f !important;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.3);
+  }
+</style>
+
+<div class="page-content-wrapper py-3">
+  <div class="page-content container-fluid px-2 px-md-3">
+
+    <!-- BREADCRUMB & CABECERA DE SECCIÓN -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+      <div class="tech-breadcrumb-title">
+        <ion-icon name="card-outline" class="accent-text fs-4"></ion-icon>
+        <span>Inversiones ITC & Historial de Pagos</span>
       </div>
-
+      <span class="tech-badge-orange">// FINANCIAL TELEMETRY</span>
     </div>
 
-    <!-- Nav pills -->
-    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="orderlist-tab" data-bs-toggle="pill" href="#tab-orderlist" role="tab" aria-selected="true">
-          <div class="d-flex align-items-center">
-            <div class="tab-title">
-              <ion-icon name="cloud-download-outline"></ion-icon>
-              <ion-icon name="checkmark-done-circle-outline"></ion-icon>
-            </div>
-          </div>
-        </a>
-      </li>
-    </ul>
+    <!-- PESTAÑAS DE NAVEGACIÓN (NAV PILLS) -->
+    <div class="mb-3">
+      <ul class="nav nav-pills nav-pills-cyber" id="custom-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active d-flex align-items-center gap-2" 
+             id="orderlist-tab" 
+             data-bs-toggle="pill" 
+             href="#tab-orderlist" 
+             role="tab" 
+             aria-controls="tab-orderlist" 
+             aria-selected="true">
+            <ion-icon name="cloud-download-outline" class="fs-5"></ion-icon>
+            <ion-icon name="checkmark-done-circle-outline" class="fs-5"></ion-icon>
+            <span>ÓRDENES DE PAGO & FACTURACIÓN</span>
+          </a>
+        </li>
+      </ul>
+    </div>
 
-    <!-- Tab content -->
+    <!-- CONTENEDOR DE PESTAÑAS (TAB CONTENT) -->
     <div class="tab-content">
       {% include "business/paymentorder_list.html" %}
-    </div> <!-- end tab content -->
+    </div>
 
-  </div> <!-- end page content -->
-</div> <!-- end page content wrapper -->
+  </div>
+</div>
+
 {% endblock %}

@@ -2,536 +2,517 @@
 {% load widget_tweaks %}
 {% load static %}
 
-{% block title %} Usuarios ITC {% endblock %}
+{% block title %}Perfil y Resumen General ITC | SmartQuail Sovereign Cloud{% endblock %}
 
 {% block content %}
-<div class="page-content-wrapper">
-  <div class="page-content">
+
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas Cyber/Tech */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.25s ease;
+  }
+
+  .tech-card-subtle:hover {
+    border-color: rgba(247, 168, 79, 0.3);
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Badges tecnológicos monospaciados */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-green {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-warning {
+    background: rgba(250, 204, 21, 0.1);
+    color: #facc15;
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-secondary {
+    background: rgba(148, 163, 184, 0.1);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  /* Fotograma Cyber Avatar */
+  .user-avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent-orange), rgba(247, 168, 79, 0.2));
+    box-shadow: 0 0 20px rgba(247, 168, 79, 0.25);
+  }
+
+  .user-avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1e1e1f;
+  }
+
+  /* Enlaces tecnológicos */
+  .tech-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .tech-link:hover {
+    color: var(--accent-orange);
+  }
+
+  .tech-contract-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+  }
+
+  .tech-contract-link:hover {
+    color: #7dd3fc;
+    text-decoration: underline;
+  }
+
+  /* Scrollbar personalizado */
+  .custom-cyber-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-cyber-scroll::-webkit-scrollbar-track {
+    background: #1a1a1b;
+    border-radius: 8px;
+  }
+
+  .custom-cyber-scroll::-webkit-scrollbar-thumb {
+    background: rgba(247, 168, 79, 0.3);
+    border-radius: 8px;
+  }
+
+  .custom-cyber-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+  }
+</style>
+
+<div class="page-content-wrapper py-3">
+  <div class="page-content container-fluid px-2 px-md-3">
 
     <div class="row">
-      <div class="col-lg-8 mx-auto">
+      <div class="col-lg-10 col-xl-9 mx-auto">
 
-        <div class="card radius-10">
-          <div class="card-body">
+        <div class="tech-card p-4 p-md-5">
+          <div class="card-body p-0">
 
-            <!-- ================= FOTO PERFIL ================= -->
-            <div class="mb-4 d-flex flex-column align-items-center justify-content-center">
-              <div class="user-change-photo shadow">
+            <!-- ================= FOTO PERFIL & HEADER ================= -->
+            <div class="d-flex flex-column align-items-center justify-content-center mb-4">
+              <div class="user-avatar-wrapper mb-3">
                 {% if profile.photo %}
-                  <img 
-                    src="{{ profile.photo.url }}" 
-                    alt="Foto de perfil"
-                    width="120"
-                    class="rounded-circle"
-                  >
+                  <img src="{{ profile.photo.url }}" alt="Foto de perfil">
                 {% else %}
-                  <img 
-                    src="{% static 'assets/images/default.png' %}" 
-                    alt="Foto de perfil"
-                    width="120"
-                    class="rounded-circle"
-                  >
+                  <img src="{% static 'assets/images/default.png' %}" alt="Foto de perfil">
                 {% endif %}
               </div>
+              <span class="tech-badge-orange mb-1">// FICHA DE USUARIOS & ACTIVOS ITC</span>
+              <h3 class="text-white fw-bold mb-0">{{ profile.nombre_completo|default:profile.user.username }}</h3>
+              <p class="text-muted font-monospace small mb-0">{{ profile.cargo_usuario|default:"Usuario ITC" }} · {{ profile.nombre_empresa }}</p>
             </div>
 
-            <!-- ================= NEGOCIO ================= -->
-            <hr>
-
-            <h5 class="mt-4">
-              <ion-icon name="cloud-upload-outline"></ion-icon>
-              Negocio ITC
-            </h5>
-
-            <hr>
-
-            <div class="row g-3">
-
-              <div class="col-md-6">
-                <p><strong>Usuario:</strong> {{ profile.user.username }}</p>
-                <p><strong>Teléfono:</strong> {{ profile.telefono }}</p>
-                <p><strong>Provincia:</strong> {{ profile.provincia }}</p>
-                <p><strong>Dirección:</strong> {{ profile.direccion_empresa }}</p>
-              </div>
-
-              <div class="col-md-6">
-                <p><strong>Empresa:</strong> {{ profile.nombre_empresa }}</p>
-                <p><strong>Nombre:</strong> {{ profile.nombre_completo }}</p>
-                <p><strong>Cargo:</strong> {{ profile.cargo_usuario }}</p>
-                <p><strong>Sector:</strong> {{ profile.sector_negocio }}</p>
-              </div>
-
+            <!-- ================= SECCIÓN 1: DATOS DEL NEGOCIO ================= -->
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2 mt-4">
+              <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                <ion-icon name="cloud-upload-outline" class="accent-text"></ion-icon>
+                Negocio ITC & Entidad Corporativa
+              </h5>
+              <span class="font-monospace text-muted small">// ACCOUNT DATA</span>
             </div>
 
-            <!-- ================= ESCALABILIDAD ================= -->
-            <hr>
+            <div class="tech-card-subtle p-3 p-md-4 mb-4">
+              <div class="row g-3 font-monospace small">
+                <div class="col-12 col-md-6 border-end border-secondary border-opacity-10 pe-md-3">
+                  <div class="mb-2"><span class="text-muted">// Usuario Sistema:</span> <strong class="text-white">{{ profile.user.username }}</strong></div>
+                  <div class="mb-2"><span class="text-muted">// Teléfono Contacto:</span> <strong class="text-white">{{ profile.telefono|default:"No registrado" }}</strong></div>
+                  <div class="mb-2"><span class="text-muted">// Provincia / Región:</span> <strong class="text-white">{{ profile.provincia|default:"Ecuador" }}</strong></div>
+                  <div class="mb-0"><span class="text-muted">// Dirección Fiscal:</span> <strong class="text-white">{{ profile.direccion_empresa|default:"No registrada" }}</strong></div>
+                </div>
 
-            <h5 class="mt-4">
-              <ion-icon name="stats-chart-outline"></ion-icon>
-              Configuración de Escalabilidad
-            </h5>
-
-            <hr>
-
-            <div class="row g-3">
-
-              <div class="col-md-4">
-                <p>
-                  <strong>Tamaño Empresa:</strong><br>
-                  {{ profile.tamano_empresa }}
-                </p>
+                <div class="col-12 col-md-6 ps-md-3">
+                  <div class="mb-2"><span class="text-muted">// Razón Social:</span> <strong class="accent-text fw-bold">{{ profile.nombre_empresa|default:"SmartQuail Partner" }}</strong></div>
+                  <div class="mb-2"><span class="text-muted">// Rep. Legal:</span> <strong class="text-white">{{ profile.nombre_completo|default:"No registrado" }}</strong></div>
+                  <div class="mb-2"><span class="text-muted">// Cargo / Función:</span> <strong class="text-white">{{ profile.cargo_usuario|default:"Titular" }}</strong></div>
+                  <div class="mb-0"><span class="text-muted">// Sector Económico:</span> <strong class="text-white">{{ profile.sector_negocio|default:"Tecnología e Información" }}</strong></div>
+                </div>
               </div>
-
-              <div class="col-md-4">
-                <p>
-                  <strong>Experiencia Cloud:</strong><br>
-                  {{ profile.nivel_experiencia_cloud }}
-                </p>
-              </div>
-
-              <div class="col-md-4">
-                <p>
-                  <strong>Presupuesto:</strong><br>
-                  $ {{ profile.presupuesto_estimado }}
-                </p>
-              </div>
-
             </div>
 
-            <!-- ================= LICENCIAS ================= -->
-            
+            <!-- ================= SECCIÓN 2: CONFIGURACIÓN DE ESCALABILIDAD ================= -->
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2 mt-4">
+              <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                <ion-icon name="stats-chart-outline" class="accent-text"></ion-icon>
+                Configuración de Escalabilidad Cloud
+              </h5>
+              <span class="font-monospace text-muted small">// CAPACIDADES</span>
+            </div>
 
-            {% if orders %}
-            <hr>
-            <h5 class="mt-4">
-              <ion-icon name="key-outline"></ion-icon>
-              Licencias propietarias ITC
-            </h5>
+            <div class="row g-3 mb-4 font-monospace small">
+              <div class="col-12 col-md-4">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 text-center h-100">
+                  <span class="text-muted d-block mb-1">// Tamaño Empresa</span>
+                  <strong class="text-white fs-6">{{ profile.tamano_empresa|default:"Estándar" }}</strong>
+                </div>
+              </div>
 
-            <hr>
+              <div class="col-12 col-md-4">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 text-center h-100">
+                  <span class="text-muted d-block mb-1">// Experiencia Cloud</span>
+                  <strong class="accent-text fs-6">{{ profile.nivel_experiencia_cloud|default:"Intermedio" }}</strong>
+                </div>
+              </div>
 
-            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+              <div class="col-12 col-md-4">
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 text-center h-100">
+                  <span class="text-muted d-block mb-1">// Presupuesto Estimado</span>
+                  <strong class="text-success fs-6">$ {{ profile.presupuesto_estimado|default:"0.00" }}</strong>
+                </div>
+              </div>
+            </div>
 
-            
+            <!-- ================= SECCIÓN 3: LICENCIAS PROPIETARIAS ================= -->
+            {% if orders or orders_paas %}
+              <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2 mt-4">
+                <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                  <ion-icon name="key-outline" class="accent-text"></ion-icon>
+                  Licencias Propietarias ITC Asignadas
+                </h5>
+                <span class="font-monospace text-muted small">// ACUERDOS SAAS & PAAS</span>
+              </div>
 
+              <div class="custom-cyber-scroll pe-2 mb-4" style="max-height: 320px; overflow-y: auto; overflow-x: hidden;">
+                <!-- SAAS -->
                 {% for order in orders %}
-                  <div class="row g-3 mb-4 p-3 border rounded">
-
-                    <!-- INFO ORDEN -->
-                    <div class="col-md-6">
-
-                      <p class="mb-1">
-                        <strong>
-                          <a href="{% url 'saas_orders:order_detail' order_id=order.id %}">
+                  <div class="tech-card-subtle p-3 mb-3 font-monospace small">
+                    <div class="row g-3 align-items-start">
+                      <div class="col-12 col-md-6 border-end border-secondary border-opacity-10 pe-md-3">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                          <span class="badge bg-primary bg-opacity-25 text-primary" style="font-size: 9px;">SaaS</span>
+                          <a href="{% url 'saas_orders:order_detail' order_id=order.id %}" class="tech-link accent-text fw-bold">
                             SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}
                           </a>
-                        </strong>
-                      </p>
-
-                      <p class="mb-1">
-                        <strong>Fecha:</strong>
-                        {{ order.created|date:"d/m/Y H:i" }}
-                      </p>
-
-                      <p><a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
-
-                      <p class="mb-1">
-                        <strong>Estado:</strong>
-
-                        {% if order.paid %}
-                          <span class="badge bg-success text-dark">
-                            Vigente
-                          </span>
-                        {% else %}
-                          <span class="badge bg-warning">
-                             Pendiente de pago
-                          </span>
-                        {% endif %}
-                      </p>
-
-                    </div>
-
-                    <!-- PRODUCTOS -->
-                    <div class="col-md-6">
-
-                      {% for item in order.items.all %}
-                        <div class="mb-2">
-
-                          <strong>{{ item.product }}</strong><br>
-
-                          <small>
-                            Disponibilidad: {{ item.product.software }}<br>
-                            Inversión: {{ item.price }}
-                          </small>
-
-                                    
-                          {% if order.signed_contract_dev %}
-                            <a href="{{ order.signed_contract_dev.url }}" target="_blank">
-                              Contrato de Implementación y desarrollo
-                            </a><br>
-                          {% endif %}
-                        
-                          {% if order.signed_contract_cloud %}
-                            <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
-                              Contrato de alquiler de recursos tecnológicos
-                            </a>
-                          {% endif %}
-                       
-
                         </div>
-
-                      {% empty %}
-
-                        <p class="text-muted">
-                          Sin productos
-                        </p>
-
-                      {% endfor %}
-                      {% if order.coupon %}
-                      <p>
-                        Convenio: {{ order.coupon }}
-                      </p>
-                    {% endif %}
-
-                    </div>
-
-                  </div>
-                {% endfor %}
-
-                {% for order in orders_paas %}
-                <div class="row g-3 mb-4 p-3 border rounded">
-
-                  <!-- INFO ORDEN -->
-                  <div class="col-md-6">
-
-                    <p class="mb-1">
-                      <strong>
-                        <a href="{% url 'paas_orders:order_detail' order_id=order.id %}">
-                          SQ02-PLT-15{{ order.id }}-QND0501{{ order.id }}
-                        </a>
-                      </strong>
-                    </p>
-
-                    <p class="mb-1">
-                      <strong>Fecha:</strong>
-                      {{ order.created|date:"d/m/Y H:i" }}
-                    </p>
-
-                    <p><a href="{% url 'paas_orders:admin_ebook_pdf' order_id=order.id %}">ISO/IEC 27000</a></p>
-
-                    <p class="mb-1">
-                      <strong>Estado:</strong>
-
-                      {% if order.paid %}
-                        <span class="badge bg-success text-dark">
-                          Vigente
-                        </span>
-                      {% else %}
-                        <span class="badge bg-warning">
-                           Pendiente de pago
-                        </span>
-                      {% endif %}
-                    </p>
-
-                  </div>
-
-                  <!-- PRODUCTOS -->
-                  <div class="col-md-6">
-
-                    {% for item in order.items.all %}
-                      <div class="mb-2">
-
-                        <strong>{{ item.product }}</strong><br>
-
-                        <small>
-                          Disponibilidad: {{ item.product.software }}<br>
-                          Inversión: {{ item.price }}
-                        </small>
-
-                                  
-                        {% if order.signed_contract_dev %}
-                          <a href="{{ order.signed_contract_dev.url }}" target="_blank">
-                            Contrato de Implementación y desarrollo
-                          </a><br>
-                        {% endif %}
-                      
-                        {% if order.signed_contract_cloud %}
-                          <a href="{{ order.signed_contract_cloud.url }}" target="_blank">
-                            Contrato de alquiler de recursos tecnológicos
-                          </a>
-                        {% endif %}
-                     
-
+                        <div class="text-muted">// Fecha: <strong class="text-white">{{ order.created|date:"d/m/Y H:i" }}</strong></div>
+                        <div>// Norma: <a href="{% url 'saas_orders:admin_ebook_pdf' order_id=order.id %}" class="tech-contract-link">ISO/IEC 27000</a></div>
+                        <div class="mt-2">
+                          Estado: 
+                          {% if order.paid %}
+                            <span class="tech-badge-green"><ion-icon name="checkmark-circle-outline"></ion-icon> Vigente</span>
+                          {% else %}
+                            <span class="tech-badge-warning"><ion-icon name="time-outline"></ion-icon> Pendiente de pago</span>
+                          {% endif %}
+                        </div>
                       </div>
 
-                    {% empty %}
+                      <div class="col-12 col-md-6 ps-md-3">
+                        {% for item in order.items.all %}
+                          <div class="mb-2">
+                            <strong class="text-white">{{ item.product }}</strong><br>
+                            <span class="text-muted">Software: {{ item.product.software }} | Inversión: <span class="accent-text">${{ item.price }}</span></span><br>
 
-                      <p class="text-muted">
-                        Sin productos
-                      </p>
-
-                    {% endfor %}
-                    {% if order.coupon %}
-                    <p>
-                      Convenio: {{ order.coupon }}
-                    </p>
-                  {% endif %}
-
-                  </div>
-
-                </div>
-              {% endfor %}
-
-
-
-            </div>
-
-            {% else %}
-
-     
-
-          {% endif %}
-
-            <!-- ================= ACTIVOS ================= -->
-            <hr>
-
-            <h5 class="mt-4">
-              <ion-icon name="cloud-download-outline"></ion-icon>
-              Activos ITC
-            </h5>
-
-            <hr>
-
-            <div style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
-
-              {% if projects %}
-
-                {% for project in projects %}
-                  <div class="row g-3 mb-4 p-3 border rounded">
-
-                    <!-- INFO PROYECTO -->
-                    <div class="col-md-6">
-
-                      <p class="mb-1">
-                        <strong>
-                          <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}">
-                            {{ project.name }}
-                          </a>
-                        </strong><br>
-                        {% for member in project.crew_members.all %}
-                        {{ member }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                      </p>
-
-
-                      <p class="mb-1">
-
-                        {% for member in project.crew_members.all %}
-                        <strong>
-                          Equipo encargado:
-                        </strong><br>
-                        {{ member }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                      </p>
-
-                      <p class="mb-1">
-                        <strong>Fecha:</strong>
-                        {{ project.created_at|date:"d/m/Y H:i" }}
-                      </p>
-                      <p>
-                        Centro de datos: público compartido <br>
-                      </p>
-                      <p>
-     
-                      
-                      </p>
-                      <p class="mb-1">
-                        <strong>Estado:</strong>
-
-                        {% if project.is_active %}
-                          <span class="badge bg-success">
-                            Producción
-                          </span>
-                        {% else %}
-                          <span class="badge bg-secondary">
-                            No disponible
-                          </span>
-                        {% endif %}
-                      </p>
-
-                    </div>
-
-                    <!-- DOMINIO -->
-                    <div class="col-md-6">
-
-                      {% if project.domain_name %}
-                        <div class="mb-2">
-
-                          <a href="{{ project.domain_name }}" target="_blank">
-                            <strong>
-                              {{ project.domain_name }}
-                              <ion-icon name="open-outline"></ion-icon>
-                            </strong>
-                          </a>
-                          <p>
-                            Base de Datos: {{ project.db_name }} <br>
-                            Cifrado: SSL/TTL <br>
-                            Implementación y Desarollo (i+D) <br>
-                            {% if project.has_automation %}
-                            Automatización (+A) <br>
-                            {% elif project.has_ai %}
-                            Inteligencia Artificial (+IA) <br>
-                            {% elif project.has_llm %}
-                            Modelo de lenguaje natural (+LLM) <br>
+                            {% if order.signed_contract_dev %}
+                              <a href="{{ order.signed_contract_dev.url }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1 mt-1">
+                                <ion-icon name="document-text-outline"></ion-icon> Contrato I+D
+                              </a><br>
                             {% endif %}
 
+                            {% if order.signed_contract_cloud %}
+                              <a href="{{ order.signed_contract_cloud.url }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1">
+                                <ion-icon name="cloud-done-outline"></ion-icon> Contrato Nube
+                              </a>
+                            {% endif %}
+                          </div>
+                        {% empty %}
+                          <span class="text-muted">// Sin productos en la orden.</span>
+                        {% endfor %}
 
-
-                          </p>
-             
-
-                        </div>
-                      {% else %}
-
-                        <p class="text-muted">
-                          Sin dominio asignado
-                        </p>
-
-                      {% endif %}
-
+                        {% if order.coupon %}
+                          <div class="text-muted mt-1">Convenio: <strong class="accent-text">{{ order.coupon }}</strong></div>
+                        {% endif %}
+                      </div>
                     </div>
-
                   </div>
                 {% endfor %}
 
-              {% else %}
+                <!-- PAAS -->
+                {% for order in orders_paas %}
+                  <div class="tech-card-subtle p-3 mb-3 font-monospace small">
+                    <div class="row g-3 align-items-start">
+                      <div class="col-12 col-md-6 border-end border-secondary border-opacity-10 pe-md-3">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                          <span class="badge bg-info bg-opacity-25 text-info" style="font-size: 9px;">PaaS</span>
+                          <a href="{% url 'paas_orders:order_detail' order_id=order.id %}" class="tech-link accent-text fw-bold">
+                            SQ02-PLT-15{{ order.id }}-QND0501{{ order.id }}
+                          </a>
+                        </div>
+                        <div class="text-muted">// Fecha: <strong class="text-white">{{ order.created|date:"d/m/Y H:i" }}</strong></div>
+                        <div>// Norma: <a href="{% url 'paas_orders:admin_ebook_pdf' order_id=order.id %}" class="tech-contract-link">ISO/IEC 27000</a></div>
+                        <div class="mt-2">
+                          Estado: 
+                          {% if order.paid %}
+                            <span class="tech-badge-green"><ion-icon name="checkmark-circle-outline"></ion-icon> Vigente</span>
+                          {% else %}
+                            <span class="tech-badge-warning"><ion-icon name="time-outline"></ion-icon> Pendiente de pago</span>
+                          {% endif %}
+                        </div>
+                      </div>
 
-                <p class="text-muted">
-                  No tiene  activos asociados a esta cuenta.
-                  Si  dispone de una licencia válida, por favor crear un activo.
-                </p>
+                      <div class="col-12 col-md-6 ps-md-3">
+                        {% for item in order.items.all %}
+                          <div class="mb-2">
+                            <strong class="text-white">{{ item.product }}</strong><br>
+                            <span class="text-muted">Software: {{ item.product.software }} | Inversión: <span class="accent-text">${{ item.price }}</span></span><br>
 
-              {% endif %}
+                            {% if order.signed_contract_dev %}
+                              <a href="{{ order.signed_contract_dev.url }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1 mt-1">
+                                <ion-icon name="document-text-outline"></ion-icon> Contrato I+D
+                              </a><br>
+                            {% endif %}
 
+                            {% if order.signed_contract_cloud %}
+                              <a href="{{ order.signed_contract_cloud.url }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1">
+                                <ion-icon name="cloud-done-outline"></ion-icon> Contrato Nube
+                              </a>
+                            {% endif %}
+                          </div>
+                        {% empty %}
+                          <span class="text-muted">// Sin productos en la orden.</span>
+                        {% endfor %}
+
+                        {% if order.coupon %}
+                          <div class="text-muted mt-1">Convenio: <strong class="accent-text">{{ order.coupon }}</strong></div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <!-- ================= SECCIÓN 4: ACTIVOS ITC ================= -->
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2 mt-4">
+              <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                <ion-icon name="cloud-download-outline" class="accent-text"></ion-icon>
+                Activos ITC Vinculados
+              </h5>
+              <span class="font-monospace text-muted small">// INFRASTRUCTURE ASSETS</span>
             </div>
 
-            <!-- ================= GOBERNANZA ================= -->
-            <hr>
-
-            <h5 class="mt-4">
-              <ion-icon name="shield-checkmark-outline"></ion-icon>
-              Gobernanza ITC
-            </h5>
-
-            <hr>
-
-         
-         
-
+            <div class="custom-cyber-scroll pe-2 mb-4" style="max-height: 320px; overflow-y: auto; overflow-x: hidden;">
               {% if projects %}
-
-              {% for project in projects %}
-          
-                  {% if project.nombre_responsable or project.nombre_encargado or project.nombre_delegado or project.politicas_privacidad %}
-          
-                      <div class="row g-3 mb-4 p-3 border rounded">
-          
-                          <!-- RESPONSABLES -->
-                          <div class="col-md-6">
-          
-                              {% if project.nombre_responsable %}
-                                  <p class="mb-1">
-                                      <strong>
-                                          Responsable  de datos personales:
-                                      </strong>
-                                      {{ project.nombre_responsable }}
-                                  </p>
-                              {% endif %}
-          
-                              {% if project.nombre_encargado %}
-                                  <p class="mb-1">
-                                      <strong>
-                                          Encargado de datos personales:
-                                      </strong>
-                                      {{ project.nombre_encargado }}
-                                  </p>
-                              {% endif %}
-          
-                              {% if project.nombre_delegado %}
-                                  <p class="mb-1">
-                                      <strong>
-                                          Delegado  de datos personales:
-                                      </strong>
-                                      {{ project.nombre_delegado }}
-                                  </p>
-                              {% endif %}
-                              <p class="mb-1">
-                                <strong>Última actualización:</strong>
-                                {{ project.created_at|date:"d/m/Y H:i" }}
-                            </p>
-          
-                          </div>
-          
-                          <!-- POLÍTICAS -->
-                          <div class="col-md-6">
-          
-                              {% if project.politicas_privacidad %}
-                                  <p>
-                                      <strong>
-                                          Políticas de privacidad y condiciones de uso:
-                                      </strong><br>
-          
-                                      <a href="{{ project.politicas_privacidad }}" target="_blank">
-                                          {{ project.politicas_privacidad }}<br>
-                                      </a>
-
-                                      {% for order in orders %}
-                                      {% if order.signed_contract_ip %}
-                                        <a href="{{ order.signed_contract_ip.url }}" target="_blank">
-                                          Contrato de propiedad intelectual y Derechos de autoría
-                                        </a><br>
-                                      {% endif %}
-                                      {% endfor %}
-
-
-
-                                  </p>
-   
-
-      
-                              {% else %}
-          
-                                  <p class="text-muted">
-                                      Sin políticas registradas.
-                                  </p>
-          
-                              {% endif %}
-          
-
-          
-                          </div>
-          
+                {% for project in projects %}
+                  <div class="tech-card-subtle p-3 mb-3 font-monospace small">
+                    <div class="row g-3 align-items-start">
+                      <div class="col-12 col-md-6 border-end border-secondary border-opacity-10 pe-md-3">
+                        <h6 class="fw-bold mb-1">
+                          <a href="{% url 'business_customer_projects:project_detail' pk=project.id %}" class="tech-link accent-text">
+                            {{ project.name }}
+                          </a>
+                        </h6>
+                        <div class="text-muted mb-1">// Equipo Encargado: 
+                          <span class="text-white">
+                            {% for member in project.crew_members.all %}
+                              {{ member }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                              No asignado
+                            {% endfor %}
+                          </span>
+                        </div>
+                        <div class="text-muted mb-2">// Fecha Despliegue: <strong class="text-white">{{ project.created_at|date:"d/m/Y H:i" }}</strong></div>
+                        <div>
+                          Estado: 
+                          {% if project.is_active %}
+                            <span class="tech-badge-green"><span class="spinner-grow spinner-grow-sm text-success" style="width:6px;height:6px;"></span> Producción</span>
+                          {% else %}
+                            <span class="tech-badge-secondary"><ion-icon name="pause-circle-outline"></ion-icon> No disponible</span>
+                          {% endif %}
+                        </div>
                       </div>
-          
-                  {% else %}
-          
-                    
-                          No hay gobernanza asignada a este activo.
-               
-          
-                  {% endif %}
-          
-              {% endfor %}
-          
-          {% else %}
-          
-              <p class="text-muted">
-                  No existen registros de gobernanza.
-              </p>
-          
-          {% endif %}
 
-      
+                      <div class="col-12 col-md-6 ps-md-3">
+                        {% if project.domain_name %}
+                          <div class="mb-2">
+                            <span class="text-muted d-block small">// DOMINIO OFICIAL:</span>
+                            <a href="{{ project.domain_name }}" target="_blank" class="tech-contract-link fw-bold d-inline-flex align-items-center gap-1">
+                              {{ project.domain_name }} <ion-icon name="open-outline"></ion-icon>
+                            </a>
+                          </div>
+                          <div class="p-2 rounded bg-dark border border-secondary border-opacity-10 mb-2">
+                            <div class="text-muted">Base de Datos: <strong class="text-white">{{ project.db_name }}</strong></div>
+                            <div class="text-muted">Cifrado: <strong class="text-success">SSL/TLS Active</strong></div>
+                          </div>
+                          <div class="d-flex flex-wrap gap-1">
+                            <span class="tech-badge-orange" style="font-size: 10px;">I+D Core</span>
+                            {% if project.has_automation %}<span class="tech-badge-synthex" style="font-size: 10px;">+A (Synthex)</span>{% endif %}
+                            {% if project.has_ai %}<span class="tech-badge-ia" style="font-size: 10px;">+IA (Agéntica)</span>{% endif %}
+                            {% if project.has_llm %}<span class="tech-badge-ia" style="font-size: 10px; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">+LLM Natural</span>{% endif %}
+                          </div>
+                        {% else %}
+                          <span class="text-muted">// Sin dominio asignado.</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <div class="p-3 text-center font-monospace text-muted bg-dark rounded border border-secondary border-opacity-10">
+                  // No dispone de activos asociados actualmente a su cuenta.
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- ================= SECCIÓN 5: GOBERNANZA ITC & LOPDP ================= -->
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2 mt-4">
+              <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                <ion-icon name="shield-checkmark-outline" class="accent-text"></ion-icon>
+                Gobernanza ITC & Cumplimiento LOPDP
+              </h5>
+              <span class="font-monospace text-muted small">// DATA PROTECTION</span>
+            </div>
+
+            <div class="custom-cyber-scroll pe-2" style="max-height: 320px; overflow-y: auto; overflow-x: hidden;">
+              {% if projects %}
+                {% for project in projects %}
+                  {% if project.nombre_responsable or project.nombre_encargado or project.nombre_delegado or project.politicas_privacidad %}
+                    <div class="tech-card-subtle p-3 mb-3 font-monospace small">
+                      <div class="row g-3 align-items-start">
+
+                        <!-- RESPONSABLES -->
+                        <div class="col-12 col-md-6 border-end border-secondary border-opacity-10 pe-md-3">
+                          <h6 class="text-white fw-bold mb-2">// Proyecto: {{ project.name }}</h6>
+
+                          {% if project.nombre_responsable %}
+                            <div class="mb-1"><span class="text-muted">Responsable Datos:</span> <strong class="text-white">{{ project.nombre_responsable }}</strong></div>
+                          {% endif %}
+
+                          {% if project.nombre_encargado %}
+                            <div class="mb-1"><span class="text-muted">Encargado Datos:</span> <strong class="text-white">{{ project.nombre_encargado }}</strong></div>
+                          {% endif %}
+
+                          {% if project.nombre_delegado %}
+                            <div class="mb-1"><span class="text-muted">Delegado Datos:</span> <strong class="text-white">{{ project.nombre_delegado }}</strong></div>
+                          {% endif %}
+
+                          <div class="text-muted mt-2">// Última actualización: <strong class="text-white">{{ project.created_at|date:"d/m/Y H:i" }}</strong></div>
+                        </div>
+
+                        <!-- POLÍTICAS Y CONTRATOS IP -->
+                        <div class="col-12 col-md-6 ps-md-3">
+                          {% if project.politicas_privacidad %}
+                            <div class="mb-2">
+                              <span class="text-muted d-block mb-1">// Políticas de Privacidad y Términos:</span>
+                              <a href="{{ project.politicas_privacidad }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1">
+                                {{ project.politicas_privacidad }} <ion-icon name="open-outline"></ion-icon>
+                              </a>
+                            </div>
+
+                            {% for order in orders %}
+                              {% if order.signed_contract_ip %}
+                                <a href="{{ order.signed_contract_ip.url }}" target="_blank" class="tech-contract-link d-inline-flex align-items-center gap-1 mt-1">
+                                  <ion-icon name="document-text-outline"></ion-icon>
+                                  Contrato de Propiedad Intelectual y Derechos
+                                </a><br>
+                              {% endif %}
+                            {% endfor %}
+                          {% else %}
+                            <span class="text-muted">// Sin políticas registradas.</span>
+                          {% endif %}
+                        </div>
+
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="p-3 text-center font-monospace text-muted bg-dark rounded border border-secondary border-opacity-10 mb-2">
+                      // No hay gobernanza asignada activamente a este activo.
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <div class="p-3 text-center font-monospace text-muted bg-dark rounded border border-secondary border-opacity-10">
+                  // No existen registros de gobernanza asignados.
+                </div>
+              {% endif %}
+            </div>
 
           </div>
         </div>
@@ -542,8 +523,4 @@
   </div>
 </div>
 
-
-
-
- 
 {% endblock %}

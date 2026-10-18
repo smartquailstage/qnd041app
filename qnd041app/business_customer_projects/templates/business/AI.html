@@ -1,149 +1,342 @@
 {% load widget_tweaks %}
 {% load static %}
 
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  /* Tarjetas Cyber/Tech */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.25s ease;
+  }
+
+  .tech-card-subtle:hover {
+    border-color: rgba(247, 168, 79, 0.3);
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Badges tecnológicos monospaciados */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-gpu {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    font-family: monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  .tech-badge-green {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Widget de Icono de Telemetría IA */
+  .widget-icon-cyber {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #c084fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  /* Fotograma Avatar Cyber */
+  .avatar-cyber {
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.2);
+  }
+
+  /* Scrollbar personalizado */
+  .custom-ai-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-ai-scroll::-webkit-scrollbar-track {
+    background: #1a1a1b;
+    border-radius: 8px;
+  }
+
+  .custom-ai-scroll::-webkit-scrollbar-thumb {
+    background: rgba(247, 168, 79, 0.3);
+    border-radius: 8px;
+  }
+
+  .custom-ai-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+  }
+
+  /* Enlace de botón Cyber */
+  .btn-cyber-outline {
+    background: rgba(247, 168, 79, 0.05);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-cyber-outline:hover {
+    background: var(--accent-orange);
+    color: #1e1e1f;
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.3);
+  }
+</style>
 
 <div class="tab-pane fade" id="tab-ia" role="tabpanel">
-  <hr class="my-4">
-  <div class="card radius-10">
-    <div class="card-body">
-      <div class="row">
+  
+  <div class="tech-card p-3 p-md-4 mb-4">
+    <div class="row g-4">
 
-        <!-- BLOQUE PRINCIPAL -->
-        <div class="col-12 col-xl-8 d-flex">
-          <div class="card radius-10 w-100">
-            <div class="card-body" style="background-color: rgb(46, 46, 46); border-radius: 25px;">
+      <!-- BLOQUE PRINCIPAL: AGENTES Y MODELOS IA -->
+      <div class="col-12 col-xl-8 d-flex">
+        <div class="tech-card-subtle p-3 p-md-4 w-100 d-flex flex-column justify-content-between">
+          
+          <div>
+            <!-- HEADER DE SECCIÓN -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <div>
+                <span class="tech-badge-orange mb-2 d-inline-block">// CAPA AGÉNTICA & MODELOS DE IA</span>
+                <h4 class="text-white fw-bold mb-0">
+                  Inteligencia Artificial y Agentes en: <span class="accent-text">{{ project.name }}</span>
+                </h4>
+              </div>
+            </div>
 
-              <h5>
-                <ion-icon name="hardware-chip-outline"></ion-icon>
-                Inteligencia Artificial y Agentes en: {{ project.name }}
-              </h5>
+            <!-- DASHBOARD DE METRICAS KPI IA -->
+            <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 d-flex flex-column flex-lg-row align-items-lg-center justify-content-lg-between gap-3 mb-4 font-monospace">
 
-              <!-- KPI -->
-              <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle bg-light-success text-success">
-                    <ion-icon name="layers-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_intelligents }}</h4>
-                    <p class="mb-0 text-secondary">Total Modelos AI</p>
-                  </div>
+              <!-- Total Modelos -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="widget-icon-cyber">
+                  <ion-icon name="layers-outline"></ion-icon>
                 </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle bg-light-info text-info">
-                    <ion-icon name="pulse-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ completed_intelligents }}</h4>
-                    <p class="mb-0 text-secondary">Completados</p>
-                  </div>
-                </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle bg-light-warning text-warning">
-                    <ion-icon name="cog-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_intelligents|add:"-"|add:completed_intelligents }}</h4>
-                    <p class="mb-0 text-secondary">En progreso</p>
-                  </div>
+                <div>
+                  <h3 class="text-white fw-bold mb-0">{{ total_intelligents }}</h3>
+                  <p class="mb-0 text-muted small">// Total Modelos AI</p>
                 </div>
               </div>
 
-              <!-- LISTADO DETALLADO -->
-              <div class="row g-4 align-items-center mt-4">
-                <div class="col-12" style="max-height: 300px; overflow-y: auto;">
-                  {% for ai in intelligents %}
-                    <div class="d-flex align-items-start mb-3">
-                      <div class="review-user">
-                        {% if ai.assigned_developer.profile_picture %}
-                          <img src="{{ ai.assigned_developer.profile_picture.url }}" width="65" height="65" class="rounded-circle" alt="{{ ai.assigned_developer.full_name }}" />
-                        {% else %}
-                          <img src="{% static 'images/default-profile.png' %}" width="65" height="65" class="rounded-circle" alt="Sin foto"/>
-                        {% endif %}
-                      </div>
-                      <div class="review-content ms-3">
-                        <div class="d-flex align-items-center mb-2">
-                          <h6 class="mb-0">{{ ai.name }}</h6>
-                          {% if ai.requires_gpu %}
-                            <span class="badge bg-danger ms-2">GPU</span>
-                          {% endif %}
-                        </div>
-                        <small>Tipo AI: {{ ai.get_ai_type_display }}</small><br>
-                        <div class="progress my-2" style="height: 7px;">
-                          <div class="progress-bar {% if ai.progress == 100 %}bg-success{% else %}bg-warning{% endif %}" 
-                               role="progressbar" style="width: {{ ai.progress }}%;" 
-                               aria-valuenow="{{ ai.progress }}" aria-valuemin="0" aria-valuemax="100">
-                          </div>
-                        </div>
-                        <small>Progreso: {{ ai.progress }}%</small>
-                        {% if ai.model_accuracy %}
-                          <br><small>Precisión: {{ ai.model_accuracy }}%</small>
-                        {% endif %}
-                        {% if ai.technical_notes %}
-                          <p class="mt-1 text-muted">{{ ai.technical_notes|truncatewords:20 }}</p>
-                        {% endif %}
-                        {% if ai.final_url %}
-                          <a href="{{ ai.final_url }}" target="_blank" class="btn btn-sm btn-primary mt-1">Ver Resultado</a>
-                        {% endif %}
-                      </div>
-                    </div>
-                    <hr/>
-                  {% empty %}
-                    <p class="text-muted">No hay modelos de Inteligencia Artificial asignados a este proyecto.</p>
-                  {% endfor %}
+              <div class="vr d-none d-lg-block bg-secondary opacity-25" style="height: 40px;"></div>
+
+              <!-- Completados -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="widget-icon-cyber" style="color: #34d399; background: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.3);">
+                  <ion-icon name="pulse-outline"></ion-icon>
+                </div>
+                <div>
+                  <h3 class="text-success fw-bold mb-0">{{ completed_intelligents }}</h3>
+                  <p class="mb-0 text-muted small">// Completados</p>
+                </div>
+              </div>
+
+              <div class="vr d-none d-lg-block bg-secondary opacity-25" style="height: 40px;"></div>
+
+              <!-- En Progreso -->
+              <div class="d-flex align-items-center gap-3">
+                <div class="widget-icon-cyber" style="color: #facc15; background: rgba(250, 204, 21, 0.1); border-color: rgba(250, 204, 21, 0.3);">
+                  <ion-icon name="cog-outline"></ion-icon>
+                </div>
+                <div>
+                  <h3 class="text-warning fw-bold mb-0">{{ total_intelligents|add:"-"|add:completed_intelligents }}</h3>
+                  <p class="mb-0 text-muted small">// En Progreso</p>
                 </div>
               </div>
 
             </div>
-          </div>
-        </div>
 
-        <!-- BLOQUE LATERAL DE RESUMEN -->
-        <div class="col-12 col-xl-4 d-flex">
-          <div class="card radius-10 overflow-hidden w-100">
-            <div class="card-body" style="background-color: rgb(46,46,46); border-radius:25px;">
-              
-              <div class="card radius-10 w-100 mb-3">
-                <div class="card-body">
-                  <h5 class="mb-2">Equipo Responsable de AI</h5>
-                  <div class="d-flex gap-3 flex-wrap">
-                    {% for ai in intelligents %}
-                      {% if ai.assigned_developer %}
-                        <div class="review-user text-center">
-                          {% if ai.assigned_developer.profile_picture %}
-                            <img src="{{ ai.assigned_developer.profile_picture.url }}" class="rounded-circle" width="65" height="65">
-                          {% else %}
-                            <img src="{% static 'images/default-profile.png' %}" class="rounded-circle" width="65" height="65">
+            <!-- LISTADO DETALLADO DE MODELOS DE IA CON SCROLLBAR CYBER -->
+            <div class="custom-ai-scroll pe-2" style="max-height: 400px; overflow-y: auto;">
+              {% for ai in intelligents %}
+                <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 mb-3">
+                  <div class="d-flex align-items-start gap-3">
+
+                    <!-- Foto del desarrollador/responsable de IA -->
+                    <div class="review-user flex-shrink-0">
+                      {% if ai.assigned_developer.profile_picture %}
+                        <img src="{{ ai.assigned_developer.profile_picture.url }}" width="56" height="56" class="rounded-circle avatar-cyber" alt="{{ ai.assigned_developer.full_name }}" />
+                      {% else %}
+                        <img src="{% static 'images/default-profile.png' %}" width="56" height="56" class="rounded-circle avatar-cyber" alt="Sin foto"/>
+                      {% endif %}
+                    </div>
+
+                    <!-- Contenido del Agente / Modelo -->
+                    <div class="review-content flex-grow-1">
+                      
+                      <!-- Header con Título, Badge de GPU y Tipo de IA -->
+                      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
+                        <div class="d-flex align-items-center gap-2">
+                          <h6 class="text-white fw-bold mb-0">{{ ai.name }}</h6>
+                          {% if ai.requires_gpu %}
+                            <span class="tech-badge-gpu d-inline-flex align-items-center gap-1">
+                              <ion-icon name="hardware-chip-outline"></ion-icon> REQUIERE GPU
+                            </span>
                           {% endif %}
-                          <p class="mb-0 fw-bold" style="font-size: 13px;">{{ ai.assigned_developer.full_name }}</p>
-                          <p class="mb-0 text-muted" style="font-size: 9px;">{{ ai.assigned_developer.get_role_display }}</p>
+                        </div>
+
+                        <span class="tech-badge-ia" style="font-size: 10px;">
+                          Tipo: {{ ai.get_ai_type_display }}
+                        </span>
+                      </div>
+
+                      <!-- Barra de Progreso del Modelo -->
+                      <div class="d-flex justify-content-between align-items-center font-monospace small my-1">
+                        <span class="text-muted">// PROGRESO DEL ENTRENAMIENTO:</span>
+                        <span class="accent-text fw-bold">{{ ai.progress }}%</span>
+                      </div>
+                      <div class="progress mb-2" style="height: 6px; background-color: #1a1a1b;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated {% if ai.progress == 100 %}bg-success{% else %}bg-warning{% endif %}" 
+                             role="progressbar" style="width: {{ ai.progress }}%;" 
+                             aria-valuenow="{{ ai.progress }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+
+                      <!-- Precisión y Notas Técnicas -->
+                      <div class="font-monospace small mb-2">
+                        {% if ai.model_accuracy %}
+                          <span class="text-info me-3">// Precisión del Modelo: <strong>{{ ai.model_accuracy }}%</strong></span>
+                        {% endif %}
+                      </div>
+
+                      {% if ai.technical_notes %}
+                        <p class="text-light opacity-75 small mb-2 font-monospace lh-sm" style="color: #cbd5e1 !important;">
+                          {{ ai.technical_notes|truncatewords:20 }}
+                        </p>
+                      {% endif %}
+
+                      {% if ai.final_url %}
+                        <div class="mt-2">
+                          <a href="{{ ai.final_url }}" target="_blank" class="btn-cyber-outline d-inline-flex align-items-center gap-1">
+                            <ion-icon name="open-outline"></ion-icon>
+                            <span>Explorar Agente / Modelo en Vivo</span>
+                          </a>
                         </div>
                       {% endif %}
-                    {% endfor %}
+
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              <div class="card border shadow-none radius-10">
-                <div class="card-body">
-                  <h5 class="mb-2">Resumen</h5>
-                  <p>Total Modelos AI: {{ total_intelligents }}</p>
-                  <p>Completados: {{ completed_intelligents }}</p>
-                  <p>En progreso: {{ total_intelligents|add:"-"|add:completed_intelligents }}</p>
-                  <p>Progreso promedio: {{ average_intelligent_progress }}%</p>
-                </div>
-              </div>
-
+                {% empty %}
+                  <p class="text-muted font-monospace p-3 mb-0">// No hay modelos de Inteligencia Artificial o Agentes asignados actualmente a este proyecto.</p>
+                {% endfor %}
             </div>
+
           </div>
         </div>
-
       </div>
+
+      <!-- BLOQUE LATERAL DE RESUMEN Y EQUIPO DE IA -->
+      <div class="col-12 col-xl-4 d-flex">
+        <div class="tech-card-subtle p-3 p-md-4 w-100 d-flex flex-column gap-3">
+          
+          <!-- SECCIÓN 1: EQUIPO DE IA -->
+          <div>
+            <h5 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 d-flex align-items-center gap-2">
+              <ion-icon name="people-outline" class="accent-text"></ion-icon> 
+              Equipo Responsable de AI
+            </h5>
+
+            <div class="d-flex gap-2 flex-wrap justify-content-start">
+              {% for ai in intelligents %}
+                {% if ai.assigned_developer %}
+                  <div class="p-2 rounded bg-dark border border-secondary border-opacity-10 text-center flex-grow-1" style="min-width: 100px;">
+                    {% if ai.assigned_developer.profile_picture %}
+                      <img src="{{ ai.assigned_developer.profile_picture.url }}" class="rounded-circle avatar-cyber mb-1" width="50" height="50">
+                    {% else %}
+                      <img src="{% static 'images/default-profile.png' %}" class="rounded-circle avatar-cyber mb-1" width="50" height="50">
+                    {% endif %}
+                    <h6 class="text-white font-monospace fw-bold mb-0" style="font-size: 11px;">{{ ai.assigned_developer.full_name }}</h6>
+                    <span class="tech-badge-orange d-inline-block px-1 py-0 mt-1" style="font-size: 8px;">
+                      {{ ai.assigned_developer.get_role_display }}
+                    </span>
+                  </div>
+                {% endif %}
+              {% empty %}
+                <p class="text-muted font-monospace small mb-0">// Sin desarrolladores de IA asignados.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- SECCIÓN 2: TARJETA DE RESUMEN TÉCNICO -->
+          <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+            <h6 class="accent-text fw-bold mb-3 border-bottom border-secondary border-opacity-10 pb-2">// RESUMEN DE TELEMETRÍA IA</h6>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Total Modelos AI:</span>
+              <strong class="text-white">{{ total_intelligents }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Completados:</span>
+              <strong class="text-success">{{ completed_intelligents }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">En Progreso:</span>
+              <strong class="text-warning">{{ total_intelligents|add:"-"|add:completed_intelligents }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2 border-top border-secondary border-opacity-10">
+              <span class="text-muted">Progreso Promedio:</span>
+              <strong class="accent-text">{{ average_intelligent_progress }}%</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
+
 </div>
-
-
-
