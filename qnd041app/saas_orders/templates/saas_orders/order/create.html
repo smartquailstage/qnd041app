@@ -3,339 +3,255 @@
 {% load static %}
 
 {% block title %}
-  {% trans "Checkout" %}
+  {% trans "Validación de Licencia y Organización" %}
 {% endblock %}
 
 {% block content %}
 
-
 <style>
-  .step-count-circle {
-  background-color: #b50f15; /* o el color corporativo que uses */
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
-  margin-right: 8px;
-  font-size: 14px;
-}
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas con estilo tecnológico */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Stepper de progreso */
+  .steps-light .step-item {
+    color: var(--text-muted-custom);
+    text-decoration: none;
+  }
+
+  .steps-light .step-item.active .step-count,
+  .steps-light .step-item.current .step-count {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    font-weight: bold;
+  }
+
+  .step-count {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
+
+  /* Inputs estilo consola/terminal */
+  .form-control, .form-select {
+    background-color: #181819 !important;
+    border: 1px solid var(--border-color) !important;
+    color: #ffffff !important;
+    font-family: monospace;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: var(--accent-orange) !important;
+    box-shadow: 0 0 12px rgba(247, 168, 79, 0.2) !important;
+  }
+
+  .form-label {
+    color: #e2e8f0;
+    font-size: 0.88rem;
+    font-family: monospace;
+    margin-bottom: 6px;
+  }
+
+  /* Botones interactivos */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 11px 24px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  /* Caja de Motivación */
+  .motivation-box {
+    background: linear-gradient(135deg, rgba(247, 168, 79, 0.08) 0%, rgba(247, 168, 79, 0.02) 100%);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+  }
 </style>
 
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
-<div class="product-more-info mt-4">
-
-
-
-<div class="card">
-  <div class="card-body p-4" style="color: #ededed;
-    text-align: justify;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    line-height: 1.2;
-    background-color: #2e2e2e;
-    border-radius: 25px;">
-
-    <!-- Tabs -->
-
-
-    <!-- Contenido de las Tabs -->
-    <div class="tab-content pt-3">
-
-      <!-- TAB 1: ORDEN DE COMPRA -->
-      <div class="tab-pane fade show active" id="order" role="tabpanel" aria-labelledby="tab-order">
-        <div class="checkout-details">
-          <div class="card border-0 bg-transparent">
-            <div class="card-body">
-
-              <!-- Progreso de pasos -->
-              <div class="steps steps-light">
-                <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-                  <div class="step-progress"><span class="step-count">1</span></div>
-                </a>
-                <a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
-                  <div class="step-progress"><span class="step-count">2</span></div>
-                </a>
-                <a class="step-item"><div class="step-progress"><span class="step-count">3</span></div></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="card bg-transparent">
-            <div class="card-body">
-              <h3><ion-icon name="lock-open-outline"></ion-icon> Validador de Licencias ITC</h3>
-              <!-- Datos del usuario -->
-              <hr>
-
-            
-              <p>
-                Ingrese sus datos personales o los de su organización/empresa para validar la licencia de implementación y desarrollo de la solución tecnológica seleccionada.
-
-Una vez que complete el formulario, haga clic en “Verificar mis datos”.
-
-              </p>
-              <div class="my-3 border-bottom"></div>
-
-              <div class="form-body">
-                <form action="." method="post" class="order-form row g-3">
-                  {% csrf_token %}
-
-                  <!-- RUC -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.ruc.id_for_label }}">Registro Fiscal (R.U.C) / Número de Identificacion (C.I) </label>
-                    {{ form.ruc }}
-                  </div>
-
-                  <!-- Razon Social -->
-                  <div class="col-md-6">
-                    <label class="form-label" for="{{ form.razon_social.id_for_label }}">Razón Social / Nombre de titular de identificación</label>
-                    {{ form.razon_social }}
-                  </div>
-
-                  <!-- Sector -->
-          
-
-                  <!-- Botones -->
-                  <div class="col-md-6">
-                    <div class="d-grid">
-                      <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i> Ver detalle de producto</a>
-                    </div>
-                  </div>
-
-
-                  <div class="col-md-6">
-                    <div class="d-grid">
-                      <input type="submit" value="{% trans 'Verficar mis datos' %}" class="btn btn-warning btn-ecomm">
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+    <div class="tech-card p-4 p-md-5">
+      
+      <!-- STEPPER DE PROGRESO DE NAVEGACIÓN -->
+      <div class="tech-card-subtle p-3 mb-4">
+        <div class="steps steps-light d-flex justify-content-between align-items-center">
+          <a class="step-item active d-flex align-items-center gap-2" href="{% url 'saas_cart:cart_detail' %}">
+            <div class="step-progress"><span class="step-count">1</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Carrito</span>
+          </a>
+          <a class="step-item active d-flex align-items-center gap-2" href="{% url 'saas_orders:accept_terms' %}">
+            <div class="step-progress"><span class="step-count">2</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Términos Legales</span>
+          </a>
+          <a class="step-item current active d-flex align-items-center gap-2" href="#">
+            <div class="step-progress"><span class="step-count">3</span></div>
+            <span class="font-monospace text-white small d-none d-sm-inline">Validación Organización</span>
+          </a>
         </div>
       </div>
 
-    </div>
-  </div>
-</div>
+      <div class="tech-card-subtle p-4 p-md-5">
 
+        <!-- CABECERA DE IMPACTO Y MENSAJE MOTIVACIONAL -->
+        <div class="text-center mb-4">
+          <span class="tech-badge-orange">// FASE FINAL: REGISTRO DE INFRAESTRUCTURA Y ENTIDAD</span>
+          <h3 class="text-white fw-bold mt-2 d-flex align-items-center justify-content-center gap-2">
+            <ion-icon name="rocket-outline" class="accent-text"></ion-icon> ¡Estás a solo un paso de impulsar tu arquitectura en la nube!
+          </h3>
+        </div>
 
+        <div class="motivation-box p-4 mb-4 text-center">
+          <h6 class="accent-text font-monospace mb-2">
+            <ion-icon name="sparkles-outline" class="me-1"></ion-icon> Queremos conocer un poco más de tu empresa u organización antes de empezar
+          </h6>
+          <p class="text-light opacity-90 small mb-0 lh-base" style="color: #cbd5e1 !important;">
+            Para nosotros en SmartQuail, Inc., cada despliegue es único. Conocer la identidad de tu negocio nos permite dimensionar correctamente los recursos informáticos, aislar tus entornos de procesamiento y garantizar la asignación óptima de tus nodos de servidor bajo estándares de alta disponibilidad y privacidad.
+          </p>
+        </div>
 
-    </div>
+        <hr class="border-secondary opacity-25 my-4">
 
+        <!-- FORMULARIO DE CAPTURA DE DATOS -->
+        <div class="form-body">
+          <form action="." method="post" class="order-form row g-4">
+            {% csrf_token %}
+
+            <!-- RUC / CI -->
+            <div class="col-12 col-md-6">
+              <label class="form-label d-flex align-items-center gap-1" for="{{ form.ruc.id_for_label }}">
+                <ion-icon name="card-outline" class="accent-text"></ion-icon> Registro Fiscal (R.U.C) / C.I
+              </label>
+              {{ form.ruc }}
+              {% if form.ruc.errors %}
+                <div class="text-danger font-monospace small mt-1">{{ form.ruc.errors }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Razon Social -->
+            <div class="col-12 col-md-6">
+              <label class="form-label d-flex align-items-center gap-1" for="{{ form.razon_social.id_for_label }}">
+                <ion-icon name="business-outline" class="accent-text"></ion-icon> Razón Social / Nombre de la Organización o Marca
+              </label>
+              {{ form.razon_social }}
+              {% if form.razon_social.errors %}
+                <div class="text-danger font-monospace small mt-1">{{ form.razon_social.errors }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Sector si existe en el form -->
+            {% if form.sector %}
+            <div class="col-12 col-md-6">
+              <label class="form-label d-flex align-items-center gap-1" for="{{ form.sector.id_for_label }}">
+                <ion-icon name="grid-outline" class="accent-text"></ion-icon> Sector de Negocios
+              </label>
+              {{ form.sector }}
+            </div>
+            {% endif %}
+
+            <!-- Teléfono si existe en el form -->
+            {% if form.telefono %}
+            <div class="col-12 col-md-6">
+              <label class="form-label d-flex align-items-center gap-1" for="{{ form.telefono.id_for_label }}">
+                <ion-icon name="call-outline" class="accent-text"></ion-icon> Teléfono de Contacto Técnico
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-white font-monospace">+593</span>
+                {{ form.telefono }}
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- GARANTÍAS Y SEGURO DE DESPLIEGUE -->
+            <div class="col-12">
+              <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex align-items-center gap-3">
+                <ion-icon name="shield-checkmark-outline" class="fs-2 accent-text flex-shrink-0"></ion-icon>
+                <div class="font-monospace small text-muted">
+                  <span class="text-white fw-bold">PROCESAMIENTO SEGURO:</span> Al hacer clic en "Verificar mis datos", el sistema registrará la trazabilidad de tu orden y preparará tu entorno en la nube bajo cifrado SSL.
+                </div>
+              </div>
+            </div>
+
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="col-12 col-md-6">
+              <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-outline-secondary font-monospace w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+                <ion-icon name="chevron-back-outline"></ion-icon> Ver detalle de producto
+              </a>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <button type="submit" class="btn btn-tech-orange w-100 d-flex align-items-center justify-content-center gap-2">
+                <span>Verificar mis datos e Iniciar</span> <ion-icon name="chevron-forward-outline"></ion-icon>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="text-center mt-5 pt-3 border-top border-secondary border-opacity-10 text-muted font-monospace small">
+          <p class="mb-0">SmartQuail, Inc. — Transformando ideas en innovación segura ® 2026</p>
+        </div>
 
       </div>
+
+    </div>
+
   </div>
-
-
-
-
-
+</div>
 
 {% endblock %}
-
-
-
-     <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-
-
-
-          <!--start shop cart-->
-          <section class="shop-page">
-            <div class="shop-container">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-						<div class="shop-cart">
-							<div class="row">
-								<div class="col-12 col-xl-8">
-									<div class="checkout-details">
-										<div class="card border-0">
-											<div class="card-body">
-												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-														<div class="step-progress"><span class="step-count">1</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cart'></i></div>
-													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
-														<div class="step-progress"><span class="step-count">2</span>
-														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i></div>
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="d-flex align-items-center mb-3">
-													<div class="">
-														<img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-													</div>
-													<div class="ms-3">
-														<h6 class="mb-0">{{ order.first_name  }} {{order.last_name }}</h6>
-														<p class="mb-0">{{ order.email }} </p>
-													</div>
-												</div>
-                        <hr>
-												<div class="">
-													<h2 class="h5 mb-0">Datos de Facturación</h2>
-													<div class="my-3 border-bottom"></div>
-<div class="form-body">
-  <form action="." method="post" class="order-form row g-3">
-    
-    {% csrf_token %}
-    
-    <!-- RUC -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
-      {{ form.ruc }}
-    </div>
-
-    <!-- Razon Social -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización,Negocio o Marca</label>
-      {{ form.razon_social }}
-    </div>
-
-    <!-- Sector -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
-      {{ form.sector }}
-    </div>
-
-    <!-- Teléfono -->
-  <div class="input-group">
-    <span class="input-group-text">+593</span>
-    {{ form.telefono }}
-  </div>
-
-  <!-- Texto explicativo -->
-  <small class="form-text text-muted">
-    Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.
-  </small>
-
-
-    <!-- Dirección de Facturación -->
-    <div class="col-md-12">
-      <h6 class="mb-0 h5">Términos y Condiciones de compra</h6>
-      <div class="my-3 border-bottom"></div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-        <label class="form-check-label" for="gridCheck">He leido y acepto lo terminos y condiciones</label>
-      </div>
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="col-md-6">
-      <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="d-grid">
-        <input type="submit" value="{% trans 'Place order' %}" class="btn btn-primary btn-ecomm">
-      </div>
-    </div>
-  </form>
-</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-<div class="col-12 col-xl-4">
-  <div class="order-summary">
-    <div class="card">
-      <div class="card-body">
-        <!-- Aplicar código de descuento -->
-
-        <!-- Resumen de la orden -->
-     <div class="card">
-  <div class="card-body">
-    <p class="fs-5">Detalle de Compra</p>
-    <div class="my-3 border-top"></div>
-    
-    <!-- Mostrar cada producto en el carrito -->
-    <ul class="list-unstyled">
-      {% for item in cart %}
-        <li class="d-flex align-items-center">
-
-          <div class="ps-3">
-            <h6 class="mb-1">{{ item.product.name }}</h6>
-            <p>{{item.product.description }}</p>
-            <div class="widget-product-meta">
-            </div>
-          </div>
-        </li>
-        <div class="my-3 border-top"></div>
-      {% endfor %}
-    </ul>
-
-    <!-- Mostrar descuento si aplica -->
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-      <div class="my-3 border-top"></div>
-    {% endif %}
-    
-    <!-- Totales -->
-
-
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>Discount</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-    {% endif %}
-    <div class="my-3 border-top"></div>
-    <div class="d-flex justify-content-between">
-      <h5 class="mb-0">Total a pagar</h5>
-      <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-
-
-  </div>
-</div>
-
-							</div>
-							<!--end row-->
-						</div>
-					</div>
-        </div>
-      </div>
-				</section>
-				<!--end shop cart-->
-             
-
-          </div>
-          <!-- end page content-->
-         </div>

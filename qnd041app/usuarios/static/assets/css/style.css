@@ -59,7 +59,7 @@ ion-icon {
 .wrapper .page-content-wrapper {
 
     margin-left: 174px;
-    margin-top: 0px;
+    margin-top: 30px;
     padding-bottom: 20px;
     transition: .3s all;
 
@@ -95,7 +95,7 @@ position: fixed;
   left: 0;
   width: 180px;
   height: 100%;
-  background-color:#282829;
+  background-color:#1e1e1f;
   background-clip: padding-box;
   border-right: 0px solid #f8fafb;
   transition: all .2s;
@@ -114,9 +114,9 @@ position: fixed;
   bottom: 0;
   padding: 0 15px;
   z-index: 5;
-  background-color:#282829;
+  background-color:#1e1e1f;
   border-right: 0px solid #e2e3e4;
-  border-bottom: 1px solid #2e2e2e;
+  border-bottom: 1px solid #1e1e1f;
   transition: all .2s;
 }
 
@@ -385,7 +385,7 @@ position: fixed;
   padding: 0 1.5rem;
   border-bottom: 1px solid rgba(233, 236, 239, 0);
   background-clip: border-box;
-  background: #2e2e2e;
+  background: #1e1e1f;
   z-index: 5;
   transition: 0.3s all;
   box-shadow: none;

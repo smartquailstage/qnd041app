@@ -3,86 +3,191 @@
 {% load static %}
 
 {% block title %}
-  {% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}
-  estsad
+  {% if category %}{{ category.name }}{% else %}{% trans "Catálogo de Productos ITC" %}{% endif %}
 {% endblock %}
 
 {% block content %}
 
-
 <style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas principales */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* PORTADA DE ALTO IMPACTO VISUAL */
+  .catalog-hero-cover {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 220px;
+    background-image: url("{% static 'assets/images/default-cover.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .catalog-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(30, 30, 31, 0.3) 0%, rgba(40, 40, 41, 0.95) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.75rem;
+  }
+
+  /* Pestañas / Nav Pills */
+  .nav-pills .nav-link {
+    color: #cbd5e1;
+    background-color: var(--card-bg-subtle);
+    border: 1px solid var(--border-color);
+    margin-right: 8px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: monospace;
+    transition: all 0.25s ease;
+  }
+
+  .nav-pills .nav-link:hover {
+    color: #ffffff;
+    border-color: var(--accent-orange);
+    background-color: rgba(247, 168, 79, 0.05);
+  }
+
+  .nav-pills .nav-link.active {
+    background-color: var(--accent-orange) !important;
+    color: #1e1e1f !important;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.3);
+  }
+
+  /* Indicadores Estilo Instagram / Neón */
   .custom-instagram-indicators {
-  bottom: 100px;
-  margin-bottom: 0;
-}
+    bottom: 20px;
+    margin-bottom: 0;
+  }
 
-.custom-instagram-indicators button {
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  background-color: rgba(255, 255, 255, 0.4) !important;
-  border: none !important;
-  margin: 0 4px !important;
-  transition: all 0.3s ease;
-}
+  .custom-instagram-indicators button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 0 4px !important;
+    transition: all 0.3s ease;
+  }
 
-.custom-instagram-indicators button.active {
-  background-color: #ffffff !important;
-  width: 22px !important; /* Se estira sutilmente a pastilla cuando está activo, muy estilo IG */
-  border-radius: 4px !important;
-}
+  .custom-instagram-indicators button.active {
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    width: 24px !important;
+    border-radius: 12px !important;
+  }
 </style>
 
+<div class="page-content-wrapper py-3">
+  <div class="page-content container-fluid px-2 px-md-3">
 
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content" style="padding: 0.5rem;">
-
-
-
-
-<div class="product-more-info mt-4">
-  <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablistt">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">Analitica</div>
+    <!-- PORTADA VISUALMENTE ADAPTADA -->
+    <div class="catalog-hero-cover mb-4">
+      <div class="catalog-hero-overlay">
+        <div>
+          <span class="tech-badge-orange mb-2 d-inline-block">// CATÁLOGO DE APLICACIONES PROPIETARIAS</span>
+          <h2 class="text-white fw-bold mb-1">Soluciones Tecnológicas & Nube Sovereign</h2>
+          <p class="text-muted font-monospace small mb-0" style="color: #cbd5e1 !important;">
+            Explore nuestras suites de Analytics, Marketing y Gestión Legal desarrolladas sobre infraestructura cloud privada.
+          </p>
         </div>
-      </a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">Marketing</div>
+      </div>
+    </div>
+
+    <!-- PESTAÑAS DE CATEGORÍAS -->
+    <div class="product-more-info">
+      <ul class="nav nav-pills flex-wrap border-0 p-2 rounded-3 tech-card-subtle mb-3" id="custom-tabs" role="tablist">
+        
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active d-flex align-items-center gap-2" id="nav-analytics-tab" data-bs-toggle="pill" data-bs-target="#tab-analytics" type="button" role="tab" aria-controls="tab-analytics" aria-selected="true">
+            <ion-icon name="bar-chart-outline" class="fs-5"></ion-icon>
+            <span>ANALÍTICA</span>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button class="nav-link d-flex align-items-center gap-2" id="nav-marketing-tab" data-bs-toggle="pill" data-bs-target="#tab-marketing" type="button" role="tab" aria-controls="tab-marketing" aria-selected="false">
+            <ion-icon name="megaphone-outline" class="fs-5"></ion-icon>
+            <span>MARKETING</span>
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button class="nav-link d-flex align-items-center gap-2" id="nav-legal-tab" data-bs-toggle="pill" data-bs-target="#tab-legal" type="button" role="tab" aria-controls="tab-legal" aria-selected="false">
+            <ion-icon name="briefcase-outline" class="fs-5"></ion-icon>
+            <span>LEGAL</span>
+          </button>
+        </li>
+
+      </ul>
+
+      <!-- CONTENEDORES DE TABS (TAB-CONTENT) -->
+      <div class="tab-content pt-2">
+
+        <div class="tab-pane fade show active" id="tab-analytics" role="tabpanel" aria-labelledby="nav-analytics-tab">
+          {% include 'saas_shop/product/sba_list.html' %}
         </div>
-      </a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="tab-tags" data-bs-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">
-        <div class="d-flex align-items-center">
-          <div class="tab-title text-uppercase fw-500">Legal</div>
+
+        <div class="tab-pane fade" id="tab-marketing" role="tabpanel" aria-labelledby="nav-marketing-tab">
+          {% include 'saas_shop/product/sbm_list.html' %}
         </div>
-      </a>
-    </li>
-  </ul>
 
-  <div class="tab-content pt-3">
-
-    {% include 'saas_shop/product/sba_list.html' %}
-
-    {% include 'saas_shop/product/sbm_list.html' %}
-
-    {% include 'saas_shop/product/sbl_list.html' %}
-  
-  </div>
-  
-</div>
-
+        <div class="tab-pane fade" id="tab-legal" role="tabpanel" aria-labelledby="nav-legal-tab">
+          {% include 'saas_shop/product/sbl_list.html' %}
+        </div>
 
       </div>
     </div>
 
-     
+  </div>
+</div>
 
 {% endblock %}
-

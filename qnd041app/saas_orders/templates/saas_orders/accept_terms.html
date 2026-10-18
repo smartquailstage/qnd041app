@@ -3,386 +3,271 @@
 {% load static %}
 
 {% block title %}
-  {% trans "Checkout" %}
+  {% trans "Términos y Condiciones de Contratación" %}
 {% endblock %}
 
 {% block content %}
 
-
 <style>
-  .step-count-circle {
-  background-color: #b50f15; /* o el color corporativo que uses */
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
-  margin-right: 8px;
-  font-size: 14px;
-}
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas con estilo tecnológico */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Stepper de progreso */
+  .steps-light .step-item {
+    color: var(--text-muted-custom);
+    text-decoration: none;
+  }
+
+  .steps-light .step-item.active .step-count,
+  .steps-light .step-item.current .step-count {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    font-weight: bold;
+  }
+
+  .step-count {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
+
+  /* Botón interactivo */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  .btn-tech-orange:disabled {
+    background-color: #4a4a4b;
+    color: #888;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Form Check Custom */
+  .form-check-input:checked {
+    background-color: var(--accent-orange);
+    border-color: var(--accent-orange);
+  }
+
+  /* Contenido legal formateado */
+  .legal-body {
+    color: #d1d5db;
+    font-size: 0.93rem;
+    line-height: 1.75;
+    text-align: justify;
+  }
+
+  .legal-body h6 {
+    color: #ffffff;
+    font-weight: 700;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .legal-body ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .legal-body ul li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+  }
+
+  .legal-body ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+    font-weight: bold;
+  }
 </style>
 
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
-
-<div class="product-more-info mt-4">
-
-
-
-<div class="card">
-  <div class="card-body p-4" style="color: #ededed;
-    text-align: justify;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 14px;
-    line-height: 1.2;
-    background-color: #403c3c;
-    border-radius: 25px;">
-
-
-
-    <!-- Contenido de las Tabs -->
-    <div class="tab-content pt-3">
-      <!-- TAB 2: TÉRMINOS Y POLÍTICAS -->
-      <div class="tab-pane active show fade" id="terms" role="tabpanel" aria-labelledby="tab-terms">
-        <div class="card bg-transparent border-0">
-          <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; background-color: #403c3c; border-radius: 15px;">
-
-            <h5 class="text-uppercase text-center mb-4"><ion-icon name="finger-print-outline"></ion-icon> Términos y Condiciones de Contrato</h5>
-
-            <p>Los siguientes <strong>Términos y Condiciones</strong> regulan la adquisición, desarrollo, implementación y uso de soluciones tecnológicas, software, servicios en la nube y consultoría especializada ofrecidos por <strong>SmartQuail, Inc.</strong> En la Republica del Ecuador.</p>
-
-            <p><strong>2. Proceso de compra y creación del proyecto</strong></p>
-            <p>La compra solo se considera completada tras iniciar la etapa de Investigación y Desarrollo (I+D). Antes de esto, el cliente puede solicitar la devolución total del valor pagado.</p>
-
-            <p><strong>3. Inicio del proceso de I+D</strong></p>
-            <p>Una vez iniciado el proceso de I+D, no se aceptarán devoluciones debido a los costos técnicos y operativos generados.</p>
-
-            <p><strong>4. Servicios en la nube</strong></p>
-            <p>El primer mes de uso de la nube es gratuito; luego, se aplican las tarifas del plan contratado. SmartQuail podrá ajustar costos previo aviso.</p>
-
-            <p><strong>5. Desarrollo basado en tecnología Open Source</strong></p>
-            <p>El desarrollo de software se realiza sobre bases de <strong>código abierto (Open Source)</strong>, con transparencia y flexibilidad. Cada proyecto se ejecuta conforme a <strong>horas pactadas</strong>; si la implementación requiere tiempo adicional, se generarán <strong>costos adicionales</strong> acordados con las partes.</p>
-
-                  <p><strong>6. Tiempos de consultoría e investigación</strong></p>
-      <p>
-        Los tiempos de consultoría, análisis y desarrollo I+D serán los fijados en cada plan o propuesta. Si se requiere más tiempo del establecido, el cambio deberá ser <strong>acordado mutuamente</strong> entre SmartQuail y el Usuario.
-      </p>
-
-<p><strong>7. Protección de datos personales y derechos humanos</strong></p>
-<p>
-  SmartQuail, Inc. cumple con la <strong>Ley Orgánica de Protección de Datos Personales del Ecuador</strong> y con los principios internacionales de respeto a los derechos humanos, privacidad digital y seguridad de la información.
-  No se desarrollarán, automatizarán ni implementarán procesos que dañen o perjudiquen los derechos de titulares de datos o terceros.
-</p>
-
-<p>
-  Asimismo, SmartQuail, Inc. <strong>no almacena, procesa, desencripta ni tiene acceso directo a información sensible de sus usuarios</strong>, incluyendo datos bancarios, números de tarjetas de crédito, códigos de seguridad (CVV) o contraseñas financieras.
-</p>
-
-<p>
-  Los pagos realizados por el Usuario se procesan exclusivamente mediante <strong>pasarelas de pago certificadas y externas</strong>, las cuales cumplen con estándares internacionales de seguridad como <strong>PCI-DSS (Payment Card Industry Data Security Standard)</strong>.
-  SmartQuail únicamente recibe la confirmación del pago por parte del proveedor externo, sin acceder al contenido específico de la transacción.
-</p>
-
-<p>
-  En consecuencia, SmartQuail no registra, almacena ni conserva ninguna información financiera sensible en sus servidores, bases de datos o sistemas internos. Todo procesamiento, cifrado y validación del pago se realiza de forma directa y segura por la entidad autorizada correspondiente.
-</p>
-
-<p>
-  Sin perjuicio de lo anterior, SmartQuail, Inc. <strong>sí mantiene la trazabilidad de la transacción</strong> —como número de orden, referencia emitida por la pasarela, fecha, hora, estado del pago y dirección IP— exclusivamente para fines de <strong>seguridad, auditoría, prevención de fraudes, validación operativa y soporte al Usuario</strong>.  
-  Esta información no contiene datos financieros sensibles y se maneja bajo estrictos protocolos de protección, controles de acceso y cumplimiento normativo.
-</p>
-
-<p>
-  Asimismo, <strong>no se implementarán ni automatizarán procesos relacionados con actividades delictivas</strong>, incluyendo:
-</p>
-<ul>
-  <li>Fraude financiero o bancario</li>
-  <li>Suplantación de identidad o acceso no autorizado a sistemas</li>
-  <li>Distribución de software malicioso (malware, ransomware, spyware, etc.)</li>
-  <li>Lavado de activos o financiamiento del terrorismo</li>
-  <li>Actividades contrarias a la ley, el orden público o la moral</li>
-</ul>
-
-
-      <p><strong>8. Encargado del tratamiento de datos personales</strong></p>
-      <p>
-        Por la compra de una solución tecnológica de SmartQuail, el Usuario acepta que <strong>SmartQuail, Inc.</strong> actuará como <strong>encargado del tratamiento de datos personales</strong> mientras el sistema permanezca alojado en nubes físicas o centros de datos administrados por SmartQuail.
-        El Usuario mantiene en todo momento la <strong>titularidad de los datos</strong> y podrá ejercer sus derechos conforme a la normativa vigente.
-      </p>
-
-            <p><strong>9. Protección de datos personales</strong></p>
-            <p>SmartQuail cumple con la Ley Orgánica de Protección de Datos Personales del Ecuador. El usuario conserva la titularidad de los datos alojados en servidores administrados por SmartQuail.</p>
-
-            <p><strong>10. Legislación y jurisdicción</strong></p>
-            <p>Estos términos se rigen por las leyes de la República del Ecuador. Cualquier controversia será resuelta por los tribunales del Distrito Metropolitano de Quito.</p>
-
-<form method="post" action="{% url 'saas_orders:accept_terms' %}">
-    {% csrf_token %}
-    <div class="form-check">
-        {{ form.terms_accepted }}
-        <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
-            He leído y acepto los términos y condiciones
-        </label>
-    </div>
-
-    {% if form.terms_accepted.errors %}
-    <div class="text-danger mt-1">
-        {{ form.terms_accepted.errors }}
-    </div>
-    {% endif %}
-
-    <button type="submit" class="btn btn-primary mt-3">
-        Continuar al formulario de orden
-    </button>
-</form>
-
-
-
-
-
-            <p class="mt-4 text-center"><strong>SmartQuail, Inc. — Transformando ideas en innovación segura.</strong></p>
-            <p class="text-center mb-0">© 2025 Todos los derechos reservados.</p>
-
-          </div>
+    <div class="tech-card p-4 p-md-5">
+      
+      <!-- STEPPER DE PROGRESO -->
+      <div class="tech-card-subtle p-3 mb-4">
+        <div class="steps steps-light d-flex justify-content-between align-items-center">
+          <a class="step-item active d-flex align-items-center gap-2" href="{% url 'saas_cart:cart_detail' %}">
+            <div class="step-progress"><span class="step-count">1</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Carrito</span>
+          </a>
+          <a class="step-item current active d-flex align-items-center gap-2" href="#">
+            <div class="step-progress"><span class="step-count">2</span></div>
+            <span class="font-monospace text-white small d-none d-sm-inline">Términos Legales</span>
+          </a>
+          <a class="step-item d-flex align-items-center gap-2" href="#">
+            <div class="step-progress"><span class="step-count">3</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Facturación</span>
+          </a>
         </div>
       </div>
+
+      <!-- CONTENEDOR ANCHO COMPLETO PARA TÉRMINOS Y CONDICIONES -->
+      <div class="tech-card-subtle p-4 p-md-5">
+        
+        <div class="text-center mb-4">
+          <span class="tech-badge-orange">// CONTRATO DE SERVICIOS TECNOLÓGICOS Y NUBE</span>
+          <h3 class="text-white fw-bold mt-2 d-flex align-items-center justify-content-center gap-2">
+            <ion-icon name="finger-print-outline" class="accent-text"></ion-icon> Términos y Condiciones de Uso
+          </h3>
+          <p class="text-muted small font-monospace">Ecuador — Cumplimiento Ley Orgánica de Protección de Datos Personales (LOPDP)</p>
+        </div>
+
+        <div class="legal-body border-top border-secondary border-opacity-25 pt-4">
+
+          <p>Los presentes <strong>Términos y Condiciones</strong> regulan la adquisición de licencias de software propietario, infraestructura cloud, servicios de automatización agéntica (+A), inteligencia artificial (+IA) e Investigación y Desarrollo (I+D) comercializados por <strong>SmartQuail, Inc.</strong> dentro de la República del Ecuador.</p>
+
+          <h6>1. Naturaleza de las Licencias e Infraestructura</h6>
+          <p>SmartQuail asigna licencias propietarias alojadas en infraestructura Sovereign Cloud y DigitalOcean Spaces. El usuario adquiere un entorno seguro de ejecución provisto de un subdominio cifrado con SSL automático.</p>
+
+          <h6>2. Política de Devolución Escalonada por Progreso de Desarrollo</h6>
+          <p>De conformidad con las buenas prácticas de I+D y contrataciones tecnológicas, en caso de insatisfacción o desistimiento por parte del Usuario, el reembolso monetario se ajustará al nivel de progreso técnico de la orden de la siguiente manera:</p>
+          <ul>
+            <li><strong>Fase 0 (Pre-inicio): 100% de reembolso</strong> si la solicitud se realiza antes del inicio de la asignación de recursos informáticos o sesiones de levantamiento con el Project Manager.</li>
+            <li><strong>Fase 1 (Arquitectura y Provisionamiento inicial - 1% al 30% de avance): 70% de reembolso</strong>, deduciendo los costos de despliegue de infraestructura base y licencias reservadas.</li>
+            <li><strong>Fase 2 (I+D e Integración de Procesos - 31% al 70% de avance): 40% de reembolso</strong>, reconociendo las horas invertidas por el equipo de ingeniería y desarrollo agéntico.</li>
+            <li><strong>Fase 3 (Fase Final / QA y Despliegue en Producción - Mayor al 70% de avance): 0% de reembolso</strong>, debido a la consumación completa de los recursos informáticos, cómputo vCPU, memoria asignada y trabajo de personalización entregado.</li>
+          </ul>
+
+          <h6>3. Servicios en la Nube y Costos de Recurrencia</h6>
+          <p>La licencia incluye la infraestructura especificada en la oferta técnica. Los costos por mantenimiento o ampliación de recursos de nube se facturarán de manera mensual recurrente previa autorización expresa del cliente.</p>
+
+          <h6>4. Desarrollo sobre Código Abierto (Open Source) e Horas de Consultoría</h6>
+          <p>Las soluciones pueden integrar componentes de código abierto con capas propietarias de SmartQuail. Toda personalización adicional se ejecutará sobre horas de consultoría e I+D pactadas. Requerimientos fuera del alcance generarán costos adicionales convenidos previamente.</p>
+
+          <h6>5. Cumplimiento LOPDP y Superintendencia de Protección de Datos Personales</h6>
+          <p>SmartQuail, Inc. cumple estrictamente con la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP) de la República del Ecuador</strong> y los lineamientos de la Autoridad de Protección de Datos Personales:</p>
+          <ul>
+            <li><strong>Calidad de Encargado del Tratamiento:</strong> Al contratar un software alojado en la nube de SmartQuail, el Usuario actúa como Responsable del Tratamiento y SmartQuail como <strong>Encargado del Tratamiento</strong>. El Usuario conserva la titularidad absoluta de sus bases de datos.</li>
+            <li><strong>Tratamiento de Datos Sensibles:</strong> SmartQuail adopta medidas organizativas y técnicas (cifrado AES-256 en reposo y TLS 1.3 en tránsito) para resguardar datos sensibles de los titulares.</li>
+            <li><strong>Exención de Acceso a Datos Financieros:</strong> SmartQuail <strong>no almacena, procesa ni desencripta datos sensibles de pago</strong> (números de tarjeta de crédito/débito, CVV, claves bancarias). Toda la transacción se efectúa en pasarelas externas certificadas bajo el estándar de seguridad <strong>PCI-DSS</strong>.</li>
+            <li><strong>Trazabilidad de Seguridad:</strong> SmartQuail conserva exclusivamente registros de auditoría no sensibles (dirección IP, ID de transacción, fecha, hora y comprobante emisor) con fines de prevención de fraude e investigación de incidentes cibernéticos.</li>
+          </ul>
+
+          <h6>6. Prohibición de Uso Ilícito</h6>
+          <p>Queda estrictamente prohibido utilizar la infraestructura de SmartQuail para actividades de ingeniería inversa no autorizada, fraude bancario, suplantación de identidad, ataques de denegación de servicio (DDoS), propagación de malware o actividades contrarias al ordenamiento jurídico ecuatoriano.</p>
+
+          <h6>7. Jurisdicción y Competencia</h6>
+          <p>Este acuerdo se somete a las leyes de la República del Ecuador. Para cualquier controversia no resuelta por acuerdo directo, las partes se someten a los juzgados de lo Civil del Distrito Metropolitano de Quito o al Centro de Arbitraje y Conciliación aplicable.</p>
+
+        </div>
+
+        <!-- FORMULARIO DE ACEPTACIÓN DE TÉRMINOS -->
+        <form method="post" action="{% url 'saas_orders:accept_terms' %}" class="mt-4 pt-3 border-top border-secondary border-opacity-25">
+          {% csrf_token %}
+
+          <div class="form-check p-3 rounded bg-dark border border-secondary border-opacity-25 mb-3">
+            {{ form.terms_accepted }}
+            <label class="form-check-label text-white ms-2 font-monospace small" for="{{ form.terms_accepted.id_for_label }}">
+              He leído, comprendo y acepto los Términos y Condiciones y las Políticas de Protección de Datos Personales.
+            </label>
+          </div>
+
+          {% if form.terms_accepted.errors %}
+          <div class="text-danger font-monospace small mb-3">
+            {{ form.terms_accepted.errors }}
+          </div>
+          {% endif %}
+
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-outline-secondary font-monospace px-4">
+              <ion-icon name="arrow-back-outline"></ion-icon> Regresar al Carrito
+            </a>
+
+            <button type="submit" id="submit-order" class="btn btn-tech-orange px-4 py-2 d-flex align-items-center gap-2">
+              <span>Continuar a Facturación</span> <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          </div>
+        </form>
+
+        <div class="text-center mt-4 pt-3 border-top border-secondary border-opacity-10 text-muted font-monospace small">
+          <p class="mb-0">SmartQuail, Inc. — Cloud Sovereign & Private AI Solutions ® 2026</p>
+        </div>
+
+      </div>
+
     </div>
+
   </div>
 </div>
 
-
-
-    </div>
-
-
-      </div>
-  </div>
-
-
-
-
-<!-- JS para habilitar/deshabilitar el botón -->
+<!-- JS de Validación del Checkbox -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const checkbox = document.getElementById("id_terms_accepted"); // Django genera este id automáticamente
+    const checkbox = document.getElementById("id_terms_accepted");
     const submitBtn = document.getElementById("submit-order");
 
-    // Función para actualizar el estado del botón
-    function toggleSubmit() {
-        submitBtn.disabled = !checkbox.checked;
+    if (checkbox && submitBtn) {
+        function toggleSubmit() {
+            submitBtn.disabled = !checkbox.checked;
+        }
+
+        toggleSubmit();
+        checkbox.addEventListener("change", toggleSubmit);
     }
-
-    // Inicializar el estado al cargar
-    toggleSubmit();
-
-    // Escuchar cambios en el checkbox
-    checkbox.addEventListener("change", toggleSubmit);
 });
 </script>
 
 {% endblock %}
-
-
-
-     <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-
-
-
-          <!--start shop cart-->
-          <section class="shop-page">
-            <div class="shop-container">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-						<div class="shop-cart">
-							<div class="row">
-								<div class="col-12 col-xl-8">
-									<div class="checkout-details">
-										<div class="card border-0">
-											<div class="card-body">
-												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-														<div class="step-progress"><span class="step-count">1</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cart'></i></div>
-													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
-														<div class="step-progress"><span class="step-count">2</span>
-														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i></div>
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="d-flex align-items-center mb-3">
-													<div class="">
-														<img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-													</div>
-													<div class="ms-3">
-														<h6 class="mb-0">{{ order.first_name  }} {{order.last_name }}</h6>
-														<p class="mb-0">{{ order.email }} </p>
-													</div>
-												</div>
-                        <hr>
-												<div class="">
-													<h2 class="h5 mb-0">Datos de Facturación</h2>
-													<div class="my-3 border-bottom"></div>
-<div class="form-body">
-  <form action="." method="post" class="order-form row g-3">
-    
-    {% csrf_token %}
-    
-    <!-- RUC -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
-      {{ form.ruc }}
-    </div>
-
-    <!-- Razon Social -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización,Negocio o Marca</label>
-      {{ form.razon_social }}
-    </div>
-
-    <!-- Sector -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
-      {{ form.sector }}
-    </div>
-
-    <!-- Teléfono -->
-  <div class="input-group">
-    <span class="input-group-text">+593</span>
-    {{ form.telefono }}
-  </div>
-
-  <!-- Texto explicativo -->
-  <small class="form-text text-muted">
-    Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.
-  </small>
-
-
-    <!-- Dirección de Facturación -->
-    <div class="col-md-12">
-      <h6 class="mb-0 h5">Términos y Condiciones de compra</h6>
-      <div class="my-3 border-bottom"></div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-        <label class="form-check-label" for="gridCheck">He leido y acepto lo terminos y condiciones</label>
-      </div>
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="col-md-6">
-      <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="d-grid">
-        <input type="submit" value="{% trans 'Place order' %}" class="btn btn-primary btn-ecomm">
-      </div>
-    </div>
-  </form>
-</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-<div class="col-12 col-xl-4">
-  <div class="order-summary">
-    <div class="card">
-      <div class="card-body">
-        <!-- Aplicar código de descuento -->
-
-        <!-- Resumen de la orden -->
-     <div class="card">
-  <div class="card-body">
-    <p class="fs-5">Detalle de Compra</p>
-    <div class="my-3 border-top"></div>
-    
-    <!-- Mostrar cada producto en el carrito -->
-    <ul class="list-unstyled">
-      {% for item in cart %}
-        <li class="d-flex align-items-center">
-
-          <div class="ps-3">
-            <h6 class="mb-1">{{ item.product.name }}</h6>
-            <p>{{item.product.description }}</p>
-            <div class="widget-product-meta">
-            </div>
-          </div>
-        </li>
-        <div class="my-3 border-top"></div>
-      {% endfor %}
-    </ul>
-
-    <!-- Mostrar descuento si aplica -->
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-      <div class="my-3 border-top"></div>
-    {% endif %}
-    
-    <!-- Totales -->
-
-
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>Discount</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-    {% endif %}
-    <div class="my-3 border-top"></div>
-    <div class="d-flex justify-content-between">
-      <h5 class="mb-0">Total a pagar</h5>
-      <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-
-
-  </div>
-</div>
-
-							</div>
-							<!--end row-->
-						</div>
-					</div>
-        </div>
-      </div>
-				</section>
-				<!--end shop cart-->
-             
-
-          </div>
-          <!-- end page content-->
-         </div>

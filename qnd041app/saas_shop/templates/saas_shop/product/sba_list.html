@@ -1,90 +1,284 @@
 {% load i18n %}
 {% load static %}
 
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  /* Contenedor principal estilo Cyber/Tech Split */
+  .tech-split-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
 
+  /* Badges tecnológicos */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-gpu {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Columna izquierda: Imagen con overlay */
+  .split-image-wrapper {
+    position: relative;
+    min-height: 560px;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-right: 1px solid var(--border-color);
+  }
+
+  .split-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(30, 30, 31, 0.2) 0%, rgba(40, 40, 41, 0.9) 100%);
+  }
+
+  /* Columna derecha: Ficha técnica y métricas */
+  .split-details-box {
+    background-color: var(--card-bg-subtle);
+    padding: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 560px;
+  }
+
+  /* Botón interactivo */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  /* Indicadores Estilo Neón / Instagram */
+  .custom-instagram-indicators {
+    bottom: 15px;
+    margin-bottom: 0;
+  }
+
+  .custom-instagram-indicators button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 0 4px !important;
+    transition: all 0.3s ease;
+  }
+
+  .custom-instagram-indicators button.active {
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    width: 24px !important;
+    border-radius: 12px !important;
+  }
+</style>
 
 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+  <div class="tech-split-card">
+    <div class="card-body p-0">
 
-    <!-- Carrusel SmartBusinessAnalytics -->
-<div class="card" style="background-color: #2e2e2e;">
+      {% for c in categories %}
+        {% if c.slug == "business-analytics" and c.tamano_empresa == tamano_empresa %}
+          {% if c.products.all %}
+            <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
 
-<div class="card-body p-0" style="background-color: #2e2e2e;">
-  {% for c in categories %}
-    
-  {% if c.slug == "business-analytics" and c.tamano_empresa == tamano_empresa %}
-    {% if c.products.all %}
-      <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
 
-        <div class="carousel-inner">
+                    <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE TÉCNICO) -->
+                    <div class="row g-0">
 
-          {% for product in c.products.all %}
-          <!-- El carrusel-item debe ser el elemento directo -->
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            
-            <!-- El enlace envuelve el contenido interno de cada slide -->
-            <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
-        
-              <!-- DESKTOP (Usa image_2 horizontal) -->
-              <div class="position-relative d-none d-md-block w-100"
-                   style="height: 820px; background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
-                  <h2 class="text-warning" style="font-size: 16px;">
-                    {{ product.name }} - 
-                    <strong>Disponibilidad:</strong> 
-                    {% if product.usuarios_simultaneos == '100' %}50 usuarios máximos, ROI del 75%
-                    {% elif product.usuarios_simultaneos == '300' %}150 usuarios máximos, ROI del 85%
-                    {% elif product.usuarios_simultaneos == '500' %}500 usuarios máximos, ROI del 95%
-                    {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máximos, ROI del 95%
-                    {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máximos, ROI del 100%
-                    {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
-                    {% endif %}
-                  </h2>
+                      <!-- COLUMNA IZQUIERDA: VISUALIZACIÓN ANALÍTICA -->
+                      <div class="col-12 col-lg-6">
+                        <div class="split-image-wrapper"
+                             style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
+                          <div class="split-image-overlay d-flex align-items-end p-4">
+                            <div>
+                              <span class="tech-badge-orange mb-2 d-inline-block">// BUSINESS ANALYTICS & BI Envelopment</span>
+                             
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- COLUMNA DERECHA: INFORMACIÓN DETALLADA Y CUADROS TÉCNICOS -->
+                      <div class="col-12 col-lg-6">
+                        <div class="split-details-box">
+
+                          <div>
+                            <!-- BADGES DINÁMICOS SUPERIORES -->
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                              {% if product.is_automatitation %}
+                                <span class="tech-badge-synthex">Nivel Synthex</span>
+                              {% endif %}
+                              {% if product.is_intelligent %}
+                                <span class="tech-badge-ia">Agéntica IA</span>
+                              {% endif %}
+                              {% if product.is_gpu and product.gpu %}
+                                <span class="tech-badge-gpu">GPU: {{ product.gpu }}</span>
+                              {% endif %}
+                              <span class="tech-badge-orange">NIIF / Auditoría</span>
+                            </div>
+
+                            <h4 class="text-white fw-bold mb-2">{{ product.name }}</h4>
+
+                            <p class="text-light opacity-90 small mb-3 lh-base" style="color: #cbd5e1 !important;">
+                              {{ product.description|default:"Implementación integral de la capa transaccional, contable y analítica con trazabilidad NIIF y reportes directos para auditorías."|truncatewords:28 }}
+                            </p>
+
+                            <!-- CUADRO 1: RECURSOS DE HARDWARE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">DISPONIBILIDAD:</span>
+                                <span class="accent-text fw-bold">
+                                  {% if product.usuarios_simultaneos == '100' %}50 usuarios máx. (ROI 75%)
+                                  {% elif product.usuarios_simultaneos == '300' %}150 usuarios máx. (ROI 85%)
+                                  {% elif product.usuarios_simultaneos == '500' %}500 usuarios máx. (ROI 95%)
+                                  {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máx. (ROI 95%)
+                                  {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máx. (ROI 100%)
+                                  {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 conc.)
+                                  {% else %}Disponibilidad Estándar
+                                  {% endif %}
+                                </span>
+                              </div>
+                              <div class="d-flex justify-content-between mb-0">
+                                <span class="text-muted">RECURSOS NUBE:</span>
+                                <span class="text-white">{{ product.cpu|default:0 }} vCPU · {{ product.memoria|default:0 }} GB RAM · {{ product.almacenamiento|default:0 }} GB SSD</span>
+                              </div>
+                            </div>
+
+                            <!-- CUADRO 2: CAPACIDADES SYNTHEX & AGÉNTICA IA -->
+                            {% if product.is_automatitation or product.is_intelligent %}
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              {% if product.is_automatitation %}
+                              <div class="d-flex justify-content-between align-items-center {% if product.is_intelligent %}mb-1 pb-1 border-bottom border-secondary border-opacity-10{% endif %}">
+                                <span class="text-muted">// SYNTHEX:</span>
+                                <span class="text-info fw-bold text-end">{{ product.get_automatizacion_display|default:"Automatización Activa" }}</span>
+                              </div>
+                              {% endif %}
+
+                              {% if product.is_intelligent %}
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// AGÉNTICA IA:</span>
+                                <span class="text-warning fw-bold text-end">{{ product.get_inteligencia_artificial_display|default:"Agente IA Activo" }}</span>
+                              </div>
+                              {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+                              <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
+                                <span class="text-muted">// HORAS PARA DESPLIEGUE:</span>
+                                <span class="text-white">
+                                  Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> | 
+                                  Impl: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                </span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// CLOUD TYPE:</span>
+                                <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Dedicada" }}</span>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <!-- FOOTER DE PRECIO Y ACCIÓN -->
+                          <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">
+                            <div>
+                              <span class="text-muted small font-monospace d-block">INVERSIÓN TOTAL:</span>
+                              <h4 class="text-white fw-bold mb-0 font-monospace">${{ product.price_amount|default:product.price }}</h4>
+                            </div>
+                            <span class="btn-tech-orange d-inline-flex align-items-center gap-2">
+                              <span>Explorar Entorno</span>
+                              <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </a>
                 </div>
-              </div>
-            
-              <!-- MÓVIL (Usa image_2_2 vertical) -->
-              <div class="position-relative d-block d-md-none w-100"
-                   style="height: 700px; background-image: url('{% if product.image_2_2 %}{{ product.image_2_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
-                <div class="position-absolute bottom-0 start-0 w-100 p-3 bg-dark bg-opacity-50">
-                  <h2 style="color:#fff; font-size: 14px;">
-                    {{ product.name }}
-                  </h2>
-                  <p class="text-warning mb-1">
-                    Inversión: ${{ product.price_amount }}
-                  </p>
-                </div>
+                {% endfor %}
               </div>
 
-            </a>
+              <!-- Indicadores estilo Instagram / Neón -->
+              <div class="carousel-indicators custom-instagram-indicators">
+                {% for product in c.products.all %}
+                  <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+              </div>
 
-          </div>
-          {% endfor %}
-        
-        </div>
+            </div>
+          {% else %}
+            <p class="p-4 text-muted font-monospace mb-0">// {% trans "No hay productos disponibles en esta categoría." %}</p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
 
-        <!-- Indicadores estilo Instagram -->
-        <div class="carousel-indicators custom-instagram-indicators">
-          <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          <!-- Agrega más <button> si tienes más elementos -->
-        </div>
-
-      </div>
-
-    {% else %}
-      <p class="ps-3 pb-3">{% trans "No products available in this category." %}</p>
-    {% endif %}
-  {% endif %}     
-{% endfor %}
-
-  
-
-</div>
-</div>
-
-
-
-
+    </div>
+  </div>
 </div>
