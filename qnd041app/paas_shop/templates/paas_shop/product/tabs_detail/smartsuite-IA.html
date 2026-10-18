@@ -1,191 +1,236 @@
 {% load i18n %}
 {% load static %}
-    
-  <div class="tab-pane fade" id="tab-ia" role="tabpanel" aria-labelledby="tab-sba-ia">
-    <div class="card">
-      <div class="card-body p-4"
-           style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
-                  font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-  
-  <h5 class="mt-3">
-    <ion-icon name="grid-outline"></ion-icon>
-    Suites (I+D+A+AI)
-  </h5>
- 
-  <p>
-  <strong>SmartBusinessSuites® ERP (I+D+A+AI)</strong> es la <strong>suite cognitiva de Big Data, Inteligencia Artificial y automatización predictiva en la nube</strong> de <strong>SmartQuail, Inc.</strong>, diseñada para transformar grandes volúmenes de datos empresariales en <strong>modelos inteligentes, decisiones autónomas, automatización cognitiva y experiencias digitales adaptativas en tiempo real</strong>.
-</p>
 
-<p>
-  La plataforma integra capacidades avanzadas de <strong>Big Data, Machine Learning, Redes Neuronales, Inteligencia Artificial Generativa, NLP (Natural Language Processing) y automatización inteligente</strong>, permitiendo capturar, procesar, interpretar y convertir información empresarial en flujos predictivos y procesos autónomos orientados al crecimiento del negocio.
-</p>
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-<p>
-  SmartBusinessSuites® (I+D+A+AI) interconecta la <strong>lógica de negocio</strong> con la
-  <strong>lógica del cliente</strong> mediante una arquitectura cognitiva capaz de aprender continuamente del comportamiento de usuarios, operaciones, contenidos y procesos empresariales, adaptando automáticamente experiencias, decisiones y comunicaciones dentro de una plataforma completamente personalizada y alineada a la identidad visual de cada empresa.
-</p>
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
 
-<p>
-  Esta integración permite crear ecosistemas digitales inteligentes donde la inteligencia artificial analiza datos, predice comportamientos, automatiza decisiones y optimiza continuamente la experiencia de usuario, la operación empresarial y la comunicación multicanal.
-</p>
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
 
-<ul>
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
 
-  <li>
-    <strong>Inteligencia Artificial financiera y operativa:</strong>
-    La gestión analítica, financiera y operativa impulsada por IA es administrada mediante
-    <strong>SmartBusinessAnalytics® (SBA)</strong>, el núcleo cognitivo ERP de la suite SmartQuail.
-    <ul>
-      <li>Procesamiento masivo de datos empresariales mediante Big Data.</li>
-      <li>Modelos predictivos para rendimiento, productividad y riesgos.</li>
-      <li>Automatización inteligente de análisis y toma de decisiones.</li>
-      <li>Monitoreo cognitivo y dashboards predictivos en tiempo real.</li>
-    </ul>
-  </li>
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>IA aplicada a contenidos y marketing digital:</strong>
-    La automatización inteligente de contenidos, social media y posicionamiento digital es gestionada mediante
-    <strong>SmartBusinessMedia® (SBM)</strong>.
-    <ul>
-      <li>Generación automática de contenidos mediante IA generativa.</li>
-      <li>Optimización inteligente de campañas y redes sociales.</li>
-      <li>Análisis predictivo de audiencias y comportamiento digital.</li>
-      <li>Personalización dinámica de experiencias y comunicación comercial.</li>
-    </ul>
-  </li>
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Inteligencia Artificial legal y regulatoria:</strong>
-    Los procesos administrativos, legales y regulatorios son optimizados mediante
-    <strong>SmartBusinessLaw® (SBL)</strong>.
-    <ul>
-      <li>Automatización documental y análisis inteligente de procesos.</li>
-      <li>Control predictivo de cumplimiento normativo y regulatorio.</li>
-      <li>Trazabilidad inteligente de operaciones jurídicas y administrativas.</li>
-      <li>Integración entre IA, procesos corporativos y gestión empresarial.</li>
-    </ul>
-  </li>
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Arquitectura Big Data empresarial:</strong>
-    SmartBusinessSuites® opera sobre una infraestructura distribuida orientada al procesamiento masivo de información.
-    <ul>
-      <li>Ingesta de datos estructurados, no estructurados y conversacionales.</li>
-      <li>Procesamiento en tiempo real y por streaming.</li>
-      <li>Almacenamiento optimizado para IA y modelos neuronales.</li>
-      <li>Consolidación inteligente de información multicanal.</li>
-    </ul>
-  </li>
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
 
-  <li>
-    <strong>Machine Learning y Redes Neuronales avanzadas:</strong>
-    La plataforma incorpora modelos de aprendizaje automático y deep learning capaces de detectar patrones complejos.
-    <ul>
-      <li>Modelos supervisados, no supervisados y de refuerzo.</li>
-      <li>Detección de anomalías, correlaciones y tendencias ocultas.</li>
-      <li>Autoaprendizaje continuo basado en datos históricos y en tiempo real.</li>
-      <li>Evolución automática de modelos y procesos inteligentes.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
 
-  <li>
-    <strong>Automatización cognitiva y predictiva:</strong>
-    La IA no solo analiza información, sino que ejecuta acciones autónomas basadas en contexto y predicción.
-    <ul>
-      <li>Automatización de procesos basada en comportamiento.</li>
-      <li>Predicción de demanda, conversión y riesgos operativos.</li>
-      <li>Disparadores inteligentes según intención y eventos.</li>
-      <li>Toma de decisiones automatizada impulsada por IA.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
 
-  <li>
-    <strong>Chatbots inteligentes y lenguaje natural (NLP/NLU):</strong>
-    SmartBusinessSuites® integra asistentes conversacionales avanzados capaces de comprender y ejecutar acciones mediante lenguaje humano.
-    <ul>
-      <li>Procesamiento de Lenguaje Natural (NLP) y comprensión semántica.</li>
-      <li>Conversaciones contextuales y multilingües.</li>
-      <li>Interacción directa con datos, procesos y modelos predictivos.</li>
-      <li>Ejecución automática de consultas, acciones y flujos operativos.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
 
-  <li>
-    <strong>Experiencias digitales inteligentes y adaptativas:</strong>
-    Las interfaces web y aplicaciones funcionan como entornos dinámicos impulsados por IA.
-    <ul>
-      <li>Personalización automática de contenidos e interfaces.</li>
-      <li>Recomendaciones inteligentes en tiempo real.</li>
-      <li>Experiencias basadas en intención, contexto y comportamiento.</li>
-      <li>Adaptación continua según preferencias del usuario.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
 
-  <li>
-    <strong>Interconexión entre lógica empresarial y lógica cliente:</strong>
-    La plataforma conecta procesos internos, decisiones inteligentes y experiencias digitales dentro de un ecosistema unificado.
-    <ul>
-      <li>Sincronización entre IA empresarial y experiencia del usuario.</li>
-      <li>Automatización contextual basada en datos e interacción.</li>
-      <li>Comunicación inteligente entre plataformas y usuarios.</li>
-      <li>Optimización continua de flujos empresariales y comerciales.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+</style>
 
-  <li>
-    <strong>Plataforma personalizada y alineada a la identidad visual:</strong>
-    Toda la suite puede adaptarse visual y funcionalmente a la identidad corporativa del negocio.
-    <ul>
-      <li>Interfaces modernas y totalmente personalizadas.</li>
-      <li>Experiencias digitales amigables e intuitivas.</li>
-      <li>Diseño centrado en usabilidad y experiencia de usuario.</li>
-      <li>Entornos inteligentes escalables y multiforma.</li>
-    </ul>
-  </li>
+<!-- TAB: SUITES COGNITIVAS CON IA (I+D+A+AI) -->
+<div class="tab-pane fade" id="tab-ia" role="tabpanel" aria-labelledby="tab-sba-ia">
+  <div class="tech-detail-card p-4">
 
-  <li>
-    <strong>Integración inteligente y ecosistema conectado:</strong>
-    SmartBusinessSuites® se integra automáticamente con APIs, plataformas externas, ecommerce, redes sociales y servicios empresariales.
-    <ul>
-      <li>Interoperabilidad total entre sistemas y canales digitales.</li>
-      <li>Flujos de datos bidireccionales alimentados por IA.</li>
-      <li>Automatización intersistemas en tiempo real.</li>
-      <li>Infraestructura cloud escalable y segura.</li>
-    </ul>
-  </li>
-
-  <li>
-    <strong>Aprendizaje continuo y evolución autónoma:</strong>
-    La plataforma aprende constantemente del comportamiento empresarial y de las interacciones digitales.
-    <ul>
-      <li>Optimización continua de modelos predictivos.</li>
-      <li>Mejora automática de procesos y decisiones.</li>
-      <li>Evolución inteligente basada en datos reales.</li>
-      <li>Adaptación dinámica del ecosistema empresarial.</li>
-    </ul>
-  </li>
-
-</ul>
-
-<p class="mb-1">
-  En conjunto, <strong>SmartBusinessSuites® ERP (I+D+A+AI)</strong> se consolida como una
-  <strong>plataforma cognitiva de Big Data, Inteligencia Artificial y automatización empresarial</strong>,
-  capaz de integrar análisis predictivo, redes neuronales, automatización inteligente y comunicación conversacional en un ecosistema digital unificado, escalable y orientado al crecimiento sostenible.
-</p>
-
-<p class="mb-0">
-  La integración entre <strong>SmartBusinessAnalytics®</strong>,
-  <strong>SmartBusinessMedia®</strong> y <strong>SmartBusinessLaw®</strong>
-  permite administrar de forma inteligente la operación financiera, los procesos empresariales,
-  el marketing digital, la automatización cognitiva y la gestión legal y regulatoria,
-  interconectando la lógica del negocio con la experiencia del cliente mediante una plataforma adaptativa,
-  predictiva y totalmente personalizada para <strong>{{ product.name }}</strong> y el ecosistema SmartQuail.
-</p>
-  
-  
+    <!-- ENCABEZADO DE MÓDULO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// COGNITIVE BIG DATA & AI SUITE</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="grid-outline" class="text-warning fs-3"></ion-icon>
+          <span>SmartBusinessSuites® ERP <sup>(I + D + A + AI)</sup></span>
+        </h4>
       </div>
+      <span class="tech-badge-ia font-monospace">COGNITIVE LEVEL: AGENTIC</span>
     </div>
+
+    <!-- RESUMEN GENERAL -->
+    <p class="text-light opacity-90 mb-3 lh-base" style="text-align: justify;">
+      <strong class="text-white">SmartBusinessSuites® ERP (I+D+A+AI)</strong> es la suite cognitiva de <strong class="text-white">Big Data, Inteligencia Artificial y automatización predictiva en la nube</strong> de <strong class="text-white">SmartQuail, Inc.</strong>, diseñada para transformar grandes volúmenes de datos empresariales en modelos inteligentes, decisiones autónomas y experiencias adaptativas en tiempo real.
+    </p>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      La plataforma integra <strong class="text-white">Machine Learning, Redes Neuronales, IA Generativa, NLP (Natural Language Processing) y automatización cognitiva</strong>, interconectando la lógica de negocio con la experiencia del cliente para <strong class="text-white">{{ product.name }}</strong>.
+    </p>
+
+    <!-- PILARES COGNITIVOS (SBA, SBM, SBL) -->
+    <div class="row g-3 mb-4">
+      
+      <!-- SBA + AI -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">FINANCE & OPS AI</span>
+            <span class="tech-badge-orange">SBA® + AI</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessAnalytics®</h6>
+          <p class="small text-muted mb-0">Núcleo ERP cognitivo, procesamiento masivo con Big Data, modelos predictivos de rendimiento y riesgos.</p>
+        </div>
+      </div>
+
+      <!-- SBM + AI -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">GENERATIVE MEDIA</span>
+            <span class="tech-badge-synthex">SBM® + AI</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessMedia®</h6>
+          <p class="small text-muted mb-0">Generación automática de contenidos con IA generativa, analítica predictiva de audiencias e interacción dinámica.</p>
+        </div>
+      </div>
+
+      <!-- SBL + AI -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">PREDICTIVE LAW</span>
+            <span class="tech-badge-purple">SBL® + AI</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessLaw®</h6>
+          <p class="small text-muted mb-0">Análisis documental inteligente, trazabilidad predictiva de procesos jurídicos y cumplimiento regulatorio.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESPECIFICACIONES TÉCNICAS Y CAPACIDADES COGNITIVAS -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPACIDADES DE IA, BIG DATA Y REDES NEURONALES
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- ARQUITECTURA BIG DATA -->
+        <li>
+          <strong class="text-white">Arquitectura Big Data Empresarial:</strong>
+          Ingesta de datos estructurados, no estructurados y conversaciones en streaming con procesamiento distribuido en tiempo real.
+        </li>
+
+        <!-- MACHINE LEARNING Y DEEP LEARNING -->
+        <li>
+          <strong class="text-white">Machine Learning & Redes Neuronales Avanzadas:</strong>
+          Modelos supervisados, no supervisados y de refuerzo con capacidad de autoaprendizaje continuo y detección de anomalías operativas.
+        </li>
+
+        <!-- AUTOMATIZACIÓN COGNITIVA -->
+        <li>
+          <strong class="text-white">Automatización Cognitiva & Predictiva:</strong>
+          Ejecución autónoma de acciones basadas en contexto, análisis de tendencias y predicción de demanda en tiempo real.
+        </li>
+
+        <!-- NLP Y CHATBOTS -->
+        <li>
+          <strong class="text-white">Lenguaje Natural (NLP/NLU) & Asistentes Conversacionales:</strong>
+          Chatbots agénticos inteligentes capaces de comprender intenciones semánticas, ejecutar consultas y coordinar flujos operativos complejos.
+        </li>
+
+        <!-- INTERFACES ADAPTATIVAS -->
+        <li>
+          <strong class="text-white">Interfaces Digitales Adaptativas:</strong>
+          Personalización automática del entorno UI/UX según rol, perfil de intención y comportamiento histórico del usuario.
+        </li>
+
+        <!-- EVOLUCIÓN AUTÓNOMA -->
+        <li>
+          <strong class="text-white">Aprendizaje Continuo & Evolución de Modelos:</strong>
+          Optimización persistente de algoritmos predictivos alimentados por telemetría operacional en vivo.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// ECOSISTEMA AGÉNTICO INTEGRADOR:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        La convergencia cognitiva de <strong class="text-white">SBA®</strong>, <strong class="text-white">SBM®</strong> y <strong class="text-white">SBL®</strong> impulsada por Inteligencia Artificial transforma la gestión reactiva de <strong class="text-white">{{ product.name }}</strong> en una operación proactiva, autónoma y predictiva dentro del ecosistema SmartQuail.
+      </p>
+    </div>
+
   </div>
-  
-  
+</div>

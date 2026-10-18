@@ -1,145 +1,353 @@
 {% load i18n %}
 {% load static %}
 
-<div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="tab-description">
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-    <!-- Carrusel SmartBusinessAnalytics -->
+  /* Contenedor principal estilo Cyber/Tech Split */
+  .tech-split-card {
+    position: relative;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-gpu {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Columna izquierda: Visualización de plataforma */
+  .split-image-wrapper {
+    position: relative;
+    min-height: 560px;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-right: 1px solid var(--border-color);
+  }
+
+  .split-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(30, 30, 31, 0.2) 0%, rgba(40, 40, 41, 0.9) 100%);
+  }
+
+  /* Columna derecha: Detalles del sistema */
+  .split-details-box {
+    background-color: var(--card-bg-subtle);
+    padding: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 560px;
+  }
+
+  /* Botón interactivo */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  /* Indicadores Estilo Neón / Instagram */
+  .custom-instagram-indicators {
+    bottom: 15px;
+    margin-bottom: 0;
+    z-index: 5;
+  }
+
+  .custom-instagram-indicators button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 0 4px !important;
+    transition: all 0.3s ease;
+  }
+
+  .custom-instagram-indicators button.active {
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    width: 24px !important;
+    border-radius: 12px !important;
+  }
+
+  /* CONTROLES LATERALES DEL CAROUSEL MEJORADOS */
+  .tech-carousel-control {
+    width: 42px;
+    height: 42px;
+    background: rgba(30, 30, 31, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: var(--accent-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tech-carousel-control:hover {
+    opacity: 1;
+    background: rgba(247, 168, 79, 0.15);
+    border-color: var(--accent-orange);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+  }
+
+  .carousel-control-prev.tech-carousel-control {
+    left: 15px;
+  }
+
+  .carousel-control-next.tech-carousel-control {
+    right: 15px;
+  }
+</style>
+
+<div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="tab-description">
+  <div class="tech-split-card">
     <div class="card-body p-0">
 
       {% for c in categories %}
-      {% if c.slug == "business-gastronomico" and c.tamano_empresa == tamano_empresa %}
-        {% if c.products.all %}
-    
-    <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
-    
-      <!-- INDICADORES (opcional pero recomendado) -->
-  
-    
-      <div class="carousel-inner">
-    
-        {% for product in c.products.all %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-    
-          <a href="{{ product.get_absolute_url }}"
-             class="text-decoration-none text-white d-block">
-    
-            <!-- DESKTOP -->
-            <div class="position-relative d-none d-md-block"
-                 style="height: 925px;
-                        background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
-                        background-size: cover;
-                        background-position: center;">
-    
-              <div class="position-absolute bottom-0 start-0 w-100 p-4 bg-dark bg-opacity-50">
-    
-                <h2 class="text-warning" style="font-size: 16px;">
-                  <i class="fadeIn animated bx bx-health"></i>
-                  {{ product.name }} {{ product.suite}}
-                  
-                  <strong>Disponibilidad:</strong> 
-                  {% if product.usuarios_simultaneos == '100' %}50 usuarios máximos, ROI del 75%
-                  {% elif product.usuarios_simultaneos == '300' %}150 usuarios máximos, ROI del 85%
-                  {% elif product.usuarios_simultaneos == '500' %}500 usuarios máximos, ROI del 95%
-                  {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máximos, ROI del 95%
-                  {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máximos, ROI del 100%
-                  {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 usuarios simultáneos)
-                  {% endif %}
-                </h2>
-    
-    
-              </div>
-            </div>
-    
-            <!-- MOBILE -->
-            <div class="position-relative d-block d-md-none w-100"
-                 style="height: 79vh;
-                        background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');
-                        background-size: cover;
-                        background-position: center;">
-    
-              <div class="position-absolute top-0 start-0 w-100 h-100"
-                   style="background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.35));">
-    
-                <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white"
-                     style="max-height: 75vh; overflow-y: auto;">
-    
-                  <h2 class="text-warning mb-2" style="font-size: 15px; line-height: 1.3;">
-                    <i class="fadeIn animated bx bx-health"></i>
-                    {{ product.name }}
-                    <sup>
-                      I+D {% if product.is_automatitation %}+A{% endif %}
-                      {% if product.is_intelligent %}+AI{% endif %}
-                    </sup>
-                  </h2>
-    
-                  <p class="text-light mb-2" style="font-size: 12px;">
-                    Plataforma médica y terapéutica en la nube
-                    {% if product.is_automatitation %} • Automatización{% endif %}
-                    {% if product.is_intelligent %} • IA{% endif %}
-                    <br>
-                    <strong>Disponibilidad:</strong>
-                    {% if product.usuarios_simultaneos == '10-50'%} Baja (100 maximo de usuarios simultáneos)
-                    {% elif product.usuarios_simultaneos == '150-500' %} media/baja (500 maximo de usuarios simultáneos)
-                    {% elif product.usuarios_simultaneos == '500-1000' %} media/alta (1000 maximo de usuarios simultáneos)
-                    {% elif product.usuarios_simultaneos == '5000+' %} alta (usuarios ilimitados)
-                    {% endif %}
-                  </p>
-    
-                  <p class="text-light mb-2" style="font-size: 13px; line-height: 1.4;">
-                    Nuestra plataforma médica y terapéutica en la nube está diseñada para transformar la atención en salud mediante tecnologías de información certificadas, reguladas y seguras.
-                  </p>
-    
-                  {% if product.is_automatitation %}
-                  <p class="text-light mb-2" style="font-size: 13px;">
-                    Automatiza procesos clínicos, reportes médicos y control operativo en tiempo real.
-                  </p>
-                  {% endif %}
-    
-                  {% if product.is_intelligent %}
-                  <p class="text-light mb-2" style="font-size: 13px;">
-                    IA para análisis clínico, predicción y apoyo en decisiones médicas.
-                  </p>
-                  {% endif %}
-    
-                  <p class="text-light mb-2" style="font-size: 13px;">
-                    Infraestructura cloud segura y escalable para atención eficiente y confiable.
-                  </p>
-    
-    
-                </div>
-              </div>
-            </div>
-    
-          </a>
-    
-        </div>
-        {% endfor %}
-    
-      </div>
-    
-      <!-- CONTROLES DEL CAROUSEL (ESTO TE FALTABA) -->
-      <button class="carousel-control-prev" type="button"
-              data-bs-target="#carouselMedia" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-    
-      <button class="carousel-control-next" type="button"
-              data-bs-target="#carouselMedia" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    
-    </div>
-    
-        {% else %}
-          <p class="ps-3 pb-3">No hay productos disponibles.</p>
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-  
-  
-  
-  </div>
+        {% if c.slug == "business-gastronomico" and c.tamano_empresa == tamano_empresa %}
+          {% if c.products.all %}
+            <div id="carouselGastronomic" class="carousel slide" data-bs-ride="carousel">
 
+              <div class="carousel-inner">
+                {% for product in c.products.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+
+                    <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE) -->
+                    <div class="row g-0">
+
+                      <!-- COLUMNA IZQUIERDA: VISUALIZACIÓN PLATAFORMA GASTRONÓMICA -->
+                      <div class="col-12 col-lg-6">
+                        <div class="split-image-wrapper"
+                             style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
+                          <div class="split-image-overlay d-flex align-items-center justify-content-start p-4 p-md-5 text-start">
+                            <div style="max-width: 90%;">
+                              <span class="tech-badge-orange mb-2 d-inline-block">// GASTRONOMY & RESTAURANT POS Envelopment</span>
+                              
+                              <!-- NOMBRE DEL PRODUCTO DESTACADO -->
+                              <h1 class="text-white fw-bold display-6 mb-2 text-uppercase tracking-tight">
+                                {{ product.name }} {{ product.suite }}
+                              </h1>
+                      
+                              <!-- SUBTÍTULO TÉCNICO ENFOCADO EN GASTRONOMÍA -->
+                              <p class="font-monospace small mb-0 accent-text" style="letter-spacing: 0.05em; font-size: 0.85rem;">
+                                Smart POS Cloud, Kitchen Display Systems & Supply Chain Intelligence.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- COLUMNA DERECHA: ESPECIFICACIONES OPERATIVAS GASTRONÓMICAS -->
+                      <div class="col-12 col-lg-6">
+                        <div class="split-details-box">
+
+                          <div>
+                            <!-- BADGES DINÁMICOS SUPERIORES -->
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                              {% if product.is_automatitation %}
+                                <span class="tech-badge-synthex">Comandero & POS</span>
+                              {% endif %}
+                              {% if product.is_intelligent %}
+                                <span class="tech-badge-ia">IA Mermas & Demanda</span>
+                              {% endif %}
+                              {% if product.is_gpu and product.gpu %}
+                                <span class="tech-badge-gpu">GPU: {{ product.gpu }}</span>
+                              {% endif %}
+                              <span class="tech-badge-purple">Gastronomía & HoReCa</span>
+                            </div>
+
+                            <h4 class="text-white fw-bold mb-2">{{ product.name }}</h4>
+
+                            <p class="text-light opacity-90 small mb-3 lh-base" style="color: #cbd5e1 !important;">
+                              {{ product.description|default:"Ecosistema inteligente para la gestión integral de restaurantes y negocios gastronómicos. Incluye punto de venta en la nube, control de insumos y recetas, comanderas digitales y optimización de cocina."|truncatewords:28 }}
+                            </p>
+
+                            <!-- CUADRO 1: RECURSOS Y DISPONIBILIDAD EN OPERACIÓN POS -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">DISPONIBILIDAD:</span>
+                                <span class="accent-text fw-bold">
+                                  {% if product.usuarios_simultaneos == '100' %}50 usuarios máx. (ROI 75%)
+                                  {% elif product.usuarios_simultaneos == '300' %}150 usuarios máx. (ROI 85%)
+                                  {% elif product.usuarios_simultaneos == '500' %}500 usuarios máx. (ROI 95%)
+                                  {% elif product.usuarios_simultaneos == '800' %}1000 usuarios máx. (ROI 95%)
+                                  {% elif product.usuarios_simultaneos == '1K' %}5000 usuarios máx. (ROI 100%)
+                                  {% elif product.usuarios_simultaneos == '+5K' %}Alta disponibilidad (>5000 conc.)
+                                  {% elif product.usuarios_simultaneos == '10-50' %}100 usuarios máximos
+                                  {% elif product.usuarios_simultaneos == '150-500' %}500 usuarios máximos
+                                  {% elif product.usuarios_simultaneos == '500-1000' %}1000 usuarios máximos
+                                  {% elif product.usuarios_simultaneos == '5000+' %}Usuarios ilimitados
+                                  {% else %}{{ product.usuarios_simultaneos|default:"Disponibilidad Estándar" }}
+                                  {% endif %}
+                                </span>
+                              </div>
+                              <div class="d-flex justify-content-between mb-0">
+                                <span class="text-muted">RECURSOS NUBE (POS):</span>
+                                <span class="text-white">{{ product.cpu|default:0 }} vCPU · {{ product.memoria|default:0 }} GB RAM · {{ product.almacenamiento|default:0 }} GB SSD</span>
+                              </div>
+                            </div>
+
+                            <!-- CUADRO 2: AUTOMATIZACIÓN DE COCINA E INTELIGENCIA DE MERMAS -->
+                            {% if product.is_automatitation or product.is_intelligent %}
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              {% if product.is_automatitation %}
+                              <div class="d-flex justify-content-between align-items-center {% if product.is_intelligent %}mb-1 pb-1 border-bottom border-secondary border-opacity-10{% endif %}">
+                                <span class="text-muted">// OPERACIÓN COCINA:</span>
+                                <span class="text-info fw-bold text-end">{{ product.get_automatizacion_display|default:"KDS & Facturación Electrónica POS" }}</span>
+                              </div>
+                              {% endif %}
+
+                              {% if product.is_intelligent %}
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// PREVISIÓN IA:</span>
+                                <span class="text-warning fw-bold text-end">{{ product.get_inteligencia_artificial_display|default:"Control de Mermas & Predicción de Stock" }}</span>
+                              </div>
+                              {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE GASTRONÓMICA -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+                              <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
+                                <span class="text-muted">// HORAS DE TRABAJO:</span>
+                                <span class="text-white">
+                                  Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> | 
+                                  Impl: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                </span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// CLOUD TYPE:</span>
+                                <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Nube Privada POS & KDS" }}</span>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <!-- FOOTER DE PRECIO Y ACCIÓN -->
+                          <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">
+                            <div>
+                              <span class="text-muted small font-monospace d-block">INVERSIÓN MÓDULO:</span>
+                              <h4 class="text-white fw-bold mb-0 font-monospace">${{ product.price_amount|default:product.price|default:"0.00" }}</h4>
+                            </div>
+                            <span class="btn-tech-orange d-inline-flex align-items-center gap-2">
+                              <span>Explorar Suite Gastronómica</span>
+                              <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+
+              <!-- BOTONES FLOTANTES ANTERIOR / SIGUIENTE MEJORADOS -->
+              <button class="carousel-control-prev tech-carousel-control" type="button" data-bs-target="#carouselGastronomic" data-bs-slide="prev">
+                <ion-icon name="chevron-back-outline" class="fs-5"></ion-icon>
+                <span class="visually-hidden">Anterior</span>
+              </button>
+              <button class="carousel-control-next tech-carousel-control" type="button" data-bs-target="#carouselGastronomic" data-bs-slide="next">
+                <ion-icon name="chevron-forward-outline" class="fs-5"></ion-icon>
+                <span class="visually-hidden">Siguiente</span>
+              </button>
+
+              <!-- INDICADORES INFERIORES ESTILO NEÓN -->
+              <div class="carousel-indicators custom-instagram-indicators">
+                {% for product in c.products.all %}
+                  <button type="button" data-bs-target="#carouselGastronomic" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+              </div>
+
+            </div>
+          {% else %}
+            <p class="p-4 text-muted font-monospace mb-0">// {% trans "No hay soluciones gastronómicas disponibles en esta categoría." %}</p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+    </div>
   </div>
+</div>

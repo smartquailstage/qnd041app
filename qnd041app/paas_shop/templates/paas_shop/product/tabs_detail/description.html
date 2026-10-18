@@ -1,476 +1,335 @@
 {% load i18n %}
 {% load static %}
 
-
 <style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  /* Estilos base del módulo Tech Detail */
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
 
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
 
-  /* Estilo base para todas las tabs */
-  .nav-tabs .nav-link {
-    color: #ffffff;
-    border: none;
-    margin-right: 4px;
-    border-radius: 6px;
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
   }
-  
-  /* Colores personalizados para cada tab */
-  .nav-link.infra-tab {
-    background-color: #2196f3; /* Azul infraestructura */
+
+  /* Contenedor de Galería y Botones */
+  .product-gallery-wrapper {
+    position: relative;
+    background-color: var(--card-bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
   }
-  
-  .nav-link.id-tab {
-    background-color: #43a047; /* Verde I+D */
-  }
-  
-  .nav-link.auto-tab {
-    background-color: #fb8c00; /* Naranja automatización */
-  }
-  
-  .nav-link.ia-tab {
-    background-color: #8e24aa; /* Violeta IA */
-  }
-  
-  .nav-link.moni-tab {
-    background-color: #5e35b1; /* Indigo monitoreo */
-  }
-  
-  .nav-link.cyber-tab {
-    background-color: #e53935; /* Rojo ciberseguridad */
-  }
-  
-  .nav-link.support-tab {
-    background-color: #00acc1; /* Cian soporte */
-  }
-  
-  /* Estilo para el tab activo */
-  .nav-tabs .nav-link.active {
-    font-weight: bold;
-    opacity: 1 !important;
-    filter: brightness(1.1);
-    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
-  }
-  
-  
-  /* Estilos para la imagen y el botón de play */
+
   .image-container {
-    position: relative; /* Necesario para posicionar el botón dentro de este contenedor */
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
   }
-  
+
   .play-button {
-    background-color: transparent; /* Fondo transparente */
-    border: none; /* Sin borde */
-    color: #222121; /* Color del ícono */
-    font-size: 80px; /* Tamaño del ícono */
-    cursor: pointer; /* Hacer el cursor un puntero */
-    z-index: 2; /* Asegura que el ícono esté sobre la imagen */
-  }
-  
-  .play-button:hover {
-    color: #cb0404; /* Color de hover, puedes cambiarlo a lo que desees */
-  }
-  
-  .play-button ion-icon {
-    font-size: 3.5rem; /* Ajuste del tamaño del ícono */
-  }
-  
-  .item {
-    position: relative; /* Asegura que el contenedor del ítem también pueda posicionar elementos hijos */
-  }
-  
-  /* Ajustes adicionales para el contenedor de la galería */
-  .product-gallery {
-    position: relative; /* Necesario para que los elementos internos puedan ser posicionados de forma relativa */
-  }
-  
-  
-  /* Indicadores circulares Bootstrap */
-  .indicators-circle button {
-    width: 10px;
-    height: 10px;
+    background: rgba(30, 30, 31, 0.7);
+    border: 1px solid var(--accent-orange);
     border-radius: 50%;
-    background-color: transparent;
-    border: 2px solid #bbb;
-    margin: 0 5px;
-    transition: 0.3s;
+    color: var(--accent-orange);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 5;
   }
-  
+
+  .play-button:hover {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.5);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  /* Indicadores Estilo Neón / Instagram */
+  .indicators-circle button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 0 4px !important;
+    transition: all 0.3s ease;
+  }
+
   .indicators-circle button.active {
-    background-color: #f7a84f;
-    border-color:#f7a84f;
-    width: 40px;
-    height: 20px;
-    transform: scale(0.5);
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    width: 24px !important;
+    border-radius: 12px !important;
   }
-  
-  
-  
+
+  /* Botón interactivo principal */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px 20px;
+    width: 100%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+    transform: translateY(-2px);
+  }
+
   @media (max-width: 992px) {
     .row.mt-4 {
       flex-direction: column;
       gap: 15px;
     }
-    .col-md-6 {
-      flex: 1 1 100%;
-    }
-    dl {
-      grid-template-columns: 40% 60% !important;
-      font-size: 13px;
-    }
   }
-  
-  
-  
-  
-  </style>
+</style>
 
+<!-- TAB: INFORMACIÓN GENERAL -->
+<div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+  <div class="tech-detail-card p-4">
 
+    <div class="row g-4">
 
-    
-    <!-- TAB: Información -->
-    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
-        <div class="card" style="background-color: #2e2e2e;">
-          <div class="card-body p-4" style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.2;background-color:#2e2e2e;border-radius:25px;">
-  
-            <div class="product-detail-card">
-    <div class="product-detail-body">
-      <div class="row g-0">
-  
-        <!-- Imagen principal con carousel -->
-        <div class="col-12 col-lg-5">
-          <div class="image-zoom-section">
-            <div class="product-gallery border rounded mb-3 p-3">
-  
-              <!-- INICIO DEL CAROUSEL -->
-              <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-              
-                  {% if product.image_2 %}
-                  <div class="carousel-item active">
-                    <div class="image-container position-relative mb-3">
-                      <img src="{{ product.image_2.url }}" class="d-block w-100" alt="Imagen principal">
-              
-                    </div>
-                  </div>
-                  {% endif %}
-              
-                  {% if product.image_2_2 %}
-                  <div class="carousel-item {% if not product.image %}active{% endif %}">
-                    <div class="image-container position-relative mb-3">
-                      <img src="{{ product.image_2_2.url }}" class="d-block w-100" alt="Imagen secundaria">
-              
-                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% elif product.category.name == "Business Media" %}
-                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% endif %}
-              
-                    </div>
-                  </div>
-                  {% endif %}
-              
-                  {% if product.image_3 %}
-                  <div class="carousel-item {% if not product.image and not product.image_2 %}active{% endif %}">
-                    <div class="image-container position-relative mb-3">
-                      <img src="{{ product.image_3.url }}" class="d-block w-100" alt="Imagen terciaria">
-              
-                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% elif product.category.name == "Business Media" %}
-                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% endif %}
-              
-                    </div>
-                  </div>
-                  {% endif %}
-              
-                  {% if product.image_4 %}
-                  <div class="carousel-item {% if not product.image and not product.image_2 and not product.image_3 %}active{% endif %}">
-                    <div class="image-container position-relative mb-3">
-                      <img src="{{ product.image_4.url }}" class="d-block w-100" alt="Imagen cuarta">
-              
-                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% elif product.category.name == "Business Media" %}
-                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                        <ion-icon name="play-circle-outline" style="font-size:48px;color:#ffab4d;"></ion-icon>
-                      </a>
-                      {% endif %}
-              
-                    </div>
-                  </div>
-                  {% endif %}
-              
-                  {% if not product.image and not product.image_2 and not product.image_3 and not product.image_4 %}
-                  <div class="carousel-item active">
-                    <div class="image-container position-relative">
-                      <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid" alt="Sin imagen">
-                    </div>
-                  </div>
-                  {% endif %}
-              
+      <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+      <div class="col-12 col-lg-5">
+        <div class="product-gallery-wrapper">
+
+          <!-- CAROUSEL DE PRODUCTO -->
+          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+              {% if product.image_2 %}
+              <div class="carousel-item active">
+                <div class="image-container position-relative">
+                  <img src="{{ product.image_2.url }}" class="d-block w-100 rounded" alt="Imagen principal">
                 </div>
-              
-  <!-- CONTROLES -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-
-  <!-- INDICADORES -->
-  <div class="carousel-indicators indicators-circle position-static mt-3">
-
-    {% if product.image_2 %}
-    <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
-    {% endif %}
-
-    {% if product.image_2_2 %}
-    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}1{% else %}0{% endif %}"></button>
-    {% endif %}
-
-    {% if product.image_3 %}
-    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}2{% else %}0{% endif %}"></button>
-    {% endif %}
-
-    {% if product.image_4 %}
-    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image %}3{% else %}0{% endif %}"></button>
-    {% endif %}
-
-  </div>
-              
-              
               </div>
-              
-
-              <!-- FIN DEL CAROUSEL -->
-  
-            </div>
-          </div>
-        </div>
-  
-        <!-- Información del producto -->
-             <!-- Información del producto -->
-      <div class="col-12 col-lg-7">
-
-        <div class="product-info-section p-3">
-
-
-
-
-
-    <!-- Logo a la derecha -->
-     {% if product.category.slug == 'business-medico' %}
-    <img src="{% static 'assets/platforms/smartmedicalplatforms.png' %}"
-         alt="Logo del proveedor"
-         style="width:290px;">
-      {% endif %}
-      {% if product.category.slug == 'business-gastronomico' %}
-      <img src="{% static 'img/smartbusinessmedia.png' %}"
-         alt="Logo del proveedor"
-         style="width:290px;">
-       {% endif %}
-       {% if product.category.slug == 'business-tecnologico' %}
-      <img src="{% static 'img/SmartBusinessLaw.png' %}"
-         alt="Logo del proveedor"
-         style="width:290px;">
-
-       {% endif %}
-
-       {% if product.category.slug == 'business-educar' %}
-       <img src="{% static 'img/SmartBusinessLaw.png' %}"
-          alt="Logo del proveedor"
-          style="width:290px;">
- 
-        {% endif %}
-
-
-       {% if product.category.slug == 'business-ong' %}
-       <img src="{% static 'img/SmartBusinessLaw.png' %}"
-          alt="Logo del proveedor"
-          style="width:290px;">
- 
-        {% endif %}
-
-
-       {% if product.category.slug == 'business-publico' %}
-       <img src="{% static 'img/SmartBusinessLaw.png' %}"
-          alt="Logo del proveedor"
-          style="width:290px;">
- 
-        {% endif %}
-
-
-       {% if product.category.slug == 'business-privado' %}
-       <img src="{% static 'img/SmartBusinessLaw.png' %}"
-          alt="Logo del proveedor"
-          style="width:290px;">
- 
-        {% endif %}
-
-
-
-       {% if product.category.slug == 'business-servicios' %}
-       <img src="{% static 'img/SmartBusinessLaw.png' %}"
-          alt="Logo del proveedor"
-          style="width:290px;">
- 
-        {% endif %}
-
-        {% if product.category.slug == 'business-industrial' %}
-        <img src="{% static 'img/SmartBusinessLaw.png' %}"
-           alt="Logo del proveedor"
-           style="width:290px;">
-  
-         {% endif %}
-         {% if product.category.slug == 'business-investigacion' %}
-         <img src="{% static 'img/SmartBusinessLaw.png' %}"
-            alt="Logo del proveedor"
-            style="width:290px;">
-   
-          {% endif %}
-          {% if product.category.slug == 'business-art' %}
-          <img src="{% static 'img/SmartBusinessLaw.png' %}"
-             alt="Logo del proveedor"
-             style="width:290px;">
-    
-           {% endif %}
-           {% if product.category.slug == 'business-marketing' %}
-           <img src="{% static 'img/SmartBusinessLaw.png' %}"
-              alt="Logo del proveedor"
-              style="width:290px;">
-     
-            {% endif %}
-
-            {% if product.category.slug == 'business-admin' %}
-            <img src="{% static 'img/SmartBusinessLaw.png' %}"
-               alt="Logo del proveedor"
-               style="width:290px;">
-      
-             {% endif %}
-
-             {% if product.category.slug == 'business-transporte' %}
-             <img src="{% static 'img/SmartBusinessLaw.png' %}"
-                alt="Logo del proveedor"
-                style="width:290px;">
-       
               {% endif %}
 
-    <!-- Precio -->
-    <div class="d-flex align-items-center gap-2">
-      <h4 class="mb-0" style="color:#fff">Inversión: <strong>{{ product.price }}</strong></h4>
-  </div>
+              {% if product.image_2_2 %}
+              <div class="carousel-item {% if not product.image_2 %}active{% endif %}">
+                <div class="image-container position-relative">
+                  <img src="{{ product.image_2_2.url }}" class="d-block w-100 rounded" alt="Imagen secundaria">
 
+                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% elif product.category.name == "Business Media" %}
+                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
 
+              {% if product.image_3 %}
+              <div class="carousel-item {% if not product.image_2 and not product.image_2_2 %}active{% endif %}">
+                <div class="image-container position-relative">
+                  <img src="{{ product.image_3.url }}" class="d-block w-100 rounded" alt="Imagen terciaria">
 
+                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% elif product.category.name == "Business Media" %}
+                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
 
+              {% if product.image_4 %}
+              <div class="carousel-item {% if not product.image_2 and not product.image_2_2 and not product.image_3 %}active{% endif %}">
+                <div class="image-container position-relative">
+                  <img src="{{ product.image_4.url }}" class="d-block w-100 rounded" alt="Imagen cuarta">
 
+                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% elif product.category.name == "Business Media" %}
+                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
 
+              {% if not product.image_2 and not product.image_2_2 and not product.image_3 and not product.image_4 %}
+              <div class="carousel-item active">
+                <div class="image-container position-relative text-center py-4">
+                  <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid mx-auto" alt="Sin imagen">
+                </div>
+              </div>
+              {% endif %}
 
-<div class="row mt-4" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: stretch;">
+            </div>
 
-  <!-- 🔹 COLUMNA IZQUIERDA - ESPECIFICACIONES DEL PRODUCTO -->
-  <div class="col-md-6" style="flex: 1; background-color: #2e2e2e; color: #ffffff; border-radius: 8px; padding: 20px;top: 5px;">
+            <!-- CONTROLES -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
 
-    <h6><ion-icon name="key-outline"></ion-icon> Licencia ITC</h6>
-    <p style="text-align:justify;">{{ product.description|linebreaks }}</p>
+            <!-- INDICADORES -->
+            <div class="carousel-indicators indicators-circle position-static mt-3 mb-0">
+              {% if product.image_2 %}
+              <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+              {% endif %}
 
+              {% if product.image_2_2 %}
+              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}1{% else %}0{% endif %}"></button>
+              {% endif %}
 
-  </div>
+              {% if product.image_3 %}
+              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}2{% else %}0{% endif %}"></button>
+              {% endif %}
 
+              {% if product.image_4 %}
+              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}3{% else %}0{% endif %}"></button>
+              {% endif %}
+            </div>
 
-
-  <!-- 🔹 COLUMNA DERECHA - NORMATIVAS Y CUMPLIMIENTO -->
- <div class="col-md-6" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
-
-
-      <!-- RECUADRO DE GARANTÍAS -->
-  <div class="card"
-       style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-              border-radius: 8px; padding: 20px; text-align: left;">
-
-    <h4><ion-icon name="shield-checkmark-outline"></ion-icon> Certificaciones</h4>
-
-    <p>
-      ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.
-    </p>
-
-  </div>
-
-
-
-
-  <!-- RECUADRO DE INFORMACIÓN DEL SERVICIO -->
-<div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: left;">
-    <h4>   <i class="fadeIn animated bx bx-support"></i> Soporte y mantenimiento</h4>
-    <p>
-      {{ product.total_nube_iva }} /  mes (Incluye recursos de nube y soporte 24/7)
-    </p>
-
-
-
-</div>
-
-
-
-
-<div class="card"
-     style="background-color: #444040; color: #ffffff; border: 0px solid #5a5a5a;
-            border-radius: 8px; padding: 20px; text-align: left;">
-
-  <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
-    {% csrf_token %}
-    {{ cart_product_form.quantity }}   <!-- Campo oculto -->
-    {{ cart_product_form.update }}     <!-- Campo oculto -->
-
-    <button type="submit" class="btn btn-warning btn-ecomm d-flex align-items-center gap-2">
-
-      <ion-icon name="key-outline"></ion-icon>{% trans 'Generar licencia propietaria ITC ' %}
-    </button>
-
-</form>
-
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
+          </div>
 
         </div>
       </div>
-      </div>
-    </div>
-  </div>
-  
-  
+
+      <!-- COLUMNA DERECHA: DETALLES, CERTIFICACIONES Y ACCIONES -->
+      <div class="col-12 col-lg-7 d-flex flex-column justify-content-between">
+
+        <div>
+          <!-- LOGOS DINÁMICOS POR CATEGORÍA -->
+          <div class="mb-3 text-end">
+            {% if product.category.slug == 'business-medico' %}
+            <img src="{% static 'assets/platforms/smartmedicalplatforms.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+            {% elif product.category.slug == 'business-gastronomico' %}
+            <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+            {% elif product.category.slug == 'business-tecnologico' or product.category.slug == 'business-educar' or product.category.slug == 'business-ong' or product.category.slug == 'business-publico' or product.category.slug == 'business-privado' or product.category.slug == 'business-servicios' or product.category.slug == 'business-industrial' or product.category.slug == 'business-investigacion' or product.category.slug == 'business-art' or product.category.slug == 'business-marketing' or product.category.slug == 'business-admin' or product.category.slug == 'business-transporte' %}
+            <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+            {% endif %}
+          </div>
+
+          <!-- ENCABEZADO DE INVERSIÓN Y BADGE -->
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+            <div>
+              <span class="tech-badge-orange mb-1 d-inline-block">// MÓDULO CERTIFICADO ITC</span>
+              <h3 class="mb-0 text-white font-monospace">Inversión: <strong style="color: var(--accent-orange);">{{ product.price }}</strong></h3>
+            </div>
+          </div>
+
+          <!-- FILA CON ESPECIFICACIONES Y CUMPLIMIENTO -->
+          <div class="row g-3 mt-1">
+
+            <!-- ESPECIFICACIONES / LICENCIA -->
+            <div class="col-12 col-md-6">
+              <div class="tech-detail-box h-100">
+                <h6 class="text-white fw-bold mb-2 d-flex align-items-center gap-2">
+                  <ion-icon name="key-outline" class="fs-5 text-warning"></ion-icon>
+                  <span>Licencia ITC</span>
+                </h6>
+                <div class="small text-light opacity-90 lh-base" style="text-align: justify;">
+                  {{ product.description|linebreaks }}
+                </div>
+              </div>
+            </div>
+
+            <!-- CERTIFICACIONES, SOPORTE Y ACCIÓN -->
+            <div class="col-12 col-md-6 d-flex flex-column gap-3">
+
+              <!-- CERTIFICACIONES -->
+              <div class="tech-detail-box">
+                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2">
+                  <ion-icon name="shield-checkmark-outline" class="fs-5 text-success"></ion-icon>
+                  <span>Certificaciones & Normativas</span>
+                </h6>
+                <p class="small text-muted font-monospace mb-0">
+                  ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.
+                </p>
+              </div>
+
+              <!-- SOPORTE Y MANTENIMIENTO -->
+              <div class="tech-detail-box">
+                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2">
+                  <i class="fadeIn animated bx bx-support fs-5 text-info"></i>
+                  <span>Soporte & Mantenimiento</span>
+                </h6>
+                <p class="small text-light mb-0 font-monospace">
+                  <strong>{{ product.total_nube_iva }}</strong> / mes
+                  <span class="d-block text-muted small">(Incluye recursos de nube y soporte 24/7)</span>
+                </p>
+              </div>
+
+              <!-- BOTÓN AGREGAR / GENERAR LICENCIA -->
+              <div class="tech-detail-box p-2">
+                <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
+                  {% csrf_token %}
+                  {{ cart_product_form.quantity }}
+                  {{ cart_product_form.update }}
+
+                  <button type="submit" class="btn-tech-orange">
+                    <ion-icon name="key-outline" class="fs-5"></ion-icon>
+                    <span>{% trans 'Generar licencia propietaria ITC' %}</span>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
           </div>
         </div>
+
       </div>
-  
+
+    </div>
+
+  </div>
+</div>

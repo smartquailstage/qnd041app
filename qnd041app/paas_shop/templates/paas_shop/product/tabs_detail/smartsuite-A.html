@@ -1,168 +1,226 @@
 {% load i18n %}
 {% load static %}
-    
 
-  <div class="tab-pane fade" id="tab-automatizacion" role="tabpanel" aria-labelledby="tab-automatizacion">
-    <div class="card">
-      <div class="card-body p-4"
-           style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
-                  font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-  
-  <h5 class="mt-3">
-    <ion-icon name="grid-outline"></ion-icon>
-    Suites (I+D+A)
-  </h5>
-  <p>
-  <strong>SmartBusinessSuites® (I+D+A)</strong> es la <strong>suite integral de automatización empresarial en la nube</strong> de <strong>SmartQuail, Inc.</strong>, diseñada para automatizar procesos de información, comunicación, operación, marketing, análisis y gestión empresarial dentro de un ecosistema inteligente, escalable y totalmente interconectado.
-</p>
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-<p>
-  La plataforma integra capacidades avanzadas de <strong>ERP analítico, automatización de procesos, CRM inteligente, gestión de contenidos digitales, comunicación multicanal e inteligencia operativa</strong>, permitiendo transformar datos, eventos e interacciones en flujos automáticos de trabajo y decisiones accionables en tiempo real.
-</p>
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
 
-<p>
-  SmartBusinessSuites® (I+D+A) interconecta la <strong>lógica de negocio</strong> con la
-  <strong>lógica del cliente</strong> mediante procesos automatizados que sincronizan operaciones internas, interfaces digitales, canales de comunicación y experiencias de usuario dentro de una plataforma completamente personalizada y adaptada a la identidad visual de cada empresa.
-</p>
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
 
-<p>
-  Esta arquitectura permite automatizar flujos empresariales complejos, reducir tareas manuales y ofrecer experiencias digitales modernas, intuitivas y amigables, alineadas con la marca, los procesos y los objetivos estratégicos del negocio.
-</p>
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
 
-<ul>
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Automatización financiera y operativa inteligente:</strong>
-    La automatización de procesos financieros, operativos y analíticos es gestionada mediante
-    <strong>SmartBusinessAnalytics® (SBA)</strong>, el núcleo ERP analítico de la suite SmartQuail.
-    <ul>
-      <li>Automatización de flujos financieros y operativos.</li>
-      <li>Procesamiento inteligente de métricas y rendimiento empresarial.</li>
-      <li>Dashboards dinámicos y monitoreo automático en tiempo real.</li>
-      <li>Disparadores automáticos basados en eventos y reglas de negocio.</li>
-    </ul>
-  </li>
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Automatización de contenidos y social media:</strong>
-    La automatización de contenidos digitales, posicionamiento web y redes sociales es administrada mediante
-    <strong>SmartBusinessMedia® (SBM)</strong>.
-    <ul>
-      <li>Programación automática de publicaciones y campañas.</li>
-      <li>Gestión centralizada de contenidos multimedia y redes sociales.</li>
-      <li>Automatización de flujos de marketing digital y engagement.</li>
-      <li>Integración con ecommerce, sitios web y canales Meta.</li>
-    </ul>
-  </li>
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
 
-  <li>
-    <strong>Automatización legal, administrativa y regulatoria:</strong>
-    Los procesos legales, administrativos y regulatorios son automatizados mediante
-    <strong>SmartBusinessLaw® (SBL)</strong>.
-    <ul>
-      <li>Automatización documental y trazabilidad de procesos.</li>
-      <li>Gestión automática de cumplimiento normativo y regulatorio.</li>
-      <li>Control de procesos corporativos y administrativos.</li>
-      <li>Integración entre operaciones legales y flujos empresariales.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
 
-  <li>
-    <strong>Motor central de automatización empresarial:</strong>
-    SmartBusinessSuites® (I+D+A) funciona como un orquestador inteligente de datos, eventos y procesos.
-    <ul>
-      <li>Automatización de procesos internos y externos.</li>
-      <li>Conexión automática entre plataformas, sistemas y usuarios.</li>
-      <li>Activación de acciones y flujos en tiempo real.</li>
-      <li>Reducción de tareas manuales y optimización operativa.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
 
-  <li>
-    <strong>Automatización basada en eventos y comportamiento:</strong>
-    Cada interacción, transacción o cambio de estado genera eventos que activan procesos automáticos.
-    <ul>
-      <li>Flujos inteligentes según comportamiento del usuario.</li>
-      <li>Disparadores automáticos por reglas de negocio.</li>
-      <li>Procesos personalizados según contexto, rol o canal.</li>
-      <li>Ejecución automatizada sin intervención manual.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
 
-  <li>
-    <strong>Automatización de comunicación multicanal:</strong>
-    La suite integra procesos automáticos de comunicación entre clientes, plataformas y usuarios.
-    <ul>
-      <li>Notificaciones automáticas por correo electrónico.</li>
-      <li>Integración con WhatsApp y plataformas de mensajería.</li>
-      <li>Chatbots inteligentes y respuestas automatizadas.</li>
-      <li>Comunicación sincronizada entre canales digitales.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
 
-  <li>
-    <strong>Interconexión entre lógica empresarial y experiencia del cliente:</strong>
-    SmartBusinessSuites® automatiza la relación entre procesos internos y experiencias digitales.
-    <ul>
-      <li>Sincronización automática entre operaciones y experiencia de usuario.</li>
-      <li>Personalización dinámica de interfaces y procesos.</li>
-      <li>Automatización contextual basada en datos e interacción.</li>
-      <li>Experiencias digitales fluidas, intuitivas y amigables.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+</style>
 
-  <li>
-    <strong>Plataforma personalizada y alineada a la identidad visual:</strong>
-    Toda la suite puede adaptarse visual y funcionalmente a la identidad corporativa del negocio.
-    <ul>
-      <li>Interfaces modernas y totalmente personalizadas.</li>
-      <li>Experiencias de usuario alineadas con la marca.</li>
-      <li>Diseño optimizado para usabilidad y experiencia digital.</li>
-      <li>Entornos multiforma escalables y adaptativos.</li>
-    </ul>
-  </li>
+<!-- TAB: AUTOMATIZACIÓN DE SUITES (I+D+A) -->
+<div class="tab-pane fade" id="tab-automatizacion" role="tabpanel" aria-labelledby="tab-sba-automatizacion">
+  <div class="tech-detail-card p-4">
 
-  <li>
-    <strong>Integración inteligente y arquitectura multiforma:</strong>
-    SmartBusinessSuites® se integra con APIs, plataformas externas, ecommerce y servicios empresariales.
-    <ul>
-      <li>Interoperabilidad entre sistemas internos y externos.</li>
-      <li>Sincronización automática de información y procesos.</li>
-      <li>Integración cloud escalable y segura.</li>
-      <li>Automatización intersistemas en tiempo real.</li>
-    </ul>
-  </li>
-
-  <li>
-    <strong>Optimización continua mediante automatización:</strong>
-    La plataforma analiza automáticamente el rendimiento operativo y comunicacional del negocio.
-    <ul>
-      <li>Detección automática de cuellos de botella.</li>
-      <li>Optimización continua de flujos y procesos.</li>
-      <li>Mejora de eficiencia, productividad y escalabilidad.</li>
-      <li>Evolución continua basada en datos reales.</li>
-    </ul>
-  </li>
-
-</ul>
-
-<p class="mb-1">
-  En conjunto, <strong>SmartBusinessSuites® (I+D+A)</strong> se consolida como una
-  <strong>plataforma integral de automatización empresarial en la nube</strong>,
-  capaz de conectar datos, procesos, operaciones, contenidos, comunicaciones e interfaces digitales dentro de un ecosistema inteligente, automatizado y totalmente escalable.
-</p>
-
-<p class="mb-0">
-  La integración entre <strong>SmartBusinessAnalytics®</strong>,
-  <strong>SmartBusinessMedia®</strong> y <strong>SmartBusinessLaw®</strong>
-  permite automatizar de forma centralizada la operación financiera, los procesos empresariales,
-  el posicionamiento digital, la comunicación multicanal y la gestión legal y regulatoria,
-  interconectando la lógica del negocio con la experiencia del cliente mediante una plataforma moderna,
-  personalizada y alineada a la identidad visual de <strong>{{ product.name }}</strong> y del ecosistema SmartQuail.
-</p>
-  
-  
-  
+    <!-- ENCABEZADO DE MÓDULO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// INTEGRAL ENTERPRISE AUTOMATION ENVELOPMENT</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="grid-outline" class="text-warning fs-3"></ion-icon>
+          <span>SmartBusinessSuites® <sup>(I + D + A)</sup></span>
+        </h4>
       </div>
+      <span class="tech-badge-synthex font-monospace">AUTOMATION LEVEL: SYNTHEX</span>
     </div>
+
+    <!-- RESUMEN GENERAL -->
+    <p class="text-light opacity-90 mb-3 lh-base" style="text-align: justify;">
+      <strong class="text-white">SmartBusinessSuites® (I+D+A)</strong> es la suite integral de automatización empresarial en la nube de <strong class="text-white">SmartQuail, Inc.</strong>, diseñada para orquestar y automatizar procesos de información, comunicación, operaciones, marketing, analítica y gestión operativa dentro de un ecosistema inteligente y escalable.
+    </p>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Interconecta la <strong class="text-white">lógica de negocio</strong> con la <strong class="text-white">experiencia del cliente</strong> sincronizando operaciones internas, interfaces digitales y canales de comunicación multicanal adaptados a la identidad visual corporativa de <strong class="text-white">{{ product.name }}</strong>.
+    </p>
+
+    <!-- PILARES DE SUITES (SBA, SBM, SBL) -->
+    <div class="row g-3 mb-4">
+      
+      <!-- SBA -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">FINANCE & OPS</span>
+            <span class="tech-badge-orange">SBA®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessAnalytics®</h6>
+          <p class="small text-muted mb-0">Núcleo ERP analítico, automatización financiera y disparadores por reglas de negocio en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- SBM -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">MARKETING & MEDIA</span>
+            <span class="tech-badge-synthex">SBM®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessMedia®</h6>
+          <p class="small text-muted mb-0">Automatización de contenidos digitales, posicionamiento, campañas y engagement en redes sociales.</p>
+        </div>
+      </div>
+
+      <!-- SBL -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">REGULATORY & LAW</span>
+            <span class="tech-badge-purple">SBL®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessLaw®</h6>
+          <p class="small text-muted mb-0">Gestión documental automatizada, trazabilidad legal y cumplimiento normativo corporativo.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESPECIFICACIONES DE AUTOMATIZACIÓN -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPACIDADES DE ARCHITECTURAL AUTOMATION
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- MOTOR CENTRAL -->
+        <li>
+          <strong class="text-white">Motor Central de Automatización Empresarial:</strong>
+          Orquestador inteligente de datos, eventos y flujos de trabajo interconectados que reduce tareas manuales y optimiza la eficiencia operativa.
+        </li>
+
+        <!-- AUTOMATIZACIÓN POR EVENTOS -->
+        <li>
+          <strong class="text-white">Disparadores Basados en Eventos & Comportamiento:</strong>
+          Cada transacción o cambio de estado ejecuta flujos automáticos personalizados según el rol del usuario, canal o regla de negocio.
+        </li>
+
+        <!-- COMUNICACIÓN MULTICANAL -->
+        <li>
+          <strong class="text-white">Comunicación Multicanal Sincronizada:</strong>
+          Integración automatizada con correo electrónico, mensajería instantánea (WhatsApp), bots inteligentes y notificaciones push.
+        </li>
+
+        <!-- INTERFAZ E IDENTIDAD -->
+        <li>
+          <strong class="text-white">Adaptabilidad Visual & Personalización UI:</strong>
+          Entornos multiforma completamente adaptados a la marca, con diseño responsive y usabilidad optimizada para la experiencia del usuario.
+        </li>
+
+        <!-- INTEROPERABILIDAD -->
+        <li>
+          <strong class="text-white">Integración Cloud Inter-Sistemas:</strong>
+          Conectividad mediante APIs seguras para la sincronización fluida entre plataformas externas, ecommerce y servicios corporativos.
+        </li>
+
+        <!-- OPTIMIZACIÓN CONTINUA -->
+        <li>
+          <strong class="text-white">Optimización & Evolución Basada en Datos:</strong>
+          Monitoreo constante del rendimiento operativo para detectar cuellos de botella y mejorar la escalabilidad del negocio continuamente.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// RESULTADO ECOSISTÉMICO:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        La integración de <strong class="text-white">SBA®</strong>, <strong class="text-white">SBM®</strong> y <strong class="text-white">SBL®</strong> consolida la operación financiera, legal y comunicacional de <strong class="text-white">{{ product.name }}</strong> dentro de un ecosistema unificado, inteligente y escalable.
+      </p>
+    </div>
+
   </div>
+</div>

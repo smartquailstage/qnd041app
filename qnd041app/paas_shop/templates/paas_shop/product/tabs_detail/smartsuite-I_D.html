@@ -1,132 +1,214 @@
 {% load i18n %}
 {% load static %}
-    
 
-<div class="tab-pane fade" id="sba-investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
-    <div class="card">
-      <div class="card-body p-4"
-           style="color:#ededed;text-align:justify;font-family:'Segoe UI',sans-serif;
-                  font-size:14px;line-height:1.2;background-color:#403c3c;border-radius:25px;">
-  
-  <h5 class="mt-3">
-    <ion-icon name="grid-outline"></ion-icon>
-    Suites (I+D)
-  </h5>
-  
-<p>
-  <strong>SmartBusinessSuites (I+D)</strong> es la <strong>suite integral de gestión, información y comunicación en la nube</strong> de <strong>SmartQuail, Inc.</strong>, diseñada para centralizar, administrar y optimizar todos los procesos estratégicos, operativos, financieros, comerciales y regulatorios dentro de un ecosistema empresarial inteligente.
-</p>
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-<p>
-  La plataforma funciona como un entorno unificado de <strong>ERP analítico, CRM empresarial, gestión de contenidos digitales, comunicación multicanal e investigación y desarrollo (I+D)</strong>, permitiendo que toda la infraestructura de información y comunicación empresarial sea gestionada desde una única suite tecnológica integrada.
-</p>
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
 
-<p>
-  SmartBusinessSuites (I+D) interconecta de manera inteligente la <strong>lógica de negocio</strong> con la <strong>lógica del cliente</strong>, integrando procesos internos, operaciones empresariales, experiencias digitales e interacciones de usuarios dentro de una plataforma completamente personalizada y adaptada a la identidad visual de cada negocio.
-</p>
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
 
-<p>
-  Esta arquitectura permite crear experiencias digitales modernas, intuitivas y amigables, donde cada interfaz, módulo y flujo operativo se ajusta a las necesidades específicas de la empresa, fortaleciendo la relación entre tecnología, marca y experiencia de usuario.
-</p>
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
 
-<ul>
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Gestión financiera y operativa inteligente:</strong>
-    La administración financiera, operativa y analítica del negocio es gestionada mediante
-    <strong>SmartBusinessAnalytics® (SBA)</strong>, el núcleo ERP analítico de la suite SmartQuail.
-    <ul>
-      <li>Control financiero y análisis de rendimiento empresarial.</li>
-      <li>Monitoreo de operaciones, productividad y eficiencia.</li>
-      <li>Dashboards inteligentes, métricas y análisis en tiempo real.</li>
-      <li>Automatización de procesos estratégicos y operativos.</li>
-    </ul>
-  </li>
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
 
-  <li>
-    <strong>Posicionamiento digital y gestión de contenidos:</strong>
-    La gestión de contenidos web, posicionamiento digital, comunicación comercial y redes sociales
-    es administrada mediante <strong>SmartBusinessMedia® (SBM)</strong>.
-    <ul>
-      <li>Administración centralizada de contenido digital y multimedia.</li>
-      <li>Gestión de redes sociales y campañas digitales.</li>
-      <li>Optimización de presencia web y posicionamiento de marca.</li>
-      <li>Integración entre marketing, analítica y experiencia de usuario.</li>
-    </ul>
-  </li>
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
 
-  <li>
-    <strong>Gestión legal, administrativa y regulatoria:</strong>
-    Los procesos legales, administrativos y regulatorios son gestionados mediante
-    <strong>SmartBusinessLaw® (SBL)</strong>, permitiendo mantener control y trazabilidad documental dentro del ecosistema empresarial.
-    <ul>
-      <li>Administración de procesos legales y corporativos.</li>
-      <li>Gestión documental y cumplimiento regulatorio.</li>
-      <li>Control administrativo y seguimiento de normativas.</li>
-      <li>Integración de procesos jurídicos con operaciones empresariales.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
 
-  <li>
-    <strong>Interconexión entre lógica de negocio y experiencia del cliente:</strong>
-    SmartBusinessSuites (I+D) integra los procesos internos del negocio con las interfaces utilizadas por clientes y usuarios finales.
-    <ul>
-      <li>Sincronización entre operaciones empresariales y experiencia digital.</li>
-      <li>Automatización inteligente basada en comportamiento e interacción.</li>
-      <li>Flujos personalizados según el contexto de cada usuario.</li>
-      <li>Comunicación dinámica entre plataformas, datos y procesos.</li>
-    </ul>
-  </li>
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
 
-  <li>
-    <strong>Plataforma personalizada y adaptada a la identidad visual del negocio:</strong>
-    Toda la suite puede ser configurada visual y funcionalmente según la identidad corporativa de cada empresa.
-    <ul>
-      <li>Interfaces modernas y totalmente personalizadas.</li>
-      <li>Adaptación visual alineada a la marca y experiencia corporativa.</li>
-      <li>Diseño enfocado en usabilidad y experiencia de usuario amigable.</li>
-      <li>Entornos digitales intuitivos, escalables y multiforma.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
 
-  <li>
-    <strong>Investigación y desarrollo basado en datos reales:</strong>
-    El módulo (I+D) se alimenta directamente de datos generados por usuarios,
-    procesos operativos e interacciones digitales.
-    <ul>
-      <li>Análisis de comportamiento y experiencia de usuario.</li>
-      <li>Evaluación de flujos operativos y puntos de optimización.</li>
-      <li>Validación continua de procesos, funcionalidades y estrategias comerciales.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
 
-  <li>
-    <strong>Arquitectura multiforma y conectividad empresarial:</strong>
-    SmartBusinessSuites (I+D) se integra con aplicaciones empresariales,
-    plataformas externas y servicios de terceros mediante APIs seguras y sincronización inteligente.
-    <ul>
-      <li>Interoperabilidad entre sistemas internos y externos.</li>
-      <li>Sincronización automática de información y procesos.</li>
-      <li>Infraestructura cloud escalable y centralizada.</li>
-    </ul>
-  </li>
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+</style>
 
-</ul>
+<!-- TAB: INVESTIGACIÓN Y DESARROLLO DE SUITES (I+D) -->
+<div class="tab-pane fade" id="sba-investigacion" role="tabpanel" aria-labelledby="tab-sba-investigacion">
+  <div class="tech-detail-card p-4">
 
-<p class="mb-1">
-  En conjunto, <strong>SmartBusinessSuites (I+D)</strong> se posiciona como una
-  <strong>plataforma integral de gestión empresarial en la nube</strong>, capaz de conectar
-  datos, procesos, operaciones, comunicaciones e interfaces digitales dentro de un ecosistema
-  inteligente, escalable y orientado a la innovación.
-</p>
-
-<p class="mb-0">
-  La integración entre <strong>SmartBusinessAnalytics®</strong>,
-  <strong>SmartBusinessMedia®</strong> y <strong>SmartBusinessLaw®</strong>
-  permite administrar de forma centralizada la operación financiera, el posicionamiento digital,
-  la comunicación empresarial y la gestión legal y regulatoria, mientras interconecta la lógica de negocio con la experiencia del cliente mediante una plataforma personalizada, moderna y alineada a la identidad visual de <strong>{{ product.name }}</strong> y del ecosistema SmartQuail.
-</p>
-  
+    <!-- ENCABEZADO DE MÓDULO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// RESEARCH & DEVELOPMENT INTEGRAL SUITE</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="grid-outline" class="text-warning fs-3"></ion-icon>
+          <span>SmartBusinessSuites® <sup>(I + D)</sup></span>
+        </h4>
       </div>
+      <span class="tech-badge-purple font-monospace">SUITE LEVEL: CORE</span>
     </div>
+
+    <!-- RESUMEN GENERAL -->
+    <p class="text-light opacity-90 mb-3 lh-base" style="text-align: justify;">
+      <strong class="text-white">SmartBusinessSuites® (I+D)</strong> es la suite integral de gestión, información y comunicación en la nube de <strong class="text-white">SmartQuail, Inc.</strong>, diseñada para centralizar, administrar y optimizar todos los procesos estratégicos, operativos, financieros, comerciales y regulatorios dentro de un ecosistema empresarial inteligente.
+    </p>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Funciona como un entorno unificado de <strong class="text-white">ERP analítico, CRM empresarial, gestión de contenidos digitales, comunicación multicanal e Investigación y Desarrollo (I+D)</strong>, interconectando de manera inteligente la lógica de negocio con la experiencia del cliente para <strong class="text-white">{{ product.name }}</strong>.
+    </p>
+
+    <!-- PILARES DE SUITES (SBA, SBM, SBL) -->
+    <div class="row g-3 mb-4">
+      
+      <!-- SBA -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">FINANCE & OPERATIVE</span>
+            <span class="tech-badge-orange">SBA®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessAnalytics®</h6>
+          <p class="small text-muted mb-0">Núcleo ERP analítico, control financiero, productividad, métricas y dashboards en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- SBM -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">MEDIA & POSITIONING</span>
+            <span class="tech-badge-synthex">SBM®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessMedia®</h6>
+          <p class="small text-muted mb-0">Gestión de contenidos web, presencia digital, redes sociales y campañas comerciales integradas.</p>
+        </div>
+      </div>
+
+      <!-- SBL -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">LAW & COMPLIANCE</span>
+            <span class="tech-badge-purple">SBL®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessLaw®</h6>
+          <p class="small text-muted mb-0">Administración de procesos legales, gestión documental y cumplimiento normativo corporativo.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESPECIFICACIONES Y ARQUITECTURA I+D -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPACIDADES DE ARQUITECTURA E INVESTIGACIÓN (I+D)
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- LÓGICA DE NEGOCIO Y CLIENTE -->
+        <li>
+          <strong class="text-white">Interconexión entre Lógica de Negocio & Experiencia Digital:</strong>
+          Sincronización automatizada entre los procesos operativos internos y las interfaces digitales utilizadas por clientes y usuarios finales.
+        </li>
+
+        <!-- INVESTIGACIÓN BASADA EN DATOS REALES -->
+        <li>
+          <strong class="text-white">Investigación y Desarrollo Basado en Telemetría Real (I+D):</strong>
+          Retroalimentación continua mediante el análisis de interacción de usuarios, evaluación de cuellos de botella y optimización iterativa de flujos de trabajo.
+        </li>
+
+        <!-- PERSONALIZACIÓN VISUAL Y MARCA -->
+        <li>
+          <strong class="text-white">Adaptabilidad de Marca & Experiencia UI:</strong>
+          Configuración visual personalizada alineada a la identidad corporativa del negocio, priorizando la usabilidad, usabilidad multitarea y entornos multiforma.
+        </li>
+
+        <!-- CONECTIVIDAD MULTIFORMA -->
+        <li>
+          <strong class="text-white">Conectividad Multiforma e Interoperabilidad:</strong>
+          Sincronización automática de información con aplicaciones externas, marketplaces y servicios de terceros mediante conectores e infraestructura cloud centralizada.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// CONSOLIDACIÓN DE SUITE:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        La convergencia entre <strong class="text-white">SmartBusinessAnalytics®</strong>, <strong class="text-white">SmartBusinessMedia®</strong> y <strong class="text-white">SmartBusinessLaw®</strong> permite administrar la operación financiera, comercial y legal de <strong class="text-white">{{ product.name }}</strong> de forma unificada e inteligente dentro de la arquitectura soberana de SmartQuail, Inc.
+      </p>
+    </div>
+
   </div>
+</div>
