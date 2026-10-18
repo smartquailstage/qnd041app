@@ -18,7 +18,6 @@ class BusinessSystemProject(models.Model):
     # Campo para el usuario logueado (asociado con el modelo de usuario)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-
     saas_order = models.OneToOneField(
         SaaSOrder,
         on_delete=models.SET_NULL,
@@ -27,7 +26,6 @@ class BusinessSystemProject(models.Model):
         related_name="business_project",
         verbose_name="Asignar licencia Apps"
     )
-
 
     paas_order = models.OneToOneField(
         PaaSOrder,
@@ -38,7 +36,6 @@ class BusinessSystemProject(models.Model):
         verbose_name="Asiganar licencia Platforms"
     )
     
-
     product = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
@@ -67,22 +64,16 @@ class BusinessSystemProject(models.Model):
     public_domain = models.URLField(blank=True, null=True, verbose_name='Dominio público asignado')
     velocity_score = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, verbose_name='Puntuación de velocidad del sistema')
 
-
-
-
-
-
     # Nombre y descripción del proyecto
-    name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial",default="Iniciando")
+    name = models.CharField(max_length=200, help_text="Nombre del proyecto de sistema empresarial", default="Iniciando")
     description = models.TextField()
 
-        #GOBERNANZA
+    # GOBERNANZA
     nombre_responsable = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de resposable de datos personales')
     nombre_encargado = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de encargado de tratamiento de datos')
     nombre_delegado = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre del delegado de proteccion de datos personales')
     
     politicas_privacidad = models.CharField(max_length=255, blank=True, null=True, verbose_name='Nombre de dominio privado')
-
 
     # Fecha de creación
     created_at = models.DateTimeField(auto_now_add=True)
@@ -122,7 +113,6 @@ class BusinessSystemProject(models.Model):
         verbose_name='Sector de Negocio'
     )
 
-    # ✅ NUEVOS CAMPOS DE LOGOTIPOS
     logo_rectangular = models.ImageField(
         upload_to="business/logos/rectangular/",
         null=True,
@@ -194,14 +184,12 @@ class BusinessSystemProject(models.Model):
     porcentaje_memoria = models.FloatField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - Proyecto Cloud Native"
 
     def get_absolute_url(self):
         return reverse("business_customer_projects:project_detail", kwargs={"pk": self.pk})
 
-
     def save(self, *args, **kwargs):
-
         if self.saas_order:
             item = self.saas_order.items.first()
             if item:
@@ -226,9 +214,8 @@ class BusinessSystemProject(models.Model):
                 self.porcentaje_memoria = round(
                     (self.memoria_aproximada_gb / total_gb) * 100, 2)
 
-                    
-    def __str__(self):
-        return f"{self.name} - Proyecto Cloud Native"
+        # ⚠️ ¡ESTO FALTABA! Guardar el modelo para que se genere el ID (pk) en la BD
+        super().save(*args, **kwargs)
 
 
 @property

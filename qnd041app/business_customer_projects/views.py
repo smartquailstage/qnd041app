@@ -374,24 +374,29 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def create_project(request):
     if request.method == 'POST':
-
         project_form = BusinessSystemProjectForm(
             request.POST,
             request.FILES,
-            user=request.user    # ← IMPORTANTE
+            user=request.user
         )
 
         if project_form.is_valid():
+            # 1. Creamos el objeto sin guardar las relaciones m2m todavía
             project = project_form.save(commit=False)
-            project.user = request.user  # Asignamos el usuario logueado
+            project.user = request.user
+            
+            # 2. Guardamos el objeto principal para que genere su ID (pk)
             project.save()
+            
+            # 3. ¡CRUCIAL! Guardamos las relaciones many-to-many ahora que ya existe el ID
+            project_form.save_m2m()
+            
             return redirect('business_customer_projects:processes', project_id=project.id)
 
     else:
-        project_form = BusinessSystemProjectForm(user=request.user)  # ← IMPORTANTE
+        project_form = BusinessSystemProjectForm(user=request.user)
 
     return render(request, 'create_project.html', {'form': project_form})
-
 
 
 

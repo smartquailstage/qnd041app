@@ -1,234 +1,284 @@
-
 {% load widget_tweaks %}
 {% load static %}
- 
-     
-     <div class="tab-pane fade show active" id="tab-general" role="tabpanel">
 
-       
-        <div class="card radius-10" style="background-color: #2e2e2e;">
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
-                   <div class="card-body" style="background-color: rgb(40, 40, 40);border-radius: 25px;">
-            <h5><ion-icon name="cloud-download-outline"></ion-icon> Activo ITC: {{ project.name }}</h5>  
-            {% if project.paas_order  %}   
-             <h6 class="mb-0">  <ion-icon name="key-outline"></ion-icon> {{ project.paas_order }} </h6>   
-             {% elif project.saas_order  %}
-             <h6 class="mb-0">  <ion-icon name="key-outline"></ion-icon> {{ project.saas_order }}</h6>    
-             {% endif %}     
+  /* Tarjetas principales estilo Cyber/Tech */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
 
-             {% if project.product_paas  %}   
-             <p>  <ion-icon name="cloud-download-outline"></ion-icon> {{ project.product_paas }} </p>   
-             {% elif project.product  %}
-             <p>  <ion-icon name="cloud-download-outline"></ion-icon> {{ project.product }}</p>    
-             {% endif %}    
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
 
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Badges dinámicos */
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-green {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Widget de métricas e infraestructura */
+  .telemetry-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: rgba(247, 168, 79, 0.1);
+    border: 1px solid rgba(247, 168, 79, 0.25);
+    color: var(--accent-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+  }
+
+  .graph-container {
+    background-color: #121213;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .suspended-warning-box {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+  }
+</style>
+
+<div class="tab-pane fade show active" id="tab-general" role="tabpanel">
   
-             
-             
-                  {% if project.is_active %}
-                  {% else %}
-                   <h5 class="mb-0 text-warning bg-light-warning px-2 rounded py-1">
-                  <ion-icon name="close-outline"></ion-icon>  {{ project.name }} Proyecto ITC Suspendido por falta de pago
-                  </h5>
-                  {% endif %}
-                
-                <p>
-                  <ion-icon name="time-outline"></ion-icon>
-  {{ total_hours_used_h }} hrs {{ total_hours_used_min }} min
-</p>
+  <div class="tech-card p-3 p-md-4 mb-4">
+    <div class="card-body p-0">
 
+      <!-- CABECERA DE INFORMACIÓN DEL ACTIVO -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+        <div>
+          <span class="tech-badge-orange mb-2 d-inline-block">// INFRAESTRUCTURA Y MONITORIZACIÓN LIVE</span>
+          <h3 class="text-white fw-bold d-flex align-items-center gap-2 mb-1">
+            <ion-icon name="cloud-download-outline" class="accent-text"></ion-icon> 
+            Activo ITC: <span class="accent-text">{{ project.name }}</span>
+          </h3>
 
+          <div class="d-flex align-items-center gap-3 flex-wrap font-monospace small text-muted mt-1">
+            {% if project.paas_order %}   
+              <span><ion-icon name="key-outline" class="accent-text me-1"></ion-icon> Orden PaaS: <strong class="text-white">{{ project.paas_order }}</strong></span>
+            {% elif project.saas_order %}
+              <span><ion-icon name="key-outline" class="accent-text me-1"></ion-icon> Orden SaaS: <strong class="text-white">{{ project.saas_order }}</strong></span>
+            {% endif %}
 
-
-                <div class="d-flex align-items-center mb-3">
-           
-
-                 
-                </div>
-
-
-               <div class="row g-4 align-items-center mb-4">
-            
-                
-         
-               </div><!--end row-->
-               <div class="d-flex flex-column flex-lg-row align-items-lg-center align-self-end justify-content-lg-between border p-3 gap-3 mb-0 rounded-3">
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle bg-light-success text-success">
-                    <ion-icon name="server-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_percent_store_used }} %</h4>
-                    <p class="mb-0 text-secondary">{{ project.db_name }}</p>
-                    {% if project.is_active %}
-                    <p class="mb-0 text-secondary">Almacenamiento : {{ project.almacenamiento_total_mb }} GB </p>
-                    {% else%}
-                    {% endif %}
-                  </div>
-                </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <ion-icon name="hardware-chip-outline"></ion-icon>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_percent_cpu_used }} %</h4>
-                    <p class="mb-0 text-secondary"> vCPU </p>
-                    {% if project.is_active %}
-                    <p class="mb-0 text-secondary">Procesamiento: {{ project.procesamiento_total_aproximado_millicore }} milicores </p>
-                    {% else%}
-                    {% endif %}
-                  </div>
-                </div>
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <i class="fadeIn animated bx bx-memory-card"></i>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
-                    <p class="mb-0 text-secondary">NVMe SSD RAM  </p>
-                     {% if project.is_active %}
-                     <p class="mb-0 text-secondary">Memoria: {{ project.memoria_total  }} GB </p>
-                     {% else%}
-                     {% endif %}
-                  </div>
-                </div>
-
-                {% if project.has_ai %}
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
-                    <p class="mb-0 text-secondary">vGPU  </p>
-                     {% if project.is_active %}
-                     <p class="mb-0 text-secondary"> Tarjeta gráfica:{{ project.total_memory_available }} (%)</p>
-                     {% else%}
-                     {% endif %}
-                  </div>
-                </div>
-                {% else %}
-                {% endif %}
-
-                {% if project.has_llm %}
-                <div class="vr d-none d-lg-block"></div>
-                <div class="d-flex align-items-center gap-3">
-                  <div class="widget-icon rounded-circle  bg-light-success text-success">
-                    <i class="fadeIn animated bx bx-cloud-drizzle"></i>
-                  </div>
-                  <div class="">
-                    <h4 class="mb-0">{{ total_percent_memory_used }} %</h4>
-                    <p class="mb-0 text-secondary">LLM  </p>
-                     {% if project.is_active %}
-                     <p class="mb-0 text-secondary">IA  Models: {{ project.total_tokens_available }} (tokens) </p>
-                     {% else%}
-                     {% endif %}
-                  </div>
-                </div>
-
-                {% else %}
-                {% endif %}
-
-
-              </div>
-              </div>
-
-
-          <div class="card-body" >
-    <div class="row">
-        
-            
-
-                         {% if project.is_active %}
-                   
-  {% if project.is_active %}
-    {% if resource_graph %}
-     
-       
-          <img src="data:image/png;base64,{{ resource_graph }}" 
-               alt="Gráfico de recursos" class="img-fluid rounded mb-3">
-       
-    
-    {% else %}
-      <p class="text-white">No hay métricas históricas registradas para este proyecto.</p>
-    {% endif %}
-  {% else %}
-    <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 15px;">
-      <div class="d-flex align-items-justify mb-3">
-        <h5 class="mb-0"><ion-icon name="cloud-download-outline"></ion-icon> Suspendido</h5>
-      </div>
-
-      <p>Hemos suspendido temporalmente el proyecto ITC debido a la falta 
-      de pago correspondiente a los recursos mensuales de infraestructura en la nube.</p>
-      <p>Si usted está viendo este mensaje, por favor haga clic en el botón de Pago para reactivar el servicio.</p>
-      <p>Le recordamos que, de acuerdo con el contrato de alquiler de servicios de nube y con la Ley Orgánica de Protección de Datos Personales del Ecuador, sus datos y recursos no serán eliminados automáticamente.</p>
-      <p>Mientras el proyecto permanezca suspendido, los recursos asignados continuarán generando consumo y acumulando deuda, hasta que usted solicite expresamente la terminación definitiva haciendo clic en Eliminar Proyecto.</p>
-    </div>
-  {% endif %}
-
-
-
-                    {% else %}
-                                  <div class="card-body" style="background-color: rgb(46, 46, 46);border-radius: 15px; ">
-                <div class="d-flex align-items-justify mb-3">
-                  <h5 class="mb-0"><ion-icon name="cloud-download-outline"></ion-icon>  Suspendido</h5>
-
-                </div>
-
-  <p>
-    Hemos suspendido temporalmente el proyecto ITC debido a la falta 
-   
-  </p>
-<p>
-   de pago correspondiente a los recursos mensuales de infraestructura en la nube.
-</p>
-  <p>
-    Si usted está viendo este mensaje, por favor haga clic en el botón de Pago para reactivar el servicio.
-  </p>
-
-  <p>
-    Le recordamos que, de acuerdo con el contrato de alquiler de servicios de nube y con la Ley Orgánica de Protección de Datos Personales del Ecuador,
-  </p>
-
-  <p>
-    sus datos y recursos no serán eliminados automáticamente.
-  </p>
-
-  <p>
-    Mientras el proyecto permanezca suspendido, los recursos asignados continuarán generando consumo y acumulando deuda,
-  </p>
-
-  <p>
-    hasta que usted solicite expresamente la terminación definitiva haciendo clic en Eliminar Proyecto.
-  </p>
-
-</div>
-
-
-        
-                    {% endif %}
-                
-
-
-
-     
-          
-        
-
-          
-        </div>
-
-            <hr class="my-4">
-
+            {% if project.product_paas %}   
+              <span><ion-icon name="cube-outline" class="accent-text me-1"></ion-icon> Producto: <strong class="text-white">{{ project.product_paas }}</strong></span>
+            {% elif project.product %}
+              <span><ion-icon name="cube-outline" class="accent-text me-1"></ion-icon> Producto: <strong class="text-white">{{ project.product }}</strong></span>
+            {% endif %}
           </div>
         </div>
+
+        <!-- TIEMPO DE USO Y ESTADO GLOBAL -->
+        <div class="d-flex flex-column align-items-md-end gap-2">
+          {% if project.is_active %}
+            <span class="tech-badge-green d-inline-flex align-items-center gap-1">
+              <span class="spinner-grow spinner-grow-sm text-success" role="status" style="width: 8px; height: 8px;"></span>
+              ACTIVO Y OPERATIVO
+            </span>
+          {% else %}
+            <span class="tech-badge-danger d-inline-flex align-items-center gap-1">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              SUSPENDIDO POR FALTA DE PAGO
+            </span>
+          {% endif %}
+
+          <span class="font-monospace text-muted small">
+            <ion-icon name="time-outline" class="accent-text me-1"></ion-icon>
+            Uso Acumulado: <strong class="text-white">{{ total_hours_used_h }} hrs {{ total_hours_used_min }} min</strong>
+          </span>
+        </div>
       </div>
 
+      <!-- SI EL PROYECTO ESTÁ SUSPENDIDO, MOSTRAR BANNER IMPONENTE DE ALERTA LOPDP -->
+      {% if not project.is_active %}
+        <div class="suspended-warning-box p-4 mb-4">
+          <h5 class="text-danger fw-bold d-flex align-items-center gap-2 mb-2">
+            <ion-icon name="alert-circle-outline" class="fs-4"></ion-icon>
+            Proyecto ITC Suspendido Temporalmente
+          </h5>
+          <p class="text-light small lh-base mb-2 font-monospace" style="color: #fca5a5 !important;">
+            Hemos suspendido temporalmente los servicios de este activo ITC debido a la falta de pago de los recursos mensuales de infraestructura cloud.
+          </p>
+          <p class="text-muted small lh-base mb-0 font-monospace" style="font-size: 11px;">
+            De acuerdo con el contrato de licenciamiento y la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP) del Ecuador</strong>, sus datos y recursos se preservan y no serán eliminados automáticamente. Los recursos asignados continúan reservando capacidad hasta la reactivación o la cancelación expresa.
+          </p>
+        </div>
+      {% endif %}
 
+      <!-- DASHBOARD DE TELEMETRÍA DE RECURSOS EN VIVO -->
+      <div class="tech-card-subtle p-3 p-md-4 mb-4">
+        <h6 class="text-white font-monospace small mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+          // TELEMETRÍA DE CONSUMO DE RECURSOS CLOUD (LIVE HARVEST)
+        </h6>
 
+        <div class="row g-3">
 
+          <!-- ALMACENAMIENTO / BASE DE DATOS -->
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 h-100 d-flex align-items-center gap-3">
+              <div class="telemetry-icon-box">
+                <ion-icon name="server-outline"></ion-icon>
+              </div>
+              <div class="font-monospace">
+                <h4 class="text-white fw-bold mb-0">{{ total_percent_store_used }}%</h4>
+                <p class="text-muted small mb-0">// {{ project.db_name|default:"Base de Datos" }}</p>
+                {% if project.is_active %}
+                  <span class="accent-text small" style="font-size: 11px;">Storage: {{ project.almacenamiento_total_mb }} GB</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
 
+          <!-- PROCESAMIENTO / vCPU -->
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 h-100 d-flex align-items-center gap-3">
+              <div class="telemetry-icon-box">
+                <ion-icon name="hardware-chip-outline"></ion-icon>
+              </div>
+              <div class="font-monospace">
+                <h4 class="text-white fw-bold mb-0">{{ total_percent_cpu_used }}%</h4>
+                <p class="text-muted small mb-0">// vCPU Cores</p>
+                {% if project.is_active %}
+                  <span class="accent-text small" style="font-size: 11px;">{{ project.procesamiento_total_aproximado_millicore }} milicores</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
 
+          <!-- MEMORIA RAM -->
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 h-100 d-flex align-items-center gap-3">
+              <div class="telemetry-icon-box">
+                <i class="fadeIn animated bx bx-memory-card"></i>
+              </div>
+              <div class="font-monospace">
+                <h4 class="text-white fw-bold mb-0">{{ total_percent_memory_used }}%</h4>
+                <p class="text-muted small mb-0">// NVMe RAM</p>
+                {% if project.is_active %}
+                  <span class="accent-text small" style="font-size: 11px;">RAM: {{ project.memoria_total }} GB</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- ACELERACIÓN IA / vGPU (SI APLICA) -->
+          {% if project.has_ai %}
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 h-100 d-flex align-items-center gap-3">
+              <div class="telemetry-icon-box" style="color: #c084fc; background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+              </div>
+              <div class="font-monospace">
+                <h4 class="text-white fw-bold mb-0">{{ total_percent_memory_used }}%</h4>
+                <p class="text-muted small mb-0">// vGPU Cluster</p>
+                {% if project.is_active %}
+                  <span class="text-purple small" style="font-size: 11px; color: #c084fc;">GPU: {{ project.total_memory_available }}%</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- MODELOS LLM / TOKENS (SI APLICA) -->
+          {% if project.has_llm %}
+          <div class="col-12 col-sm-6 col-lg">
+            <div class="p-3 rounded bg-dark border border-secondary border-opacity-10 h-100 d-flex align-items-center gap-3">
+              <div class="telemetry-icon-box" style="color: #38bdf8; background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3);">
+                <i class="fadeIn animated bx bx-cloud-drizzle"></i>
+              </div>
+              <div class="font-monospace">
+                <h4 class="text-white fw-bold mb-0">{{ total_percent_memory_used }}%</h4>
+                <p class="text-muted small mb-0">// LLM Tokens</p>
+                {% if project.is_active %}
+                  <span class="text-info small" style="font-size: 11px;">Tokens: {{ project.total_tokens_available }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE GRÁFICA DE MONITORIZACIÓN -->
+      <div class="tech-card-subtle p-3 p-md-4">
+        <h6 class="text-white font-monospace small mb-3 border-bottom border-secondary border-opacity-25 pb-2 d-flex align-items-center gap-2">
+          <ion-icon name="analytics-outline" class="accent-text"></ion-icon> 
+          HISTÓRICO DE RENDIMIENTO & METRICAS DE NUBE
+        </h6>
+
+        {% if project.is_active %}
+          {% if resource_graph %}
+            <div class="graph-container text-center">
+              <img src="data:image/png;base64,{{ resource_graph }}" 
+                   alt="Gráfico de recursos de infraestructura" class="img-fluid rounded w-100 style-graph">
+            </div>
+          {% else %}
+            <div class="p-4 text-center font-monospace text-muted">
+              <ion-icon name="pulse-outline" class="fs-2 mb-2 accent-text"></ion-icon>
+              <p class="mb-0">// No hay métricas históricas registradas en tiempo real para este proyecto.</p>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="p-4 text-center font-monospace text-muted">
+            <ion-icon name="cloud-offline-outline" class="fs-2 text-danger mb-2"></ion-icon>
+            <p class="mb-0 text-danger">// La telemetría en vivo se encuentra pausada debido a la suspensión del proyecto.</p>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+</div>
