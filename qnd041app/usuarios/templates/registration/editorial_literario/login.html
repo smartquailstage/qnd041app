@@ -1,14 +1,20 @@
 {% extends "base_register.html" %}
 {% load widget_tweaks %}
+{% load socialaccount %}
 {% load i18n wagtailcore_tags wagtailimages_tags static %}
 
 {% block title %}Ingresar{% endblock %}
 
 {% block content %}
 
-
-
 <style>
+:root {
+  --card-bg: #282829;
+  --card-bg-subtle: #232324;
+  --accent-orange: #f7a84f;
+  --border-color: rgba(247, 168, 79, 0.2);
+  --text-muted-custom: #94a3b8;
+}
 
 canvas {
   position: fixed;
@@ -16,60 +22,206 @@ canvas {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1; /* Para que quede de fondo detrás del contenido */
-  background-color: #2e2e2e; /* Fondo oscuro elegante */
+  z-index: -1;
+  background-color: #1e1e1f;
 }
 
-  .custom-card-width {
-    width: 100%;
-    max-width: 500px;
-  }
-  .logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .custom-left-container {
-    max-width: 500px;
-    width: 100%;
-  }
+.custom-card-width {
+  width: 100%;
+  max-width: 480px;
+}
 
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
+.custom-left-container {
+  max-width: 480px;
+  width: 100%;
+}
 
-  /* Soluciona problema de vh en móviles */
+/* Soluciona problema de vh en móviles */
 .min-vh-100 {
   min-height: 100dvh;
 }
 
-/* Evita que el contenido crezca demasiado */
-.card {
-  max-height: 90dvh;
+/* Tarjeta Cyber/Tech Dark */
+.tech-login-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  color: #ededed;
+  overflow: hidden;
 }
 
+.tech-badge-orange {
+  background: rgba(247, 168, 79, 0.1);
+  color: var(--accent-orange);
+  border: 1px solid rgba(247, 168, 79, 0.3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
 
-/* Compacta todo en móvil */
+/* Form-control e Inputs Estilo Cyber */
+.tech-input-group {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.tech-input-group:focus-within {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 10px rgba(247, 168, 79, 0.25);
+}
+
+.tech-input-group .form-control {
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.tech-input-group .form-control:focus {
+  box-shadow: none !important;
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.tech-input-group .btn-toggle-eye {
+  background: transparent;
+  border: none;
+  color: var(--accent-orange);
+  padding: 0 12px;
+}
+
+.tech-input-group .btn-toggle-eye:hover {
+  color: #ffffff;
+}
+
+/* Botón Interactivo Principal */
+.btn-tech-orange {
+  background-color: var(--accent-orange);
+  color: #1e1e1f;
+  border: none;
+  font-weight: 700;
+  font-family: monospace;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-tech-orange:hover {
+  background-color: #f39c12;
+  color: #000;
+  box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Separador Cyber */
+.tech-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted-custom);
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.tech-divider::before,
+.tech-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-divider:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.tech-divider:not(:empty)::after {
+  margin-left: .75em;
+}
+
+/* Botones de Login Social */
+.btn-social {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  padding: 10px 16px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  text-decoration: none;
+}
+
+.btn-social:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.btn-social-gmail:hover {
+  background-color: rgba(219, 68, 85, 0.15);
+  border-color: #ea4335;
+  box-shadow: 0 0 12px rgba(234, 67, 53, 0.3);
+}
+
+.btn-social-facebook:hover {
+  background-color: rgba(24, 119, 242, 0.15);
+  border-color: #1877f2;
+  box-shadow: 0 0 12px rgba(24, 119, 242, 0.3);
+}
+
+.btn-social-github:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.accent-link {
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-family: monospace;
+  transition: all 0.2s ease;
+}
+
+.accent-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(247, 168, 79, 0.5);
+}
+
+/* Compacta en móviles */
 @media (max-width: 768px) {
   .logo-container img {
-    max-width: 328px;
+    max-width: 240px;
   }
-
-  .card-body {
-    padding: 15px;
-  }
-
-  .form-control {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .btn {
-    padding: 10px;
+  .tech-login-card {
+    padding: 20px !important;
   }
 }
 
 body {
   overflow: hidden;
 }
-
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -77,18 +229,24 @@ body {
 <div class="d-flex align-items-center justify-content-center min-vh-100 px-3 px-md-4">
   <div class="custom-left-container mx-auto">
 
+    <!-- LOGO PRINCIPAL -->
     <div class="logo-container mb-3 text-center">
       <a href="https://ec.smartquail.io">
-        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 50%;" alt="Logo">
+        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 45%;" alt="Logo">
       </a>
     </div>
-<hr>
-    <div class="card custom-card-width">
-      <div class="card-body">
 
-        <!-- ========================= -->
-        <!-- 📣 Mostrar mensajes Django -->
-        <!-- ========================= -->
+    <!-- TARJETA DE LOGIN CYBER DARK -->
+    <div class="card tech-login-card custom-card-width p-4">
+      <div class="card-body p-0">
+
+        <!-- CABECERA DE LOGIN -->
+        <div class="text-center mb-4">
+          <span class="tech-badge-orange mb-2 d-inline-block">// SECURE IDENTITY GATEWAY</span>
+          <h4 class="text-white fw-bold mb-0 font-monospace">Ingresar a su cuenta</h4>
+        </div>
+
+        <!-- MENSAJES DJANGO -->
         {% if messages %}
           {% for message in messages %}
             <div class="alert 
@@ -96,7 +254,7 @@ body {
               {% elif message.tags == 'warning' %}alert-warning
               {% elif message.tags == 'success' %}alert-success
               {% else %}alert-info{% endif %}
-              alert-dismissible fade show" role="alert">
+              alert-dismissible fade show font-monospace small" role="alert">
               {{ message }}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -108,7 +266,7 @@ body {
 
           {% if form.errors %}
           <div class="col-12">
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger font-monospace small" role="alert">
               Correo o contraseña incorrectos. Intente de nuevo.
             </div>
           </div>
@@ -120,74 +278,103 @@ body {
 
           {% if form.non_field_errors %}
             <div class="col-12">
-              <div class="alert alert-danger" role="alert">
+              <div class="alert alert-danger font-monospace small" role="alert">
                 {% for error in form.non_field_errors %}
                   {{ error }}
                 {% endfor %}
               </div>
             </div>
           {% endif %}
-<h3 style="text-align: left;"> Ingresar a su cuenta</h3>
-          <!-- Email -->
+
+          <!-- EMAIL / USUARIO -->
           <div class="col-12">
-            <label for="{{ form.email.id_for_label }}">email*</label>
-            <div class="input-group">
-              
+            <label for="{{ form.email.id_for_label }}" class="form-label small font-monospace text-muted mb-1">// CORREO ELECTRÓNICO*</label>
+            <div class="input-group tech-input-group">
               {% if form.is_bound and form.email.errors %}
-              
-                {% render_field form.email class="form-control is-invalid" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
+                {% render_field form.email class="form-control is-invalid" autocomplete="email" placeholder="usuario@smartquail.io" %}
               {% elif form.is_bound %}
-                {% render_field form.email class="form-control is-valid" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
+                {% render_field form.email class="form-control is-valid" autocomplete="email" placeholder="usuario@smartquail.io" %}
               {% else %}
-                {% render_field form.email class="form-control" autocomplete="email" placeholder="Ingrese su correo electrónico" %}
+                {% render_field form.email class="form-control" autocomplete="email" placeholder="usuario@smartquail.io" %}
               {% endif %}
             </div>
             {% for error in form.email.errors %}
-              <div class="invalid-feedback d-block">{{ error }}</div>
+              <div class="invalid-feedback d-block font-monospace small">{{ error }}</div>
             {% endfor %}
           </div>
           
-          <!-- Password -->
+          <!-- PASSWORD -->
           <div class="col-12">
-            <label for="{{ form.password.id_for_label }}">contraseña*</label>
-            <div class="input-group">
+            <label for="{{ form.password.id_for_label }}" class="form-label small font-monospace text-muted mb-1">// CONTRASEÑA*</label>
+            <div class="input-group tech-input-group">
               {% if form.is_bound and form.password.errors %}
-                {% render_field form.password class="form-control is-invalid" id="passwordInput" autocomplete="current-password" placeholder="Ingrese contraseña segura" %}
+                {% render_field form.password class="form-control is-invalid" id="passwordInput" autocomplete="current-password" placeholder="••••••••••••" %}
               {% elif form.is_bound %}
-                {% render_field form.password class="form-control is-valid" id="passwordInput" autocomplete="current-password" placeholder="Ingrese su contraseña segura" %}
+                {% render_field form.password class="form-control is-valid" id="passwordInput" autocomplete="current-password" placeholder="••••••••••••" %}
               {% else %}
-                {% render_field form.password class="form-control" id="passwordInput" autocomplete="current-password" placeholder="Ingrese su contraseña segura" %}
+                {% render_field form.password class="form-control" id="passwordInput" autocomplete="current-password" placeholder="••••••••••••" %}
               {% endif %}
-              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+              <button class="btn-toggle-eye" type="button" id="togglePassword">
                 <i class="bi bi-eye"></i>
               </button>
             </div>
             {% for error in form.password.errors %}
-              <div class="invalid-feedback d-block">{{ error }}</div>
+              <div class="invalid-feedback d-block font-monospace small">{{ error }}</div>
             {% endfor %}
           </div>
-          <!-- Botón -->
-          <div class="col-12 d-grid">
-            <button type="submit" class="btn btn-primary" value="Log in">
-              {% trans 'Iniciar Sesión' %}
-              <i class="fadeIn animated bx bx-right-arrow-alt"></i>
+
+          <!-- BOTÓN PRINCIPAL -->
+          <div class="col-12 mt-4">
+            <button type="submit" class="btn-tech-orange">
+              <span>{% trans 'Iniciar Sesión' %}</span>
+              <i class="fadeIn animated bx bx-right-arrow-alt fs-5"></i>
             </button>
           </div>
 
-          <!-- Enlaces -->
-          <div class="col-12 d-flex justify-content-between">
-            <p class="mb-0">
-              <a href="{% url 'usuarios:register' %}">
-                <i class="fadeIn animated bx bx-plus"></i> Crear nueva cuenta
-              </a>
-            </p>
-            <p class="mb-0">
-              <a href="{% url 'usuarios:password_reset_request' %}">
-                <i class="fadeIn animated bx bx-reset"></i> Reestablecer contraseña
-              </a>
-            </p>
-          </div>
         </form>
+
+        <!-- SEPARADOR -->
+        <div class="tech-divider">O CONTINUAR CON</div>
+
+        <!-- BOTONES AUTENTICACIÓN SOCIAL -->
+        
+
+        <div class="d-flex flex-column gap-2">
+        
+          <!-- GOOGLE / GMAIL -->
+          <a href="{% provider_login_url 'google' %}" class="btn-social btn-social-gmail">
+            <i class="fadeIn animated bx bxl-google fs-5" style="color: #ea4335;"></i>
+            <span>Continuar con Google</span>
+          </a>
+        
+          <!-- FACEBOOK -->
+          <a href="{% provider_login_url 'facebook' %}" class="btn-social btn-social-facebook">
+            <i class="fadeIn animated bx bxl-facebook fs-5" style="color: #1877f2;"></i>
+            <span>Continuar con Facebook</span>
+          </a>
+        
+          <!-- GITHUB -->
+          <a href="{% provider_login_url 'github' %}" class="btn-social btn-social-github">
+            <i class="fadeIn animated bx bxl-github fs-5" style="color: #ffffff;"></i>
+            <span>Continuar con GitHub</span>
+          </a>
+        
+        </div>
+
+        <!-- ENLACES DE NAVEGACIÓN Y RECUPERACIÓN -->
+        <div class="row mt-4 pt-3 border-top border-secondary border-opacity-25 text-center font-monospace small">
+          <div class="col-6 text-start">
+            <a href="{% url 'usuarios:register' %}" class="accent-link">
+              <i class="fadeIn animated bx bx-plus"></i> Nueva cuenta
+            </a>
+          </div>
+          <div class="col-6 text-end">
+            <a href="{% url 'usuarios:password_reset_request' %}" class="accent-link">
+              <i class="fadeIn animated bx bx-reset"></i> Reestablecer
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -202,7 +389,6 @@ body {
 
 {% block script %}
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".rotate-item");
@@ -215,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
     items[index].classList.add("active");
   }
 
-  setInterval(showNext, 2500); // velocidad (2.5s)
+  setInterval(showNext, 2500);
 });
 </script>
 
@@ -223,7 +409,6 @@ document.addEventListener("DOMContentLoaded", function () {
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 
-// Función para ajustar el canvas al tamaño completo de la pantalla
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -236,7 +421,7 @@ var TAU = 2 * Math.PI;
 function Ball(startX, startY, startVelX, startVelY) {
   this.x = startX || Math.random() * canvas.width;
   this.y = startY || Math.random() * canvas.height;
-  this.radius = 3.5; // Tamaño de los nodos
+  this.radius = 3.5;
   this.vel = {
     x: startVelX || (Math.random() - 0.5) * 1.8,
     y: startVelY || (Math.random() - 0.5) * 1.8
@@ -257,14 +442,12 @@ function Ball(startX, startY, startVelX, startVelY) {
     ctx.beginPath();
     var distM = distMouse(this);
 
-    // 🎨 COLOR DE PUNTOS: #2e2e2e
     ctx.fillStyle = '#2e2e2e';
 
-    // Si el cursor se acerca, los puntos aumentan su presencia
     if (distM < 200) {
       ctx.globalAlpha = 1.0;
     } else {
-      ctx.globalAlpha = 0.90; // Alta opacidad y nitidez
+      ctx.globalAlpha = 0.90;
     }
 
     ctx.arc(this.x | 0, this.y | 0, this.radius, 0, TAU, false);
@@ -272,7 +455,6 @@ function Ball(startX, startY, startVelX, startVelY) {
   };
 }
 
-// Generación de partículas proporcional a la resolución
 var balls = [];
 var numBalls = Math.floor((canvas.width * canvas.height) / 12000);
 for (var i = 0; i < numBalls; i++) {
@@ -305,15 +487,12 @@ function draw() {
       var ball2 = balls[index2];
       var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
 
-      // Distancia de conexión entre líneas
       if (dist < 130) {
         ctx.beginPath();
         var distM = distMouse(ball2);
 
-        // 🎨 COLOR DE LÍNEAS: #f2a34b
         ctx.strokeStyle = "#f2a34b";
 
-        // Si el mouse se acerca a las conexiones, se vuelven aún más brillantes e intensas
         if (distM < 180) {
           ctx.globalAlpha = (1 - dist / 130) * 0.95;
           ctx.lineWidth = 1.6;
@@ -345,17 +524,15 @@ loop();
 document.addEventListener("DOMContentLoaded", function () {
   const togglePassword = document.getElementById("togglePassword");
   const passwordInput = document.getElementById("passwordInput");
-  const icon = togglePassword.querySelector("i");
+  const icon = togglePassword ? togglePassword.querySelector("i") : null;
 
-  if (togglePassword && passwordInput) {
+  if (togglePassword && passwordInput && icon) {
     togglePassword.addEventListener("click", function (e) {
-      e.preventDefault(); // evita que el botón haga submit
+      e.preventDefault();
       
-      // Alternar tipo
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       
-      // Cambiar icono
       icon.classList.toggle("bi-eye");
       icon.classList.toggle("bi-eye-slash");
     });
@@ -363,4 +540,3 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 {% endblock %}
-

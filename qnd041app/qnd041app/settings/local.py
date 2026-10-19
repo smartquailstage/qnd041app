@@ -67,6 +67,59 @@ N8N_WEBHOOKS_AI = {
 }
 
 
+
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
+
+
+# Variables de entorno para autenticación social
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_SECRET_KEY = os.getenv("GOOGLE_SECRET_KEY")
+
+FACEBOOK_CLIENT_ID = os.getenv("FACEBOOK_CLIENT_ID")
+FACEBOOK_SECRET_KEY = os.getenv("FACEBOOK_SECRET_KEY")
+
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_SECRET_KEY = os.getenv("GITHUB_SECRET_KEY")
+
+
+
+
+
+# Configuración de los Proveedores Sociales usando Variables de Entorno
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
+            'secret': os.getenv('GOOGLE_SECRET_KEY', ''),
+            'key': ''
+        },
+        'SCOPE': ['profile', 'email'],
+    },
+    'facebook': {
+        'APP': {
+            'client_id': os.getenv('FACEBOOK_CLIENT_ID', ''),
+            'secret': os.getenv('FACEBOOK_SECRET_KEY', ''),
+            'key': ''
+        },
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v18.0',
+    },
+    'github': {
+        'APP': {
+            'client_id': os.getenv('GITHUB_CLIENT_ID', ''),
+            'secret': os.getenv('GITHUB_SECRET_KEY', ''),
+            'key': ''
+        },
+        'SCOPE': ['user', 'user:email'],
+    }
+}
+
+
 ALLOWED_HOSTS = ['*']
 
 # Configuración de Celery

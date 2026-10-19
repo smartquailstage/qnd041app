@@ -113,6 +113,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     'django.contrib.sites',
 
+    # Allauth core
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Proveedores Sociales
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+   
+
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
@@ -1086,6 +1097,8 @@ MIDDLEWARE = [
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
    # 'shop.middleware.LocaleRedirectMiddleware',
+   # Middleware obligatorio de django-allauth (colocar debajo de AuthenticationMiddleware)
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 
@@ -1127,13 +1140,14 @@ REST_FRAMEWORK = {
 
 
 
-
-
+SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
+    # Login tradicional de Django (superusuario / contraseña)
     'django.contrib.auth.backends.ModelBackend',
+    # Backend de autenticación de Allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
 
 
 
@@ -1179,7 +1193,46 @@ WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
 
 
+# Configuración adicional de Allauth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Registra automáticamente al usuario tras autorizar la red social
 
+# Configuración de Scopes / Permisos para Proveedores
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v18.0',
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'user:email',
+        ],
+    }
+}
 
 
 

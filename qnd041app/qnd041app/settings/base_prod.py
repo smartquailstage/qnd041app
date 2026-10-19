@@ -126,6 +126,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     'django.contrib.sites',
+
+    # Allauth core
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Proveedores Sociales
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
    
 
     "django.contrib.staticfiles",
@@ -1133,8 +1143,51 @@ AUTHENTICATION_BACKENDS = [
     #'social_core.backends.facebook.FacebookOAuth2',
     #'social_core.backends.twitter.TwitterOAuth',
     #'social_core.backends.google.GoogleOAuth2',
+    # Login tradicional de Django (superusuario / contraseña)
+    # Backend de autenticación de Allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Registra automáticamente al usuario tras autorizar la red social
+
+# Configuración de Scopes / Permisos para Proveedores
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v18.0',
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'user:email',
+        ],
+    }
+}
 
 
 

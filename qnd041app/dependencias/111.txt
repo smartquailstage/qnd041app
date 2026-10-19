@@ -21,6 +21,7 @@ wagtailmenus>=1.5.1
 wagtail-modeltranslation
 wagtail_modeladmin
 wagtail-ai>=0.1.0
+django-allauth
 
 #timesfm[torch]
 #torch>=2.0.0

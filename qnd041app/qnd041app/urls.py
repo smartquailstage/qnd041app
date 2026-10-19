@@ -92,6 +92,7 @@ urlpatterns = [
     
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
     path('ingresar/', include('usuarios.urls', namespace='usuarios')),
+    path('accounts/', include('allauth.urls')),
 
     #mailing
     #path('mailing/', include('mailing.urls', namespace='mailing')),
