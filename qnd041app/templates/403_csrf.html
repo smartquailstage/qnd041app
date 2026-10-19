@@ -1,0 +1,112 @@
+{% extends "base_register.html" %}
+{% load i18n static %}
+
+{% block title %}Error de Cookies // SmartQuail{% endblock %}
+
+{% block content %}
+<style>
+:root {
+  --card-bg: #282829;
+  --card-bg-subtle: #232324;
+  --accent-orange: #f7a84f;
+  --accent-orange-hover: #f39c12;
+  --border-color: rgba(247, 168, 79, 0.2);
+  --text-muted-custom: #94a3b8;
+  --bg-dark: #1e1e1f;
+}
+
+.min-vh-100 {
+  min-height: 100dvh;
+}
+
+.tech-card-error {
+  background-color: var(--card-bg);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(239, 68, 68, 0.15);
+  color: #ededed;
+  max-width: 520px;
+  width: 100%;
+}
+
+.tech-badge-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.terminal-box-error {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-align: left;
+}
+
+.btn-tech-orange {
+  background-color: var(--accent-orange);
+  color: #1e1e1f;
+  border: none;
+  font-weight: 700;
+  font-family: monospace;
+  border-radius: 8px;
+  padding: 12px 24px;
+  width: 100%;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-tech-orange:hover {
+  background-color: var(--accent-orange-hover);
+  color: #000000;
+  box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+  transform: translateY(-2px);
+}
+</style>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 px-3">
+  <div class="tech-card-error p-4 text-center">
+
+    <!-- LOGO PRINCIPAL -->
+    <div class="mb-3">
+      <a href="https://ec.smartquail.io">
+        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 160px;" alt="SmartQuail Logo">
+      </a>
+    </div>
+
+    <!-- BADGE DE ERROR -->
+    <div class="mb-3">
+      <span class="tech-badge-danger">// COOKIE_AUTHENTICATION_ERROR</span>
+    </div>
+
+    <h4 class="text-white fw-bold font-monospace mb-3">Cookies Deshabilitadas</h4>
+
+    <div class="terminal-box-error mb-4">
+      <p class="mb-2 text-white">// DETALLES DE SEGURIDAD:</p>
+      <p class="mb-0">
+        Tu navegador web parece tener las <strong>cookies deshabilitadas</strong> o bloqueadas por políticas de privacidad.
+        <br><br>
+        Para completar el inicio de sesión de forma segura y proteger la autenticación OAuth2, por favor habilita las cookies e intenta de nuevo.
+      </p>
+    </div>
+
+    <a href="{% url 'account_login' %}" class="btn-tech-orange">
+      <i class="fadeIn animated bx bx-refresh fs-5"></i>
+      <span>Reintentar Inicio de Sesión</span>
+    </a>
+
+  </div>
+</div>
+{% endblock %}
