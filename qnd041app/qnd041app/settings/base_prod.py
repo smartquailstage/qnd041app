@@ -1041,6 +1041,7 @@ MIDDLEWARE = [
     #'elasticapm.contrib.django.middleware.TracingMiddleware'
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 #ELASTIC_APM = {
