@@ -1163,6 +1163,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 # Configuración de Scopes / Permisos para Proveedores
+# Configuración de Scopes / Permisos para Proveedores
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -1174,20 +1175,19 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     },
     'facebook': {
-       'METHOD': 'oauth2',
-       'SCOPE': ['email', 'public_profile'],
-       'FIELDS': [
-           'id',
-           'email',
-           'name',
-           'first_name',
-           'last_name',
-    ],
-    'EXCHANGE_TOKEN': True,
-    'VERIFIED_EMAIL': True,
-    'VERSION': 'v18.0',
-    }
-    
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v18.0',
+    },  # <--- AQUÍ FALTABA ESTA COMA
     'github': {
         'SCOPE': [
             'user',
