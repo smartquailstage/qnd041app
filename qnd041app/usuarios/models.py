@@ -115,17 +115,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def username(self):
         return self.email
 
+    @username.setter
+    def username(self, value):
+        # Cuando allauth intenta asignar user.username = "...", 
+        # actualizamos el email si viene al caso o simplemente dejamos pasar la asignación.
+        if value and '@' in value:
+            self.email = value
+
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}".strip()
 
     def get_short_name(self):
         return self.first_name
 
+
+
     class Meta:
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
 
-    
 
 
 

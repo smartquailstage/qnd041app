@@ -1,0 +1,307 @@
+{% extends "base_register.html" %}
+{% load i18n socialaccount %}
+{% load static %}
+
+{% block title %}Confirmar Iniciar Sesión{% endblock %}
+
+{% block content %}
+
+<style>
+:root {
+  --card-bg: #282829;
+  --card-bg-subtle: #232324;
+  --accent-orange: #f7a84f;
+  --border-color: rgba(247, 168, 79, 0.2);
+  --text-muted-custom: #94a3b8;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-color: #1e1e1f;
+}
+
+.custom-card-width {
+  width: 100%;
+  max-width: 480px;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.custom-left-container {
+  max-width: 480px;
+  width: 100%;
+}
+
+/* Soluciona problema de vh en móviles */
+.min-vh-100 {
+  min-height: 100dvh;
+}
+
+/* Tarjeta Cyber/Tech Dark */
+.tech-login-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  color: #ededed;
+  overflow: hidden;
+}
+
+.tech-badge-orange {
+  background: rgba(247, 168, 79, 0.1);
+  color: var(--accent-orange);
+  border: 1px solid rgba(247, 168, 79, 0.3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* Botón Interactivo Principal */
+.btn-tech-orange {
+  background-color: var(--accent-orange);
+  color: #1e1e1f;
+  border: none;
+  font-weight: 700;
+  font-family: monospace;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-tech-orange:hover {
+  background-color: #f39c12;
+  color: #000;
+  box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+  transform: translateY(-2px);
+}
+
+.accent-link {
+  color: var(--accent-orange);
+  text-decoration: none;
+  font-family: monospace;
+  transition: all 0.2s ease;
+}
+
+.accent-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(247, 168, 79, 0.5);
+}
+
+/* Compacta en móviles */
+@media (max-width: 768px) {
+  .logo-container img {
+    max-width: 240px;
+  }
+  .tech-login-card {
+    padding: 20px !important;
+  }
+}
+
+body {
+  overflow: hidden;
+}
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 px-3 px-md-4">
+  <div class="custom-left-container mx-auto">
+
+    <!-- LOGO PRINCIPAL -->
+    <div class="logo-container mb-3 text-center">
+      <a href="https://ec.smartquail.io">
+        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 45%;" alt="Logo">
+      </a>
+    </div>
+
+    <!-- TARJETA DE CONFIRMACIÓN OAUTH -->
+    <div class="card tech-login-card custom-card-width p-4">
+      <div class="card-body p-0">
+
+        <!-- CABECERA -->
+        <div class="text-center mb-4">
+          <span class="tech-badge-orange mb-2 d-inline-block">// OAUTH GATEWAY VERIFICATION</span>
+          
+          {% if process == "connect" %}
+            <h4 class="text-white fw-bold mb-0 font-monospace">Conectar cuenta</h4>
+          {% else %}
+            <h4 class="text-white fw-bold mb-0 font-monospace">Confirmar Autenticación</h4>
+          {% endif %}
+        </div>
+
+        <!-- MENSAJE INFORMATIVO DE SMARTQUAIL -->
+        <div class="text-center my-4 font-monospace">
+          <p class="text-light mb-2 fs-6">
+            {% if process == "connect" %}
+              Está a punto de conectar su cuenta de <strong>{{ provider.name }}</strong> a su perfil de <strong>SmartQuail</strong>.
+            {% else %}
+              Está ingresando a <strong>SmartQuail</strong> con su cuenta de <strong>{{ provider.name }}</strong>.
+            {% endif %}
+          </p>
+          <p class="text-muted small">
+            // Haga clic en el botón a continuación para proceder.
+          </p>
+        </div>
+
+        <!-- FORMULARIO OFICIAL DE ALLAUTH PARA REDIRECCIÓN SEGURA -->
+        <form method="post" class="mt-4">
+          {% csrf_token %}
+          <button type="submit" class="btn-tech-orange">
+            <span>Continuar con {{ provider.name }}</span>
+            <i class="fadeIn animated bx bx-right-arrow-alt fs-5"></i>
+          </button>
+        </form>
+
+        <!-- ENLACE DE REGRESO -->
+        <div class="row mt-4 pt-3 border-top border-secondary border-opacity-25 text-center font-monospace small">
+          <div class="col-12 text-center">
+            <a href="{% url 'usuarios:login' %}" class="accent-link">
+              <i class="fadeIn animated bx bx-left-arrow-alt"></i> Cancelar y volver al inicio
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6 col-lg-12">
+    <canvas></canvas>
+    <div class="position-fixed top-0 h-100 d-xl-block d-none"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+var canvas = document.querySelector("canvas");
+var ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+var TAU = 2 * Math.PI;
+
+function Ball(startX, startY, startVelX, startVelY) {
+  this.x = startX || Math.random() * canvas.width;
+  this.y = startY || Math.random() * canvas.height;
+  this.radius = 3.5;
+  this.vel = {
+    x: startVelX || (Math.random() - 0.5) * 1.8,
+    y: startVelY || (Math.random() - 0.5) * 1.8
+  };
+
+  this.update = function (can) {
+    if (this.x > can.width + 20 || this.x < -20) {
+      this.vel.x = -this.vel.x;
+    }
+    if (this.y > can.height + 20 || this.y < -20) {
+      this.vel.y = -this.vel.y;
+    }
+    this.x += this.vel.x;
+    this.y += this.vel.y;
+  };
+
+  this.draw = function (ctx) {
+    ctx.beginPath();
+    var distM = distMouse(this);
+
+    ctx.fillStyle = '#2e2e2e';
+
+    if (distM < 200) {
+      ctx.globalAlpha = 1.0;
+    } else {
+      ctx.globalAlpha = 0.90;
+    }
+
+    ctx.arc(this.x | 0, this.y | 0, this.radius, 0, TAU, false);
+    ctx.fill();
+  };
+}
+
+var balls = [];
+var numBalls = Math.floor((canvas.width * canvas.height) / 12000);
+for (var i = 0; i < numBalls; i++) {
+  balls.push(new Ball());
+}
+
+var mouseX = -1e9, mouseY = -1e9;
+document.addEventListener('mousemove', function (event) {
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+});
+
+function distMouse(ball) {
+  return Math.hypot(ball.x - mouseX, ball.y - mouseY);
+}
+
+function update() {
+  for (var index = 0; index < balls.length; index++) {
+    balls[index].update(canvas);
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (var index = 0; index < balls.length; index++) {
+    var ball = balls[index];
+
+    for (var index2 = index + 1; index2 < balls.length; index2++) {
+      var ball2 = balls[index2];
+      var dist = Math.hypot(ball.x - ball2.x, ball.y - ball2.y);
+
+      if (dist < 130) {
+        ctx.beginPath();
+        var distM = distMouse(ball2);
+
+        ctx.strokeStyle = "#f2a34b";
+
+        if (distM < 180) {
+          ctx.globalAlpha = (1 - dist / 130) * 0.95;
+          ctx.lineWidth = 1.6;
+        } else {
+          ctx.globalAlpha = (1 - dist / 130) * 0.55;
+          ctx.lineWidth = 1.1;
+        }
+
+        ctx.moveTo(ball.x | 0, ball.y | 0);
+        ctx.lineTo(ball2.x | 0, ball2.y | 0);
+        ctx.stroke();
+      }
+    }
+
+    ball.draw(ctx);
+  }
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+{% endblock %}
