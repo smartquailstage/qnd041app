@@ -6,40 +6,234 @@
 
 {% block content %}
 
-<div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+  }
 
-  <div class="col-md-8">
-    <h2 class="display-4 mt-3">Bienvenido {{ request.user.first_name }}  a Negocios ITC de SmartQuail,Inc</h2>
-    <p id="typewriter" style="color:#fff;">  <ion-icon name="chatbox-ellipses-outline"></ion-icon></p>
-  </div>
+  body {
+    background-color: var(--bg-main) !important;
+  }
 
+  /* Tarjetas principales */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  }
 
+  .tech-card:hover {
+    border-color: rgba(247, 168, 79, 0.35);
+    box-shadow: 0 0 20px rgba(247, 168, 79, 0.1);
+  }
 
-  
-   {% if all_projects or projects_in_progress %}
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
 
-<div class="card radius-10">
-  <div class="card-body">
+  /* Textos y Badges */
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-title-section {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Widgets de métricas */
+  .widget-icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+  }
+
+  /* Barras de progreso con neón */
+  .progress-tech {
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* Enlaces de Soluciones */
+  .solution-link-card {
+    text-decoration: none;
+    display: block;
+  }
+
+  .solution-link-card .tech-card {
+    height: 100%;
+  }
+
+  .solution-link-card:hover .tech-card {
+    transform: translateY(-4px);
+    border-color: var(--accent-orange);
+  }
+
+  /* Efecto máquina de escribir / Terminal Welcome */
+  .tech-terminal-box {
+    background: #181819;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-orange);
+    border-radius: 12px;
+    padding: 20px;
+    font-family: monospace;
+    color: #d1d5db;
+  }
+</style>
+
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
+
+    {% if all_projects or projects_in_progress %}
+
+    <!-- TITULAR ACTIVOS ITC -->
+    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+      <h2 class="tech-title-section d-flex align-items-center gap-2 mb-0">
+        <ion-icon name="cloud-upload-outline" class="accent-text"></ion-icon>
+        Activos ITC
+      </h2>
+      <span class="font-monospace text-muted small">// INFRASTRUCTURE_NODES</span>
+    </div>
 
     {# ================= PROYECTOS COMPLETADOS ================= #}
     {% for project in all_projects %}
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 mb-4">
 
-      <!-- 🔵 Estado del Proyecto -->
+      <!-- 1. Estado del Proyecto -->
       <div class="col">
-        <div class="card radius-10 bg-primary">
-          <div class="card-body">
-            <p class="mb-1 text-white">{{ project.name }}</p>
-            <h4 class="mb-0 text-white">Activo</h4>
-            <hr class="text-white">
-            <p class="mb-0 text-white">
-              <strong>Progreso:</strong> {{ project.progress }}%
-            </p>
-            <div class="progress my-0" style="height:6px;">
-              <div class="progress-bar bg-success"
-                   style="width: {{ project.progress }}%"></div>
+        <div class="tech-card p-3 h-100">
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div>
+              <span class="tech-badge-orange mb-1 d-inline-block">CLUSTER NODE</span>
+              <h6 class="text-white mb-1 fw-bold">{{ project.name }}</h6>
+              <div class="text-success small font-monospace d-flex align-items-center gap-1">
+                ● ACTIVE
+              </div>
+            </div>
+            <div class="widget-icon-box ms-auto">
+              <span class="spinner-grow spinner-grow-sm accent-text" role="status"></span>
+            </div>
+          </div>
+          <hr class="my-2 border-secondary opacity-25">
+          <div class="font-monospace small text-truncate">
+            <span class="text-muted">DOMAIN:</span> 
+            <a href="{{ project.domain_name }}" class="accent-text text-decoration-none fw-bold ms-1" target="_blank">{{ project.domain_name }}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Procesamiento -->
+      <div class="col">
+        <div class="tech-card p-3 h-100">
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div>
+              <span class="text-muted small font-monospace">DISPONIBLE: {{ project.procesamiento_total_aproximado_millicore }} GB</span>
+              <h6 class="text-white mb-0 fw-bold mt-1">Procesamiento CPU</h6>
+            </div>
+            <div class="widget-icon-box text-warning">
+              <ion-icon name="hardware-chip-outline" class="fs-4 accent-text"></ion-icon>
+            </div>
+          </div>
+          <div class="font-monospace small text-muted mb-2">
+            MAX_USAGE: <span class="text-white fw-bold">{{ project.porcentaje_procesamiento }}%</span>
+          </div>
+          <div class="progress progress-tech">
+            <div class="progress-bar 
+              {% if project.porcentaje_procesamiento < 50 %}
+                  bg-info
+              {% elif project.porcentaje_procesamiento >= 50 and project.porcentaje_procesamiento <= 80 %}
+                  bg-warning
+              {% elif project.porcentaje_procesamiento > 80 %}
+                  bg-danger
+              {% endif %}"
+              style="width: {{ project.porcentaje_procesamiento|default:0|floatformat:0 }}%">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Memoria -->
+      <div class="col">
+        <div class="tech-card p-3 h-100">
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div>
+              <span class="text-muted small font-monospace">DISPONIBLE: {{ project.memoria_total }} GB</span>
+              <h6 class="text-white mb-0 fw-bold mt-1">Memoria RAM</h6>
+            </div>
+            <div class="widget-icon-box">
+              <i class="bx bx-memory-card fs-4 accent-text"></i>
+            </div>
+          </div>
+          <div class="font-monospace small text-muted mb-2">
+            MAX_USAGE: <span class="text-white fw-bold">{{ project.porcentaje_memoria }}%</span>
+          </div>
+          <div class="progress progress-tech">
+            <div class="progress-bar 
+              {% if project.porcentaje_memoria < 50 %}
+                  bg-info
+              {% elif project.porcentaje_memoria >= 50 and project.porcentaje_memoria <= 80 %}
+                  bg-warning
+              {% elif project.porcentaje_memoria > 80 %}
+                  bg-danger
+              {% endif %}"
+              style="width: {{ project.porcentaje_memoria|default:0|floatformat:0 }}%">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Almacenamiento -->
+      <div class="col">
+        <div class="tech-card p-3 h-100">
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+            <div>
+              <span class="text-muted small font-monospace">DISPONIBLE: {{ project.almacenamiento_total_mb }} GB</span>
+              <h6 class="text-white mb-0 fw-bold mt-1">Almacenamiento SSD</h6>
+            </div>
+            <div class="widget-icon-box">
+              <ion-icon name="server-outline" class="fs-4 accent-text"></ion-icon>
+            </div>
+          </div>
+          <div class="font-monospace small text-muted mb-2">
+            MAX_USAGE: <span class="text-white fw-bold">{{ project.porcentaje_almacenamiento }}%</span>
+          </div>
+          <div class="progress progress-tech">
+            <div class="progress-bar 
+              {% if project.porcentaje_almacenamiento < 50 %}
+                  bg-info
+              {% elif project.porcentaje_almacenamiento >= 50 and project.porcentaje_almacenamiento <= 80 %}
+                  bg-warning
+              {% elif project.porcentaje_almacenamiento > 80 %}
+                  bg-danger
+              {% endif %}"
+              style="width: {{ project.porcentaje_almacenamiento|default:0|floatformat:0 }}%">
             </div>
           </div>
         </div>
@@ -49,173 +243,204 @@
     {% endfor %}
 
     {# ================= PROYECTOS EN PROGRESO ================= #}
-    {% for project in projects_in_progress %}
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4 mb-4">
-
+    {% if projects_in_progress %}
+    <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+      {% for project in projects_in_progress %}
       <div class="col">
-        <div class="card radius-10 bg-primary">
-          <div class="card-body">
-            <p class="mb-1 text-white">{{ project.name }}</p>
-            <h4 class="mb-0 text-white">En Progreso</h4>
-            <hr class="text-white">
-            <p class="mb-0 text-white">
-              <strong>Progreso:</strong> {{ project.progress }}%
-            </p>
-            <div class="progress mb-3" style="height:7px;">
-              <div class="progress-bar bg-warning"
-                   style="width: {{ project.progress }}%"></div>
+        <div class="tech-card p-3">
+          <div class="d-flex align-items-start justify-content-between mb-2">
+            <div>
+              <p class="mb-0 text-muted small font-monospace">{{ project.name }}</p>
+              <h6 class="text-white fw-bold mb-0">Implementación ITC en curso</h6>
             </div>
+            <span class="spinner-border spinner-border-sm accent-text"></span>
+          </div>
+          <div class="d-flex justify-content-between font-monospace small mb-1">
+            <span class="text-muted">PROGRESING:</span>
+            <span class="accent-text fw-bold">{{ project.progress }}%</span>
+          </div>
+          <div class="progress progress-tech">
+            <div class="progress-bar bg-warning" style="width: {{ project.progress }}%"></div>
           </div>
         </div>
       </div>
-
+      {% endfor %}
     </div>
-    {% endfor %}
-
-  </div>
-</div>
-
-{% endif %}
-  <hr>
-       <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones Negocios ITC</h2>
-    <p>Ingresa a cada opción para explorar las demostraciones y conocer en detalle la metodología que utilizamos para diseñar e implementar soluciones personalizadas para tu proyecto o negocio. </p>
-   <p>Si deseas acceder a opciones avanzadas, ingresa a tu <a href="{% url 'usuarios:editar_perfil' %}"><ion-icon name="person-circle-outline"></ion-icon> perfil de usuario</a>  y asegúrate de configurar o actualizar el tamaño de tu empresa, para habilitar más funcionalidades.</p>
-
-  </div>
-  </div>
-
-
-
-  <div class="card radius-10">
-    <div class="card-body">
-      <div class="row row-cols-1 row-cols-lg-3">
-
-      <a href="{% url 'saas_shop:product_list' %}">
-                  <div class="col">
-                    <div class="card radius-10 bg-primary">
-                      <div class="card-body text-white">
-                         <div class="service-box bg-white text-primary">
-                          <ion-icon name="browsers-outline"></ion-icon>
-                         </div>
-                         <h5>Software como producto (SaaP)</h5>
-                         <p class="mb-0">
-                         Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y
-                         Relaciones con Clientes (CRM).
-                         </p>
-                      </div>
-                    </div>
-                  </div>
-      </a>
-
-      <a href="{% url 'paas_shop:product_list' %}">
-
-                  <div class="col">
-                    <div class="card radius-10 bg-primary">
-                      <div class="card-body text-white">
-                         <div class="service-box bg-white text-primary">
-                         <ion-icon name="grid-outline"></ion-icon>
-                         </div>
-                         <h5>Plataforma como producto (PaaP) </h5>
-                         <p class="mb-0">
-                          Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
-                         </p>
-                      </div>
-                    </div>
-                  </div>
-      </a>
-
-
-
-               </div>
-<hr>
-<div class="col-md-8">
-  <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación ITC </h2>
-
-</div>
-
-
-<div class="row row-cols-1 row-cols-lg-3 g-4">
-
-{% for noticia in noticias|slice:":3" %}
-<div class="col">
-
-  <div class="card radius-10 h-100 position-relative overflow-hidden">
-
-    <!-- Imagen -->
-    {% if noticia.imagen_portada %}
-      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-        <img src="{{ noticia.imagen_portada.url }}"
-             class="img-fluid radius-10 w-100"
-             style="object-fit: cover; min-height: 260px;"
-             alt="{{ noticia.titulo_1 }}">
-      </a>
-    {% else %}
-      <img src="{% static 'assets/images/placeholder.png' %}"
-           class="img-fluid radius-10 w-100"
-           style="object-fit: cover; min-height: 260px;"
-           alt="Sin imagen">
     {% endif %}
 
-    <!-- Overlay -->
-    <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-      <div class="position-absolute top-50 start-0 translate-middle-y
-                  text-white p-4 w-100"
-           style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
+    {% endif %}
 
-        <h5 class="card-title mb-2">
-          {{ noticia.titulo_1 }}
-        </h5>
+    <!-- TITULAR SOLUCIONES ITC -->
+    <div class="d-flex align-items-center justify-content-between my-4 border-bottom border-secondary border-opacity-25 pb-2">
+      <h2 class="tech-title-section d-flex align-items-center gap-2 mb-0">
+        <ion-icon name="cube-outline" class="accent-text"></ion-icon>
+        SMARTEST IT NATIVE CLOUD BUSINESS
+      </h2>
+      <span class="font-monospace text-muted small">// AVAILABLE_PRODUCTS</span>
+    </div>
 
-        <p class="mb-1" style="font-size: 11px;">
-          {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
-        </p>
+    <!-- SECCIÓN DE INFRAESTRUCTURAS (4 MÓDULOS) -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4 mb-5">
 
-        {% if noticia.categoria %}
-          <p class="mb-1 text-uppercase" style="font-size: 11px;">
-            {{ noticia.categoria }}
-          </p>
-        {% endif %}
-
-        {% if noticia.cuerpo_1 %}
-          <p class="card-text mt-2">
-            {{ noticia.cuerpo_1|truncatewords:20 }}
-          </p>
-        {% endif %}
-
+      <!-- 1. Entornos ITC -->
+      <div class="col">
+        <a href="{% url 'saas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="browsers-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Entornos </h5>
+                <span class="font-monospace small text-muted">FinTech / MediaTech / LawTech</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Potencie la eficiencia de su organización con plataformas modulares dedicadas y altamente especializadas, 
+              diseñadas para operar en entornos empresariales segregados y constituir el punto de partida ideal para su estrategia digital.
+            </p>
+          </div>
+        </a>
       </div>
-    </a>
 
-  </div>
-</div>
-{% empty %}
-  <div class="col-12 text-center">
-    <p>No hay noticias disponibles en este momento.</p>
-  </div>
-{% endfor %}
+      <!-- 2. SmartBusinessPlatforms -->
+      <div class="col">
+        <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="grid-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Plataformas </h5>
+                <span class="font-monospace small text-muted">Suite Unificada All in One</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Centralice toda la capa transaccional de sus entornos empresariales, permitiendo interconectar en tiempo real los departamentos financiero, de marketing, atención al cliente y regulatorio mediante una suite integral "todo en uno" diseñada para optimizar la toma de decisiones.
+            </p>
+          </div>
+        </a>
+      </div>
 
-</div>
-<hr>
+      <!-- 3. Business AI Assistant -->
+      <div class="col">
+        <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="hardware-chip-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Asistentes IA </h5>
+                <span class="font-monospace small text-muted">Inteligencia Artificial Soberana & Privada</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Despliegue agentes de IA auto-hospedados e integrados directamente a sus bases de datos ERP y CRM. Mantenga la soberanía de su información con cero fuga de datos, eliminando costos recurrentes por tokens de modelos públicos de terceros.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Local Data Centers -->
+      <div class="col">
+        <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="server-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Centro de Datos Local</h5>
+                <span class="font-monospace small text-muted">Soberanía de Datos & Cero Latencia</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Infraestructura en la nube con residencia de datos garantizada a nivel local. Cumpla de manera estricta con las regulaciones de protección de datos personales de la región, optimizando la velocidad de respuesta con baja latencia y alta disponibilidad.
+            </p>
+          </div>
+        </a>
+      </div>
 
     </div>
+
+    <!-- TITULAR DOCUMENTACIÓN -->
+    <div class="d-flex align-items-center justify-content-between my-4 border-bottom border-secondary border-opacity-25 pb-2">
+      <h2 class="tech-title-section d-flex align-items-center gap-2 mb-0">
+        <ion-icon name="document-text-outline" class="accent-text"></ion-icon>
+        Documentación
+      </h2>
+      <span class="font-monospace text-muted small">// LATEST_ARTICLES</span>
+    </div>
+
+    <!-- CARDS DE DOCUMENTACIÓN -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+      {% for noticia in noticias|slice:":3" %}
+      <div class="col">
+        <div class="tech-card overflow-hidden h-100 position-relative">
+          
+          <a href="{% url 'business_customer_projects:detalle' noticia.pk %}" class="text-decoration-none">
+            <div class="position-relative" style="height: 220px;">
+              {% if noticia.imagen_portada %}
+                <img src="{{ noticia.imagen_portada.url }}" class="w-100 h-100 object-fit-cover" alt="{{ noticia.titulo_1 }}">
+              {% else %}
+                <img src="{% static 'assets/images/placeholder.png' %}" class="w-100 h-100 object-fit-cover" alt="Sin imagen">
+              {% endif %}
+              <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(180deg, rgba(30,30,31,0.1) 0%, rgba(40,40,41,0.95) 100%);"></div>
+            </div>
+
+            <div class="p-4">
+              {% if noticia.categoria %}
+                <span class="tech-badge-orange mb-2 d-inline-block">{{ noticia.categoria }}</span>
+              {% endif %}
+
+              <h5 class="text-white fw-bold mb-2 line-clamp-2" style="font-size: 1.1rem;">
+                {{ noticia.titulo_1 }}
+              </h5>
+
+              <div class="font-monospace text-muted mb-3" style="font-size: 0.75rem;">
+                {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
+              </div>
+
+              {% if noticia.cuerpo_1 %}
+                <p class="text-muted small mb-0" style="color: #94a3b8 !important;">
+                  {{ noticia.cuerpo_1|truncatewords:16 }}
+                </p>
+              {% endif %}
+            </div>
+          </a>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-4">
+        <p class="text-muted font-monospace">// No hay publicaciones disponibles en este momento.</p>
+      </div>
+      {% endfor %}
+    </div>
+
   </div>
-
-
-
-  </div>
-  <!-- end page content-->
 </div>
 
-
-
+<!-- SCRIPTS DE INTERACCIÓN -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Efecto Typewriter para la terminal de bienvenida
     function typeWriterEffect(elementId, text, speed) {
         let index = 0;
+        const target = document.getElementById(elementId);
+        if (!target) return;
+        
+        target.innerHTML = "";
         function type() {
             if (index < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(index);
+                target.innerHTML += text.charAt(index);
                 index++;
                 setTimeout(type, speed);
             }
@@ -223,36 +448,37 @@ document.addEventListener("DOMContentLoaded", function () {
         type();
     }
 
+    const text_start = `Hola, {{ request.user.first_name|default:request.user.username }}, gracias por confiar en SmartQuail, Inc.
+Tu proyecto de Tecnologías de Información y Comunicación en la nube ya está disponible y en producción. Todos los recursos de nube que contrataste han sido correctamente alojados y distribuidos en nuestros servidores.
 
-    const text_start = `Hemos seleccionado automaticamente las soluciones de ITC en la nube que mejor se ajustan a las necesidades registradas en tu perfil. `;
-    typeWriterEffect("typewriter", text_start, 35);
+Si deseas escalar algún proyecto, simplemente actualiza las opciones de usuario en tu perfil. Automáticamente te mostraremos todos los productos disponibles y alineados a tus necesidades.`;
+    
+    typeWriterEffect("typewriter", text_start, 25);
 
-
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+    // Manejo de previsualización de cambio de foto de usuario
     const btnCambiarFoto = document.getElementById("btnCambiarFoto");
     const inputPhoto = document.getElementById("id_photo");
     const previewImg = document.querySelector(".user-change-photo img");
 
-    btnCambiarFoto.addEventListener("click", function () {
-        inputPhoto.click();
-    });
+    if (btnCambiarFoto && inputPhoto) {
+        btnCambiarFoto.addEventListener("click", function () {
+            inputPhoto.click();
+        });
+    }
 
-    inputPhoto.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                previewImg.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    if (inputPhoto && previewImg) {
+        inputPhoto.addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    previewImg.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 });
 </script>
-
 
 {% endblock %}
