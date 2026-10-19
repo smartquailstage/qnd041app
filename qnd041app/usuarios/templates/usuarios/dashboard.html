@@ -2,189 +2,388 @@
 {% load widget_tweaks %}
 {% load static %}
 
-{% block title %}Aplicativo para la administración de gestión de información cultural{% endblock %}
+{% block title %}Soluciones Tecnológicas & Asistentes IA // SmartQuail{% endblock %}
 
 {% block content %}
 
+<style>
+/* ==========================================================================
+   PALETA Y ESTILOS CYBER DARK SYSTEM
+   ========================================================================== */
+:root {
+  --card-bg: #282829;
+  --card-bg-subtle: #232324;
+  --accent-orange: #f7a84f;
+  --accent-orange-hover: #f39c12;
+  --border-color: rgba(247, 168, 79, 0.2);
+  --text-muted-custom: #94a3b8;
+  --bg-dark: #1e1e1f;
+}
+
+/* Envolvente General */
+.page-content-wrapper {
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+/* Tarjeta Principal */
+.tech-card-main {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  color: #ededed;
+}
+
+/* Badges */
+.tech-badge-orange {
+  background: rgba(247, 168, 79, 0.1);
+  color: var(--accent-orange);
+  border: 1px solid rgba(247, 168, 79, 0.3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* Divisores Cyber */
+.tech-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted-custom);
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin: 1.75rem 0;
+}
+
+.tech-divider::before,
+.tech-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-divider:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.tech-divider:not(:empty)::after {
+  margin-left: .75em;
+}
+
+/* Titulares de Sección */
+.tech-section-title {
+  color: #ffffff;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tech-section-title ion-icon {
+  color: var(--accent-orange);
+  font-size: 1.6rem;
+}
+
+/* Terminal / Typewriter Box */
+.terminal-box {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+#typewriter {
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: justify;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+#typewriter::after {
+  content: '▋';
+  color: var(--accent-orange);
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Tarjetas de Soluciones/Servicios */
+.solution-card-link {
+  text-decoration: none !important;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.tech-service-card {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tech-service-card:hover {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 20px rgba(247, 168, 79, 0.25);
+  transform: translateY(-4px);
+}
+
+.service-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(247, 168, 79, 0.1);
+  border: 1px solid rgba(247, 168, 79, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-orange);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tech-service-card h5 {
+  color: #ffffff;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.tech-service-card p {
+  color: var(--text-muted-custom);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Tarjetas de Noticias / Documentación */
+.tech-doc-card {
+  background-color: var(--card-bg-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.tech-doc-card:hover {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 15px rgba(247, 168, 79, 0.2);
+  transform: translateY(-3px);
+}
+
+.doc-overlay {
+  background: linear-gradient(to top, rgba(30, 30, 31, 0.95) 0%, rgba(30, 30, 31, 0.6) 60%, transparent 100%);
+}
+
+.doc-title {
+  color: #ffffff;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.doc-meta {
+  color: var(--accent-orange);
+  font-family: monospace;
+  font-size: 0.75rem;
+}
+</style>
+
 <div class="page-content-wrapper">
-  <!-- start page content-->
   <div class="page-content">
 
+    <div class="card tech-card-main radius-10 p-4">
+      <div class="card-body p-0">
 
-  
-    <div class="card radius-10">
-      <div class="card-body">
-
-        <div class="col-md-8">
-      <hr>
-      
-          <div class="col-md-8">
-          <h2 class="display-4 mt-3"><ion-icon name="cloud-upload-outline"></ion-icon> Soluciones ITC </h2>
+        <!-- CABECERA -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="tech-badge-orange">// ENTERPRISE CONTROL CENTER</span>
+          <span class="font-monospace text-muted small">{{ request.user.email }}</span>
         </div>
 
-      <hr>
+        <div class="tech-divider">PRIMEROS PASOS & ORIENTACIÓN IA</div>
 
-<div class="row row-cols-1 row-cols-lg-3">
+        <!-- TERMINAL DE BIENVENIDA / PRIMEROS PASOS -->
+        <div class="col-12 mb-4">
+          <div class="terminal-box">
+            <p id="typewriter"></p>
+          </div>
+        </div>
 
-<a href="{% url 'saas_shop:product_list' %}">
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                    <ion-icon name="browsers-outline"></ion-icon>
-                   </div>
-                   <h5>Aplicaciones</h5>
-                   <p class="mb-0">
-                    <ion-icon name="information-circle-outline"></ion-icon> Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y 
-                   Relaciones con Clientes (CRM).
-                   </p>
+        <div class="tech-divider">SOLUCIONES TECNOLÓGICAS ITC</div>
+
+        <div class="col-12 mb-3">
+          <h2 class="tech-section-title">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            Ecosistema de Plataformas & Soluciones
+          </h2>
+        </div>
+
+        <!-- TARJETAS DE SERVICIOS Y PLATAFORMAS -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-4">
+
+          <!-- APLICACIONES / SAAS -->
+          <div class="col">
+            <a href="{% url 'saas_shop:product_list' %}" class="solution-card-link">
+              <div class="tech-service-card">
+                <div class="service-icon-wrapper">
+                  <ion-icon name="browsers-outline"></ion-icon>
                 </div>
+                <h5>Sistemas ERP & CRM</h5>
+                <p class="mb-0">
+                  <ion-icon name="information-circle-outline" class="me-1 text-warning"></ion-icon>
+                  Potentes sistemas de Planificación de Recursos Empresariales (ERP) y avanzadas plataformas de Gestión de Contenidos y Relaciones con Clientes (CRM).
+                </p>
               </div>
-            </div>
-</a>
+            </a>
+          </div>
 
-<a href="{% url 'paas_shop:product_list' %}">
-
-            <div class="col">
-              <div class="card radius-10 bg-primary">
-                <div class="card-body text-white">
-                   <div class="service-box bg-white text-primary">
-                   <ion-icon name="grid-outline"></ion-icon>
-                   </div>
-                   <h5>Plataformas </h5>
-                   <p class="mb-0">
-                    <ion-icon name="information-circle-outline"></ion-icon>  Obtén la Suite completa (ERP + CRM + WebApp) y transforma tus procesos reales de negocio en una experiencia de usuario sólida, integrada y altamente atractiva para tus clientes.
-                   </p>
+          <!-- BUSINESS PLATFORMS / PAAS -->
+          <div class="col">
+            <a href="{% url 'paas_shop:product_list' %}" class="solution-card-link">
+              <div class="tech-service-card">
+                <div class="service-icon-wrapper">
+                  <ion-icon name="grid-outline"></ion-icon>
                 </div>
+                <h5>Business Platforms (Suite)</h5>
+                <p class="mb-0">
+                  <ion-icon name="information-circle-outline" class="me-1 text-warning"></ion-icon>
+                  Suite completa (ERP + CRM + WebApp) para transformar tus procesos reales de negocio en una experiencia sólida e integrada para tus clientes.
+                </p>
               </div>
-            </div>
-</a>
+            </a>
+          </div>
 
-
-
-         </div>
-<hr>
-  <div class="col-md-8">
-    <h2 class="display-4 mt-3"><ion-icon name="document-text-outline"></ion-icon> Documentación</h2>
-  </div>
-<hr>
-
-       <div class="row row-cols-1 row-cols-lg-3 g-4">
-
-  {% for noticia in noticias|slice:":3" %}
-  <div class="col">
-
-    <div class="card radius-10 h-100 position-relative overflow-hidden">
-
-      <!-- Imagen -->
-      {% if noticia.imagen_portada %}
-        <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-          <img src="{{ noticia.imagen_portada.url }}"
-               class="img-fluid radius-10 w-100"
-               style="object-fit: cover; min-height: 260px;"
-               alt="{{ noticia.titulo_1 }}">
-        </a>
-      {% else %}
-        <img src="{% static 'assets/images/placeholder.png' %}"
-             class="img-fluid radius-10 w-100"
-             style="object-fit: cover; min-height: 260px;"
-             alt="Sin imagen">
-      {% endif %}
-
-      <!-- Overlay -->
-      <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-        <div class="position-absolute top-50 start-0 translate-middle-y
-                    text-white p-4 w-100"
-             style="background: linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.2));">
-
-          <h5 class="card-title mb-2">
-            {{ noticia.titulo_1 }}
-          </h5>
-
-          <p class="mb-1" style="font-size: 11px;">
-            {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
-          </p>
-
-          {% if noticia.categoria %}
-            <p class="mb-1 text-uppercase" style="font-size: 11px;">
-              {{ noticia.categoria }}
-            </p>
-          {% endif %}
-
-          {% if noticia.cuerpo_1 %}
-            <p class="card-text mt-2">
-              {{ noticia.cuerpo_1|truncatewords:20 }}
-            </p>
-          {% endif %}
+          <!-- IA ASISTENTES PRIVADOS -->
+          <div class="col">
+            <a href="{% url 'paas_shop:product_list' %}" class="solution-card-link">
+              <div class="tech-service-card">
+                <div class="service-icon-wrapper">
+                  <ion-icon name="hardware-chip-outline"></ion-icon>
+                </div>
+                <h5>Asistentes de IA Soberana</h5>
+                <p class="mb-0">
+                  <ion-icon name="information-circle-outline" class="me-1 text-warning"></ion-icon>
+                  Soluciones de inteligencia artificial empresarial privada, segura y soberana integrada con tus bases de datos corporativas.
+                </p>
+              </div>
+            </a>
+          </div>
 
         </div>
-      </a>
 
-    </div>
-  </div>
-  {% empty %}
-    <div class="col-12 text-center">
-      <p>No hay noticias disponibles en este momento.</p>
-    </div>
-  {% endfor %}
+        <div class="tech-divider">DOCUMENTACIÓN & RECURSOS</div>
 
-</div>
+        <div class="col-12 mb-3">
+          <h2 class="tech-section-title">
+            <ion-icon name="document-text-outline"></ion-icon>
+            Documentación Técnica & Novedades
+          </h2>
+        </div>
+
+        <!-- NOTICIAS / DOCUMENTACIÓN -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+          {% for noticia in noticias|slice:":3" %}
+          <div class="col">
+            <div class="tech-doc-card position-relative">
+
+              <!-- Imagen -->
+              {% if noticia.imagen_portada %}
+                <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+                  <img src="{{ noticia.imagen_portada.url }}"
+                       class="img-fluid w-100"
+                       style="object-fit: cover; height: 240px;"
+                       alt="{{ noticia.titulo_1 }}">
+                </a>
+              {% else %}
+                <img src="{% static 'assets/images/placeholder.png' %}"
+                     class="img-fluid w-100"
+                     style="object-fit: cover; height: 240px;"
+                     alt="Sin imagen">
+              {% endif %}
+
+              <!-- Overlay -->
+              <a href="{% url 'business_customer_projects:detalle' noticia.pk %}" class="text-decoration-none">
+                <div class="position-absolute bottom-0 start-0 w-100 p-3 doc-overlay">
+
+                  <p class="mb-1 doc-meta">
+                    // {{ noticia.fecha_publicacion|date:"d M Y" }} {% if noticia.categoria %}· {{ noticia.categoria }}{% endif %}
+                  </p>
+
+                  <h5 class="doc-title mb-2">
+                    {{ noticia.titulo_1 }}
+                  </h5>
+
+                  {% if noticia.cuerpo_1 %}
+                    <p class="mb-0 text-muted small">
+                      {{ noticia.cuerpo_1|truncatewords:16 }}
+                    </p>
+                  {% endif %}
+
+                </div>
+              </a>
+
+            </div>
+          </div>
+          {% empty %}
+            <div class="col-12 text-center py-4">
+              <p class="font-monospace text-muted">// No hay documentación disponible en este momento.</p>
+            </div>
+          {% endfor %}
+
+        </div>
 
       </div>
     </div>
 
-
   </div>
-  <!-- end page content-->
 </div>
 
-
+<!-- ================= SCRIPTS ================= -->
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    function typeWriterEffect(elementId, text, speed) {
-        let index = 0;
-        function type() {
-            if (index < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(index);
-                index++;
-                setTimeout(type, speed);
-            }
+    const text_start = `Primeros pasos:
+
+Hola, {{ request.user.first_name|default:request.user.username }}. Te invitamos a explorar las soluciones de entornos financieros, comerciales y administrativos para implementar en tu negocio.
+
+O puedes explorar nuestra suite completa en Business Platforms, que incluye todos los entornos y una WebApp especializada para tus clientes.
+
+También puedes explorar nuestras Soluciones de Asistentes de Inteligencia Artificial Empresarial Privado, Seguro y Soberano.`;
+
+    let index = 0;
+    const typewriterEl = document.getElementById("typewriter");
+
+    function typeWriterEffect() {
+        if (typewriterEl && index < text_start.length) {
+            typewriterEl.innerHTML += text_start.charAt(index);
+            index++;
+            setTimeout(typeWriterEffect, 22);
         }
-        type();
     }
 
-   
-    const text_start = `Hola, {{ request.user.first_name }}  . He seleccionado los productos de TI en la nube que mejor se ajustan a las necesidades registradas en tu perfil. Ingresa a cada producto para explorar las demostraciones y conocer más sobre la metodología que utilizamos para implementar soluciones personalizadas para tu proyecto o negocio.`;
-    typeWriterEffect("typewriter", text_start, 35);
-
-
+    typeWriterEffect();
 });
 </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const btnCambiarFoto = document.getElementById("btnCambiarFoto");
-    const inputPhoto = document.getElementById("id_photo");
-    const previewImg = document.querySelector(".user-change-photo img");
-
-    btnCambiarFoto.addEventListener("click", function () {
-        inputPhoto.click();
-    });
-
-    inputPhoto.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                previewImg.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-});
-</script>
-
- 
 {% endblock %}
