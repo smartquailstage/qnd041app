@@ -1,0 +1,252 @@
+{% load i18n %}
+{% load static %}
+
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  /* Contenedores estilo Cyber / Tech Dark */
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
+
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Lista técnica estilizada */
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
+
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
+
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
+
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+
+  code.tech-code {
+    background-color: #1a1a1b;
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+</style>
+
+<!-- TAB: INFRAESTRUCTURA Y RENDIMIENTO -->
+<div class="tab-pane fade" id="infraestructura" role="tabpanel" aria-labelledby="tab-infraestructura">
+  <div class="tech-detail-card p-4">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// HIGH PERFORMANCE CLOUD SPECIFICATIONS</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="hardware-chip-outline" class="text-warning fs-3"></ion-icon>
+          <span>Infraestructura en la Nube, Seguridad y Rendimiento</span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">
+        SLA DISPONIBILIDAD: {{ product.get_software_display|default:"99.9% High Availability" }}
+      </span>
+    </div>
+
+    <!-- RESUMEN TÉCNICO -->
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Garantizamos una infraestructura de despliegue cloud robusta, aislada y de alto rendimiento para la instancia 
+      <strong class="text-white">{{ product.name }}</strong>. 
+      Esta arquitectura multinivel asegura protección de grado corporativo, tiempos de respuesta optimizados y escalabilidad elástica según la demanda de su organización.
+    </p>
+
+    <!-- GRID DE RECURSOS CLOUD PRINCIPALES -->
+    <div class="row g-3 mb-4">
+
+      <!-- vCPU -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">COMPUTE CORE</span>
+            <span class="tech-badge-orange">{{ product.cpu }} vCPU</span>
+          </div>
+          <h5 class="text-white fw-bold mb-1">{{ product.cpu }} vCPU Dedicadas</h5>
+          <p class="small text-muted mb-0">Procesadores optimizados para cargas computacionales intensivas y tareas concurrentes.</p>
+        </div>
+      </div>
+
+      <!-- MEMORIA RAM -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">SYSTEM MEMORY</span>
+            <span class="tech-badge-synthex">{{ product.memoria }} GB RAM</span>
+          </div>
+          <h5 class="text-white fw-bold mb-1">{{ product.memoria }} GB RAM</h5>
+          <p class="small text-muted mb-0">Memoria de alta velocidad configurada para mantener fluidez operacional sin latencia.</p>
+        </div>
+      </div>
+
+      <!-- ALMACENAMIENTO SSD -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">HIGH-SPEED STORAGE</span>
+            <span class="tech-badge-purple">{{ product.almacenamiento }} GB SSD</span>
+          </div>
+          <h5 class="text-white fw-bold mb-1">{{ product.almacenamiento }} GB NVMe/SSD</h5>
+          <p class="small text-muted mb-0">Almacenamiento ultra-rápido en la nube con redundancia y copias de seguridad automáticas.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESPECIFICACIONES DETALLADAS -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // DETALLE DE ARQUITECTURA & CONECTIVIDAD
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- DNS Y SSL -->
+        <li>
+          <strong class="text-white">DNS Privado & Conectividad SSL Autogenerada:</strong>
+          Suministramos un sistema DNS dedicado y entorno totalmente cifrado de extremo a extremo bajo protocolo HTTPS.
+          <ul class="tech-spec-sublist">
+            <li>Certificados SSL renovados de forma automatizada periódicamente.</li>
+            <li>Aislamiento de red para evitar vectores de ataque externos.</li>
+          </ul>
+        </li>
+
+        <!-- SUBDOMINIO & DOMINIO PROPIO -->
+        <li>
+          <strong class="text-white">Subdominio Dedicado & Redirección Privada:</strong>
+          Instancia aprovisionada inmediatamente bajo el subdominio: 
+          <code class="tech-code">{{ product.slug }}.smartquail.io</code>.
+          <ul class="tech-spec-sublist">
+            <li>Opción de mapeo a dominio corporativo propio (<code class="tech-code">midominio.com</code>) bajo configuración DNS CNAME personalizada.</li>
+          </ul>
+        </li>
+
+        <!-- ALMACENAMIENTO ESCALABLE -->
+        <li>
+          <strong class="text-white">Estructura de Almacenamiento Escalable:</strong>
+          Asignación inicial de <strong class="text-white">{{ product.almacenamiento }} GB SSD</strong>.
+          <ul class="tech-spec-sublist">
+            <li>Arreglos de discos NVMe de alta velocidad para lectura/escritura de datos.</li>
+            <li>Capacidad de expansión bajo demanda hasta 5TB según volumen de información.</li>
+          </ul>
+        </li>
+
+        <!-- RECURSOS COMPUTACIONALES -->
+        <li>
+          <strong class="text-white">Capacidad de Cómputo (vCPU & RAM):</strong>
+          Configuración balanceada de <strong class="text-white">{{ product.cpu }} vCPU</strong> y <strong class="text-white">{{ product.memoria }} GB RAM</strong>.
+          <ul class="tech-spec-sublist">
+            <li>Monitoreo de rendimiento para escalado vertical dinámico según módulos activos.</li>
+          </ul>
+        </li>
+
+        <!-- LATENCIA Y RENDIMIENTO -->
+        <li>
+          <strong class="text-white">Latencia, Concurrencia y Rendimiento Garantizado:</strong>
+          Nivel de latencia asignado: <strong style="color: var(--accent-orange);">{{ product.get_latencia_aproximada_display|default:"Baja Latencia / Edge Optimized" }}</strong>.
+          <ul class="tech-spec-sublist">
+            <li>Usuarios simultáneos proyectados: <strong class="text-white">{{ product.get_usuarios_simultaneos_display|default:"Alta Concurrencia" }}</strong>.</li>
+            <li>Balanceo de carga automatizado y conmutación por error (Failover).</li>
+            <li>Redundancia multizona en centros de datos tier-3.</li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// NOTA DE ARQUITECTURA:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        Esta infraestructura asegura que la instancia ERP de <strong class="text-white">{{ product.name }}</strong> permanezca aislada, protegida y con rendimiento garantizado las 24 horas del día.
+      </p>
+    </div>
+
+  </div>
+</div>

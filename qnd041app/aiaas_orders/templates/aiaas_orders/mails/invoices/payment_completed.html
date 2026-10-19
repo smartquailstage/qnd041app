@@ -1,0 +1,72 @@
+{% extends "saas_orders/mails/base_mail.html" %}
+{% load static %}
+
+{% block content %}
+<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+
+    <h2 style="color: #b5181a;">🧾 Confirmación de Pago - SmartQuail Cloud</h2>
+
+    <p>
+        Estimado/a <strong>{{ order.first_name }} {{ order.last_name }}</strong>,
+    </p>
+
+    <p>
+        Su pago ha sido registrado correctamente y estamos listos para habilitar su proyecto <strong>ITC Business</strong>.
+        Para completar la activación, es necesaria la <strong>verificación y legalización de los contratos</strong>.
+    </p>
+
+    <p>
+        Puede completar este proceso de dos maneras:
+    </p>
+
+    <ol>
+        <li>Firmando electrónicamente los contratos a través de nuestro sistema.</li>
+        <li>O firmando manualmente y enviando una fotografía del contrato firmado.</li>
+    </ol>
+
+    <p>
+        Cada contrato tiene un <strong>código QR</strong> único que debe escanear para verificar su autenticidad y asociarlo a su proyecto.
+    </p>
+
+    <h3>Detalles de su pago:</h3>
+    <ul>
+        <li><strong>ID del pago/orden:</strong> 00000{{ order.id }}</li>
+        <li><strong>Email:</strong> {{ order.email }}</li>
+        <li><strong>Fecha:</strong> {{ order.created|date:"M d, Y" }}</li>
+        <li><strong>Total abonado:</strong> ${{ order.get_total_cost|floatformat:2 }}</li>
+    </ul>
+
+    <p>
+        Se adjuntan a este correo los tres contratos en PDF para su revisión y firma:
+    </p>
+    <ul>
+        <li>Contrato de Propiedad Intelectual (IP)</li>
+        <li>Contrato de Desarrollo (DEV)</li>
+        <li>Contrato de Alquiler de Nube (CLOUD)</li>
+    </ul>
+
+    <p style="margin-top: 20px;">
+        Para completar la activación y comenzar a utilizar su proyecto ITC Business, haga clic en el siguiente enlace:
+    </p>
+
+    <p style="text-align: center;">
+        <a href="https://{{ domain }}{% url 'saas_orders:order_detail' order_id=order.id %}" 
+           style="background-color: #b5181a; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+           Verificar y Activar Contratos
+        </a>
+    </p>
+
+    <p style="margin-top: 10px; font-style: italic;">
+        <strong>Nota:</strong> El enlace es válido por 15 días. Pasado este período, deberá contactar al soporte para reactivar su proyecto.
+    </p>
+
+    <p>
+        Nuestro equipo de soporte y consultoría cloud está disponible para guiarlo en el proceso de firma y legalización de los contratos, garantizando la seguridad y validez de su proyecto.
+    </p>
+
+    <p>
+        Gracias por confiar en <strong>SmartQuail</strong> como su socio estratégico en la nube.
+    </p>
+
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "saas_orders/mails/base_mail.html" %}
+{% load i18n wagtailcore_tags wagtailimages_tags static %}
+
+{% block content %}
+
+<div class="email-body" style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+
+    <h2 style="color: #b5181a;">
+        📡 Nueva Orden PaaS Asignada
+    </h2>
+
+    <p>
+        Estimado/a 
+        <strong>{{ order.project_manager }}</strong>,
+    </p>
+
+    <p>
+        Se ha registrado una nueva orden de infraestructura y servicios cloud (PaaS) dentro de la plataforma corporativa de 
+        <strong>SmartQuail</strong>.
+    </p>
+
+    <p>
+        Usted ha sido asignado como responsable de la supervisión y coordinación técnica de este proyecto.
+    </p>
+
+    <h3 style="margin-top: 30px;">
+        Información del cliente
+    </h3>
+
+    <ul>
+        <li>
+            <strong>Cliente:</strong>
+            {{ order.first_name }} {{ order.last_name }}
+        </li>
+
+        <li>
+            <strong>Razón social:</strong>
+            {{ order.razon_social }}
+        </li>
+
+        <li>
+            <strong>Correo electrónico:</strong>
+            {{ order.email }}
+        </li>
+
+        <li>
+            <strong>Teléfono:</strong>
+            {{ order.telefono }}
+        </li>
+
+        <li>
+            <strong>Sector:</strong>
+            {{ order.get_sector_display }}
+        </li>
+    </ul>
+
+    <h3 style="margin-top: 30px;">
+        Información de la orden
+    </h3>
+
+    <ul>
+        <li>
+            <strong>ID de orden:</strong>
+            00000{{ order.id }}
+        </li>
+
+        <li>
+            <strong>Fecha de registro:</strong>
+            {{ order.created|date:"d/m/Y H:i" }}
+        </li>
+
+        <li>
+            <strong>Estado:</strong>
+
+            {% if order.paid %}
+                Pagado
+            {% else %}
+                Pendiente de pago
+            {% endif %}
+        </li>
+
+        <li>
+            <strong>Total:</strong>
+            ${{ order.get_total_with_discount|floatformat:2 }}
+        </li>
+    </ul>
+
+    <h3 style="margin-top: 30px;">
+        Servicios contratados
+    </h3>
+
+    <table style="width:100%; border-collapse: collapse; margin-bottom: 20px;">
+
+        <thead>
+
+            <tr style="background-color:#f5f5f5;">
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    #
+                </th>
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    Servicio
+                </th>
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    Cantidad
+                </th>
+
+                <th style="padding:8px; border:1px solid #ddd;">
+                    Valor
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for item in order.items.all %}
+
+            <tr>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ item.id }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ item.product.name }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    {{ item.quantity }}
+                </td>
+
+                <td style="padding:8px; border:1px solid #ddd;">
+                    ${{ item.price|floatformat:2 }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <p style="margin-top:20px;">
+        Por favor, revise los detalles de la orden y proceda con las actividades correspondientes de planificación, implementación y seguimiento técnico.
+    </p>
+
+    <p style="text-align:center; margin-top:30px;">
+
+        <a href="https://{{ domain }}{% url 'paas_orders:order_detail' order_id=order.id %}"
+           style="background-color:#b5181a;
+                  color:white;
+                  padding:14px 28px;
+                  text-decoration:none;
+                  border-radius:6px;
+                  font-weight:bold;
+                  display:inline-block;">
+
+            Ver orden PaaS
+
+        </a>
+
+    </p>
+
+    <p style="margin-top:30px;">
+        Gracias por formar parte del ecosistema tecnológico de 
+        <strong>SmartQuail</strong>.
+    </p>
+
+</div>
+
+{% endblock %}

@@ -89,6 +89,12 @@ urlpatterns = [
     path('platforms_licencias/', include('paas_orders.urls', namespace='paas_orders')),
     path('platforms_convenios/', include('paas_coupons.urls', namespace='paas_coupons')),
     path('platforms_metodo_pago/', include('paas_payment.urls', namespace='paas_payment')),
+
+    path('assitente_ia_carrito/', include('aiaas_cart.urls', namespace='aiaas_cart')),
+    path('assitente_ia/', include('aiaas_shop.urls', namespace='aiaas_shop')),
+    path('assitente_ia_licencias/', include('aiaas_orders.urls', namespace='aiaas_orders')),
+    path('assitente_ia_convenios/', include('aiaas_coupons.urls', namespace='aiaas_coupons')),
+    path('assitente_ia_metodo_pago/', include('aiaas_payment.urls', namespace='aiaas_payment')),
     
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
     path('ingresar/', include('usuarios.urls', namespace='usuarios')),

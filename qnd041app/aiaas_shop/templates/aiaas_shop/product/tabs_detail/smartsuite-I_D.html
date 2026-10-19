@@ -1,0 +1,214 @@
+{% load i18n %}
+{% load static %}
+
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
+
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
+
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
+
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
+
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+</style>
+
+<!-- TAB: INVESTIGACIÓN Y DESARROLLO DE SUITES (I+D) -->
+<div class="tab-pane fade" id="sba-investigacion" role="tabpanel" aria-labelledby="tab-sba-investigacion">
+  <div class="tech-detail-card p-4">
+
+    <!-- ENCABEZADO DE MÓDULO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// RESEARCH & DEVELOPMENT INTEGRAL SUITE</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="grid-outline" class="text-warning fs-3"></ion-icon>
+          <span>SmartBusinessSuites® <sup>(I + D)</sup></span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">SUITE LEVEL: CORE</span>
+    </div>
+
+    <!-- RESUMEN GENERAL -->
+    <p class="text-light opacity-90 mb-3 lh-base" style="text-align: justify;">
+      <strong class="text-white">SmartBusinessSuites® (I+D)</strong> es la suite integral de gestión, información y comunicación en la nube de <strong class="text-white">SmartQuail, Inc.</strong>, diseñada para centralizar, administrar y optimizar todos los procesos estratégicos, operativos, financieros, comerciales y regulatorios dentro de un ecosistema empresarial inteligente.
+    </p>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Funciona como un entorno unificado de <strong class="text-white">ERP analítico, CRM empresarial, gestión de contenidos digitales, comunicación multicanal e Investigación y Desarrollo (I+D)</strong>, interconectando de manera inteligente la lógica de negocio con la experiencia del cliente para <strong class="text-white">{{ product.name }}</strong>.
+    </p>
+
+    <!-- PILARES DE SUITES (SBA, SBM, SBL) -->
+    <div class="row g-3 mb-4">
+      
+      <!-- SBA -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">FINANCE & OPERATIVE</span>
+            <span class="tech-badge-orange">SBA®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessAnalytics®</h6>
+          <p class="small text-muted mb-0">Núcleo ERP analítico, control financiero, productividad, métricas y dashboards en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- SBM -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">MEDIA & POSITIONING</span>
+            <span class="tech-badge-synthex">SBM®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessMedia®</h6>
+          <p class="small text-muted mb-0">Gestión de contenidos web, presencia digital, redes sociales y campañas comerciales integradas.</p>
+        </div>
+      </div>
+
+      <!-- SBL -->
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small font-monospace">LAW & COMPLIANCE</span>
+            <span class="tech-badge-purple">SBL®</span>
+          </div>
+          <h6 class="text-white fw-bold mb-1">SmartBusinessLaw®</h6>
+          <p class="small text-muted mb-0">Administración de procesos legales, gestión documental y cumplimiento normativo corporativo.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESPECIFICACIONES Y ARQUITECTURA I+D -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPACIDADES DE ARQUITECTURA E INVESTIGACIÓN (I+D)
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- LÓGICA DE NEGOCIO Y CLIENTE -->
+        <li>
+          <strong class="text-white">Interconexión entre Lógica de Negocio & Experiencia Digital:</strong>
+          Sincronización automatizada entre los procesos operativos internos y las interfaces digitales utilizadas por clientes y usuarios finales.
+        </li>
+
+        <!-- INVESTIGACIÓN BASADA EN DATOS REALES -->
+        <li>
+          <strong class="text-white">Investigación y Desarrollo Basado en Telemetría Real (I+D):</strong>
+          Retroalimentación continua mediante el análisis de interacción de usuarios, evaluación de cuellos de botella y optimización iterativa de flujos de trabajo.
+        </li>
+
+        <!-- PERSONALIZACIÓN VISUAL Y MARCA -->
+        <li>
+          <strong class="text-white">Adaptabilidad de Marca & Experiencia UI:</strong>
+          Configuración visual personalizada alineada a la identidad corporativa del negocio, priorizando la usabilidad, usabilidad multitarea y entornos multiforma.
+        </li>
+
+        <!-- CONECTIVIDAD MULTIFORMA -->
+        <li>
+          <strong class="text-white">Conectividad Multiforma e Interoperabilidad:</strong>
+          Sincronización automática de información con aplicaciones externas, marketplaces y servicios de terceros mediante conectores e infraestructura cloud centralizada.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// CONSOLIDACIÓN DE SUITE:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        La convergencia entre <strong class="text-white">SmartBusinessAnalytics®</strong>, <strong class="text-white">SmartBusinessMedia®</strong> y <strong class="text-white">SmartBusinessLaw®</strong> permite administrar la operación financiera, comercial y legal de <strong class="text-white">{{ product.name }}</strong> de forma unificada e inteligente dentro de la arquitectura soberana de SmartQuail, Inc.
+      </p>
+    </div>
+
+  </div>
+</div>

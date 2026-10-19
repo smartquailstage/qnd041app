@@ -1,0 +1,35 @@
+{% extends "paas_shop/base3.html" %}
+{% load i18n %}
+{% load static %}
+
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="page-content-wrapper">
+          <!-- start page content-->
+         <div class="page-content">
+
+
+
+</ul>
+
+  <div class="tab-content pt-3">
+  {% include 'aiaas_shop/product/tabs_list/medico_tabs.html' %}
+  {% include 'aiaas_shop/product/tabs_list/tecnologico_tabs.html' %}
+  {% include 'aiaas_shop/product/tabs_list/transporte_tabs.html' %}
+  </div>
+</div>
+
+
+      </div>
+  </div>
+
+
+{% endblock %}
+

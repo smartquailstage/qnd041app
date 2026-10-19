@@ -245,6 +245,13 @@ INSTALLED_APPS = [
     'saas_coupons',
     'saas_payment',
 
+        #AIAAS
+    'aiaas_shop',
+    'aiaas_orders',
+    'aiaas_cart',
+    'aiaas_coupons',
+    'aiaas_payment',
+
     #SmartBusinessANALYTICS
     "sbacart",
     "sbashop",
@@ -297,6 +304,7 @@ CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
 PAAS_CART_SESSION_ID = 'paas_cart'
+AIAAS_CART_SESSION_ID = 'aiaas_cart'
 
 SERVICES_CART_SESSION_ID = 'services_cart'
 

@@ -1,0 +1,309 @@
+{% load i18n %}
+{% load static %}
+
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  /* Contenedor principal estilo Cyber / Tech Dark */
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
+
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* Lista de monitoreo estilizada */
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
+
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
+
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
+
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+</style>
+
+<!-- ========================================== -->
+<!-- I. BOTONES DE PESTAÑAS (NAV-ITEMS)         -->
+<!-- Colocar en el <ul> con id="custom-tabs"    -->
+<!-- ========================================== -->
+
+<!-- Pestaña Monitoreo -->
+<li class="nav-item" role="presentation">
+  <a class="nav-link" id="tab-monitoring-btn" data-bs-toggle="tab" href="#tab-monitoring" role="tab" aria-controls="tab-monitoring" aria-selected="false">
+    <ion-icon name="cellular-outline" class="fs-5"></ion-icon>
+    <span class="tab-title text-uppercase">Monitoreo</span>
+  </a>
+</li>
+
+<!-- Pestaña Soporte -->
+<li class="nav-item" role="presentation">
+  <a class="nav-link" id="tab-soporte-btn" data-bs-toggle="tab" href="#tab-soporte" role="tab" aria-controls="tab-soporte" aria-selected="false">
+    <i class="fadeIn animated bx bx-support fs-5"></i>
+    <span class="tab-title text-uppercase">Soporte 24/7</span>
+  </a>
+</li>
+
+
+<!-- ========================================== -->
+<!-- II. CONTENIDOS DE LAS PESTAÑAS (TAB-PANES) -->
+<!-- Colocar dentro de .tab-content             -->
+<!-- ========================================== -->
+
+<!-- TAB: MONITOREO EN TIEMPO REAL -->
+<div class="tab-pane fade" id="tab-monitoring" role="tabpanel" aria-labelledby="tab-monitoring-btn">
+  <div class="tech-detail-card p-4">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// REAL-TIME SYSTEM MONITORING</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="bar-chart-outline" class="text-warning fs-3"></ion-icon>
+          <span>Monitoreo en Tiempo Real del Sistema ERP</span>
+        </h4>
+      </div>
+      <span class="tech-badge-synthex font-monospace">
+        STATUS LOGS: {% if product.monitoring_logs %}ACTIVO (100% TRAZABLE){% else %}ESTÁNDAR{% endif %}
+      </span>
+    </div>
+
+    <!-- DESCRIPCIÓN PRINCIPAL -->
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Contamos con un módulo avanzado de <strong class="text-white">monitoreo en tiempo real</strong> que permite supervisar de manera continua cada evento crítico, asegurando una visibilidad total tanto sobre la infraestructura en la nube como en las operaciones transaccionales de <strong class="text-white">{{ product.name }}</strong>.
+    </p>
+
+    <!-- METRICAS / METRIC BOXES -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <span class="text-muted small font-monospace d-block mb-1">RECURSOS ASIGNADOS</span>
+          <div class="text-white small">
+            <strong>CPU:</strong> {{ product.vcpu|default:product.cpu|default:0 }} vCPU<br>
+            <strong>RAM:</strong> {{ product.ram|default:product.memoria|default:0 }} GB<br>
+            <strong>SSD:</strong> {{ product.almacenamiento|default:0 }} GB
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <span class="text-muted small font-monospace d-block mb-1">NIVEL DE AUDITORÍA</span>
+          <h5 class="text-white fw-bold mb-0 font-monospace">{{ product.audit_level|default:"Avanzado (OWASP / GDPR)" }}</h5>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="tech-detail-box h-100">
+          <span class="text-muted small font-monospace d-block mb-1">LOGS DE ACTIVIDAD</span>
+          <span class="tech-badge-purple font-monospace">
+            {% if product.monitoring_logs %}SISTEMA DE LOGS HABILITADO{% else %}DESACTIVADO{% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESPECIFICACIONES DE MONITOREO -->
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // PROTOCOLOS DE TELEMETRÍA Y CONTROL OPERATIVO
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+
+        <!-- INFRAESTRUCTURA -->
+        <li>
+          <strong class="text-white">Monitoreo de Infraestructura Cloud:</strong>
+          Supervisión en tiempo real de la carga de procesador, memoria RAM, almacenamiento en disco y tráfico de red para garantizar <strong class="text-white">alta disponibilidad y respuesta inmediata ante contingencias</strong>.
+        </li>
+
+        <!-- EVENTOS TRANSACCIONALES -->
+        <li>
+          <strong class="text-white">Monitoreo de Eventos Transaccionales:</strong>
+          Registro exhaustivo de cada interacción dentro del ERP (creación, edición y eliminación de datos) garantizando una <strong class="text-white">trazabilidad total de las actividades operativas</strong>.
+        </li>
+
+        <!-- ALERTAS AUTOMATIZADAS -->
+        <li>
+          <strong class="text-white">Alertas Automatizadas de Seguridad:</strong>
+          Detección temprana y notificación proactiva sobre anomalías o patrones imprevistos dentro del sistema.
+          <ul class="tech-spec-sublist">
+            <li>
+              Alertas activas: 
+              <strong class="text-warning">
+                {% for alerta in product.alertas %}
+                  {{ alerta }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                  Alertas estándar por umbral de carga de servidor y seguridad
+                {% endfor %}
+              </strong>
+            </li>
+          </ul>
+        </li>
+
+        <!-- ANALÍTICA OPERACIONAL -->
+        <li>
+          <strong class="text-white">Analítica Operacional & Dashboards de Desempeño:</strong>
+          Generación automática de indicadores clave de rendimiento (KPIs) e informes consolidados.
+          <ul class="tech-spec-sublist">
+            {% if product.metricas %}
+              {% for metrica in product.metricas %}
+                <li>{{ metrica }}</li>
+              {% endfor %}
+            {% else %}
+              <li>Tiempo de respuesta de consultas DB & peticiones HTTP.</li>
+              <li>Consumo de ancho de banda y latencia de conexiones.</li>
+              <li>Tasa de peticiones por segundo (RPS) y usuarios concurrentes.</li>
+            {% endif %}
+          </ul>
+        </li>
+
+        <!-- AUDITORÍA Y CUMPLIMIENTO -->
+        <li>
+          <strong class="text-white">Auditoría & Cumplimiento Normativo:</strong>
+          Almacenamiento seguro y estructurado de información de control para certificar normativas de seguridad, privacidad y auditorías internas.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- RESUMEN FINAL -->
+    <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+      <span class="text-muted">// GARANTÍA DE OPERATIVIDAD:</span>
+      <p class="mb-0 text-light opacity-90 mt-1">
+        Este sistema de monitoreo permite mitigar riesgos operativos de manera proactiva, asegurando la continuidad del negocio y el control completo sobre su ecosistema de datos.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- TAB: SOPORTE Y MANTENIMIENTO -->
+<div class="tab-pane fade" id="tab-soporte" role="tabpanel" aria-labelledby="tab-soporte-btn">
+  <div class="tech-detail-card p-4">
+
+    <!-- ENCABEZADO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// 24/7 TECHNICAL SUPPORT & MAINTENANCE</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <i class="fadeIn animated bx bx-support text-warning fs-3"></i>
+          <span>Soporte Técnico Especializado y Mantenimiento Cloud</span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">
+        SLA: 24/7/365 ATENCIÓN DEDICADA
+      </span>
+    </div>
+
+    <!-- DETALLES DE SOPORTE -->
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <div class="tech-detail-box h-100">
+          <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+            <ion-icon name="shield-checkmark-outline" class="text-success fs-5"></ion-icon>
+            <span>Mantenimiento Correctivo & Preventivo</span>
+          </h6>
+          <p class="small text-light opacity-90 lh-base" style="text-align: justify;">
+            Su suscripción incluye la actualización permanente de parches de seguridad, optimización de bases de datos, backups automatizados y la mantención continua de los recursos cloud requeridos para la operatividad de <strong class="text-white">{{ product.name }}</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="tech-detail-box h-100">
+          <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+            <ion-icon name="headset-outline" class="text-warning fs-5"></ion-icon>
+            <span>Canales de Atención</span>
+          </h6>
+          <ul class="tech-spec-list mb-0 small text-light opacity-90">
+            <li><strong>Mesa de Ayuda Cloud:</strong> Registro e incidencias priorizadas.</li>
+            <li><strong>Soporte Crítico 24/7:</strong> Atención directa para fallos de infraestructura.</li>
+            <li><strong>Actualizaciones de Versión:</strong> Cobertura de mejoras evolutivas del sistema.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

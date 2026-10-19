@@ -1,0 +1,449 @@
+{% load i18n %}
+{% load static %}
+
+<style>
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  .tech-detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
+
+  .tech-detail-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .tech-badge-purple {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-synthex {
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-badge-ia {
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tech-spec-list > li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 1.25rem;
+  }
+
+  .tech-spec-list > li::before {
+    content: "//";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: bold;
+  }
+
+  .tech-spec-sublist {
+    list-style: none;
+    padding-left: 15px;
+    margin-top: 8px;
+    border-left: 2px solid rgba(247, 168, 79, 0.2);
+  }
+
+  .tech-spec-sublist li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+  }
+
+  .tech-spec-sublist li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+  }
+
+  code.tech-code {
+    background-color: #1a1a1b;
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+</style>
+
+<!-- ========================================== -->
+<!-- 1. TAB: INTERFAZ Y EXPERIENCIA DE USUARIO (UI/UX) -->
+<!-- ========================================== -->
+<div class="tab-pane fade" id="uiux" role="tabpanel" aria-labelledby="tab-uiux">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// USER EXPERIENCE & INTERFACE DESIGN</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <i class="fadeIn animated bx bx-merge text-warning fs-3"></i>
+          <span>Interfaz y Experiencia de Usuario (UI/UX)</span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">SECTOR: {{ product.category.sector|default:"Enterprise Cloud" }}</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Desarrollamos procesos avanzados de <strong class="text-white">Investigación y Desarrollo (I+D)</strong> enfocados en la creación de interfaces web inteligentes y totalmente personalizadas para clientes y usuarios finales. Nuestro enfoque garantiza experiencias digitales intuitivas, rápidas y optimizadas.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // PILARES DE DISEÑO Y ARQUITECTURA DIGITAL
+      </h6>
+
+      <ul class="tech-spec-list mb-0">
+        <li>
+          <strong class="text-white">Investigación centrada en el usuario (User-Centered Design):</strong>
+          Estudios funcionales y de comportamiento para comprender flujos de trabajo reales y patrones de uso operativos.
+        </li>
+        <li>
+          <strong class="text-white">Análisis del sector y del producto:</strong>
+          Adaptación al contexto normativo, niveles de madurez digital y objetivos estratégicos corporativos.
+        </li>
+        <li>
+          <strong class="text-white">Arquitectura de experiencia de usuario (UX):</strong>
+          Diseño de estructuras de navegación jerárquicas que reducen la curva de aprendizaje.
+          <ul class="tech-spec-sublist">
+            <li>Mapeo de flujos de usuario y journeys críticos.</li>
+            <li>Optimización de tiempos de interacción y respuesta.</li>
+          </ul>
+        </li>
+        <li>
+          <strong class="text-white">Diseño de interfaz (UI) personalizado:</strong>
+          Interfaces visuales únicas optimizadas para usabilidad, accesibilidad y diseño responsive (desktop, tablet, móvil).
+        </li>
+        <li>
+          <strong class="text-white">Integración nativa con la suite SmartQuail:</strong>
+          Conexión fluida con <strong class="text-white">SmartBusinessAnalytics® SBA</strong> y <strong class="text-white">SmartBusinessManagement® SBM</strong>.
+        </li>
+        <li>
+          <strong class="text-white">Optimización de rendimiento y accesibilidad universal:</strong>
+          Principios de alto rendimiento, tiempos de carga mínimos y cumplimiento de estándares de accesibilidad digital.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 2. TAB: INVESTIGACIÓN Y DESARROLLO (I+D)   -->
+<!-- ========================================== -->
+{% if product.is_reaserch %}
+<div class="tab-pane fade" id="investigacion" role="tabpanel" aria-labelledby="tab-investigacion">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// RESEARCH & DEVELOPMENT METODOLOGY</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="flask-outline" class="text-warning fs-3"></ion-icon>
+          <span>(I+D) Investigación & Desarrollo</span>
+        </h4>
+      </div>
+      <span class="tech-badge-synthex font-monospace">TIEMPO DEV: {{ product.tiempo_desarrollo|default:0 }} HORAS</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Lo que distingue a <strong class="text-white">{{ product.name }}</strong> es su enfoque de I+D aplicado directamente a los procesos empresariales mediante una metodología ágil y colaborativa.
+    </p>
+
+    <!-- METRICAS DE RECURSOS CLOUD -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-3">
+        <div class="tech-detail-box text-center">
+          <span class="text-muted small font-monospace d-block">CPU VIRTUAL</span>
+          <h5 class="text-white fw-bold mb-0">{{ product.cpu }} vCPU</h5>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="tech-detail-box text-center">
+          <span class="text-muted small font-monospace d-block">MEMORIA RAM</span>
+          <h5 class="text-white fw-bold mb-0">{{ product.memoria }} GB</h5>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="tech-detail-box text-center">
+          <span class="text-muted small font-monospace d-block">ALMACENAMIENTO</span>
+          <h5 class="text-white fw-bold mb-0">{{ product.almacenamiento }} GB</h5>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="tech-detail-box text-center">
+          <span class="text-muted small font-monospace d-block">INVERSIÓN TOTAL</span>
+          <h5 class="text-white fw-bold mb-0" style="color: var(--accent-orange);">{{ product.total_iva|default:product.price }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // FASES DE IMPLEMENTACIÓN Y VALIDACIÓN TÉCNICA
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li><strong>Fase 1 - Levantamiento:</strong> Entrevistas con Project Managers para identificar procesos clave.</li>
+        <li><strong>Fase 2 - Desarrollo Tokenizado:</strong> Modelado sobre base de datos segura y tokenizada (Estimado: {{ product.tiempo_desarrollo }}h).</li>
+        <li><strong>Fase 3 & 5 - Validación Iterativa:</strong> Feedback continuo con el cliente en entornos controlados.</li>
+        <li><strong>Fase 6 - Quality Assurance (QA):</strong> Pruebas rigurosas de seguridad, resiliencia y rendimiento.</li>
+        <li><strong>Fase 9 - Despliegue de Producción:</strong> Lanzamiento oficial en alta disponibilidad cloud.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+<!-- ========================================== -->
+<!-- 3. TAB: AUTOMATIZACIÓN DE PROCESOS (+A)    -->
+<!-- ========================================== -->
+{% if product.is_automatitation %}
+<div class="tab-pane fade" id="automatizacion" role="tabpanel" aria-labelledby="tab-automatizacion">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// PROCESS AUTOMATION & WORKFLOWS</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="cog-outline" class="text-warning fs-3"></ion-icon>
+          <span>(+A) Automatización de Procesos Empresariales</span>
+        </h4>
+      </div>
+      <span class="tech-badge-synthex font-monospace">VALOR: {{ product.total_n8n_iva|default:"Incluido" }}</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Evaluación detallada de ciclos operativos para identificar cuellos de botella e integrar automatismos inteligentes dentro del ERP.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // ARQUITECTURA DE INTEGRACIÓN N8N & PYTHON
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li>
+          <strong class="text-white">Módulos de Automatización Activos:</strong>
+          <span class="text-warning">
+            {% if product.automatizacion %}{{ product.get_automatizacion_display }}{% else %}Automatización general de flujos ERP{% endif %}
+          </span>
+        </li>
+        <li>
+          <strong class="text-white">Motor n8n (Workflow Engine):</strong> Conexión de servicios mediante triggers automatizados y reducción de errores manuales.
+        </li>
+        <li>
+          <strong class="text-white">APIs RESTful & Desarrollo Propio:</strong> Conectividad con CRMs, pasarelas de pago y sistemas logísticos externos.
+        </li>
+        <li>
+          <strong class="text-white">Core Tecnológico:</strong> Todo el sistema de automatización está construido sobre lenguaje <code class="tech-code">Python</code>.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+<!-- ========================================== -->
+<!-- 4. TAB: INTELIGENCIA ARTIFICIAL (+AI)      -->
+<!-- ========================================== -->
+{% if product.is_intelligent %}
+<div class="tab-pane fade" id="inteligencia-artificial" role="tabpanel" aria-labelledby="tab-inteligencia">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// MACHINE LEARNING & AI ENVELOPMENT</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="sparkles-outline" class="text-warning fs-3"></ion-icon>
+          <span>(+AI) Inteligencia Artificial Aplicada al ERP</span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">VALOR MODULO: {{ product.total_ml_iva|default:"Consultar" }}</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Incorporación de algoritmos de Machine Learning y modelos de lenguaje avanzados para transformar la gestión empresarial en flujos predictivos y adaptativos.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPACIDADES PREDICTIVAS Y CHATBOTS INTELIGENTES
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li>
+          <strong class="text-white">Modelos de ML Activos:</strong>
+          <span class="text-info">{% if product.ml_models %}{{ product.get_ml_models_display }}{% else %}Clasificación y análisis predictivo estándar{% endif %}</span>
+        </li>
+        <li>
+          <strong class="text-white">Predicción en Tiempo Real:</strong> Anticipación ante variaciones de demanda, riesgos financieros y anomalías operativas.
+        </li>
+        <li>
+          <strong class="text-white">Integración con ChatGPT:</strong> Asistencia conversacional inteligente para usuarios internos y soporte a clientes finales.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+<!-- ========================================== -->
+<!-- 5. TAB: MONITOREO EN TIEMPO REAL           -->
+<!-- ========================================== -->
+<div class="tab-pane fade" id="monitoreo" role="tabpanel" aria-labelledby="tab-monitoreo">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// REAL-TIME TELEMETRY & LOGS</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="bar-chart-outline" class="text-warning fs-3"></ion-icon>
+          <span>Monitoreo en Tiempo Real del Sistema ERP</span>
+        </h4>
+      </div>
+      <span class="tech-badge-synthex font-monospace">AUDIT LEVEL: {{ product.audit_level|default:"Avanzado" }}</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Supervisión continua de eventos críticos a nivel de infraestructura y transaccional para garantizar alta disponibilidad y trazabilidad.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CONTROLES Y MÉTRICAS DE OPERACIÓN
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li><strong>Infraestructura Cloud:</strong> Supervisión de CPU ({{ product.vcpu|default:product.cpu }} vCPU), RAM ({{ product.ram|default:product.memoria }} GB) y SSD.</li>
+        <li><strong>Eventos Transaccionales:</strong> Trazabilidad total de cada operación de creación, edición o eliminación de registros.</li>
+        <li><strong>Alertas Automatizadas:</strong> Notificaciones proactivas ante comportamientos inusuales en el sistema.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 6. TAB: CIBERSEGURIDAD EN LA NUBE          -->
+<!-- ========================================== -->
+<div class="tab-pane fade" id="ciberseguridad" role="tabpanel" aria-labelledby="tab-ciberseguridad">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// CORPORATE CYBERSECURITY & ENCRYPTION</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <ion-icon name="shield-outline" class="text-warning fs-3"></ion-icon>
+          <span>Ciberseguridad en la Nube Empresarial</span>
+        </h4>
+      </div>
+      <span class="tech-badge-purple font-monospace">ISO/IEC 27001 & GDPR</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Arquitectura diseñada bajo rigurosos estándares corporativos para proteger la información contra amenazas internas y externas.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // CAPAS DE PROTECCIÓN Y AISLAMIENTO
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li><strong>Tokenización de Datos:</strong> Encriptación avanzada para que ningún dato sensible se almacene en texto plano.</li>
+        <li><strong>SSL 256-bit & DNS Privado:</strong> Entornos aislados y seguros por cada cliente bajo subdominios del tipo <code class="tech-code">[org].smartquail.io</code>.</li>
+        <li><strong>Firewalls & 2FA:</strong> WAF activo, monitoreo de accesos no autorizados y autenticación reforzada en dos pasos.</li>
+        <li><strong>Backups Automatizados:</strong> Copias de seguridad programadas con recuperación inmediata ante incidentes.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 7. TAB: SOPORTE TÉCNICO Y MANTENIMIENTO    -->
+<!-- ========================================== -->
+<div class="tab-pane fade" id="soporte" role="tabpanel" aria-labelledby="tab-soporte">
+  <div class="tech-detail-card p-4">
+
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// 24/7 TECHNICAL ASSISTANCE</span>
+        <h4 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+          <i class="fadeIn animated bx bx-support text-warning fs-3"></i>
+          <span>Soporte Técnico y Mantenimiento Continuo</span>
+        </h4>
+      </div>
+      <span class="tech-badge-synthex font-monospace">SLA: 24/7/365</span>
+    </div>
+
+    <p class="text-light opacity-90 mb-4 lh-base" style="text-align: justify;">
+      Garantizamos la continuidad operativa y evolución constante de la plataforma mediante asistencia técnica permanente.
+    </p>
+
+    <div class="tech-detail-box">
+      <h6 class="text-white fw-bold mb-3 border-bottom border-secondary border-opacity-25 pb-2 font-monospace">
+        // COMPROMISO DE OPERATIVIDAD
+      </h6>
+      <ul class="tech-spec-list mb-0">
+        <li><strong>Soporte Técnico 24/7:</strong> Equipo de especialistas disponible para resolver consultas e incidencias en cualquier momento.</li>
+        <li><strong>Actualizaciones sin Interrupción:</strong> Mejoras progresivas sin afectar la disponibilidad del ERP.</li>
+        <li><strong>Monitoreo Preventivo:</strong> Detección proactiva de cuellos de botella antes de que afecten el rendimiento.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
