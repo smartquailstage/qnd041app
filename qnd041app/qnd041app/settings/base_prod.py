@@ -1150,20 +1150,23 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
+# ==============================================================================
+# CONFIGURACIÓN DJANGO-ALLAUTH & ACCOUNT AUTHENTICATION
+# ==============================================================================
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
-SOCIALACCOUNT_AUTO_SIGNUP = True  # Registra automáticamente al usuario tras autorizar la red social
-
-
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-# Configuración de Scopes / Permisos para Proveedores
-# Configuración de Scopes / Permisos para Proveedores
+# Automatización de registro social sin pantallas intermedias
+SOCIALACCOUNT_AUTO_SIGNUP = True 
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+# ==============================================================================
+# CONFIGURACIÓN DE SCOPES / PERMISOS PARA PROVEEDORES SOCIALES
+# ==============================================================================
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -1185,9 +1188,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'last_name',
         ],
         'EXCHANGE_TOKEN': True,
-        'VERIFIED_EMAIL': True,
         'VERSION': 'v18.0',
-    },  # <--- AQUÍ FALTABA ESTA COMA
+    },
     'github': {
         'SCOPE': [
             'user',
