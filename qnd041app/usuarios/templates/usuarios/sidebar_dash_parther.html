@@ -45,15 +45,6 @@
 
         </div>
 
-        <div>
-            <h4 class="logo-text" style="margin-top: 5px;">
-                <div><a href="{% url 'usuarios:dashboard_pather' %}">
-                    <img src="{% static 'assets/images/smartquail_iso.png' %}"  width="110px" alt="logo icon">
-                    </a>
-                </div>
-            </h4>
-        </div>
-
        
     </div>
 
@@ -61,78 +52,62 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
 
-      <li class="menu-label">
-                 <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;"> Nivel:
-                  {% if tamano_empresa == "1-10 usuarios" %}
-PYMES
-
-{% elif tamano_empresa == "11-50 usuarios" %}
- STARTUP
-
-{% elif tamano_empresa == "51-200 usuarios" %}
-Enterprise
-
-{% elif tamano_empresa == "200+ usuarios" %}
-Coorp & Industrial
-
-{% else %}
-    No se ha definido el tamaño de la empresa.
-{% endif %}
-
-
-          </p>
+      <!-- ENLACE A INICIO -->
+      <li>
+        <a href="{% url 'usuarios:dashboard_pather' %}">
+          <div class="parent-icon">
+            <ion-icon name="filter-circle-outline"></ion-icon>
+          </div>
+          <div style="font-size: 10pt;" class="menu-title">Inicio</div>
+        </a>
       </li>
 
+      <li class="menu-label">
+        <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;"> Nivel:
+          {% if tamano_empresa == "1-10 usuarios" %}
+            PYMES
+          {% elif tamano_empresa == "11-50 usuarios" %}
+            STARTUP
+          {% elif tamano_empresa == "51-200 usuarios" %}
+            Enterprise
+          {% elif tamano_empresa == "200+ usuarios" %}
+            Coorp & Industrial
+          {% else %}
+            No se ha definido el tamaño de la empresa.
+          {% endif %}
+        </p>
+      </li>
 
-
-
-
-<li class="">
-  <a href="javascript:;" class="has-arrow" aria-expanded="false">
-    <div class="parent-icon">
-       <ion-icon name="cloud-upload-outline"></ion-icon>
-
-    </div>
-    <div style="font-size: 10pt;" class="menu-title"> Business VPC </div>
-  </a>
-  <ul class="mm-collapse" style="height: auto;">
-
-            <li>
-               <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
+      <li class="">
+        <a href="javascript:;" class="has-arrow" aria-expanded="false">
+          <div class="parent-icon">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+          </div>
+          <div style="font-size: 10pt;" class="menu-title"> Business VPC </div>
+        </a>
+        <ul class="mm-collapse" style="height: auto;">
+          <li>
+            <a href="{% url 'saas_shop:product_list' %}" aria-expanded="false">
               <ion-icon name="browsers-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Entornos</div>
-          </a>
-        </li>
-
-
-        <li>
-               <a href="{% url 'paas_shop:product_list' %}" aria-expanded="false">
+              <div style="font-size: 10pt;" class="menu-title">Entornos</div>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'paas_shop:product_list' %}" aria-expanded="false">
               <ion-icon name="grid-outline"></ion-icon>
-            <div style="font-size: 10pt;"  class="menu-title">Platformas</div>
-          </a>
-        </li>
-
-
-
-  </ul>
-
-
-</li>
-
-
-
-
-</li>
-
-
+              <div style="font-size: 10pt;" class="menu-title">Platformas</div>
+            </a>
+          </li>
+        </ul>
+      </li>
 
       {% if all_projects or projects_in_progress or can_create_project %}
 
       <li class="menu-label">
         <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
-         {{ request.user.profile.nombre_empresa }}
- </p>
-</li>
+          {{ request.user.profile.nombre_empresa }}
+        </p>
+      </li>
 
       <li class="">
         <a href="javascript:;" class="has-arrow" aria-expanded="false">
@@ -177,55 +152,49 @@ Coorp & Industrial
         </ul>
       </li>
       {% endif %}
-      <li class="">
 
+      {% if all_projects or projects_in_progress %}
+      <li>
+        <a href="{% url 'business_customer_projects:paymentorder_list' %}">
+          <div class="parent-icon">
+            <ion-icon name="card-outline"></ion-icon>
+          </div>
+          <div class="menu-title">Inversiones</div>
+        </a>
+      </li>
+      {% endif %}
 
-{% if all_projects or projects_in_progress %}
+      <li class="menu-label">
+        <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
+          Ayuda
+        </p>
+      </li>
 
-            <a href="{% url 'business_customer_projects:paymentorder_list' %}">
-            <div class="parent-icon">
-             <ion-icon name="card-outline"></ion-icon>
-            </div>
-            <div class="menu-title">Inversiones</div>
-          </a>
-{% endif %}
+      <li>
+        <a href="{% url 'business_customer_projects:lista' %}">
+          <div class="parent-icon">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <div class="menu-title">Documentación</div>
+        </a>
+      </li>
 
-
-<li class="menu-label">
-  <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
-Ayuda
-</p>
-</li>
-
-          <a href="{% url 'business_customer_projects:lista' %}">
-            <div class="parent-icon">
-              <ion-icon name="document-text-outline"></ion-icon>
-            </div>
-            <div class="menu-title">Documentación</div>
-          </a>
-
-          <li class="menu-label">
-            <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
-      Inicio de sesión
-     </p>
- </li>
+      <li class="menu-label">
+        <p class="mb-0 text-success bg-light-success px-1 rounded py-1" style="font-size: 8pt; align-items: left;">
+          Inicio de sesión
+        </p>
+      </li>
    
-        <li class="sidebar-footer-item mt-auto">
-          <a href="{% url 'usuarios:logout' %}" >
-            
-            <div class="parent-icon">
-              <ion-icon name="log-out-outline"></ion-icon>
-            </div>
-        
-            <div class="menu-title">
-              Cerrar Sesión
-            </div>
-        
-          </a>
-        </li>
-
-
-
+      <li class="sidebar-footer-item mt-auto">
+        <a href="{% url 'usuarios:logout' %}">
+          <div class="parent-icon">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </div>
+          <div class="menu-title">
+            Cerrar Sesión
+          </div>
+        </a>
+      </li>
 
     </ul>
 

@@ -1,112 +1,210 @@
 {% load static %}    
     
 <div class="tab-pane fade show active" id="tab-orderlist" role="tabpanel">
-    <hr class="my-4">
-    <div class="card radius-10">
-      <div class="card-body">
+  
+  <style>
+  /* ==========================================================================
+     CYBER DARK SYSTEM - NOTICIA CARD & PAGINATION
+     ========================================================================== */
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --accent-orange-hover: #f39c12;
+    --border-color: rgba(247, 168, 79, 0.2);
+    --text-muted-custom: #94a3b8;
+  }
 
+  /* Contenedor de la Tarjeta de Noticia */
+  .tech-doc-card {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+  }
 
-        <div class="row row-cols-1 row-cols-lg-3 g-4">
-          {% with hay_noticias=False %}
-          {% for noticia in noticias %}
-            {% if noticia.activa %}
-              {% with hay_noticias=True %}
+  .tech-doc-card:hover {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 18px rgba(247, 168, 79, 0.25);
+    transform: translateY(-4px);
+  }
 
-            
-              <div class="col">
+  /* Overlay Graduado Oscuro */
+  .doc-overlay-dark {
+    background: linear-gradient(to top, rgba(17, 24, 39, 0.95) 0%, rgba(17, 24, 39, 0.75) 60%, rgba(0, 0, 0, 0.2) 100%);
+    transition: all 0.3s ease;
+  }
 
-                <div class="card radius-10 h-100 position-relative overflow-hidden">
+  .tech-doc-card:hover .doc-overlay-dark {
+    background: linear-gradient(to top, rgba(17, 24, 39, 0.98) 0%, rgba(17, 24, 39, 0.85) 70%, rgba(0, 0, 0, 0.3) 100%);
+  }
 
-                  <!-- Imagen -->
-                  
-                  {% if noticia.imagen_portada %}
-                    <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-                      <img src="{{ noticia.imagen_portada.url }}"
-                           class="img-fluid radius-10 w-100"
-                           style="object-fit: cover; min-height: 260px;"
-                           alt="{{ noticia.titulo_1 }}">
-                    </a>
-                  {% else %}
-                    <img src="{% static 'assets/images/placeholder.png' %}"
-                         class="img-fluid radius-10 w-100"
-                         style="object-fit: cover; min-height: 260px;"
-                         alt="Sin imagen">
-                  {% endif %}
+  /* Tipografía */
+  .doc-meta {
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+  }
 
-                  <!-- Overlay -->
-                   <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
-                  <div class="position-absolute top-50 start-0 translate-middle-y
-                              text-white p-4 w-100">
+  .doc-title {
+    color: #ffffff;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
 
-                    <h5 class="card-title mb-2">
-                      {{ noticia.titulo_1 }}
-                    </h5>
+  .doc-text {
+    color: var(--text-muted-custom);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
 
-                    <p class="mb-1" style="font-size: 11px;">
-                      {{ noticia.fecha_publicacion|date:"d M Y" }} · {{ noticia.autor_nombre }}
-                    </p>
-                    <p class="mb-1" style="font-size: 11px;">
-    
-                      {{ noticia.categoria }}
-                    </p>
+  /* Paginación Cyber Dark */
+  .pagination-cyber .page-link {
+    background-color: var(--card-bg-subtle) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-muted-custom) !important;
+    font-family: monospace;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    margin: 0 3px;
+    border-radius: 8px !important;
+    transition: all 0.2s ease;
+  }
 
-                    {% if noticia.cuerpo_1 %}
-                      <p class="card-text">
-                        {{ noticia.cuerpo_1|truncatewords:20 }}
-                      </p>
-                    {% endif %}
+  .pagination-cyber .page-link:hover {
+    background-color: rgba(247, 168, 79, 0.15) !important;
+    border-color: var(--accent-orange) !important;
+    color: #ffffff !important;
+  }
 
-                  </div>
-                  </a>
-                </div>
+  .pagination-cyber .page-item.active .page-link {
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    color: #1e1e1f !important;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.35);
+  }
+
+  .empty-noticias-box {
+    background-color: var(--card-bg-subtle);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-muted-custom);
+    font-family: monospace;
+    font-size: 0.88rem;
+  }
+  </style>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-1">
+    {% with hay_noticias=False %}
+    {% for noticia in noticias %}
+      {% if noticia.activa %}
+        {% with hay_noticias=True %}
+        <div class="col">
+          <div class="tech-doc-card h-100">
+
+            <!-- Imagen de Portada -->
+            {% if noticia.imagen_portada %}
+              <a href="{% url 'business_customer_projects:detalle' noticia.pk %}">
+                <img src="{{ noticia.imagen_portada.url }}"
+                     class="img-fluid w-100"
+                     style="object-fit: cover; min-height: 280px; max-height: 320px;"
+                     alt="{{ noticia.titulo_1 }}">
+              </a>
+            {% else %}
+              <img src="{% static 'assets/images/placeholder.png' %}"
+                   class="img-fluid w-100"
+                   style="object-fit: cover; min-height: 280px; max-height: 320px;"
+                   alt="Sin imagen">
+            {% endif %}
+
+            <!-- Overlay de Información -->
+            <a href="{% url 'business_customer_projects:detalle' noticia.pk %}" class="text-decoration-none">
+              <div class="position-absolute bottom-0 start-0 w-100 p-3 doc-overlay-dark">
+
+                <p class="mb-1 doc-meta">
+                  // {{ noticia.fecha_publicacion|date:"d M Y" }} {% if noticia.autor_nombre %}· {{ noticia.autor_nombre }}{% endif %}
+                </p>
+
+                {% if noticia.categoria %}
+                  <p class="mb-2 doc-meta text-uppercase opacity-75">
+                    [ {{ noticia.categoria }} ]
+                  </p>
+                {% endif %}
+
+                <h5 class="doc-title mb-2">
+                  {{ noticia.titulo_1 }}
+                </h5>
+
+                {% if noticia.cuerpo_1 %}
+                  <p class="doc-text mb-0">
+                    {{ noticia.cuerpo_1|truncatewords:18 }}
+                  </p>
+                {% endif %}
+
               </div>
-              {% endwith %}
-            {% endif %}
-          {% endfor %}
+            </a>
 
-          {% if not hay_noticias %}
-       
-          {% endif %}
-          {% endwith %}
+          </div>
         </div>
+        {% endwith %}
+      {% endif %}
+    {% endfor %}
 
-        <!-- PAGINACIÓN -->
-        {% if is_paginated %}
-        <nav class="mt-4">
-          <ul class="pagination justify-content-center">
-
-            {% if page_obj.has_previous %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                  Anterior
-                </a>
-              </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-                <li class="page-item active">
-                  <span class="page-link">{{ num }}</span>
-                </li>
-              {% else %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-              {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                  Siguiente
-                </a>
-              </li>
-            {% endif %}
-
-          </ul>
-        </nav>
-        {% endif %}
-
+    {% if not hay_noticias %}
+      <div class="col-12">
+        <div class="empty-noticias-box">
+          <i class="fadeIn animated bx bx-news fs-3 mb-2 d-block text-warning"></i>
+          // No hay noticias o publicaciones activas registradas en esta categoría.
+        </div>
       </div>
-    </div>
+    {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- PAGINACIÓN STYLED -->
+  {% if is_paginated %}
+  <nav class="mt-4 pt-2">
+    <ul class="pagination pagination-cyber justify-content-center">
+
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+            <i class="fadeIn animated bx bx-chevron-left me-1"></i> Anterior
+          </a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <span class="page-link">{{ num }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            Siguiente <i class="fadeIn animated bx bx-chevron-right ms-1"></i>
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+  {% endif %}
+
 </div>

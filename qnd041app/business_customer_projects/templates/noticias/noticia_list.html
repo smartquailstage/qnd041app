@@ -1,178 +1,292 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
 <style>
-  .top-50 {
+/* ==========================================================================
+   PALETA Y ESTILOS CYBER DARK SYSTEM - TABS & NAVIGATION
+   ========================================================================== */
+:root {
+  --card-bg: #282829;
+  --card-bg-subtle: #232324;
+  --accent-orange: #f7a84f;
+  --accent-orange-hover: #f39c12;
+  --border-color: rgba(247, 168, 79, 0.2);
+  --text-muted-custom: #94a3b8;
+  --bg-dark: #1e1e1f;
+}
+
+/* Envolvente General */
+.page-content-wrapper {
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+.top-50 {
   top: 75% !important;
 }
 
+/* Tarjeta o Contenedor Principal */
+.tech-card-wrapper {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+}
+
+/* Badges y Divisores Cyber */
+.tech-badge-orange {
+  background: rgba(247, 168, 79, 0.1);
+  color: var(--accent-orange);
+  border: 1px solid rgba(247, 168, 79, 0.3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+.tech-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted-custom);
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.tech-divider::before,
+.tech-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-divider:not(:empty)::before {
+  margin-right: .75em;
+}
+
+.tech-divider:not(:empty)::after {
+  margin-left: .75em;
+}
+
+/* Nav Pills / Pestañas Cyber Dark */
+.tech-nav-pills {
+  background-color: var(--card-bg-subtle) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 6px;
+  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tech-nav-pills .nav-link {
+  color: var(--text-muted-custom) !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 8px 16px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-nav-pills .nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(247, 168, 79, 0.1) !important;
+  border-color: rgba(247, 168, 79, 0.2) !important;
+}
+
+.tech-nav-pills .nav-link.active {
+  color: #1e1e1f !important;
+  background-color: var(--accent-orange) !important;
+  border-color: var(--accent-orange) !important;
+  box-shadow: 0 0 12px rgba(247, 168, 79, 0.35);
+  font-weight: bold;
+}
+
+.tab-title ion-icon,
+.tab-title i,
+.tab-title svg {
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+/* Mensaje Vacío */
+.empty-tab-msg {
+  color: var(--text-muted-custom);
+  font-family: monospace;
+  font-size: 0.85rem;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--card-bg-subtle);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
 </style>
 
 <div class="page-content-wrapper">
   <div class="page-content">
 
-    <!-- Breadcrumb -->
+    <div class="tech-card-wrapper mt-3">
 
-    <div class="product-more-info mt-4">
-    <!-- Nav pills -->
-    <ul class="nav nav-pills mb-2 text-success rounded bg-light-success" id="custom-tabs" role="tablist">
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true">
-      <div class="d-flex align-items-center">
-        <div class="tab-title"><ion-icon name="cloud-download-outline"></ion-icon> </div>
+      <!-- HEADER DE NAVEGACIÓN -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="tech-badge-orange">// DOCUMENTATION & NEWS HUB</span>
+        <span class="font-monospace text-muted small">// FILTER BY CATEGORY</span>
       </div>
-    </a>
-  </li>
 
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-        <div class="tab-title"><ion-icon name="create-outline"></ion-icon>
+      <!-- NAV PILLS / CONTROLES DE PESTAÑAS -->
+      <div class="product-more-info">
+        <ul class="nav nav-pills tech-nav-pills mb-3" id="custom-tabs" role="tablist">
 
-      
+          <!-- GENERAL / ITC -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" data-bs-toggle="pill" href="#tab-general" role="tab" aria-selected="true" title="General / Cloud Solutions">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><ion-icon name="cloud-download-outline"></ion-icon></div>
+              </div>
+            </a>
+          </li>
+
+          <!-- DESARROLLO -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-desarrollo" role="tab" aria-selected="false" title="Desarrollo & I+D">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><ion-icon name="create-outline"></ion-icon></div>
+              </div>
+            </a>
+          </li>
+
+          <!-- AUTOMATIZACIÓN -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false" title="Automatizaciones & Bot Workflows">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><i class="fadeIn animated bx bx-bot"></i></div>
+              </div>
+            </a>
+          </li>
+
+          <!-- IA -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false" title="Inteligencia Artificial">
+              <div class="d-flex align-items-center">
+                <div class="tab-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </div>
+              </div>
+            </a>
+          </li>
+
+          <!-- SEGURIDAD -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-seguridad" role="tab" aria-selected="false" title="Ciberseguridad">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><ion-icon name="shield-half"></ion-icon></div>
+              </div>
+            </a>
+          </li>
+
+          <!-- MONITOREO -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-monitoring" role="tab" aria-selected="false" title="Monitoreo & SRE">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><ion-icon name="pulse"></ion-icon></div>
+              </div>
+            </a>
+          </li>
+
+          <!-- RECURSOS -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false" title="Recursos & Seguridad Aprobada">
+              <div class="d-flex align-items-center">
+                <div class="tab-title"><ion-icon name="shield-checkmark"></ion-icon></div>
+              </div>
+            </a>
+          </li>
+
+        </ul>
+
+        <div class="tech-divider">CONTENIDO DE LA CATEGORÍA</div>
+
+        <!-- CONTENIDO DE LAS PESTAÑAS (TAB CONTENT) -->
+        <div class="tab-content">
+
+          <!-- TAB GENERAL -->
+          <div class="tab-pane fade show active" id="tab-general" role="tabpanel">
+            {% for noticia in noticias_itc %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}
+              <div class="empty-tab-msg">// No hay publicaciones en Soluciones Cloud.</div>
+            {% endfor %}
+          </div>
+          
+          <!-- TAB DESARROLLO -->
+          <div class="tab-pane fade" id="tab-desarrollo" role="tabpanel">
+            {% for noticia in noticias_id %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}
+              <div class="empty-tab-msg">// No hay publicaciones en Desarrollo.</div>
+            {% endfor %}
+          </div>
+
+          <!-- TAB AUTOMATIZACIÓN -->
+          <div class="tab-pane fade" id="tab-automatizacion" role="tabpanel">
+            {% for noticia in noticias_automatizacion %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}   
+              <div class="empty-tab-msg">// No hay publicaciones en Automatización.</div>
+            {% endfor %}  
+          </div>
+
+          <!-- TAB IA -->
+          <div class="tab-pane fade" id="tab-ia" role="tabpanel">
+            {% for noticia in noticias_ia %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}   
+              <div class="empty-tab-msg">// No hay publicaciones en Inteligencia Artificial.</div>
+            {% endfor %}  
+          </div>
+
+          <!-- TAB SEGURIDAD -->
+          <div class="tab-pane fade" id="tab-seguridad" role="tabpanel">
+            {% for noticia in noticias_seguridad %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}   
+              <div class="empty-tab-msg">// No hay publicaciones en Seguridad.</div>
+            {% endfor %}  
+          </div>
+
+          <!-- TAB MONITOREO -->
+          <div class="tab-pane fade" id="tab-monitoring" role="tabpanel">
+            {% for noticia in noticias_monitoring %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}   
+              <div class="empty-tab-msg">// No hay publicaciones en Monitoreo.</div>
+            {% endfor %}  
+          </div>
+
+          <!-- TAB RECURSOS -->
+          <div class="tab-pane fade" id="tab-recursos" role="tabpanel">
+            {% for noticia in noticias_recursos %}
+              {% include "noticias/partials/noticia_card.html" %}
+            {% empty %}   
+              <div class="empty-tab-msg">// No hay publicaciones en Recursos.</div>
+            {% endfor %}  
+          </div>
+
         </div>
+
       </div>
-    </a>
-  </li>
-
-
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" data-bs-toggle="pill" href="#tab-automatizacion" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-        
-        <div class="tab-title"><i class="fadeIn animated bx bx-bot"></i></div>
-      </div>
-    </a>
-  </li>
-
-
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" data-bs-toggle="pill" href="#tab-ia" role="tab" aria-selected="false">
-      <div class="d-flex align-items-center">
-        <div class="tab-title">  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                                          </div>
-      </div>
-    </a>
-  </li>
-
-
-
-
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-seguridad" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-      <ion-icon name="shield-half"></ion-icon>
-  
-
-    </div>
-  </a>
-</li>
-
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-monitoring" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-    <ion-icon name="pulse"></ion-icon>
-
-    </div>
-  </a>
-</li>
-
-
-<li class="nav-item" role="presentation">
-  <a class="nav-link" data-bs-toggle="pill" href="#tab-recursos" role="tab" aria-selected="false">
-    <div class="d-flex align-items-center">
-      <ion-icon name="shield-checkmark"></ion-icon>
-      
-    </div>
-  </a>
-</li>
-
-
-    </ul>
-
-
-    
-    <!-- Tab content -->
-    <div class="tab-content">
-
-<div class="tab-pane fade show active" id="tab-general" role="tabpanel">
-{% for noticia in noticias_itc %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}
-
-{% endfor %}
-  </div>
-  
-
-  <div class="tab-pane fade show active" id="tab-desarrollo" role="tabpanel">
-{% for noticia in noticias_id %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}
-
-{% endfor %}
-
-  </div>
-
-  <div class="tab-pane fade show active" id="tab-automatizacion" role="tabpanel">
-{% for noticia in noticias_automatizacion %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}   
-
-{% endfor %}  
 
     </div>
 
-
-  <div class="tab-pane fade show active" id="tab-ai" role="tabpanel">
-{% for noticia in noticias_ia %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}   
-
-{% endfor %}  
-
-    </div>
-
-  <div class="tab-pane fade show active" id="tab-seguridad" role="tabpanel">
-{% for noticia in noticias_seguridad %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}   
-
-{% endfor %}  
-
-    </div>
-
-  <div class="tab-pane fade show active" id="tab-recursos" role="tabpanel">
-{% for noticia in noticias_recursos %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}   
-
-{% endfor %}  
-
-    </div>
-
-  <div class="tab-pane fade show active" id="tab-monitoring" role="tabpanel">
-{% for noticia in noticias_monitoring %}
-  {% include "noticias/partials/noticia_card.html" %}
-{% empty %}   
-
-{% endfor %}  
-
-    </div>
-
-
- </div>
-
-</div>
   </div>
 </div>
 
 {% endblock %}
-
-
-

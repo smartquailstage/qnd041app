@@ -111,8 +111,6 @@
 <div class="page-content-wrapper py-4">
   <div class="page-content container-fluid">
 
-
-
     {% if all_projects or projects_in_progress %}
 
     <!-- TITULAR ACTIVOS ITC -->
@@ -281,9 +279,10 @@
       <span class="font-monospace text-muted small">// AVAILABLE_PRODUCTS</span>
     </div>
 
-    <div class="row row-cols-1 row-cols-lg-2 g-4 mb-5">
+    <!-- SECCIÓN DE INFRAESTRUCTURAS (4 MÓDULOS) -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4 mb-5">
 
-      <!-- Software para negocios -->
+      <!-- 1. Entornos ITC -->
       <div class="col">
         <a href="{% url 'saas_shop:product_list' %}" class="solution-link-card">
           <div class="tech-card p-4">
@@ -292,20 +291,20 @@
                 <ion-icon name="browsers-outline" class="fs-3 accent-text"></ion-icon>
               </div>
               <div>
-                <h5 class="text-white fw-bold mb-0">Entornos ITC </h5>
-                <span class="font-monospace small text-muted">FinTech / MediaTech / LawTech </span>
+                <h5 class="text-white fw-bold mb-0">Entornos ITC</h5>
+                <span class="font-monospace small text-muted">FinTech / MediaTech / LawTech</span>
               </div>
             </div>
             <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
               <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
               Potencie la eficiencia de su organización con plataformas modulares dedicadas y altamente especializadas, 
-              diseñadas para operar en entornos empresariales segregados y constituir el punto de partida ideal para su estrategia digital. 
+              diseñadas para operar en entornos empresariales segregados y constituir el punto de partida ideal para su estrategia digital.
             </p>
           </div>
         </a>
       </div>
 
-      <!-- Plataformas ITC -->
+      <!-- 2. SmartBusinessPlatforms -->
       <div class="col">
         <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
           <div class="tech-card p-4">
@@ -320,7 +319,49 @@
             </div>
             <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
               <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
-              Con SmartBusinessPlatforms, centralice toda la capa transaccional de sus entornos empresariales, permitiendo interconectar en tiempo real los departamentos financiero, de marketing, atención al cliente y regulatorio mediante una suite integral "todo en uno" diseñada para optimizar la toma de decisiones y acelerar la eficiencia operativa de su organización.
+              Centralice toda la capa transaccional de sus entornos empresariales, permitiendo interconectar en tiempo real los departamentos financiero, de marketing, atención al cliente y regulatorio mediante una suite integral "todo en uno" diseñada para optimizar la toma de decisiones.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- 3. Business AI Assistant -->
+      <div class="col">
+        <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="hardware-chip-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Business AI Assistant</h5>
+                <span class="font-monospace small text-muted">Inteligencia Artificial Soberana & Privada</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Despliegue agentes de IA auto-hospedados e integrados directamente a sus bases de datos ERP y CRM. Mantenga la soberanía de su información con cero fuga de datos, eliminando costos recurrentes por tokens de modelos públicos de terceros.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Local Data Centers -->
+      <div class="col">
+        <a href="{% url 'paas_shop:product_list' %}" class="solution-link-card">
+          <div class="tech-card p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="widget-icon-box" style="width: 50px; height: 50px;">
+                <ion-icon name="server-outline" class="fs-3 accent-text"></ion-icon>
+              </div>
+              <div>
+                <h5 class="text-white fw-bold mb-0">Local Data Centers</h5>
+                <span class="font-monospace small text-muted">Soberanía de Datos & Cero Latencia</span>
+              </div>
+            </div>
+            <p class="text-muted small mb-0 lh-base" style="color: #cbd5e1 !important;">
+              <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon>
+              Infraestructura en la nube con residencia de datos garantizada a nivel local. Cumpla de manera estricta con las regulaciones de protección de datos personales de la región, optimizando la velocidad de respuesta con baja latencia y alta disponibilidad.
             </p>
           </div>
         </a>
