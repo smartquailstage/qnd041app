@@ -44,6 +44,12 @@ def sitemap_plano(request):
         '    <priority>1.0</priority>\n'
         '  </url>\n'
         '  <url>\n'
+        '    <loc>https://ec.smartquail.io/cto/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.9</priority>\n'
+        '  </url>\n'
+
+        '  <url>\n'
         '    <loc>https://ec.smartquail.io/sbmshop/</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.8</priority>\n'
