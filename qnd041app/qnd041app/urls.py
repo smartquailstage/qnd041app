@@ -35,7 +35,6 @@ def robots_txt(request):
 
 @csrf_exempt
 def sitemap_plano(request):
-    # Ahora apunta a la raíz '/' directamente
     xml_content = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -43,6 +42,31 @@ def sitemap_plano(request):
         '    <loc>https://ec.smartquail.io/</loc>\n'
         '    <changefreq>daily</changefreq>\n'
         '    <priority>1.0</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/sbmshop/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/sbashop/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/sblshop/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/sbpshop/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.8</priority>\n'
+        '  </url>\n'
+        '  <url>\n'
+        '    <loc>https://ec.smartquail.io/sbtshop/</loc>\n'
+        '    <changefreq>weekly</changefreq>\n'
+        '    <priority>0.8</priority>\n'
         '  </url>\n'
         '</urlset>'
     )
