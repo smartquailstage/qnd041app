@@ -16,6 +16,64 @@
 <link rel="stylesheet" href="{% static 'web_assets/css/responsive.css' %}">
 <link rel="stylesheet" href="{% static 'web_assets/css/audio.css' %}">
 <link rel="stylesheet" href="{% static 'web_assets/icofont/icofont.min.css' %}">
+
+<!--=== SmartQuail GEO / LLMO Schema.org Data ===-->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://ec.smartquail.io/#organization",
+        "name": "SmartQuail",
+        "legalName": "SmartQuail S.A.S.",
+        "url": "https://ec.smartquail.io/",
+        "logo": "https://ec.smartquail.io/static/web_assets/images/smartquail_isologo_white.png",
+        "image": "https://ec.smartquail.io/static/web_assets/images/smartquail_ini.png",
+        "description": "Proveedor líder de soluciones Cloud Business, infraestructura privada de Inteligencia Artificial, ERP, CRM y sistemas de alta disponibilidad en nube nativa en Ecuador.",
+        "foundingLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Quito",
+            "addressCountry": "EC"
+          }
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Quito",
+          "addressCountry": "EC"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/smartquail"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://ec.smartquail.io/#website",
+        "url": "https://ec.smartquail.io/",
+        "name": "SmartQuail IT Cloud Business",
+        "publisher": {
+          "@id": "https://ec.smartquail.io/#organization"
+        },
+        "inLanguage": "es"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "SmartBusinessPlatforms",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Cloud-native, Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "800",
+          "priceCurrency": "USD"
+        },
+        "description": "Plataformas all in one de negocio que integran ERP, CRM, comercio electrónico, gestión médica, educativa y administrativa en la nube."
+      }
+    ]
+  }
+  </script>
+
 </head>
 
 <body>
