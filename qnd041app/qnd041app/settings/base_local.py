@@ -1185,6 +1185,7 @@ TEMPLATES = [
                # 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
                 'paas_cart.context_processors.cart',
+                'aiaas_cart.context_processors.cart',
                 "business_customer_projects.context_processors.business_projects_context",
                 "business_customer_projects.context_processors.pending_payment_orders_total",
                 "business_customer_projects.context_processors.noticias_context",

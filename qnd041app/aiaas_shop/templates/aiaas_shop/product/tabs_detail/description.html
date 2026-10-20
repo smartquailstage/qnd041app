@@ -309,18 +309,30 @@
               </div>
 
               <!-- BOTÓN AGREGAR / GENERAR LICENCIA -->
-              <div class="tech-detail-box p-2">
-                <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
-                  {% csrf_token %}
+            <!-- BOTÓN AGREGAR / GENERAR LICENCIA -->
+            <div class="tech-detail-box p-2">
+              <form action="{% url 'aiaas_cart:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                
+                <!-- Asegura que los campos del formulario se rendericen o se envíen con sus valores por defecto -->
+                {% if cart_product_form.quantity %}
                   {{ cart_product_form.quantity }}
-                  {{ cart_product_form.update }}
+                {% else %}
+                  <input type="hidden" name="quantity" value="1">
+                {% endif %}
 
-                  <button type="submit" class="btn-tech-orange">
-                    <ion-icon name="key-outline" class="fs-5"></ion-icon>
-                    <span>{% trans 'Generar licencia propietaria ITC' %}</span>
-                  </button>
-                </form>
-              </div>
+                {% if cart_product_form.update %}
+                  {{ cart_product_form.update }}
+                {% else %}
+                  <input type="hidden" name="update" value="False">
+                {% endif %}
+
+                <button type="submit" class="btn-tech-orange">
+                  <ion-icon name="key-outline" class="fs-5"></ion-icon>
+                  <span>{% trans 'Generar licencia propietaria ITC' %}</span>
+                </button>
+              </form>
+            </div>
 
             </div>
 
