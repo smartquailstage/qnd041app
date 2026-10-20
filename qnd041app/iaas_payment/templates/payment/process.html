@@ -1,333 +1,322 @@
 {% extends "saas_shop/base3.html" %}
 {% load static %}
+{% load i18n %}
+
 {% block title %}Selecciona método de pago{% endblock %}
 
 {% block content %}
 
-
 <style>
-  .step-count-circle {
-  background-color: #b50f15; /* o el color corporativo que uses */
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
-  margin-right: 8px;
-  font-size: 14px;
-}
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: #1e1e1f !important;
+  }
 
-.braintree-field {
-  height: 45px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-}
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
 
-.braintree-field iframe {
-  width: 100%;
-  height: 100%;
-}
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
 
-.braintree-field.braintree-hosted-fields-focused {
-  border-color: #66afe9;
-}
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
 
-.braintree-field.braintree-hosted-fields-invalid {
-  border-color: #e74c3c;
-}
+  /* Pestañas / Tabs de Pago */
+  .nav-pills .nav-link {
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-right: 8px;
+    border-radius: 10px;
+    background-color: var(--card-bg-subtle);
+    transition: all 0.3s ease;
+  }
 
-.braintree-field.braintree-hosted-fields-valid {
-  border-color: #2ecc71;
-}
+  .nav-pills .nav-link:hover {
+    border-color: var(--accent-orange);
+    color: #ffffff;
+  }
 
+  .nav-pills .nav-link.active {
+    background-color: var(--accent-orange) !important;
+    border-color: var(--accent-orange) !important;
+    color: #1e1e1f !important;
+    box-shadow: 0 0 12px rgba(247, 168, 79, 0.3);
+  }
 
+  /* Braintree Hosted Fields con estilo Cyber Dark */
+  .braintree-field {
+    height: 48px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: var(--card-bg-subtle);
+    transition: all 0.25s ease;
+  }
 
+  .braintree-field iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  .braintree-field.braintree-hosted-fields-focused {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.25);
+  }
+
+  .braintree-field.braintree-hosted-fields-invalid {
+    border-color: #ef4444;
+  }
+
+  .braintree-field.braintree-hosted-fields-valid {
+    border-color: #10b981;
+  }
+
+  /* Inputs estilo Cyber */
+  .tech-form-control {
+    background-color: var(--card-bg-subtle) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .tech-form-control:focus {
+    border-color: var(--accent-orange) !important;
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.25) !important;
+  }
+
+  /* Botones principales */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-tech-orange:hover:not(:disabled) {
+    background-color: #f39c12;
+    color: #000;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-tech-orange:disabled {
+    background-color: #4b5563;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
 </style>
 
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
-                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Infraestructura para  Negocios  </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                 Pago de Infraestructura
-                  </li>
-                </ol>
-              </nav>
-            </div>
-
-          </div>
-
-<div class="product-more-info mt-4" style="background-color: #2e2e2e;">
-
-
-
-  <div class="card-body p-4" style="color: #ededed; text-align: justify; font-family: 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.2; background-color:#2e2e2e; border-radius: 25px;">
-
-    <!-- Progreso de pasos -->
-                      <div class="card border-0" style="background-color: #2e2e2e;">
-                      <div class="card-body" style="background-color: #2e2e2e;">
-                        <div class="steps steps-light">
-                          <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-                            <div class="step-progress"><span class="step-count">1</span></div>
-
-                          </a>
-                          <a class="step-item active" href="#">
-                            <div class="step-progress"><span class="step-count">2</span></div>
-
-                          </a>
-                          <a class="step-item active" href="#">
-                            <div class="step-progress"><span class="step-count">3</span></div>
-
-                          </a>
-                          <a class="step-item item active current">
-                            <div class="step-progress"><span class="step-count">4</span></div>
-
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-    <!-- Checkout Section -->
-    <section class="shop-page">
-      <div class="shop-container">
-        <div class="card shadow-sm border-0" style="background-color: #2e2e2e;">
-          <div class="card-body">
-            <div class="shop-cart">
-              <div class="row">
-                <div class="col-12 col-xl-8">
-
-                    <div class="card" style="background-color: #2e2e2e;">
-                      <div class="card-header border-bottom" style="color:#fff">
-
-
-                                 <h5 class="mb-2">
-       Elija su metodo de pago
-        </h5>
-
-                      </div>
-
-                        <!-- Tabs -->
-<ul class="nav nav-pills mb-2 rounded bg-light-success" id="paymentTabs" role="tablist">
-
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active"
-            id="card-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#card"
-            type="button"
-            role="tab"
-            aria-controls="card"
-            aria-selected="true">
-      <ion-icon name="card-outline"></ion-icon>
-    </button>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <button class="nav-link"
-            id="paypal-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#paypal"
-            type="button"
-            role="tab"
-            aria-controls="paypal"
-            aria-selected="false">
-      <ion-icon name="logo-paypal"></ion-icon>
-    </button>
-  </li>
-
-  <li class="nav-item" role="presentation">
-    <button class="nav-link"
-            id="bank-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#bank"
-            type="button"
-            role="tab"
-            aria-controls="bank"
-            aria-selected="false">
-      <ion-icon name="shuffle-outline"></ion-icon>
-    </button>
-  </li>
-
-</ul>
-
-
-<div class="tab-content pt-3" id="paymentTabsContent">
-
-  <!-- Tarjeta -->
-  <div class="tab-pane fade show active"
-       id="card"
-       role="tabpanel"
-       aria-labelledby="card-tab">
-
-    <form id="payment" action="." method="post">
-      {% csrf_token %}
-
-      <div class="form-group mb-3">
-        <label>Número de tarjeta de crédito</label>
-        <div id="card-number" class="braintree-field"></div>
+    <!-- BREADCRUMB -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
+      <div class="breadcrumb-title pe-3 text-white font-monospace d-flex align-items-center gap-2">
+        <ion-icon name="browsers-outline" class="accent-text"></ion-icon> Infraestructura para Negocios
       </div>
-
-      <div class="row mb-3">
-        <div class="col-6">
-          <label>CVV</label>
-          <div id="cvv" class="braintree-field"></div>
-        </div>
-
-        <div class="col-6">
-          <label>Expiración</label>
-          <div id="expiration-date" class="braintree-field"></div>
-        </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0 align-items-center font-monospace small text-muted">
+            <li class="breadcrumb-item d-flex align-items-center gap-1">
+              // Pago de Infraestructura & Licencias
+            </li>
+          </ol>
+        </nav>
       </div>
+    </div>
 
-      <input type="hidden" id="nonce" name="payment_method_nonce">
-
-      <div class="d-grid">
-
-        <input
-          type="submit"
-          class="btn btn-warning btn-ecomm"
-          value="Confirmar Pago"
-          disabled>
+    <!-- PASOS DE NAVEGACIÓN -->
+    <div class="tech-card p-3 mb-4 font-monospace">
+      <div class="steps steps-light">
+        <a class="step-item active text-decoration-none" href="{% url 'saas_cart:cart_detail' %}">
+          <div class="step-progress"><span class="step-count">1</span></div>
+        </a>
+        <a class="step-item active text-decoration-none" href="#">
+          <div class="step-progress"><span class="step-count">2</span></div>
+        </a>
+        <a class="step-item active text-decoration-none" href="#">
+          <div class="step-progress"><span class="step-count">3</span></div>
+        </a>
+        <a class="step-item active current text-decoration-none" href="#">
+          <div class="step-progress"><span class="step-count">4</span></div>
+        </a>
       </div>
-    </form>
-  </div>
+    </div>
 
-  <!-- PayPal -->
-  <div class="tab-pane fade"
-       id="paypal"
-       role="tabpanel"
-       aria-labelledby="paypal-tab">
+    <!-- SECCIÓN DE PAGO -->
+    <div class="row g-4">
 
-    <form action="." method="post">
-      {% csrf_token %}
-      <p>Serás redirigido a PayPal para completar el pago.</p>
-      <div class="d-grid">
-        <h5 class="mb-0">
-          Total a Pagar:
-          <span class="float-end">${{ order.get_total_cost }}</span>
-        </h5>
-        <button type="submit" class="btn btn-warning btn-ecomm">
-          <ion-icon name="card-outline"></ion-icon> Pagar con PayPal
-        </button>
-      </div>
-    </form>
-  </div>
+      <!-- COLUMNA IZQUIERDA: MÉTODOS DE PAGO -->
+      <div class="col-12 col-xl-8">
+        <div class="tech-card p-4">
 
-  <!-- Transferencia -->
-  <div class="tab-pane fade"
-       id="bank"
-       role="tabpanel"
-       aria-labelledby="bank-tab">
+          <h5 class="text-white font-monospace mb-3 d-flex align-items-center gap-2">// ELIJA SU MÉTODO DE PAGO</h5>
 
-    <form action="." method="post">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="token" class="form-label">Token de Transacción</label>
-        <input type="text"
-               name="token"
-               id="token"
-               class="form-control"
-               placeholder="Token generado por Kushki">
-      </div>
-      <div class="d-grid">
-        <h5 class="mb-0">
-          Total a Pagar:
-          <span class="float-end">${{ order.get_total_cost }}</span>
-        </h5>
-        <button type="submit" class="btn btn-success btn-ecomm">
-          <ion-icon name="card-outline"></ion-icon> Pagar por Transferencia
-        </button>
-      </div>
-    </form>
-  </div>
+          <!-- TABS DE MÉTODOS DE PAGO -->
+          <ul class="nav nav-pills mb-4 border-0" id="paymentTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active px-4 py-2" id="card-tab" data-bs-toggle="tab" data-bs-target="#card" type="button" role="tab" aria-controls="card" aria-selected="true">
+                <ion-icon name="card-outline" class="fs-5 align-middle me-1"></ion-icon>
+                <span class="font-monospace small align-middle">Tarjeta</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-4 py-2" id="paypal-tab" data-bs-toggle="tab" data-bs-target="#paypal" type="button" role="tab" aria-controls="paypal" aria-selected="false">
+                <ion-icon name="logo-paypal" class="fs-5 align-middle me-1"></ion-icon>
+                <span class="font-monospace small align-middle">PayPal</span>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-4 py-2" id="bank-tab" data-bs-toggle="tab" data-bs-target="#bank" type="button" role="tab" aria-controls="bank" aria-selected="false">
+                <ion-icon name="shuffle-outline" class="fs-5 align-middle me-1"></ion-icon>
+                <span class="font-monospace small align-middle">Transferencia</span>
+              </button>
+            </li>
+          </ul>
 
-</div>
+          <div class="tab-content font-monospace" id="paymentTabsContent">
 
+            <!-- TAB 1: TARJETA DE CRÉDITO/DÉBITO -->
+            <div class="tab-pane fade show active" id="card" role="tabpanel" aria-labelledby="card-tab">
+              <form id="payment" action="." method="post">
+                {% csrf_token %}
+
+                <div class="form-group mb-3">
+                  <label class="form-label text-muted small mb-1">// NÚMERO DE TARJETA*</label>
+                  <div id="card-number" class="braintree-field"></div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-6">
+                    <label class="form-label text-muted small mb-1">// CVV*</label>
+                    <div id="cvv" class="braintree-field"></div>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label text-muted small mb-1">// EXPIRACIÓN*</label>
+                    <div id="expiration-date" class="braintree-field"></div>
                   </div>
                 </div>
 
+                <input type="hidden" id="nonce" name="payment_method_nonce">
 
-
-
-                          <div class="col-12 col-xl-4 d-flex">
-
-
-
-            <div class="card radius-10 overflow-hidden w-100" style="background-color: #2e2e2e;">
-              <div class="card-body" style="background-color: #2e2e2e;border-radius: 25px;">
-
-                            <div class="card radius-10 w-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center mb-3">
-                                                                <h2 class="h5 mb-0">
-
-          <span class="float-end"> ${{ order.get_total_cost }}</span>
-                        </h2>
-                                    </div>
-
-                                    <!-- CONTENEDOR HORIZONTAL -->
-                                    <div class="d-flex gap-4 flex-wrap">
-                                    <p class="mt-2">
-                          Por favor, seleccione el método de pago que considere más adecuado para realizar el abono correspondiente a los servicios de software y recursos contratados. Una vez confirmado el pago, se enviará a su correo electrónico los siguientes documentos:
-                        </p>
-                        <ul>
-                          <li><strong>Contrato de Propiedad Intelectual</strong></li>
-                          <li><strong>Contrato de Servicios de Desarrollo y Consultoría</strong></li>
-                          <li><strong>Contrato de Alquiler de Servicios en la Nube</strong></li>
-                        </ul>
-                                    </div>
-                                    <!-- FIN CONTENEDOR HORIZONTAL -->
-
-                                </div>
-                            </div>
-
-
-
-
-              </div>
+                <button type="submit" class="btn-tech-orange" disabled>
+                  <ion-icon name="lock-closed-outline" class="fs-5"></ion-icon>
+                  <span>Confirmar Pago (${{ order.get_total_cost }})</span>
+                </button>
+              </form>
             </div>
 
+            <!-- TAB 2: PAYPAL -->
+            <div class="tab-pane fade" id="paypal" role="tabpanel" aria-labelledby="paypal-tab">
+              <form action="." method="post" class="tech-card-subtle p-4">
+                {% csrf_token %}
+                <p class="text-muted small mb-4 lh-base">Será redirigido a la plataforma segura de PayPal para autorizar y completar la transacción.</p>
 
-                <!-- Order Summary -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
+                  <span class="text-white">Total a Pagar:</span>
+                  <span class="fs-5 fw-bold" style="color: var(--accent-orange);">${{ order.get_total_cost }}</span>
+                </div>
 
-                <!-- End Order Summary -->
-              </div>
+                <button type="submit" class="btn-tech-orange">
+                  <ion-icon name="logo-paypal" class="fs-5"></ion-icon>
+                  <span>Pagar con PayPal</span>
+                </button>
+              </form>
             </div>
+
+            <!-- TAB 3: TRANSFERENCIA -->
+            <div class="tab-pane fade" id="bank" role="tabpanel" aria-labelledby="bank-tab">
+              <form action="." method="post" class="tech-card-subtle p-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="token" class="form-label text-muted small mb-1">// TOKEN DE TRANSACCIÓN*</label>
+                  <input type="text" name="token" id="token" class="form-control tech-form-control" placeholder="Token de verificación / Kushki" required>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
+                  <span class="text-white">Total a Pagar:</span>
+                  <span class="fs-5 fw-bold" style="color: var(--accent-orange);">${{ order.get_total_cost }}</span>
+                </div>
+
+                <button type="submit" class="btn-tech-orange">
+                  <ion-icon name="checkmark-circle-outline" class="fs-5"></ion-icon>
+                  <span>Confirmar Transferencia</span>
+                </button>
+              </form>
+            </div>
+
           </div>
+
         </div>
       </div>
-    </section>
+
+      <!-- COLUMNA DERECHA: RESUMEN DE LA ORDEN Y CONTRATOS -->
+      <div class="col-12 col-xl-4">
+        <div class="tech-card p-4 font-monospace">
+
+          <div class="d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom border-secondary border-opacity-25">
+            <span class="text-white fw-bold">// TOTAL A ABONAR</span>
+            <span class="fs-4 fw-bold" style="color: var(--accent-orange);">${{ order.get_total_cost }}</span>
+          </div>
+
+          <p class="text-muted small lh-base mb-3" style="color: #cbd5e1 !important;">
+            Seleccione el método de pago que considere más adecuado para abonar por los servicios de software e infraestructura contratados. Tras la confirmación, recibirá en su correo electrónico:
+          </p>
+
+          <div class="tech-card-subtle p-3 mb-3">
+            <ul class="text-muted small ps-3 mb-0 lh-lg" style="color: #cbd5e1 !important;">
+              <li><strong class="text-white">Contrato de Propiedad Intelectual</strong></li>
+              <li><strong class="text-white">Contrato de Servicios de Desarrollo</strong></li>
+              <li><strong class="text-white">Contrato de Nube / Local Host</strong></li>
+            </ul>
+          </div>
+
+          <p class="text-muted small mb-0" style="font-size: 0.75rem;">
+            // Transacciones cifradas de extremo a extremo mediante protocolos SSL de 256 bits.
+          </p>
+
+        </div>
+      </div>
+
+    </div>
 
   </div>
 </div>
 
-
-
-    </div>
-
-
-      </div>
-  </div>
-
-
-    <!-- Load the required client component. -->
-  <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
-  <!-- Load Hosted Fields component. -->
-  <script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
+<!-- SCRIPTS BRAINTREE -->
+<script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
 <script>
   var form = document.querySelector('#payment');
-  var submit = form.querySelector('input[type="submit"]');
+  var submit = form.querySelector('button[type="submit"]');
 
   braintree.client.create({
     authorization: '{{ client_token }}'
@@ -342,17 +331,18 @@
       client: clientInstance,
       styles: {
         'input': {
-          'font-size': '16px',
-          'color': '#333'
+          'font-size': '15px',
+          'font-family': 'monospace',
+          'color': '#ffffff'
         },
         '::placeholder': {
-          'color': '#999'
+          'color': '#6b7280'
         },
         'input.invalid': {
-          'color': 'red'
+          'color': '#ef4444'
         },
         'input.valid': {
-          'color': '#ffc107'
+          'color': '#f7a84f'
         }
       },
       fields: {
@@ -376,7 +366,7 @@
         return;
       }
 
-      // Habilitar botón
+      // Habilitar botón de envío
       submit.removeAttribute('disabled');
 
       form.addEventListener('submit', function (event) {
@@ -389,10 +379,8 @@
             return;
           }
 
-          // Asignar nonce
+          // Asignar nonce y enviar
           document.getElementById('nonce').value = payload.nonce;
-
-          // Enviar formulario
           form.submit();
         });
       }, false);

@@ -3,425 +3,219 @@
 {% load static %}
 
 {% block title %}
-  {% trans "Checkout" %}
+  {% trans "Checkout Infraestructura" %}
 {% endblock %}
 
 {% block content %}
 
 <style>
-  .step-count-circle {
-  background-color: #b50f15; /* o el color corporativo que uses */
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
-  margin-right: 8px;
-  font-size: 14px;
-}
+  :root {
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: #1e1e1f !important;
+  }
+
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: #ededed;
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  /* Botones principales Cyber */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px 20px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .step-count-circle {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+    margin-right: 8px;
+    font-size: 14px;
+  }
 </style>
 
-<div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
+    <!-- BREADCRUMB -->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
+      <div class="breadcrumb-title pe-3 text-white font-monospace d-flex align-items-center gap-2">
+        <ion-icon name="server-outline" class="accent-text"></ion-icon> Infraestructura Local On-Premises
+      </div>
+      <div class="ps-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0 p-0 align-items-center font-monospace small text-muted">
+            <li class="breadcrumb-item d-flex align-items-center gap-1">
+              // Pago y Despliegue de Hardware Soberano
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
 
-                  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3"> <ion-icon name="browsers-outline"></ion-icon> Infraestructura para Negocios  </div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item">
-                 Pago de Orden de Infraestructura
-                  </li>
-                </ol>
-              </nav>
-            </div>
-
-          </div>
-
-
-
-    <!--end breadcrumb-->
-
-    <!--start shop cart-->
+    <!-- CONTENIDO PRINCIPAL -->
     <section class="shop-page">
       <div class="shop-container">
-        <div class="card shadow-sm border-0">
+        <div class="row justify-content-center">
+          <div class="col-12 col-xl-10">
 
-
-          <div class="card-body" style="background-color: #2e2e2e;">
-            <div class="shop-cart">
-              <div class="row">
-
-                <!-- ============================= -->
-                <!--  COLUMNA IZQUIERDA - DETALLE -->
-                <!-- ============================= -->
-                <div class="col-12 col-xl-20">
-                  <div class="checkout-details">
-
-                    <!-- Steps -->
-                    <div class="card border-0">
-                      <div class="card-body" style="background-color: #2e2e2e;">
-                        <div class="steps steps-light">
-                          <a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-                            <div class="step-progress"><span class="step-count">1</span></div>
-
-                          </a>
-                          <a class="step-item active" href="#">
-                            <div class="step-progress"><span class="step-count">2</span></div>
-
-                          </a>
-                          <a class="step-item item active current">
-                            <div class="step-progress"><span class="step-count">3</span></div>
-
-                          </a>
-                          <a class="step-item">
-                            <div class="step-progress"><span class="step-count">4</span></div>
-
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Card principal -->
-{% if order.is_active %}
-
-
-  <!-- Orden Activa -->
-  <div class="card">
-    <div class="card-body" style="background-color: #2e2e2e;">
-
-      <!-- Usuario -->
-      <div class="d-flex align-items-center mb-3">
-        <div class="ms-3">
-          <h6 class="mb-0">{{ order.first_name }} {{ order.last_name }}</h6>
-          <p class="mb-0">{{ order.email }}</p>
-        </div>
-      </div>
-
-      <hr>
-
-      <!-- Título -->
-      <h2 class="h5 mb-0">
-         Detalle de Orden de Infraestructura
-      </h2>
-      <p class="mt-2">
-      <p><strong> Track ID de orden:</strong> #SQ02-INF-122-00{{ order.id }}</p>
-      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-      {% if order.coupon  %}
-      <p><strong>Convenio:</strong> {{ order.coupon  }}</p>
-      {% else %}
-      <p><strong>Convenio:</strong> No registra</p>
-      {% endif %}
-      </p>
-
-      <div class="my-3 border-bottom"></div>
-
-      <!-- Información de la orden -->
-      <h5 class="mb-3">Información de la Orden</h5>
-      <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
-      <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
-      <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
-      <p><strong>Contacto:</strong> {{ order.telefono }}</p>
-      <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-
-      <hr>
-
-      <!-- Productos adquiridos -->
-      <h5 class="mb-3">Infraestructura Solicitada</h5>
-      <ul class="list-group bg-transparent">
-        {% for item in order.items.all %}
-        <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
-          <div>
-            <strong>{{ item.product.name }}</strong><br>
-            <small>{{ item.product.description }}</small>
-          </div>
-          <span>${{ item.price }}</span>
-        </li>
-        {% endfor %}
-      </ul>
-
-      <hr>
-
-      <!-- Total -->
-      <h4 class="d-flex justify-content-between">
-        <span>Valor total de inversión:</span>
-        <span>${{ order.get_total_cost }}</span>
-      </h4>
-
-      <div class="my-4"></div>
-
-      <!-- Botón de pago -->
-      <div class="row">
-        <div class="col-md-6">
-          <a href="{% url 'iaas_payment:payment_process' %}?order={{ order.id }}" class="btn btn-warning btn-ecomm w-100">
-          <ion-icon name="card-outline"></ion-icon>  Pagar Orden <ion-icon name="chevron-forward-outline"></ion-icon>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-{% else %}
-  <!-- Orden Expirada -->
-  <div class="card">
-    <div class="card-body text-center">
-
-      <p class="fs-5">Su orden ha expirado.</p>
-      <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades de tecnologías de información en la nube.</p>
-
-      <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
-        Ver Catálogo de Productos
-      </a>
-
-    </div>
-  </div>
-{% endif %}
-
-
-
+            <!-- PROGRESO DE PASOS -->
+            <div class="tech-card p-3 mb-4 font-monospace">
+              <div class="steps steps-light">
+                <a class="step-item active text-decoration-none" href="{% url 'saas_cart:cart_detail' %}">
+                  <div class="step-progress"><span class="step-count">1</span></div>
+                </a>
+                <a class="step-item active text-decoration-none" href="#">
+                  <div class="step-progress"><span class="step-count">2</span></div>
+                </a>
+                <a class="step-item active current text-decoration-none" href="#">
+                  <div class="step-progress"><span class="step-count">3</span></div>
+                </a>
+                <a class="step-item text-decoration-none" href="#">
+                  <div class="step-progress"><span class="step-count">4</span></div>
+                </a>
               </div>
-              <!--end row-->
             </div>
+
+            {% if order.is_active %}
+            <!-- ORDEN ACTIVA -->
+            <div class="tech-card p-4 font-monospace">
+              
+              <!-- CABECERA CLIENTE -->
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap gap-2">
+                <div>
+                  <span class="tech-badge-orange mb-1 d-inline-block">// HARDWARE ON-PREMISES & SERVIDORES</span>
+                  <h5 class="mb-0 text-white fw-bold">{{ order.first_name }} {{ order.last_name }}</h5>
+                  <span class="text-muted small">{{ order.email }}</span>
+                </div>
+                <div class="text-end">
+                  <span class="text-muted small d-block">TRACK ID: <strong class="text-white">#SQ02-INF-122-00{{ order.id }}</strong></span>
+                  <span class="text-muted small">CREACIÓN: <strong class="text-white">{{ order.created|date:"d M Y, H:i" }}</strong></span>
+                </div>
+              </div>
+
+              <!-- DETALLES DE FACTURACIÓN Y CONVENIO -->
+              <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                  <div class="tech-card-subtle p-3 h-100">
+                    <h6 class="text-white fw-bold mb-2 small"><ion-icon name="business-outline" class="accent-text"></ion-icon> Datos de Organización</h6>
+                    <p class="mb-1 text-muted small">Razón Social: <strong class="text-white">{{ order.razon_social }}</strong></p>
+                    <p class="mb-1 text-muted small">Registro Fiscal (RUC/CI): <strong class="text-white">{{ order.ruc }}</strong></p>
+                    <p class="mb-0 text-muted small">Sector Comercial: <strong class="text-white">{{ order.sector }}</strong></p>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="tech-card-subtle p-3 h-100">
+                    <h6 class="text-white fw-bold mb-2 small"><ion-icon name="shield-checkmark-outline" class="accent-text"></ion-icon> Especificaciones de Convenio</h6>
+                    <p class="mb-1 text-muted small">Convenio Asignado: <strong class="text-white">{% if order.coupon %}{{ order.coupon }}{% else %}No registra{% endif %}</strong></p>
+                    <p class="mb-0 text-muted small">Contacto Institucional: <strong class="text-white">+593 {{ order.telefono }}</strong></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PRODUCTOS / SERVIDORES LOCALES SOLICITADOS -->
+              <h6 class="text-white fw-bold mb-3">// HARDWARE Y RECURSOS FÍSICOS ASIGNADOS</h6>
+              <div class="d-flex flex-column gap-3 mb-4">
+                {% for item in order.items.all %}
+                <div class="tech-card-subtle p-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                  <div>
+                    <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2">
+                      <ion-icon name="server-outline" class="accent-text fs-5"></ion-icon>
+                      {{ item.product.name }}
+                    </h6>
+                    <p class="text-muted small mb-0 lh-sm" style="color: #cbd5e1 !important;">{{ item.product.description }}</p>
+                  </div>
+                  <div class="text-end font-monospace">
+                    <span class="text-muted small d-block">Inversión Física</span>
+                    <strong class="text-white fs-6" style="color: var(--accent-orange);">${{ item.price|floatformat:2 }}</strong>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+
+              <!-- TOTAL DE INVERSIÓN -->
+              <div class="tech-card-subtle p-3 mb-4 d-flex justify-content-between align-items-center">
+                <span class="text-white fw-bold">Valor Total de Inversión (Infraestructura Local):</span>
+                <span class="fs-5 fw-bold" style="color: var(--accent-orange);">${{ order.get_total_cost|floatformat:2 }}</span>
+              </div>
+
+              <!-- BOTÓN DE PROCESAMIENTO DE PAGO -->
+              <div class="row justify-content-end">
+                <div class="col-12 col-md-5">
+                  <a href="{% url 'iaas_payment:payment_process' %}?order={{ order.id }}" class="btn-tech-orange">
+                    <ion-icon name="card-outline" class="fs-5"></ion-icon>
+                    <span>Proceder al Pago de Orden</span>
+                    <ion-icon name="chevron-forward-outline" class="fs-5"></ion-icon>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            {% else %}
+            <!-- ORDEN EXPIRADA -->
+            <div class="tech-card p-5 text-center font-monospace">
+              <ion-icon name="alert-circle-outline" class="fs-1 text-warning mb-3"></ion-icon>
+              <h4 class="text-white fw-bold mb-2">Su orden de infraestructura ha expirado.</h4>
+              <p class="text-muted small mb-4">Puede volver a explorar nuestro catálogo de servidores On-Premises, sistemas NAS y soluciones de hardware soberano.</p>
+              <a href="{% url 'saas_shop:product_list' %}" class="btn-tech-orange mx-auto" style="max-width: 280px;">
+                Ver Catálogo de Hardware
+              </a>
+            </div>
+            {% endif %}
+
           </div>
         </div>
       </div>
     </section>
-    <!--end shop cart-->
 
   </div>
-  <!-- end page content-->
 </div>
-
 
 {% endblock %}
-
-
-
-     <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-          <!--start breadcrumb-->
-          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Software como Producto</div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item"><a href="javascript:;"></a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">Detalle de Orden de Compra</li>
-                </ol>
-              </nav>
-            </div>
-            <div class="ms-auto">
-              <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary">Settings</button>
-                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                  <a class="dropdown-item" href="javascript:;">Another action</a>
-                  <a class="dropdown-item" href="javascript:;">Something else here</a>
-                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--end breadcrumb-->
-
-
-          <!--start shop cart-->
-          <section class="shop-page">
-            <div class="shop-container">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-						<div class="shop-cart">
-							<div class="row">
-								<div class="col-12 col-xl-8">
-									<div class="checkout-details">
-										<div class="card border-0">
-											<div class="card-body">
-												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'saas_cart:cart_detail' %}">
-														<div class="step-progress"><span class="step-count">1</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cart'></i></div>
-													</a>
-													<a class="step-item active current" href="{% url 'saas_orders:order_create' %}">
-														<div class="step-progress"><span class="step-count">2</span>
-														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i></div>
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="d-flex align-items-center mb-3">
-													<div class="">
-														<img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-													</div>
-													<div class="ms-3">
-														<h6 class="mb-0">{{ order.first_name  }} {{order.last_name }}</h6>
-														<p class="mb-0">{{ order.email }} </p>
-													</div>
-												</div>
-                        <hr>
-												<div class="">
-													<h2 class="h5 mb-0">Datos de Facturación</h2>
-													<div class="my-3 border-bottom"></div>
-<div class="form-body">
-  <form action="." method="post" class="order-form row g-3">
-
-    {% csrf_token %}
-
-    <!-- RUC -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
-      {{ form.ruc }}
-    </div>
-
-    <!-- Razon Social -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización,Negocio o Marca</label>
-      {{ form.razon_social }}
-    </div>
-
-    <!-- Sector -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
-      {{ form.sector }}
-    </div>
-
-    <!-- Teléfono -->
-  <div class="input-group">
-    <span class="input-group-text">+593</span>
-    {{ form.telefono }}
-  </div>
-
-  <!-- Texto explicativo -->
-  <small class="form-text text-muted">
-    Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.
-  </small>
-
-
-    <!-- Dirección de Facturación -->
-    <div class="col-md-12">
-      <h6 class="mb-0 h5">Términos y Condiciones de compra</h6>
-      <div class="my-3 border-bottom"></div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-        <label class="form-check-label" for="gridCheck">He leido y acepto lo terminos y condiciones</label>
-      </div>
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="col-md-6">
-      <div class="d-grid">
-        <a href="{% url 'saas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="d-grid">
-        <input type="submit" value="{% trans 'Place order' %}" class="btn btn-primary btn-ecomm">
-      </div>
-    </div>
-  </form>
-</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-<div class="col-12 col-xl-4">
-  <div class="order-summary">
-    <div class="card">
-      <div class="card-body">
-        <!-- Aplicar código de descuento -->
-
-        <!-- Resumen de la orden -->
-     <div class="card">
-  <div class="card-body">
-    <p class="fs-5">Detalle de Compra</p>
-    <div class="my-3 border-top"></div>
-
-    <!-- Mostrar cada producto en el carrito -->
-    <ul class="list-unstyled">
-      {% for item in cart %}
-        <li class="d-flex align-items-center">
-
-          <div class="ps-3">
-            <h6 class="mb-1">{{ item.product.name }}</h6>
-            <p>{{item.product.description }}</p>
-            <div class="widget-product-meta">
-            </div>
-          </div>
-        </li>
-        <div class="my-3 border-top"></div>
-      {% endfor %}
-    </ul>
-
-    <!-- Mostrar descuento si aplica -->
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-      <div class="my-3 border-top"></div>
-    {% endif %}
-
-    <!-- Totales -->
-
-
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>Discount</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-    {% endif %}
-    <div class="my-3 border-top"></div>
-    <div class="d-flex justify-content-between">
-      <h5 class="mb-0">Total a pagar</h5>
-      <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-
-
-  </div>
-</div>
-
-							</div>
-							<!--end row-->
-						</div>
-					</div>
-        </div>
-      </div>
-				</section>
-				<!--end shop cart-->
-
-
-          </div>
-          <!-- end page content-->
-         </div>

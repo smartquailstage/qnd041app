@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-  {% if category %}{{ category.name }}{% else %}{% trans "Products" %}{% endif %}
+  {% if category %}{{ category.name }}{% else %}{% trans "Servidores & Almacenamiento On-Premises" %}{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -27,6 +27,12 @@
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     color: #ededed;
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
   }
 
   /* Pestañas / Tabs Cyber Dark */
@@ -55,6 +61,16 @@
   .accent-text {
     color: var(--accent-orange) !important;
   }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
 </style>
 
 <div class="page-content-wrapper py-4">
@@ -63,13 +79,13 @@
     <!-- BREADCRUMB -->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-4 pb-2 border-bottom border-secondary border-opacity-25">
       <div class="breadcrumb-title pe-3 text-white font-monospace d-flex align-items-center gap-2">
-        <ion-icon name="cloud-upload-outline" class="accent-text"></ion-icon> Soluciones ITC
+        <ion-icon name="server-outline" class="accent-text"></ion-icon> Centro de Datos Local & Hardware Soberano
       </div>
       <div class="ps-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0 p-0 align-items-center font-monospace small text-muted">
             <li class="breadcrumb-item d-flex align-items-center gap-1">
-              <ion-icon name="cube-outline" class="accent-text"></ion-icon> Infraestructura Tecnológica para Negocios
+              <ion-icon name="hardware-chip-outline" class="accent-text"></ion-icon> Servidores On-Premises, Synology NAS & GPUs NVIDIA
             </li>
           </ol>
         </nav>
@@ -79,49 +95,59 @@
     <div class="product-more-info mt-4">
       <!-- PESTAÑAS SUPERIORES -->
       <ul class="nav nav-pills mb-3 border-0" id="custom-tabs" role="tablist">
+        
+        <!-- Tab 1: Servidores On-Premises -->
         <li class="nav-item" role="presentation">
-          <a class="nav-link active px-4 py-2" id="tab-description" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
-            <div class="d-flex align-items-center">
-              <div class="tab-title text-uppercase fw-bold fs-6"><i class="fadeIn animated bx bx-droplet"></i></div>
+          <a class="nav-link active px-4 py-2 font-monospace" id="tab-onpremises" data-bs-toggle="tab" href="#onpremises" role="tab" aria-controls="onpremises" aria-selected="true">
+            <div class="d-flex align-items-center gap-2">
+              <ion-icon name="server-outline" class="fs-5"></ion-icon>
+              <span>On-Premises</span>
             </div>
           </a>
         </li>
+
+        <!-- Tab 2: Synology NAS -->
         <li class="nav-item" role="presentation">
-          <a class="nav-link px-4 py-2" id="tab-more-info" data-bs-toggle="tab" href="#more-info" role="tab" aria-controls="more-info" aria-selected="false">
-            <div class="d-flex align-items-center">
-              <div class="tab-title text-uppercase fw-bold fs-6"><ion-icon name="play-outline"></ion-icon></div>
+          <a class="nav-link px-4 py-2 font-monospace" id="tab-synology" data-bs-toggle="tab" href="#synology" role="tab" aria-controls="synology" aria-selected="false">
+            <div class="d-flex align-items-center gap-2">
+              <ion-icon name="cube-outline" class="fs-5"></ion-icon>
+              <span>NAS Synology</span>
             </div>
           </a>
         </li>
+
+        <!-- Tab 3: GPU NVIDIA -->
         <li class="nav-item" role="presentation">
-          <a class="nav-link px-4 py-2" id="tab-tags" data-bs-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">
-            <div class="d-flex align-items-center">
-              <div class="tab-title text-uppercase fw-bold fs-6"><ion-icon name="albums-outline"></ion-icon></div>
+          <a class="nav-link px-4 py-2 font-monospace" id="tab-nvidia" data-bs-toggle="tab" href="#nvidia" role="tab" aria-controls="nvidia" aria-selected="false">
+            <div class="d-flex align-items-center gap-2">
+              <ion-icon name="hardware-chip-outline" class="fs-5"></ion-icon>
+              <span>Aceleración NVIDIA GPU</span>
             </div>
           </a>
         </li>
+
       </ul>
 
       <div class="tab-content pt-2">
         
-        <!-- TAB 1: SMART DROPLET / ANALYTICS -->
-        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+        <!-- TAB 1: SERVIDORES ON-PREMISES -->
+        <div class="tab-pane fade show active" id="onpremises" role="tabpanel" aria-labelledby="tab-onpremises">
           <div class="tech-card p-0 overflow-hidden mb-4">
             {% for c in categories %}
-              {% if c.slug == "smart-droplet" %}
+              {% if c.slug == "on-premises" or c.slug == "servidores-locales" %}
                 {% if c.products.all %}
-                  <div id="carouselSmartAnalytics" class="carousel slide" data-bs-ride="carousel">
+                  <div id="carouselOnPremises" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                       {% for product in c.products.all %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                           <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                             <div class="position-relative" style="height: 480px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                               <div class="position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(to top, rgba(30,30,31,0.95) 0%, rgba(30,30,31,0.6) 100%);">
+                                <span class="tech-badge-orange mb-2 d-inline-block">// SERVIDOR PROPIETARIO DEDICADO</span>
                                 <h2 class="text-white font-monospace mb-1" style="font-size: 1.15rem;">
-                                  <i class="fadeIn animated bx bx-droplet accent-text me-1"></i>{{ product.name }}
-                                  {% if product.numero_procesos == '5' %}<span>// Fundación</span>{% elif product.numero_procesos == '40' %}<span>// Multi-Cloud & Estabilidad</span>{% endif %}
+                                  <ion-icon name="server-outline" class="accent-text me-1"></ion-icon>{{ product.name }}
                                 </h2>
-                                <p class="mb-0 text-warning font-monospace small">Inversión: $ {{ product.price_amount }} (Incluye I.V.A)</p>
+                                <p class="mb-0 text-warning font-monospace small">Inversión Hardware: $ {{ product.price_amount }} (Incluye IVA & Garantía On-Site)</p>
                               </div>
                             </div>
                           </a>
@@ -129,123 +155,140 @@
                       {% endfor %}
                     </div>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselOnPremises" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Previous" %}</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselSmartAnalytics" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselOnPremises" data-bs-slide="next">
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Next" %}</span>
                     </button>
                   </div>
                 {% else %}
-                  <p class="p-4 font-monospace text-muted">// {% trans "No products available in this category." %}</p>
+                  <p class="p-4 font-monospace text-muted">// {% trans "No hay servidores On-Premises registrados en esta categoría." %}</p>
                 {% endif %}
               {% endif %}
             {% endfor %}
           </div>
 
           <div class="tech-card p-4 font-monospace">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+              <ion-icon name="shield-checkmark-outline" class="accent-text"></ion-icon>
+              Servidores Dedicados On-Premises & Soberanía de Datos
+            </h5>
             <p class="mb-3 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
-              <strong class="accent-text">SmartDrop®</strong> automatiza toda tu infraestructura desde cero: levanta tu arquitectura, configura microservicios, migra tu base de datos y despliega tu aplicación web en segundos. Sin fricción. Sin complejidad. Sin esperas.
+              <strong class="accent-text">Infraestructura Física Bare-Metal:</strong> Implemente servidores dedicados localmente en su propia infraestructura. Maximice el control sobre sus activos digitales, garantice latencia cero en la red corporativa y cumpla estrictamente con la Ley Orgánica de Protección de Datos Personales de la región.
             </p>
             <p class="mb-0 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
-              SmartDrop transforma la forma en que despliegas tus aplicaciones. En lugar de pasar horas o días configurando infraestructura, automatiza todo el proceso. Reduce costos, elimina errores y acelera tu salida al mercado. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación</a>
+              Cada nodo viene pre-configurado con nuestro hipervisor nativo, orquestación de contenedores en Kubernetes y políticas avanzadas de cortafuegos por hardware. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación técnica</a>
             </p>
           </div>
         </div>
 
-        <!-- TAB 2: BUSINESS MEDIA -->
-        <div class="tab-pane fade" id="more-info" role="tabpanel" aria-labelledby="tab-more-info">
+        <!-- TAB 2: SYNOLOGY NAS -->
+        <div class="tab-pane fade" id="synology" role="tabpanel" aria-labelledby="tab-synology">
           <div class="tech-card p-0 overflow-hidden mb-4">
             {% for c in categories %}
-              {% if c.slug == "business-media" %}
+              {% if c.slug == "synology-nas" or c.slug == "nas-storage" %}
                 {% if c.products.all %}
-                  <div id="carouselMedia" class="carousel slide" data-bs-ride="carousel">
+                  <div id="carouselSynology" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                       {% for product in c.products.all %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                           <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                             <div class="position-relative" style="height: 480px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                               <div class="position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(to top, rgba(30,30,31,0.95) 0%, rgba(30,30,31,0.6) 100%);">
+                                <span class="tech-badge-orange mb-2 d-inline-block">// ALMACENAMIENTO REDUNDANTE RAID & RESPALDOS</span>
                                 <h2 class="text-white font-monospace mb-1" style="font-size: 1.15rem;">
-                                  <ion-icon name="play-outline" class="accent-text me-1"></ion-icon> {{ product.name }}<sup class="accent-text">I+D</sup> // Máximo {{ product.numero_procesos }} Procesos
+                                  <ion-icon name="cube-outline" class="accent-text me-1"></ion-icon> {{ product.name }}
                                 </h2>
-                                <p class="mb-0 text-warning font-monospace small">Inversión: $ {{ product.price_amount }} (Incluye I.V.A)</p>
+                                <p class="mb-0 text-warning font-monospace small">Inversión Hardware: $ {{ product.price_amount }} (Incluye IVA)</p>
                               </div>
                             </div>
                           </a>
                         </div>
                       {% endfor %}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselMedia" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselSynology" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Previous" %}</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselMedia" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselSynology" data-bs-slide="next">
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Next" %}</span>
                     </button>
                   </div>
                 {% else %}
-                  <p class="p-4 font-monospace text-muted">// {% trans "No products available in this category." %}</p>
+                  <p class="p-4 font-monospace text-muted">// {% trans "No hay almacenamiento Synology NAS disponible en esta categoría." %}</p>
                 {% endif %}
               {% endif %}
             {% endfor %}
           </div>
 
           <div class="tech-card p-4 font-monospace">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+              <ion-icon name="cloud-download-outline" class="accent-text"></ion-icon>
+              Sistemas NAS Synology & Respaldos Redundantes
+            </h5>
             <p class="mb-3 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
-              <strong class="accent-text">SmartBusinessMedia®</strong> es un CRM especializado en la administración y gestión de contenidos multimedia en alta disponibilidad y definición. Su arquitectura en la nube permite trabajar en tiempo real sin interrupciones.
+              <strong class="accent-text">Almacenamiento Centralizado de Alta Velocidad:</strong> Centralice la gestión documental de su organización con servidores NAS Synology de nivel empresarial. Arreglos de discos en RAID 1/5/10/6 con tolerancia a fallos físicos y snapshots automatizados para protección anti-ransomware.
             </p>
             <p class="mb-0 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
-              A través de su panel intuitivo, los equipos pueden diseñar su estrategia digital y visualizar métricas precisas sobre el rendimiento de sus contenidos. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación</a>
+              Interconexión directa mediante interfaces de 10GbE SFP+ y sincronización continua híbrida hacia sus entornos privados SmartQuail. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación de integración</a>
             </p>
           </div>
         </div>
 
-        <!-- TAB 3: BUSINESS LAW -->
-        <div class="tab-pane fade" id="tags" role="tabpanel" aria-labelledby="tab-tags">
+        <!-- TAB 3: GPU NVIDIA -->
+        <div class="tab-pane fade" id="nvidia" role="tabpanel" aria-labelledby="tab-nvidia">
           <div class="tech-card p-0 overflow-hidden mb-4">
             {% for c in categories %}
-              {% if c.slug == "business-law" %}
+              {% if c.slug == "nvidia-gpu-server" or c.slug == "nvidia-gpu" or c.slug == "aceleracion-ia" %}
                 {% if c.products.all %}
-                  <div id="carouselLaw" class="carousel slide" data-bs-ride="carousel">
+                  <div id="carouselNvidia" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                       {% for product in c.products.all %}
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                           <a href="{{ product.get_absolute_url }}" class="text-white text-decoration-none">
                             <div class="position-relative" style="height: 480px; background-image: url('{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}'); background-size: cover; background-position: center;">
                               <div class="position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(to top, rgba(30,30,31,0.95) 0%, rgba(30,30,31,0.6) 100%);">
+                                <span class="tech-badge-orange mb-2 d-inline-block">// ACELERACIÓN DE IA & MODELOS PRIVADOS</span>
                                 <h2 class="text-white font-monospace mb-1" style="font-size: 1.15rem;">
-                                  <ion-icon name="albums-outline" class="accent-text me-1"></ion-icon> {{ product.name }}<sup class="accent-text">I+D</sup> // Máximo {{ product.numero_procesos }} Procesos
+                                  <ion-icon name="hardware-chip-outline" class="accent-text me-1"></ion-icon> {{ product.name }}
                                 </h2>
-                                <p class="mb-0 text-warning font-monospace small">Inversión: $ {{ product.price_amount }} (Incluye I.V.A)</p>
+                                <p class="mb-0 text-warning font-monospace small">Inversión Hardware: $ {{ product.price_amount }} (Incluye IVA)</p>
                               </div>
                             </div>
                           </a>
                         </div>
                       {% endfor %}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselLaw" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselNvidia" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Previous" %}</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselLaw" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselNvidia" data-bs-slide="next">
                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
                       <span class="visually-hidden">{% trans "Next" %}</span>
                     </button>
                   </div>
                 {% else %}
-                  <p class="p-4 font-monospace text-muted">// {% trans "No products available in this category." %}</p>
+                  <p class="p-4 font-monospace text-muted">// {% trans "No hay equipos con GPUs NVIDIA disponibles en esta categoría." %}</p>
                 {% endif %}
               {% endif %}
             {% endfor %}
           </div>
 
           <div class="tech-card p-4 font-monospace">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+              <ion-icon name="flash-outline" class="accent-text"></ion-icon>
+              Unidades Aceleradas GPU NVIDIA para Inteligencia Artificial Privada
+            </h5>
+            <p class="mb-3 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
+              <strong class="accent-text">Computación Paralela de Alto Rendimiento:</strong> Inferencia y entrenamiento de modelos de lenguaje (LLM), visión por computador y análisis predictivo en servidores de alta densidad provistos con tarjetas GPU NVIDIA Tensor Core.
+            </p>
             <p class="mb-0 lh-base" style="color: #cbd5e1; font-size: 0.9rem; text-align: justify;">
-              <strong class="accent-text">SmartBusinessLaw®</strong> es un ERP especializado en la administración integral de procesos legales, diseñado para optimizar la gestión jurídica de empresas, estudios legales e instituciones con alta disponibilidad. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación</a>
+              Ejecute sus asistentes conversacionales de IA corporativos de forma 100% privada sobre hardware dedicado, reduciendo a cero los costos por consumo de tokens externos y evitando la fuga de información sensible. <a href="{% url 'business_customer_projects:lista' %}" class="accent-link text-decoration-none fw-bold text-warning">Ver documentación de IA Soberana</a>
             </p>
           </div>
         </div>
