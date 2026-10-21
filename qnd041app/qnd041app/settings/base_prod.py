@@ -287,7 +287,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.sitemaps',
     "social_media_A",
     'corsheaders',
-     "wagtail_analytics",
+    'wagtail_analytics',
 ]
 
 #LOGINGS REDIRECT
