@@ -31,7 +31,6 @@ wagtailmenus>=1.5.1
 wagtail-modeltranslation
 wagtail_modeladmin
 wagtail-ai>=0.1.0
-wagtail-analytics
 
 # === Autenticación & Social ===
 django-allauth
@@ -39,9 +38,8 @@ django-social-auth
 social-auth-app-django>=4.0.0
 django-cors-headers
 
-# === Control de Dependencias Google & gRPC (Evita conflictos de resolución) ===
-
-protobuf>=6.33.5,<8.0.0
+# === Control de Dependencias Google & gRPC (Versión compatible con IA) ===
+protobuf>=4.25.3,<6.0.0
 google-auth>=2.14.1,<3.0.0
 google-api-core>=2.11.0,<3.0.0
 grpcio>=1.50.0,<2.0.0
@@ -52,7 +50,6 @@ scipy
 pandas
 numpy
 google-generativeai>=0.8.3
-google-analytics-data==0.23.3
 
 # === Formularios, Campos & Utilidades ===
 django-multiselectfield
