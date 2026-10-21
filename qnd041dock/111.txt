@@ -1,18 +1,28 @@
-# Django
+# === Core Django & Base ===
 django>=4.2,<5.0
-
-# Django Baton
-#django-baton==2.6.2
-django-unfold
 python-decouple
+django-dotenv
+python-dotenv==0.21.0
+django-environ>=0.10.0
+django_extensions
+
+# === Base de datos & Almacenamiento ===
+psycopg
+psycopg2-binary>=2.9.6
+django-storages
+boto3>=1.26.6
+
+# === Admin & UI ===
+django-unfold
 django-taggit
+django-widget-tweaks
+django-forms-bootstrap
+django-bootstrap-datepicker-plus
+django-jquery
+django-braces
+fontawesome
 
-matplotlib
-scipy
-pandas
-numpy
-
-# Wagtail
+# === Wagtail CMS & Ecosistema ===
 wagtail==7.2.0
 wagtailmedia
 wagtail_localize
@@ -21,174 +31,72 @@ wagtailmenus>=1.5.1
 wagtail-modeltranslation
 wagtail_modeladmin
 wagtail-ai>=0.1.0
+wagtail-analytics
 
-#timesfm[torch]
-#torch>=2.0.0
+# === Autenticación & Social ===
+django-allauth
+django-social-auth
+social-auth-app-django>=4.0.0
+django-cors-headers
 
-# Django Bootstrap Datepicker Plus
-django-bootstrap-datepicker-plus
+# === Ciencia de datos, IA & Utilidades Numéricas ===
+matplotlib
+scipy
+pandas
+numpy
+google-generativeai>=0.8.3
+google-analytics-data==0.23.3
 
-django-import-export
+# === Formularios, Campos & Utilidades ===
 django-multiselectfield
 django-modeltranslation
-
-fontawesome
-
-psycopg
-google-generativeai
-# Django Social Share
-django-social-share
-django_extensions
-django-cors-headers
-django-allauth
-
-
-django-tinymce==4.1.0
-
-# XlsxWriter
-XlsxWriter
-
-# Requests
-requests
-
-# Celery
-celery>=5.2.7,<6.0  # Compatible with Django 4.2
-
-# uWSGI
-uWSGI==2.0.31
-
-# Redis
-redis>=4.5.5
-
-# Django Dotenv
-django-dotenv
-
-# Psycopg2
-psycopg2-binary>=2.9.6  # Removed comment, using binary version
-
-# Django Storages
-django-storages
-
-# Django Contrib Comments
-django-contrib-comments
-
-# Django CORS Headers
-django-cors-headers
-
-# Django Countries
+django-phone-field
+django-phonenumber-field[phonenumberslite]
 django-countries
+django-localflavor
+django-parler
+django-import-export
+django-money
 
-# Django Social Auth
-django-social-auth
-
-# Social Auth App Django
-social-auth-app-django>=4.0.0
-
-# Sorl Thumbnail
+# === Contenido, Multimedia & Documentos ===
+django-tinymce==4.1.0
+django-ckeditor
+django-embed-video
+django-social-share
+django-qr-code
+qrcode
+XlsxWriter
+weasyprint>=57.0
 sorl-thumbnail
 
-# Django Redis
-django-redis
-
-# Django Widget Tweaks
-django-widget-tweaks
-
-# Django Phone Field
-django-phone-field
-
-# Django Phonenumber Field
-django-phonenumber-field[phonenumberslite]
-
-# Django Bootstrap Datepicker Plus
-#django-bootstrap-datepicker-plus
-
-# Django Bootstrap V5
-#django-bootstrap-v5
-
-# Django Bootstrap 4
-#django-bootstrap4
-
-# Django JQuery
-django-jquery
-
-# Django Embed Video
-django-embed-video
-
-# Django CKEditor
-django-ckeditor
-
-# Django QR Code
-django-qr-code
-
-
-django_celery_beat
-django-appointment
-django_celery_results
-django-scheduler
-
-# Django Braces
-django-braces
-
-django-q
-
-# Django Environ
-django-environ>=0.10.0
-
-# Kombu
+# === Asincronía, Tareas & Caché ===
+celery>=5.2.7,<6.0
 kombu>=5.3.4
-
-# Django Parler
-django-parler
-
-# Django Localflavor
-django-localflavor
-
-# Django Rosetta
-django-rosetta
-
-
-# Django Memcache Status
+redis>=4.5.5
+django-redis
+django_celery_beat
+django_celery_results
+django-q
 django-memcache-status
-
-
-
-# Django Forms Bootstrap
-django-forms-bootstrap
-
-# Django REST Framework
-djangorestframework>=3.14.0
-
-# Django Debug Toolbar
-django-debug-toolbar>=4.0.1
-
-# Django Seed
-django-seed
-
-# Pymemcache
 pymemcache>=3.5.2
-django-money
-# Boto3
-boto3>=1.26.6
-
-# PyOpenSSL
-PyOpenSSL>=23.1.0
-
-# Python Dotenv
-python-dotenv==0.21.0
-
-# Python Memcached
 python-memcached
 
-# Ecommerce
+# === Herramientas de Desarrollo ===
+django-debug-toolbar>=4.0.1
+django-seed
+django-rosetta
+
+# === Integraciones & APIs (Twilio, Braintree, etc.) ===
+twilio
+requests
 braintree>=4.29.0
 
-# Weasyprint
-weasyprint>=57.0
+# === Servidor WSGI ===
+uWSGI==2.0.31
 
-qrcode
+# === Seguridad ===
+PyOpenSSL>=23.1.0
 
-twilio 
-requests
-
-django-celery-beat 
-django-celery-results
+# === Apps de Negocio Adicionales ===
+django-appointment
+django-scheduler
