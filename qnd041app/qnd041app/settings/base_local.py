@@ -145,6 +145,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.forms",
     'wagtail.contrib.sitemaps',
     'wagtail',
+  
 
 
    # 'cart',
@@ -280,6 +281,7 @@ INSTALLED_APPS = [
     'studio_leads_ai',
     #"social_media_ID",
     "social_media_A",
+     "wagtail_analytics",
 
 
     
