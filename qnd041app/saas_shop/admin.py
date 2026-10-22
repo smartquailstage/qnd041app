@@ -26,7 +26,10 @@ def duplicar_productos(modeladmin, request, queryset):
         product.save()
 
 @admin.register(Category)
-class CategoryAdmin(ModelAdmin):
+class CategoryAdmin(ModelAdmin,ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
     actions = [duplicar_mensajes,]
