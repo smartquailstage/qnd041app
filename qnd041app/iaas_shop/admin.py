@@ -41,7 +41,7 @@ class SuiteAdmin(ModelAdmin):
     list_display = ['suite',]
 
 @admin.register(Product)
-class ProductAdmin(ModelAdmin):
+class ProductAdmin(ModelAdmin,ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     actions = [duplicar_productos,]

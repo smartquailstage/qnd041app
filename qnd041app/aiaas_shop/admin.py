@@ -52,7 +52,7 @@ class SuiteAdmin(ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(ModelAdmin):
+class ProductAdmin(ModelAdmin,ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
 
