@@ -2,6 +2,13 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin
 from .models import Category, Product
 from unfold.decorators import action
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import (
+    ExportForm,
+    ImportForm,
+    SelectableFieldsExportForm,
+)
+
 
 @admin.action(description="Duplicar Categorias seleccionados")
 def duplicar_mensajes(modeladmin, request, queryset):
@@ -27,6 +34,9 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
+
+    import_form_class = ImportForm
+    export_form_class = ExportForm
 
     list_display = (
         'name',

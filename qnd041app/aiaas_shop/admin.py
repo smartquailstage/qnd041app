@@ -3,6 +3,16 @@ from unfold.admin import ModelAdmin
 from .models import Category, Product, Suite
 from unfold.decorators import action
 
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import (
+    ExportForm,
+    ImportForm,
+    SelectableFieldsExportForm,
+)
+
+
+
+
 @admin.action(description="Duplicar Categorias seleccionados")
 def duplicar_mensajes(modeladmin, request, queryset):
     for category in queryset:
@@ -43,6 +53,8 @@ class SuiteAdmin(ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
 
     list_display = (
         'name',
