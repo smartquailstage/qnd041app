@@ -72,9 +72,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # celery setup
 
+#GOOGLE ANALYCTCS
 
-
-
+GA4_MEASUREMENT_ID = os.environ.get('GA4_MEASUREMENT_ID')
+GA4_API_SECRET = os.environ.get('GA4_API_SECRET')
 
 REDIS_HOST=os.environ.get('REDIS_HOST')
 REDIS_PORT=os.environ.get('REDIS_PORT')

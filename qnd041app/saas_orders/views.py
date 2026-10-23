@@ -45,6 +45,7 @@ def accept_terms(request):
 
     return render(request, 'saas_orders/accept_terms.html', {'form': form})
 
+from .analytics import track_ga4_license_event  # <--- Importa tu función
 
 @login_required
 def order_create(request):
@@ -79,6 +80,19 @@ def order_create(request):
                     quantity=item['quantity']
                 )
 
+            # ==========================================
+            # INTEGRACIÓN GA4 (MEASUREMENT PROTOCOL)
+            # ==========================================
+            # Como una orden puede tener varios items, 
+            # podemos enviar un evento por cada producto o un resumen global.
+            for item in cart:
+                track_ga4_license_event(
+                    request=request, 
+                    product_name=str(item['product']), 
+                    license_type="standard" # O el tipo de licencia que aplique
+                )
+            # ==========================================
+
             cart.clear()
             order_created.delay(order.id)
             request.session['order_id'] = order.id
@@ -94,8 +108,6 @@ def order_create(request):
         form = OrderCreateForm()
 
     return render(request, 'saas_orders/order/create.html', {'cart': cart, 'form': form})
-
-
 
 
 @login_required
