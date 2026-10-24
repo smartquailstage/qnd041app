@@ -34,6 +34,7 @@ class CategoryItem(Orderable):
 
 
     STYLE_CHOICES = [
+        ("cyber", "cyber"),
         ("minimal", "Minimalista"),
         ("futuristic", "Futurista"),
         ("modern", "Moderno"),

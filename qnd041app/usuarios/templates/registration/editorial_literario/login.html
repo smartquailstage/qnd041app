@@ -230,11 +230,7 @@ body {
   <div class="custom-left-container mx-auto">
 
     <!-- LOGO PRINCIPAL -->
-    <div class="logo-container mb-3 text-center">
-      <a href="https://ec.smartquail.io">
-        <img src="{% static 'assets/images/smartquail_iso.png' %}" style="width: 45%;" alt="Logo">
-      </a>
-    </div>
+
 
     <!-- TARJETA DE LOGIN CYBER DARK -->
     <div class="card tech-login-card custom-card-width p-4">
@@ -242,7 +238,7 @@ body {
 
         <!-- CABECERA DE LOGIN -->
         <div class="text-center mb-4">
-          <span class="tech-badge-orange mb-2 d-inline-block">// IT PRIVATECLOUD BUSINESS</span>
+          <span class="tech-badge-orange mb-2 d-inline-block">  <img src="{% static 'assets/images/logo_login_dash.png' %}" style="width: 45%;" alt="Logo"></span>
           <h4 class="text-white fw-bold mb-0 font-monospace">Ingresar sus credenciales</h4>
         </div>
 
@@ -347,11 +343,7 @@ body {
             <span>Continuar con Google</span>
           </a>
         
-          <!-- FACEBOOK -->
-          <a href="{% provider_login_url 'facebook' %}" class="btn-social btn-social-facebook">
-            <i class="fadeIn animated bx bxl-facebook fs-5" style="color: #1877f2;"></i>
-            <span>Continuar con Facebook</span>
-          </a>
+
         
           <!-- GITHUB -->
           <a href="{% provider_login_url 'github' %}" class="btn-social btn-social-github">
@@ -365,7 +357,7 @@ body {
         <div class="row mt-4 pt-3 border-top border-secondary border-opacity-25 text-center font-monospace small">
           <div class="col-6 text-start">
             <a href="{% url 'usuarios:register' %}" class="accent-link">
-              <i class="fadeIn animated bx bx-plus"></i> Nueva cuenta
+              <i class="fadeIn animated bx bx-plus"></i> Crear cuenta
             </a>
           </div>
           <div class="col-6 text-end">
