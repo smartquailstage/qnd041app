@@ -148,6 +148,10 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
+    #openclaw URLS
+
+    path('api/', include('social_media_AI.urls')),
+
     # Wagtail
     re_path(r'^businessmedia/', include(wagtailadmin_urls), name='wagtail'),
     re_path(r'^documents/', include(wagtaildocs_urls)),

@@ -130,6 +130,9 @@ def task_instagram_post(self, payload):
             mark_failed(obj)
         # Reintento exponencial
         raise self.retry(exc=exc, countdown=10 ** (self.request.retries + 1))
+
+
+
 # =========================
 # INSTAGRAM CAROUSEL
 # =========================

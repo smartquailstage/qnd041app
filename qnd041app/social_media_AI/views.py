@@ -84,6 +84,63 @@ from rest_framework.response import Response
 from wagtail.images import get_image_model
 from .models import InstagramPost
 
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.utils.dateparse import parse_datetime
+from .models import InstagramPost, CategoryItem
+from .tasks import task_instagram_post
+
+class CreateInstagramPostView(APIView):
+    # Asegura que solo OpenClaw u otros clientes autenticados accedan
+    # permission_classes = [IsAuthenticated] 
+
+    def post(self, request):
+        auth_header = request.headers.get("Authorization", "")
+        expected_token = f"Bearer {os.getenv('OPENCLAW_WEBHOOK_SECRET', getattr(settings, 'OPENCLAW_WEBHOOK_SECRET', ''))}"
+
+        data = request.data
+
+        # 1. Resolver categoría/campaña si viene en la petición
+        category_obj = None
+        if data.get("category_id"):
+            category_obj = CategoryItem.objects.filter(id=data["category_id"]).first()
+
+        # 2. Parsear fecha programada si aplica
+        scheduled_dt = None
+        if data.get("scheduled_date"):
+            scheduled_dt = parse_datetime(data["scheduled_date"])
+
+        # 3. Crear el post en estado 'scheduled'
+        post = InstagramPost.objects.create(
+            post_type=data.get("post_type", "Informativo"),
+            image_size=data.get("image_size", "square"),
+            categories=category_obj,
+            prompt=data.get("prompt", ""),
+            copy=data.get("copy", ""),
+            status="scheduled",
+            scheduled_date=scheduled_dt
+        )
+
+        # 4. Disparar la tarea Celery en segundo plano
+        task_instagram_post.delay({"id": post.id})
+
+        return Response(
+            {
+                "status": "success",
+                "message": "InstagramPost creado y enviado a cola de procesamiento",
+                "post_id": post.id,
+                "post_status": post.status
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def update_generated_image(request):

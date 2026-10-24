@@ -9,6 +9,8 @@ from .views import (
    
 )
 
+from .views import CreateInstagramPostView
+
 app_name = "social_media_AI"
 
 urlpatterns = [
@@ -42,6 +44,7 @@ urlpatterns = [
         generic_callback,
         name="n8n-webhook"
     ),
+    path('instagram/posts/create/', CreateInstagramPostView.as_view(), name='api_create_instagram_post'),
 ]
 
 
