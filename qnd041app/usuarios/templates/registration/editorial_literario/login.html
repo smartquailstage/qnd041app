@@ -235,11 +235,15 @@ body {
     <!-- TARJETA DE LOGIN CYBER DARK -->
     <div class="card tech-login-card custom-card-width p-4">
       <div class="card-body p-0">
-
+        <div class="logo-container mb-3 text-center">
+          <a href="https://ec.smartquail.io">
+            <img src="{% static 'assets/images/logo_dash.png' %}" style="width: 35%;" alt="Logo">
+          </a>
+        </div>
         <!-- CABECERA DE LOGIN -->
         <div class="text-center mb-4">
-          <span class="tech-badge-orange mb-2 d-inline-block">  <img src="{% static 'assets/images/logo_login_dash.png' %}" style="width: 45%;" alt="Logo"></span>
-          <h4 class="text-white fw-bold mb-0 font-monospace">Ingresar sus credenciales</h4>
+          <span class="tech-badge-orange mb-2 d-inline-block">  <p>> IT Cloud Computing</p></span>
+      
         </div>
 
         <!-- MENSAJES DJANGO -->
@@ -322,7 +326,7 @@ body {
           <!-- BOTÓN PRINCIPAL -->
           <div class="col-12 mt-4">
             <button type="submit" class="btn-tech-orange">
-              <span>{% trans 'Iniciar Sesión' %}</span>
+              <span>{% trans 'Conectar mi negocio' %}</span>
               <i class="fadeIn animated bx bx-right-arrow-alt fs-5"></i>
             </button>
           </div>
@@ -344,7 +348,6 @@ body {
           </a>
         
 
-        
           <!-- GITHUB -->
           <a href="{% provider_login_url 'github' %}" class="btn-social btn-social-github">
             <i class="fadeIn animated bx bxl-github fs-5" style="color: #ffffff;"></i>
@@ -357,7 +360,7 @@ body {
         <div class="row mt-4 pt-3 border-top border-secondary border-opacity-25 text-center font-monospace small">
           <div class="col-6 text-start">
             <a href="{% url 'usuarios:register' %}" class="accent-link">
-              <i class="fadeIn animated bx bx-plus"></i> Crear cuenta
+              <i class="fadeIn animated bx bx-plus"></i> Crear Cuenta
             </a>
           </div>
           <div class="col-6 text-end">
