@@ -7,7 +7,7 @@
         <!-- SALUDO INICIAL -->
         <p style="margin: 0 0 6px 0; font-size: 15px; color: #64748b;">Hola, <strong style="color: #0f172a;">{{ user.get_full_name|default:user.email }}</strong>, Bienvenido a SmartQuail IT Native Cloud Business</p>
         <h2 style="margin: 0 0 14px 0; font-size: 22px; font-weight: 800;line-height:1.2; color: #0f172a; letter-spacing: -0.5px; border-left: 4px solid #b5181a; padding-left: 12px;">
-            ⚡ Tecnologías de información y comunicación en nube nativa para empresas y organizaciones
+            ⚡ Tecnologías de información y comunicación en nube nativa para empresas y organizaciones en Ecuador
         </h2>
         
         <!-- PÁRRAFO INTRODUCTORIO -->
@@ -175,106 +175,97 @@
         </table>
 
 
-        <p style="margin: 0 0 20px 0; background-color: #fef2f2; border-left: 4px solid #b5181a; border-radius: 0 8px 8px 0; padding: 16px; color: #334155; line-height: 1.5; font-size: 13.5px;">
-            <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px;">🚀 Comienza ahora mismo:</strong> Ingresa a nuestra plataforma <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">Negocios ITC</a> con las siguientes credenciales
-             para activar tu licencia de desarrollo y despliegue de infraestructura sin costo. En cuestión de minutos tendrás todo listo y operativo para impulsar tu proyecto o negocio.
-        </p>
+<!-- AVISO / CTA INICIAL -->
+<!-- AVISO / CTA INICIAL -->
+<div style="margin: 0 0 20px 0; background-color: rgba(247, 168, 79, 0.05); border-left: 4px solid var(--accent-orange); border-radius: 0 12px 12px 0; padding: 16px; color: #0f0f0f; line-height: 1.5; font-size: 13.5px;">
+    <strong style="color: #ffffff; display: block; margin-bottom: 4px; font-size: 14px;">🚀 Comienza ahora mismo:</strong> Ingresa a nuestra plataforma <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: var(--accent-orange); font-weight: bold; text-decoration: underline;">aquí</a> con las siguientes credenciales para activar tu licencia de desarrollo y despliegue de infraestructura sin costo. En cuestión de minutos tendrás todo listo y operativo para impulsar tu proyecto o negocio.
+</div>
 
-        
-        <!-- CREDENCIALES (ESTILO TERMINAL GRIS/BLANCO/ROJO) -->
-        <div style="background-color: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 24px; margin: 30px 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);">
-            <p style="margin: 0 0 16px 0; font-weight: 700; color: #ffffff; font-size: 14px; letter-spacing: 0.5px;">
-            Sus Credenciales de Acceso a la Plataforma Negocios ITC:
-            </p>
-            
-            <div style="background-color: #1e293b; border: 1px solid #475569; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px;">
-                <p style="margin: 0; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Usuario / Correo:</p>
-                <p style="margin: 4px 0 0 0; color: #ffffff; font-size: 13.5px; font-weight: 600; font-family: monospace;">{{ user.email }}</p>
-            </div>
-            
-            <div style="background-color: #1e293b; border: 1px solid #475569; border-radius: 6px; padding: 12px 16px;">
-                <p style="margin: 0; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Contraseña Temporal:</p>
-                <p style="margin: 4px 0 0 0; color: #ffffff; font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px;">{{ email_prefix }}12345</p>
-            </div>
-        </div>
+<!-- CREDENCIALES (ESTILO TERMINAL TECNOLÓGICA) -->
+<div style="background-color: #232324; border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin: 30px 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);">
+    <p style="margin: 0 0 16px 0; font-weight: 700; color: #ffffff; font-size: 14px; letter-spacing: 0.5px;">
+    // Sus Credenciales de Acceso a la Plataforma Negocios ITC:
+    </p>
+    
+    <div style="background-color: #1e1e1f; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px;">
+        <p style="margin: 0; color: #cbd5e1; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Usuario / Correo:</p>
+        <p style="margin: 4px 0 0 0; color: #ffffff; font-size: 13.5px; font-weight: 600; font-family: monospace;">{{ user.email }}</p>
+    </div>
+    
+    <div style="background-color: #1e1e1f; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px;">
+        <p style="margin: 0; color: #cbd5e1; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Contraseña Temporal:</p>
+        <p style="margin: 4px 0 0 0; color: var(--accent-orange); font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px;">{{ email_prefix }}12345</p>
+    </div>
+</div>
 
-        <!-- LLAMADO A LA ACCIÓN INICIAL (BANNER INTERNO) -->
-
-        
-
-
-        <!-- BLOQUE DE CIERRE / CTA MARKETINERO CORPORATIVO -->
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 25px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 12px; text-align: center; border-top: 4px solid #b5181a; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);">
-            <tr><td style="padding: 32px 24px;">
-                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td align="center" style="font-size: 18px; color: #ffffff; font-weight: 800; padding-bottom: 10px; letter-spacing: -0.3px;">
-                            ⚡ El futuro no se espera, se despliega en tiempo récord.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="font-size: 13.5px; line-height: 1.6; color: #cbd5e1; padding-bottom: 14px;">
-                            No dejes tus activos tecnológicos empresariales en manos de improvisados ni en nubes públicas que exponen y vulneran tu empresa frente al mercado. Delega tu infraestructura en verdaderos expertos.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="font-size: 13.5px; line-height: 1.6; color: #94a3b8; padding-bottom: 24px;">
-                            No somos solo proveedores: <strong style="color: #ffffff;">somos tu growth partner tecnológico</strong>. Si puedes imaginarlo para tu negocio, nuestros ingenieros lo despliegan, lo blindan y lo ponen a facturar en la nube nativa antes de que tu competencia parpadee.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <!-- Botón CTA de alto impacto -->
-                            <a href="https://wa.me/593963521262" target="_blank" style="background-color: #b5181a; color: #ffffff; padding: 14px 30px; border-radius: 8px; font-size: 14px; font-weight: 800; text-decoration: none; display: inline-block; box-shadow: 0 4px 14px rgba(181, 24, 26, 0.5); letter-spacing: 0.3px;">
-                                🚀 Agenda Tu Consultoría Tecnológica Hoy
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="font-size: 11px; color: #64748b; padding-top: 18px; letter-spacing: 0.5px;">
-                            Infraestructura soberana · Sin cobros por token · ROI garantizado en 5 meses.
-                        </td>
-                    </tr>
-                </table>
-            </td></tr>
+<!-- BLOQUE DE CIERRE / CTA MARKETINERO CORPORATIVO -->
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 25px; background: linear-gradient(135deg, #232324 0%, #1e1e1f 100%); border-radius: 12px; text-align: center; border-top: 4px solid var(--accent-orange); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);">
+    <tr><td style="padding: 32px 24px;">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td align="center" style="font-size: 18px; color: #ffffff; font-weight: 800; padding-bottom: 10px; letter-spacing: -0.3px;">
+                    ⚡ El futuro no se espera, se despliega en tiempo récord.
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="font-size: 13.5px; line-height: 1.6; color: #e2e8f0; padding-bottom: 14px;">
+                    No dejes tus activos tecnológicos empresariales en manos de improvisados ni en nubes públicas que exponen y vulneran tu empresa frente al mercado. Delega tu infraestructura en verdaderos expertos.
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="font-size: 13.5px; line-height: 1.6; color: #cbd5e1; padding-bottom: 24px;">
+                    No somos solo proveedores: <strong style="color: #ffffff;">somos tu growth partner tecnológico</strong>. Si puedes imaginarlo para tu negocio, nuestros ingenieros lo despliegan, lo blindan y lo ponen a facturar en la nube nativa antes de que tu competencia parpadee.
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <!-- Botón CTA de alto impacto (Contraste optimizado con color oscuro sobre fondo de acento) -->
+                    <a href="https://wa.me/593963521262" target="_blank" style="background-color: var(--accent-orange); color: #1e1e1f; padding: 15px 32px; border-radius: 10px; font-size: 14.5px; font-weight: 900; text-decoration: none; display: inline-block; box-shadow: 0 6px 20px rgba(247, 168, 79, 0.35); letter-spacing: 0.3px; transition: transform 0.2s ease;">
+                        🚀 Agenda Tu Consultoría Tecnológica Hoy
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="font-size: 12px; color: #94a3b8; font-weight: 600; padding-top: 18px; letter-spacing: 0.5px;">
+                    Infraestructura soberana · Sin cobros por token · ROI garantizado en 5 meses.
+                </td>
+            </tr>
         </table>
+    </td></tr>
+</table>
 
-        
-
-        <!-- FIRMA CON IMAGEN DE FONDO Y PERFIL -->
-        <div style="background-color: #0f172a; background-image: url('{% static '' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 25px; border-radius: 12px; border: 1px solid #334155; margin-top: 25px; box-shadow: inset 0 0 50px rgba(0,0,0,0.6);">
-            <p style="margin: 0 0 24px 0; text-align: justify; color: #d8dadd; line-height: 1.2; font-size: 10pt;font-style: italic;">
-                "En la era de la Inteligencia Artificial, el verdadero crecimiento exige una infraestructura accesible, escalable y, 
-                sobre todo, bajo su absoluto control. Quedamos a su entera disposición para agendar una consultoría estratégica y 
-                trazar juntos el camino hacia el siguiente nivel de su organización. Creemos firmemente en el poder de las tecnologías 
-                soberanas, privadas y reguladas; lo invitamos a dar el paso y liderar esta transformación con nosotros." 
-            </p>
-            <p style="margin: 0 0 24px 0; text-align: justify; color: #d8dadd; line-height: 1.2; font-size: 10pt;font-style: italic;">
-              Be Smart, Be a SmartQuail¡
-            </p>
-            <p style="margin: 0 0 15px 0; color: #cbd5e1; font-size: 13px;">Atentamente,</p>
+<!-- FIRMA CON IMAGEN DE FONDO Y PERFIL -->
+<div style="background-color: #232324; background-image: url('{% static '' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); margin-top: 25px; box-shadow: inset 0 0 50px rgba(0,0,0,0.6);">
+    <p style="margin: 0 0 24px 0; text-align: justify; color: #e2e8f0; line-height: 1.4; font-size: 10pt; font-style: italic;">
+        "En la era de la Inteligencia Artificial, el verdadero crecimiento exige una infraestructura accesible, escalable y, 
+        sobre todo, bajo su absoluto control. Quedamos a su entera disposición para agendar una consultoría estratégica y 
+        trazar juntos el camino hacia el siguiente nivel de su organización. Creemos firmemente en el poder de las tecnologías 
+        soberanas, privadas y reguladas; lo invitamos a dar el paso y liderar esta transformación con nosotros." 
+    </p>
+    <p style="margin: 0 0 20px 0; text-align: justify; color: var(--accent-orange); line-height: 1.2; font-size: 10pt; font-weight: bold; font-style: italic;">
+      Be Smart, Be a SmartQuail!
+    </p>
+    <p style="margin: 0 0 15px 0; color: #e2e8f0; font-size: 13px; font-weight: 600;">Atentamente,</p>
+    
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td width="80" valign="top" style="vertical-align: top; padding-right: 15px;">
+                <a href="https://ec.smartquail.io/cto" target="_blank" style="text-decoration: none;">
+                    <img src="{% static 'profile.jpeg' %}" alt="PhD(c).Santiago Silva" width="70" height="70" style="display: block; width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-orange); box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                </a>
+            </td>
             
-            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td width="80" valign="top" style="vertical-align: top; padding-right: 15px;">
-                        <a href="https://ec.smartquail.io/cto" target="_blank" style="text-decoration: none;">
-                            <img src="{% static 'profile.jpeg' %}" alt="PhD(c).Santiago Silva" width="70" height="70" style="display: block; width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #b5181a; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                        </a>
-                    </td>
-                    
-                    <td valign="middle" style="vertical-align: middle;">
-                        <p style="margin: 0; font-weight: 700; color: #ffffff; line-height: 1; font-size: 14.5px;">
-                            PhD(c). Santiago Silva<br>
-                            <span style="font-size: 12px; font-weight: 500; color: #cbd5e1; display: inline-block;">Jefe de Tecnologías & Fundador</span><br>
-                            <span style="font-size: 11.5px; font-weight: 400; color: #94a3b8;">SRE & AI Engineer</span><br>
-                            <span style="font-size: 11px; font-weight: 800; color: #ffffff; display: inline-block; margin-top: 4px; letter-spacing: 1px;">SMARTQUAIL TEAM</span><br>
-                            <span style="font-size: 11px; font-weight: 800; color: #ffffff; display: inline-block; margin-top: 4px; letter-spacing: 1px;">Quito, Ecuador</span>
-                        </p>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-
+            <td valign="middle" style="vertical-align: middle;">
+                <p style="margin: 0; font-weight: 700; color: #ffffff; line-height: 1.3; font-size: 14.5px;">
+                    PhD(c). Santiago Silva<br>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--accent-orange); display: inline-block;">Jefe de Tecnologías & Fundador</span><br>
+                    <span style="font-size: 11.5px; font-weight: 500; color: #cbd5e1;">SRE & AI Engineer</span><br>
+                    <span style="font-size: 11px; font-weight: 800; color: #ffffff; display: inline-block; margin-top: 4px; letter-spacing: 1px;">SMARTQUAIL TEAM</span><br>
+                    <span style="font-size: 11px; font-weight: 800; color: #cbd5e1; display: inline-block; margin-top: 2px; letter-spacing: 1px;">Quito, Ecuador</span>
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
     </div>
 </div>

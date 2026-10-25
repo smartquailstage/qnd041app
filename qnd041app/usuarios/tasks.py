@@ -99,11 +99,9 @@ def send_admin_batch_mailing_task_presentacion(self, user_ids):
     return f"Lote procesado: {success_count} de {total_users} correos enviados exitosamente."
 
 
-from django.utils.html import strip_tags
-#from django.core.mail.backends.smtp import EmailBackend
-import logging
 
-logger = logging.getLogger(__name__)
+
+
 
 
 from twilio.rest import Client

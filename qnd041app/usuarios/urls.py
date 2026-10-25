@@ -109,7 +109,7 @@ urlpatterns = [
     path('no-asistidas/', views.CitasNoAsistidasListView.as_view(), name='citas_no_asistidas'),
     path('pendientes/', views.CitasPendientesListView.as_view(), name='citas_pendientes'),
     path('<int:pk>/', views.CitaDetailView.as_view(), name='detalle'),
-
+    path('mail-preview/<int:user_id>/', views.preview_admin_mailing_email, name='mail_preview_user'),
 #OPENCLAW WEBHOOKS
 
    path('api/webhooks/openclaw/mailing_presentacion/', views.openclaw_mailing_webhook_presentacion, name='openclaw_mailing_webhook_presentacion'),
