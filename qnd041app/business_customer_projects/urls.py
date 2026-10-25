@@ -81,6 +81,10 @@ urlpatterns = [
         views.verify_contract_cloud_done,
         name='contract_cloud_verified'
     ),
+
+    path('calculadora-vc/', views.evaluar_startup_view, name='calculadora_vc'),
+    path('calculadora-vc/resultado/<int:pk>/', views.resultado_diagnostico_view, name='resultado_diagnostico'),
+    path('calculadora-vc/historial/', views.historial_diagnosticos_view, name='historial_diagnosticos'),
 ]
 
 

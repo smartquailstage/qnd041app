@@ -10,6 +10,7 @@ from django.forms import modelformset_factory, inlineformset_factory
 from django import forms
 from .models import BusinessSystemProject
 from saas_shop.models import Product
+from .models import StartupDiagnostic
 
 
 from saas_orders.models import SaaSOrder
@@ -272,4 +273,63 @@ class SupportTicketForm(forms.ModelForm):
                 attrs={'type': 'datetime-local'}
             ),
             'description': forms.Textarea(attrs={'rows': 4}),
+        }
+
+
+
+
+
+class StartupDiagnosticForm(forms.ModelForm):
+    class Meta:
+        model = StartupDiagnostic
+        fields = [
+            'empresa_nombre',
+            'email_corporativo',
+            'crecimiento_mom',
+            'mrr_actual',
+            'margen_bruto',
+            'ltv_cac_ratio',
+            'alojamiento_datos',
+            'meses_runway',
+            'equipo_tecnico_propio',
+        ]
+        widgets = {
+            'empresa_nombre': forms.TextInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'placeholder': 'Ej. SmartQuail Tech'
+            }),
+            'email_corporativo': forms.EmailInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'placeholder': 'ceo@tuempresa.com'
+            }),
+            'crecimiento_mom': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 15.5'
+            }),
+            'mrr_actual': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 10000.00'
+            }),
+            'margen_bruto': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 75.0'
+            }),
+            'ltv_cac_ratio': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'step': '0.1',
+                'placeholder': 'Ej. 3.5'
+            }),
+            'alojamiento_datos': forms.Select(attrs={
+                'class': 'form-select bg-dark text-white border-secondary font-monospace'
+            }),
+            'meses_runway': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'placeholder': 'Ej. 18'
+            }),
+            'equipo_tecnico_propio': forms.CheckboxInput(attrs={
+                'class': 'form-check-input bg-dark border-secondary'
+            }),
         }

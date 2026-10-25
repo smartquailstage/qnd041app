@@ -1018,3 +1018,60 @@ class SupportTicketDetailView(LoginRequiredMixin, DetailView):
             return redirect('ticket_detail', pk=ticket.pk)
 
         return HttpResponseForbidden()
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+from .forms import StartupDiagnosticForm
+
+def evaluar_startup_view(request):
+    """
+    Vista que muestra el formulario de la calculadora y procesa el envío del lead.
+    Accesible tanto para usuarios autenticados como invitados (público).
+    """
+    if request.method == 'POST':
+        form = StartupDiagnosticForm(request.POST)
+        if form.is_valid():
+            diagnostico = form.save(commit=False)
+            
+            # Si el usuario ha iniciado sesión, asociamos el diagnóstico a su cuenta
+            if request.user.is_authenticated:
+                diagnostico.user = request.user
+            
+            diagnostico.save()  # Esto activa automáticamente el método save() del modelo y el cálculo de KPIs
+            
+            # Redirige a la vista de resultados utilizando el ID (PK) del diagnóstico creado
+            return redirect('resultado_diagnostico', pk=diagnostico.pk)
+    else:
+        form = StartupDiagnosticForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'business_customer_projects/calculadora_form.html', context)
+
+
+def resultado_diagnostico_view(request, pk):
+    """
+    Muestra el reporte detallado con el Score de VC Readiness y las recomendaciones.
+    """
+    diagnostico = get_object_or_404(StartupDiagnostic, pk=pk)
+
+    context = {
+        'diagnostico': diagnostico,
+    }
+    return render(request, 'business_customer_projects/calculadora_resultado.html', context)
+
+
+@login_required
+def historial_diagnosticos_view(request):
+    """
+    Permite a un usuario autenticado ver el historial de auditorías que ha realizado su empresa.
+    """
+    diagnosticos = StartupDiagnostic.objects.filter(user=request.user).order_by('-fecha_creacion')
+
+    context = {
+        'diagnosticos': diagnosticos,
+    }
+    return render(request, 'business_customer_projects/historial_diagnosticos.html', context)

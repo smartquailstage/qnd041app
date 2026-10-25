@@ -1376,3 +1376,149 @@ class SupportTicket(models.Model):
 
     def __str__(self):
         return f"Ticket #{self.id} - {self.get_status_display()}"
+
+
+
+from django.db import models
+from django.conf import settings
+
+class StartupDiagnostic(models.Model):
+    """
+    Almacena las respuestas y el resultado de la auditoría de Venture Capital Readiness.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name="diagnosticos",
+        null=True, blank=True
+    )
+    empresa_nombre = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
+    email_corporativo = models.EmailField(verbose_name="Correo Corporativo")
+    
+    # ==========================================
+    # BLOQUE 1: TRACCIÓN Y CRECIMIENTO (Peso: 30%)
+    # ==========================================
+    crecimiento_mom = models.DecimalField(
+        max_digits=5, decimal_places=2, 
+        help_text="Crecimiento mensual promedio (%) ej: 15.50"
+    )
+    mrr_actual = models.DecimalField(
+        max_digits=12, decimal_places=2, 
+        help_text="Ingresos Recurrentes Mensuales en USD"
+    )
+
+    # ==========================================
+    # BLOQUE 2: ECONOMÍA DE UNIDADES (Peso: 25%)
+    # ==========================================
+    margen_bruto = models.DecimalField(
+        max_digits=5, decimal_places=2, 
+        help_text="Margen bruto porcentual ej: 75.00"
+    )
+    ltv_cac_ratio = models.DecimalField(
+        max_digits=5, decimal_places=2, 
+        help_text="Ratio LTV / CAC ej: 3.5"
+    )
+
+    # ==========================================
+    # BLOQUE 3: SOBERANÍA Y LOPDP (Peso: 25%)
+    # ==========================================
+    OPCIONES_DATOS = [
+        ('privado', 'Infraestructura Privada / Soberana local'),
+        ('mixto', 'Nube Pública Estándar (AWS, GCP, Azure)'),
+        ('terceros', 'SaaS Externos sin control local / Riesgo LOPDP'),
+    ]
+    alojamiento_datos = models.CharField(
+        max_length=20, choices=OPCIONES_DATOS, 
+        default='mixto', verbose_name="Gestión y Soberanía de Datos"
+    )
+
+    # ==========================================
+    # BLOQUE 4: RUNWAY Y EQUIPO (Peso: 20%)
+    # ==========================================
+    meses_runway = models.PositiveIntegerField(
+        help_text="Meses de supervivencia financiera sin inyección de capital"
+    )
+    equipo_tecnico_propio = models.BooleanField(
+        default=False, 
+        help_text="¿Cuenta con CTO o equipo de desarrollo interno?"
+    )
+
+    # ==========================================
+    # RESULTADOS CALCULADOS
+    # ==========================================
+    score_total = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, editable=False)
+    categoria_resultado = models.CharField(max_length=50, blank=True, editable=False)
+    recomendacion_ia = models.TextField(blank=True, editable=False)
+    
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.empresa_nombre} - Score: {self.score_total}% ({self.categoria_resultado})"
+
+    def save(self, *args, **kwargs):
+        self.calcular_readiness()
+        super().save(*args, **kwargs)
+
+    def calcular_readiness(self):
+        """
+        Algoritmo ponderado de evaluación VC Readiness (0 a 100 pts)
+        """
+        # 1. Puntaje Tracción (30%)
+        if self.crecimiento_mom >= 20:
+            p_traccion = 100
+        elif self.crecimiento_mom >= 10:
+            p_traccion = 75
+        elif self.crecimiento_mom >= 5:
+            p_traccion = 50
+        else:
+            p_traccion = 20
+
+        # 2. Puntaje Economía de Unidades (25%)
+        p_margen = 100 if self.margen_bruto >= 70 else (70 if self.margen_bruto >= 40 else 30)
+        p_ltv = 100 if self.ltv_cac_ratio >= 3.0 else (50 if self.ltv_cac_ratio >= 1.5 else 20)
+        p_economia = (p_margen * 0.6) + (p_ltv * 0.4)
+
+        # 3. Puntaje Soberanía y LOPDP (25%)
+        if self.alojamiento_datos == 'privado':
+            p_soberania = 100
+        elif self.alojamiento_datos == 'mixto':
+            p_soberania = 50
+        else:
+            p_soberania = 10
+
+        # 4. Puntaje Runway y Equipo (20%)
+        p_runway = 100 if self.meses_runway >= 18 else (70 if self.meses_runway >= 12 else (40 if self.meses_runway >= 6 else 10))
+        p_equipo = 100 if self.equipo_tecnico_propio else 40
+        p_operacion = (p_runway * 0.6) + (p_equipo * 0.4)
+
+        # --- CÁLCULO PONDERADO FINAL ---
+        total = (
+            (p_traccion * 0.30) +
+            (p_economia * 0.25) +
+            (p_soberania * 0.25) +
+            (p_operacion * 0.20)
+        )
+        self.score_total = round(total, 2)
+
+        # Categorización y Recomendación automática orientada a tu oferta tecnológica
+        if self.score_total >= 80:
+            self.categoria_resultado = "VC-Ready (Investment Grade)"
+            self.recomendacion_ia = (
+                "Tu startup muestra excelentes métricas financieras y tracción. "
+                "Estás listo para salir al mercado con fondos de inversión (Seed/Series A). "
+                "Asegúrate de mantener un riguroso cumplimiento de gobernanza."
+            )
+        elif self.score_total >= 50:
+            self.categoria_resultado = "Pre-Ready (En Maduración)"
+            self.recomendacion_ia = (
+                "Tu modelo tiene gran potencial, pero existen fricciones en economía de unidades "
+                "o en la gestión de infraestructura y soberanía de datos (riesgo LOPDP). "
+                "Te recomendamos blindar tus procesos y optimizar tu retención antes de levantar capital."
+            )
+        else:
+            self.categoria_resultado = "Early Stage / Bootstrapping"
+            self.recomendacion_ia = (
+                "Te encuentras en etapa de validación temprana. Enfócate en tracción inicial y "
+                "en desplegar una arquitectura tecnológica propia que elimine costos por token y "
+                "garantice control absoluto de tus datos para cumplir con la ley ecuatoriana."
+            )
