@@ -81,14 +81,22 @@ REDIS_HOST=os.environ.get('REDIS_HOST')
 REDIS_PORT=os.environ.get('REDIS_PORT')
 REDIS_DB =os.environ.get('REDIS_DB')
 
+import os
+
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
 
+# Límites de tiempo (Ajustados correctamente)
+CELERY_TASK_TIME_LIMIT = 60      # Forzar cierre a los 60 segundos si la tarea se cuelga
+CELERY_TASK_SOFT_TIME_LIMIT = 50 # Soft limit para manejar excepciones limpiamente antes
+
+# --- IMPORTANTE PARA CONTROLAR LA MEMORIA ---
+# Reinicia el proceso worker tras procesar 100 tareas (libera la RAM acumulada)
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 100
 
 from datetime import timedelta  # ✅ Correcto
 
