@@ -105,3 +105,6 @@ PyOpenSSL>=23.1.0
 # === Apps de Negocio Adicionales ===
 django-appointment
 django-scheduler
+
+#Vectorizador
+pgvector

@@ -54,11 +54,13 @@ def consultar_ollama_productos(pregunta_usuario):
     }
 
     try:
-        response = requests.post(url, data=json.dumps(payload), headers={"Content-Type": "application/json"}, timeout=30)
+        # Timeout aumentado a 90 segundos para dar margen al procesamiento del prompt inicial
+        response = requests.post(url, data=json.dumps(payload), headers={"Content-Type": "application/json"}, timeout=90)
         if response.status_code == 200:
             resultado = response.json()
             return resultado.get("message", {}).get("content", "No se pudo procesar la respuesta.")
         else:
             return f"Error al conectar con el servidor de Ollama (Código {response.status_code})."
     except requests.exceptions.RequestException as e:
+        print(f"DEBUG EXCEPTION OLLAMA: {e}")  # 👈 Imprime el error detallado en los logs de Django
         return f"Error de conexión con Ollama en el clúster: Detalle: {e}"
