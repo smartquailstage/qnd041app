@@ -59,31 +59,35 @@ def product_detail(request, id, slug):
                   })
 
 
+
 import json
+import traceback
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from .services import consultar_ollama_productos  # Asegúrate de importar tu servicio
+from .services import consultar_ollama_productos
 
 @login_required
 @require_POST
 def ai_assistant_chat_view(request):
     """
-    Vista que procesa la pregunta del usuario consultando de forma estricta 
-    la base de datos a través de Ollama para el producto seleccionado.
+    Vista protegida que procesa la petición de chat asegurando
+    siempre una respuesta estricta en formato JSON para el frontend.
     """
     try:
-        # Intentar parsear el cuerpo JSON de la petición
-        data = json.loads(request.body)
+        # Asegurar decodificación segura del cuerpo
+        if not request.body:
+            return JsonResponse({'status': 'error', 'error': 'Cuerpo de solicitud vacío.'}, status=400)
+            
+        data = json.loads(request.body.decode('utf-8'))
         pregunta = data.get('pregunta', '').strip()
         
         if not pregunta:
-            return JsonResponse({'error': 'La pregunta no puede estar vacía.'}, status=400)
+            return JsonResponse({'status': 'error', 'error': 'La pregunta no puede estar vacía.'}, status=400)
         
-        # Capturamos el ID del producto seleccionado (si viene en la petición)
         producto_id = data.get('producto_id', None)
         
-        # Llamamos al servicio de Ollama pasando la pregunta y el producto específico
+        # Llamada al servicio de Ollama
         respuesta_ia = consultar_ollama_productos(pregunta, producto_id=producto_id)
         
         return JsonResponse({
@@ -92,8 +96,9 @@ def ai_assistant_chat_view(request):
         }, status=200)
         
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Formato JSON inválido en la solicitud.'}, status=400)
+        return JsonResponse({'status': 'error', 'error': 'Formato JSON inválido.'}, status=400)
         
     except Exception as e:
-        # Captura cualquier otro error imprevisto del servicio o base de datos
-        return JsonResponse({'error': f'Error interno del servidor: {str(e)}'}, status=500)
+        # Imprime el rastro exacto en los logs del pod de Kubernetes para depuración
+        traceback.print_exc()
+        return JsonResponse({'status': 'error', 'error': f'Error interno del servidor: {str(e)}'}, status=500)

@@ -552,6 +552,8 @@
     const chatContainer = document.getElementById("chatContainer");
     const sendBtn = document.getElementById("sendBtn");
 
+    if (!chatForm) return;
+
     chatForm.addEventListener("submit", async function (e) {
       e.preventDefault();
       const text = userInput.value.trim();
@@ -603,20 +605,33 @@
 
         clearTimeout(timeoutId);
 
+        // LEEMOS LA RESPUESTA COMO TEXTO CRUDO PRIMERO PARA DEPURAR
+        const rawText = await response.text();
+        console.log("RESPUESTA CRUDA DEL SERVIDOR:", rawText);
+
         const loadingElem = document.getElementById("loadingMessage");
         if (loadingElem) loadingElem.remove();
 
-        // Si la respuesta no es OK (ej. 403, 500), intentar leer el error
-        const data = await response.json();
         const botMsgDiv = document.createElement("div");
         botMsgDiv.className = "chat-message bot font-monospace";
 
-        if (response.ok && data.respuesta) {
-          botMsgDiv.textContent = data.respuesta;
-        } else {
-          botMsgDiv.className = "chat-message bot font-monospace text-warning";
-          botMsgDiv.textContent = data.error || `Error del servidor (Código ${response.status})`;
+        try {
+          // Intentamos convertir el texto crudo a JSON manualmente
+          const data = JSON.parse(rawText);
+          
+          if (response.ok && data.status === 'success') {
+            botMsgDiv.textContent = data.respuesta;
+          } else {
+            botMsgDiv.className = "chat-message bot font-monospace text-warning";
+            botMsgDiv.textContent = data.error || `Error del servidor (Código ${response.status})`;
+          }
+        } catch (jsonErr) {
+          // Si falló el parseo, el servidor devolvió HTML (como un traceback de Django)
+          console.error("El servidor devolvió HTML/Texto en lugar de JSON:", rawText);
+          botMsgDiv.className = "chat-message bot font-monospace text-danger";
+          botMsgDiv.textContent = `Error interno en el servidor (Revisa los logs del pod de Django).`;
         }
+
         chatContainer.appendChild(botMsgDiv);
 
       } catch (error) {
