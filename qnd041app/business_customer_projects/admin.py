@@ -759,3 +759,101 @@ class MonthlySystemMetricsAdmin(ModelAdmin):
             ),
         }),
     )
+
+
+
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+from .models import StartupDiagnostic
+
+@admin.register(StartupDiagnostic)
+class StartupDiagnosticAdmin(ModelAdmin):
+    """
+    Configuración del panel de administración moderno con Django Unfold
+    para las auditorías de Venture Capital Readiness.
+    """
+    list_display = (
+        'get_empresa_o_usuario',
+        'score_total',
+        'categoria_resultado',
+        'crecimiento_mom',
+        'mrr_actual',
+        'fecha_creacion',
+    )
+    
+    list_filter = (
+        'categoria_resultado',
+        'alojamiento_datos',
+        'equipo_tecnico_propio',
+        'fecha_creacion',
+    )
+    
+    search_fields = (
+        'empresa_nombre',
+        'email_corporativo',
+        'user__username',
+        'user__email',
+    )
+    
+    readonly_fields = (
+        'score_total',
+        'categoria_resultado',
+        'recomendacion_ia',
+        'fecha_creacion',
+    )
+    
+    # Organización del formulario en pestañas o fieldsets visuales de Unfold
+    fieldsets = (
+        ("Información General", {
+            "fields": (
+                "user",
+                "empresa_nombre",
+                "email_corporativo",
+            )
+        }),
+        ("1. Tracción y Crecimiento (30%)", {
+            "fields": (
+                "crecimiento_mom",
+                "mrr_actual",
+            )
+        }),
+        ("2. Economía de Unidades (25%)", {
+            "fields": (
+                "margen_bruto",
+                "cac",
+                "ltv",
+                "churn_rate",
+                "ltv_cac_ratio",
+            )
+        }),
+        ("3. Soberanía y LOPDP (25%)", {
+            "fields": (
+                "alojamiento_datos",
+            )
+        }),
+        ("4. Runway y Equipo (20%)", {
+            "fields": (
+                "meses_runway",
+                "equipo_tecnico_propio",
+            )
+        }),
+        ("Resultados de la Auditoría (IA & Score)", {
+            "fields": (
+                "score_total",
+                "categoria_resultado",
+                "recomendacion_ia",
+                "fecha_creacion",
+            ),
+            "classes": ("collapse",),  # Opcional: sección colapsable por defecto
+        }),
+    )
+
+    def get_empresa_o_usuario(self, obj):
+        """Muestra el nombre de la empresa o el username si la empresa no está especificada."""
+        if obj.empresa_nombre:
+            return obj.empresa_nombre
+        if obj.user:
+            return f"Usuario: {obj.user.username}"
+        return "Anónimo"
+    
+    get_empresa_o_usuario.short_description = "Empresa / Lead"

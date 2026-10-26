@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+</style>
+
+<div class="container py-5" style="max-width: 900px;">
+  <div class="tech-card p-4 p-md-5">
+    
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+      <span class="tech-badge-orange mb-2 d-inline-block">// VC READINESS & LOPDP AUDIT</span>
+      <h2 class="text-white fw-bold mb-2">Auditor para Venture Capital</h2>
+      <p class="text-muted font-monospace small mb-0">
+        Evalúa el estado financiero, tracción y cumplimiento regulatorio de tu startup o empresa consolidada frente a estándares institucionales.
+      </p>
+    </div>
+
+    <!-- FORMULARIO -->
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+
+      <!-- INFORMACIÓN GENERAL -->
+
+
+      <!-- MÉTRICAS DE TRACCIÓN Y CRECIMIENTO -->
+      <div class="tech-card-subtle p-4 mb-4">
+        <h5 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+          // MÉTRICAS DE TRACCIÓN Y CRECIMIENTO
+        </h5>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Crecimiento Mensual (MoM %)</label>
+            {{ form.crecimiento_mom }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.crecimiento_mom.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">MRR Actual (USD)</label>
+            {{ form.mrr_actual }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.mrr_actual.help_text }}</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🔹 ECONOMÍA DE UNIDADES, GASTO TECH & SOBERANÍA DE DATOS -->
+      <div class="tech-card-subtle p-4 mb-4">
+        <h5 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+          // ECONOMÍA DE UNIDADES, GASTO TECH & SOBERANÍA
+        </h5>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Margen Bruto (%)</label>
+            {{ form.margen_bruto }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.margen_bruto.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">CAC (Costo de Adquisición USD)</label>
+            {{ form.cac }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.cac.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">LTV (Customer Lifetime Value USD)</label>
+            {{ form.ltv }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.ltv.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Churn Rate Mensual (%)</label>
+            {{ form.churn_rate }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.churn_rate.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Gasto Mensual en Tecnología (USD)</label>
+            {{ form.gasto_tec_mensual }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.gasto_tec_mensual.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Gestión y Soberanía de Datos</label>
+            {{ form.alojamiento_datos }}
+          </div>
+        </div>
+      </div>
+
+      <!-- OPERACIÓN Y GOBERNANZA -->
+      <div class="tech-card-subtle p-4 mb-4">
+        <h5 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+          // OPERACIÓN Y GOBERNANZA
+        </h5>
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-6">
+            <label class="form-label font-monospace text-muted small">Meses de Runway Financiero</label>
+            {{ form.meses_runway }}
+            <small class="form-text text-muted d-block mt-1" style="font-size: 11px;">{{ form.meses_runway.help_text }}</small>
+          </div>
+          <div class="col-12 col-md-6 pt-4">
+            <div class="form-check">
+              {{ form.equipo_tecnico_propio }}
+              <label class="form-check-label font-monospace text-white small" for="{{ form.equipo_tecnico_propio.id_for_label }}">
+                ¿Cuenta con CTO o equipo técnico interno propio?
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTÓN DE ENVÍO -->
+      <div class="text-end">
+        <button type="submit" class="btn fw-bold font-monospace px-4 py-2" style="background-color: var(--accent-orange); color: #1e1e1f; border: none;">
+          🚀 EJECUTAR AUDITORÍA DE READINESS
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

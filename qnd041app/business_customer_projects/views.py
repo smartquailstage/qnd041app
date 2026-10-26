@@ -1031,47 +1031,261 @@ def evaluar_startup_view(request):
     Accesible tanto para usuarios autenticados como invitados (público).
     """
     if request.method == 'POST':
+        # Pasamos request.POST y request.FILES (si aplica) al formulario
         form = StartupDiagnosticForm(request.POST)
         if form.is_valid():
             diagnostico = form.save(commit=False)
             
-            # Si el usuario ha iniciado sesión, asociamos el diagnóstico a su cuenta
+            # Si el usuario ha iniciado sesión, asociamos usuario, nombre y empresa
             if request.user.is_authenticated:
                 diagnostico.user = request.user
+                
+                # 🔹 Asignar nombre del usuario (ajusta el campo si usas first_name/last_name o username)
+                if hasattr(diagnostico, 'nombre_usuario') and not diagnostico.nombre_usuario:
+                    diagnostico.nombre_usuario = request.user.get_full_name() or request.user.username
+                
+                # 🔹 Asignar nombre de la empresa (si tu modelo de usuario/perfil tiene la empresa asociada)
+                # Ejemplo: si tienes un perfil relacionado (request.user.perfil.empresa) o un campo directo en User
+                if hasattr(diagnostico, 'nombre_empresa') and not diagnostico.nombre_empresa:
+                    # Intenta buscar la empresa desde una relación común (ajusta según tu estructura real)
+                    if hasattr(request.user, 'empresa'):
+                        diagnostico.nombre_empresa = request.user.empresa
+                    elif hasattr(request.user, 'profile') and hasattr(request.user.profile, 'company_name'):
+                        diagnostico.nombre_empresa = request.user.profile.company_name
             
-            diagnostico.save()  # Esto activa automáticamente el método save() del modelo y el cálculo de KPIs
+            diagnostico.save()  # Activa el save() del modelo y el cálculo de KPIs
             
-            # Redirige a la vista de resultados utilizando el ID (PK) del diagnóstico creado
-            return redirect('resultado_diagnostico', pk=diagnostico.pk)
+            return redirect('business_customer_projects:resultado_diagnostico', pk=diagnostico.pk)
     else:
-        form = StartupDiagnosticForm()
+        # Opcional: Si el usuario está logueado, puedes prellenar el formulario con sus datos de empresa
+        initial_data = {}
+        if request.user.is_authenticated:
+            if hasattr(request.user, 'get_full_name'):
+                initial_data['nombre_usuario'] = request.user.get_full_name() or request.user.username
+            if hasattr(request.user, 'empresa'):
+                initial_data['nombre_empresa'] = request.user.empresa
+                
+        form = StartupDiagnosticForm(initial=initial_data)
 
     context = {
         'form': form,
     }
-    return render(request, 'business_customer_projects/calculadora_form.html', context)
+    return render(request, 'calculadora_kapis/calculadora_vc.html', context)
 
 
+
+from decimal import Decimal
+import math
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+
+from decimal import Decimal
+import math
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+
+@login_required
 def resultado_diagnostico_view(request, pk):
     """
     Muestra el reporte detallado con el Score de VC Readiness y las recomendaciones.
+    Incluye lógica de colores dinámicos y alertas automatizadas para el template.
     """
-    diagnostico = get_object_or_404(StartupDiagnostic, pk=pk)
+    diagnostico = get_object_or_404(StartupDiagnostic, pk=pk, user=request.user)
+    
+    # 🔹 Obtener de manera segura el nombre del proyecto/empresa usando tu CustomUser
+    nombre_proyecto = diagnostico.empresa_nombre
+    
+    if not nombre_proyecto or nombre_proyecto == "No registrado":
+        # Respaldamos con el nombre de empresa registrado en el CustomUser del usuario
+        if hasattr(request.user, 'nombre_empresa') and request.user.nombre_empresa and request.user.nombre_empresa != "No registrado":
+            nombre_proyecto = request.user.nombre_empresa
+        else:
+            nombre_proyecto = f"Startup de {request.user.email}"
+
+    # 🔹 Definir color de insignia o barra de progreso según el score
+    if diagnostico.score_total >= 80:
+        badge_color = "success"  # Verde (VC-Ready)
+    elif diagnostico.score_total >= 50:
+        badge_color = "warning"  # Amarillo/Naranja (Pre-Ready)
+    else:
+        badge_color = "danger"   # Rojo (Early Stage)
+
+    # 🔹 Generar alertas o insights automáticos basados en las métricas ingresadas
+    alertas = []
+    
+    if diagnostico.meses_runway and diagnostico.meses_runway < 6:
+        alertas.append({
+            "tipo": "danger",
+            "mensaje": f"Runway crítico: Cuentas con solo {diagnostico.meses_runway} meses de supervivencia financiera."
+        })
+        
+    if diagnostico.churn_rate and diagnostico.churn_rate > 5.00:
+        alertas.append({
+            "tipo": "warning",
+            "mensaje": f"Atención al Churn Rate ({diagnostico.churn_rate}%): Tasas superiores al 5% mensual erosionan el valor a largo plazo (LTV)."
+        })
+        
+    if diagnostico.alojamiento_datos == 'terceros':
+        alertas.append({
+            "tipo": "info",
+            "mensaje": "Soberanía de datos: Depender de terceros sin control local puede representar un riesgo de cumplimiento con la LOPDP."
+        })
 
     context = {
         'diagnostico': diagnostico,
+        'nombre_proyecto': nombre_proyecto,
+        'badge_color': badge_color,
+        'alertas': alertas,
     }
-    return render(request, 'business_customer_projects/calculadora_resultado.html', context)
+    
+    return render(request, 'calculadora_kapis/calculadora_vc_resultados.html', context)
 
+from decimal import Decimal
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
 
-@login_required
-def historial_diagnosticos_view(request):
+from decimal import Decimal
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+from decimal import Decimal
+import math
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+
+from decimal import Decimal
+import math  # 🔹 Asegúrate de tener esta importación arriba del todo
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import StartupDiagnostic
+from decimal import Decimal
+import math
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import StartupDiagnostic
+
+class HistorialDiagnosticosView(LoginRequiredMixin, ListView):
     """
-    Permite a un usuario autenticado ver el historial de auditorías que ha realizado su empresa.
+    Vista basada en clases (ListView) para listar el historial de auditorías 
+    y calcular el plan de escalabilidad VC de cada registro.
     """
-    diagnosticos = StartupDiagnostic.objects.filter(user=request.user).order_by('-fecha_creacion')
+    model = StartupDiagnostic
+    template_name = 'calculadora_kapis/calculadora_historial.html'
+    context_object_name = 'diagnosticos'  # Nombre base que usaremos en el template
 
-    context = {
-        'diagnosticos': diagnosticos,
-    }
-    return render(request, 'business_customer_projects/historial_diagnosticos.html', context)
+    def get_queryset(self):
+        """Filtra los diagnósticos exclusivamente para el usuario autenticado y los ordena por fecha."""
+        return StartupDiagnostic.objects.filter(user=self.request.user).order_by('-fecha_creacion')
+
+    def get_context_data(self, **kwargs):
+        """Inyecta el roadmap de escalabilidad dinámicamente a cada objeto del historial."""
+        context = super().get_context_data(**kwargs)
+        
+        # Transformamos el queryset a una lista con diccionarios que contienen el diagnóstico y su roadmap
+        historial_con_roadmap = []
+        for diag in context['diagnosticos']:
+            roadmap = calcular_roadmap_escalabilidad(diag)
+            historial_con_roadmap.append({
+                'diagnostico': diag,
+                'roadmap': roadmap,
+            })
+            
+        # Reemplazamos el contexto para mantener total compatibilidad con tu plantilla actual
+        context['historial_con_roadmap'] = historial_con_roadmap
+        return context
+
+
+def calcular_roadmap_escalabilidad(diag):
+    """
+    Compara las métricas de la startup con los benchmarks globales de VC 
+    (Pre-Seed, Seed, Serie A, Serie B, Serie C) y calcula el GAP y proyección.
+    """
+    benchmarks = [
+        {
+            'etapa': 'Pre-Seed',
+            'mrr_min': Decimal('1000'),
+            'mom_min': Decimal('10.0'),
+            'ltv_cac_min': Decimal('1.5'),
+            'runway_min': 12,
+            'descripcion': 'Validación de PMF (Product-Market Fit) y tracción inicial.'
+        },
+        {
+            'etypa': 'Seed (Semilla)',
+            'etapa': 'Seed (Semilla)',
+            'mrr_min': Decimal('10000'),
+            'mom_min': Decimal('15.0'),
+            'ltv_cac_min': Decimal('3.0'),
+            'runway_min': 18,
+            'descripcion': 'Tracción comprobada, equipo técnico propio y modelo repetible.'
+        },
+        {
+            'etapa': 'Serie A',
+            'mrr_min': Decimal('50000'),
+            'mom_min': Decimal('20.0'),
+            'ltv_cac_min': Decimal('4.0'),
+            'runway_min': 24,
+            'descripcion': 'Escalamiento comercial masivo y expansión regional.'
+        },
+        {
+            'etapa': 'Serie B',
+            'mrr_min': Decimal('250000'),
+            'mom_min': Decimal('15.0'),
+            'ltv_cac_min': Decimal('4.5'),
+            'runway_min': 24,
+            'descripcion': 'Dominio de mercado y optimización de economía de unidades.'
+        },
+        {
+            'etapa': 'Serie C+',
+            'mrr_min': Decimal('1000000'),
+            'mom_min': Decimal('10.0'),
+            'ltv_cac_min': Decimal('5.0'),
+            'runway_min': 30,
+            'descripcion': 'Madurez institucional, expansión global y rentabilidad.'
+        },
+    ]
+
+    roadmap_resultados = []
+    
+    for b in benchmarks:
+        mrr_cumplido = diag.mrr_actual >= b['mrr_min']
+        mom_cumplido = diag.crecimiento_mom >= b['mom_min']
+        ltv_cumplido = diag.ltv_cac_ratio >= b['ltv_cac_min']
+        runway_cumplido = diag.meses_runway >= b['runway_min']
+
+        if mrr_cumplido and mom_cumplido and ltv_cumplido:
+            estado = "Completado / Listo"
+            color = "success"
+        elif diag.mrr_actual >= (b['mrr_min'] * Decimal('0.5')):
+            estado = "En Proceso (Cercano)"
+            color = "warning"
+        else:
+            estado = "Fase Futura / Brecha Alta"
+            color = "secondary"
+
+        meses_estimados = 0
+        if not mrr_cumplido and diag.mrr_actual and diag.mrr_actual > 0 and diag.crecimiento_mom and diag.crecimiento_mom > 0:
+            tasa = float(diag.crecimiento_mom) / 100.0
+            objetivo = float(b['mrr_min'])
+            actual = float(diag.mrr_actual)
+            if tasa > 0:
+                meses_estimados = math.ceil(math.log(objetivo / actual) / math.log(1 + tasa))
+
+        roadmap_resultados.append({
+            'etapa': b['etapa'],
+            'descripcion': b['descripcion'],
+            'mrr_objetivo': b['mrr_min'],
+            'mom_min': b['mom_min'],
+            'mrr_cumplido': mrr_cumplido,
+            'mom_cumplido': mom_cumplido,
+            'ltv_cumplido': ltv_cumplido,
+            'runway_cumplido': runway_cumplido,
+            'estado': estado,
+            'color': color,
+            'meses_estimados': meses_estimados if meses_estimados > 0 else "Alcanzado"
+        })
+
+    return roadmap_resultados

@@ -5,6 +5,8 @@ from . import views
 from .views import (
     SupportTicketListView,
     SupportTicketDetailView,
+    HistorialDiagnosticosView,
+    
 )
 
 app_name = 'business_customer_projects'
@@ -84,7 +86,7 @@ urlpatterns = [
 
     path('calculadora-vc/', views.evaluar_startup_view, name='calculadora_vc'),
     path('calculadora-vc/resultado/<int:pk>/', views.resultado_diagnostico_view, name='resultado_diagnostico'),
-    path('calculadora-vc/historial/', views.historial_diagnosticos_view, name='historial_diagnosticos'),
+    path('calculadora-vc/historial/', HistorialDiagnosticosView.as_view(), name='historial_diagnosticos'),
 ]
 
 

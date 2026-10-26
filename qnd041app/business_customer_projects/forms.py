@@ -279,6 +279,11 @@ class SupportTicketForm(forms.ModelForm):
 
 
 
+
+
+from django import forms
+from .models import StartupDiagnostic
+
 class StartupDiagnosticForm(forms.ModelForm):
     class Meta:
         model = StartupDiagnostic
@@ -288,48 +293,69 @@ class StartupDiagnosticForm(forms.ModelForm):
             'crecimiento_mom',
             'mrr_actual',
             'margen_bruto',
-            'ltv_cac_ratio',
+            'cac',
+            'ltv',
+            'churn_rate',
+            # 💡 Nota: 'ltv_cac_ratio' y 'roi_tecnologico' se autocalculan en el modelo
             'alojamiento_datos',
+            'gasto_tec_mensual',  # 🔹 Nuevo campo añadido
             'meses_runway',
             'equipo_tecnico_propio',
         ]
         widgets = {
             'empresa_nombre': forms.TextInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'placeholder': 'Ej. SmartQuail Tech'
             }),
             'email_corporativo': forms.EmailInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'placeholder': 'ceo@tuempresa.com'
             }),
             'crecimiento_mom': forms.NumberInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'step': '0.01',
                 'placeholder': 'Ej. 15.5'
             }),
             'mrr_actual': forms.NumberInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'step': '0.01',
                 'placeholder': 'Ej. 10000.00'
             }),
             'margen_bruto': forms.NumberInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'step': '0.01',
                 'placeholder': 'Ej. 75.0'
             }),
-            'ltv_cac_ratio': forms.NumberInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
-                'step': '0.1',
-                'placeholder': 'Ej. 3.5'
+            'cac': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 150.00'
+            }),
+            'ltv': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 750.00'
+            }),
+            'churn_rate': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 2.5'
             }),
             'alojamiento_datos': forms.Select(attrs={
-                'class': 'form-select bg-dark text-white border-secondary font-monospace'
+                'class': 'form-select bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace'
+            }),
+            # 🔹 Widget para el gasto mensual en tecnología
+            'gasto_tec_mensual': forms.NumberInput(attrs={
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
+                'step': '0.01',
+                'placeholder': 'Ej. 500.00'
             }),
             'meses_runway': forms.NumberInput(attrs={
-                'class': 'form-control bg-dark text-white border-secondary font-monospace',
+                'class': 'form-control bg-dark text-white border-secondary shadow-sm px-3 py-2 rounded-3 font-monospace',
                 'placeholder': 'Ej. 18'
             }),
             'equipo_tecnico_propio': forms.CheckboxInput(attrs={
-                'class': 'form-check-input bg-dark border-secondary'
+                'class': 'form-check-input bg-dark border-secondary shadow-sm mt-1',
+                'role': 'switch'  # Interruptor moderno
             }),
         }

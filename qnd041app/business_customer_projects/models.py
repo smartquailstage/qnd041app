@@ -1379,6 +1379,7 @@ class SupportTicket(models.Model):
 
 
 
+from decimal import Decimal
 from django.db import models
 from django.conf import settings
 
@@ -1392,8 +1393,15 @@ class StartupDiagnostic(models.Model):
         related_name="diagnosticos",
         null=True, blank=True
     )
-    empresa_nombre = models.CharField(max_length=255, verbose_name="Nombre de la Empresa")
-    email_corporativo = models.EmailField(verbose_name="Correo Corporativo")
+    empresa_nombre = models.CharField(
+        max_length=255, 
+        verbose_name="Nombre de la Empresa", 
+        blank=True, null=True
+    )
+    email_corporativo = models.EmailField(
+        verbose_name="Correo Corporativo", 
+        blank=True, null=True
+    )
     
     # ==========================================
     # BLOQUE 1: TRACCIÓN Y CRECIMIENTO (Peso: 30%)
@@ -1414,9 +1422,34 @@ class StartupDiagnostic(models.Model):
         max_digits=5, decimal_places=2, 
         help_text="Margen bruto porcentual ej: 75.00"
     )
+    
+    # Campos ingresados por el usuario
+    cac = models.DecimalField(
+        max_digits=10, decimal_places=2, 
+        null=True, blank=True,
+        verbose_name="CAC (Costo de Adquisición de Clientes)",
+        help_text="Costo promedio en USD para adquirir un cliente"
+    )
+    ltv = models.DecimalField(
+        max_digits=12, decimal_places=2, 
+        null=True, blank=True,
+        verbose_name="LTV (Customer Lifetime Value)",
+        help_text="Valor de vida del cliente en USD"
+    )
+    churn_rate = models.DecimalField(
+        max_digits=5, decimal_places=2, 
+        null=True, blank=True,
+        verbose_name="Churn Rate Mensual (%)",
+        help_text="Porcentaje de clientes que cancelan al mes ej: 2.5"
+    )
+    
+    # Ratio calculado automáticamente mediante CAC y LTV
     ltv_cac_ratio = models.DecimalField(
         max_digits=5, decimal_places=2, 
-        help_text="Ratio LTV / CAC ej: 3.5"
+        default=0.00,
+        blank=True, null=True,
+        verbose_name="Ratio LTV / CAC",
+        help_text="Calculado automáticamente (LTV / CAC)"
     )
 
     # ==========================================
@@ -1430,6 +1463,24 @@ class StartupDiagnostic(models.Model):
     alojamiento_datos = models.CharField(
         max_length=20, choices=OPCIONES_DATOS, 
         default='mixto', verbose_name="Gestión y Soberanía de Datos"
+    )
+
+    # Gasto Promedio Mensual en Tecnología (Infraestructura / Cloud / SaaS / Tokens)
+    gasto_tec_mensual = models.DecimalField(
+        max_digits=10, decimal_places=2,
+        default=Decimal('0.00'),
+        blank=True, null=True,
+        verbose_name="Gasto Promedio Mensual en Tecnología (USD)",
+        help_text="Inversión mensual en servidores, nubes públicas, licencias o consumo de APIs de IA"
+    )
+
+    # ROI Tecnológico (Eficiencia de conversión de gasto en tech vs MRR)
+    roi_tecnologico = models.DecimalField(
+        max_digits=8, decimal_places=2,
+        default=Decimal('0.00'),
+        editable=False,
+        verbose_name="ROI Tecnológico (%)",
+        help_text="Retorno calculado en base a la generación de MRR frente al gasto tecnológico"
     )
 
     # ==========================================
@@ -1453,9 +1504,25 @@ class StartupDiagnostic(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.empresa_nombre} - Score: {self.score_total}% ({self.categoria_resultado})"
+        nombre = self.empresa_nombre or (self.user.username if self.user else "Anónimo")
+        return f"{nombre} - Score: {self.score_total}% ({self.categoria_resultado})"
 
     def save(self, *args, **kwargs):
+        # 1. Autocálculo del ratio LTV / CAC
+        if self.ltv and self.cac and self.cac > Decimal('0.00'):
+            self.ltv_cac_ratio = round(self.ltv / self.cac, 2)
+        else:
+            self.ltv_cac_ratio = Decimal('0.00')
+
+        # 2. Autocálculo del ROI Tecnológico
+        if self.gasto_tec_mensual and self.gasto_tec_mensual > Decimal('0.00') and self.mrr_actual:
+            mrr_anual = self.mrr_actual * Decimal('12')
+            gasto_anual = self.gasto_tec_mensual * Decimal('12')
+            roi = ((mrr_anual - gasto_anual) / gasto_anual) * Decimal('100')
+            self.roi_tecnologico = round(roi, 2)
+        else:
+            self.roi_tecnologico = Decimal('0.00')
+            
         self.calcular_readiness()
         super().save(*args, **kwargs)
 
@@ -1500,7 +1567,7 @@ class StartupDiagnostic(models.Model):
         )
         self.score_total = round(total, 2)
 
-        # Categorización y Recomendación automática orientada a tu oferta tecnológica
+        # Categorización y Recomendación automática
         if self.score_total >= 80:
             self.categoria_resultado = "VC-Ready (Investment Grade)"
             self.recomendacion_ia = (
@@ -1522,3 +1589,31 @@ class StartupDiagnostic(models.Model):
                 "en desplegar una arquitectura tecnológica propia que elimine costos por token y "
                 "garantice control absoluto de tus datos para cumplir con la ley ecuatoriana."
             )
+
+    # ==========================================
+    # PROPIEDADES HELPER PARA BARRAS DE PROGRESO VC
+    # ==========================================
+    @property
+    def preseed_segments(self):
+        mrr = float(self.mrr_actual or 0)
+        return [mrr >= 250, mrr >= 500, mrr >= 750, mrr >= 1000]
+
+    @property
+    def seed_segments(self):
+        mrr = float(self.mrr_actual or 0)
+        return [mrr >= 2500, mrr >= 5000, mrr >= 7500, mrr >= 10000]
+
+    @property
+    def serie_a_segments(self):
+        mrr = float(self.mrr_actual or 0)
+        return [mrr >= 12500, mrr >= 25000, mrr >= 37500, mrr >= 50000]
+
+    @property
+    def serie_b_segments(self):
+        mrr = float(self.mrr_actual or 0)
+        return [mrr >= 62500, mrr >= 125000, mrr >= 187500, mrr >= 250000]
+
+    @property
+    def serie_c_segments(self):
+        mrr = float(self.mrr_actual or 0)
+        return [mrr >= 250000, mrr >= 500000, mrr >= 750000, mrr >= 1000000]

@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+  }
+
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: border-color 0.3s ease;
+  }
+
+  .tech-card-subtle:hover {
+    border-color: rgba(247, 168, 79, 0.4);
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* 🔹 Estilo para las barras de progreso segmentadas (cuadritos en ámbar) */
+  .segmented-progress {
+    display: flex;
+    gap: 3px;
+    height: 6px;
+    width: 100%;
+  }
+
+  .progress-segment {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+  }
+
+  .progress-segment.active {
+    background-color: var(--accent-orange);
+    box-shadow: 0 0 6px rgba(247, 168, 79, 0.4);
+  }
+</style>
+
+<div class="container py-5" style="max-width: 950px;">
+  <div class="tech-card p-4 p-md-5">
+
+    <!-- HEADER -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// AUDIT LOGS</span>
+        <h2 class="text-white fw-bold mb-0">Venture Capital benchmark insights</h2>
+      </div>
+      <div>
+        <a href="{% url 'business_customer_projects:calculadora_vc' %}" class="btn btn-sm fw-bold font-monospace px-3 py-2" style="background-color: var(--accent-orange); color: #1e1e1f; border: none;">
+          + NUEVA AUDITORÍA
+        </a>
+      </div>
+    </div>
+
+    <!-- LISTA DE HISTORIAL -->
+    <div class="d-flex flex-column gap-4">
+      {% for item in diagnosticos %}
+        <div class="tech-card-subtle p-4">
+          
+          <!-- INFO PRINCIPAL DE LA EMPRESA -->
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-3 pb-3 border-bottom border-secondary border-opacity-10">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <h5 class="text-white fw-bold mb-0">
+                    {% if item.empresa_nombre and item.empresa_nombre != "No registrado" %}
+                      {{ item.empresa_nombre }}
+                    {% elif item.user.nombre_empresa and item.user.nombre_empresa != "No registrado" %}
+                      {{ item.user.nombre_empresa }}
+                    {% elif item.user.email %}
+                      Startup de {{ item.user.email }}
+                    {% else %}
+                      Startup sin nombre
+                    {% endif %}
+                  </h5>
+                  <span class="tech-badge-orange ms-2">AUDIT #{{ item.pk }}</span>
+                </div>
+  
+                <div class="d-flex flex-wrap align-items-center gap-3 font-monospace text-muted small mb-2">
+                  <span>Categoría: <strong class="text-white">{{ item.categoria_resultado|default:"Pendiente" }}</strong></span>
+                  <span class="text-secondary">•</span>
+                  <span>MRR: <strong class="accent-text">${{ item.mrr_actual|default:"0.00" }}</strong></span>
+                  <span class="text-secondary">•</span>
+                  <span>Score: <strong class="accent-text">{{ item.score_total|default:"0.00" }}%</strong></span>
+                </div>
+  
+                <small class="font-monospace text-muted d-block opacity-75" style="font-size: 11px;">
+                  [TIMESTAMP] {{ item.fecha_creacion|date:"Y-m-d H:i" }} UTC
+                </small>
+              </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <div class="text-end font-monospace">
+                <span class="text-muted small">SCORE:</span><br>
+                <span class="fs-4 fw-bold accent-text">{{ item.score_total|default:"0.00" }}%</span>
+              </div>
+              
+              <a href="{% url 'business_customer_projects:resultado_diagnostico' item.pk %}" class="btn btn-sm btn-outline-secondary font-monospace px-3 py-2 text-white">
+                VER REPORTE →
+              </a>
+            </div>
+          </div>
+
+          <!-- 🚀 MINI ROADMAP DE ETAPAS VC CON CUADRITOS ÁMBAR -->
+          <div class="font-monospace">
+            <span class="text-muted small d-block mb-2">// PROGRESO HACIA ETAPAS VC (MRR BENCHMARKS)</span>
+            <div class="row g-2">
+              
+              <!-- Pre-Seed ($1K) -->
+              <div class="col">
+                <div class="p-2 rounded bg-black bg-opacity-25 border border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 10px;">
+                    <span class="text-white">PRE-SEED ($1K)</span>
+                    <span class="{% if item.mrr_actual >= 1000 %}accent-text{% else %}text-muted{% endif %}">
+                      {% if item.mrr_actual >= 1000 %}✔ OK{% else %}Falta{% endif %}
+                    </span>
+                  </div>
+                  <div class="segmented-progress">
+                    {% for active in item.preseed_segments %}
+                      <div class="progress-segment {% if active %}active{% endif %}"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Seed ($10K) -->
+              <div class="col">
+                <div class="p-2 rounded bg-black bg-opacity-25 border border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 10px;">
+                    <span class="text-white">SEED ($10K)</span>
+                    <span class="{% if item.mrr_actual >= 10000 %}accent-text{% else %}text-muted{% endif %}">
+                      {% if item.mrr_actual >= 10000 %}✔ OK{% else %}Falta{% endif %}
+                    </span>
+                  </div>
+                  <div class="segmented-progress">
+                    {% for active in item.seed_segments %}
+                      <div class="progress-segment {% if active %}active{% endif %}"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Serie A ($50K) -->
+              <div class="col">
+                <div class="p-2 rounded bg-black bg-opacity-25 border border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 10px;">
+                    <span class="text-white">SERIE A ($50K)</span>
+                    <span class="{% if item.mrr_actual >= 50000 %}accent-text{% else %}text-muted{% endif %}">
+                      {% if item.mrr_actual >= 50000 %}✔ OK{% else %}Falta{% endif %}
+                    </span>
+                  </div>
+                  <div class="segmented-progress">
+                    {% for active in item.serie_a_segments %}
+                      <div class="progress-segment {% if active %}active{% endif %}"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Serie B ($250K) -->
+              <div class="col">
+                <div class="p-2 rounded bg-black bg-opacity-25 border border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 10px;">
+                    <span class="text-white">SERIE B ($250K)</span>
+                    <span class="{% if item.mrr_actual >= 250000 %}accent-text{% else %}text-muted{% endif %}">
+                      {% if item.mrr_actual >= 250000 %}✔ OK{% else %}Falta{% endif %}
+                    </span>
+                  </div>
+                  <div class="segmented-progress">
+                    {% for active in item.serie_b_segments %}
+                      <div class="progress-segment {% if active %}active{% endif %}"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Serie C ($1M) -->
+              <div class="col">
+                <div class="p-2 rounded bg-black bg-opacity-25 border border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 10px;">
+                    <span class="text-white">SERIE C+ ($1M)</span>
+                    <span class="{% if item.mrr_actual >= 1000000 %}accent-text{% else %}text-muted{% endif %}">
+                      {% if item.mrr_actual >= 1000000 %}✔ OK{% else %}Falta{% endif %}
+                    </span>
+                  </div>
+                  <div class="segmented-progress">
+                    {% for active in item.serie_c_segments %}
+                      <div class="progress-segment {% if active %}active{% endif %}"></div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      {% empty %}
+        <div class="text-center py-5">
+          <p class="text-muted font-monospace mb-3">// No se registran auditorías previas en tu cuenta.</p>
+          <a href="{% url 'business_customer_projects:calculadora_vc' %}" class="btn fw-bold font-monospace px-4 py-2" style="background-color: var(--accent-orange); color: #1e1e1f; border: none;">
+            🚀 Realizar mi primer diagnóstico
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

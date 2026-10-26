@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+  }
+
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* 🔹 Estilo para las barras de progreso segmentadas (cuadritos en ámbar) */
+  .segmented-progress {
+    display: flex;
+    gap: 4px;
+    height: 8px;
+    width: 100%;
+  }
+
+  .progress-segment {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+  }
+
+  .progress-segment.active {
+    background-color: var(--accent-orange);
+    box-shadow: 0 0 8px rgba(247, 168, 79, 0.4);
+  }
+</style>
+
+<div class="container py-5" style="max-width: 900px;">
+  <div class="tech-card p-4 p-md-5">
+
+    <!-- HEADER RESULTADO -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+      <div>
+        <span class="tech-badge-orange mb-2 d-inline-block">// REPORTE DE DIAGNÓSTICO EJECUTIVO</span>
+        <h2 class="text-white fw-bold mb-0">
+          {% if nombre_proyecto %}
+            {{ nombre_proyecto }}
+          {% elif diagnostico.user.nombre_empresa and diagnostico.user.nombre_empresa != "No registrado" %}
+            {{ diagnostico.user.nombre_empresa }}
+          {% else %}
+            Startup de {{ diagnostico.user.email }}
+          {% endif %}
+        </h2>
+      </div>
+      <div class="text-md-end font-monospace">
+        <span class="text-muted small">STATUS:</span> <span class="accent-text">COMPLETED</span><br>
+        <small class="text-muted">{{ diagnostico.fecha_creacion|date:"Y-m-d H:i" }} UTC</small>
+      </div>
+    </div>
+
+    <!-- TARJETA DE SCORE PRINCIPAL -->
+    <div class="tech-card-subtle p-4 mb-4 text-center">
+      <p class="font-monospace text-muted small mb-1">// VENTURE CAPITAL READINESS SCORE</p>
+      <h1 class="display-3 fw-bold accent-text font-monospace mb-2">{{ diagnostico.score_total }}%</h1>
+      <span class="badge bg-dark border border-secondary text-white font-monospace px-3 py-2 fs-6">
+        {{ diagnostico.categoria_resultado }}
+      </span>
+    </div>
+
+    <!-- 🔹 ALERTAS AUTOMÁTICAS -->
+    {% if alertas %}
+      <div class="mb-4">
+        {% for alerta in alertas %}
+          <div class="alert alert-{{ alerta.tipo }} border-0 font-monospace small mb-2 shadow-sm" role="alert">
+            ⚠️ {{ alerta.mensaje }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- 🔹 BLOQUE 1: MÉTRICAS DE ECONOMÍA DE UNIDADES -->
+    <div class="row g-3 mb-3 font-monospace">
+      <div class="col-6 col-md-3">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">CAC</span>
+          <span class="text-white fw-bold fs-5">${{ diagnostico.cac|default:"0.00" }}</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">LTV</span>
+          <span class="text-white fw-bold fs-5">${{ diagnostico.ltv|default:"0.00" }}</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">CHURN RATE</span>
+          <span class="text-white fw-bold fs-5">{{ diagnostico.churn_rate|default:"0" }}%</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">LTV / CAC</span>
+          <span class="accent-text fw-bold fs-5">{{ diagnostico.ltv_cac_ratio|default:"0.0" }}x</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 BLOQUE 2: EFICIENCIA Y ROI TECNOLÓGICO -->
+    <div class="row g-3 mb-4 font-monospace">
+      <div class="col-12 col-md-6">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">GASTO MENSUAL TECH</span>
+          <span class="text-white fw-bold fs-5">${{ diagnostico.gasto_tec_mensual|default:"0.00" }}</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="tech-card-subtle p-3 h-100 text-center">
+          <span class="text-muted small d-block mb-1">ROI TECNOLÓGICO (AUTOCALCULADO)</span>
+          <span class="accent-text fw-bold fs-5">{{ diagnostico.roi_tecnologico|default:"0.00" }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🚀 BLOQUE 3: ROADMAP DE ESCALABILIDAD VC (Con barritas de cuadritos ámbar) -->
+    <div class="tech-card-subtle p-4 mb-4">
+      <h5 class="text-white font-monospace mb-3 d-flex align-items-center gap-2">
+        <ion-icon name="git-network-outline" class="accent-text"></ion-icon>
+        ROADMAP DE ESCALABILIDAD TECNOLÓGICA & ETAPAS VC
+      </h5>
+      <p class="text-muted font-monospace small mb-4">
+        Comparativa con los benchmarks institucionales globales para levantamiento de capital:
+      </p>
+
+      <div class="row g-3 font-monospace">
+        
+        <!-- Pre-Seed -->
+        <div class="col-12">
+          <div class="p-3 rounded-3" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white fw-bold">PRE-SEED <small class="text-muted fw-normal">(MRR Min: $1K)</small></span>
+              <span class="small {% if diagnostico.mrr_actual >= 1000 %}accent-text{% else %}text-muted{% endif %}">
+                {% if diagnostico.mrr_actual >= 1000 %}✔ Apto{% else %}En proceso{% endif %}
+              </span>
+            </div>
+            <div class="segmented-progress">
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 250 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 750 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 1000 %}active{% endif %}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seed -->
+        <div class="col-12">
+          <div class="p-3 rounded-3" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white fw-bold">SEED (SEMILLA) <small class="text-muted fw-normal">(MRR Min: $10K)</small></span>
+              <span class="small {% if diagnostico.mrr_actual >= 10000 %}accent-text{% else %}text-muted{% endif %}">
+                {% if diagnostico.mrr_actual >= 10000 %}✔ Apto{% else %}En proceso{% endif %}
+              </span>
+            </div>
+            <div class="segmented-progress">
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 2500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 5000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 7500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 10000 %}active{% endif %}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Serie A -->
+        <div class="col-12">
+          <div class="p-3 rounded-3" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white fw-bold">SERIE A <small class="text-muted fw-normal">(MRR Min: $50K)</small></span>
+              <span class="small {% if diagnostico.mrr_actual >= 50000 %}accent-text{% else %}text-muted{% endif %}">
+                {% if diagnostico.mrr_actual >= 50000 %}✔ Apto{% else %}En proceso{% endif %}
+              </span>
+            </div>
+            <div class="segmented-progress">
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 12500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 25000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 37500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 50000 %}active{% endif %}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Serie B -->
+        <div class="col-12">
+          <div class="p-3 rounded-3" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white fw-bold">SERIE B <small class="text-muted fw-normal">(MRR Min: $250K)</small></span>
+              <span class="small {% if diagnostico.mrr_actual >= 250000 %}accent-text{% else %}text-muted{% endif %}">
+                {% if diagnostico.mrr_actual >= 250000 %}✔ Apto{% else %}En proceso{% endif %}
+              </span>
+            </div>
+            <div class="segmented-progress">
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 62500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 125000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 187500 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 250000 %}active{% endif %}"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Serie C -->
+        <div class="col-12">
+          <div class="p-3 rounded-3" style="background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-white fw-bold">SERIE C+ <small class="text-muted fw-normal">(MRR Min: $1M)</small></span>
+              <span class="small {% if diagnostico.mrr_actual >= 1000000 %}accent-text{% else %}text-muted{% endif %}">
+                {% if diagnostico.mrr_actual >= 1000000 %}✔ Apto{% else %}En proceso{% endif %}
+              </span>
+            </div>
+            <div class="segmented-progress">
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 250000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 500000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 750000 %}active{% endif %}"></div>
+              <div class="progress-segment {% if diagnostico.mrr_actual >= 1000000 %}active{% endif %}"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RECOMENDACIÓN TÉCNICA / IA -->
+    <div class="tech-card-subtle p-4 mb-4">
+      <h5 class="text-white font-monospace mb-3 d-flex align-items-center gap-2">
+        <ion-icon name="terminal-outline" class="accent-text"></ion-icon>
+        DIAGNÓSTICO ESTRATÉGICO & CUMPLIMIENTO LOPDP
+      </h5>
+      <p class="text-light opacity-90 mb-0 font-monospace" style="line-height: 1.6; font-size: 14px;">
+        {{ diagnostico.recomendacion_ia }}
+      </p>
+    </div>
+
+    <!-- CALL TO ACTION COMERCIAL (SMARTQUAIL) -->
+<!-- CALL TO ACTION: BENCHMARK INSIGHTS DE VENTURE CAPITAL -->
+<div class="p-4 rounded-3 text-center" style="background: linear-gradient(135deg, #232324 0%, #1e1e1f 100%); border-top: 4px solid var(--accent-orange); border: 1px solid var(--border-color);">
+  <h4 class="text-white fw-bold mb-2">📊 Revisa tus VC Benchmark Insights para Levantar Capital</h4>
+  <p class="text-muted font-monospace small mb-3">
+    Compara la evolución de tus métricas clave frente a los estándares requeridos en rondas Pre-Seed, Seed y Serie A/B.
+  </p>
+  <a href="{% url 'business_customer_projects:historial_diagnosticos' %}" class="btn fw-bold font-monospace px-4 py-2" style="background-color: var(--accent-orange); color: #1e1e1f; border: none;">
+    🚀 VER MIS BENCHMARK INSIGHTS
+  </a>
+</div>
+
+  </div>
+</div>
+
+{% endblock %}
