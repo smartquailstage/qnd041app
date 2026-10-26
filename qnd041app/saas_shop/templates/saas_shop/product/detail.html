@@ -566,68 +566,73 @@
       userInput.value = "";
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      // 2. Mostrar indicador de carga persistente
+      // 2. Indicador de carga
       const loadingDiv = document.createElement("div");
       loadingDiv.className = "chat-message bot font-monospace opacity-50";
       loadingDiv.id = "loadingMessage";
-      loadingDiv.textContent = "Procesando respuesta en el clúster (esto puede tomar unos segundos)...";
+      loadingDiv.textContent = "Procesando respuesta en el clúster...";
       chatContainer.appendChild(loadingDiv);
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
       sendBtn.disabled = true;
 
-      // 3. Configurar un AbortController con un timeout de 90 segundos 
-      // para evitar que el navegador cancele la petición antes que Ollama.
+      // 3. Capturar CSRF token y Producto ID
+      const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+      const csrfToken = csrfInput ? csrfInput.value : '{{ csrf_token }}';
+      const productId = parseInt("{{ product.id|default:0 }}", 10);
+
+      const payload = { pregunta: text };
+      if (productId > 0) {
+        payload.producto_id = productId;
+      }
+
+      // Timeout de 90s con AbortController
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 segundos
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
 
       try {
         const response = await fetch("{% url 'saas_shop:ai_chat_view' %}", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}"
+            "X-CSRFToken": csrfToken
           },
-          body: JSON.stringify({ 
-            pregunta: text, 
-            producto_id: "{{ product.id }}" 
-          }),
-          signal: controller.signal // 👈 Vinculamos el control de tiempo
+          body: JSON.stringify(payload),
+          signal: controller.signal
         });
 
-        clearTimeout(timeoutId); // Limpiamos el timeout si respondió a tiempo
+        clearTimeout(timeoutId);
 
-        const data = await response.json();
-        
-        // Remover el mensaje de carga
         const loadingElem = document.getElementById("loadingMessage");
         if (loadingElem) loadingElem.remove();
 
+        // Si la respuesta no es OK (ej. 403, 500), intentar leer el error
+        const data = await response.json();
         const botMsgDiv = document.createElement("div");
         botMsgDiv.className = "chat-message bot font-monospace";
-        
+
         if (response.ok && data.respuesta) {
           botMsgDiv.textContent = data.respuesta;
         } else {
-          botMsgDiv.textContent = data.error || "Ocurrió un error al procesar la respuesta.";
+          botMsgDiv.className = "chat-message bot font-monospace text-warning";
+          botMsgDiv.textContent = data.error || `Error del servidor (Código ${response.status})`;
         }
-        
         chatContainer.appendChild(botMsgDiv);
 
       } catch (error) {
         clearTimeout(timeoutId);
-        
+        console.error("Error exacto en JS Fetch:", error);
+
         const loadingElem = document.getElementById("loadingMessage");
         if (loadingElem) loadingElem.remove();
 
         const errorDiv = document.createElement("div");
         errorDiv.className = "chat-message bot font-monospace text-danger";
         
-        // Validar si el error fue por timeout del navegador
         if (error.name === 'AbortError') {
-          errorDiv.textContent = "El asistente tardó demasiado en responder (Timeout del navegador).";
+          errorDiv.textContent = "Tiempo de espera agotado (Timeout).";
         } else {
-          errorDiv.textContent = "Error de conexión con el servidor.";
+          errorDiv.textContent = "Error de conexión con el servidor. Revisa F12 / Console.";
         }
         
         chatContainer.appendChild(errorDiv);
