@@ -16,7 +16,7 @@ python3 manage.py createsuperuser --email $SUPERUSER_EMAIL --noinput || true
 
 # 3. Recolectar archivos estáticos (comentado si prefieres hacerlo en el build, o descoméntalo si es necesario)
 #echo "Recolectando archivos estáticos..."
-python3 manage.py collectstatic --noinput --settings=$NODE_NAME.settings.pro
+#python3 manage.py collectstatic --noinput --settings=$NODE_NAME.settings.pro
 
 # 4. Iniciar uWSGI limpiamente usando solo el archivo .ini
 echo "Iniciando uWSGI..."

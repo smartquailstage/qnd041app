@@ -1,5 +1,5 @@
-import requests
 import json
+import requests
 from .models import Product
 
 def consultar_ollama_productos(pregunta_usuario):
@@ -38,18 +38,18 @@ def consultar_ollama_productos(pregunta_usuario):
         "4. Mantén un tono profesional, técnico y orientado a negocios y tecnología cloud."
     )
 
-    # 3. Construir el payload para la API de Ollama (usando un modelo local como llama3, mistral o qwen)
-    url = "http://localhost:11434/api/chat"
+    # 3. Construir el payload y apuntar al servicio interno de Kubernetes en ai-models
+    url = "http://ollama100-service.ai-models.svc.cluster.local:11434/api/chat"
     
     payload = {
-        "model": "llama3",  # O el modelo que tengas descargado en tu Ollama local (ej: mistral, phi3)
+        "model": "qwen2.5:0.5b",
         "messages": [
             {"role": "system", "content": f"{system_prompt}\n\n{contexto_productos}"},
             {"role": "user", "content": pregunta_usuario}
         ],
         "stream": False,
         "options": {
-            "temperature": 0.1  # Temperatura baja para evitar alucinaciones y obligarlo a ceñirse a los datos
+            "temperature": 0.1
         }
     }
 
@@ -61,4 +61,4 @@ def consultar_ollama_productos(pregunta_usuario):
         else:
             return f"Error al conectar con el servidor de Ollama (Código {response.status_code})."
     except requests.exceptions.RequestException as e:
-        return f"Error de conexión con Ollama: Asegúrate de que el servicio esté corriendo localmente. Detalle: {e}"
+        return f"Error de conexión con Ollama en el clúster: Detalle: {e}"
