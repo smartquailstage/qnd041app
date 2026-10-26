@@ -217,7 +217,8 @@ result_serializer = 'json'  # Esto reemplaza 'CELERY_RESULT_SERIALIZER'
 #broker_connection_retry_on_startup = True
 
 
-
+OLLAMA_HOST=os.getenv("OLLAMA_HOST")
+OLLAMA_MODEL=os.getenv("OLLAMA_MODEL")
 
 
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
