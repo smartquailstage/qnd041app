@@ -70,7 +70,7 @@ from .services import consultar_ollama_productos  # Asegúrate de importar tu se
 def ai_assistant_chat_view(request):
     """
     Vista que procesa la pregunta del usuario consultando de forma estricta 
-    la base de datos a través de Ollama.
+    la base de datos a través de Ollama para el producto seleccionado.
     """
     try:
         # Intentar parsear el cuerpo JSON de la petición
@@ -80,8 +80,11 @@ def ai_assistant_chat_view(request):
         if not pregunta:
             return JsonResponse({'error': 'La pregunta no puede estar vacía.'}, status=400)
         
-        # Llamamos al servicio de Ollama con el contexto de la base de datos
-        respuesta_ia = consultar_ollama_productos(pregunta)
+        # Capturamos el ID del producto seleccionado (si viene en la petición)
+        producto_id = data.get('producto_id', None)
+        
+        # Llamamos al servicio de Ollama pasando la pregunta y el producto específico
+        respuesta_ia = consultar_ollama_productos(pregunta, producto_id=producto_id)
         
         return JsonResponse({
             'status': 'success',

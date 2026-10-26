@@ -2,15 +2,23 @@ import json
 import requests
 from .models import Product
 
-def consultar_ollama_productos(pregunta_usuario):
+def consultar_ollama_productos(pregunta_usuario, producto_id=None):
     """
-    Extrae la información de la base de datos de productos y la inyecta 
-    en un prompt estricto para que Ollama responda exclusivamente con base en esos datos.
+    Extrae la información únicamente del producto seleccionado (o un subconjunto seguro)
+    e inyecta un prompt estricto para que Ollama responda sin desbordar el contexto ni generar timeouts.
     """
-    # 1. Extraer todos los productos y sus características clave de la base de datos
-    productos = Product.objects.select_related('category').filter(available=True)
-    
-    contexto_productos = "BASE DE DATOS DE PRODUCTOS Y SERVICIOS TECNOLÓGICOS (SmartQuail):\n"
+    # 1. Filtrar estrictamente por el producto seleccionado si viene en la petición,
+    # o limitar a un grupo seguro para evitar saturar el prompt si no hay ID.
+    if producto_id:
+        productos = Product.objects.select_related('category').filter(pk=producto_id, available=True)
+    else:
+        # Fallback seguro: tomar solo los primeros o dejar vacío si se requiere selección explícita
+        productos = Product.objects.select_related('category').filter(available=True)[:5]
+
+    if not productos.exists():
+        return "Lo siento, no se encontró el producto o servicio especificado en la base de datos."
+
+    contexto_productos = "INFORMACIÓN DEL PRODUCTO / SERVICIO TECNOLÓGICO (SmartQuail):\n"
     for p in productos:
         categoria = p.category.name if p.category else "Sin categoría"
         tamano = p.category.get_tamano_empresa_display() if p.category else "N/A"
@@ -26,19 +34,19 @@ def consultar_ollama_productos(pregunta_usuario):
             f"Descripción: {p.description}\n"
         )
 
-    # 2. Definir el System Prompt estricto (Restricción dura)
+    # 2. Definir el System Prompt estricto
     system_prompt = (
         "Eres un asistente de IA corporativo y estricto para SmartQuail, Inc. "
-        "Tu única fuente de verdad es la 'BASE DE DATOS DE PRODUCTOS Y SERVICIOS TECNOLÓGicos' provista a continuación. "
+        "Tu única fuente de verdad es la 'INFORMACIÓN DEL PRODUCTO' provista a continuación. "
         "REGLAS ESTRICTAS:\n"
-        "1. Responde ÚNICAMENTE basándote en la información de los productos listados abajo.\n"
+        "1. Responde ÚNICAMENTE basándote en la información del producto listado abajo.\n"
         "2. Si la respuesta no se encuentra explícitamente en los datos provistos, debes responder exactamente: "
-        "'Lo siento, no dispongo de información sobre ese producto o característica en nuestra base de datos actual.'\n"
-        "3. No inventes precios, especificaciones técnicas, nombres de software ni características que no estén escritas en el contexto.\n"
+        "'Lo siento, no dispongo de información sobre esa característica específica en este producto.'\n"
+        "3. No inventes precios, especificaciones técnicas ni características que no estén escritas en el contexto.\n"
         "4. Mantén un tono profesional, técnico y orientado a negocios y tecnología cloud."
     )
 
-    # 3. Construir el payload y apuntar al servicio interno de Kubernetes en ai-models
+    # 3. Construir el payload hacia el servicio interno en Kubernetes
     url = "http://ollama100-service.ai-models.svc.cluster.local:11434/api/chat"
     
     payload = {
@@ -54,13 +62,12 @@ def consultar_ollama_productos(pregunta_usuario):
     }
 
     try:
-        # Timeout aumentado a 90 segundos para dar margen al procesamiento del prompt inicial
-        response = requests.post(url, data=json.dumps(payload), headers={"Content-Type": "application/json"}, timeout=90)
+        response = requests.post(url, data=json.dumps(payload), headers={"Content-Type": "application/json"}, timeout=30)
         if response.status_code == 200:
             resultado = response.json()
             return resultado.get("message", {}).get("content", "No se pudo procesar la respuesta.")
         else:
             return f"Error al conectar con el servidor de Ollama (Código {response.status_code})."
     except requests.exceptions.RequestException as e:
-        print(f"DEBUG EXCEPTION OLLAMA: {e}")  # 👈 Imprime el error detallado en los logs de Django
+        print(f"DEBUG EXCEPTION OLLAMA: {e}")
         return f"Error de conexión con Ollama en el clúster: Detalle: {e}"
