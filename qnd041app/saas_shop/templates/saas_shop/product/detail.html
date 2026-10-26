@@ -544,6 +544,7 @@
 </div>
 
 <!-- LÓGICA DE JAVASCRIPT PARA EL CHAT INTERACTIVO -->
+<!-- LÓGICA DE JAVASCRIPT PARA EL CHAT INTERACTIVO -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const chatForm = document.getElementById("aiChatForm");
@@ -580,7 +581,11 @@
             "Content-Type": "application/json",
             "X-CSRFToken": "{{ csrf_token }}"
           },
-          body: JSON.stringify({ pregunta: text })
+          // 👈 AQUÍ ENVIAMOS EL ID DEL PRODUCTO ACTUAL DE FORMA QUIRÚRGICA
+          body: JSON.stringify({ 
+            pregunta: text, 
+            producto_id: "{{ product.id }}" 
+          })
         });
 
         const data = await response.json();

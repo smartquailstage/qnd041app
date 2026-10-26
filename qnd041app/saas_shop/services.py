@@ -50,16 +50,17 @@ def consultar_ollama_productos(pregunta_usuario, producto_id=None):
     url = "http://ollama100-service.ai-models.svc.cluster.local:11434/api/chat"
     
     payload = {
-        "model": "qwen2.5:0.5b",
-        "messages": [
-            {"role": "system", "content": f"{system_prompt}\n\n{contexto_productos}"},
-            {"role": "user", "content": pregunta_usuario}
-        ],
-        "stream": False,
-        "options": {
-            "temperature": 0.1
+            "model": "qwen2.5:0.5b",
+            "messages": [
+                {"role": "system", "content": f"{system_prompt}\n\n{contexto_productos}"},
+                {"role": "user", "content": pregunta_usuario}
+            ],
+            "stream": False,
+            "options": {
+                "temperature": 0.1,
+                "num_ctx": 2048  # 👈 Limita estrictamente la ventana de contexto a 2048 tokens
+            }
         }
-    }
 
     try:
         response = requests.post(url, data=json.dumps(payload), headers={"Content-Type": "application/json"}, timeout=30)
