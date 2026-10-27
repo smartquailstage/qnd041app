@@ -271,7 +271,7 @@ INSTALLED_APPS = [
     #"sbacart",
     #"sbashop",
     #"sbaorders",
-
+    "customer_managemen",
     "services_cart",
     "services_coupons",
     "services_payment",
