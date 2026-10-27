@@ -264,6 +264,8 @@ INSTALLED_APPS = [
 
     #'mailing',
 
+    "customer_managemen",
+
     #SmartBusinessTechonologies
     "sbtcart",
     "sbtshop",

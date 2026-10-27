@@ -152,6 +152,7 @@ urlpatterns = [
 
     path('api/', include('social_media_AI.urls')),
     path('crm/', include('customer_managemen.urls')),
+   
 
     # Wagtail
     re_path(r'^businessmedia/', include(wagtailadmin_urls), name='wagtail'),
