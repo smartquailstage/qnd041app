@@ -7,11 +7,6 @@ from django.urls import path
 from . import views
 from .views import ProfileDetailView
 
-urlpatterns = [
-    # otras rutas...
-    
-]
-
 
 
 app_name = 'usuarios'

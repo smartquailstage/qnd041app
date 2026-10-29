@@ -133,9 +133,6 @@ class WebhookWhatsAppMessageAPIView(APIView):
 
 
 
-
-
-
 class WebhookFacebookMessageAPIView(APIView):
     """
     Endpoint para recibir y almacenar mensajes y estados de temperatura desde n8n (Facebook Messenger).
