@@ -4,7 +4,7 @@ from .models import Conversation, WhatsAppConversation, FacebookConversation
 
 class ConversationViewSet(ModelViewSet):
     model = Conversation
-    menu_label = "Conversaciones DM"
+    menu_label = "Instagram DM"
     icon = "comment"
     menu_order = 200
     add_to_admin_menu = False
@@ -36,8 +36,8 @@ class ConversationViewSet(ModelViewSet):
 
 class WhatsAppConversationViewSet(ModelViewSet):
     model = WhatsAppConversation
-    menu_label = "Chats WhatsApp"
-    icon = "phone"
+    menu_label = "WhatsApp DM"
+    icon = "comment"
     menu_order = 201
     add_to_admin_menu = False
     url_prefix = "a_whatsapp_conversation"
@@ -67,8 +67,8 @@ class WhatsAppConversationViewSet(ModelViewSet):
 
 class FacebookConversationViewSet(ModelViewSet):
     model = FacebookConversation
-    menu_label = "Chats Facebook"
-    icon = "group"
+    menu_label = "Facebook DM"
+    icon = "comment"
     menu_order = 202
     add_to_admin_menu = False
     url_prefix = "a_facebook_conversation"
@@ -97,7 +97,7 @@ class FacebookConversationViewSet(ModelViewSet):
 
 
 class OmnichannelGroup(ViewSetGroup):
-    menu_label = "Gestión de Chats"
+    menu_label = "Social Leads"
     icon = "comment"
     menu_order = 200
     items = (
