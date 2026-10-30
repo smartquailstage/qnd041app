@@ -154,21 +154,37 @@
                         <div class="split-image-wrapper"
                              style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
                           <!-- Overlay alineado en la mitad vertical (align-items-center) y a la izquierda (justify-content-start text-start) -->
-                          <div class="split-image-overlay d-flex align-items-center justify-content-start p-4 text-start">
+                         
+                          
+                          <div class="split-image-overlay d-flex flex-column align-items-start justify-content-center p-4 text-start">
+
                             <div style="max-width: 90%;">
-                              <span class="tech-badge-orange mb-2 d-inline-block">// BUSINESS ANALYTICS & BI Envelopment</span>
                               
+                              <span class="tech-badge-orange mb-3 d-inline-block">// Motor transaccional analítico y financiero</span>
+                          
+                              <!-- LOGO DEL PRODUCTO SEGÚN LA CATEGORÍA (JUSTO DEBAJO) -->
+                              <div>
+                                {% if product.category.slug == 'business-analytics' %}
+                                  <img src="{% static 'img/smartbusinessanalytics.png' %}" alt="Analytics" style="max-width: 320px;" class="mb-3 d-block">
+                                {% elif product.category.slug == 'business-media' %}
+                                  <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Media" style="max-width: 220px;" class="mb-3 d-block">
+                                {% elif product.category.slug == 'business-law' %}
+                                  <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Law" style="max-width: 220px;" class="mb-3 d-block">
+                                {% endif %}
+                              </div>
+                          
                               <!-- NOMBRE DEL PRODUCTO DESTACADO EN GRANDE -->
                               <h1 class="text-white fw-bold display-6 mb-2 text-uppercase tracking-tight">
                                 {{ product.name }}
                               </h1>
-                      
+                          
                               <!-- SUBTÍTULO TÉCNICO EN LA MITAD DE LA IMAGEN -->
                               <p class="font-monospace small mb-0 accent-text" style="letter-spacing: 0.05em; font-size: 0.85rem;">
-                                The smartest Growth Financial Technologies partner.
+                                Somos tu growth partner tecnologico contable & financiero
                               </p>
                             </div>
                           </div>
+
                         </div>
                       </div>
 
@@ -237,13 +253,13 @@
                             </div>
                             {% endif %}
 
-                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+
+
                             <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
                               <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
                                 <span class="text-muted">// HORAS PARA DESPLIEGUE:</span>
                                 <span class="text-white">
-                                  Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> | 
-                                  Impl: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                  Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> 
                                 </span>
                               </div>
                               <div class="d-flex justify-content-between align-items-center">
@@ -251,6 +267,88 @@
                                 <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Dedicada" }}</span>
                               </div>
                             </div>
+
+                            {% if product.category.slug == 'business-analytics' %}
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+                              <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
+                                <span class="text-muted">// PROCESOS BASE:</span>
+                                <span class="text-white">
+                                  Outsourcing contable:
+                                  <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                </span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">INGRESOS & EGRESOS</span>
+                                <span class="text-success fw-bold text-uppercase">transaccional</span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">ACTIVOS & PASIVOS</span>
+                                <span class="text-success fw-bold text-uppercase">transaccional</span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">ESTADO DE RESULTADOS</span>
+                                <span class="text-success fw-bold text-uppercase">transaccional</span>
+                              </div>
+                              
+                            </div>
+                            {% endif %}
+
+                            {% if product.is_automatitation %}
+
+                            {% if product.category.slug == 'business-analytics' %}
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+   
+
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">BALANCES/KPIS FINANCIERAS</span>
+                                <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+                              </div>
+                              
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">FLUJO DE EFECTIVO & PATRIMONIO</span>
+                                <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">NOTAS A LOS EEFF</span>
+                                <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                              </div>
+                            </div>
+                            
+                            {% endif %}
+                            {% endif %}
+
+                            {% if product.is_intelligent %}
+
+                            {% if product.category.slug == 'business-analytics' %}
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+
+
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">PREDICCIÓN DE MERCADO</span>
+                                <span class="text-success fw-bold text-uppercase">Agéntico / IA</span>
+                              </div>
+
+                              <!-- PROCESOS AGÉNTICOS & TIME SERIES -->
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">FORECASTING FINANCIERO (TimesFM)</span>
+                                <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">ANÁLISIS PREDICTIVO DE FLUJO DE CAJA</span>
+                                <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                              </div>
+                              
+
+                            </div>
+                            
+                            {% endif %}
+                            {% endif %}
+
+                  
+
 
                           </div>
 

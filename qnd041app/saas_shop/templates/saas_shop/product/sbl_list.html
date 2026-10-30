@@ -155,37 +155,54 @@
                 <div class="carousel-inner">
                   {% for product in c.products.all %}
                   <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <a href="{{ product.get_absolute_url|default:'#' }}" class="text-decoration-none text-white d-block">
-                      
-                      <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE) -->
+                    <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
+  
+                      <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE TÉCNICO) -->
                       <div class="row g-0">
-                        
-                        <!-- COLUMNA IZQUIERDA: IMAGEN DEL APLICATIVO -->
+  
+                        <!-- COLUMNA IZQUIERDA: VISUALIZACIÓN ANALÍTICA -->
                         <div class="col-12 col-lg-6">
                           <div class="split-image-wrapper"
                                style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
-                            <!-- Overlay centrado verticalmente en la mitad (align-items-center) y alineado a la izquierda -->
-                            <div class="split-image-overlay d-flex align-items-center justify-content-start p-4 text-start">
+                            <!-- Overlay alineado en la mitad vertical (align-items-center) y a la izquierda (justify-content-start text-start) -->
+                           
+                            
+                            <div class="split-image-overlay d-flex flex-column align-items-start justify-content-center p-4 text-start">
+  
                               <div style="max-width: 90%;">
-                                <span class="tech-badge-orange mb-2 d-inline-block">// COMPLIANCE & GESTIÓN REGULATORIA</span>
                                 
-                                <!-- NOMBRE DEL PRODUCTO EN GRANDE -->
+                                <span class="tech-badge-orange mb-3 d-inline-block">// Motor transaccional legal  y administrativo</span>
+                            
+                                <!-- LOGO DEL PRODUCTO SEGÚN LA CATEGORÍA (JUSTO DEBAJO) -->
+                                <div>
+                                  {% if product.category.slug == 'business-analytics' %}
+                                    <img src="{% static 'img/smartbusinessanalytics.png' %}" alt="Analytics" style="max-width: 320px;" class="mb-3 d-block">
+                                  {% elif product.category.slug == 'business-media' %}
+                                    <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Media" style="max-width: 320px;" class="mb-3 d-block">
+                                  {% elif product.category.slug == 'business-law' %}
+                                    <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Law" style="max-width: 320px;" class="mb-3 d-block">
+                                  {% endif %}
+                                </div>
+                            
+                                <!-- NOMBRE DEL PRODUCTO DESTACADO EN GRANDE -->
                                 <h1 class="text-white fw-bold display-6 mb-2 text-uppercase tracking-tight">
                                   {{ product.name }}
                                 </h1>
-                        
-                                <!-- SUBTÍTULO TÉCNICO -->
+                            
+                                <!-- SUBTÍTULO TÉCNICO EN LA MITAD DE LA IMAGEN -->
                                 <p class="font-monospace small mb-0 accent-text" style="letter-spacing: 0.05em; font-size: 0.85rem;">
-                                  The smartest Growth Financial Technologies partner.
+                                  Somos tu growth partner legal & administrativo
                                 </p>
                               </div>
                             </div>
+  
                           </div>
                         </div>
-                        <!-- COLUMNA DERECHA: DESCRIPCIÓN Y ESPECIFICACIONES LEGALES -->
+  
+                        <!-- COLUMNA DERECHA: INFORMACIÓN DETALLADA Y CUADROS TÉCNICOS -->
                         <div class="col-12 col-lg-6">
                           <div class="split-details-box">
-                            
+  
                             <div>
                               <!-- BADGES DINÁMICOS SUPERIORES -->
                               <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
@@ -198,15 +215,15 @@
                                 {% if product.is_gpu and product.gpu %}
                                   <span class="tech-badge-gpu">GPU: {{ product.gpu }}</span>
                                 {% endif %}
-                                <span class="tech-badge-green">SUPERINTENDENCIAS & M. TRABAJO</span>
+                                <span class="tech-badge-orange">NIIF / Auditoría</span>
                               </div>
-
+  
                               <h4 class="text-white fw-bold mb-2">{{ product.name }}</h4>
-                              
+  
                               <p class="text-light opacity-90 small mb-3 lh-base" style="color: #cbd5e1 !important;">
-                                {{ product.description|default:"Plataforma integral para la gestión de información legal, administrativa y regulatoria. Automatiza la presentación de reportes, control de obligaciones laborales ante el Ministerio de Trabajo, auditorías de superintendencias y trazabilidad de expedientes corporativos."|truncatewords:30 }}
+                                {{ product.description|default:"Implementación integral de la capa transaccional, contable y analítica con trazabilidad NIIF y reportes directos para auditorías."|truncatewords:28 }}
                               </p>
-
+  
                               <!-- CUADRO 1: RECURSOS DE HARDWARE -->
                               <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
                                 <div class="d-flex justify-content-between mb-1">
@@ -227,7 +244,7 @@
                                   <span class="text-white">{{ product.cpu|default:0 }} vCPU · {{ product.memoria|default:0 }} GB RAM · {{ product.almacenamiento|default:0 }} GB SSD</span>
                                 </div>
                               </div>
-
+  
                               <!-- CUADRO 2: CAPACIDADES SYNTHEX & AGÉNTICA IA -->
                               {% if product.is_automatitation or product.is_intelligent %}
                               <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
@@ -237,7 +254,7 @@
                                   <span class="text-info fw-bold text-end">{{ product.get_automatizacion_display|default:"Automatización Activa" }}</span>
                                 </div>
                                 {% endif %}
-
+  
                                 {% if product.is_intelligent %}
                                 <div class="d-flex justify-content-between align-items-center">
                                   <span class="text-muted">// AGÉNTICA IA:</span>
@@ -246,45 +263,148 @@
                                 {% endif %}
                               </div>
                               {% endif %}
-
-                              <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+  
+  
+  
                               <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
                                 <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
-                                  <span class="text-muted">// HORAS DE TRABAJO:</span>
+                                  <span class="text-muted">// HORAS PARA DESPLIEGUE:</span>
                                   <span class="text-white">
-                                    Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> | 
-                                    Impl: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                    Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> 
                                   </span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                   <span class="text-muted">// CLOUD TYPE:</span>
-                                  <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Privada y Dedicada" }}</span>
+                                  <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Dedicada" }}</span>
                                 </div>
                               </div>
+  
+                              {% if product.category.slug == 'business-law' %}
+                              <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                              <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+                                <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
+                                  <span class="text-muted">// PROCESOS BASE:</span>
+                                  <span class="text-white">
+                                    Outsourcing Legay y Administrativo:
+                                    <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                  </span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REGISTROS SUPERINTEDENCIA DE DATOS PERSONALES</span>
+                                  <span class="text-success fw-bold text-uppercase">transaccional</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REGISTROS SUPERINTEDENCIA DE COMPAÑIAS (Actas, estatutos, Nombramientos)</span>
+                                  <span class="text-success fw-bold text-uppercase">transaccional</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REGISTROS TRIBUTARIOS(Declaraciones, Anaexos) </span>
+                                  <span class="text-success fw-bold text-uppercase">transaccional</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REGISTROS DE NÓMINA LABORAL (entradas y salidas IESS) </span>
+                                  <span class="text-success fw-bold text-uppercase">transaccional</span>
+                                </div>
+                              </div>
+                              {% endif %}
+  
+                              {% if product.is_automatitation %}
+  
+                              {% if product.category.slug == 'business-law' %}
+                              <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                              <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+     
+  
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">FACTURACION ELECTRÓNICA</span>
+                                  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">CONTRATOS TOKENIZADOS & AUTOFIRMADOS MINISTERIO DE TRABAJO</span>
+                                  <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REPORTES SUPERINTENDENCIA DE DATOS PERSONALES</span>
+                                  <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REPORTES S.R.I (Anexos TXT,Declaraciones) </span>
+                                  <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                                </div>
 
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">REPORTES SUPERINTENDECIA DE COMPAÑIAS (Balances, Estados de resultados, flujo efectivo, cambios de patrimonio) </span>
+                                  <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">RECUPERACIÓN DE CARTERAS VENCIDAS</span>
+                                  <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                                </div>
+                              </div>
+                              
+                              {% endif %}
+                              {% endif %}
+  
+                              {% if product.is_intelligent %}
+  
+                              {% if product.category.slug == 'business-law' %}
+                              <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                              <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+  
+  
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">ANALISIS DE CASOS LABORALES</span>
+                                  <span class="text-success fw-bold text-uppercase">Agéntico / IA</span>
+                                </div>
+  
+                                <!-- PROCESOS AGÉNTICOS & TIME SERIES -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">ANALISIS DE CASOS COMERCIALES</span>
+                                  <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">AUDITORÍA PREVENTIVA DE CUMPLIMIENTO (COMPLIANCE)</span>
+                                  <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <span class="text-muted">ESTRATEGIA PREJUDICIAL & COBRANZA INTELIGENTE</span>
+                                  <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                                </div>
+                                
+  
+                              </div>
+                              
+                              {% endif %}
+                              {% endif %}
+  
+                    
+  
+  
                             </div>
-
+  
                             <!-- FOOTER DE PRECIO Y ACCIÓN -->
                             <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">
                               <div>
-                                <span class="text-muted small font-monospace d-block">INVERSIÓN MÓDULO:</span>
-                                <h4 class="text-white fw-bold mb-0 font-monospace">${{ product.price_amount|default:product.price|default:"0.00" }}</h4>
+                                <span class="text-muted small font-monospace d-block">INVERSIÓN TOTAL:</span>
+                                <h4 class="text-white fw-bold mb-0 font-monospace">${{ product.price_amount|default:product.price }}</h4>
                               </div>
                               <span class="btn-tech-orange d-inline-flex align-items-center gap-2">
-                                <span>Explorar Solución Legal</span>
+                                <span>Explorar Entorno</span>
                                 <ion-icon name="chevron-forward-outline"></ion-icon>
                               </span>
                             </div>
-
+  
                           </div>
                         </div>
-
+  
                       </div>
                     </a>
                   </div>
                   {% endfor %}
                 </div>
-
                 <!-- Indicadores de navegación -->
                 <div class="carousel-indicators custom-instagram-indicators">
                   {% for product in c.products.all %}

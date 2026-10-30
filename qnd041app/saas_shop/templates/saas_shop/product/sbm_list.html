@@ -154,32 +154,49 @@
               <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-white d-block">
 
-                  <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE MARKETING & CRM) -->
+                  <!-- ESTRUCTURA SPLIT (IZQUIERDA IMAGEN / DERECHA DETALLE TÉCNICO) -->
                   <div class="row g-0">
 
-                    <!-- COLUMNA IZQUIERDA: VISUALIZACIÓN PLATAFORMA DE CONTENIDOS -->
+                    <!-- COLUMNA IZQUIERDA: VISUALIZACIÓN ANALÍTICA -->
                     <div class="col-12 col-lg-6">
                       <div class="split-image-wrapper"
                            style="background-image: url('{% if product.image_2 %}{{ product.image_2.url }}{% elif product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}');">
                         <!-- Overlay alineado en la mitad vertical (align-items-center) y a la izquierda (justify-content-start text-start) -->
-                        <div class="split-image-overlay d-flex align-items-center justify-content-start p-4 text-start">
+                       
+                        
+                        <div class="split-image-overlay d-flex flex-column align-items-start justify-content-center p-4 text-start">
+
                           <div style="max-width: 90%;">
-                            <span class="tech-badge-orange mb-2 d-inline-block">// BUSINESS SOCIAL MEDIA  Envelopment</span>
                             
+                            <span class="tech-badge-orange mb-3 d-inline-block">// Motor transaccional comercial y publicitario</span>
+                        
+                            <!-- LOGO DEL PRODUCTO SEGÚN LA CATEGORÍA (JUSTO DEBAJO) -->
+                            <div>
+                              {% if product.category.slug == 'business-analytics' %}
+                                <img src="{% static 'img/smartbusinessanalytics.png' %}" alt="Analytics" style="max-width: 320px;" class="mb-3 d-block">
+                              {% elif product.category.slug == 'business-media' %}
+                                <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Media" style="max-width: 320px;" class="mb-3 d-block">
+                              {% elif product.category.slug == 'business-law' %}
+                                <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Law" style="max-width: 220px;" class="mb-3 d-block">
+                              {% endif %}
+                            </div>
+                        
                             <!-- NOMBRE DEL PRODUCTO DESTACADO EN GRANDE -->
                             <h1 class="text-white fw-bold display-6 mb-2 text-uppercase tracking-tight">
                               {{ product.name }}
                             </h1>
-                    
+                        
                             <!-- SUBTÍTULO TÉCNICO EN LA MITAD DE LA IMAGEN -->
                             <p class="font-monospace small mb-0 accent-text" style="letter-spacing: 0.05em; font-size: 0.85rem;">
-                              The smartest Marketing Technologies partner.
+                              Somos tu growth partner tecnolóligo en la gestión de estrategias de marketing digital
                             </p>
                           </div>
                         </div>
+
                       </div>
                     </div>
-                    <!-- COLUMNA DERECHA: PROSPECCIÓN, LEADS, TICKETS Y REDES SOCIALES -->
+
+                    <!-- COLUMNA DERECHA: INFORMACIÓN DETALLADA Y CUADROS TÉCNICOS -->
                     <div class="col-12 col-lg-6">
                       <div class="split-details-box">
 
@@ -195,13 +212,13 @@
                             {% if product.is_gpu and product.gpu %}
                               <span class="tech-badge-gpu">GPU: {{ product.gpu }}</span>
                             {% endif %}
-                            <span class="tech-badge-purple">CRM & Leads</span>
+                            <span class="tech-badge-orange">NIIF / Auditoría</span>
                           </div>
 
                           <h4 class="text-white fw-bold mb-2">{{ product.name }}</h4>
 
                           <p class="text-light opacity-90 small mb-3 lh-base" style="color: #cbd5e1 !important;">
-                            {{ product.description|default:"Ecosistema integral para la gestión comercial y prospección inteligente de clientes. Optimiza la captación y nutrición de leads, gestión de tickets y automatización de contenidos en redes sociales."|truncatewords:28 }}
+                            {{ product.description|default:"Implementación integral de la capa transaccional, contable y analítica con trazabilidad NIIF y reportes directos para auditorías."|truncatewords:28 }}
                           </p>
 
                           <!-- CUADRO 1: RECURSOS DE HARDWARE -->
@@ -244,31 +261,131 @@
                           </div>
                           {% endif %}
 
-                          <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+
+
                           <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
                             <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
-                              <span class="text-muted">// HORAS DE TRABAJO:</span>
+                              <span class="text-muted">// HORAS PARA DESPLIEGUE:</span>
                               <span class="text-white">
-                                Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> | 
-                                Impl: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                                Dev: <strong class="accent-text">{{ product.tiempo_desarrollo|default:0 }}h</strong> 
                               </span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                               <span class="text-muted">// CLOUD TYPE:</span>
-                              <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Privada y Dedicada" }}</span>
+                              <span class="text-success fw-bold text-uppercase">{{ product.get_cloud_type_display|default:product.cloud_type|default:"Dedicada" }}</span>
                             </div>
                           </div>
+
+                          {% if product.category.slug == 'business-media' %}
+                          <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                          <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+                            <div class="d-flex justify-content-between align-items-center mb-1 pb-1 border-bottom border-secondary border-opacity-10">
+                              <span class="text-muted">// PROCESOS BASE:</span>
+                              <span class="text-white">
+                                Embudo de ventas  :
+                                <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                              </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">SITIO WEB / 5 PLANTILLAS PERSONALIZABLES</span>
+                              <span class="text-success fw-bold text-uppercase">transaccional </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTOR DE CONTENIDOS MULTIMEDIA WEB</span>
+                              <span class="text-success fw-bold text-uppercase">transaccional</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTOR DE CONTENIDOS REDES SOCIALES</span>
+                              <span class="text-success fw-bold text-uppercase">transaccional</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTOR DE ESTRATEGIA SEO/SEM (Google analytics,search, console)</span>
+                              <span class="text-success fw-bold text-uppercase">transaccional</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTOR DE LEADS (FRIOS/TIBIOS/CALIENTES)</span>
+                              <span class="text-success fw-bold text-uppercase">transaccional</span>
+                            </div>
+                            
+                          </div>
+                          {% endif %}
+
+                          {% if product.is_automatitation %}
+
+                          {% if product.category.slug == 'business-media' %}
+                          <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                          <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+ 
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">PUBLICACION PROGRAMDA REDES SOCIALES/WEB</span>
+                              <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">INTEGRACION META BUSINESS</span>
+                              <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">POSICIONAMIENTO /Google, META, YouTube, Gemini y OpenAI </span>
+                              <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTION DE PAUTA / GoogleAds, campañas META </span>
+                              <span class="text-info fw-bold text-uppercase">Autogenerado</span>
+                            </div> 
+                          </div>
+                          
+                          {% endif %}
+                          {% endif %}
+
+                          {% if product.is_intelligent %}
+
+                          {% if product.category.slug == 'business-media' %}
+                          <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                          <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">CHATBOT PARA LEADS EN REDES SOCIALES & SITIO WEB</span>
+                              <span class="text-success fw-bold text-uppercase">Agéntico / IA</span>
+                            </div>
+
+                            <!-- PROCESOS AGÉNTICOS & TIME SERIES -->
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GENERACION Y POSICIONAMIENTO DE CONTENIDOS MULTIMEDIA REDES SOCIALES & WEB</span>
+                              <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                              <span class="text-muted">GESTION DE USO DE TOKENS: GEMINI,OPENAI y ANTHROPIC</span>
+                              <span class="text-warning fw-bold text-uppercase">Agéntico / IA</span>
+                            </div>
+
+
+                          </div>
+                          
+                          {% endif %}
+                          {% endif %}
+
+                          
+
+                
+
 
                         </div>
 
                         <!-- FOOTER DE PRECIO Y ACCIÓN -->
                         <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">
                           <div>
-                            <span class="text-muted small font-monospace d-block">INVERSIÓN MÓDULO:</span>
+                            <span class="text-muted small font-monospace d-block">INVERSIÓN TOTAL:</span>
                             <h4 class="text-white fw-bold mb-0 font-monospace">${{ product.price_amount|default:product.price }}</h4>
                           </div>
                           <span class="btn-tech-orange d-inline-flex align-items-center gap-2">
-                            <span>Explorar Suite Media</span>
+                            <span>Explorar Entorno</span>
                             <ion-icon name="chevron-forward-outline"></ion-icon>
                           </span>
                         </div>
@@ -281,6 +398,7 @@
               </div>
               {% endfor %}
             </div>
+
 
             <!-- Indicadores estilo Instagram / Neón -->
             <div class="carousel-indicators custom-instagram-indicators">

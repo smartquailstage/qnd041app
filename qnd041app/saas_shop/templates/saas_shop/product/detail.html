@@ -10,9 +10,9 @@
 
 <style>
   :root {
-    --bg-main: #1e1e1f;
-    --card-bg: #282829;
-    --card-bg-subtle: #232324;
+    --bg-main: #141415;
+    --card-bg: #1c1c1e;
+    --card-bg-subtle: #232326;
     --accent-orange: #f7a84f;
     --border-color: rgba(247, 168, 79, 0.15);
     --text-muted-custom: #94a3b8;
@@ -22,19 +22,19 @@
     background-color: var(--bg-main) !important;
   }
 
-  /* Tarjetas con la paleta tecnológica */
+  /* Tarjetas con la paleta tecnológica refinada */
   .tech-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
     transition: all 0.3s ease;
   }
 
   .tech-card-subtle {
     background-color: var(--card-bg-subtle);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
   }
 
   .accent-text {
@@ -42,24 +42,24 @@
   }
 
   .tech-badge-orange {
-    background: rgba(247, 168, 79, 0.1);
+    background: rgba(247, 168, 79, 0.12);
     color: var(--accent-orange);
-    border: 1px solid rgba(247, 168, 79, 0.3);
+    border: 1px solid rgba(247, 168, 79, 0.35);
     font-family: monospace;
     font-size: 0.75rem;
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 20px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
 
   /* Pestañas de Navegación */
   .nav-pills .nav-link {
-    color: #cbd5e1;
+    color: #94a3b8;
     background-color: var(--card-bg-subtle);
-    border: 1px solid var(--border-color);
-    margin-right: 6px;
-    margin-bottom: 6px;
-    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 12px;
     padding: 10px 18px;
     font-family: monospace;
     transition: all 0.25s ease;
@@ -68,14 +68,15 @@
   .nav-pills .nav-link:hover {
     color: #ffffff;
     border-color: var(--accent-orange);
-    background-color: rgba(247, 168, 79, 0.05);
+    background-color: rgba(247, 168, 79, 0.06);
   }
 
   .nav-pills .nav-link.active {
     background-color: var(--accent-orange) !important;
-    color: #1e1e1f !important;
+    color: #141415 !important;
     font-weight: 700;
-    box-shadow: 0 0 15px rgba(247, 168, 79, 0.3);
+    box-shadow: 0 0 18px rgba(247, 168, 79, 0.35);
+    border-color: var(--accent-orange) !important;
   }
 
   /* Indicadores pequeños (Dots) en el centro sobre la imagen */
@@ -90,8 +91,8 @@
     gap: 8px;
     margin: 0;
     padding: 6px 12px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
     border-radius: 20px;
     z-index: 5;
   }
@@ -108,28 +109,28 @@
 
   .carousel-indicators-dots button.active {
     background-color: var(--accent-orange);
-    transform: scale(1.3);
-    box-shadow: 0 0 8px rgba(247, 168, 79, 0.8);
+    transform: scale(1.35);
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.9);
   }
 
   /* ESTILOS DEL CHAT INTERACTIVO (OLLAMA IA) */
   .chat-box {
-    background-color: #181819;
+    background-color: #171719;
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    height: 250px;
+    height: 220px;
     overflow-y: auto;
-    padding: 12px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     scrollbar-width: thin;
-    scrollbar-color: var(--accent-orange) #181819;
+    scrollbar-color: var(--accent-orange) #171719;
   }
 
   .chat-message {
     max-width: 85%;
-    padding: 8px 12px;
+    padding: 9px 13px;
     border-radius: 10px;
     font-size: 0.85rem;
     line-height: 1.4;
@@ -140,7 +141,7 @@
     background-color: rgba(247, 168, 79, 0.15);
     color: #ffffff;
     border: 1px solid rgba(247, 168, 79, 0.3);
-    border-bottom-right-radius: 2px;
+    border-bottom-right-radius: 3px;
   }
 
   .chat-message.bot {
@@ -148,7 +149,7 @@
     background-color: var(--card-bg-subtle);
     color: #cbd5e1;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom-left-radius: 2px;
+    border-bottom-left-radius: 3px;
   }
 
   /* Listas e items técnicos */
@@ -159,7 +160,7 @@
 
   .tech-spec-list li {
     position: relative;
-    padding-left: 20px;
+    padding-left: 22px;
     margin-bottom: 12px;
     line-height: 1.6;
     color: #cbd5e1;
@@ -186,7 +187,7 @@
 
     <!-- NAVEGACIÓN DE PESTAÑAS (TABS) -->
     <div class="product-more-info mb-4">
-      <ul class="nav nav-pills flex-wrap border-0 p-2 rounded-3 tech-card-subtle" id="custom-tabs" role="tablist">
+      <ul class="nav nav-pills flex-wrap border-0 p-2 rounded-3 tech-card-subtle shadow-sm" id="custom-tabs" role="tablist">
 
         <!-- Información -->
         <li class="nav-item" role="presentation">
@@ -251,14 +252,14 @@
 
       <!-- TAB 1: INFORMACIÓN Y FICHA TÉCNICA -->
       <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
-        <div class="tech-card p-4">
+        <div class="tech-card p-4 p-lg-4">
           <div class="row g-4 align-items-start">
 
-            <!-- 👈 BLOQUE IZQUIERDO: Carrusel (sin marcos ni flechas, solo dots en el centro) + Regulaciones y Licencia -->
+            <!-- 👈 BLOQUE IZQUIERDO: Carrusel + Regulaciones + Licencia + Asistente IA (Chat) -->
             <div class="col-12 col-lg-5 d-flex flex-column gap-3">
               
               <!-- Carrusel de Imágenes -->
-              <div id="productCarousel" class="carousel slide position-relative rounded-3 overflow-hidden" data-bs-ride="carousel">
+              <div id="productCarousel" class="carousel slide position-relative rounded-3 overflow-hidden shadow-sm" data-bs-ride="carousel">
                 <div class="carousel-inner rounded-3">
 
                   {% if product.image %}
@@ -302,7 +303,7 @@
               </div>
 
               <!-- Regulaciones y Cumplimiento -->
-              <div class="bg-black bg-opacity-25 p-3 rounded-2 border border-secondary border-opacity-10">
+              <div class="bg-black bg-opacity-30 p-3 rounded-3 border border-secondary border-opacity-10 shadow-sm">
                 <span class="text-white font-monospace small d-block mb-1" style="font-size: 11px;">
                   <ion-icon name="shield-checkmark-outline" class="accent-text"></ion-icon> Regulaciones & Cumplimiento
                 </span>
@@ -310,56 +311,10 @@
                 <p class="text-muted mb-0 mt-1" style="font-size: 11px;">Soporte 24/7: {{ product.total_nube_iva }} / mes</p>
               </div>
 
-              <!-- Precios y Botón de Licencia -->
-              <div class="bg-dark p-3 rounded-2 d-flex flex-column justify-content-center border-start border-3 border-warning" style="border-color: var(--accent-orange) !important;">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div>
-                    <span class="text-muted small font-monospace d-block" style="font-size: 10px;">INVERSIÓN TOTAL:</span>
-                    <h4 class="text-white fw-bold mb-0 fs-4">{{ product.price }}</h4>
-                  </div>
-                  <a href="{% url 'saas_shop:product_list' %}" class="btn btn-outline-secondary font-monospace px-2 py-1 btn-sm" style="border-radius: 6px; font-size: 11px;" title="Volver al catálogo">
-                    <ion-icon name="chevron-back-outline"></ion-icon>
-                  </a>
-                </div>
+  
 
-                <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex align-items-center gap-2 w-100">
-                  {% csrf_token %}
-                  {{ cart_product_form.quantity }}
-                  {{ cart_product_form.update }}
-                  <button type="submit" class="btn font-monospace fw-bold px-3 py-2 btn-sm w-100" style="background-color: var(--accent-orange); color: #1e1e1f; border: none; border-radius: 6px; font-size: 11px;">
-                    <ion-icon name="key-outline" class="me-1"></ion-icon> {% trans 'Obtener Licencia' %}
-                  </button>
-                </form>
-              </div>
-
-            </div>
-
-            <!-- 👉 BLOQUE DERECHO: Información del Producto + Asistente de IA (Chat) -->
-            <div class="col-12 col-lg-7 d-flex flex-column gap-3">
-              
-              <!-- Información del Producto -->
-              <div class="tech-card-subtle p-4">
-                {% if product.category.slug == 'business-analytics' %}
-                  <img src="{% static 'img/smartbusinessanalytics.png' %}" alt="Analytics" style="max-width: 220px;" class="mb-2">
-                {% elif product.category.slug == 'business-media' %}
-                  <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Media" style="max-width: 220px;" class="mb-2">
-                {% elif product.category.slug == 'business-law' %}
-                  <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Law" style="max-width: 220px;" class="mb-2">
-                {% endif %}
-
-                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                  <span class="tech-badge-orange">// LICENCIA PRIVADA</span>
-                </div>
-                
-                <h2 class="text-white fw-bold mb-2">{{ product.name }}</h2>
-
-                <div class="text-light small lh-base" style="color: #cbd5e1 !important;">
-                  {{ product.description|linebreaks }}
-                </div>
-              </div>
-
-              <!-- Asistente de IA (Chat Interactivo) -->
-              <div class="tech-card-subtle p-3">
+              <!-- Asistente de IA (Chat Interactivo - Ubicado a la Izquierda) -->
+              <div class="tech-card-subtle p-3 shadow-sm">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="text-white font-monospace small d-flex align-items-center gap-2">
                     <ion-icon name="sparkles-outline" class="accent-text fs-6"></ion-icon>
@@ -368,7 +323,7 @@
                   <span class="tech-badge-orange" style="font-size: 9px; padding: 2px 6px;">LLM ONLINE PRIVADO</span>
                 </div>
 
-                <div class="chat-box mb-2" id="chatContainer" style="height: 250px;">
+                <div class="chat-box mb-2" id="chatContainer">
                   <div class="chat-message bot font-monospace">
                     Hola, soy el asistente de SmartQuail. Pregúntame sobre especificaciones o precios de <strong>{{ product.name }}</strong>.
                   </div>
@@ -377,10 +332,429 @@
                 <form id="aiChatForm" class="d-flex gap-2">
                   {% csrf_token %}
                   <input type="text" id="userInput" class="form-control font-monospace form-control-sm text-white bg-dark border-secondary" placeholder="Ej: ¿Qué CPU tiene?" style="font-size: 11px;" required>
-                  <button type="submit" id="sendBtn" class="btn btn-sm font-monospace fw-bold px-3 d-flex align-items-center justify-content-center" style="background-color: var(--accent-orange); color: #1e1e1f; border: none; border-radius: 6px;">
+                  <button type="submit" id="sendBtn" class="btn btn-sm font-monospace fw-bold px-3 d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--accent-orange); color: #141415; border: none; border-radius: 6px;">
                     <ion-icon name="send-outline"></ion-icon>
                   </button>
                 </form>
+              </div>
+
+                          <!-- Precios y Botón de Licencia -->
+                          <div class="bg-dark p-3 rounded-3 d-flex flex-column justify-content-center border-start border-3 shadow-sm" style="border-color: var(--accent-orange) !important;">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                              <div>
+                                <span class="text-muted small font-monospace d-block" style="font-size: 10px;">INVERSIÓN TOTAL:</span>
+                                <h4 class="text-white fw-bold mb-0 fs-4">{{ product.price }}</h4>
+                              </div>
+                              <a href="{% url 'saas_shop:product_list' %}" class="btn btn-outline-secondary font-monospace px-2 py-1 btn-sm" style="border-radius: 6px; font-size: 11px;" title="Volver al catálogo">
+                                <ion-icon name="chevron-back-outline"></ion-icon>
+                              </a>
+                            </div>
+            
+                            <form action="{% url 'saas_cart:cart_add' product.id %}" method="post" class="d-flex align-items-center gap-2 w-100">
+                              {% csrf_token %}
+                              {{ cart_product_form.quantity }}
+                              {{ cart_product_form.update }}
+                              <button type="submit" class="btn font-monospace fw-bold px-3 py-2 btn-sm w-100 shadow-sm" style="background-color: var(--accent-orange); color: #141415; border: none; border-radius: 6px; font-size: 11px;">
+                                <ion-icon name="key-outline" class="me-1"></ion-icon> {% trans 'Obtener Licencia' %}
+                              </button>
+                            </form>
+                          </div>
+
+            </div>
+
+            <!-- 👉 BLOQUE DERECHO: Información del Producto + Bloques Contables NIIF -->
+            <div class="col-12 col-lg-7 d-flex flex-column gap-3">
+              
+              <!-- Información del Producto -->
+              <div class="tech-card-subtle p-4 shadow-sm">
+                {% if product.category.slug == 'business-analytics' %}
+                  <img src="{% static 'img/smartbusinessanalytics.png' %}" alt="Analytics" style="max-width: 220px;" class="mb-2">
+                {% elif product.category.slug == 'business-media' %}
+                  <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Media" style="max-width: 220px;" class="mb-2">
+                {% elif product.category.slug == 'business-law' %}
+                  <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Law" style="max-width: 220px;" class="mb-2">
+                {% endif %}
+
+
+                
+                <h2 class="text-white fw-bold mb-3">{{ product.name }}</h2>
+
+                {% if product.category.slug == 'business-analytics' %}
+                <!-- BLOQUE 1: PROCESOS BASE -->
+                <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+                  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <span class="text-muted fw-bold">// PROCESOS BASE:</span>
+                    <span class="text-white">
+                      Outsourcing contable:
+                      <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+                    </span>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">INGRESOS & EGRESOS</span>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Control absoluto y automatizado de cada dólar que entra y sale de tu negocio sin fricción operativa.</div>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">ACTIVOS & PASIVOS</span>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Visibilidad patrimonial precisa para blindar el valor de tus bienes y gestionar tus obligaciones.</div>
+                  </div>
+                
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">ESTADO DE RESULTADOS</span>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Radiografía financiera clara para conocer la rentabilidad real de tu operación mes a mes.</div>
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if product.is_automatitation and product.category.slug == 'business-analytics' %}
+                <!-- BLOQUE 2: AUTOMATIZACIÓN (AUTOGENERADO NIIF) -->
+                <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+                  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <span class="text-muted fw-bold">// AUTOMATIZACIÓN NIIF:</span>
+                    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">BALANCES/KPIS FINANCIERAS</span>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Toma decisiones gerenciales respaldadas por indicadores financieros generados en tiempo real y bajo norma.</div>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">FLUJO DE EFECTIVO & PATRIMONIO</span>
+                      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Anticípate a los baches de liquidez con reportes de caja y patrimonio listos para auditoría.</div>
+                  </div>
+                
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">NOTAS A LOS EEFF</span>
+                      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Cumplimiento normativo impecable y automatizado que ahorra cientos de horas en revelaciones contables.</div>
+                  </div>
+                </div>
+                {% endif %}
+                
+                {% if product.is_intelligent and product.category.slug == 'business-analytics' %}
+                <!-- BLOQUE 3: INTELIGENCIA ARTIFICIAL & AGÉNTICO -->
+                <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+                  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA:</span>
+                    <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">TimesFM & IA</span>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">PREDICCIÓN DE MERCADO</span>
+                      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Anticipa las tendencias del mercado antes que tu competencia usando inteligencia de datos autónoma.</div>
+                  </div>
+                
+                  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">FORECASTING FINANCIERO (TimesFM)</span>
+                      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Proyecta tus escenarios financieros con precisión de vanguardia gracias a modelos avanzados de series temporales.</div>
+                  </div>
+                
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-white fw-bold">ANÁLISIS PREDICTIVO DE FLUJO DE CAJA</span>
+                      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                    </div>
+                    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">IA proactiva que modela tu liquidez futura para blindar la salud financiera de tu empresa.</div>
+                  </div>
+                </div>
+                {% endif %}
+
+                {% if product.category.slug == 'business-media' %}
+<!-- BLOQUE 1: PROCESOS BASE -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// PROCESOS BASE:</span>
+    <span class="text-white">
+      Embudo de ventas:
+      <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+    </span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">SITIO WEB / 5 PLANTILLAS PERSONALIZABLES</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Infraestructura digital optimizada para convertir visitantes en clientes con diseños de alta conversión.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTOR DE CONTENIDOS MULTIMEDIA WEB</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Administración centralizada de activos visuales y material publicitario para tu portal comercial.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTOR DE CONTENIDOS REDES SOCIALES</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Planificación y control unificado de publicaciones para mantener la presencia de tu marca siempre activa.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTOR DE ESTRATEGIA SEO/SEM</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Integración con Google Analytics y Search Console para auditar tráfico y maximizar alcance orgánico.</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTOR DE LEADS (FRÍOS / TIBIOS / CALIENTES)</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Clasificación estratégica del embudo comercial para priorizar y acelerar el cierre de ventas.</div>
+  </div>
+</div>
+{% endif %}
+
+{% if product.is_automatitation and product.category.slug == 'business-media' %}
+<!-- BLOQUE 2: AUTOMATIZACIÓN MULTIMEDIA & PAUTA -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// AUTOMATIZACIÓN DE MARKETING:</span>
+    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">PUBLICACIÓN PROGRAMADA REDES & WEB</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Distribución multicanal automática de contenidos en horarios de máxima audiencia sin intervención manual.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">INTEGRACIÓN META BUSINESS</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Sincronización directa con Facebook e Instagram para gestión unificada de mensajes, productos y audiencias.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">POSICIONAMIENTO EN GOOGLE, META, YOUTUBE & LLMS</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Estrategia de indexación avanzada para destacar tanto en motores de búsqueda como en motores de IA (Gemini/OpenAI).</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTIÓN DE PAUTA (GOOGLE ADS & CAMPAÑAS META)</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Optimización automatizada del presupuesto publicitario para reducir el costo de adquisición de clientes (CAC).</div>
+  </div>
+</div>
+{% endif %}
+
+{% if product.is_intelligent and product.category.slug == 'business-media' %}
+<!-- BLOQUE 3: INTELIGENCIA AGÉNTICA & GENERACIÓN MULTIMEDIA -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA & MEDIA:</span>
+    <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">CHATBOT PARA LEADS EN REDES & SITIO WEB</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Agente conversacional 24/7 capacitado para calificar prospectos y agendar citas de ventas en tiempo real.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GENERACIÓN Y POSICIONAMIENTO MULTIMEDIA IA</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Creación autónoma de copies, piezas gráficas y guiones optimizados para virilizar tu marca en redes y web.</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">GESTIÓN DE USO DE TOKENS (GEMINI, OPENAI & ANTHROPIC)</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Orquestación eficiente y balanceo de carga de modelos de lenguaje para garantizar máxima calidad al menor costo.</div>
+  </div>
+</div>
+{% endif %}
+
+
+
+{% if product.category.slug == 'business-law' %}
+<!-- BLOQUE 1: PROCESOS BASE -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// PROCESOS BASE:</span>
+    <span class="text-white">
+      Outsourcing Legal & Administrativo:
+      <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong>
+    </span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REGISTROS SUPERINTENDENCIA DE DATOS PERSONALES</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Gestión de cumplimiento normativo y registro formal de bases de datos para mitigar sanciones regulatorias.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REGISTROS SUPERINTENDENCIA DE COMPAÑÍAS</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Control y archivo societario de actas, estatutos, nombramientos y aumentos de capital en regla.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REGISTROS TRIBUTARIOS (S.R.I.)</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Procesamiento oportuno de declaraciones, anexos y retenciones para un perfil tributario impecable.</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REGISTROS DE NÓMINA LABORAL (IESS)</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Administración de altas, bajas, planillas de aportes y avisos de entrada/salida ante el IESS.</div>
+  </div>
+</div>
+{% endif %}
+
+{% if product.is_automatitation and product.category.slug == 'business-law' %}
+<!-- BLOQUE 2: AUTOMATIZACIÓN LEGAL & REGULATORIA -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// AUTOMATIZACIÓN REGULATORIA:</span>
+    <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">FACTURACIÓN ELECTRÓNICA & RETENCIONES</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Emisión y firma digital inmediata de comprobantes validados automáticamente ante el SRI.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">CONTRATOS MINISTERIO DE TRABAJO</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Generación estandarizada de contratos laborales y actas de finiquito listos para registro oficial.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REPORTES DE DATOS PERSONALES & S.R.I.</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Ensamblaje automático de anexos transaccionales (TXT) y matrices de tratamiento de datos.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REPORTES SUPERINTENDENCIA DE COMPAÑÍAS</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Consolidación de Balances, Estados de Resultados y Cambios en el Patrimonio bajo formato NIIF exigido.</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">RECUPERACIÓN DE CARTERA VENCIDA</span>
+      <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Flujos prejudiciales automatizados con notificaciones de cobro graduales para acelerar la liquidez.</div>
+  </div>
+</div>
+{% endif %}
+
+{% if product.is_intelligent and product.category.slug == 'business-law' %}
+<!-- BLOQUE 3: INTELIGENCIA AGÉNTICA & LEGALTECH -->
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA LEGALTECH:</span>
+    <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ANÁLISIS AGÉNTICO DE CASOS LABORALES</span>
+      <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Evaluación predictiva de contingencias patronales, desahucios y liquidaciones ajustadas a la normativa vigente.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">REVISIÓN & AUDITORÍA DE CONTRATOS COMERCIALES</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Agente IA que analiza cláusulas abusivas, riesgos de incumplimiento y responsabilidades en acuerdos comerciales.</div>
+  </div>
+
+  <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">AUDITORÍA PREVENTIVA DE CUMPLIMIENTO (COMPLIANCE)</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Monitoreo continuo del nivel de riesgo legal ante cambios regulatorios tributarios, laborales y de datos.</div>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ESTRATEGIA PREJUDICIAL & COBRANZA INTELIGENTE</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Agentes autónomos que evalúan el perfil de riesgo del deudor para recomendar o ejecutar acciones legales efectivas.</div>
+  </div>
+</div>
+{% endif %}
+
+                
+
+
               </div>
 
             </div>
@@ -615,5 +989,4 @@
     });
   });
 </script>
-
 {% endblock %}
