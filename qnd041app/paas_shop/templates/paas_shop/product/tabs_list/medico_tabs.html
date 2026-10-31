@@ -265,11 +265,20 @@
                                 <span class="text-muted">RECURSOS NUBE:</span>
                                 <span class="text-white">{{ product.cpu|default:0 }} vCPU · {{ product.memoria|default:0 }} GB RAM · {{ product.almacenamiento|default:0 }} GB SSD</span>
                               </div>
+                              <div class="d-flex justify-content-between mb-0">
+                                <span class="text-muted">INCLUYEE:</span>
+                                <span class="text-white">SmartBusinessAnalytics Core · SmartBusinessMedia Core· SmartBusinessLaw Core</span>
+                              </div>
+
                             </div>
 
                             <!-- CUADRO 2: PROCESOS MÉDICOS, AUTOMATIZACIÓN Y DIAGNÓSTICO IA -->
                             {% if product.is_automatitation or product.is_intelligent %}
                             <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// ATENCION A PACIENTES:</span>
+                                <span class="text-warning fw-bold text-end">Interfase UI/UX para atencion a pacientes</span>
+                              </div>
                               {% if product.is_automatitation %}
                               <div class="d-flex justify-content-between align-items-center {% if product.is_intelligent %}mb-1 pb-1 border-bottom border-secondary border-opacity-10{% endif %}">
                                 <span class="text-muted">// PROCESOS CLÍNICOS:</span>
@@ -301,7 +310,175 @@
                               </div>
                             </div>
 
+                            
+  
+                          
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+   
+<!-- Citas y Recepción -->
+<div class="d-flex justify-content-between align-items-center">
+ 
+  <span class="text-muted">GESTOR DE CITAS</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">RECEPCIÓN Y ADMISIÓN DE PACIENTES</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">GESTIÓN DE TRIAJE Y URGENCIAS</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+
+<!-- Atención Médica y Registro Clínico -->
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">HISTORIALES CLÍNICOS</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">HISTORIAL DE DIAGNÓSTICO</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">RECETARIOS Y PRESCRIPCIÓN MÉDICA</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">GESTIÓN DE TERAPIAS</span>
+  <span class="text-success fw-bold text-uppercase">transaccional</span>
+</div>
+
+
+
+                            
+                      
+                            
+
                           </div>
+
+                          {% if product.is_automatitation %}
+                          <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+   
+                            <!-- Citas y Recepción -->
+                         <!-- Chatbots e Inteligencia Conversacional -->
+
+
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ENVÍO DE RESULTADOS Y EXÁMENES VÍA CORREO</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+
+
+<!-- Flujos Clínicos y Diagnósticos -->
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">REPORTE DE DIAGNÓSTICO</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">FICHAS CLÍNICAS</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">RECETAS Y PRESCRIPCIONES DIGITALES</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ÓRDENES Y SOLICITUDES DE LABORATORIO</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">CERTIFICADOS Y INFORMES MÉDICOS PDF</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+
+<!-- Administración, Facturación y Reportes -->
+
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ALERTAS DE STOCK MÍNIMO E INSUMOS CRÍTICOS</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">REPORTES FINANCIEROS Y DE OCUPACIÓN</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">LIQUIDACIÓN MENSUAL DE HONORARIOS MÉDICOS</span>
+  <span class="text-success fw-bold text-uppercase">Autogenerado</span>
+</div>
+
+</div>
+{% endif %}
+
+{% if product.is_intelligent %}
+<div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+   
+  <!-- Citas y Recepción -->
+<!-- Chatbots e Inteligencia Conversacional -->
+<!-- Inteligencia Artificial Agéntica & Razonamiento Clínico -->
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">BOT DE SEGUIMIENTO POST-CONSULTA Y ENCUESTAS DE SATISFACCIÓN</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">NOTIFICACIONES Y RECORDATORIOS DE CITA POR CHATBOT</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">CHATBOT DE AGENDAMIENTO AUTOMÁTICO (WHATSAPP/WEB)</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">CHATBOT DE TRIAJE PREVIO Y CONSULTAS FRECUENTES</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+
+
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">AGENTE DE DIAGNÓSTICO PREVENTIVO Y ASISTIDO POR IA</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">AGENTE DE TRIAGE Y CLASIFICACIÓN DE URGENCIAS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ANALISTA AUTÓNOMO DE INTERACCIONES FARMACOLÓGICAS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">AGENTE DE RESUMEN Y SÍNTESIS DE HISTORIALES CLÍNICOS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">MONITOREO PREDICTIVO DE SIGNOS VITALES Y ALERTAS TEMPRANAS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+
+<!-- Asistentes Conversacionales Avanzados y Operativa -->
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ASISTENTE CLÍNICO MULTIMODAL CONVERSACIONAL (LLM LOCAL/PRIVADO)</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">AGENTE DE OPTIMIZACIÓN Y ASIGNACIÓN DE QUIRÓFANOS Y CAMAS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">PREDICTOR AUTÓNOMO DE DEMANDA DE INSUMOS Y FÁRMACOS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+<div class="d-flex justify-content-between align-items-center">
+  <span class="text-muted">ANALISTA FINANCIERO Y AUDITORÍA AUTOMATIZADA DE COBROS</span>
+  <span class="text-warning fw-bold text-uppercase">Agéntico</span>
+</div>
+
+</div>
+
+{% endif %}
+
 
                           <!-- FOOTER DE PRECIO Y ACCIÓN -->
                           <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">

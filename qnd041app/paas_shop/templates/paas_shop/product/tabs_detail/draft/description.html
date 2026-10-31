@@ -1,0 +1,815 @@
+{% extends "saas_shop/base3.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  :root {
+    --bg-main: #141415;
+    --card-bg: #1c1c1e;
+    --card-bg-subtle: #232326;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas con la paleta tecnológica refinada */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+    transition: all 0.3s ease;
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.12);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.35);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  /* Pestañas de Navegación */
+  .nav-pills .nav-link {
+    color: #94a3b8;
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-family: monospace;
+    transition: all 0.25s ease;
+  }
+
+  .nav-pills .nav-link:hover {
+    color: #ffffff;
+    border-color: var(--accent-orange);
+    background-color: rgba(247, 168, 79, 0.06);
+  }
+
+  .nav-pills .nav-link.active {
+    background-color: var(--accent-orange) !important;
+    color: #141415 !important;
+    font-weight: 700;
+    box-shadow: 0 0 18px rgba(247, 168, 79, 0.35);
+    border-color: var(--accent-orange) !important;
+  }
+
+  /* Indicadores pequeños (Dots) en el centro sobre la imagen */
+  .carousel-indicators-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    z-index: 5;
+  }
+
+  .carousel-indicators-dots button {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    border: none !important;
+    transition: all 0.3s ease;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .carousel-indicators-dots button.active {
+    background-color: var(--accent-orange) !important;
+    transform: scale(1.35);
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.9);
+  }
+
+  /* Botón interactivo principal */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #141415;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px 20px;
+    width: 100%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    box-shadow: 0 0 15px rgba(247, 168, 79, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ESTILOS DEL CHAT INTERACTIVO (OLLAMA IA) */
+  .chat-box {
+    background-color: #171719;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    height: 220px;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-orange) #171719;
+  }
+
+  .chat-message {
+    max-width: 85%;
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .chat-message.user {
+    align-self: flex-end;
+    background-color: rgba(247, 168, 79, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    border-bottom-right-radius: 3px;
+  }
+
+  .chat-message.bot {
+    align-self: flex-start;
+    background-color: var(--card-bg-subtle);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom-left-radius: 3px;
+  }
+
+  /* Listas e items técnicos */
+  .tech-spec-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tech-spec-list li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .tech-spec-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+    font-weight: bold;
+  }
+
+  @media (max-width: 992px) {
+    .row.mt-4 {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+</style>
+
+
+
+    <!-- CONTENIDO DE PESTAÑAS -->
+
+    
+  
+    
+    {% load i18n %}
+    {% load static %}
+    
+    <!-- TAB 1: DESCRIPCIÓN Y FICHA PRINCIPAL -->
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="tab-description">
+      <div class="tech-card p-4">
+    
+        <div class="row g-4">
+    
+          <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+          <div class="col-12 col-lg-5">
+            <div class="product-gallery-wrapper">
+    
+              <!-- CAROUSEL DE PRODUCTO -->
+              <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+    
+                  {% if product.image_2 %}
+                  <div class="carousel-item active">
+                    <div class="image-container position-relative">
+                      <img src="{{ product.image_2.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen principal">
+                    </div>
+                  </div>
+                  {% endif %}
+    
+                  {% if product.image_2_2 %}
+                  <div class="carousel-item {% if not product.image_2 %}active{% endif %}">
+                    <div class="image-container position-relative">
+                      <img src="{{ product.image_2_2.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen secundaria">
+    
+                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% elif product.category.name == "Business Media" %}
+                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+    
+                  {% if product.image_3 %}
+                  <div class="carousel-item {% if not product.image_2 and not product.image_2_2 %}active{% endif %}">
+                    <div class="image-container position-relative">
+                      <img src="{{ product.image_3.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen terciaria">
+    
+                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% elif product.category.name == "Business Media" %}
+                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+    
+                  {% if product.image_4 %}
+                  <div class="carousel-item {% if not product.image_2 and not product.image_2_2 and not product.image_3 %}active{% endif %}">
+                    <div class="image-container position-relative">
+                      <img src="{{ product.image_4.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen cuarta">
+    
+                      {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                      <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% elif product.category.name == "Business Media" %}
+                      <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                        <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                      </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+    
+                  {% if not product.image_2 and not product.image_2_2 and not product.image_3 and not product.image_4 %}
+                  <div class="carousel-item active">
+                    <div class="image-container position-relative text-center py-4">
+                      <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid mx-auto opacity-50" alt="Sin imagen">
+                    </div>
+                  </div>
+                  {% endif %}
+    
+                </div>
+    
+                <!-- CONTROLES -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+    
+                <!-- INDICADORES -->
+                <div class="carousel-indicators indicators-circle position-static mt-3 mb-0">
+                  {% if product.image_2 %}
+                  <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+                  {% endif %}
+    
+                  {% if product.image_2_2 %}
+                  <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}1{% else %}0{% endif %}"></button>
+                  {% endif %}
+    
+                  {% if product.image_3 %}
+                  <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}2{% else %}0{% endif %}"></button>
+                  {% endif %}
+    
+                  {% if product.image_4 %}
+                  <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}3{% else %}0{% endif %}"></button>
+                  {% endif %}
+                </div>
+    
+              </div>
+    
+            </div>
+    
+            <!-- CERTIFICACIONES Y NORMAS EN COLUMNA IZQUIERDA (Opcional según diseño) -->
+            <div class="tech-detail-box p-3 mt-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+              <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2" style="font-size: 0.9rem;">
+                <ion-icon name="shield-checkmark-outline" class="fs-5 text-success"></ion-icon>
+                <span>Certificaciones & Normativas</span>
+              </h6>
+              <p class="small text-muted font-monospace mb-0" style="font-size: 0.75rem;">
+                ISO/IEC 27001, LOPDP Ecuador, HIPAA, NIST SP 800-53, OWASP Top 10.
+              </p>
+            </div>
+    
+            <!-- SOPORTE Y MANTENIMIENTO -->
+            <div class="tech-detail-box p-3 mt-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+              <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2" style="font-size: 0.9rem;">
+                <i class="fadeIn animated bx bx-support fs-5 text-info"></i>
+                <span>Soporte & Mantenimiento</span>
+              </h6>
+              <p class="small text-light mb-0 font-monospace" style="font-size: 0.78rem;">
+                <strong>{{ product.total_nube_iva }}</strong> / mes
+                <span class="d-block text-muted small">(Incluye recursos de nube y soporte operativo 24/7)</span>
+              </p>
+            </div>
+    
+          </div>
+    
+          <!-- COLUMNA DERECHA: LOGOS, DESCRIPCIÓN Y MÓDULOS ESPECÍFICOS -->
+          <div class="col-12 col-lg-7 d-flex flex-column justify-content-between">
+    
+            <div>
+              <!-- LOGOS DINÁMICOS POR CATEGORÍA -->
+              <div class="mb-3 text-start">
+                {% if product.category.slug == 'business-medico' %}
+                <img src="{% static 'assets/platforms/smartmedicalplatforms.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+                {% elif product.category.slug == 'business-gastronomico' %}
+                <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+                {% elif product.category.slug == 'business-tecnologico' or product.category.slug == 'business-educar' or product.category.slug == 'business-ong' or product.category.slug == 'business-publico' or product.category.slug == 'business-privado' or product.category.slug == 'business-servicios' or product.category.slug == 'business-industrial' or product.category.slug == 'business-investigacion' or product.category.slug == 'business-art' or product.category.slug == 'business-marketing' or product.category.slug == 'business-admin' or product.category.slug == 'business-transporte' %}
+                <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
+                {% endif %}
+              </div>
+    
+              <!-- ENCABEZADO DE INVERSIÓN Y BADGE -->
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+                <div>
+                  <span class="tech-badge-orange mb-1 d-inline-block">// MÓDULO CERTIFICADO ITC</span>
+                  <h3 class="mb-0 text-white font-monospace">{{ product.name }}</h3>
+                  <h5 class="mt-1 text-white font-monospace">Inversión: <strong style="color: var(--accent-orange);">{{ product.price }}</strong></h5>
+                </div>
+              </div>
+    
+              <!-- DESCRIPCIÓN DEL PRODUCTO -->
+              <div class="tech-card-subtle p-3 mb-3">
+                <div class="small text-light opacity-90 lh-base" style="text-align: justify;">
+                  {{ product.description|linebreaks }}
+                </div>
+              </div>
+    
+    
+              {% comment %} =================================================================
+                 1. SALUD Y BIENESTAR (business-medico)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-medico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE CLÍNICOS:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">GESTOR DE CITAS & ADMISIÓN</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Organización de agendas médicas y registro de ingreso ágil para acelerar el flujo clínico.</div>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">HISTORIALES CLÍNICOS & RECETARIOS</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Expediente centralizado seguro y emisión formal de recetas electrónicas.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_automatitation and product.category.slug == 'business-medico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// AUTOMATIZACIÓN CLÍNICA:</span>
+                  <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">RESULTADOS DE LABORATORIO & ALERTAS DE STOCK</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Envío automatizado de resultados vía correo y avisos de abastecimiento farmacéutico.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_intelligent and product.category.slug == 'business-medico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA CLÍNICA:</span>
+                  <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">CHATBOT DE AGENDAMIENTO & ANALISTA FARMACOLÓGICO</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Asistente 24/7 por WhatsApp y escaneo preventivo de interacciones medicamentosas.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+    
+              {% comment %} =================================================================
+                 2. GASTRONÓMICO (business-gastronomico)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-gastronomico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE GASTRONÓMICOS:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">POS & CONTROL DE INVENTARIOS</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Registro inmediato de pedidos en salón y descuento automático de insumos por plato.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_automatitation and product.category.slug == 'business-gastronomico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// AUTOMATIZACIÓN RESTAURANTES:</span>
+                  <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">KDS (PANEL DE COCINA) & MENÚ QR</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Sincronización automatizada entre comandas, preparación y pedidos directos online.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_intelligent and product.category.slug == 'business-gastronomico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA GASTRONÓMICA:</span>
+                  <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">PREDICTOR DE DEMANDA & CHATBOT DE RESERVAS</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">IA predictiva que proyecta compras de insumos para reducir mermas y atiende pedidos 24/7.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+    
+              {% comment %} =================================================================
+                 3. EDUCACIÓN (business-educar)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-educar' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE EDUCATIVOS:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">MATRÍCULAS & REGISTRO DE NOTAS</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Gestión centralizada del expediente académico, inscripciones y calificaciones.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_automatitation and product.category.slug == 'business-educar' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// AUTOMATIZACIÓN ACADÉMICA:</span>
+                  <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">GENERACIÓN DE LIBRETAS & CERTIFICADOS PDF</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Emisión automática de reportes firmados para envío masivo a representantes.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_intelligent and product.category.slug == 'business-educar' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA EDUCATIVA:</span>
+                  <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">AGENTE DETECTOR DE DESERCIÓN ESCOLAR</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Análisis predictivo de patrones de asistencia para alertar sobre bajo desempeño temprano.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+    
+              {% comment %} =================================================================
+                 4. TRANSPORTE Y LOGÍSTICA (business-transporte)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-transporte' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE DE TRANSPORTE:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">DESPACHO DE UNIDADES & GUÍAS DE REMISIÓN</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Registro de manifiestos de carga, conductores y emisión documental legal.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_automatitation and product.category.slug == 'business-transporte' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// AUTOMATIZACIÓN LOGÍSTICA:</span>
+                  <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">RASTREO GPS & NOTIFICACIONES DE ENTREGA</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Envío automático de alertas de estado vía WhatsApp/SMS al cliente final.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_intelligent and product.category.slug == 'business-transporte' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA DE RUTAS:</span>
+                  <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">AGENTE OPTIMIZADOR DE RUTAS MÚLTIPLES</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Algoritmo IA que reorganiza rutas de entrega en tiempo real para minimizar combustible.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+    
+              {% comment %} =================================================================
+                 5. TECNOLOGÍA E INFRAESTRUCTURA (business-tecnologico)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-tecnologico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE TECNOLÓGICOS:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">GESTIÓN DE INCIDENTES (HELPDESK)</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Apertura, priorización y asignación de requerimientos técnicos conforme acuerdos SLA.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_automatitation and product.category.slug == 'business-tecnologico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// AUTOMATIZACIÓN DE INFRAESTRUCTURA:</span>
+                  <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">DESPLIEGUES DE INFRAESTRUCTURA (CI/CD)</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Ejecución de pipelines sin intervención manual para paso seguro de código a producción.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+              {% if product.is_intelligent and product.category.slug == 'business-tecnologico' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA AIOPS:</span>
+                  <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">AGENTE DE AUTORREPARACIÓN DE SERVICIOS (AIOPS)</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Detección autónoma y reinicio predictivo de contenedores antes de experimentar fallas.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+    
+              {% comment %} =================================================================
+                 6. OTROS SECTORES (INDUSTRIAL, SERVICIOS, PÚBLICO, ONG, ETC.)
+                 ================================================================= {% endcomment %}
+              {% if product.category.slug == 'business-industrial' or product.category.slug == 'business-servicios' or product.category.slug == 'business-publico' or product.category.slug == 'business-ong' or product.category.slug == 'business-investigacion' or product.category.slug == 'business-art' or product.category.slug == 'business-admin' or product.category.slug == 'business-privado' %}
+              <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+                  <span class="text-muted fw-bold">// PROCESOS BASE SECTORIALES:</span>
+                  <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-white fw-bold">REGISTRO & GESTIÓN DE OPERACIONES</span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+                  </div>
+                  <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Administración centralizada de flujos transaccionales y expedientes específicos del sector.</div>
+                </div>
+              </div>
+              {% endif %}
+    
+            </div>
+    
+            <!-- BOTÓN AGREGAR / GENERAR LICENCIA (AL FINAL DE LA COLUMNA DERECHA) -->
+            <div class="tech-detail-box p-3 bg-dark border-start border-3 mt-3" style="border-color: var(--accent-orange) !important;">
+              <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                
+                {% if cart_product_form.quantity %}
+                  {{ cart_product_form.quantity }}
+                {% else %}
+                  <input type="hidden" name="quantity" value="1">
+                {% endif %}
+    
+                {% if cart_product_form.update %}
+                  {{ cart_product_form.update }}
+                {% else %}
+                  <input type="hidden" name="update" value="False">
+                {% endif %}
+    
+                <button type="submit" class="btn-tech-orange py-2">
+                  <ion-icon name="key-outline" class="fs-5"></ion-icon>
+                  <span>{% trans 'Generar licencia propietaria ITC' %}</span>
+                </button>
+              </form>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+    </div>
+
+
+
+<!-- LÓGICA DE JAVASCRIPT PARA EL CHAT INTERACTIVO -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("aiChatForm");
+    const userInput = document.getElementById("userInput");
+    const chatContainer = document.getElementById("chatContainer");
+    const sendBtn = document.getElementById("sendBtn");
+
+    if (!chatForm) return;
+
+    chatForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      const userMsgDiv = document.createElement("div");
+      userMsgDiv.className = "chat-message user font-monospace";
+      userMsgDiv.textContent = text;
+      chatContainer.appendChild(userMsgDiv);
+
+      userInput.value = "";
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      const loadingDiv = document.createElement("div");
+      loadingDiv.className = "chat-message bot font-monospace opacity-50";
+      loadingDiv.id = "loadingMessage";
+      loadingDiv.textContent = "Procesando respuesta en el clúster...";
+      chatContainer.appendChild(loadingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      sendBtn.disabled = true;
+
+      const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+      const csrfToken = csrfInput ? csrfInput.value : '{{ csrf_token }}';
+      const productId = parseInt("{{ product.id|default:0 }}", 10);
+
+      const payload = { pregunta: text };
+      if (productId > 0) {
+        payload.producto_id = productId;
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
+
+      try {
+        const response = await fetch("{% url 'saas_shop:ai_chat_view' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        const rawText = await response.text();
+        const loadingElem = document.getElementById("loadingMessage");
+        if (loadingElem) loadingElem.remove();
+
+        const botMsgDiv = document.createElement("div");
+        botMsgDiv.className = "chat-message bot font-monospace";
+
+        try {
+          const data = JSON.parse(rawText);
+          if (response.ok && data.status === 'success') {
+            botMsgDiv.textContent = data.respuesta;
+          } else {
+            botMsgDiv.className = "chat-message bot font-monospace text-warning";
+            botMsgDiv.textContent = data.error || `Error del servidor (Código ${response.status})`;
+          }
+        } catch (jsonErr) {
+          botMsgDiv.className = "chat-message bot font-monospace text-danger";
+          botMsgDiv.textContent = `Error interno en el servidor (Revisa los logs del pod de Django).`;
+        }
+
+        chatContainer.appendChild(botMsgDiv);
+
+      } catch (error) {
+        clearTimeout(timeoutId);
+        const loadingElem = document.getElementById("loadingMessage");
+        if (loadingElem) loadingElem.remove();
+
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "chat-message bot font-monospace text-danger";
+        if (error.name === 'AbortError') {
+          errorDiv.textContent = "Tiempo de espera agotado (Timeout).";
+        } else {
+          errorDiv.textContent = "Error de conexión con el servidor.";
+        }
+        chatContainer.appendChild(errorDiv);
+      } finally {
+        sendBtn.disabled = false;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    });
+  });
+</script>
+
+{% endblock %}
