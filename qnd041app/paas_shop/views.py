@@ -82,3 +82,47 @@ def product_detail(request, id, slug):
                       'cart_product_form': cart_product_form,
                       'recommended_products': recommended_products
                   })
+
+
+import json
+import traceback
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from .services import consultar_ollama_productos
+
+@login_required
+@require_POST
+def ai_assistant_chat_view(request):
+    """
+    Vista protegida que procesa la petición de chat asegurando
+    siempre una respuesta estricta en formato JSON para el frontend.
+    """
+    try:
+        # Asegurar decodificación segura del cuerpo
+        if not request.body:
+            return JsonResponse({'status': 'error', 'error': 'Cuerpo de solicitud vacío.'}, status=400)
+            
+        data = json.loads(request.body.decode('utf-8'))
+        pregunta = data.get('pregunta', '').strip()
+        
+        if not pregunta:
+            return JsonResponse({'status': 'error', 'error': 'La pregunta no puede estar vacía.'}, status=400)
+        
+        producto_id = data.get('producto_id', None)
+        
+        # Llamada al servicio de Ollama
+        respuesta_ia = consultar_ollama_productos(pregunta, producto_id=producto_id)
+        
+        return JsonResponse({
+            'status': 'success',
+            'respuesta': respuesta_ia
+        }, status=200)
+        
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'error': 'Formato JSON inválido.'}, status=400)
+        
+    except Exception as e:
+        # Imprime el rastro exacto en los logs del pod de Kubernetes para depuración
+        traceback.print_exc()
+        return JsonResponse({'status': 'error', 'error': f'Error interno del servidor: {str(e)}'}, status=500)
