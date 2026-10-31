@@ -785,6 +785,30 @@
        </div>
        {% endif %}
 
+               <!-- BOTÓN AGREGAR / GENERAR LICENCIA (AL FINAL DE LA COLUMNA DERECHA) -->
+               <div class="tech-detail-box p-3 bg-dark border-start border-3 mt-3" style="border-color: var(--accent-orange) !important;">
+                <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
+                  {% csrf_token %}
+                  
+                  {% if cart_product_form.quantity %}
+                    {{ cart_product_form.quantity }}
+                  {% else %}
+                    <input type="hidden" name="quantity" value="1">
+                  {% endif %}
+      
+                  {% if cart_product_form.update %}
+                    {{ cart_product_form.update }}
+                  {% else %}
+                    <input type="hidden" name="update" value="False">
+                  {% endif %}
+      
+                  <button type="submit" class="btn-tech-orange py-2">
+                    <ion-icon name="key-outline" class="fs-5"></ion-icon>
+                    <span>{% trans 'Generar licencia propietaria ITC' %}</span>
+                  </button>
+                </form>
+              </div>
+
      </div>
 
    </div>
@@ -793,37 +817,9 @@
 
         </div>
 
-        <!-- BOTÓN AGREGAR / GENERAR LICENCIA (AL FINAL DE LA COLUMNA DERECHA) -->
-        <div class="tech-detail-box p-3 bg-dark border-start border-3 mt-3" style="border-color: var(--accent-orange) !important;">
-          <form action="{% url 'paas_cart:cart_add' product.id %}" method="post">
-            {% csrf_token %}
-            
-            {% if cart_product_form.quantity %}
-              {{ cart_product_form.quantity }}
-            {% else %}
-              <input type="hidden" name="quantity" value="1">
-            {% endif %}
 
-            {% if cart_product_form.update %}
-              {{ cart_product_form.update }}
-            {% else %}
-              <input type="hidden" name="update" value="False">
-            {% endif %}
 
-            <button type="submit" class="btn-tech-orange py-2">
-              <ion-icon name="key-outline" class="fs-5"></ion-icon>
-              <span>{% trans 'Generar licencia propietaria ITC' %}</span>
-            </button>
-          </form>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
+  
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
