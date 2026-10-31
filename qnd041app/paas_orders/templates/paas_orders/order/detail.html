@@ -1,440 +1,292 @@
-{% extends "paas_shop/base3.html" %}
+{% extends "saas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
 {% block title %}
-  {% trans "Checkout" %}
+  {% trans "Licencia ITC Generada Exitosamente" %}
 {% endblock %}
 
 {% block content %}
 
 <style>
-  .step-count-circle {
-  background-color: #b50f15; /* o el color corporativo que uses */
-  color: #fff;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-weight: 600;
-  margin-right: 8px;
-  font-size: 14px;
-}
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: var(--bg-main) !important;
+  }
+
+  /* Tarjetas con estilo tecnológico */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
+
+  .tech-badge-orange {
+    background: rgba(247, 168, 79, 0.1);
+    color: var(--accent-orange);
+    border: 1px solid rgba(247, 168, 79, 0.3);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* Stepper de progreso completado */
+  .steps-light .step-item {
+    color: var(--text-muted-custom);
+    text-decoration: none;
+  }
+
+  .steps-light .step-item.active .step-count {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    font-weight: bold;
+  }
+
+  .step-count {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
+
+  /* Contenedor de la Licencia Key */
+  .license-key-box {
+    background: linear-gradient(135deg, rgba(247, 168, 79, 0.12) 0%, rgba(247, 168, 79, 0.02) 100%);
+    border: 2px dashed var(--accent-orange);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  /* Botones interactivos */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    padding: 12px 24px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-tech {
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    font-family: monospace;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-outline-tech:hover {
+    background-color: rgba(247, 168, 79, 0.1);
+    color: #ffffff;
+    border-color: var(--accent-orange);
+  }
 </style>
 
-<div class="page-content-wrapper">
-  <!-- start page content-->
-  <div class="page-content">
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
+    <div class="tech-card p-4 p-md-5">
+      
+      <!-- STEPPER DE PROGRESO COMPLETADO (Paso 3) -->
+      <div class="tech-card-subtle p-3 mb-4">
+        <div class="steps steps-light d-flex justify-content-between align-items-center">
+          <a class="step-item active d-flex align-items-center gap-2" href="{% url 'saas_cart:cart_detail' %}">
+            <div class="step-progress"><span class="step-count">1</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Carrito</span>
+          </a>
+          <a class="step-item active d-flex align-items-center gap-2" href="{% url 'saas_orders:accept_terms' %}">
+            <div class="step-progress"><span class="step-count">2</span></div>
+            <span class="font-monospace text-muted small d-none d-sm-inline">Términos Legales</span>
+          </a>
+          <a class="step-item active current d-flex align-items-center gap-2" href="#">
+            <div class="step-progress"><span class="step-count">3</span></div>
+            <span class="font-monospace text-white small d-none d-sm-inline">Licencia Emitida</span>
+          </a>
+        </div>
+      </div>
 
+      {% if order.is_active %}
 
+      <!-- MENSAJE DE ÉXITO -->
+      <div class="tech-card-subtle p-4 p-md-5 mb-4 text-center">
+        <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-3" style="background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3);">
+          <ion-icon name="checkmark-done-circle-outline" class="text-success" style="font-size: 3.5rem;"></ion-icon>
+        </div>
 
-    <!--end breadcrumb-->
+        <span class="tech-badge-orange mb-2 d-inline-block">// VALIDACIÓN PROCESADA CON ÉXITO</span>
+        <h2 class="text-white fw-bold mb-3">¡Proceso Completado Exitosamente!</h2>
+        
+        <p class="text-light opacity-90 max-width-md mx-auto mb-4" style="color: #cbd5e1 !important; max-width: 680px;">
+          Gracias por validar su licencia para el desarrollo e implementación de soluciones tecnológicas en la nube con <strong>SmartQuail, Inc.</strong> Sus activos informáticos se encuentran listos para el despliegue de infraestructura.
+        </p>
 
-    <!--start shop cart-->
-    <section class="shop-page">
-      <div class="shop-container">
-        <div class="card shadow-sm border-0">
-  
-    
-          <div class="card-body" style="background-color: #2e2e2e;">
-            <div class="shop-cart">
-              <div class="row">
+        <!-- CAJA DE LICENCIA ITC KEY -->
+        <div class="license-key-box max-width-md mx-auto mb-3" style="max-width: 650px;">
+          <div class="font-monospace text-muted small mb-1">// LICENCIA ITC KEY ASIGNADA:</div>
+          <h3 class="accent-text fw-bold font-monospace mb-0 text-break">
+            <ion-icon name="key-outline" class="me-2"></ion-icon>SQ02-APP-12{{ order.id }}-QND0101{{ order.id }}
+          </h3>
+        </div>
 
-                <!-- ============================= -->
-                <!--  COLUMNA IZQUIERDA - DETALLE -->
-                <!-- ============================= -->
-                <div class="col-12 col-xl-20">
-                  <div class="checkout-details">
+        <div class="font-monospace small text-muted d-flex align-items-center justify-content-center gap-2">
+          <i class="fadeIn animated bx bx-support accent-text"></i>
+          <span>Nuestro equipo de SRE & Project Management se pondrá en contacto en breve para la entrega del entorno.</span>
+        </div>
+      </div>
 
-                    <!-- Steps -->
-                    <div class="card border-0">
-                      <div class="card-body" style="background-color: #2e2e2e;">
-                        <div class="steps steps-light">
-                          <a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
-                            <div class="step-progress"><span class="step-count">1</span></div>
-              
-                          </a>
-                          <a class="step-item active" href="#">
-                            <div class="step-progress"><span class="step-count">2</span></div>
-                         
-                          </a>
-                          <a class="step-item item active current">
-                            <div class="step-progress"><span class="step-count">3</span></div>
-                          
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+      <!-- DETALLE DE LA ORGANIZACIÓN Y ACTIVOS CONTRATADOS -->
+      <div class="row g-4">
+        
+        <!-- DATOS DE LA ENTIDAD TITULAR -->
+        <div class="col-12 col-lg-6">
+          <div class="tech-card-subtle p-4 h-100">
+            <h6 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+              // DATOS DEL TITULAR DE LA LICENCIA
+            </h6>
 
-                    <!-- Card principal -->
-                    {% if order.is_active %}
-
-
-                    <!-- Orden Activa -->
-                    <div class="card">
-                      <h2 class="h5 mb-0">
-                        Gracias por validar su licencia   para el desarrollo e implementación de sistemas de información ITC.
-                     </h2>
-                     <hr>
-                      <div class="card-body" style="background-color: #2e2e2e;">
-                  <h2><ion-icon name="key-outline"></ion-icon>  Licencia ITC Generada <br>
-                    <strong>SQ05-PLT-22{{ order.id }}-QND0501{{ order.id }}</strong></h2>
-                        <!-- Usuario -->
-                        <div class="d-flex align-items-center mb-3">
-                          <div class="ms-3">
-                            <h6 class="mb-0"> Propietario: <strong>{{ order.first_name }} {{ order.last_name }}</strong></h6>
-                            <p class="mb-0">Cuenta ITC: {{ order.email }}</p>
-                          </div>
-                        </div>
-                  
-                        <hr>
-                  
-                        <!-- Título -->
-                  
-                        <p class="mt-2">
-                          <h5 class="mb-3">Negocio ITC</h5>
-                        <p><strong>Fecha de creación:</strong> {{ order.created }}</p>
-                        {% if order.coupon  %}
-                        <p><strong>Codigo de convenio:</strong> {{ order.coupon  }}</p>
-                        {% else %}
-                        <p><strong>Convenio:</strong> No registra</p>
-                        {% endif %}
-                        </p>
-                  
-                      
-                        <p><strong>Razón Social:</strong> {{ order.razon_social  }}</p>
-                        <p><strong>Sector Comercial:</strong> {{ order.sector  }}</p>
-                        <p><strong>Registro Fiscal:</strong> {{ order.ruc }}</p>
-                        <p><strong>Contacto:</strong> {{ order.telefono }}</p>
-                  
-                        <hr>
-                  
-                        <!-- Productos adquiridos -->
-                        <h5 class="mb-3">Solución ITC </h5>
-                        <ul class="list-group bg-transparent">
-                          {% for item in order.items.all %}
-                          <li class="list-group-item bg-transparent text-dark d-flex justify-content-between">
-                            <div>
-                              <strong>{{ item.product.name }}</strong><br>
-                              <small>{{ item.product.description }}</small>
-                            </div>
-                         
-                          </li>
-                          {% endfor %}
-                  <hr>
-                  {% if order.coupon.credito  %}
-                  <h5 class="mb-3">Inversión ITC sin convenio:  {{ order.get_subtotal }}</h5>
-                  {% else %}
-                  <h5 class="mb-3">Inversión:  {{ order.get_subtotal }}</h5>
-                  {% endif %}
-                          <div>
-                            {% if order.discount %}
-                            <strong>Descuento:  {{ order.get_discount_value }}</strong><br>
-                            {% endif %}
-
-                            {% if order.coupon.credito %}
-                            <strong>Línea de credito: {{ order.coupon.credito  }} meses al {{ order.coupon.percent_credit  }}%  </strong><br>
-                            {% endif %}
-
-                            <strong>Subtotal: {{ order.get_total_cost }}</strong><br>
-                         
-                            
-                            {% if order.coupon.credito  %}
-                         
-                            <small>Total + I.V.A + {{ order.coupon.percent_credit }} % interes : {{ order.get_total_with_discount_interes|floatformat:2 }} US$ </small>
-                            {% else %}
-                  
-                            <small>Total + I.V.A: {{ order.get_total_with_discount|floatformat:2 }} US$ </small>
-                            {% endif %}
-
-                          </div>
-                       
-                        </li>
-                  
-                        </ul>
-                  
-                        <hr>
-                  
-                        <!-- Total -->
-                        <h4 class="d-flex justify-content-between">
-                          {% if order.coupon.credito %}
-                          <span>Inversión ITC por convenio</span>
-                          <span>{{ order.get_total_monthly_suscription|floatformat:2 }} US$ / Mes</span>
-                      {% else %}
-                          <span>Inversión</span>
-                          <span>{{ order.get_total_with_discount|floatformat:2 }}</span>
-                      {% endif %}
-
-                        </h4>
-                        <h4>
-                          <i class="fadeIn animated bx bx-support"></i> Nos pondremos en contacto con usted para continuar con el proceso de activación de su licencia ITC.
-                        </h4>
-                        <hr>
-                        <div class="my-4"></div>
-                  
-                  
-                  
-                      </div>
-                    </div>
-                  
-                  {% else %}
-                    <!-- Orden Expirada -->
-                    <div class="card">
-                      <div class="card-body text-center">
-                  
-                        <p class="fs-5">Su licencia  <strong>SQ05-PLT-22{{ order.id }}-QND0501{{ order.id }}</strong>,  ha expirado por falta de pago.</p>
-                        <p>Puede volver a explorar nuestros productos y buscar soluciones tecnológicas que se ajusten a sus necesidades ITC.</p>
-                  
-                        <a href="{% url 'saas_shop:product_list' %}" class="btn btn-success btn-ecomm mt-3">
-                          Ver Catálogo de Productos
-                        </a>
-   
-                      </div>
-                    </div>
-                  {% endif %}
-                  
-
-
+            <div class="font-monospace small text-light">
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                <span class="text-muted">PROPIETARIO:</span>
+                <span class="text-white fw-bold">{{ order.first_name }} {{ order.last_name }}</span>
               </div>
-              <!--end row-->
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                <span class="text-muted">CORREO:</span>
+                <span class="text-white">{{ order.email }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                <span class="text-muted">RAZÓN SOCIAL:</span>
+                <span class="text-white">{{ order.razon_social|default:"N/A" }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                <span class="text-muted">R.U.C / C.I:</span>
+                <span class="text-white">{{ order.ruc|default:"N/A" }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-10">
+                <span class="text-muted">SECTOR COMERCIAL:</span>
+                <span class="text-white">{{ order.sector|default:"N/A" }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2">
+                <span class="text-muted">CONTACTO:</span>
+                <span class="text-white">{{ order.telefono|default:"N/A" }}</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- DETALLE ECONÓMICO Y PRODUCTOS -->
+        <div class="col-12 col-lg-6">
+          <div class="tech-card-subtle p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <h6 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+                // SOLUCIÓN TECNOLÓGICA SOLICITADA
+              </h6>
+
+              <ul class="list-unstyled mb-3">
+                {% for item in order.items.all %}
+                <li class="mb-3 p-3 rounded bg-dark border border-secondary border-opacity-25">
+                  <h6 class="text-white fw-bold mb-1 font-monospace fs-6">{{ item.product.name }}</h6>
+                  <p class="text-muted small mb-0" style="color: #94a3b8 !important;">{{ item.product.description|truncatewords:18 }}</p>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="border-top border-secondary border-opacity-25 pt-3">
+              <div class="d-flex justify-content-between font-monospace small text-muted mb-1">
+                <span>CONVENIO APLICADO:</span>
+                <span class="text-white">{% if order.coupon %}{{ order.coupon }}{% else %}Sin convenio{% endif %}</span>
+              </div>
+              <div class="d-flex justify-content-between font-monospace small text-muted mb-2">
+                <span>SUBTOTAL APLICADO:</span>
+                <span class="text-white">${{ order.get_total_cost|floatformat:2 }}</span>
+              </div>
+              <div class="d-flex justify-content-between font-monospace fw-bold text-white fs-5 pt-2 border-top border-secondary border-opacity-10">
+                <span>INVERSIÓN TOTAL:</span>
+                <span class="accent-text">${{ order.get_total_with_discount|floatformat:2 }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    </section>
-    <!--end shop cart-->
+
+      <!-- BOTONES DE ACCIÓN PARA EXPLORAR DEMO -->
+      <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 text-center">
+        {% for item in order.items.all %}
+          {% if item.product.category.slug == 'business-analytics' or item.product.category.slug == 'business-law' %}
+            <a href="{% url 'admin:index' %}" class="btn btn-tech-orange d-inline-flex align-items-center gap-2">
+              <ion-icon name="play-outline"></ion-icon> Explora tu Demo de Aplicativo
+            </a>
+          {% elif item.product.category.slug == 'business-media' %}
+            <a href="{% url 'wagtailadmin_login' %}" class="btn btn-tech-orange d-inline-flex align-items-center gap-2">
+              <ion-icon name="play-outline"></ion-icon> Explora tu Demo CMS Media
+            </a>
+          {% else %}
+            <a href="{% url 'usuarios:dashboard_pather' %}" class="btn btn-tech-orange d-inline-flex align-items-center gap-2">
+              <ion-icon name="speedometer-outline"></ion-icon> Ir al Dashboard de Control
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% else %}
+
+      <!-- ORDEN EXPIRADA O INACTIVA -->
+      <div class="tech-card-subtle p-5 text-center">
+        <ion-icon name="alert-circle-outline" class="text-warning mb-3" style="font-size: 3.5rem;"></ion-icon>
+        <h4 class="text-white fw-bold mb-2 font-monospace">Orden Expirada o Inexistente</h4>
+        <p class="text-muted small mb-4" style="max-width: 500px; margin: 0 auto;">
+          La orden consultada ya no se encuentra activa en nuestro validador. Le invitamos a explorar nuestro catálogo para seleccionar nuevas soluciones tecnológicas.
+        </p>
+        <a href="{% url 'saas_shop:product_list' %}" class="btn btn-tech-orange font-monospace">
+          Ver Catálogo de Productos
+        </a>
+      </div>
+
+      {% endif %}
+
+      <div class="text-center mt-5 pt-3 border-top border-secondary border-opacity-10 text-muted font-monospace small">
+        <p class="mb-0">SmartQuail, Inc. — Cloud Sovereign & Private AI Solutions ® 2026</p>
+      </div>
+
+    </div>
 
   </div>
-  <!-- end page content-->
 </div>
-
 
 {% endblock %}
-
-
-
-     <div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
-
-          <!--start breadcrumb-->
-          <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Software como Producto</div>
-            <div class="ps-3">
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 p-0 align-items-center">
-                  <li class="breadcrumb-item"><a href="javascript:;"></a>
-                  </li>
-                  <li class="breadcrumb-item active" aria-current="page">Detalle de Orden de Compra</li>
-                </ol>
-              </nav>
-            </div>
-            <div class="ms-auto">
-              <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary">Settings</button>
-                <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-                  <a class="dropdown-item" href="javascript:;">Another action</a>
-                  <a class="dropdown-item" href="javascript:;">Something else here</a>
-                  <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--end breadcrumb-->
-
-
-          <!--start shop cart-->
-          <section class="shop-page">
-            <div class="shop-container">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-						<div class="shop-cart">
-							<div class="row">
-								<div class="col-12 col-xl-8">
-									<div class="checkout-details">
-										<div class="card border-0">
-											<div class="card-body">
-												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
-														<div class="step-progress"><span class="step-count">1</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cart'></i></div>
-													</a>
-													<a class="step-item active current" href="{% url 'paas_orders:order_create' %}">
-														<div class="step-progress"><span class="step-count">2</span>
-														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i></div>
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="d-flex align-items-center mb-3">
-													<div class="">
-														<img src="assets/images/avatars/06.png" width="80" alt="" class="rounded-circle p-1 shadow-sm">
-													</div>
-													<div class="ms-3">
-														<h6 class="mb-0">{{ order.first_name  }} {{order.last_name }}</h6>
-														<p class="mb-0">{{ order.email }} </p>
-													</div>
-												</div>
-                        <hr>
-												<div class="">
-													<h2 class="h5 mb-0">Datos de Facturación</h2>
-													<div class="my-3 border-bottom"></div>
-<div class="form-body">
-  <form action="." method="post" class="order-form row g-3">
-    
-    {% csrf_token %}
-    
-    <!-- RUC -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.ruc.id_for_label }}">R.U.C / C.I</label>
-      {{ form.ruc }}
-    </div>
-
-    <!-- Razon Social -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.razon_social.id_for_label }}">Nombre de la Organización,Negocio o Marca</label>
-      {{ form.razon_social }}
-    </div>
-
-    <!-- Sector -->
-    <div class="col-md-6">
-      <label class="form-label" for="{{ form.sector.id_for_label }}">Sector de Negocios</label>
-      {{ form.sector }}
-    </div>
-
-    <!-- Teléfono -->
-  <div class="input-group">
-    <span class="input-group-text">+593</span>
-    {{ form.telefono }}
-  </div>
-
-  <!-- Texto explicativo -->
-  <small class="form-text text-muted">
-    Escriba el número en formato internacional. Ejemplo: +593XXXXXXXXX.
-  </small>
-
-
-    <!-- Dirección de Facturación -->
-    <div class="col-md-12">
-      <h6 class="mb-0 h5">Términos y Condiciones de compra</h6>
-      <div class="my-3 border-bottom"></div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck" checked>
-        <label class="form-check-label" for="gridCheck">He leido y acepto lo terminos y condiciones</label>
-      </div>
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="col-md-6">
-      <div class="d-grid">
-        <a href="{% url 'paas_cart:cart_detail' %}" class="btn btn-light btn-ecomm"><i class='bx bx-chevron-left'></i>Back to Cart</a>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="d-grid">
-        <input type="submit" value="{% trans 'Place order' %}" class="btn btn-primary btn-ecomm">
-      </div>
-    </div>
-  </form>
-</div>
-
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-<div class="col-12 col-xl-4">
-  <div class="order-summary">
-    <div class="card">
-      <div class="card-body">
-        <!-- Aplicar código de descuento -->
-
-        <!-- Resumen de la orden -->
-     <div class="card">
-  <div class="card-body">
-    <p class="fs-5">Detalle de Compra</p>
-    <div class="my-3 border-top"></div>
-    
-    <!-- Mostrar cada producto en el carrito -->
-    <ul class="list-unstyled">
-      {% for item in cart %}
-        <li class="d-flex align-items-center">
-
-          <div class="ps-3">
-            <h6 class="mb-1">{{ item.product.name }}</h6>
-            <p>{{item.product.description }}</p>
-            <div class="widget-product-meta">
-            </div>
-          </div>
-        </li>
-        <div class="my-3 border-top"></div>
-      {% endfor %}
-    </ul>
-
-    <!-- Mostrar descuento si aplica -->
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>{{ cart.coupon.code }} ({{ cart.coupon.discount }}% off)</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-      <div class="my-3 border-top"></div>
-    {% endif %}
-    
-    <!-- Totales -->
-
-
-    {% if cart.coupon %}
-      <div class="d-flex justify-content-between">
-        <span>Discount</span>
-        <span>- ${{ cart.get_discount|floatformat:"2" }}</span>
-      </div>
-    {% endif %}
-    <div class="my-3 border-top"></div>
-    <div class="d-flex justify-content-between">
-      <h5 class="mb-0">Total a pagar</h5>
-      <span class="float-end">${{ cart.get_total_price_after_discount|floatformat:"2" }}</span>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-
-
-  </div>
-</div>
-
-							</div>
-							<!--end row-->
-						</div>
-					</div>
-        </div>
-      </div>
-				</section>
-				<!--end shop cart-->
-             
-
-          </div>
-          <!-- end page content-->
-         </div>

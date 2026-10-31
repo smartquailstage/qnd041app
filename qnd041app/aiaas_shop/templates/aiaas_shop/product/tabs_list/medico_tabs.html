@@ -265,11 +265,20 @@
                                 <span class="text-muted">RECURSOS NUBE:</span>
                                 <span class="text-white">{{ product.cpu|default:0 }} vCPU · {{ product.memoria|default:0 }} GB RAM · {{ product.almacenamiento|default:0 }} GB SSD</span>
                               </div>
+                              <div class="d-flex justify-content-between mb-0">
+                                <span class="text-muted">INCLUYEE:</span>
+                                <span class="text-white">SmartBusinessAnalytics Core · SmartBusinessMedia Core· SmartBusinessLaw Core</span>
+                              </div>
+
                             </div>
 
                             <!-- CUADRO 2: PROCESOS MÉDICOS, AUTOMATIZACIÓN Y DIAGNÓSTICO IA -->
                             {% if product.is_automatitation or product.is_intelligent %}
                             <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-2 font-monospace small">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">// ATENCION A PACIENTES:</span>
+                                <span class="text-warning fw-bold text-end">Interfase UI/UX para atencion a pacientes</span>
+                              </div>
                               {% if product.is_automatitation %}
                               <div class="d-flex justify-content-between align-items-center {% if product.is_intelligent %}mb-1 pb-1 border-bottom border-secondary border-opacity-10{% endif %}">
                                 <span class="text-muted">// PROCESOS CLÍNICOS:</span>
@@ -301,7 +310,82 @@
                               </div>
                             </div>
 
-                          </div>
+                            
+  
+                          
+                            <!-- CUADRO 3: HORAS I+D Y TIPO DE NUBE -->
+                            <div class="p-2 px-3 rounded bg-dark border border-secondary border-opacity-25 mb-3 font-monospace small">
+   
+<!-- Citas y Recepción -->
+{% comment %} =================================================================
+   ASISTENTES AUTÓNOMOS DE IA - SECTOR MÉDICO & TERAPÉUTICO
+   ================================================================= {% endcomment %}
+<div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+  
+  <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <span class="text-warning fw-bold">// ASISTENTES AUTÓNOMOS DE IA CLÍNICA:</span>
+    <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">Agéntico / IA</span>
+  </div>
+
+  <!-- 1. Asistente Autónomo de Triaje y Urgencias -->
+  <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ASISTENTE AUTÓNOMO DE TRIAJE Y URGENCIAS PREVENTIVAS</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Evaluación autónoma de signos vitales iniciales y priorización automatizada de gravedad en pacientes de urgencia.</div>
+  </div>
+
+  <!-- 2. Asistente Autónomo de Historia Clínica Predictiva -->
+  <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ANALISTA DE SÍNTESIS DE HISTORIALES CLÍNICOS</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Lectura cruzada de antecedentes patológicos para resumir en viñetas clínicas de alto valor antes de cada consulta.</div>
+  </div>
+
+  <!-- 3. Escáner de Interacciones Farmacológicas -->
+  <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ESCÁNER DE RECETAS & CONTRAINDICACIONES</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Verificación automatizada en tiempo real de alergias cruzadas e interacciones farmacológicas adversas en recetas.</div>
+  </div>
+
+  <!-- 4. Asistente Autónomo de Seguimiento Post-Terapéutico -->
+  <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">ASISTENTE AUTÓNOMO DE SEGUIMIENTO Y EVOLUCIÓN TERAPÉUTICA</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Monitoreo conversacional autónomo al paciente en casa para evaluar adherencia a tratamientos y terapias de rehabilitación.</div>
+  </div>
+
+  <!-- 5. Asistente de Agendamiento y Predicción de Ausentismo -->
+  <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">AGENTE DE GESTIÓN DE AGENDA & PREVENCIÓN DE FALTAS</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Chatbot autónomo con procesamiento de lenguaje natural que negocia reasignaciones de turnos ante cancelaciones.</div>
+  </div>
+
+  <!-- 6. Auditoría y Análisis Predictivo de Insumos Médicos -->
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-white fw-bold">PREDICTOR DE STOCK & DEMANDA CLÍNICA</span>
+      <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+    </div>
+    <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Modelo predictivo impulsado por IA para anticipar quiebres de inventario en farmacia y suministros de quirófano.</div>
+  </div>
+
+</div>
+
+
+
+
 
                           <!-- FOOTER DE PRECIO Y ACCIÓN -->
                           <div class="d-flex align-items-center justify-content-between border-top border-secondary border-opacity-25 pt-2 mt-1">

@@ -132,216 +132,629 @@
     <div class="row g-4">
 
       <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
-      <div class="col-12 col-lg-5">
-        <div class="product-gallery-wrapper">
-
-          <!-- CAROUSEL DE PRODUCTO -->
-          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-
-              {% if product.image_2 %}
-              <div class="carousel-item active">
-                <div class="image-container position-relative">
-                  <img src="{{ product.image_2.url }}" class="d-block w-100 rounded" alt="Imagen principal">
+             <!-- COLUMNA IZQUIERDA: GALERÍA DE IMÁGENES -->
+             <div class="col-12 col-lg-5">
+              <div class="product-gallery-wrapper">
+      
+                <!-- CAROUSEL DE PRODUCTO -->
+                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+      
+                    {% if product.image_2 %}
+                    <div class="carousel-item active">
+                      <div class="image-container position-relative">
+                        <img src="{{ product.image_2.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen principal">
+                      </div>
+                    </div>
+                    {% endif %}
+      
+                    {% if product.image_2_2 %}
+                    <div class="carousel-item {% if not product.image_2 %}active{% endif %}">
+                      <div class="image-container position-relative">
+                        <img src="{{ product.image_2_2.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen secundaria">
+      
+                        {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                        <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% elif product.category.name == "Business Media" %}
+                        <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endif %}
+      
+                    {% if product.image_3 %}
+                    <div class="carousel-item {% if not product.image_2 and not product.image_2_2 %}active{% endif %}">
+                      <div class="image-container position-relative">
+                        <img src="{{ product.image_3.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen terciaria">
+      
+                        {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                        <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% elif product.category.name == "Business Media" %}
+                        <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endif %}
+      
+                    {% if product.image_4 %}
+                    <div class="carousel-item {% if not product.image_2 and not product.image_2_2 and not product.image_3 %}active{% endif %}">
+                      <div class="image-container position-relative">
+                        <img src="{{ product.image_4.url }}" class="d-block w-100 rounded object-fit-cover" style="max-height: 380px; height: 100%;" alt="Imagen cuarta">
+      
+                        {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
+                        <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% elif product.category.name == "Business Media" %}
+                        <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
+                          <ion-icon name="play-outline" class="fs-3"></ion-icon>
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endif %}
+      
+                    {% if not product.image_2 and not product.image_2_2 and not product.image_3 and not product.image_4 %}
+                    <div class="carousel-item active">
+                      <div class="image-container position-relative text-center py-4">
+                        <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid mx-auto opacity-50" alt="Sin imagen">
+                      </div>
+                    </div>
+                    {% endif %}
+      
+                  </div>
+      
+                  <!-- CONTROLES -->
+                  <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+      
+                  <!-- INDICADORES -->
+                  <div class="carousel-indicators indicators-circle position-static mt-3 mb-0">
+                    {% if product.image_2 %}
+                    <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+                    {% endif %}
+      
+                    {% if product.image_2_2 %}
+                    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}1{% else %}0{% endif %}"></button>
+                    {% endif %}
+      
+                    {% if product.image_3 %}
+                    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}2{% else %}0{% endif %}"></button>
+                    {% endif %}
+      
+                    {% if product.image_4 %}
+                    <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}3{% else %}0{% endif %}"></button>
+                    {% endif %}
+                  </div>
+      
                 </div>
+      
               </div>
-              {% endif %}
+      
+              <!-- CERTIFICACIONES Y NORMAS EN COLUMNA IZQUIERDA (Opcional según diseño) -->
+              <div class="tech-detail-box p-3 mt-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2" style="font-size: 0.9rem;">
+                  <ion-icon name="shield-checkmark-outline" class="fs-5 text-success"></ion-icon>
+                  <span>Certificaciones & Normativas</span>
+                </h6>
+                <p class="small text-muted font-monospace mb-0" style="font-size: 0.75rem;">
+                  ISO/IEC 27001, LOPDP Ecuador, HIPAA, NIST SP 800-53, OWASP Top 10.
+                </p>
+              </div>
+      
+              <!-- SOPORTE Y MANTENIMIENTO -->
+              <div class="tech-detail-box p-3 mt-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2" style="font-size: 0.9rem;">
+                  <i class="fadeIn animated bx bx-support fs-5 text-info"></i>
+                  <span>Soporte & Mantenimiento</span>
+                </h6>
+                <p class="small text-light mb-0 font-monospace" style="font-size: 0.78rem;">
+                  <strong>{{ product.total_nube_iva }}</strong> / mes
+                  <span class="d-block text-muted small">(Incluye recursos de nube y soporte operativo 24/7)</span>
+                </p>
+              </div>
 
-              {% if product.image_2_2 %}
-              <div class="carousel-item {% if not product.image_2 %}active{% endif %}">
-                <div class="image-container position-relative">
-                  <img src="{{ product.image_2_2.url }}" class="d-block w-100 rounded" alt="Imagen secundaria">
+                         <!-- Asistente de IA (Chat Interactivo - Ubicado a la Izquierda) -->
+                         <div class="tech-card-subtle p-3 shadow-sm">
+                          <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="text-white font-monospace small d-flex align-items-center gap-2">
+                              <ion-icon name="sparkles-outline" class="accent-text fs-6"></ion-icon>
+                              ASISTENTE IA 
+                            </span>
+                            <span class="tech-badge-orange" style="font-size: 9px; padding: 2px 6px;">LLM ONLINE PRIVADO</span>
+                          </div>
+          
+                          <div class="chat-box mb-2" id="chatContainer">
+                            <div class="chat-message bot font-monospace">
+                              Hola, soy el asistente de SmartQuail. Pregúntame sobre especificaciones o precios de <strong>{{ product.name }}</strong>.
+                            </div>
+                          </div>
+          
+                          <form id="aiChatForm" class="d-flex gap-2">
+                            {% csrf_token %}
+                            <input type="text" id="userInput" class="form-control font-monospace form-control-sm text-white bg-dark border-secondary" placeholder="Ej: ¿Qué CPU tiene?" style="font-size: 11px;" required>
+                            <button type="submit" id="sendBtn" class="btn btn-sm font-monospace fw-bold px-3 d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--accent-orange); color: #141415; border: none; border-radius: 6px;">
+                              <ion-icon name="send-outline"></ion-icon>
+                            </button>
+                          </form>
+                        </div>
 
-                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
-                  {% elif product.category.name == "Business Media" %}
-                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
+                                       <!-- BOTÓN AGREGAR / GENERAR LICENCIA (AL FINAL DE LA COLUMNA DERECHA) -->
+               <div class="tech-detail-box p-3 bg-dark border-start border-3 mt-3" style="border-color: var(--accent-orange) !important;">
+                <form action="{% url 'aiaas_cart:cart_add' product.id %}" method="post">
+                  {% csrf_token %}
+                  
+                  {% if cart_product_form.quantity %}
+                    {{ cart_product_form.quantity }}
+                  {% else %}
+                    <input type="hidden" name="quantity" value="1">
                   {% endif %}
-                </div>
-              </div>
-              {% endif %}
-
-              {% if product.image_3 %}
-              <div class="carousel-item {% if not product.image_2 and not product.image_2_2 %}active{% endif %}">
-                <div class="image-container position-relative">
-                  <img src="{{ product.image_3.url }}" class="d-block w-100 rounded" alt="Imagen terciaria">
-
-                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
-                  {% elif product.category.name == "Business Media" %}
-                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
+      
+                  {% if cart_product_form.update %}
+                    {{ cart_product_form.update }}
+                  {% else %}
+                    <input type="hidden" name="update" value="False">
                   {% endif %}
-                </div>
+      
+                  <button type="submit" class="btn-tech-orange py-2">
+                    <ion-icon name="key-outline" class="fs-5"></ion-icon>
+                    <span>{% trans 'Generar licencia propietaria ITC' %}</span>
+                  </button>
+                </form>
               </div>
-              {% endif %}
 
-              {% if product.image_4 %}
-              <div class="carousel-item {% if not product.image_2 and not product.image_2_2 and not product.image_3 %}active{% endif %}">
-                <div class="image-container position-relative">
-                  <img src="{{ product.image_4.url }}" class="d-block w-100 rounded" alt="Imagen cuarta">
-
-                  {% if product.category.name == "Business Law" or product.category.name == "Business Analytics" %}
-                  <a href="{% url 'admin:index' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
-                  {% elif product.category.name == "Business Media" %}
-                  <a href="{% url 'wagtailadmin_login' %}" class="play-button position-absolute top-50 start-50 translate-middle">
-                    <ion-icon name="play-outline" class="fs-3"></ion-icon>
-                  </a>
-                  {% endif %}
-                </div>
-              </div>
-              {% endif %}
-
-              {% if not product.image_2 and not product.image_2_2 and not product.image_3 and not product.image_4 %}
-              <div class="carousel-item active">
-                <div class="image-container position-relative text-center py-4">
-                  <img src="{% static 'img/no_image.png' %}" class="d-block w-50 img-fluid mx-auto" alt="Sin imagen">
-                </div>
-              </div>
-              {% endif %}
-
+      
             </div>
-
-            <!-- CONTROLES -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon"></span>
-            </button>
-
-            <!-- INDICADORES -->
-            <div class="carousel-indicators indicators-circle position-static mt-3 mb-0">
-              {% if product.image_2 %}
-              <button data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
-              {% endif %}
-
-              {% if product.image_2_2 %}
-              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}1{% else %}0{% endif %}"></button>
-              {% endif %}
-
-              {% if product.image_3 %}
-              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}2{% else %}0{% endif %}"></button>
-              {% endif %}
-
-              {% if product.image_4 %}
-              <button data-bs-target="#productCarousel" data-bs-slide-to="{% if product.image_2 %}3{% else %}0{% endif %}"></button>
-              {% endif %}
-            </div>
-
-          </div>
-
-        </div>
-      </div>
+      
 
       <!-- COLUMNA DERECHA: DETALLES, CERTIFICACIONES Y ACCIONES -->
       <div class="col-12 col-lg-7 d-flex flex-column justify-content-between">
-
+    
         <div>
           <!-- LOGOS DINÁMICOS POR CATEGORÍA -->
-          <div class="mb-3 text-end">
-            {% if product.category.slug == 'business-medico' %}
-            <img src="{% static 'assets/platforms/smartmedicalplatforms.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
-            {% elif product.category.slug == 'business-gastronomico' %}
-            <img src="{% static 'img/smartbusinessmedia.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
-            {% elif product.category.slug == 'business-tecnologico' or product.category.slug == 'business-educar' or product.category.slug == 'business-ong' or product.category.slug == 'business-publico' or product.category.slug == 'business-privado' or product.category.slug == 'business-servicios' or product.category.slug == 'business-industrial' or product.category.slug == 'business-investigacion' or product.category.slug == 'business-art' or product.category.slug == 'business-marketing' or product.category.slug == 'business-admin' or product.category.slug == 'business-transporte' %}
-            <img src="{% static 'img/SmartBusinessLaw.png' %}" alt="Logo del proveedor" style="width:260px;" class="img-fluid">
-            {% endif %}
-          </div>
+
 
           <!-- ENCABEZADO DE INVERSIÓN Y BADGE -->
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom border-secondary border-opacity-25">
             <div>
-              <span class="tech-badge-orange mb-1 d-inline-block">// MÓDULO CERTIFICADO ITC</span>
-              <h3 class="mb-0 text-white font-monospace">Inversión: <strong style="color: var(--accent-orange);">{{ product.price }}</strong></h3>
+              <h3 class="mb-0 text-white font-monospace">{{ product.name }}</h3>
+              <h5 class="mt-1 text-white font-monospace">Inversión: <strong style="color: var(--accent-orange);">{{ product.price }}</strong></h5>
             </div>
           </div>
 
-          <!-- FILA CON ESPECIFICACIONES Y CUMPLIMIENTO -->
-          <div class="row g-3 mt-1">
-
-            <!-- ESPECIFICACIONES / LICENCIA -->
-            <div class="col-12 col-md-6">
-              <div class="tech-detail-box h-100">
-                <h6 class="text-white fw-bold mb-2 d-flex align-items-center gap-2">
-                  <ion-icon name="key-outline" class="fs-5 text-warning"></ion-icon>
-                  <span>Licencia ITC</span>
-                </h6>
-                <div class="small text-light opacity-90 lh-base" style="text-align: justify;">
-                  {{ product.description|linebreaks }}
-                </div>
-              </div>
+          <!-- DESCRIPCIÓN DEL PRODUCTO -->
+          <div class="tech-card-subtle p-3 mb-3">
+            <div class="small text-light opacity-90 lh-base" style="text-align: justify;">
+              {{ product.description|linebreaks }}
             </div>
-
-            <!-- CERTIFICACIONES, SOPORTE Y ACCIÓN -->
-            <div class="col-12 col-md-6 d-flex flex-column gap-3">
-
-              <!-- CERTIFICACIONES -->
-              <div class="tech-detail-box">
-                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2">
-                  <ion-icon name="shield-checkmark-outline" class="fs-5 text-success"></ion-icon>
-                  <span>Certificaciones & Normativas</span>
-                </h6>
-                <p class="small text-muted font-monospace mb-0">
-                  ISO/IEC 27001, ISO/IEC 27017, LOPD / GDPR, NIST SP 800-53, OWASP Top 10, ISO/IEC 20000.
-                </p>
-              </div>
-
-              <!-- SOPORTE Y MANTENIMIENTO -->
-              <div class="tech-detail-box">
-                <h6 class="text-white fw-bold mb-1 d-flex align-items-center gap-2">
-                  <i class="fadeIn animated bx bx-support fs-5 text-info"></i>
-                  <span>Soporte & Mantenimiento</span>
-                </h6>
-                <p class="small text-light mb-0 font-monospace">
-                  <strong>{{ product.total_nube_iva }}</strong> / mes
-                  <span class="d-block text-muted small">(Incluye recursos de nube y soporte 24/7)</span>
-                </p>
-              </div>
-
-              <!-- BOTÓN AGREGAR / GENERAR LICENCIA -->
-            <!-- BOTÓN AGREGAR / GENERAR LICENCIA -->
-            <div class="tech-detail-box p-2">
-              <form action="{% url 'aiaas_cart:cart_add' product.id %}" method="post">
-                {% csrf_token %}
-                
-                <!-- Asegura que los campos del formulario se rendericen o se envíen con sus valores por defecto -->
-                {% if cart_product_form.quantity %}
-                  {{ cart_product_form.quantity }}
-                {% else %}
-                  <input type="hidden" name="quantity" value="1">
-                {% endif %}
-
-                {% if cart_product_form.update %}
-                  {{ cart_product_form.update }}
-                {% else %}
-                  <input type="hidden" name="update" value="False">
-                {% endif %}
-
-                <button type="submit" class="btn-tech-orange">
-                  <ion-icon name="key-outline" class="fs-5"></ion-icon>
-                  <span>{% trans 'Generar licencia propietaria ITC' %}</span>
-                </button>
-              </form>
-            </div>
-
-            </div>
-
           </div>
+
+
+          {% comment %} =================================================================
+          1. SALUD Y BIENESTAR (business-medico)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'asistente-medico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm mb-3">
+  
+        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <span class="text-warning fw-bold">// ASISTENTES AUTÓNOMOS DE IA CLÍNICA:</span>
+          <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">Agéntico / IA</span>
+        </div>
+      
+        <!-- 1. Asistente Autónomo de Triaje y Urgencias -->
+        <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">ASISTENTE AUTÓNOMO DE TRIAJE Y URGENCIAS PREVENTIVAS</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Evaluación autónoma de signos vitales iniciales y priorización automatizada de gravedad en pacientes de urgencia.</div>
+        </div>
+      
+        <!-- 2. Asistente Autónomo de Historia Clínica Predictiva -->
+        <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">ANALISTA DE SÍNTESIS DE HISTORIALES CLÍNICOS</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Lectura cruzada de antecedentes patológicos para resumir en viñetas clínicas de alto valor antes de cada consulta.</div>
+        </div>
+      
+        <!-- 3. Escáner de Interacciones Farmacológicas -->
+        <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">ESCÁNER DE RECETAS & CONTRAINDICACIONES</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Verificación automatizada en tiempo real de alergias cruzadas e interacciones farmacológicas adversas en recetas.</div>
+        </div>
+      
+        <!-- 4. Asistente Autónomo de Seguimiento Post-Terapéutico -->
+        <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">ASISTENTE AUTÓNOMO DE SEGUIMIENTO Y EVOLUCIÓN TERAPÉUTICA</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Monitoreo conversacional autónomo al paciente en casa para evaluar adherencia a tratamientos y terapias de rehabilitación.</div>
+        </div>
+      
+        <!-- 5. Asistente de Agendamiento y Predicción de Ausentismo -->
+        <div class="mb-3 pb-2 border-bottom border-secondary border-opacity-10">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">AGENTE DE GESTIÓN DE AGENDA & PREVENCIÓN DE FALTAS</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Chatbot autónomo con procesamiento de lenguaje natural que negocia reasignaciones de turnos ante cancelaciones.</div>
+        </div>
+      
+        <!-- 6. Auditoría y Análisis Predictivo de Insumos Médicos -->
+        <div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white fw-bold">PREDICTOR DE STOCK & DEMANDA CLÍNICA</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+          </div>
+          <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Modelo predictivo impulsado por IA para anticipar quiebres de inventario en farmacia y suministros de quirófano.</div>
+        </div>
+      
+      </div>
+       {% endif %}
+
+
+
+
+       {% comment %} =================================================================
+          2. GASTRONÓMICO (business-gastronomico)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'business-gastronomico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// PROCESOS BASE GASTRONÓMICOS:</span>
+           <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+         </div>
+         <div class="mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">POS & COMANDAS DIGITALES</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Registro inmediato de pedidos en salón, caja y cocina para acelerar el servicio a la mesa.</div>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">CONTROL DE INVENTARIOS & RECETA ESTÁNDAR</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Descontado automático de insumos e ingredientes por plato para garantizar costeo preciso.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_automatitation and product.category.slug == 'business-gastronomico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// AUTOMATIZACIÓN RESTAURANTES:</span>
+           <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">KDS (PANEL DE COCINA) & DESPACHO</span>
+             <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Sincronización automatizada entre comandas, tiempos de preparación y notificación a meseros.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_intelligent and product.category.slug == 'business-gastronomico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA GASTRONÓMICA:</span>
+           <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">PREDICTOR DE DEMANDA DE PLATOS & MERMAS</span>
+             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">IA predictiva que proyecta compras de insumos según estacionalidad para reducir desperdicios.</div>
+         </div>
+       </div>
+       {% endif %}
+
+
+       {% comment %} =================================================================
+          3. EDUCACIÓN (business-educar)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'business-educar' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// PROCESOS BASE EDUCATIVOS:</span>
+           <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">MATRÍCULAS & REGISTRO DE ESTUDIANTES</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Gestión centralizada del expediente académico, inscripciones y asignación de aulas.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_automatitation and product.category.slug == 'business-educar' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// AUTOMATIZACIÓN ACADÉMICA:</span>
+           <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">GENERACIÓN DE LIBRETAS & CERTIFICADOS PDF</span>
+             <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Emisión automática de reportes de calificaciones firmados para envío masivo a representantes.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_intelligent and product.category.slug == 'business-educar' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA EDUCATIVA:</span>
+           <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">AGENTE DETECTOR DE DESERCIÓN ESCOLAR</span>
+             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Análisis predictivo de patrones de asistencia y rendimiento para alertar sobre bajo desempeño temprano.</div>
+         </div>
+       </div>
+       {% endif %}
+
+
+       {% comment %} =================================================================
+          4. TRANSPORTE Y LOGÍSTICA (business-transporte)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'business-transporte' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// PROCESOS BASE DE TRANSPORTE:</span>
+           <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">DESPACHO DE UNIDADES & GUÍAS DE REMISIÓN</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Registro de manifiestos de carga, asignación de conductores y emisión documental legal.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_automatitation and product.category.slug == 'business-transporte' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// AUTOMATIZACIÓN LOGÍSTICA:</span>
+           <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">RASTREO GPS & NOTIFICACIONES DE ENTREGA</span>
+             <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Envío automático de alertas de estado del envío vía WhatsApp/SMS al cliente final.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_intelligent and product.category.slug == 'business-transporte' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA DE RUTAS:</span>
+           <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">AGENTE OPTIMIZADOR DE RUTAS MÚLTIPLES</span>
+             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Algoritmo IA que reorganiza rutas de entrega en tiempo real para minimizar combustible.</div>
+         </div>
+       </div>
+       {% endif %}
+
+
+       {% comment %} =================================================================
+          5. TECNOLOGÍA E INFRAESTRUCTURA (business-tecnologico)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'business-tecnologico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// PROCESOS BASE TECNOLÓGICOS:</span>
+           <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">GESTIÓN DE INCIDENTES (HELPDESK)</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Apertura, priorización y asignación de requerimientos técnicos conforme acuerdos SLA.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_automatitation and product.category.slug == 'business-tecnologico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// AUTOMATIZACIÓN DE INFRAESTRUCTURA:</span>
+           <span class="text-info fw-bold text-uppercase" style="font-size: 0.75rem;">Socio Digital</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">DESPLIEGUES DE INFRAESTRUCTURA (CI/CD)</span>
+             <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 text-uppercase px-2 py-1">Autogenerado</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Ejecución de pipelines sin intervención manual para paso seguro de código a producción.</div>
+         </div>
+       </div>
+       {% endif %}
+
+       {% if product.is_intelligent and product.category.slug == 'business-tecnologico' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// INTELIGENCIA AGÉNTICA AIOPS:</span>
+           <span class="text-warning fw-bold text-uppercase" style="font-size: 0.75rem;">LLMs & IA</span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">AGENTE DE AUTORREPARACIÓN DE SERVICIOS (AIOPS)</span>
+             <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 text-uppercase px-2 py-1">Agéntico / IA</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Detección autónoma y reinicio predictivo de contenedores antes de experimentar fallas.</div>
+         </div>
+       </div>
+       {% endif %}
+
+
+       {% comment %} =================================================================
+          6. OTROS SECTORES (INDUSTRIAL, SERVICIOS, PÚBLICO, ONG, INVESTIGACIÓN, ARTE, ADMIN)
+          ================================================================= {% endcomment %}
+       {% if product.category.slug == 'business-industrial' or product.category.slug == 'business-servicios' or product.category.slug == 'business-publico' or product.category.slug == 'business-ong' or product.category.slug == 'business-investigacion' or product.category.slug == 'business-art' or product.category.slug == 'business-admin' or product.category.slug == 'business-privado' %}
+       <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 font-monospace small shadow-sm">
+         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary border-opacity-10">
+           <span class="text-muted fw-bold">// PROCESOS BASE SECTORIALES:</span>
+           <span class="text-white">Implementación: <strong class="accent-text">{{ product.tiempo_implementacion|default:0 }}h</strong></span>
+         </div>
+         <div>
+           <div class="d-flex justify-content-between align-items-center">
+             <span class="text-white fw-bold">REGISTRO & GESTIÓN DE OPERACIONES</span>
+             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 text-uppercase px-2 py-1">transaccional</span>
+           </div>
+           <div class="text-muted opacity-75 mt-1" style="font-size: 0.78rem;">Administración centralizada de flujos transaccionales y expedientes específicos del sector.</div>
+         </div>
+       </div>
+       {% endif %}
+
+
+     </div>
+
+   </div>
+ </div>
+</div>
+
         </div>
 
-      </div>
 
-    </div>
 
-  </div>
-</div>
+  
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatForm = document.getElementById("aiChatForm");
+    const userInput = document.getElementById("userInput");
+    const chatContainer = document.getElementById("chatContainer");
+    const sendBtn = document.getElementById("sendBtn");
+
+    if (!chatForm) return;
+
+    chatForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      const userMsgDiv = document.createElement("div");
+      userMsgDiv.className = "chat-message user font-monospace";
+      userMsgDiv.textContent = text;
+      chatContainer.appendChild(userMsgDiv);
+
+      userInput.value = "";
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      const loadingDiv = document.createElement("div");
+      loadingDiv.className = "chat-message bot font-monospace opacity-50";
+      loadingDiv.id = "loadingMessage";
+      loadingDiv.textContent = "Procesando respuesta en el clúster...";
+      chatContainer.appendChild(loadingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      sendBtn.disabled = true;
+
+      const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+      const csrfToken = csrfInput ? csrfInput.value : '{{ csrf_token }}';
+      const productId = parseInt("{{ product.id|default:0 }}", 10);
+
+      const payload = { pregunta: text };
+      if (productId > 0) {
+        payload.producto_id = productId;
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
+
+      try {
+        const response = await fetch("{% url 'saas_shop:ai_chat_view' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        const rawText = await response.text();
+        const loadingElem = document.getElementById("loadingMessage");
+        if (loadingElem) loadingElem.remove();
+
+        const botMsgDiv = document.createElement("div");
+        botMsgDiv.className = "chat-message bot font-monospace";
+
+        try {
+          const data = JSON.parse(rawText);
+          if (response.ok && data.status === 'success') {
+            botMsgDiv.textContent = data.respuesta;
+          } else {
+            botMsgDiv.className = "chat-message bot font-monospace text-warning";
+            botMsgDiv.textContent = data.error || `Error del servidor (Código ${response.status})`;
+          }
+        } catch (jsonErr) {
+          botMsgDiv.className = "chat-message bot font-monospace text-danger";
+          botMsgDiv.textContent = `Error interno en el servidor (Revisa los logs del pod de Django).`;
+        }
+
+        chatContainer.appendChild(botMsgDiv);
+
+      } catch (error) {
+        clearTimeout(timeoutId);
+        const loadingElem = document.getElementById("loadingMessage");
+        if (loadingElem) loadingElem.remove();
+
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "chat-message bot font-monospace text-danger";
+        if (error.name === 'AbortError') {
+          errorDiv.textContent = "Tiempo de espera agotado (Timeout).";
+        } else {
+          errorDiv.textContent = "Error de conexión con el servidor.";
+        }
+        chatContainer.appendChild(errorDiv);
+      } finally {
+        sendBtn.disabled = false;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    });
+  });
+</script>

@@ -1,4 +1,4 @@
-{% extends "paas_shop/base3.html" %}
+{% extends "aiaas_shop/base3.html" %}
 {% load i18n %}
 {% load static %}
 
@@ -16,6 +16,42 @@
          <div class="page-content">
 
 
+<div class="product-more-info mt-4">
+  <ul class="nav nav-pills mb-2 text-success rounded bg-light-success"
+  id="custom-tabs"
+  role="tablist">
+
+{% for tab in tabs %}
+
+  {% if tab.slug in category_map %}
+
+      <li class="nav-item" role="presentation">
+
+          <a class="nav-link {% if category and category.slug == tab.slug %}active{% endif %}"
+             data-bs-toggle="tab"
+             href="#{{ tab.tab_id }}"
+             role="tab"
+             aria-controls="{{ tab.tab_id }}">
+
+              <div class="d-flex align-items-center">
+
+                  <div class="tab-title text-uppercase fw-500">
+
+                      <i class="{{ tab.icon }}"></i>
+
+                      {{ tab.label }}
+
+                  </div>
+
+              </div>
+
+          </a>
+
+      </li>
+
+  {% endif %}
+
+{% endfor %}
 
 </ul>
 

@@ -3,575 +3,290 @@
 {% load i18n %}
 {% load custom_filters %}
 
-
 {% block title %}
   Your shopping cart
 {% endblock %}
 
 {% block content %}
 
-<div class="page-content-wrapper">
-          <!-- start page content-->
-         <div class="page-content">
+<style>
+  :root {
+    --bg-main: #1e1e1f;
+    --card-bg: #282829;
+    --card-bg-subtle: #232324;
+    --accent-orange: #f7a84f;
+    --border-color: rgba(247, 168, 79, 0.15);
+    --text-muted-custom: #94a3b8;
+  }
 
+  body {
+    background-color: var(--bg-main) !important;
+  }
 
-<div class="product-more-info mt-4">
+  /* Tarjetas con estilo tecnológico */
+  .tech-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
 
+  .tech-card-subtle {
+    background-color: var(--card-bg-subtle);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
 
+  .accent-text {
+    color: var(--accent-orange) !important;
+  }
 
+  /* Stepper / Progreso de pasos */
+  .steps-light .step-item {
+    color: var(--text-muted-custom);
+    text-decoration: none;
+  }
 
+  .steps-light .step-item.active .step-count,
+  .steps-light .step-item.current .step-count {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    font-weight: bold;
+  }
 
-<div class="card" style="background-color: #2e2e2e;">
-  <div class="card-body p-4" style="color: #ededed;
-  text-align: justify;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
-  line-height: 1.2;
-  background-color: #2e2e2e;
-  border-radius: 25px;">
+  .step-count {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
 
-<div class="shop-cart" style="background-color: #2e2e2e;">
+  /* Botones de acción */
+  .btn-tech-orange {
+    background-color: var(--accent-orange);
+    color: #1e1e1f;
+    border: none;
+    font-weight: 700;
+    font-family: monospace;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
 
-        
+  .btn-tech-orange:hover {
+    background-color: #f39c12;
+    color: #000;
+    transform: translateY(-2px);
+  }
 
-    <div class="row">
- 
+  /* Formularios e inputs */
+  .form-control {
+    background-color: #181819;
+    border: 1px solid var(--border-color);
+    color: #fff;
+    font-family: monospace;
+  }
 
-        <div class="col-12 col-xl-8">
+  .form-control:focus {
+    background-color: #181819;
+    color: #fff;
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 10px rgba(247, 168, 79, 0.2);
+  }
+</style>
 
-                                                    <div class="card border-0">
-                            <div class="card-body" style="color:#fff; background-color: #2e2e2e;">
-                                <div class="steps steps-light">
-                                    <a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
-                                        <div class="step-progress"><span class="step-count">1</span>
-                                        </div>
+<div class="page-content-wrapper py-4">
+  <div class="page-content container-fluid">
 
-                                    </a>
-                                    <a class="step-item  current" href="#">
-                                        <div class="step-progress"><span class="step-count">2</span>
-                                        </div>
+    <div class="tech-card p-4 p-md-5">
+      <div class="shop-cart">
 
-                                    </a>
-                                    <a class="step-item" href="#">
-                                        <div class="step-progress"><span class="step-count">3</span>
-                                        </div>
+        <div class="row g-4">
 
-                                    </a>
+          <!-- COLUMNA IZQUIERDA: LISTA DE PRODUCTOS Y PASOS -->
+          <div class="col-12 col-xl-8">
 
-                                </div>
-                            </div>
-                        </div>
-                        <h3><ion-icon name="key-outline"></ion-icon> Verificación de licencia </h3>
-                        <p>
-                        Por favor, verifique que los productos tecnológicos seleccionados correspondan exactamente a aquellos que usted eligió previamente antes de finalizar su contratación. 
-                        En caso de disponer de un código de convenio o código promocional, le solicitamos ingresarlo en el campo correspondiente para que pueda ser aplicado correctamente durante el proceso.
-                        </p>
-                        <hr>
+            <!-- Stepper de Verificación -->
+            <div class="tech-card-subtle p-3 mb-4">
+              <div class="steps steps-light d-flex justify-content-between align-items-center">
+                <a class="step-item active d-flex align-items-center gap-2" href="{% url 'paas_cart:cart_detail' %}">
+                  <div class="step-progress"><span class="step-count">1</span></div>
+                  <span class="font-monospace text-white small d-none d-sm-inline">Verificación</span>
+                </a>
+                <a class="step-item current d-flex align-items-center gap-2" href="#">
+                  <div class="step-progress"><span class="step-count">2</span></div>
+                  <span class="font-monospace text-muted small d-none d-sm-inline">Convenio</span>
+                </a>
+                <a class="step-item d-flex align-items-center gap-2" href="#">
+                  <div class="step-progress"><span class="step-count">3</span></div>
+                  <span class="font-monospace text-muted small d-none d-sm-inline">Validación</span>
+                </a>
+              </div>
+            </div>
 
+            <h3 class="text-white fw-bold d-flex align-items-center gap-2 mb-2">
+              <ion-icon name="key-outline" class="accent-text"></ion-icon> Verificación de Licencia
+            </h3>
+            <p class="text-muted small lh-base" style="color: #cbd5e1 !important;">
+              Por favor, verifique que los productos tecnológicos seleccionados correspondan exactamente a aquellos que usted eligió previamente antes de finalizar su contratación. En caso de disponer de un código de convenio o código promocional, le solicitamos ingresarlo en el campo correspondiente.
+            </p>
+            <hr class="border-secondary opacity-25 my-4">
 
-            <div class="shop-cart-list" style="background-color: #2e2e2e;">
+            <!-- Lista de Ítems del Carrito -->
+            <div class="shop-cart-list">
+              {% for item in cart %}
+              {% with product=item.product %}
+              <div class="tech-card-subtle p-3 mb-3">
+                <div class="row align-items-center g-3">
+                  
+                  <!-- Imagen y detalles -->
+                  <div class="col-12 col-lg-8">
+                    <div class="d-flex align-items-start gap-3">
+                      <div class="cart-img text-center text-lg-start flex-shrink-0">
+                        <a href="{{ product.get_absolute_url }}">
+                          <img src="{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="rounded object-fit-cover border border-secondary" width="110" height="80" alt="{{ product.name }}">
+                        </a>
+                      </div>
+                      <div class="cart-detail text-start">
+                        <h6 class="text-white fw-bold mb-1">{{ product.name }}</h6>
+                        <p class="text-muted small mb-2" style="color: #94a3b8 !important;">{{ product.description|truncatewords:25 }}</p>
+                        <span class="font-monospace small text-white">
+                          Inversión: <strong class="accent-text">${{ item.price|floatformat:2 }}</strong>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
+                  <!-- Botón o Acciones de Cantidad -->
+                  <div class="col-12 col-lg-4 text-end">
+                    <div class="font-monospace small text-muted mb-1">TOTAL PARCIAL:</div>
+                    <div class="text-white fw-bold fs-5 mb-2">${{ item.total_price|floatformat:2 }}</div>
+                    <a href="{% url 'paas_cart:cart_remove' product.id %}" class="btn btn-outline-danger btn-sm font-monospace">
+                      <i class='bx bx-x-circle'></i> Remover
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+              {% endwith %}
+              {% endfor %}
+
+              <!-- Botón Ver más productos -->
+              <div class="tech-card-subtle p-3 mt-3">
+                <a href="{% url 'paas_shop:product_list' %}" class="btn btn-outline-secondary btn-sm font-monospace d-inline-flex align-items-center gap-2">
+                  <i class='bx bx-shopping-bag'></i> Explorar más opciones en el catálogo
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- COLUMNA DERECHA: CUPONES Y RESUMEN FINANCIERO -->
+          <div class="col-12 col-xl-4">
             
-
-
-                {% for item in cart %}
-                {% with product=item.product %}
-                <div class="card mb-3">
-                    <div class="card-body" style="color:#fff; background-color: #2e2e2e;">
-                        <div class="row align-items-center g-3">
-                            <!-- Imagen y detalles del producto -->
-                            <div class="col-12 col-lg-6">
-                                <div class="d-lg-flex align-items-start gap-3">
-                                    <div class="cart-img text-center text-lg-start">
-                                        <a href="{{ product.get_absolute_url }}">
-                                            <img src="{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="rounded" width="130" alt="{{ product.name }}">
-                                        </a>
-                                    </div>
-                                    <div class="cart-detail text-center text-lg-start">
-                                        <h6 class="mb-2">{{ product.name }}</h6>
-                                        <p>{{ product.description|truncatewords:100 }}</p>
-                                      
-                                        <h5 class="mb-0">
-                                         Valor Toral de Inversión USD$ {{ item.price|floatformat:2 }} <br>
-                                        </h5>
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Formulario para actualizar cantidad -->
-                            <div class="col-12 col-lg-3">
-                                <div class="cart-action text-center">
-                                    <form action="{% url 'paas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
-                                        {% csrf_token %}
-
-
-                                    </form>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+            <!-- Caja de Convenio / Cupón -->
+            <div class="tech-card-subtle p-4 mb-4">
+              <h5 class="text-white font-monospace mb-2 d-flex align-items-center gap-2 fs-6">
+                <ion-icon name="id-card-outline" class="accent-text"></ion-icon> Convenio ITC
+              </h5>
+              <p class="text-muted small mb-3">
+                <ion-icon name="information-circle-outline" class="accent-text me-1"></ion-icon> Si dispone de convenio con SmartQuail, Inc., ingrese su código. <a href="{% url 'paas_coupons:solicitud' %}" class="accent-text text-decoration-underline">Más info</a>
+              </p>
+              
+              <form method="POST" action=".">
+                {% csrf_token %}
+                <div class="input-group">
+                  <input type="text" name="code" class="form-control" placeholder="CÓDIGO_CONVENIO" required>
+                  <button type="submit" class="btn btn-tech-orange px-3">
+                    <ion-icon name="arrow-redo-outline"></ion-icon>
+                  </button>
                 </div>
-                {% endwith %}
-                {% endfor %}
+              </form>
 
-                <!-- Acciones globales del carrito -->
-                <div class="card" style="background-color: #2e2e2e;">
-                    <div class="card-body" style="color:#fff; background-attachment: #2e2e2e;">
+              {% if message %}
+              <div class="mt-2 font-monospace small text-warning">
+                <p class="mb-0">// {{ message }}</p>
+              </div>
+              {% endif %}
 
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="col-12 col-xl-4">
-            <div class="card" style="background-color: #2e2e2e;">
-                <div class="card-body" style="color:#fff">
-                    <div class="card">
-                        
-                        <div class="card-body" style="color:#fff">
-                            <h3><ion-icon name="id-card-outline"></ion-icon> Convenio ITC</h3>
-                            <p style="font-size: 12px; margin-top: 15px;"><ion-icon name="information-circle-outline"></ion-icon> Si dispone de convenio con SmartQuail,Inc, escriba su codigo aquí. <a href="{% url 'paas_coupons:solicitud' %}">Más información</a></p>
-                            <form method="POST" action=".">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <input type="text" name="code" class="form-control" placeholder="Aplicar Código Convenio" required>
-                                    <button type="submit" class="btn btn-warning"><ion-icon name="arrow-redo-outline"></ion-icon></button>
-
-                                </div>
-
-                            </form>
-                            
-                            {% if message %}
-                            <div class="mt-2">
-                                <p>{{ message }}</p>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- Muestra el estado del cupón -->
-                    {% if coupon %}
-                    <div class="my-3">
-                        <p><strong>Cunvenio Aplicado:</strong> {{ coupon.code }}</p>
-                        <p><strong>Descuento:</strong> -${{ discount|floatformat:2 }}</p>
-                    </div>
-                    {% endif %}
-                </div>
+              {% if coupon %}
+              <div class="mt-3 p-2 rounded bg-dark border border-secondary border-opacity-25 font-monospace small">
+                <p class="mb-1 text-success"><strong>CONVENIO APLICADO:</strong> {{ coupon.code }}</p>
+                <p class="mb-0 text-white"><strong>DESCUENTO:</strong> -${{ discount|floatformat:2 }}</p>
+              </div>
+              {% endif %}
             </div>
 
+            <!-- Resumen Financiero -->
+            <div class="tech-card-subtle p-4">
+              <h6 class="text-white font-monospace mb-3 border-bottom border-secondary border-opacity-25 pb-2">
+                // SUMMARY_PRICING
+              </h6>
 
-            <div class="card mb-0" style="background-color: #2e2e2e;">
-                <div class="card-body" style="color:#fff">
-                    <!-- Mostrar Subtotal, IVA, y Totales -->
-{% for item in cart %}
-{% with product=item.product %}
-{% with totals=product.get_totals %}
-<div class="product-pricing mb-4">
+              {% for item in cart %}
+              {% with product=item.product %}
+              <div class="d-flex justify-content-between font-monospace small mb-2 text-muted">
+                <span class="text-truncate" style="max-width: 150px;">{{ product.name }}</span>
+                <span class="text-white">${{ product.subtotal.amount|floatformat:2 }}</span>
+              </div>
+              {% endwith %}
+              {% endfor %}
 
+              <div class="my-3 border-top border-secondary opacity-25"></div>
 
+              {% if discount > 0 %}
+              <div class="d-flex justify-content-between font-monospace small mb-2 text-success">
+                <span>DESCUENTO:</span>
+                <span>-${{ discount|floatformat:2 }}</span>
+              </div>
+              <div class="d-flex justify-content-between font-monospace fw-bold text-white fs-6 mb-4">
+                <span>VALOR TOTAL:</span>
+                <span class="accent-text">${{ total_after_discount|floatformat:2 }}</span>
+              </div>
+              {% else %}
+              <div class="d-flex justify-content-between font-monospace small mb-2 text-muted">
+                <span>DESCUENTO:</span>
+                <span>--</span>
+              </div>
+              <div class="d-flex justify-content-between font-monospace fw-bold text-white fs-6 mb-4">
+                <span>VALOR TOTAL:</span>
+                <span class="accent-text">${{ total|floatformat:2 }}</span>
+              </div>
+              {% endif %}
 
-<p class="mb-2">
-    <strong>{{ product.name }}</strong>
-</p>
-
-
-
-<p class="mb-2">
-    Subtotal:
-    <span class="float-end">
-        ${{ product.subtotal.amount|floatformat:2 }}
-    </span>
-</p>
-
-
-
-
-</div>
-{% endwith %}
-{% endwith %}
-{% endfor %}
-
-
-{% if discount > 0 %}
-<p class="mb-2 text-success">
-    Descuento:
-    <span class="float-end">
-        -${{ discount|floatformat:2 }}
-    </span>
-</p>
-{% else %}
-<p class="mb-2">
-    Descuento:
-    <span class="float-end">--</span>
-</p>
-{% endif %}
-
-<div class="my-3 border-top"></div>
-
-<h5 class="mb-3">
-    Valor Total:
-    <span class="float-end">
-        ${{ total_after_discount|floatformat:2 }}
-    </span>
-</h5>
-
-<!-- ===================================== -->
-<!-- CRÉDITO -->
-<!-- ===================================== -->
-
-{% if cart.coupon.credito %}
-
-<div class="alert alert-info mt-3">
-
-    <h6 class="mb-3">
-        Su Crédito empresarial, ha sido aprobado.
-    </h6>
-
-    <p class="mb-2">
-        Plan:
-        <span class="float-end">
-            {{ cart.coupon.get_credito_display }}
-        </span>
-    </p>
-
-    <p class="mb-2">
-        Interés:
-        <span class="float-end">
-            {{ cart.coupon.percent_credit }}%
-        </span>
-    </p>
-
-    <p class="mb-2">
-        Cuotas:
-        <span class="float-end">
-            {{ cart.get_credit_months }} meses
-        </span>
-    </p>
-
-    <p class="mb-2">
-        Pago mensual:
-        <span class="float-end">
-            ${{ cart.get_monthly_credit_price|floatformat:2 }}
-        </span>
-    </p>
-
-    <div class="my-2 border-top"></div>
-
-    <h6 class="mb-0">
-        Total financiado:
-        <span class="float-end">
-            ${{ cart.get_total_credit_price|floatformat:2 }}
-        </span>
-    </h6>
-
-</div>
-
-{% endif %}
-
-
-
-                    <div class="my-4"></div>
-
-                    {% if cart|length == 1 %}
-
-                    <div class="d-grid">
-                     
-                        <a href="{% url 'paas_orders:order_create' %}" class="btn btn-warning btn-ecomm">
-                            <ion-icon name="lock-open-outline"></ion-icon>    Validar Licencia <ion-icon name="chevron-forward-outline"></ion-icon>
-                        </a>
-                    </div>
-                
-                    <div class="my-4"></div>
-                
-                    <div class="d-grid">
-                        <a href="{% url 'paas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
-                            <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
-                        </a>
-                    </div>
-                
-                {% else %}
-                
-                    <div class="d-grid">
-                        <p>
-                            Usted ha elegido más de un producto en esta orden. 
-                            Por seguridad de la transacción, solo se permite un producto por orden de compra.
-                        </p>
-                
-                        <div class="text-center">
-                            <a href="{% url 'paas_cart:cart_clear' %}" class="btn btn-warning btn-ecomm">
-                                <i class='bx bx-x-circle'></i> Volver al catálogo
-                            </a>
-                        </div>
-                    </div>
-                
-                {% endif %}
-
+              <!-- Acciones de Validación / Checkout -->
+              {% if cart|length == 1 %}
+                <div class="d-grid gap-2">
+                  <a href="{% url 'paas_orders:order_create' %}" class="btn btn-tech-orange py-2 d-flex align-items-center justify-content-center gap-2">
+                    <ion-icon name="lock-open-outline"></ion-icon> Validar Licencia <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </a>
+                  <a href="{% url 'paas_shop:product_list' %}" class="btn btn-outline-secondary font-monospace py-2">
+                    <ion-icon name="search-outline"></ion-icon> Explorar más Opciones
+                  </a>
                 </div>
+              {% else %}
+                <div class="alert alert-warning bg-dark border-warning text-light font-monospace small mb-0">
+                  <p class="mb-2">⚠️ Por seguridad transaccional, solo se permite un producto por orden de compra.</p>
+                  <a href="{% url 'paas_cart:cart_clear' %}" class="btn btn-sm btn-outline-warning w-100 font-monospace">
+                    Limpiar carrito y volver
+                  </a>
+                </div>
+              {% endif %}
+
             </div>
+
+          </div>
 
         </div>
-    </div>
-    <!--end row-->
-</div>
-
-
-  </div>
-</div>
-
-
-    </div>
-
 
       </div>
-  </div>
+    </div>
 
+  </div>
+</div>
 
 {% endblock %}
-
-
-<div class="page-content-wrapper">
-    <!-- start page content-->
-    <div class="page-content">
-
-
-
-
-<!--start shop cart-->
-<section class="shop-page">
-    <div class="shop-container">
-
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                <div class="shop-cart">
-                    										
-                    <div class="row">
-
-                        <div class="col-12 col-xl-8">
-
-                            										<div class="card border-0">
-											<div class="card-body">
-												<div class="steps steps-light">
-													<a class="step-item active" href="{% url 'paas_cart:cart_detail' %}">
-														<div class="step-progress"><span class="step-count">1</span>
-														</div>
-														<div class="step-label"><i class='bx bx-cart'></i></div>
-													</a>
-													<a class="step-item  current" href="#">
-														<div class="step-progress"><span class="step-count">2</span>
-														</div>
-														<div class="step-label"><i class='bx bx-user-circle'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">3</span>
-														</div>
-														<div class="step-label"><i class='bx bx-credit-card'></i></div>
-													</a>
-													<a class="step-item" href="#">
-														<div class="step-progress"><span class="step-count">4</span>
-														</div>
-														<div class="step-label"><i class='bx bx-check-circle'></i></div>
-													</a>
-												</div>
-											</div>
-										</div>
-                            <div class="shop-cart-list">
-
-                                {% for item in cart %}
-                                {% with product=item.product %}
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="row align-items-center g-3">
-                                            <!-- Imagen y detalles del producto -->
-                                            <div class="col-12 col-lg-6">
-                                                <div class="d-lg-flex align-items-start gap-3">
-                                                    <div class="cart-img text-center text-lg-start">
-                                                        <a href="{{ product.get_absolute_url }}">
-                                                            <img src="{% if product.image_2 %}{{ product.image_2.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="rounded" width="130" alt="{{ product.name }}">
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-detail text-center text-lg-start">
-                                                        <h6 class="mb-2">{{ product.name }}</h6>
-
-                                                        <h5 class="mb-0">
-                                                            ${{ item.price|floatformat:2 }}
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Formulario para actualizar cantidad -->
-                                            <div class="col-12 col-lg-3">
-                                                <div class="cart-action text-center">
-                                                    <form action="{% url 'paas_cart:cart_add' product.id %}" method="post" class="d-flex justify-content-center align-items-center">
-                                                        {% csrf_token %}
-                                                        {{ item.update_quantity_form.quantity }}
-                                                        {{ item.update_quantity_form.update }}
-                                                        <input type="submit" value="Update" class="btn btn-sm btn-outline-secondary ms-2">
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                            <!-- Acciones: eliminar, favorito -->
-                                            <div class="col-12 col-lg-3">
-                                                <div class="text-center">
-                                                    <div class="d-flex gap-2 justify-content-center justify-content-lg-end">
-                                                        <a href="{% url 'paas_cart:cart_remove' product.id %}" class="btn btn-warning btn-ecomm">
-                                                            <i class='bx bx-x-circle'></i>Remove
-                                                        </a>
-                                                        <a href="javascript:;" class="btn btn-outline-warning btn-ecomm">
-                                                            <i class='bx bx-heart mx-0'></i>
-                                                        </a>
-                                                    </div>
-                                                    <!-- Total por producto -->
-                                                    <p class="mt-2 mb-0 fw-bold">
-                                                        Total: ${{ item.total_price|floatformat:2 }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endwith %}
-                                {% endfor %}
-
-                                <!-- Acciones globales del carrito -->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-lg-flex align-items-center gap-3">
-                                            <a href="{% url 'paas_shop:product_list' %}" class="btn btn-warning btn-ecomm">
-                                                <i class='bx bx-shopping-bag'></i> Ver más productos
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-xl-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card">
-                                        <div class="card-body">
-                                        
-                                            <form method="POST" action=".">
-                                                {% csrf_token %}
-                                                <div class="input-group">
-                                                    <input type="text" name="code" class="form-control" placeholder="Código de descuento" required>
-                                                    <button type="submit" class="btn btn-primary">Aplicar Cupón</button>
-                                                </div>
-                                            </form>
-                                            {% if message %}
-                                            <div class="mt-2">
-                                                <p>{{ message }}</p>
-                                            </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <!-- Muestra el estado del cupón -->
-                                    {% if coupon %}
-                                    <div class="my-3">
-                                        <p><strong>Cupón Aplicado:</strong> {{ coupon.code }}</p>
-                                        <p><strong>Descuento:</strong> -${{ discount|floatformat:2 }}</p>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                          
-                            <div class="card mb-0">
-                                <div class="card-body">
-                                    <!-- Mostrar Subtotal, IVA, y Totales -->
-{% for item in cart %}
-    {% with product=item.product %}
-        {% with totals=product.get_totals %}
-            <div class="product-pricing mb-4">
-                <p class="mb-2">
-                    <strong>{{ product.name }}</strong>
-                </p>
-
-                <p class="mb-2">
-                    Subtotal:
-                    <span class="float-end">
-                        ${{ totals.subtotal|floatformat:2 }}
-                    </span>
-                </p>
-
-                <p class="mb-2">
-                    IVA ({{ product.iva|floatformat:2 }}%):
-                    <span class="float-end">
-                        ${{ totals.iva_value|floatformat:2 }}
-                    </span>
-                </p>
-
-                <p class="mb-2">
-                    Total con IVA:
-                    <span class="float-end">
-                        ${{ totals.total_with_iva|floatformat:2 }}
-                    </span>
-                </p>
-            </div>
-        {% endwith %}
-    {% endwith %}
-{% endfor %}
-
-
-                                    {% if discount > 0 %}
-                                    <p class="mb-2 text-success">
-                                        Discount: 
-                                        <span class="float-end">
-                                            -${{ discount|floatformat:2 }}
-                                        </span>
-                                    </p>
-                                    <div class="my-3 border-top"></div>
-                                    <h5 class="mb-0">
-                                        Order Total: 
-                                        <span class="float-end">
-                                            ${{ total_after_discount|floatformat:2 }}
-                                        </span>
-                                    </h5>
-                                    {% else %}
-                                    <!-- Si no hay descuento -->
-                                    <p class="mb-2">
-                                        Discount: <span class="float-end">--</span>
-                                    </p>
-                                    <div class="my-3 border-top"></div>
-                                    <h5 class="mb-0">
-                                        Order Total: 
-                                        <span class="float-end">
-                                            ${{ total|floatformat:2 }}
-                                        </span>
-                                    </h5>
-                                    {% endif %}
-
-                                    <div class="my-4"></div>
-
-                                    <!-- Botón para ir al checkout -->
-                                    <div class="d-grid">
-                                        <a href="{% url 'paas_orders:accept_terms' %}" class="btn btn-primary btn-ecomm">
-                                           <ion-icon name="cart-outline"></ion-icon> Realizar Orden 
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--end row-->
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-        <!--end shop cart-->
-    </div>
-    <!-- end page content-->
-</div>

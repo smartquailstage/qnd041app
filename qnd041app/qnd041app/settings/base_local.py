@@ -931,6 +931,20 @@ UNFOLD = {
             },
 
             {
+                "title": _("Categorías (AIaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:aiaas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (AIaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:aiaas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+            {
                 "title": _("Categorías (IaaP)"),
                 "icon": "folder",
                 "link": reverse_lazy("admin:iaas_shop_category_changelist"),
@@ -943,6 +957,8 @@ UNFOLD = {
                 "link": reverse_lazy("admin:iaas_shop_product_changelist"),
                 "permission": is_all,
             },
+
+
 
         ],
     },
