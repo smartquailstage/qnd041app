@@ -24,79 +24,85 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import get_user_model
 from django.utils.html import strip_tags
 
-User = get_user_model()
-
 
 User = get_user_model()
 
-@shared_task(
-    bind=True, 
-    time_limit=40000,      # Límite duro en segundos (~11 horas) para evitar que Celery mate la tarea
-    soft_time_limit=39000  # Límite suave
-)
-def send_admin_batch_mailing_task_presentacion(self, user_ids):
+@shared_task
+def send_single_mailing_task_presentacion(user_id):
     """
-    Recibe la lista de IDs seleccionados desde el Django Admin.
-    Solo envía correos a usuarios que estén simultáneamente ACTIVOS (is_active=True) 
-    y sean STAFF (is_staff=True). Espera 180 segundos entre cada envío.
+    Tarea atómica: Envía un solo correo de presentación.
+    Se ejecuta de forma instantánea (< 1 segundo) sin bloqueos ni time.sleep.
     """
-    success_count = 0
-    total_users = len(user_ids)
     subject = "Bienvenido a SmartQuail."
     
-    for index, user_id in enumerate(user_ids):
+    try:
+        # 🔒 FILTRO CLAVE: Garantiza que is_staff=True e is_active=True
+        user = User.objects.get(id=user_id, is_active=True, is_staff=True)
+        
+        if not user.email:
+            return "Usuario sin email registrado."
+            
+        email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
+        
+        context = {
+            "user": user,
+            "titulo": subject,
+            "email_prefix": email_prefix,
+        }
+
         try:
-            # 🔒 FILTRO CLAVE: Garantiza que is_staff=True e is_active=True de forma explícita.
-            # Si el usuario responde "desuscribir" y cambias su is_active a False, 
-            # el ORM lanzará DoesNotExist y la tarea saltará automáticamente este envío.
-            user = User.objects.get(id=user_id, is_active=True, is_staff=True)
-            
-            if not user.email:
-                continue
-                
-            email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
-            
-            context = {
-                "user": user,
-                "titulo": subject,
-                "email_prefix": email_prefix,
-            }
-
-            try:
-                html_content = render_to_string("emails/mailing/mailing_email_admin.html", context)
-                text_content = strip_tags(html_content)
-            except Exception as render_err:
-                print(f"Error renderizando plantilla HTML para usuario {user_id}: {render_err}")
-                text_content = f"Bienvenido a SmartQuail, {user.first_name}."
-                html_content = (
-                    f"<div style='font-family: Arial, sans-serif;'>"
-                    f"<h2>{subject}</h2>"
-                    f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
-                    f"</div>"
-                )
-
-            email = EmailMultiAlternatives(
-                subject=subject,
-                body=text_content,
-                from_email=settings.DEFAULT_FROM_EMAIL_INFO,
-                to=[user.email]
+            html_content = render_to_string("emails/mailing/mailing_email_admin.html", context)
+            text_content = strip_tags(html_content)
+        except Exception as render_err:
+            print(f"Error renderizando plantilla HTML para usuario {user_id}: {render_err}")
+            text_content = f"Bienvenido a SmartQuail, {user.first_name}."
+            html_content = (
+                f"<div style='font-family: Arial, sans-serif;'>"
+                f"<h2>{subject}</h2>"
+                f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
+                f"</div>"
             )
-            email.attach_alternative(html_content, "text/html")
-            email.send(fail_silently=False)
-            
-            success_count += 1
-            
-        except User.DoesNotExist:
-            print(f"Usuario con ID {user_id} omitido (no existe, está inactivo o no es staff).")
-        except Exception as exc:
-            print(f"Error enviando correo al usuario {user_id}: {exc}")
 
-        # Pausa de 3 minutos (180 segundos) antes de procesar el siguiente usuario,
-        # omitiendo la espera en el último elemento del lote.
-        if index < total_users - 1:
-            time.sleep(180)
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,
+            from_email=settings.DEFAULT_FROM_EMAIL_INFO,
+            to=[user.email]
+        )
+        email.extra_headers['List-Unsubscribe'] = f'<https://ec.smartquail.io/unsubscribe?email={user.email}>'
+        email.extra_headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
+        email.attach_alternative(html_content, "text/html")
+        email.send(fail_silently=False)
+        
+        return f"Correo enviado exitosamente a {user.email}"
+        
+    except User.DoesNotExist:
+        return f"Usuario con ID {user_id} omitido (no existe, está inactivo o no es staff)."
+    except Exception as exc:
+        return f"Error enviando correo al usuario {user_id}: {exc}"
 
-    return f"Lote procesado: {success_count} de {total_users} correos enviados exitosamente."
+
+def schedule_admin_batch_mailing_presentacion(user_ids):
+    """
+    Función orquestadora (se llama desde tu Django Admin o vista).
+    Recibe la lista de IDs y encola cada tarea en RabbitMQ espaciada por 180 segundos (3 minutos).
+    """
+    total_users = len(user_ids)
+    
+    for index, user_id in enumerate(user_ids):
+        # Calcula el retardo acumulativo en segundos:
+        # Índice 0 -> espera 0s
+        # Índice 1 -> espera 180s (3 min)
+        # Índice 2 -> espera 360s (6 min), etc.
+        delay_seconds = index * 180  
+        
+        # Encolamos en RabbitMQ sin bloquear el servidor
+        send_single_mailing_task_presentacion.apply_async(
+            args=[user_id], 
+            countdown=delay_seconds
+        )
+        
+    return f"Lote de {total_users} correos encolado en RabbitMQ con un goteo de 3 minutos entre cada uno."
 
 
 

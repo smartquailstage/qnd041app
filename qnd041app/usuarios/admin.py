@@ -140,23 +140,34 @@ export_to_excel.short_description = 'Exportar a Excel'
 
 
 
+from django.contrib import messages
+from .tasks import send_single_mailing_task_presentacion  # Asegúrate de importar la tarea individual
+
 def send_email_to_selected_users(modeladmin, request, queryset):
     """
-    Acción de Django Admin que delega el envío masivo de correos a Celery.
+    Acción de Django Admin que programa el envío masivo individualizado con goteo en Celery.
     """
-    # Extraemos únicamente los IDs del queryset para pasarlos de forma ligera al broker
+    # Extraemos únicamente los IDs del queryset de forma ligera
     user_ids = list(queryset.values_list('id', flat=True))
     
     if not user_ids:
         modeladmin.message_user(request, "No se seleccionó ningún usuario válido.", level=messages.WARNING)
         return
 
-    # Despachamos la tarea a segundo plano con Celery
-    send_admin_batch_mailing_task_presentacion.delay(user_ids)
+    # Iteramos la lista de IDs para encolarlos individualmente con un retardo acumulativo
+    for index, user_id in enumerate(user_ids):
+        # El primer correo se envía de inmediato (0s), el segundo a los 180s, el tercero a los 360s, etc.
+        delay_seconds = index * 180
+        
+        # Despachamos cada correo como una tarea atómica separada a RabbitMQ
+        send_single_mailing_task_presentacion.apply_async(
+            args=[user_id], 
+            countdown=delay_seconds
+        )
 
     modeladmin.message_user(
         request, 
-        f'La tarea de envío de correos para {len(user_ids)} usuario(s) ha sido encolada exitosamente.', 
+        f'Se han encolado exitosamente {len(user_ids)} correo(s) en RabbitMQ con un goteo de 3 minutos entre cada envío.', 
         level=messages.SUCCESS
     )
 
