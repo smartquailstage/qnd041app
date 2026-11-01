@@ -69,8 +69,7 @@ def send_single_mailing_task_presentacion(user_id):
             from_email=settings.DEFAULT_FROM_EMAIL_INFO,
             to=[user.email]
         )
-        email.extra_headers['List-Unsubscribe'] = f'<https://ec.smartquail.io/unsubscribe?email={user.email}>'
-        email.extra_headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
+
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
         
