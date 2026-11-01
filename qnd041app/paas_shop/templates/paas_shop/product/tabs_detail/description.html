@@ -867,7 +867,7 @@
       const timeoutId = setTimeout(() => controller.abort(), 90000);
 
       try {
-        const response = await fetch("{% url 'saas_shop:ai_chat_view' %}", {
+        const response = await fetch("{% url 'paas_shop:ai_chat_view' %}", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
