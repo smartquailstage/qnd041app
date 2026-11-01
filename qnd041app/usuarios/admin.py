@@ -64,7 +64,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib import admin, messages
 # Importa tu tarea desde tasks.py (ajusta la ruta según tu app, ej: from tu_app.tasks import send_bulk_emails_task)
-from .tasks import send_admin_batch_mailing_task_presentacion
+from .tasks import send_single_mailing_task_presentacion
 
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import (

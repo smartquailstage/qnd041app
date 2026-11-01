@@ -1494,7 +1494,7 @@ class CitaDetailView(LoginRequiredMixin, DetailView):
 
 import json
 from django.http import JsonResponse
-from .tasks import send_admin_batch_mailing_task_presentacion
+from .tasks import send_single_mailing_task_presentacion
 from django.views.decorators.csrf import csrf_exempt
 
 User = get_user_model()
@@ -1527,7 +1527,7 @@ def openclaw_mailing_webhook_presentacion(request):
         if not user_ids:
             return JsonResponse({"status": "success", "message": f"No hay usuarios en la página {page}."}, status=200)
 
-        send_admin_batch_mailing_task.delay(user_ids)
+        send_single_mailing_task_presentacion.delay(user_ids)
         
         return JsonResponse({
             "status": "success",
