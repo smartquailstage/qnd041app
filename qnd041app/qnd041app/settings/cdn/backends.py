@@ -8,11 +8,13 @@ class StaticRootS3BotoStorage(S3Boto3Storage):
     location = "qnd041app/static"
     default_acl = 'public-read'  
     file_overwrite = False
+    querystring_auth = False
 
 class MediaRootS3BotoStorage(S3Boto3Storage):
     location = "qnd041app/media"
     default_acl = 'public-read'  # ✅ Cambia a 'private' si quieres proteger los archivos multimedia
     file_overwrite = False
+    querystring_auth = False
 
 
 
