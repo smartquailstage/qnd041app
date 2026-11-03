@@ -8,10 +8,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!--=== Títulos y Metadatos Base ===-->
 <title>{% block title %}SmartQuail-IT Cloud Business{% endblock %}</title>
 <meta name="description" content="{% block meta_description %}El futuro digital de tu empresa comienza aquí con soluciones de IA, automatización y cloud business en Ecuador.{% endblock %}">
 <link rel="canonical" href="{{ request.build_absolute_uri }}" />
 <link rel="shortcut icon" href="{% static 'img/logo_red.png' %}">
+
+<!--=== Open Graph & Social Cards (Vital para que lean el contenido) ===-->
+<meta property="og:site_name" content="SmartQuail" />
+<meta property="og:locale" content="es_EC" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+<meta property="og:title" content="{% block og_title %}SmartQuail-IT Cloud Business{% endblock %}" />
+<meta property="og:description" content="{% block og_description %}El futuro digital de tu empresa comienza aquí con soluciones de IA, automatización y cloud business en Ecuador.{% endblock %}" />
+<meta property="og:image" content="{% block og_image %}https://ec.smartquail.io/static/web_assets/images/smartquail_ini.png{% endblock %}" />
+
+<!--=== Twitter Cards ===-->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter_title %}SmartQuail-IT Cloud Business{% endblock %}">
+<meta name="twitter:description" content="{% block twitter_description %}El futuro digital de tu empresa comienza aquí con soluciones de IA, automatización y cloud business en Ecuador.{% endblock %}">
+<meta name="twitter:image" content="{% block twitter_image %}https://ec.smartquail.io/static/web_assets/images/smartquail_ini.png{% endblock %}">
+
+<!--=== Hojas de Estilo ===-->
 <link rel="stylesheet" href="{% static 'web_assets/css/master.css' %}">
 <link rel="stylesheet" href="{% static 'web_assets/css/responsive.css' %}">
 <link rel="stylesheet" href="{% static 'web_assets/css/audio.css' %}">
@@ -72,52 +91,52 @@
       }
     ]
   }
-  </script>
+</script>
 
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://ec.smartquail.io/cto/#author",
-      "name": "Santiago Silva",
-      "jobTitle": "Chief Technology Officer & Founder",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "SmartQuail",
-        "url": "https://ec.smartquail.io/"
-      },
-      "url": "https://ec.smartquail.io/cto/",
-      "knowsAbout": [
-        "Cloud Native Infrastructure",
-        "Private Artificial Intelligence",
-        "Kubernetes & SRE",
-        "Software Architecture",
-        "ERP and CRM Systems"
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/santiagosilva"
-      ]
-    }
-    </script>
-    <meta name="google-site-verification" content="VyAYPGurZJh9nM-zs__su2ZuNDuxnvF52CgsmTtSGjw" />
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://ec.smartquail.io/cto/#author",
+    "name": "Santiago Silva",
+    "jobTitle": "Chief Technology Officer & Founder",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "SmartQuail",
+      "url": "https://ec.smartquail.io/"
+    },
+    "url": "https://ec.smartquail.io/cto/",
+    "knowsAbout": [
+      "Cloud Native Infrastructure",
+      "Private Artificial Intelligence",
+      "Kubernetes & SRE",
+      "Software Architecture",
+      "ERP and CRM Systems"
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/santiagosilva"
+    ]
+  }
+</script>
 
-    <!-- Google Analytics 4 (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0DCSMJTN87"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<meta name="google-site-verification" content="VyAYPGurZJh9nM-zs__su2ZuNDuxnvF52CgsmTtSGjw" />
 
-      gtag('config', 'G-0DCSMJTN87');
-    </script>
+<!-- Google Analytics 4 (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0DCSMJTN87"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0DCSMJTN87');
+</script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-M9RZCCGQ');</script>
-    <!-- End Google Tag Manager -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-M9RZCCGQ');</script>
+<!-- End Google Tag Manager -->
 
 </head>
 
@@ -137,48 +156,45 @@
   {% block content %}
   {% endblock %}
 
-
   <!--=== GO TO TOP  ===-->
-  <a href="index.html#" id="back-to-top" title="Back to top">&uarr;</a>
+  <a href="#main" id="back-to-top" title="Back to top">&uarr;</a>
   <!--=== GO TO TOP End ===-->
 
 </div>
 <!--=== Wrapper End ===-->
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1eO-IAC9PhPE5APzZDSs8W40ewuxnsu8"></script>
 <!--=== Javascript Plugins ===-->
 <script src="{% static 'web_assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'web_assets/js/validator.js' %}"></script>
-<script src="{% static 'web_assets/js/plugins.js' %}"></script>
+<script src="{% static 'web_assets/js/plugins.js' %}({}, window.jQuery))"></script> <!-- Ajustado por compatibilidad de plugins -->
 <script src="{% static 'web_assets/js/master.js' %}"></script>
 <script src="{% static 'web_assets/js/bootsnav.js' %}"></script>
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9RZCCGQ"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
-
-<!--=== Javascript Plugins End ===-->
+<!-- End Google Tag Manager (noscript) -->
 
 <script>
   window.onload = function() {
     document.getElementById("main").classList.add("loaded")
 
-    lax.setup()
-
-    const update = () => {
-      lax.update(window.scrollY)
-      window.requestAnimationFrame(update)
-    }
-
-    window.requestAnimationFrame(update)
-
-    let w = window.innerWidth
-    window.addEventListener("resize", function() {
-      if(w !== window.innerWidth) {
-        lax.updateElements()
+    if (typeof lax !== 'undefined') {
+      lax.setup()
+      const update = () => {
+        lax.update(window.scrollY)
+        window.requestAnimationFrame(update)
       }
-    });
+      window.requestAnimationFrame(update)
+
+      let w = window.innerWidth
+      window.addEventListener("resize", function() {
+        if(w !== window.innerWidth) {
+          lax.updateElements()
+        }
+      });
+    }
   }
 </script>
 
