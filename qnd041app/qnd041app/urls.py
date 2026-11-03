@@ -50,7 +50,7 @@ def sitemap_plano(request):
         '  </url>\n'
 
         '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbmshop/</loc>\n'
+        '    <loc>https://ec.smartquail.io/sbmshop/smartbusinessproducts/</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.8</priority>\n'
         '  </url>\n'
@@ -65,7 +65,7 @@ def sitemap_plano(request):
         '    <priority>0.8</priority>\n'
         '  </url>\n'
         '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbpshop/</loc>\n'
+        '    <loc>https://ec.smartquail.io/sbpshop/smartbusinessproducts/</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.8</priority>\n'
         '  </url>\n'
