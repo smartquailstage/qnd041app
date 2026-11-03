@@ -48,7 +48,6 @@ def sitemap_plano(request):
         '    <changefreq>weekly</changefreq>\n'
         '    <priority>0.9</priority>\n'
         '  </url>\n'
-
         '  <url>\n'
         '    <loc>https://ec.smartquail.io/sbmshop/smartbusinessproducts/</loc>\n'
         '    <changefreq>weekly</changefreq>\n'
@@ -120,18 +119,16 @@ urlpatterns = [
     path('platforms_convenios/', include('paas_coupons.urls', namespace='paas_coupons')),
     path('platforms_metodo_pago/', include('paas_payment.urls', namespace='paas_payment')),
 
-    path('assitente_ia_carrito/', include('aiaas_cart.urls', namespace='aiaas_cart')),
-    path('assitente_ia/', include('aiaas_shop.urls', namespace='aiaas_shop')),
-    path('assitente_ia_licencias/', include('aiaas_orders.urls', namespace='aiaas_orders')),
-    path('assitente_ia_convenios/', include('aiaas_coupons.urls', namespace='aiaas_coupons')),
-    path('assitente_ia_metodo_pago/', include('aiaas_payment.urls', namespace='aiaas_payment')),
+    # Asistente de IA (Corregido de assitente_ia a asistente_ia)
+    path('asistente_ia_carrito/', include('aiaas_cart.urls', namespace='aiaas_cart')),
+    path('asistente_ia/', include('aiaas_shop.urls', namespace='aiaas_shop')),
+    path('asistente_ia_licencias/', include('aiaas_orders.urls', namespace='aiaas_orders')),
+    path('asistente_ia_convenios/', include('aiaas_coupons.urls', namespace='aiaas_coupons')),
+    path('asistente_ia_metodo_pago/', include('aiaas_payment.urls', namespace='aiaas_payment')),
     
     path('contrato/', include('smartcontracts.urls', namespace='smartcontracts')),
     path('ingresar/', include('usuarios.urls', namespace='usuarios')),
     path('accounts/', include('allauth.urls')),
-
-    #mailing
-    #path('mailing/', include('mailing.urls', namespace='mailing')),
 
     # Shops
     path('sbmshop/', include('sbmshop.urls', namespace='sbmshop')),
@@ -148,13 +145,11 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
-    #openclaw URLS
-
+    # APIs y CRM
     path('api/', include('social_media_AI.urls')),
     path('crm/', include('customer_managemen.urls')),
-   
 
-    # Wagtail
+    # Wagtail (Siempre al final para capturar el CMS)
     re_path(r'^businessmedia/', include(wagtailadmin_urls), name='wagtail'),
     re_path(r'^documents/', include(wagtaildocs_urls)),
     path("", include(wagtail_urls)),
