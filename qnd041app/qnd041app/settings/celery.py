@@ -21,7 +21,9 @@ app.autodiscover_tasks()
 app.conf.update(
      broker_url='pyamqp://guest:guest@localhost//',
      result_backend='django-db',
-     broker_connection_retry_on_startup = True
+     broker_connection_retry_on_startup = True,
+     worker_prefetch_multiplier=1,
+     task_acks_late=True,
  )
 
 @app.task(bind=True)

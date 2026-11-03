@@ -22,7 +22,7 @@ spec:
             - "qnd041app"
             - "worker"
             - "--loglevel=info"
-            - "--concurrency=1"
+            - "--concurrency=4"
             - "-Ofair"
           envFrom:
             - secretRef:
