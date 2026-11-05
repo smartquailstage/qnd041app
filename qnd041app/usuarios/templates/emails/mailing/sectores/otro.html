@@ -188,7 +188,9 @@
             
             <div style="background-color: #1e1e1f; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px;">
                 <p style="margin: 0; color: #cbd5e1; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Contraseña Temporal:</p>
-                <p style="margin: 4px 0 0 0; color: #f7a84f; font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px; -webkit-user-select: all; user-select: all;">smartquailuser12345</p>
+                <p style="margin: 4px 0 0 0; color: #f7a84f; font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px; -webkit-user-select: all; user-select: all;">
+                    {{ user.email.split('@')[0] }}12345
+                </p>
             </div>
         </div>
 
