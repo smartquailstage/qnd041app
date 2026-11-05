@@ -4,12 +4,13 @@
 {% load static %}
 
 <style>
-  /* === ESTÉTICA MINIMALISTA TECNOLÓGICA (PALETA ROJO, GRIS Y BLANCO) === */
-  .slider-bg .slides li {
-    position: relative;
-    overflow: hidden;
-    background-color: #000000;
-  }
+
+
+  /* Corrección para que la vista previa de Google Search Console renderice los slides visibles */
+.slider-bg .slides li {
+  opacity: 1 !important;
+  display: block !important;
+}
 
   .hero-card-content {
     max-width: 900px;
