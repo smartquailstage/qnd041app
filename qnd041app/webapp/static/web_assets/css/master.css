@@ -3934,7 +3934,7 @@ ul.footer-gallery li img {
     height: 100%;
     width: 100%;
     position: relative;
-    background-color:rgba(238, 235, 235, 0.331);
+    background-color:rgba(0, 0, 0, 0.27);
     z-index: 200;
 }
 
