@@ -5,468 +5,497 @@
 {% block content %}
 
 <style>
+  /* === ESTÉTICA MINIMALISTA TECNOLÓGICA (ROJO, GRIS Y BLANCO) === */
 
-/* Contenedor exterior */
-.instagram-carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 500px; /* Tamaño ideal estándar estilo post de Instagram */
-    margin: 0 auto;
-    padding-bottom: 25px;
-}
+  /* Contenedor del Carrusel Estilo Post / Tarjeta Tecnológica */
+  .instagram-carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 16px;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  }
 
-/* El Carrusel con scroll fluido */
-.instagram-carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 12px; /* Bordes suaves estilo interfaz moderna */
-    background-color: #ffffff;
-    border: 1px solid #ffffff;
-}
+  /* El Carrusel con scroll fluido */
+  .instagram-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 10px;
+      background-color: #0b0f17;
+  }
 
-/* Ocultar la barra de scroll nativa en todos los navegadores */
-.instagram-carousel::-webkit-scrollbar {
-    display: none;
-}
-.instagram-carousel {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
+  /* Ocultar barra de scroll */
+  .instagram-carousel::-webkit-scrollbar {
+      display: none;
+  }
+  .instagram-carousel {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
 
-/* Cada diapositiva (Contenedor individual) */
-.carousel-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    scroll-snap-align: start;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* 1. ELIMINAMOS 'aspect-ratio: 1/1' para que ya no obligue a ser cuadrado */
-    /* 2. Definimos una altura máxima para que imágenes muy verticales no rompan la pantalla */
-    height: auto;
-    max-height: 70vh; /* Ocupará como máximo el 70% de la altura de la pantalla */
-    overflow: hidden;
-}
+  /* Diapositiva individual */
+  .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 380px;
+      overflow: hidden;
+      background: #0b0f17;
+  }
 
-/* Las imágenes dentro del carrusel */
-.carousel-slide img {
-    /* 3. CLAVE: Se adaptan a su ancho y alto real de manera proporcional */
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    
-    /* 4. Mantiene la proporción real sin recortar bordes */
-    object-fit: contain; 
-    
-    user-select: none;
-    -webkit-user-drag: none;
-}
+  /* Imágenes del carrusel proporcionalmente contenidas */
+  .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+      -webkit-user-drag: none;
+  }
 
-/* Contenedor de los puntos indicadores */
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    margin-top: 12px;
-    height: 10px;
-}
+  /* Contenedor de indicadores (Puntos) */
+  .carousel-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      height: 10px;
+  }
 
-/* El punto individual */
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    background-color: #a8a8a8;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-}
+  /* Punto individual moderno */
+  .carousel-dot {
+      width: 8px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      cursor: pointer;
+  }
 
-/* El punto activo (Punto azul o negro de Instagram) */
-.carousel-dot.active {
-    background-color: #b0292d; /* Azul Instagram (puedes cambiarlo por tu color corporativo) */
-    transform: scale(1.2);
-}
+  /* Punto activo en rojo institucional */
+  .carousel-dot.active {
+      background-color: #b5181a;
+      width: 24px;
+      border-radius: 4px;
+  }
 
-/* =========================================================
-   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
-   ========================================================= */
-   .logo-instagram-slide {
-    max-width: 100%; /* Evita que la imagen se desborde si la pantalla es muy chica */
-    width: 392px;    /* Tu ancho objetivo */
-    
-    /* CLAVE PARA CENTRAR EN MÓVILES */
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 292px; /* Un margen superior más prudente y estético para celulares */
-}
+  /* Logo e Isotipo en Hero Header */
+  .logo-instagram-slide {
+      max-width: 100%;
+      width: 320px;
+      display: block;
+      margin: 180px auto 20px auto;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+  }
 
-/* =========================================================
-   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio / Tablets)
-   ========================================================= */
-@media (min-width: 992px) {
-    .logo-instagram-slide {
-        max-width: 392px;
-        
-        /* Aplicamos tus valores exactos solo en pantallas grandes */
-        margin-top: 100px;
-        margin-left: 47px;
-        margin-right: 0; /* Desactivamos el centrado automático */
+  @media (min-width: 992px) {
+      .logo-instagram-slide {
+          max-width: 320px;
+          margin-top: 80px;
+          margin-left: 30px;
+          margin-right: 0;
+      }
+  }
 
-    }
-}
+  /* Tipografía Hero Fluid */
+  .hero-custom-title {
+      color: #ffffff;
+      font-size: clamp(1.8rem, 2.5vw, 32px);
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      max-width: 90%;
+      margin: 0 auto;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
 
+  @media (min-width: 992px) {
+      .hero-custom-title {
+          text-align: left;
+          margin-left: 30px;
+          margin-top: 0;
+          max-width: 50%;
+      }
+  }
 
-/* =========================================================
-   COMPORTAMIENTO POR DEFECTO: MÓVILES Y PANTALLAS PEQUEÑAS
-   ========================================================= */
-   .hero-custom-title {
-    color: rgb(87 83 83);
-    
-    /* TIPOGRAFÍA FLUIDA: Cambia de tamaño según la pantalla */
-    font-size: calc(1.5rem + 1.5vw); 
-    line-height: 1.3;
-    font-weight: 700;
-    line-height: 1;
-    
-    /* CLAVE PARA CENTRAR EN MÓVILES */
-    text-align: center;
-    max-width: 90%; /* En móviles dejamos que use casi todo el ancho disponible */
-    margin: 30px auto 0 auto; /* Centrado horizontal, margen superior controlado */
-    margin-top: 0px;
-}
+  /* Biografía y textos principales de la página */
+  .content-bio-text {
+      color: #475569 !important;
+      font-size: 14px !important;
+      line-height: 1.7 !important;
+      text-align: justify;
+  }
 
-/* =========================================================
-   COMPORTAMIENTO EN PANTALLAS GRANDES (Escritorio)
-   ========================================================= */
-@media (min-width: 992px) {
-    .hero-custom-title {
-        /* Restablecemos la alineación original a la izquierda */
-        text-align: left;
-        
-        /* Aplicamos tus valores exactos de diseño */
-        margin-left: 54px;
-        margin-top: 0px; /* Ajusta este valor si necesitas coordinarlo con la imagen */
-        max-width: 31%;   /* Se restringe al 31% solo en pantallas anchas */
-        
-        /* Tamaño de fuente controlado para monitores */
-        font-size: 28px; 
-        line-height: 1;
-    }
-}
+  .content-main-title {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      font-size: clamp(1.3rem, 2vw, 22px) !important;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px !important;
+  }
 
+  .content-main-subtitle {
+      color: #b5181a !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px !important;
+  }
 
-/* Contenedor principal centrado */
-.post-share-centered {
-    display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center;     /* Centrado vertical */
-    width: 100%;
-    margin: 20px 0;          /* Espaciado opcional arriba y abajo */
-}
+  .content-main-desc {
+      color: #64748b !important;
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+      text-align: justify;
+  }
 
-/* Resetear la lista e iconos */
-.post-share-centered ul {
-    list-style: none;        /* Quita los puntos de la lista */
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+  /* Redes Sociales / Contacto Centrado */
+  .post-share-centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 24px 0;
+  }
 
-.post-share-centered ul li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;         /* Permite que los iconos se acomoden si la pantalla es muy chica */
-    gap: 20px;               /* Separación limpia y uniforme entre cada icono */
-}
+  .post-share-centered ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
 
-/* Estilo de los enlaces e iconos (Ajusta los tamaños a tu gusto) */
-.post-share-centered ul li a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;         /* Tamaño de los iconos de IcoFont */
-    color:#b4292f;          /* Color gris que estás usando en el proyecto */
-    transition: color 0.3s ease, transform 0.2s ease;
-}
+  .post-share-centered ul li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+  }
 
-/* Efecto Hover opcional para interactividad */
-.post-share-centered ul li a:hover {
-    color: rgb(110, 9, 9);             /* Cambia a negro o a tu color corporativo al pasar el mouse */
-    transform: scale(1.1);   /* Crece ligeramente */
-}
+  .post-share-centered ul li a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      font-size: 18px;
+      color: #b5181a;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
 
+  .post-share-centered ul li a:hover {
+      background: #b5181a;
+      color: #ffffff;
+      border-color: #b5181a;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(181, 24, 26, 0.3);
+  }
+
+  /* Sección CTA Final */
+  .cta-custom-section {
+      background-color: #b5181a !important;
+      border-top: 1px solid rgba(255,255,255,0.15);
+  }
 </style>
 
 {% main_menu template="webapp/home/header.html" %}
 
 <div class="wrapper">
 
+  <!--=== HERO BANNER ===-->
   {% for item in page.galleria_3.all %}
     {% if item.banner_background %}
       {% image item.banner_background original as bg %}
       <section class="title-hero-bg portfolio-cover-bg"
-        style="background-image:url('{{ bg.url }}'); background-size:cover; background-position:center;background-color:#020202; ">
+        style="background-image:url('{{ bg.url }}'); background-size:cover; background-position:center; background-color:#020202;">
         <div class="container">
           <div class="page-title text-left">
             {% if item.logo_slide %}
               {% image item.logo_slide original as logo_slide %}
               <img src="{{ logo_slide.url }}" class="img-responsive logo-instagram-slide" alt="Logo Slide">
             {% endif %}
-            <h3 class="hero-custom-title">{{ page.title }}</h3>
+            <h1 class="hero-custom-title">{{ page.title }}</h1>
           </div>
         </div>
       </section>
     {% endif %}
   {% endfor %}
 
-
-
-
-  <section class="pt-100" style="background-color: #fff;">
+  <!--=== CONTENIDO PRINCIPAL (DOS COLUMNAS) ===-->
+  <section class="pt-80 pb-80" style="background-color: #ffffff;">
     <div class="container">
-      <div class="row">
+      <div class="row g-4">
 
-        <div class="col-md-3">
-
+        <!-- COLUMNA IZQUIERDA: CARRUSEL Y CONTACTO -->
+        <div class="col-md-4">
           <div class="instagram-carousel-container">
             <div class="instagram-carousel" id="instaCarousel">
               
-              {# Bloque para los Logos #}
               {% for item in page.galleria_3.all %}
                 {% if item.logo %}
                   {% image item.logo original as logo %}
-                  <div class="carousel-slide">
-                    <img src="{{ logo.url }}" alt="Logo">
-                  </div>
+                  <div class="carousel-slide"><img src="{{ logo.url }}" alt="Logo"></div>
                 {% endif %}
-              {% endfor %}
-          
-              {# Bloque para las Fotos de Perfil #}
-              {% for item in page.galleria_3.all %}
                 {% if item.profile_pic %}
                   {% image item.profile_pic original as profile %}
-                  <div class="carousel-slide">
-                    <img src="{{ profile.url }}" alt="Profile Picture">
-                  </div>
+                  <div class="carousel-slide"><img src="{{ profile.url }}" alt="Profile Picture"></div>
+                {% endif %}
+                {% if item.carousell_1 %}
+                  {% image item.carousell_1 original as c1 %}
+                  <div class="carousel-slide"><img src="{{ c1.url }}" alt="carousel 1"></div>
+                {% endif %}
+                {% if item.carousell_2 %}
+                  {% image item.carousell_2 original as c2 %}
+                  <div class="carousel-slide"><img src="{{ c2.url }}" alt="carousel 2"></div>
+                {% endif %}
+                {% if item.carousell_3 %}
+                  {% image item.carousell_3 original as c3 %}
+                  <div class="carousel-slide"><img src="{{ c3.url }}" alt="carousel 3"></div>
+                {% endif %}
+                {% if item.carousell_4 %}
+                  {% image item.carousell_4 original as c4 %}
+                  <div class="carousel-slide"><img src="{{ c4.url }}" alt="carousel 4"></div>
+                {% endif %}
+                {% if item.carousell_5 %}
+                  {% image item.carousell_5 original as c5 %}
+                  <div class="carousel-slide"><img src="{{ c5.url }}" alt="carousel 5"></div>
+                {% endif %}
+                {% if item.carousell_6 %}
+                  {% image item.carousell_6 original as c6 %}
+                  <div class="carousel-slide"><img src="{{ c6.url }}" alt="carousel 6"></div>
+                {% endif %}
+                {% if item.carousell_7 %}
+                  {% image item.carousell_7 original as c7 %}
+                  <div class="carousel-slide"><img src="{{ c7.url }}" alt="carousel 7"></div>
                 {% endif %}
               {% endfor %}
 
-              {% for item in page.galleria_3.all %}
-              {% if item.carousell_1 %}
-                {% image item.carousell_1 original as c1 %}
-                <div class="carousel-slide">
-                  <img src="{{ c1.url }}" alt="c1">
-                </div>
-              {% endif %}
-            {% endfor %}
-
-            {% for item in page.galleria_3.all %}
-            {% if item.carousell_2 %}
-              {% image item.carousell_2 original as c2 %}
-              <div class="carousel-slide">
-                <img src="{{ c2.url }}" alt="c2">
-              </div>
-            {% endif %}
-          {% endfor %}
-        
-          {% for item in page.galleria_3.all %}
-          {% if item.carousell_3 %}
-            {% image item.carousell_3 original as c3 %}
-            <div class="carousel-slide">
-              <img src="{{ c3.url }}" alt="c3">
             </div>
-          {% endif %}
-        {% endfor %}
-
-        {% for item in page.galleria_3.all %}
-        {% if item.carousell_4 %}
-          {% image item.carousell_4 original as c4 %}
-          <div class="carousel-slide">
-            <img src="{{ c4.url }}" alt="c4">
-          </div>
-        {% endif %}
-      {% endfor %}
-
-      {% for item in page.galleria_3.all %}
-      {% if item.carousell_5 %}
-        {% image item.carousell_5 original as c5 %}
-        <div class="carousel-slide">
-          <img src="{{ c5.url }}" alt="c5">
-        </div>
-      {% endif %}
-    {% endfor %}
-
-    {% for item in page.galleria_3.all %}
-    {% if item.carousell_6 %}
-      {% image item.carousell_6 original as c6 %}
-      <div class="carousel-slide">
-        <img src="{{ c6.url }}" alt="c6">
-      </div>
-    {% endif %}
-  {% endfor %}
-
-  {% for item in page.galleria_3.all %}
-  {% if item.carousell_7 %}
-    {% image item.carousell_7 original as c7 %}
-    <div class="carousel-slide">
-      <img src="{{ c7.url }}" alt="c7">
-    </div>
-  {% endif %}
-{% endfor %}
-          
-            </div>
-          
-            <!-- Indicadores de puntos estilo Instagram -->
+            
+            <!-- Indicadores interactivos -->
             <div class="carousel-dots" id="carouselDots"></div>
-
-        
-
-
           </div>
-          <p style="color: #303131; text-align: justify;line-height: 1;" class="mt-30">{{ page.bio2|richtext }}</p>
+
+          <div class="content-bio-text mt-30">
+            {{ page.bio2|richtext }}
+          </div>
+
+          <!-- Redes Sociales / Canales de Contacto -->
           <div class="post-share-centered">
             <ul>
               <li> 
-                <a href="https://api.whatsapp.com/send?phone=593963521262">
+                <a href="https://api.whatsapp.com/send?phone=593963521262" title="WhatsApp">
                   <i class="icofont icofont-whatsapp"></i>
                 </a> 
-                <a href="mailto:info@mail.smartquail.io"> 
+                <a href="mailto:info@smartquail.io" title="Correo"> 
                   <i class="icofont icofont-mail"></i>
                 </a>
                 {% if settings.webapp.SocialMediaSettings.facebook %}
-                  <a href="{{ settings.webapp.SocialMediaSettings.facebook }}"><i class="icofont icofont-facebook"></i></a> 
+                  <a href="{{ settings.webapp.SocialMediaSettings.facebook }}" title="Facebook"><i class="icofont icofont-facebook"></i></a> 
                 {% endif %}
                 {% if settings.webapp.SocialMediaSettings.twitter %}
-                  <a href="{{ settings.webapp.SocialMediaSettings.twitter }}"><i class="icofont icofont-twitter"></i></a> 
+                  <a href="{{ settings.webapp.SocialMediaSettings.twitter }}" title="Twitter"><i class="icofont icofont-twitter"></i></a> 
                 {% endif %}
                 {% if settings.webapp.SocialMediaSettings.linkedin %}
-                  <a href="{{ settings.webapp.SocialMediaSettings.linkedin }}"><i class="icofont icofont-linkedin"></i></a> 
+                  <a href="{{ settings.webapp.SocialMediaSettings.linkedin }}" title="LinkedIn"><i class="icofont icofont-linkedin"></i></a> 
                 {% endif %}
                 {% if settings.webapp.SocialMediaSettings.instagram %}
-                  <a href="{{ settings.webapp.SocialMediaSettings.instagram }}"><i class="icofont icofont-instagram"></i></a> 
+                  <a href="{{ settings.webapp.SocialMediaSettings.instagram }}" title="Instagram"><i class="icofont icofont-instagram"></i></a> 
                 {% endif %}   
               </li>
             </ul>
           </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: CONTENIDO Y SLIDERS DE IMÁGENES -->
+        <div class="col-md-8">
+
+          <!-- Bloque 1 -->
+          <article class="mb-50">
+            <h3 class="content-main-title">{{ page.banner_title9|richtext }}</h3>
+            <h4 class="content-main-subtitle">{{ page.TS_info6 }}</h4>
+            <div class="content-main-desc">{{ page.info_title9|richtext }}</div>
+
+            <div class="portfolio-slider owl-carousel mt-25">
+              {% for item in page.galleria_3.all %}
+                {% if item.image_1 %}{% image item.image_1 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image 1">{% endif %}
+                {% if item.image_2_2 %}{% image item.image_2_2 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image 2">{% endif %}
+                {% if item.image_3_3 %}{% image item.image_3_3 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image 3">{% endif %}
+                {% if item.image_4_4 %}{% image item.image_4_4 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image 4">{% endif %}
+              {% endfor %}
+            </div>
+          </article>
+
+          <!-- Bloque 2 -->
+          <article class="mb-50">
+            <h3 class="content-main-title">{{ page.banner_title10|richtext }}</h3>
+            <h4 class="content-main-subtitle">{{ page.TS_info7 }}</h4>
+            <div class="content-main-desc">{{ page.info_title10|richtext }}</div>
+
+            <div class="portfolio-slider owl-carousel mt-25">
+              {% for item in page.galleria_3.all %}
+                {% if item.image %}{% image item.image original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image A">{% endif %}
+                {% if item.image_2 %}{% image item.image_2 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image B">{% endif %}
+                {% if item.image_3 %}{% image item.image_3 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image C">{% endif %}
+                {% if item.image_4 %}{% image item.image_4 original as img %}<img src="{{ img.url }}" class="img-responsive" alt="Image D">{% endif %}
+              {% endfor %}
+            </div>
+          </article>
+
+          <hr style="border-color: #e2e8f0; margin: 40px 0;">
+
+          <!-- Bloque 3 -->
+          <article>
+            <h3 class="content-main-title">{{ page.banner_title11|richtext }}</h3>
+            <h4 class="content-main-subtitle">{{ page.TS_info8 }}</h4>
+            <div class="content-main-desc">{{ page.info_title11|richtext }}</div>
+          </article>
 
         </div>
 
-
-        <div class="col-md-9">
-
-          <h3 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title9|richtext }}</h3>
-          <h4 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info6 }}</h4>
-          <div style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.info_title9|richtext }}</div>
-
-          <div class="portfolio-slider owl-carousel  mt-30">
-            {% for item in page.galleria_3.all %}
-              {% if item.image_1 %}
-                {% image item.image_1 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_2_2 %}
-                {% image item.image_2_2 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_3_3 %}
-                {% image item.image_3_3 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_4_4 %}
-                {% image item.image_4_4 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-            {% endfor %}
-          </div>
-
-          <h3 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title10|richtext }}</h3>
-          <h4 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info7 }}</h4>
-          <div style="text-align: justify; letter-spacing: normal;
-  line-height: 15px;
-  color: #96979B;
-  font-weight: 300;">{{ page.info_title10|richtext }}</div>
-
-
-        
-          <div class="portfolio-slider owl-carousel mt-40">
-            {% for item in page.galleria_3.all %}
-              {% if item.image %}
-                {% image item.image original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_2 %}
-                {% image item.image_2 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_3 %}
-                {% image item.image_3 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-              {% if item.image_4 %}
-                {% image item.image_4 original as img %}
-                <img src="{{ img.url }}" class="img-responsive">
-              {% endif %}
-            {% endfor %}
-          </div>
-
-          <hr>
-
-          <h3 style="color:rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.banner_title11|richtext }}</h3>
-          <h4 style="color: rgb(36, 35, 35);text-align: justify;line-height: 1;">{{ page.TS_info8 }}</h4>
-          <div style="text-align: justify;line-height: 1;">{{ page.info_title11|richtext }}</div>
-
-
-        </div>
       </div>
     </div>
   </section>
 
+  <!--=== CALL TO ACTION FINAL ===-->
+  <style>
+    /* === CTA CUSTOM SECTION (MODERNO Y DE ALTA CONVERSIÓN) === */
+    .cta-custom-section {
+      position: relative;
+      background: linear-gradient(135deg, #b5181a 0%, #991315 100%) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 60px 0;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
   
-  <section class="pt-50 pb-50 default-bg">
+    /* Subtítulo Estilo Eyebrow / Terminal */
+    .cta-eyebrow {
+      font-family: monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+  
+    /* Título de Impacto */
+    .cta-heading-title {
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      font-size: clamp(1.4rem, 2.2vw, 26px) !important;
+      letter-spacing: -0.015em !important;
+      line-height: 1.3 !important;
+      margin: 0 !important;
+    }
+  
+    /* Botón Tecnológico Premium */
+    .btn-cta-tech {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12.5px !important;
+      font-weight: 800 !important;
+      letter-spacing: 1px !important;
+      text-transform: uppercase !important;
+      padding: 14px 34px !important;
+      border-radius: 8px !important;
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #ffffff !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+      text-decoration: none !important;
+    }
+  
+    .btn-cta-tech i {
+      font-size: 14px;
+      transition: transform 0.25s ease;
+    }
+  
+    .btn-cta-tech:hover {
+      background: #0f172a !important;
+      color: #ffffff !important;
+      border-color: #0f172a !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.4) !important;
+    }
+  
+    .btn-cta-tech:hover i {
+      transform: translateX(4px);
+    }
+  </style>
+  
+  <!--=== Call to Action Start ===-->
+  <section class="pt-50 pb-50 cta-custom-section">
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <p class="subtitle" style="color:#e9e9e9">{% trans "Become a Smart IT Cloud Business" %}</p>
-          <h3 style="color:#d2cccc">{% trans "Let’s build your cloud future together." %}</h3>
+      <div class="row align-items-center">
+        
+        <!-- Columna Izquierda: Mensaje y Eyebrow -->
+        <div class="col-lg-7 col-md-6 mb-3 mb-md-0">
+          <div>
+            <span class="cta-eyebrow">{% trans "Become a Smart IT Cloud Business" %}</span>
+            <h3 class="cta-heading-title">{% trans "Let’s build your cloud future together." %}</h3>
+          </div>
         </div>
-        <div class="col-md-6 text-right">
-          <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}"
-             class="btn btn-rounded btn-white">
-            {% trans "Crear Cuenta ITC" %}
+  
+        <!-- Columna Derecha: Botón de Alta Conversión -->
+        <div class="col-lg-5 col-md-6 text-md-right">
+          <a href="{{ settings.webapp.GlobalLinksSettings.contacus }}" class="btn-cta-tech">
+            <span>{% trans "Crear Cuenta ITC" %}</span>
+            <i class="icofont icofont-arrow-right"></i>
           </a>
         </div>
+  
       </div>
     </div>
   </section>
+  <!--=== Call to Action End ===-->
 
 </div>
 
 {% include "webapp/home/footer_section.html" %}
 
+<!--=== SCRIPT CARRUSEL CORREGIDO Y FLUIDO ===-->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const carousel = document.getElementById("instaCarousel");
     const dotsContainer = document.getElementById("carouselDots");
-    const slides = carousel.querySelectorAll(".carousel-slide");
+    if (!carousel || !dotsContainer) return;
     
-    if (slides.length <= 1) return; // Si hay una sola imagen, no crea puntos.
+    const slides = carousel.querySelectorAll(".carousel-slide");
+    if (slides.length <= 1) return;
 
-    // 1. Crear dinámicamente la cantidad de puntos según las imágenes de Wagtail
+    // 1. Crear dinámicamente los puntos indicadores
     slides.forEach((_, index) => {
         const dot = document.createElement("div");
         dot.classList.add("carousel-dot");
         if (index === 0) dot.classList.add("active");
         
-        // Permitir hacer clic en el punto para navegar a esa imagen
         dot.addEventListener("click", () => {
             carousel.scrollTo({
                 left: carousel.offsetWidth * index,
@@ -479,11 +508,10 @@
 
     const dots = dotsContainer.querySelectorAll(".carousel-dot");
 
-    // 2. Escuchar el evento de desplazamiento para cambiar el punto activo de manera fluida
+    // 2. Sincronizar el scroll con el punto activo
     carousel.addEventListener("scroll", () => {
         const scrollLeft = carousel.scrollLeft;
         const width = carousel.offsetWidth;
-        // Calcula el índice de la diapositiva actual basándose en la posición del scroll
         const activeIndex = Math.round(scrollLeft / width);
 
         dots.forEach((dot, index) => {
