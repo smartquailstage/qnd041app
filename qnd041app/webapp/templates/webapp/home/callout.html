@@ -1,56 +1,241 @@
 {% load i18n wagtailcore_tags wagtailimages_tags %}
-<section class="first-ico-box" style="background-color: #ffff;">
-    <div class="dn-bg-lines">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+{% load static %}
+
+<style>
+  /* === SECCIÓN SOLUCIONES IT (MINIMALISTA TECNOLÓGICO ROJO/GRIS) === */
+  .first-ico-box-sq {
+    position: relative;
+    background-color: #ffffff;
+    padding: 90px 0;
+    overflow: hidden;
+  }
+
+  /* Encabezados y Títulos Semánticos */
+  .section-title-sq {
+    font-size: clamp(1.8rem, 3.2vw, 36px) !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 16px !important;
+  }
+
+  .section-subtitle-sq {
+    font-size: clamp(0.95rem, 1.25vw, 16px) !important;
+    font-weight: 400 !important;
+    color: #475569 !important;
+    line-height: 1.6 !important;
+    max-width: 780px;
+  }
+
+  /* Tarjetas de Soluciones (Cards Minimalistas) */
+  .feature-card-sq {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid #b5181a;
+    border-radius: 14px;
+    padding: 36px 28px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.03);
+  }
+
+  .feature-card-sq:hover {
+    transform: translateY(-6px);
+    background: #ffffff;
+    border-color: #cbd5e1;
+    border-top-color: #b5181a;
+    box-shadow: 0 16px 35px rgba(181, 24, 26, 0.12);
+  }
+
+  /* Íconos Tecnológicos */
+  .icon-wrapper-sq {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: #fef2f2;
+    border: 1px solid rgba(181, 24, 26, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px auto;
+    transition: all 0.3s ease;
+  }
+
+  .icon-wrapper-sq i {
+    font-size: 30px;
+    color: #b5181a;
+  }
+
+  .feature-card-sq:hover .icon-wrapper-sq {
+    background: #b5181a;
+  }
+
+  .feature-card-sq:hover .icon-wrapper-sq i {
+    color: #ffffff;
+  }
+
+  /* Títulos de las Tarjetas */
+  .feature-card-sq h3 {
+    font-size: clamp(1.1rem, 1.5vw, 20px) !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.01em !important;
+    margin-bottom: 14px !important;
+  }
+
+  /* Párrafos e Información */
+  .feature-card-sq p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: #475569 !important;
+    text-align: justify;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  /* Enlaces 'Saber más' Estilizados */
+  .link-sq-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #b5181a !important;
+    text-decoration: none !important;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+
+  .link-sq-more i {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+  }
+
+  .link-sq-more:hover {
+    color: #0f172a !important;
+  }
+
+  .link-sq-more:hover i {
+    transform: translateX(4px);
+  }
+
+  /* Parallax Original con Estilo Rojo/Gris */
+  .left_parallax .dark-color {
+    color: #0f172a !important;
+    opacity: 0.08;
+  }
+
+  .right_parallax .red-color {
+    color: #b5181a !important;
+    opacity: 0.12;
+  }
+</style>
+
+<!--=== SECCIÓN INFRAESTRUCTURA Y SOLUCIONES IT ===-->
+<section class="first-ico-box-sq">
+  <div class="dn-bg-lines">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  
+  <!-- Textos Parallax con Animación por Scroll (Lax.js) -->
+  <div class="left_parallax">
+    <div class="vertical-text">
+      <h3 data-lax-preset="driftRight" data-lax-optimize="true" class="lax chunkyText font-700 dark-color">{% trans 'IT Solutions' %}</h3>
     </div>
-    <div class="left_parallax">
-      <div class="vertical-text">
-        <h3 data-lax-preset="driftRight" data-lax-optimize=true class="lax chunkyText font-700 dark-color">{% trans 'IT Solutions' %}</h3>
-      </div>
-    </div>
-    <div class="right_parallax">
-      <h3 data-lax-preset="driftLeft" data-lax-optimize=true class="lax chunkyText font-700 red-color">Be smart, Be a Smart Quail</h3>
-    </div>
+  </div>
+  <div class="right_parallax">
+    <h3 data-lax-preset="driftLeft" data-lax-optimize="true" class="lax chunkyText font-700 red-color">Be smart, Be a Smart Quail</h3>
+  </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 section-heading">
-          <h2 class="wow fadeTop" data-wow-delay="0.1s">{% trans 'We improve you IT Cloud Business' %}</h2>
-          <h4 class="text-uppercase wow fadeTop" data-wow-delay="0.2s"></h4>
-          <br>
-          <br>
-          <p class="mt-30 wow fadeTop" data-wow-delay="0.3s">{{page.banner_title10|richtext}}</p>
-        </div>
-      </div>
-
-      <div class="row mt-50">
-        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.1s">
-          <i class="icofont icofont-bitcoin-true font-50px default-icon"></i>
-          <h4 class="text-uppercase" style="font-size: clamp(2.1rem, 2vw, 28px);">{% trans 'Activos ITC' %}</h4>
-
-          <p style="color: #4F4F4F;text-align: justify;">{{page.info7}}  <a href="{% slugurl 'grow' %}">{% trans 'Saber más' %}</a></p>
-        </div>
-        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.2s">
-           <i class="icofont icofont-cloudapp font-50px default-icon"></i>
-
-          <h4 class="text-uppercase" style="font-size: clamp(2.1rem, 2vw, 28px);" >{% trans 'Tecnologías ITC' %}</h4>
-          <p style="color: #4F4F4F;text-align: justify;">{{page.info8}} <a href="{% slugurl 'social' %}">{% trans 'Saber más' %}</a></p>
-        </div>
-        <div class="col-md-4 feature-box text-center radius-icon wow fadeTop" data-wow-delay="0.3s">
-          <i class="icofont icofont-laboratory font-50px default-icon"></i>
-          <i class="icofont-privacy"></i>
-          <h4 class="text-uppercase" style="font-size: clamp(2.1rem, 2vw, 28px);">{% trans 'Ivestigación y Desarrollo ITC' %}</h4>
-          <p style="color: #4F4F4F;text-align: justify;">{{page.info9}} <a href="{% slugurl 'sos' %}">{% trans 'Saber más' %}</a></p>
-        </div>
-
+  <div class="container">
+    <!-- Encabezado de Sección -->
+    <header class="row justify-content-center text-center">
+      <div class="col-lg-9 section-heading">
+        <h2 class="section-title-sq wow fadeTop" data-wow-delay="0.1s">
+          {% trans 'We Improve Your IT Cloud Business' %}
+        </h2>
         
+        {% if page.banner_title10 %}
+          <div class="section-subtitle-sq mx-auto wow fadeTop" data-wow-delay="0.2s">
+            {{ page.banner_title10|richtext }}
+          </div>
+        {% else %}
+          <p class="section-subtitle-sq mx-auto wow fadeTop" data-wow-delay="0.2s">
+            Ingeniería de software nativa en la nube, arquitecturas soberanas y automatización asistida por IA privativa para la máxima continuidad operativa de tu empresa.
+          </p>
+        {% endif %}
+      </div>
+    </header>
+
+    <!-- Grilla de Tarjetas Tecnológicas -->
+    <div class="row mt-50 g-4 justify-content-center">
+      
+      <!-- Tarjeta 1: Activos ITC -->
+      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.1s">
+        <article class="feature-card-sq text-center">
+          <div>
+            <div class="icon-wrapper-sq">
+              <i class="icofont icofont-server"></i>
+            </div>
+            <h3>{% trans 'Activos ITC' %}</h3>
+            <p>{{ page.info7 }}</p>
+          </div>
+          <div>
+            <a href="{% slugurl 'grow' %}" class="link-sq-more" title="Conoce nuestros Activos IT Soberanos">
+              <span>{% trans 'Saber más' %}</span>
+              <i class="icofont icofont-arrow-right"></i>
+            </a>
+          </div>
+        </article>
       </div>
 
+      <!-- Tarjeta 2: Tecnologías ITC -->
+      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.2s">
+        <article class="feature-card-sq text-center">
+          <div>
+            <div class="icon-wrapper-sq">
+              <i class="icofont icofont-cloudapp"></i>
+            </div>
+            <h3>{% trans 'Tecnologías ITC' %}</h3>
+            <p>{{ page.info8 }}</p>
+          </div>
+          <div>
+            <a href="{% slugurl 'social' %}" class="link-sq-more" title="Explora nuestras Tecnologías Nativas Cloud">
+              <span>{% trans 'Saber más' %}</span>
+              <i class="icofont icofont-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+      </div>
 
-      
+      <!-- Tarjeta 3: Investigación y Desarrollo ITC -->
+      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.3s">
+        <article class="feature-card-sq text-center">
+          <div>
+            <div class="icon-wrapper-sq">
+              <i class="icofont icofont-shield-alt"></i>
+            </div>
+            <h3>{% trans 'Investigación y Desarrollo ITC' %}</h3>
+            <p>{{ page.info9 }}</p>
+          </div>
+          <div>
+            <a href="{% slugurl 'sos' %}" class="link-sq-more" title="Descubre I+D e IA Privativa">
+              <span>{% trans 'Saber más' %}</span>
+              <i class="icofont icofont-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>

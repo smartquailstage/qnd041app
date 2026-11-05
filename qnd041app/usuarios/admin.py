@@ -174,6 +174,28 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 send_email_to_selected_users.short_description = 'Enviar correo electrónico(presentacion)'
 
 
+# 1. Definir el filtro personalizado para los dominios de correo
+class EmailProviderFilter(admin.SimpleListFilter):
+    title = 'Proveedor de Correo'  # Título que aparecerá en el panel lateral derecho
+    parameter_name = 'email_provider'  # Nombre del parámetro GET en la URL
+
+    def lookups(self, request, model_admin):
+        return (
+            ('gmail', 'Gmail'),
+            ('hotmail', 'Hotmail / Outlook'),
+            ('otro', 'Otros'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'gmail':
+            return queryset.filter(email__iendswith='@gmail.com')
+        if self.value() == 'hotmail':
+            return queryset.filter(email__icontains='@hotmail.') | queryset.filter(email__icontains='@outlook.')
+        if self.value() == 'otro':
+            return queryset.exclude(email__iendswith='@gmail.com') \
+                           .exclude(email__icontains='@hotmail.') \
+                           .exclude(email__icontains='@outlook.')
+
 
 
 @admin.register(CustomUser)
@@ -190,6 +212,7 @@ class CustomUserAdmin(UserAdmin, ModelAdmin, ImportExportModelAdmin):
     export_to_excel,
     ]
     list_filter = (
+        EmailProviderFilter,
         "sector_negocios",
         "is_active",
         "is_staff",

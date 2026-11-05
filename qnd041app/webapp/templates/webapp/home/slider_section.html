@@ -4,163 +4,146 @@
 {% load static %}
 
 <style>
-  /* === Estilos Refinados: Logos Imponentes y Tipografía Elegante === */
+  /* === ESTÉTICA MINIMALISTA TECNOLÓGICA (PALETA ROJO, GRIS Y BLANCO) === */
   .slider-bg .slides li {
     position: relative;
     overflow: hidden;
+    background-color: #0f172a;
   }
 
   .hero-card-content {
-    max-width: 980px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px 24px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
   }
 
-  /* Tipografía Optimizada: Más grande pero limpia, sutil y moderna */
-  .hero-title {
-    font-size: clamp(1.4rem, 2.6vw, 32px) !important;
-    font-weight: 600 !important;
-    line-height: 1.3 !important;
-    letter-spacing: -0.015em !important;
-    margin-bottom: 12px !important;
+  /* Status Tag / Badge Tech en Rojo Institucional */
+  .tech-badge {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: #ffffff;
+    background: #b5181a;
+    border: 1px solid #b5181a;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
   }
 
-  .hero-subtitle {
-    font-size: clamp(1.2rem, 2.1vw, 26px) !important;
-    font-weight: 500 !important;
-    line-height: 1.35 !important;
-    margin-bottom: 10px !important;
+  /* Tipografía Principal */
+  .hero-title-seo {
+    font-size: clamp(1.5rem, 2.8vw, 34px) !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+    color: #ffffff !important;
+    margin-bottom: 14px !important;
+    text-transform: none;
   }
 
-  .hero-description {
-    font-size: clamp(0.9rem, 1.25vw, 16px) !important;
-    font-weight: 300 !important;
+  .hero-description-seo {
+    font-size: clamp(0.95rem, 1.3vw, 16px) !important;
+    font-weight: 400 !important;
     line-height: 1.6 !important;
-    max-width: 740px;
-    margin: 0 auto 20px auto !important;
-    opacity: 0.92;
-    letter-spacing: 0.01em;
+    color: #cbd5e1 !important;
+    max-width: 720px;
+    margin: 0 auto 22px auto !important;
   }
 
-  /* Logotipos de Entornos y Marcas: Protagonistas, Amplios y Proporcionados */
+  /* Logos Protagonistas */
   .logo-brand-header,
   .logo-responsive {
     width: auto;
     height: auto;
-    max-width: clamp(320px, 42vw, 520px) !important;
-    max-height: clamp(100px, 18vh, 180px) !important;
+    max-width: clamp(280px, 35vw, 460px) !important;
+    max-height: clamp(80px, 14vh, 140px) !important;
     object-fit: contain;
-    margin: 0 auto 18px auto;
+    margin: 0 auto 20px auto;
     display: block;
-    opacity: 0.98;
-    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.35));
-    transition: transform 0.3s ease;
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.5));
   }
 
-  /* Botones Glassmorphism Estilizados */
-  .hero-text .btn-container {
-    margin-top: 22px;
-  }
-
-  .hero-text .btn-sq-custom {
+  /* Botones en Rojo Institucional y Blanco */
+  .btn-sq-custom {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.08em;
+    gap: 10px;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 11px 28px !important;
-    border-radius: 50px !important;
-    background: rgba(255, 255, 255, 0.14) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    padding: 12px 30px !important;
+    border-radius: 8px !important;
+    background: #b5181a !important;
     color: #ffffff !important;
-    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #b5181a !important;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    box-shadow: 0 4px 20px rgba(181, 24, 26, 0.35) !important;
     text-decoration: none !important;
   }
 
-  .hero-text .btn-sq-custom i {
-    font-size: 14px;
-    transition: transform 0.3s ease;
-  }
-
-  .hero-text .btn-sq-custom:hover {
-    background: rgba(255, 255, 255, 0.98) !important;
-    color: #111111 !important;
+  .btn-sq-custom:hover {
+    background: #ffffff !important;
+    color: #b5181a !important;
     border-color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4) !important;
   }
 
-  .hero-text .btn-sq-custom:hover i {
-    transform: translateX(5px);
-  }
-
-  /* Adaptación para Slide 1 (Texto oscuro) */
-  .hero-text.dark-color .btn-sq-custom {
-    background: rgba(17, 17, 17, 0.08) !important;
-    border-color: rgba(17, 17, 17, 0.3) !important;
-    color: #111111 !important;
-  }
-
-  .hero-text.dark-color .btn-sq-custom:hover {
-    background: #111111 !important;
-    color: #ffffff !important;
-    border-color: #111111 !important;
-  }
-
-  /* Ajuste Fino para Dispositivos Móviles */
+  /* Adaptabilidad Móvil */
   @media (max-width: 768px) {
+    .hero-card-content {
+      padding: 20px 16px;
+      margin: 0 12px;
+    }
     .logo-brand-header,
     .logo-responsive {
-      max-width: 260px !important;
-      max-height: 100px !important;
-      margin-bottom: 14px;
-    }
-
-    .hero-card-content {
-      padding: 12px;
-    }
-
-    .hero-text .btn-sq-custom {
-      padding: 9px 22px !important;
-      font-size: 11.5px !important;
+      max-width: 240px !important;
+      max-height: 80px !important;
     }
   }
 </style>
 
-<!--=== Flex Slider Start ===-->
+<!--=== SECCIÓN SLIDER OPTIMIZADA ===-->
 <section class="pt-0 pb-0">
   <div class="slider-bg">
     <ul class="slides">
       
-      <!--=== SLIDE 1: Inicio ===-->
+      <!--=== SLIDE 1: Inicio (Infraestructura Soberana) ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image scale-100 as s1 %}
-        <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat; opacity: 0.75;"></div>
+          {% image item.image scale-100 format-webp as s1 %}
+          <div class="slide-img" style="background:url('{{s1.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sq gradient-overlay-bg-sq">
-          <div class="hero-text dark-color">
+        <div class="hero-text-wrap-sq">
+          <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <h1 class="dark-color hero-title">Tecnologías de información y comunicación nativa en la nube para negocios</h1>
-                <h3 class="dark-color hero-description">Despliega ahora toda tu infraestructura operativa</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">SmartQuail Native Cloud</span>
+                <h1 class="hero-title-seo">Tecnologías de información y comunicación nativa en la nube para negocios</h1>
+                <p class="hero-description-seo">
+                  Infraestructura soberana, privada y resiliente. Despliega tu ecosistema operativo con cumplimiento LOPDP y total independencia tecnológica.
+                </p>
                 
-                <img src="{% static 'web_assets/images/smartquail_ini.png' %}" class="logo-responsive" alt="SmartQuail Cloud Business">
+                <img src="{% static 'web_assets/images/smartquail_ini.png' %}" class="logo-responsive" alt="SmartQuail Cloud Business - Infraestructura IT Soberana en Ecuador">
 
                 <div class="btn-container">
-                  <a href="{% slugurl 'smartquailinfo' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                  <a href="{% slugurl 'smartquailinfo' %}" class="btn-sq-custom" title="Conoce la infraestructura Cloud Native de SmartQuail">
+                    <span>{% trans 'Explorar Soluciones' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
@@ -169,24 +152,25 @@
       <!--=== SLIDE 2: Marketing Digital ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_2 scale-100 as s2 %}
-        <div class="slide-img" style="background:url('{{s2.url}}') center center / cover scroll no-repeat; opacity: 0.8;"></div>
+          {% image item.image_2 scale-100 format-webp as s2 %}
+          <div class="slide-img" style="background:url('{{s2.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sbm gradient-overlay-bg-sbm">
+        <div class="hero-text-wrap-sbm">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <img src="{% static 'img/smartbusinessmedia.png' %}" class="logo-brand-header" alt="Smart Business Media">
-                <h1 class="white-color hero-subtitle">Entorno de Marketing digital</h1>
-                <h3 class="white-color hero-description">Tecnologías de información y comunicación especializadas en marketing digital</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Smart Business Media</span>
+                <img src="{% static 'img/smartbusinessmedia.png' %}" class="logo-brand-header" alt="Smart Business Media - Entorno de Marketing Digital">
+                <h2 class="hero-title-seo">Entorno de Marketing Digital y Posicionamiento</h2>
+                <p class="hero-description-seo">Tecnologías automatizadas para la gestión de contenidos, presencia omnicanal y análisis comercial de alta conversión.</p>
                 
                 <div class="btn-container">
                   <a href="{% url 'sbmshop:product_list' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                    <span>{% trans 'Ver Soluciones Media' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
@@ -195,24 +179,25 @@
       <!--=== SLIDE 3: Entorno Analítico ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_3 scale-100 as s3 %}
-        <div class="slide-img" style="background:url('{{s3.url}}') center center / cover scroll no-repeat; opacity: 0.4;"></div>
+          {% image item.image_3 scale-100 format-webp as s3 %}
+          <div class="slide-img" style="background:url('{{s3.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sba gradient-overlay-bg-sba">
+        <div class="hero-text-wrap-sba">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <img src="{% static 'img/BA-LOGOS/SmartBusinessAnalytcis.png' %}" class="logo-brand-header" alt="Smart Business Analytics">
-                <h1 class="white-color hero-title">Entorno Analítico</h1>
-                <h3 class="white-color hero-description">Tecnologías de información y comunicación en nube nativa especializada en procesos de información contables, financieros y analíticos</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Smart Business Analytics</span>
+                <img src="{% static 'img/BA-LOGOS/SmartBusinessAnalytcis.png' %}" class="logo-brand-header" alt="Smart Business Analytics - ERP Financiero NIIF">
+                <h2 class="hero-title-seo">Entorno Analítico y ERP Financiero Core</h2>
+                <p class="hero-description-seo">Procesamiento transaccional de información contable, financiera y analítica en tiempo real compatible con normas NIIF.</p>
                 
                 <div class="btn-container">
                   <a href="{% url 'sbashop:product_list' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                    <span>{% trans 'Explorar ERP Analítico' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
@@ -221,24 +206,25 @@
       <!--=== SLIDE 4: Entorno Legal y Administrativo ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_4 scale-100 as s4 %}
-        <div class="slide-img" style="background:url('{{s4.url}}') center center / cover scroll no-repeat; opacity: 0.4;"></div>
+          {% image item.image_4 scale-100 format-webp as s4 %}
+          <div class="slide-img" style="background:url('{{s4.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sbl gradient-overlay-bg-sbl">
+        <div class="hero-text-wrap-sbl">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <img src="{% static 'img/SmartBusinessLaw.png' %}" class="logo-brand-header" alt="Smart Business Law">
-                <h1 class="white-color hero-title">Entorno Legal y administrativo</h1>
-                <h3 class="white-color hero-description">Tecnologías de información y comunicación para procesos legales, administrativos y documentales</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Smart Business Law</span>
+                <img src="{% static 'img/SmartBusinessLaw.png' %}" class="logo-brand-header" alt="Smart Business Law - Gestión Documental y LOPDP">
+                <h2 class="hero-title-seo">Entorno Legal, Documental y LOPDP</h2>
+                <p class="hero-description-seo">Automatización de contratos inteligentes, gobierno corporativo y protección de activos documentales bajo estricto cifrado.</p>
                 
                 <div class="btn-container">
                   <a href="{% url 'sblshop:product_list' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                    <span>{% trans 'Ver Soluciones Legales' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
@@ -247,76 +233,89 @@
       <!--=== SLIDE 5: Plataformas All in One ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_5 scale-100 as s5 %}
-        <div class="slide-img" style="background:url('{{s5.url}}') center center / cover scroll no-repeat; opacity: 0.4;"></div>
+          {% image item.image_5 scale-100 format-webp as s5 %}
+          <div class="slide-img" style="background:url('{{s5.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sbl gradient-overlay-bg-sbl">
+        <div class="hero-text-wrap-sbl">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" class="logo-brand-header" alt="Smart Business Platforms">
-                <h1 class="white-color hero-title">Plataformas all in one</h1>
-                <h3 class="white-color hero-description">Plataformas de negocio, integra todo: ERP, CRM y plataformas e-commerce, educativa, médica, administrativa...</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Smart Business Platforms</span>
+                <img src="{% static 'img/BA-LOGOS/SmartBusinessPlataforms.png' %}" class="logo-brand-header" alt="Smart Business Platforms - ERP CRM E-commerce">
+                <h2 class="hero-title-seo">Plataformas Integradas All-in-One</h2>
+                <p class="hero-description-seo">Integración total de ERP, CRM, sistemas hospitalarios, educativos y e-commerce operando sobre tu propia infraestructura privada.</p>
                 
                 <div class="btn-container">
                   <a href="{% url 'sbpshop:product_list' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                    <span>{% trans 'Explorar Plataformas' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
       </li>
 
-      <!--=== SLIDE 6: Hardware en Nube Nativa ===-->
+      <!--=== SLIDE 6: Hardware e IA Soberana ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_6 scale-100 as s6 %}
-        <div class="slide-img" style="background:url('{{s6.url}}') center center / cover scroll no-repeat; opacity: 0.4;"></div>
+          {% image item.image_6 scale-100 format-webp as s6 %}
+          <div class="slide-img" style="background:url('{{s6.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sbt gradient-overlay-bg-sbt">
+        <div class="hero-text-wrap-sbt">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <img src="{% static 'img/smartbusinesstechnologies.png' %}" class="logo-brand-header" alt="Smart Business Technologies">
-                <h1 class="white-color hero-title">Entorno de hardware en nube nativa</h1>
-                <h3 class="white-color hero-description">Tecnologías IT para servidores locales y de alta disponibilidad, GPU para inteligencia artificial privada y soberana</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Smart Business Technologies</span>
+                <img src="{% static 'img/smartbusinesstechnologies.png' %}" class="logo-brand-header" alt="Smart Business Technologies - Servidores e IA Local">
+                <h2 class="hero-title-seo">Hardware Cloud Native e IA Soberana</h2>
+                <p class="hero-description-seo">Servidores de alta disponibilidad y clusters GPU para ejecución de Inteligencia Artificial privativa sin fugas a la nube pública.</p>
                 
                 <div class="btn-container">
                   <a href="{% url 'sbtshop:product_list' %}" class="btn-sq-custom">
-                    <span>{% trans 'Saber más' %}</span>
+                    <span>{% trans 'Ver Hardware e IA' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>
       </li>
 
-      <!--=== SLIDE 7: Registro ===-->
+      <!--=== SLIDE 7: Registro e Inicio de Licencia ===-->
       <li>
         {% for item in page.galleria.all %}
-        {% image item.image_7 scale-100 as s7 %}
-        <div class="slide-img" style="background:url('{{s7.url}}') center center / cover scroll no-repeat; opacity: 0.4;"></div>
+          {% image item.image_7 scale-100 format-webp as s7 %}
+          <div class="slide-img" style="background:url('{{s7.url}}') center center / cover scroll no-repeat; opacity: 0.35;"></div>
         {% endfor %}
-        <div class="hero-text-wrap-sbactivitys gradient-overlay-bg-sbactivitys">
+        <div class="hero-text-wrap-sbactivitys">
           <div class="hero-text">
             <div class="container text-center">
-              <div class="hero-card-content">
-                <h2 class="white-color font-400 letter-spacing-2 mb-10" style="font-size: 13px;">{{ page.banner_title10|richtext }}</h2>
-                <img src="{% static 'img/smartquail_iso.png' %}" class="logo-responsive" alt="SmartQuail Iso">
-                <h3 class="white-color hero-description mt-10">{{ page.TS_info7 }}</h3>
+              <article class="hero-card-content">
+                <span class="tech-badge">Activación Inmediata</span>
+                {% if page.banner_title10 %}
+                  <h2 class="hero-title-seo">{{ page.banner_title10|richtext }}</h2>
+                {% else %}
+                  <h2 class="hero-title-seo">Comienza tu Despliegue Tecnológico Hoy</h2>
+                {% endif %}
+                
+                <img src="{% static 'img/smartquail_iso.png' %}" class="logo-responsive" alt="SmartQuail ISO Certification">
+                
+                {% if page.TS_info7 %}
+                  <p class="hero-description-seo">{{ page.TS_info7 }}</p>
+                {% else %}
+                  <p class="hero-description-seo">Activa tu cuenta en la plataforma ITC y accede a tu entorno de desarrollo e infraestructura sin costo inicial.</p>
+                {% endif %}
                 
                 <div class="btn-container">
                   <a href="{% url 'usuarios:register' %}" class="btn-sq-custom">
-                    <span>{% trans 'Registrarme ahora!' %}</span>
+                    <span>{% trans 'Registrarme Ahora' %}</span>
                     <i class="icofont icofont-arrow-right"></i>
                   </a>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </div>

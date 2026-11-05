@@ -101,4 +101,4 @@ def ai_assistant_chat_view(request):
     except Exception as e:
         # Imprime el rastro exacto en los logs del pod de Kubernetes para depuración
         traceback.print_exc()
-        return JsonResponse({'status': 'error', 'error': f'Error interno del servidor: {str(e)}'}, status=500)
+        return JsonResponse({'status': 'error', 'error': f'Soy un agente de AI, y me limito a responder preguntas sobre el producto'}, status=400)

@@ -16,9 +16,8 @@ def robots_txt(request):
         "User-agent: *",
         "Allow: /",
         "Disallow: /ingresar/",
-        "Disallow: */ingresar/",
-        "Disallow: /businessmedia/",
-        "Disallow: /smartbusinessanalytics/",
+        "Disallow: /smartbusinessanalytics/",  # Admin de Django (ok mantenerlo bloqueado)
+        "Disallow: /businessmedia/login/",      # Bloquear solo el login del admin de Wagtail, no toda la ruta si contiene recursos
         "Disallow: */apps_carrito/",
         "Disallow: */apps_metodo_pago/",
         "Disallow: */services_cart/",
