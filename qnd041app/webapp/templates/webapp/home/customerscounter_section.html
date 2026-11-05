@@ -5,10 +5,10 @@
 {% load static %}
 
 <style>
-  /* === SECCIÓN CERTIFICACIONES Y CUMPLIMIENTO (DARK TECH EXECUTIVE) === */
+  /* === SECCIÓN CERTIFICACIONES Y CUMPLIMIENTO === */
   .certifications-section-sq {
     position: relative;
-    background-color: #0f172a; /* Slate 900 */
+    background-color: #2a2a2b;
     border-top: 1px solid rgba(226, 232, 240, 0.1);
     border-bottom: 1px solid rgba(226, 232, 240, 0.1);
     padding: 80px 0;
@@ -50,6 +50,39 @@
     margin: 0 auto 50px auto !important;
   }
 
+  /* CONTENEDOR FLEXIBLE: Horizontal en pantallas grandes, vertical en móviles */
+  .cert-flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .cert-col-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* ESCRITORIO (>= 1200px): Estricta línea horizontal de 5 columnas */
+  @media (min-width: 1200px) {
+    .cert-flex-row {
+      flex-wrap: nowrap !important;
+    }
+    .cert-col-item {
+      flex: 0 0 calc(20% - 16px) !important;
+      max-width: calc(20% - 16px) !important;
+      margin-bottom: 0 !important;
+    }
+  }
+
+  /* TABLETS (768px a 1199px): Se acomodan de 2 o 3 en línea */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .cert-col-item {
+      flex: 0 0 calc(33.333% - 14px) !important;
+      max-width: calc(33.333% - 14px) !important;
+    }
+  }
+
   /* Tarjeta de Certificación */
   .cert-card-sq {
     position: relative;
@@ -59,7 +92,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-top: 3px solid #b5181a;
     border-radius: 14px;
-    padding: 32px 20px;
+    padding: 24px 14px;
     height: 100%;
     transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -75,48 +108,48 @@
 
   /* Ícono de Verificación */
   .cert-icon-sq {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 10px;
     background: rgba(181, 24, 26, 0.12);
     border: 1px solid rgba(181, 24, 26, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 18px auto;
+    margin: 0 auto 14px auto;
   }
 
   .cert-icon-sq i {
-    font-size: 22px;
+    font-size: 20px;
     color: #b5181a;
   }
 
   /* Tipografía de las Tarjetas */
   .cert-title-sq {
-    font-size: clamp(1.2rem, 1.6vw, 22px) !important;
+    font-size: clamp(1rem, 1.2vw, 17px) !important;
     font-weight: 800 !important;
     color: #ffffff !important;
     letter-spacing: 0.5px !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
 
   .cert-subtitle-sq {
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
     color: #cbd5e1 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
 
   .cert-desc-sq {
-    font-size: 12.5px !important;
-    line-height: 1.5 !important;
+    font-size: 11.5px !important;
+    line-height: 1.4 !important;
     color: #94a3b8 !important;
     margin: 0 !important;
   }
 
   .cert-legal-tag {
     display: inline-block;
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 600;
     color: #f8fafc;
     background: rgba(255, 255, 255, 0.06);
@@ -142,60 +175,72 @@
           {% trans 'Infraestructura Blindada Bajo Normativa Global y Nacional' %}
         </h2>
         <p class="cert-section-subtitle">
-          Garantizamos la soberanía de tus activos digitales respaldados por certificaciones internacionales de calidad, seguridad de la información y estricto cumplimiento legal.
+          Garantizamos la soberanía de tus activos digitales respaldados por certificaciones internacionales de calidad, seguridad de la información, inteligencia artificial y estricto cumplimiento legal.
         </p>
       </div>
     </header>
 
-    <!-- Grilla de Certificaciones -->
-    <div class="row g-4 mt-2 justify-content-center">
+    <!-- Grilla de Certificaciones (Horizontal en PC, Vertical en Móvil) -->
+    <div class="cert-flex-row mt-2">
       
       <!-- Certificación 1: ISO 9001 -->
-      <div class="col-md-3 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.1s">
+      <div class="cert-col-item wow fadeTop" data-wow-delay="0.1s">
         <article class="cert-card-sq text-center">
           <div class="cert-icon-sq">
             <i class="icofont icofont-certificate-alt-1"></i>
           </div>
           <h3 class="cert-title-sq">ISO 9001</h3>
-          <h4 class="cert-subtitle-sq">{% trans 'Gestión IT de Calidad' %}</h4>
-          <p class="cert-desc-sq">Garantía de excelencia operativa y continuidad de servicio en procesos tecnológicos.</p>
+          <h4 class="cert-subtitle-sq">{% trans 'Gestión de Calidad' %}</h4>
+          <p class="cert-desc-sq">Garantía de excelencia operativa y continuidad de servicio tecnológico.</p>
         </article>
       </div>
 
       <!-- Certificación 2: ISO/IEC 27001 -->
-      <div class="col-md-3 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.2s">
+      <div class="cert-col-item wow fadeTop" data-wow-delay="0.2s">
         <article class="cert-card-sq text-center">
           <div class="cert-icon-sq">
             <i class="icofont icofont-shield-alt"></i>
           </div>
           <h3 class="cert-title-sq">ISO/IEC 27001</h3>
           <h4 class="cert-subtitle-sq">{% trans 'Seguridad de la Información' %}</h4>
-          <p class="cert-desc-sq">Cifrado de grado militar y blindaje integral de activos digitales contra brechas de datos.</p>
+          <p class="cert-desc-sq">Cifrado avanzado y blindaje integral de activos digitales contra brechas.</p>
         </article>
       </div>
 
-      <!-- Certificación 3: ISO/IEC 25000 -->
-      <div class="col-md-3 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.3s">
+      <!-- Certificación 3: ISO/IEC 42001 (Inteligencia Artificial) -->
+      <div class="cert-col-item wow fadeTop" data-wow-delay="0.3s">
+        <article class="cert-card-sq text-center">
+          <div class="cert-icon-sq">
+            <i class="icofont icofont-brain-alt"></i>
+          </div>
+          <h3 class="cert-title-sq">ISO/IEC 42001</h3>
+          <h4 class="cert-subtitle-sq">{% trans 'Gestión de Inteligencia Artificial' %}</h4>
+          <p class="cert-desc-sq">Gobernanza ética, modelos de lenguaje seguros y trazabilidad en IA autónoma.</p>
+        </article>
+      </div>
+
+      <!-- Certificación 4: ISO/IEC 25000 -->
+      <div class="cert-col-item wow fadeTop" data-wow-delay="0.4s">
         <article class="cert-card-sq text-center">
           <div class="cert-icon-sq">
             <i class="icofont icofont-lock"></i>
           </div>
           <h3 class="cert-title-sq">ISO/IEC 25000</h3>
-          <h4 class="cert-subtitle-sq">{% trans 'Calidad de Software y Datos' %}</h4>
-          <p class="cert-desc-sq">Evaluación rigurosa en arquitectura Cloud Native, mantenibilidad y precisión transaccional.</p>
+          <h4 class="cert-subtitle-sq">{% trans 'Calidad de Software' %}</h4>
+          <p class="cert-desc-sq">Evaluación rigurosa en arquitectura Cloud Native y mantenibilidad.</p>
         </article>
       </div>
 
-      <!-- Certificación 4: LOPDP -->
-      <div class="col-md-3 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.4s">
+      <!-- Certificación 5: LOPDP -->
+      <div class="cert-col-item wow fadeTop" data-wow-delay="0.5s">
         <article class="cert-card-sq text-center">
           <div class="cert-icon-sq">
             <i class="icofont icofont-law-document"></i>
           </div>
           <h3 class="cert-title-sq">LOPDP</h3>
-          <h4 class="cert-subtitle-sq">{% trans 'Gobernanza y Privacidad' %}</h4>
-          <p class="cert-desc-sq">Cumplimiento nativo frente a la Superintendencia de Protección de Datos Personales.</p>
-          <span class="cert-legal-tag">Ley Orgánica de Protección de Datos</span>
+          <h4 class="cert-subtitle-sq">{% trans 'Privacidad de Datos' %}</h4>
+          <p class="cert-desc-sq">Cumplimiento nativo frente a la normativa de protección de datos.</p>
+          <span class="cert-legal-tag">Ley Orgánica</span>
         </article>
       </div>
 

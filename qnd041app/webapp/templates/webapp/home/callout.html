@@ -161,7 +161,7 @@
     <header class="row justify-content-center text-center">
       <div class="col-lg-9 section-heading">
         <h2 class="section-title-sq wow fadeTop" data-wow-delay="0.1s">
-          {% trans 'We Improve Your IT Cloud Business' %}
+          {% trans 'Aceleramos tus activos digitales en la nube' %}
         </h2>
         
         {% if page.banner_title10 %}
@@ -176,18 +176,18 @@
       </div>
     </header>
 
-    <!-- Grilla de Tarjetas Tecnológicas -->
+    <!-- Grilla de Tarjetas Tecnológicas (4 Columnas) -->
     <div class="row mt-50 g-4 justify-content-center">
       
-      <!-- Tarjeta 1: Activos ITC -->
-      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.1s">
+      <!-- Tarjeta 1: Activos Digitales -->
+      <div class="col-lg-3 col-md-6 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.1s">
         <article class="feature-card-sq text-center">
           <div>
             <div class="icon-wrapper-sq">
-              <i class="icofont icofont-server"></i>
+              <i class="icofont icofont-cloudapp"></i> 
             </div>
-            <h3>{% trans 'Activos ITC' %}</h3>
-            <p>{{ page.info7 }}</p>
+            <h3>{% trans 'Activos Digitales' %}</h3>
+            <p>Diseño, despliegue y monetización de ecosistemas corporativos optimizados para maximizar el retorno de inversión (ROI) y acelerar el tiempo de retorno (Payback).</p>
           </div>
           <div>
             <a href="{% slugurl 'grow' %}" class="link-sq-more" title="Conoce nuestros Activos IT Soberanos">
@@ -198,15 +198,15 @@
         </article>
       </div>
 
-      <!-- Tarjeta 2: Tecnologías ITC -->
-      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.2s">
+      <!-- Tarjeta 2: Infraestructura Tecnológica -->
+      <div class="col-lg-3 col-md-6 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.2s">
         <article class="feature-card-sq text-center">
           <div>
             <div class="icon-wrapper-sq">
-              <i class="icofont icofont-cloudapp"></i>
+              <i class="icofont icofont-server"></i>
             </div>
-            <h3>{% trans 'Tecnologías ITC' %}</h3>
-            <p>{{ page.info8 }}</p>
+            <h3>{% trans 'Infraestructura Tecnológica' %}</h3>
+            <p>Núcleo transaccional soberano de alta disponibilidad, protegido bajo estrictos estándares internacionales de seguridad y cumplimiento normativo.</p>
           </div>
           <div>
             <a href="{% slugurl 'social' %}" class="link-sq-more" title="Explora nuestras Tecnologías Nativas Cloud">
@@ -217,18 +217,37 @@
         </article>
       </div>
 
-      <!-- Tarjeta 3: Investigación y Desarrollo ITC -->
-      <div class="col-md-4 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.3s">
+      <!-- Tarjeta 3: Automatización -->
+      <div class="col-lg-3 col-md-6 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.3s">
         <article class="feature-card-sq text-center">
           <div>
             <div class="icon-wrapper-sq">
-              <i class="icofont icofont-shield-alt"></i>
+              <i class="icofont icofont-robot-face"></i>
             </div>
-            <h3>{% trans 'Investigación y Desarrollo ITC' %}</h3>
-            <p>{{ page.info9 }}</p>
+            <h3>{% trans 'Automatización' %}</h3>
+            <p>Flujos inteligentes operando en tiempo real sobre datos reales, eliminando la fricción operativa y garantizando independencia de plataformas externas.</p>
           </div>
           <div>
             <a href="{% slugurl 'sos' %}" class="link-sq-more" title="Descubre I+D e IA Privativa">
+              <span>{% trans 'Saber más' %}</span>
+              <i class="icofont icofont-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Tarjeta 4: IA Aplicada -->
+      <div class="col-lg-3 col-md-6 col-sm-6 mb-30 wow fadeTop" data-wow-delay="0.4s">
+        <article class="feature-card-sq text-center">
+          <div>
+            <div class="icon-wrapper-sq">
+              <i class="icofont icofont-brain-alt"></i>
+            </div>
+            <h3>{% trans 'IA Aplicada' %}</h3>
+            <p>{% trans 'Integración de modelos de lenguaje privados y agentes autónomos orientados a potenciar la toma de decisiones con total confidencialidad.' %}</p>
+          </div>
+          <div>
+            <a href="{% slugurl 'ida-ai' %}" class="link-sq-more" title="Descubre IA Aplicada y Soberana">
               <span>{% trans 'Saber más' %}</span>
               <i class="icofont icofont-arrow-right"></i>
             </a>
