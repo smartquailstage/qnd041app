@@ -141,7 +141,7 @@ export_to_excel.short_description = 'Exportar a Excel'
 
 
 from django.contrib import messages
-from .tasks import send_single_mailing_task_presentacion  # Asegúrate de importar la tarea individual
+from .tasks import send_single_mailing_task_presentacion, send_single_mailing_task_presentacion_2  # Asegúrate de importar la tarea individual
 
 def send_email_to_selected_users(modeladmin, request, queryset):
     """
@@ -241,6 +241,7 @@ class CustomUserAdmin(UserAdmin, ModelAdmin, ImportExportModelAdmin):
     model = CustomUser
     actions =[
     send_email_to_selected_users,
+    send_email_to_selected_users_presentacion2,
     export_to_csv,
     export_to_excel,
     ]
