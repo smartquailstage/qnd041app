@@ -81,6 +81,61 @@ def send_single_mailing_task_presentacion(user_id):
         return f"Error enviando correo al usuario {user_id}: {exc}"
 
 
+@shared_task
+def send_single_mailing_task_presentacion_2(user_id):
+    """
+    Tarea atómica: Envía un solo correo de presentación.
+    Se ejecuta de forma instantánea (< 1 segundo) sin bloqueos ni time.sleep.
+    """
+    subject = "Bienvenido a SmartQuail."
+    
+    try:
+        # 🔒 FILTRO CLAVE: Garantiza que is_staff=True e is_active=True
+        user = User.objects.get(id=user_id, is_active=True, is_staff=True)
+        
+        if not user.email:
+            return "Usuario sin email registrado."
+            
+        email_prefix = user.email.split('@')[0] if '@' in user.email else user.email
+        
+        context = {
+            "user": user,
+            "titulo": subject,
+            "email_prefix": email_prefix,
+        }
+
+        try:
+            html_content = render_to_string("emails/mailing/mailing_email_admin_2.html", context)
+            text_content = strip_tags(html_content)
+        except Exception as render_err:
+            print(f"Error renderizando plantilla HTML para usuario {user_id}: {render_err}")
+            text_content = f"Bienvenido a SmartQuail, {user.first_name}."
+            html_content = (
+                f"<div style='font-family: Arial, sans-serif;'>"
+                f"<h2>{subject}</h2>"
+                f"<p>Hola {user.first_name}, bienvenido a nuestra plataforma.</p>"
+                f"</div>"
+            )
+
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,
+            from_email=settings.DEFAULT_FROM_EMAIL_INFO,
+            to=[user.email]
+        )
+
+        email.attach_alternative(html_content, "text/html")
+        email.send(fail_silently=False)
+        
+        return f"Correo enviado exitosamente a {user.email}"
+        
+    except User.DoesNotExist:
+        return f"Usuario con ID {user_id} omitido (no existe, está inactivo o no es staff)."
+    except Exception as exc:
+        return f"Error enviando correo al usuario {user_id}: {exc}"
+
+
+
 def schedule_admin_batch_mailing_presentacion(user_ids):
     """
     Función orquestadora (se llama desde tu Django Admin o vista).

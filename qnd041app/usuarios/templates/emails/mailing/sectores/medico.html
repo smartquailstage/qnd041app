@@ -1,152 +1,168 @@
 {% load static %}
-<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; line-height: 1.3; max-width: 900px; margin: 0 auto; padding: 10px; background-color: #ffffff; text-align: left;">
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155; line-height: 1.5; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8fafc; text-align: left;">
 
-        <!-- ESPAÑOL -->
-        <p style="margin: 0 0 15px 0;">Hola <strong>{{ user.get_full_name|default:user.email }}</strong>,</p>
-        <p style="margin: 0 0 15px 0;"><strong>¡Esto podría interesarte!</strong></p>
-        
-        <p style="margin: 0 0 20px 0; text-align: justify; color: #334155; line-height: 1.3; font-size: 10pt;">
-            ¿Sabías que las instituciones sanitarias y centros médicos destinan hoy una parte crítica de sus presupuestos a licencias SaaS fragmentadas que cobran por expediente, usuario o consulta, mientras exponen datos sensibles de pacientes en nubes de terceros? Frente a las exigencias de cumplimiento estricto de la <strong>LOPDP</strong> y la necesidad de disponibilidad 24/7, en <strong>SmartQuail, Inc.</strong> integramos ingeniería de infraestructura soberana, privada y resiliente. Transformamos la gestión médica en un ecosistema digital propio, blindado con inteligencia artificial local (sin fuga de telemetría a terceros) y adaptado estrictamente a sus protocolos asistenciales.
+    <!-- CONTENEDOR PRINCIPAL DE LA TARJETA -->
+    <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px;">
+
+        <!-- 1. GANCHO -->
+        <p style="margin: 0 0 6px 0; font-size: 14px; color: #64748b;">
+            Hola, <strong style="color: #0f172a;">{{ user.get_full_name|default:user.email }}</strong> — <span style="color: #b5181a; font-weight: 800; letter-spacing: 0.4px;">ALERTA DE CIBERSEGURIDAD</span>
+        </p>
+        <h2 style="margin: 0 0 14px 0; font-size: 22px; font-weight: 800; line-height: 1.2; color: #0f172a; letter-spacing: -0.5px; border-left: 4px solid #b5181a; padding-left: 12px;">
+            ⚡ Alerta de ciberseguridad: la continuidad clínica y las historias clínicas no esperan
+        </h2>
+
+        <p style="margin: 0 0 24px 0; text-align: justify; color: #334155; line-height: 1.45; font-size: 11pt;">
+            ¿Sabías que hoy tu infraestructura operativa, HIS/ERP hospitalario, plataforma de pacientes y sistemas de gestión clínica están comprometidos y si tu software fue desarrollado con <strong>Claude Code</strong> o prácticas <strong>No-Code</strong> sin auditoría ni gobernanza de seguridad, podrías estar en riesgo frente a ataques automatizados con inteligencia artificial como <strong>ARTEX</strong> (capaces de escalar a acceso privilegiado en menos de tres horas) y frente a la exposición de datos sensibles de salud bajo la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP)</strong> en Ecuador, con multas de hasta el 1% de tu facturación anual? En un hospital o centro clínico, una caída o filtración no es solo un problema técnico: afecta la atención, la confianza de los pacientes y el cumplimiento legal.
         </p>
 
-        <!-- Bloque de Propuesta de Valor (ES) -->
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; max-width: 900px; text-align: justify; overflow: hidden; margin-bottom: 25px;">
+        <!-- 2. CUERPO (ÁGIL Y DIRECTO) -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; margin-bottom: 22px;">
             <tr>
-                <td style="padding: 28px 24px 20px 24px; border-bottom: 2px solid #f1f5f9;">
-                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #b5181a; background-color: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;">¿Cómo lo logramos?</span>
-                    <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px;">
-                        Nuestro valor diferencial en la gestión clínica, terapéutica y hospitalaria
+                <td style="padding: 0 0 16px 0; border-bottom: 2px solid #f1f5f9;">
+                    <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #b5181a; background-color: #fef2f2; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 8px;">Infraestructura Crítica Operativa</span>
+                    <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
+                        Cómo SmartQuail protege clínicas y hospitales sin sobrecargar a tu equipo
                     </h3>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <!-- Ítem 1 -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
-                        <tr><td style="padding: 14px;">
+                <td style="padding-top: 16px;">
+
+                    <p style="margin: 0 0 16px 0; text-align: justify; color: #334155; line-height: 1.45; font-size: 13.5px;">
+                        En <strong>SmartQuail, Inc.</strong> no vendemos software suelto ni alquileres por token: desplegamos <strong>infraestructura crítica operativa soberana y cloud-native</strong> para instituciones de salud, llave en mano en 24 horas, con retorno estimado en 5 meses y control absoluto de la información clínica.
+                    </p>
+
+                    <!-- Riesgo de Claude Code y No-Code en Salud -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">⚡</td>
-                                    <td style="font-size: 14px; line-height: 1.3; color: #334155;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">SmartBusinessAnalytics: ERP Financiero y Clínico</strong>
-                                        Tome el control absoluto de su activo tecnológico con <strong>SmartBusinessAnalytics</strong>, nuestro ERP especializado en métricas financieras, facturación y control de rendimiento asistencial compatible con <strong>NIIF</strong>. Implementamos un <strong>motor transaccional a nivel Core</strong> que supervisa la rentabilidad de servicios, farmacia y flujos de caja en <strong>tiempo real</strong>. Automatizamos procesos de alta fricción a nivel <strong>Synthex</strong> e integramos <strong>agentes de IA privativa y local</strong> para la predicción de demanda asistencial sin enviar un solo dato médico fuera de su perímetro.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚠️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Riesgos en Aplicaciones Médicas con Claude Code y No-Code</strong>
+                                        Portales de citas, módulos internos o flujos creados con Claude Code o herramientas No-Code sin endurecimiento suelen dejar APIs expuestas, control de accesos débil o datos de pacientes en servicios de terceros. Auditamos, blindamos y consolidamos esos flujos sobre una base segura.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 2 -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
-                        <tr><td style="padding: 14px;">
+                    <!-- Resiliencia frente a ataques automatizados -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🩺</td>
-                                    <td style="font-size: 14px; line-height: 1.3; color: #334155;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">SmartBusinessPlatforms: Ecosistema Asistencial Integral</strong>
-                                        Centralice la gestión avanzada de <strong>pacientes, especialistas y personal asistencial</strong> bajo una infraestructura soberana. Controle de forma fluida la <strong>agenda de citas</strong>, el acceso cifrado a <strong>historias clínicas</strong>, la emisión de <strong>recetarios digitales</strong>, registros de <strong>diagnóstico</strong> y el <strong>envío automatizado de resultados de laboratorio</strong>.
-                                        <br><br>
-                                        Optimice además la operatividad mediante el control en tiempo real de la <strong>gestión farmacéutica, inventario de insumos hospitalarios y asignación de camas y quirófanos</strong> bajo resiliencia local que responde incluso ante fallos de conexión externa.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">🛡️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Contención y Respuesta frente a Agentes como ARTEX</strong>
+                                        Microsegmentación, contenedores efímeros e identidades de mínimo privilegio para aislar áreas administrativas, farmacia, laboratorio y admisiones; telemetría con respuesta automatizada y respaldos inmutables ante intentos de intrusión o cifrado.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 3 -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
-                        <tr><td style="padding: 14px;">
+                    <!-- Capas operativas esenciales -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">🔒</td>
-                                    <td style="font-size: 14px; line-height: 1.3; color: #334155;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Seguridad, LOPDP y Control de Accesos Clínicos</strong>
-                                        Eleve los estándares de bioseguridad y protección de datos médicos sensibles con un sistema integrado de monitoreo en tiempo real. Centralice el registro de accesos de personal médico, pacientes y proveedores a áreas críticas, áreas de hospitalización, farmacias y laboratorios.
-                                        <br><br>
-                                        Elimine la vulnerabilidad de registros manuales y software expuesto. Nuestra arquitectura aislada en contenedores le otorga trazabilidad absoluta y blindaje legal estricto bajo la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP)</strong>.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚙️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Core® y Synthex: Gestión Clínica y Automatización</strong>
+                                        Integra gestión administrativa, financiera, facturación, agenda y flujos operativos de la clínica o centro médico con trazabilidad y alta disponibilidad.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 4 -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px; background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
-                        <tr><td style="padding: 14px;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="30" valign="top" style="font-size: 15px; color: #b5181a; font-weight: bold;">📊</td>
-                                    <td style="font-size: 14px; line-height: 1.3; color: #334155;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 3px; font-size: 14px;">Mantenimiento de Equipamiento Médico y Cadena de Suministro</strong>
-                                        Proteja la continuidad operativa de equipos especializados (resonadores, tomógrafos, ecógrafos, sistemas de laboratorio y unidades odontológicas). Automatice la programación de <strong>mantenimientos preventivos</strong> y correctivos, evitando paradas imprevistas en la atención médica.
-                                        <br><br>
-                                        Incorpore un módulo de <strong>trazabilidad de proveedores de insumos y fármacos</strong>, auditando el cumplimiento de cadenas de frío y estándares de calidad nativamente.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">🧠</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Agentic y Asistentes IA Soberanos para Salud</strong>
+                                        Asistentes y agentes privados desplegados en tu propio entorno —sin enviar datos de pacientes a nubes públicas ni pagar por token— alineados con LOPDP e ISO 27000 / 42000.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 5 (CTA) -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px;">
-                        <tr><td style="padding: 14px;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="font-size: 14px; line-height: 1.4; color: #334155; text-align: center; padding-top: 10px;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 8px; font-size: 16px;">Agende una Consultoría Tecnológica Presencial en sus Instalaciones</strong>
-                                        Descubra cómo lograr la soberanía tecnológica de su centro médico. Con gusto realizaremos una evaluación TI integral directamente en sus oficinas para diseñar una solución a la medida de su infraestructura.
-                                        <br><br>
-                                        <a href="https://wa.me/593963521262?text=Hola%2C%20quisiera%20agendar%20una%20consultor%C3%ADa%20presencial%20en%20nuestras%20instalaciones&utm_source=newsletter&utm_medium=email&utm_campaign=email_footer_social&utm_content=icon_whatsapp" target="_blank" style="display: inline-block; background-color: #b5181a; color: #ffffff; padding: 12px 24px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 5px; margin-bottom: 10px;">Agendar Consultoría Presencial Sin Costo</a>
-                                        <br>
-                                        <span style="font-size: 12px; color: #64748b;">Coordine fecha y hora con uno de nuestros especialistas y optimice su ecosistema digital en sitio.</span>
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚖️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Privacidad de Datos Sensibles y Propiedad Intelectual</strong>
+                                        Cumplimiento estricto con los estándares de protección de datos de salud y esquema de coproducción 50/50 registrado en SENADI para resguardar tus desarrollos y activos institucionales.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
+
                 </td>
             </tr>
         </table>
-        
-        <!-- CREDENCIALES (ES) -->
-        <!-- CREDENCIALES (ES) -->
-<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 25px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-    <p style="margin: 0 0 16px 0; font-weight: 700; color: #0f172a; font-size: 15px;">¡Todo listo! Estas son tus credenciales de acceso para la plataforma ITC:</p>
-    
-    <!-- Usuario / Email -->
-    <div style="background-color: #ffffff; border: 1px solid #b5181a; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px;">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td valign="middle">
-                    <p style="margin: 0; color: #5a5858; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Correo electrónico / Usuario:</p>
-                    <p style="margin: 4px 0 0 0; color: #0f172a; font-size: 14px; font-weight: 600; -webkit-user-select: all; user-select: all;">{{ user.email }}</p>
-                </td>
-            </tr>
+
+        <!-- 3. LLAMADO A LA ACCIÓN (ACCESO INMEDIATO + CONSULTORÍA) -->
+        <div style="margin: 0 0 20px 0; background-color: #fff9f0; border-left: 4px solid #f7a84f; border-radius: 0 12px 12px 0; padding: 16px; color: #334155; line-height: 1.4; font-size: 13.5px;">
+            <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px;">🚀 Activa tu acceso sin costo ahora mismo:</strong> Ingresa <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">aquí</a> con tus credenciales para explorar la plataforma y evaluar el despliegue de tu infraestructura clínica.
+        </div>
+
+        <!-- CREDENCIALES (ESTILO TERMINAL TECNOLÓGICA) -->
+        <div style="background-color: #232324; border: 1px solid #333333; border-radius: 12px; padding: 24px; margin: 24px 0;">
+            <p style="margin: 0 0 16px 0; font-weight: 700; color: #ffffff; font-size: 14px; letter-spacing: 0.5px;">
+            // Sus Credenciales de Acceso en Nuestra Plataforma Negocios ITC:
+            </p>
+            
+            <div style="background-color: #1e1e1f; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px;">
+                <p style="margin: 0; color: #cbd5e1; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Usuario / Correo:</p>
+                <p style="margin: 4px 0 0 0; color: #ffffff; font-size: 13.5px; font-weight: 600; font-family: monospace; -webkit-user-select: all; user-select: all;">{{ user.email }}</p>
+            </div>
+            
+            <div style="background-color: #1e1e1f; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px;">
+                <p style="margin: 0; color: #cbd5e1; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Contraseña Temporal:</p>
+                <p style="margin: 4px 0 0 0; color: #f7a84f; font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px; -webkit-user-select: all; user-select: all;">{{ email_prefix }}12345</p>
+            </div>
+        </div>
+
+        <!-- BLOQUE DE CIERRE / CTA PRINCIPAL -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 25px; background-color: #b5181a; border-radius: 12px; text-align: center; border-top: 4px solid #7a7a7a;">
+            <tr><td style="padding: 32px 24px;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="center" style="font-size: 18px; color: #ffffff; font-weight: 800; padding-bottom: 10px; letter-spacing: -0.3px;">
+                            ⚡ Protege la continuidad de tu clínica o centro médico hoy.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="font-size: 13.5px; line-height: 1.5; color: #e2e8f0; padding-bottom: 24px;">
+                            En 15 minutos revisamos los puntos críticos de tu operación y cómo desplegar una infraestructura soberana y resiliente.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <a href="https://wa.me/593963521262" target="_blank" style="background-color: #e7e7e7; color: #1e1e1f; padding: 15px 32px; border-radius: 10px; font-size: 14.5px; font-weight: 900; text-decoration: none; display: inline-block; letter-spacing: 0.3px;">
+                                🚀 Agenda Tu Diagnóstico Clínico de 15 Minutos
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="font-size: 12px; color: #e2e8f0; font-weight: 600; padding-top: 18px; letter-spacing: 0.5px;">
+                            Infraestructura soberana · Sin cobros por token · ROI estimado en 5 meses.
+                        </td>
+                    </tr>
+                </table>
+            </td></tr>
         </table>
-    </div>
 
-    <!-- Contraseña Temporal -->
-    <div style="background-color: #ffffff; border: 1px solid #b5181a; border-radius: 8px; padding: 12px 16px;">
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td valign="middle">
-                    <p style="margin: 0; color: #5a5858; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Contraseña temporal:</p>
-                    <p style="margin: 4px 0 0 0; color: #f7a84f; font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 1px; -webkit-user-select: all; user-select: all;">{{ email_prefix }}12345</p>
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-        <p style="margin: 0 0 20px 0; background-color: #fef2f2; border-left: 4px solid #b5181a; border-radius: 0 8px 8px 0; padding: 16px; color: #334155; line-height: 1.3;">
-            <strong style="color: #0f172a; display: block; margin-bottom: 4px;">🚀 Comienza ahora mismo:</strong> Ingresa al <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">enlace de Negocios ITC</a> para activar tu licencia de desarrollo de infraestructura sin costo. En cuestión de minutos tendrás tu arquitectura inicial lista para impulsar tu institución médica.
-        </p>
-        
-        <p style="margin: 0 0 20px 0; text-align: justify; color: #334155; line-height: 1.3; font-size: 10pt;">
-            En la era de la Inteligencia Artificial, la gestión médica de excelencia exige infraestructura resiliente, escalable y bajo su absoluto control. Quedamos a su entera disposición para agendar una consultoría estratégica y trazar juntos el plan de arquitectura para su centro de salud. Lo invitamos a dar el paso y liderar esta transformación con nosotros.
-        </p>
-
-        <!-- FIRMA EMBEBIDA CON TU BLOQUE DE ÍCONOS DE REDES -->
+        <!-- FIRMA CON IMAGEN DE FONDO Y PERFIL -->
         <div style="background-color: #b5181a; background-image: url('{% static '' %}'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 20px;">
             <p style="margin: 0 0 15px 0; color: #ffffff;">Atentamente,</p>
             
@@ -200,4 +216,5 @@
             </table>
         </div>
 
+    </div>
 </div>

@@ -174,6 +174,39 @@ def send_email_to_selected_users(modeladmin, request, queryset):
 send_email_to_selected_users.short_description = 'Enviar correo electrónico(presentacion)'
 
 
+
+
+def send_email_to_selected_users_presentacion2(modeladmin, request, queryset):
+    """
+    Acción de Django Admin que programa el envío masivo individualizado con goteo en Celery.
+    """
+    # Extraemos únicamente los IDs del queryset de forma ligera
+    user_ids = list(queryset.values_list('id', flat=True))
+    
+    if not user_ids:
+        modeladmin.message_user(request, "No se seleccionó ningún usuario válido.", level=messages.WARNING)
+        return
+
+    # Iteramos la lista de IDs para encolarlos individualmente con un retardo acumulativo
+    for index, user_id in enumerate(user_ids):
+        # El primer correo se envía de inmediato (0s), el segundo a los 180s, el tercero a los 360s, etc.
+        delay_seconds = index * 180
+        
+        # Despachamos cada correo como una tarea atómica separada a RabbitMQ
+        send_single_mailing_task_presentacion_2.apply_async(
+            args=[user_id], 
+            countdown=delay_seconds
+        )
+
+    modeladmin.message_user(
+        request, 
+        f'Se han encolado exitosamente {len(user_ids)} correo(s) en RabbitMQ con un goteo de 3 minutos entre cada envío.', 
+        level=messages.SUCCESS
+    )
+
+send_email_to_selected_users.short_description = 'Enviar correo electrónico(presentacion)'
+
+
 # 1. Definir el filtro personalizado para los dominios de correo
 class EmailProviderFilter(admin.SimpleListFilter):
     title = 'Proveedor de Correo'  # Título que aparecerá en el panel lateral derecho

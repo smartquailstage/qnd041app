@@ -90,6 +90,43 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+@staff_member_required  # Restringe la previsualización solo al equipo administrativo
+def preview_admin_mailing_email_2(request, user_id=None):
+    """
+    Vista de previsualización para el correo de presentación.
+    Permite pasar un user_id específico en la URL o usar el usuario actual.
+    """
+    # 1. Obtener el usuario de prueba
+    if user_id:
+        user = get_object_or_404(User, id=user_id)
+    else:
+        user = request.user  # Usa el usuario autenticado si no se pasa id
+
+    subject = "Bienvenido a SmartQuail."
+    email_prefix = user.email.split('@')[0] if user.email and '@' in user.email else user.email
+
+    context = {
+        "user": user,
+        "titulo": subject,
+        "email_prefix": email_prefix,
+    }
+
+    # 2. Renderizar la plantilla exactamente como en Celery
+    html_content = render_to_string("emails/mailing/mailing_email_admin_2.html", context)
+
+    # 3. Retornar la respuesta HTML directa al navegador
+    return HttpResponse(html_content, content_type="text/html")
+
+
+from django.utils.html import strip_tags
+#from django.core.mail.backends.smtp import EmailBackend
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+
+
 
 logger = logging.getLogger(__name__)
 User = get_user_model()

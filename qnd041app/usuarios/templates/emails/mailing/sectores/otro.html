@@ -1,168 +1,105 @@
-
-
-
 {% load static %}
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155; line-height: 1.5; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8fafc; text-align: left;">
 
     <!-- CONTENEDOR PRINCIPAL DE LA TARJETA -->
     <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px;">
 
-        <!-- SALUDO INICIAL -->
-        <p style="margin: 0 0 6px 0; font-size: 15px; color: #64748b;">Hola, <strong style="color: #0f172a;">{{ user.get_full_name|default:user.email }}</strong>, Bienvenido a SmartQuail IT Native Cloud Business</p>
+        <!-- 1. GANCHO -->
+        <p style="margin: 0 0 6px 0; font-size: 14px; color: #64748b;">
+            Hola, <strong style="color: #0f172a;">{{ user.get_full_name|default:user.email }}</strong> — <span style="color: #b5181a; font-weight: 800; letter-spacing: 0.4px;">ALERTA DE CIBERSEGURIDAD</span>
+        </p>
         <h2 style="margin: 0 0 14px 0; font-size: 22px; font-weight: 800; line-height: 1.2; color: #0f172a; letter-spacing: -0.5px; border-left: 4px solid #b5181a; padding-left: 12px;">
-            ⚡ Tecnologías de información y comunicación en nube nativa para empresas y organizaciones en Ecuador
+            ⚡ Alerta de ciberseguridad: el riesgo no espera a que cierres tu operación
         </h2>
-        
-        <!-- PÁRRAFO INTRODUCTORIO -->
-        <p style="margin: 0 0 24px 0; text-align: justify; color: #334155; line-height: 1.3; font-size: 11pt;">
-            ¿Sabías que al depender de plataformas SaaS externas para procesar datos sensibles de clientes, empleados o finanzas no solo pierdes la soberanía de tu información, sino que expones a tu empresa a multas de hasta el 1% de tu facturación anual? En Ecuador, <strong>la Ley Orgánica de Protección de Datos Personales (LOPDP)</strong> exige un control estricto sobre el tratamiento de los datos, y enviar información corporativa a servidores extranjeros fuera de tu control te deja completamente vulnerable frente a brechas de seguridad y a las drásticas sanciones económicas de la Superintendencia de Protección de Datos Personales.
+
+        <p style="margin: 0 0 24px 0; text-align: justify; color: #334155; line-height: 1.45; font-size: 11pt;">
+            ¿Sabías que hoy tu infraestructura operativa, ERP, plataforma y sistemas de gestión están comprometidos y si tu software fue desarrollado con <strong>Claude Code</strong> o prácticas <strong>No-Code</strong> sin auditoría ni gobernanza de seguridad, podrías estar en riesgo frente a ataques automatizados con inteligencia artificial como <strong>ARTEX</strong> (capaces de escalar a acceso privilegiado en menos de tres horas) y a la exposición de datos bajo la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP)</strong> en Ecuador, con multas de hasta el 1% de tu facturación anual? Confiar operaciones críticas en código generado sin endurecimiento o en plataformas No-Code opacas deja grietas de acceso, permisos y datos que los agentes ofensivos explotan en minutos.
         </p>
 
-        <p style="margin: 0 0 24px 0; text-align: justify; color: #334155; line-height: 1.3; font-size: 11pt;">
-            En <strong>SmartQuail, Inc.</strong> diseñamos arquitecturas privadas soberanas que eliminan de raíz esta vulnerabilidad y liberan a tu empresa del costoso modelo de cobro por token o alquiler mensual de servicio de software. Desplegamos ecosistemas tecnológicos autónomos directamente sobre tu propia infraestructura, de alta disponibilidad y segura, para que mantengas el control absoluto de tus datos, alcances un cumplimiento nativo con la LOPDP y puedas escalar tu operación sin sorpresas financieras ni intermediarios, garantizando un <strong>retorno de inversión en solo 5 meses</strong>, con llave en mano, en tan solo 24hs.
-        </p>
-
-        <!-- BLOQUE DE PROPUESTA DE VALOR -->
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; margin-bottom: 25px;">
+        <!-- 2. CUERPO (ÁGIL Y DIRECTO) -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 12px; margin-bottom: 22px;">
             <tr>
-                <td style="padding: 0 0 20px 0; border-bottom: 2px solid #f1f5f9;">
-                    <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #b5181a; background-color: #fef2f2; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 8px;">Nuestro Stack Tecnológico</span>
+                <td style="padding: 0 0 16px 0; border-bottom: 2px solid #f1f5f9;">
+                    <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #b5181a; background-color: #fef2f2; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 8px;">Infraestructura Crítica Operativa</span>
                     <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
-                        Desarrollo, Implementación, Despliegue y Escalabilidad (DevSecOps)
+                        Cómo SmartQuail blinda tu operación sin agotarte en complejidad
                     </h3>
                 </td>
             </tr>
             <tr>
-                <td style="padding-top: 20px;">
-                    
-                    <!-- Ítem 1: Core® -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
+                <td style="padding-top: 16px;">
+
+                    <p style="margin: 0 0 16px 0; text-align: justify; color: #334155; line-height: 1.45; font-size: 13.5px;">
+                        En <strong>SmartQuail, Inc.</strong> no vendemos software suelto ni alquileres por token: desplegamos <strong>infraestructura crítica operativa soberana y cloud-native</strong>, llave en mano en 24 horas, con retorno estimado en 5 meses y control real de tus datos.
+                    </p>
+
+                    <!-- Riesgo de Claude Code y No-Code -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">⚙️</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Nivel Core® (Motor Transaccional)</strong>
-                                        Consolidamos el núcleo operativo de su organización integrando plataformas modulares especializadas en análisis financiero y contable (ERP), gestión legal y de clientes (CRM), marketing digital, comercialización y gestión documental centralizada bajo alto cifrado.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚠️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Riesgos en Software con Claude Code y Prácticas No-Code</strong>
+                                        El código asistido por IA (como Claude Code) o los flujos No-Code aceleran prototipos, pero sin controles estrictos suelen dejar secretos expuestos, validaciones débiles, permisos excesivos o dependencias de terceros fuera de tu control. Auditamos, endurecemos y llevamos tu operación a una arquitectura segura y soberana.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 2: Synthex -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
+                    <!-- Resiliencia frente a ataques automatizados -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">🔄</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Nivel Synthex (Automatización Inteligente)</strong>
-                                        Escalamos el sistema para automatizar procesos críticos sobre el motor transaccional: programación de estados de resultados, facturación electrónica con integración a entes regulatorios y fiscales, y posicionamiento de contenidos web y redes sociales en tiempo real.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">🛡️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Contención y Respuesta frente a Agentes como ARTEX</strong>
+                                        Aislamiento con microservicios, contenedores efímeros e identidades de mínimo privilegio; rotación ágil de imágenes; telemetría con respuesta automatizada y réplicas/respaldos inmutables para cortar el movimiento lateral antes de que escale.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <!-- Ítem 3: Multi-agéntica -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
+                    <!-- Capas operativas esenciales -->
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">🧠</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Nivel Agentic (Agentes de Inteligencia artificial Soberana)</strong>
-                                        Incorporamos modelos de IA privados y regulados por la ley de protección de datos con los datos reales de su negocio. Implementamos agentes de predicción, procesamiento de lenguaje natural y autogeneración de contenidos multimedia y videos promocionales en una sola plataforma.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚙️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Core® y Synthex: Operación y Automatización</strong>
+                                        Unifica ERP, CRM, gestión documental, facturación electrónica y automatización de procesos críticos sobre una base segura y orquestada.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0f172a; border-radius: 8px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">🤖</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Nivel IA Assistants (Asistentes de Inteligencia Artificial Soberana)</strong>
-                                        Orquestamos una red de asistentes de IA autónomos y privados, entrenados específicamente con los datos internos de cada segmento corporativo (comercial, financiero, administrativo, operativo y legal). Garantizamos cumplimiento normativo total sin fugas de información a terceros.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">🧠</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Agentic y Asistentes IA Soberanos</strong>
+                                        Modelos y asistentes privados entrenados con tus datos internos —sin fugas a terceros ni cobros impredecibles por token— alineados con LOPDP e ISO 27000 / 42000.
                                     </td>
                                 </tr>
                             </table>
                         </td></tr>
                     </table>
 
-                </td>
-            </tr>
-
-            <tr>
-                <td style="padding: 0 0 20px 0; border-bottom: 2px solid #f1f5f9;">
-                    <span style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #b5181a; background-color: #fef2f2; padding: 6px 12px; border-radius: 6px; display: inline-block; margin-bottom: 8px;">Certificación ISO 42000 y 27000</span>
-                    <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #0f172a; letter-spacing: -0.3px;">
-                        Gobernanza, Privacidad, Seguridad y Cumplimiento
-                    </h3>
-                </td>
-            </tr>
-
-            <tr>
-                <td style="padding-top: 20px;">
-
-                    <!-- Ítem 5: Propiedad Intelectual -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">⚖️</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Propiedad Intelectual y Coproducción</strong>
-                                        Protegemos el <i>know-how</i> de tu empresa mediante un modelo de coproducción 50/50 registrado formalmente en el SENADI. Nunca utilizamos modelos públicos que comprometan tus activos; blindamos tu soberanía tecnológica y aseguramos que los desarrollos de software y propiedad intelectual pertenezcan legítimamente a tu organización.
-                                    </td>
-                                </tr>
-                            </table>
-                        </td></tr>
-                    </table>
-
-                    <!-- Ítem 6: Ciberseguridad -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">🔒</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Ciberseguridad e Infraestructura Soberana</strong>
-                                        Garantizamos los más altos estándares bajo certificaciones ISO 27000. Nunca utilizamos sistemas públicos que vulneren sus datos privados; mantenemos el control estricto y la gobernanza tecnológica absoluta de su infraestructura como nuestra principal responsabilidad.
-                                    </td>
-                                </tr>
-                            </table>
-                        </td></tr>
-                    </table>
-
-                    <!-- Ítem 7: Modelo Comercial -->
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">💼</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Inversión Transparente y Propiedad Intelectual</strong>
-                                        Esquema de un solo pago por el desarrollo con generación directa de propiedad intelectual, convirtiendo a nuestros clientes en verdaderos aliados estratégicos, complementado con un modelo accesible de pagos mensuales para mantenimiento y soporte continuo de infraestructura.
-                                    </td>
-                                </tr>
-                            </table>
-                        </td></tr>
-                    </table>
-
-                    <!-- Ítem 8: Cumplimiento Normativo -->
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #b5181a; border-radius: 8px;">
-                        <tr><td style="padding: 16px;">
+                        <tr><td style="padding: 14px 16px;">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td width="35" valign="top" style="font-size: 18px; color: #b5181a; font-weight: bold;">🛡️</td>
-                                    <td style="font-size: 13.5px; line-height: 1.3; color: #334155; text-align: justify;">
-                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Cumplimiento Regulatorio Nacional</strong>
-                                        Operamos bajo el marco estricto de la Superintendencia de Protección de Datos Personales del Ecuador, blindando legal y técnicamente cada proceso y flujo de información dentro de su organización.
+                                    <td width="32" valign="top" style="font-size: 17px; color: #b5181a; font-weight: bold;">⚖️</td>
+                                    <td style="font-size: 13.5px; line-height: 1.4; color: #334155;">
+                                        <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700;">Soberanía, Cumplimiento y Propiedad Intelectual</strong>
+                                        Esquema transparente con coproducción 50/50 registrada en SENADI para proteger el <i>know-how</i> y la propiedad intelectual de tu organización.
                                     </td>
                                 </tr>
                             </table>
@@ -173,13 +110,13 @@
             </tr>
         </table>
 
-        <!-- AVISO / CTA INICIAL -->
+        <!-- 3. LLAMADO A LA ACCIÓN (ACCESO INMEDIATO + CONSULTORÍA) -->
         <div style="margin: 0 0 20px 0; background-color: #fff9f0; border-left: 4px solid #f7a84f; border-radius: 0 12px 12px 0; padding: 16px; color: #334155; line-height: 1.4; font-size: 13.5px;">
-            <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px;">🚀 Comienza ahora mismo:</strong> Ingresa a nuestra plataforma <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">aquí</a> con las siguientes credenciales para activar tu licencia de desarrollo y despliegue de infraestructura sin costo. En cuestión de minutos tendrás todo listo y operativo para impulsar tu proyecto o negocio.
+            <strong style="color: #0f172a; display: block; margin-bottom: 4px; font-size: 14px;">🚀 Activa tu acceso sin costo ahora mismo:</strong> Ingresa <a href="https://ec.smartquail.io/ingresar" target="_blank" style="color: #b5181a; font-weight: bold; text-decoration: underline;">aquí</a> con tus credenciales para probar la plataforma y evaluar el despliegue de tu infraestructura.
         </div>
 
         <!-- CREDENCIALES (ESTILO TERMINAL TECNOLÓGICA) -->
-        <div style="background-color: #232324; border: 1px solid #333333; border-radius: 12px; padding: 24px; margin: 30px 0;">
+        <div style="background-color: #232324; border: 1px solid #333333; border-radius: 12px; padding: 24px; margin: 24px 0;">
             <p style="margin: 0 0 16px 0; font-weight: 700; color: #ffffff; font-size: 14px; letter-spacing: 0.5px;">
             // Sus Credenciales de Acceso en Nuestra Plataforma Negocios ITC:
             </p>
@@ -195,36 +132,30 @@
             </div>
         </div>
 
-        <!-- BLOQUE DE CIERRE / CTA MARKETINERO CORPORATIVO -->
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 25px; background-color: #b5181a; border-radius: 12px; text-align: center; border-top:  4px solid #7a7a7a;">
+        <!-- BLOQUE DE CIERRE / CTA PRINCIPAL -->
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 25px; background-color: #b5181a; border-radius: 12px; text-align: center; border-top: 4px solid #7a7a7a;">
             <tr><td style="padding: 32px 24px;">
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td align="center" style="font-size: 18px; color: #ffffff; font-weight: 800; padding-bottom: 10px; letter-spacing: -0.3px;">
-                            ⚡ El futuro no se espera, se despliega en tiempo récord.
+                            ⚡ Blindemos tu operación antes de que el riesgo se materialice.
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" style="font-size: 13.5px; line-height: 1.5; color: #e2e8f0; padding-bottom: 14px;">
-                            No dejes tus activos tecnológicos empresariales en manos de improvisados ni en nubes públicas que exponen y vulneran tu empresa frente al mercado. Delega tu infraestructura en verdaderos expertos.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="font-size: 13.5px; line-height: 1.5; color: #cbd5e1; padding-bottom: 24px;">
-                            No somos solo proveedores: <strong style="color: #ffffff;">somos tu growth partner tecnológico</strong>. Si puedes imaginarlo para tu negocio, nuestros ingenieros lo despliegan, lo blindan y lo ponen a facturar en la nube nativa antes de que tu competencia parpadee.
+                        <td align="center" style="font-size: 13.5px; line-height: 1.5; color: #e2e8f0; padding-bottom: 24px;">
+                            En 15 minutos revisamos tu exposición actual y cómo desplegar una infraestructura crítica soberana y lista para escalar.
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <!-- Botón CTA de alto impacto -->
                             <a href="https://wa.me/593963521262" target="_blank" style="background-color: #e7e7e7; color: #1e1e1f; padding: 15px 32px; border-radius: 10px; font-size: 14.5px; font-weight: 900; text-decoration: none; display: inline-block; letter-spacing: 0.3px;">
-                                🚀 Agenda Tu Consultoría Tecnológica Hoy
+                                🚀 Agenda Tu Diagnóstico de 15 Minutos
                             </a>
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" style="font-size: 12px; color: #94a3b8; font-weight: 600; padding-top: 18px; letter-spacing: 0.5px;">
-                            Infraestructura soberana · Sin cobros por token · ROI garantizado en 5 meses.
+                        <td align="center" style="font-size: 12px; color: #e2e8f0; font-weight: 600; padding-top: 18px; letter-spacing: 0.5px;">
+                            Infraestructura soberana · Sin cobros por token · ROI estimado en 5 meses.
                         </td>
                     </tr>
                 </table>
