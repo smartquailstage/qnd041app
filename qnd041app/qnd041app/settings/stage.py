@@ -171,3 +171,11 @@ DEFAULT_FROM_EMAIL = 'support@smartquail.io'
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_WHATSAPP_FROM = os.getenv("TWILIO_WHATSAPP_FROM")
+
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [BASE_DIR / "staticfiles"]
+STATIC_URL = "/static/"
+STATIC_ROOT = STATIC_ROOT = BASE_DIR / "static"

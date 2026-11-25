@@ -127,6 +127,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     'django.contrib.sites',
 
+    
+
     # Allauth core
     'allauth',
     'allauth.account',
@@ -290,6 +292,7 @@ INSTALLED_APPS = [
     "social_media_A",
     'corsheaders',
     'wagtail_analytics',
+    'django.contrib.sitemaps',
 ]
 
 #LOGINGS REDIRECT

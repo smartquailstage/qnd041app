@@ -6,88 +6,111 @@ from dotenv import load_dotenv
 from django.utils.translation import gettext_lazy as _
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+import json
+import logging
+from datetime import datetime
+from django.urls import reverse_lazy
 from decouple import config, Csv
 
-
-
-
-
-
-
+#prueba
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+DEBUG = os.environ.get('DEBUG')
 # Load environment variables from the .env_local file.
 ENV_FILE_PATH = BASE_DIR / ".env_stage"
 load_dotenv(dotenv_path=ENV_FILE_PATH)
 
+# Retrieve the Django secret key from environment variables.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+SITE_ID = 1
+domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='support@smartquail.io')
 SERVER_EMAIL = config('SERVER_EMAIL', default='support@smartquail.io')
 
-
-ADMINS = [
-    ("Soporte Meddes", "info@meddes.com.ec"),
-    # ("Otro Nombre", "otro@correo.com"),  # Puedes agregar más si deseas
+CORS_ALLOWED_ORIGINS = [
+    "https://ec.smartquail.io",  # ✅ Correcto
 ]
 
-# Retrieve the Django secret key from environment variables.
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-ALLOWED_HOSTS = ['tusitio.com', '127.0.0.1'] 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+#DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Configura DEBUG usando variable de entorno o por defecto False
-DEBUG = config('DEBUG', default=False, cast=bool)
+#if DEBUG:
+#    ADMINS = []
+#else:
+    # Obtener como lista separada por comas
+#    raw_admins = config(
+#        'ADMINS',
+#        cast=Csv(),
+#        default='Soporte SmartQuail:support@smartquail.io'
+#    )
 
-if DEBUG:
-    ADMINS = []
-else:
-    # En producción, define tus administradores correctamente:
-    ADMINS = [
-        ("Soporte SmartQuail", "support@smartquail.io"),
-    ]
-
-    
-
-
-# Variable que define si estás en entorno local
-ENVIRONMENT = config("ENVIRONMENT", default="local")  # local, staging, production
-
-if ENVIRONMENT == "local":
-    EMAIL_BACKEND = config("EMAIL_BACKEND")
-    EMAIL_HOST = config("EMAIL_HOST")
-    EMAIL_PORT = config("EMAIL_PORT", cast=int)
-    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-    EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
-    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-else:
-    # Configuración de producción u otros entornos
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.gmail.com"
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_USE_SSL = False
-    EMAIL_HOST_USER = "phys.mauiricio.silva@gmail.com"
-    EMAIL_HOST_PASSWORD = "secreto_produccion"
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+    # Transformar cada valor tipo 'Nombre:correo' en una tupla
+#    ADMINS = [tuple(val.split(':')) for val in raw_admins]
 
 
 # Optionally, you can add a default value or raise an exception if SECRET_KEY is not set
 if SECRET_KEY is None:
     raise ValueError("DJANGO_SECRET_KEY is not set in the environment variables.")
-# Obtener variable de entorno (lanzar error si no existe)
 
 
+class JSONLogFormatter(logging.Formatter):
+    def format(self, record):
+        timestamp = datetime.fromtimestamp(record.created).strftime('%Y-%m-%dT%H:%M:%S.%f')
+        log_record = {
+            "time": timestamp,
+            "level": record.levelname,
+            "name": record.name,
+            "message": record.getMessage(),
+        }
+        return json.dumps(log_record)
+
+SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
+
+from usuarios.utils import permission_callback
 
 
-SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')  # Cambia esto según tu configuración
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
 
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'json',
+        },
+    },
 
+    'formatters': {
+        'json': {
+            'format': (
+                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", '
+                '"logger": "%(name)s", "message": "%(message)s", '
+                '"module": "%(module)s", "process": %(process)d, "thread": %(thread)d}'
+            ),
+        },
+    },
+
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
 INSTALLED_APPS = [
     # Unfold (debe ir antes del admin)
- 
+
     "unfold",
     "unfold.contrib.forms",
     "unfold.contrib.filters",  # opcional
@@ -102,14 +125,27 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    'django.contrib.sites', 
- 
+    'django.contrib.sites',
+
+    # Allauth core
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Proveedores Sociales
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+   
+
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
     #'citas_regulares',
-    "core",
-    "webapp",
+    #"core",
+    #"wagtail_ai",
+    "social_media_AI",
+    "wagtail",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -118,32 +154,35 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-     
-    'wagtail',
+    
+
+
    # 'cart',
    # 'orders',
    # 'shop',
-    
+
 
   #  "wagtail.search",
   #  "wagtail.sites",
   #  "wagtail.locales",
-    "wagtail_localize", 
+    "wagtail_localize",
     "wagtail_localize.locales",
     "wagtailmedia",
 #    "wagtail.contrib.forms",
  #   "wagtail.contrib.redirects",
     "wagtail.contrib.routable_page",
     "wagtail.contrib.settings",
+    "wagtail.contrib.forms",
 
     # Wagtail plugins
     "wagtailgmaps",
     "wagtailmenus",
-    # "wagtail_modeltranslation",  # Descomentar si se usa
 
+    # "wagtail_modeltranslation",  # Descomentar si se usa
+    'import_export',
     # Terceros / externos
     "rest_framework",
-    "ckeditor",
+    #"ckeditor",
     'smartcontracts',
     "djmoney",
     "localflavor",
@@ -157,9 +196,9 @@ INSTALLED_APPS = [
     "django_extensions",
     "widget_tweaks",
     "django_forms_bootstrap",
-    "bootstrap4",
-    "bootstrap5",
-    "bootstrap_datepicker_plus",
+    #"bootstrap4",
+    #"bootstrap5",
+    #"bootstrap_datepicker_plus",
     "jquery",
     "qr_code",
     "tinymce",
@@ -168,6 +207,9 @@ INSTALLED_APPS = [
     "django_social_share",
     "business_customer_projects",
     'smartbusinesslaw',
+    'smartbusinesslaw_demo',
+    'smartbusinessanalytics_id',
+    'smartbusinessanalytics_demo',
 
              # Apps propias del proyecto
     "usuarios",
@@ -175,8 +217,9 @@ INSTALLED_APPS = [
     #"SQOrders",
     #"SQShop",
     'chatbot_ai',
+
    
-   
+    "webapp",
     "serviceapp",
     'billing',
     #"citas_regulares",
@@ -184,6 +227,11 @@ INSTALLED_APPS = [
     # E-commerce apps
     "cloudcalc",
     #"coupons",
+    'iaas_shop',
+    'iaas_cart',
+    'iaas_orders',
+    'iaas_coupons',
+    'iaas_payment',
     #PAAS
     'paas_shop',
     'paas_cart',
@@ -197,6 +245,13 @@ INSTALLED_APPS = [
     'saas_coupons',
     'saas_payment',
 
+        #AIAAS
+    'aiaas_shop',
+    'aiaas_orders',
+    'aiaas_cart',
+    'aiaas_coupons',
+    'aiaas_payment',
+
     #SmartBusinessANALYTICS
     "sbacart",
     "sbashop",
@@ -207,7 +262,11 @@ INSTALLED_APPS = [
     "sblorders",
     'sbpshop',
 
-    #SmartBusinessTechonologies 
+    #'mailing',
+
+    "customer_managemen",
+
+    #SmartBusinessTechonologies
     "sbtcart",
     "sbtshop",
     "sbtorders",
@@ -216,8 +275,8 @@ INSTALLED_APPS = [
     "sbmshop",
     "sbmorders",
     "sbmcoupons",
-    'smartbusinessanalytics_id',
     "sbmpayments",
+    "whatsappbot",
     #"sbacart",
     #"sbashop",
     #"sbaorders",
@@ -225,8 +284,14 @@ INSTALLED_APPS = [
     "services_coupons",
     "services_payment",
     "rosetta",
-    "taggit"
+    "taggit",
+    'studio_leads_ai',
+    'wagtail.contrib.sitemaps',
+    "social_media_A",
+    'corsheaders',
+    'wagtail_analytics',
 ]
+
 #LOGINGS REDIRECT
 
 LOGIN_REDIRECT_URL = 'usuarios:perfil'
@@ -241,9 +306,12 @@ domain = os.environ.get('SITE_DOMAIN', 'http://localhost:8000')
 CART_SESSION_ID = 'cart'
 
 SAAS_CART_SESSION_ID = 'saas_cart'
+PAAS_CART_SESSION_ID = 'paas_cart'
+AIAAS_CART_SESSION_ID = 'aiaas_cart'
 
-from usuarios.utils import  permission_callback,permission_callback_prospecion
+SERVICES_CART_SESSION_ID = 'services_cart'
 
+from usuarios.utils import permission_callback
 
 
 
@@ -289,41 +357,57 @@ def is_admin_o_terapeuta(request):
 def is_admin_o_financiero(request):
     return is_administrativo(request) or is_financiero(request) or is_superuser(request)
 
+def is_staff_activo(request):
+    """
+    Filtro de seguridad I+D: Verifica que el usuario sea 
+    miembro del staff autorizado y su cuenta esté activa.
+    """
+    return request.user.is_authenticated and request.user.is_staff and request.user.is_active
+
 def is_all(request):
-    return is_administrativo(request) or is_financiero(request) or is_superuser(request) or is_terapeuta(request) or is_institucional(request)
+    """
+    Control de acceso total a la Suite. Permite la visualización si cumple 
+    con los roles específicos del holding O si es un usuario Staff Activo.
+    """
+    # Si cumple con la condición base de Staff Activo, se le concede acceso inmediato
+
+    # Evaluación por grupos tradicionales
+    return (
+        is_administrativo(request) or 
+        is_financiero(request) or 
+        is_superuser(request) or 
+        is_terapeuta(request) or 
+        is_institucional(request)
+    )
 
 
 
 
 UNFOLD = {
-    "SITE_TITLE": "SmartBusinessAnalytics® (I+D), (+A) ,(AI)     Planificador de Recursos Empresariales.",
-    "SITE_HEADER": "MEDDES",
+    "SITE_TITLE": "SmartQuail IT Cloud Business (I+D)®      Planificador de Recursos Empresariales",
+    "SITE_HEADER": "SmartQuail",
     "SHOW_LANGUAGES": False,
     "SITE_SUBHEADER": "Eterprises Research & Development",
-    "SITE_DESCRIPTION": "SmartBusinessAnalytics® (I+D)+A",
+    "SITE_DESCRIPTION": "SmartQuail.S.A.S (I+D)",
     "SITE_COPYRIGHT": "Copyright © 2025 SmartQuail S.A.S Todos los derechos reservados.",
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "SITE_DROPDOWN": [
         {"icon": "person", "title": _("Usuarios(AUTH)"), "link": reverse_lazy("admin:auth_user_changelist")},
         {"icon": "key", "title": _("Roles(RBAC)"), "link": reverse_lazy("admin:auth_group_changelist")},
-        {"icon": "people", "title": _("Institucionales"), "link": reverse_lazy("admin:usuarios_perfilinstitucional_changelist")},
-         {"icon": "people", "title": _("Terapeutas"), "link": reverse_lazy("admin:usuarios_perfil_terapeuta_changelist")},
-        
-        
-        {"icon": "map", "title": _("Sucursales"), "link": reverse_lazy("admin:usuarios_sucursal_changelist")},
+        {"icon": "map", "title": _("Regulaciones"), "link": reverse_lazy("admin:smartbusinesslaw_regulacion_changelist")},
         {"icon": "circle", "title": _("Monitoreo"), "link": reverse_lazy("admin:django_celery_results_taskresult_changelist")},
          {"icon": "support", "title": _("Soporte"), "link": reverse_lazy("admin:usuarios_cliente_changelist")},
     ],
-    "SITE_URL": "https://www.meddes.com.ec/",
+    "SITE_URL": "https://ec.smartquail.io",
     "SITE_ICON": {"light": lambda request: static("img/BA-LOGOS/loro.png"), "dark": lambda request: static("img/BA-LOGOS/loro.png")},
-    "SITE_LOGO": {"light": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"), "dark": lambda request: static("img/BA-LOGOS/logo.png")},
+    "SITE_LOGO": {"light": lambda request: static("img/BA-LOGOS/logo_sq_header.png"), "dark": lambda request: static("logo_smartquailred.png")},
     "SITE_SYMBOL": "speed",
     "SITE_FAVICONS": [
         {
             "rel": "icon",
             "sizes": "32x28",
             "type": "image/svg+xml",
-            "href": lambda request: static("img/SQLOGOS/smartbusinessanalytics.png"),
+            "href": lambda request: static("img/PRODUCT_LOGOS/logo_red_user.png"),
         },
     ],
     "SHOW_HISTORY": True,
@@ -332,11 +416,13 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "usuarios.views.dashboard_callback",
     "ENVIRONMENT": "qnd041app.utils.environment.environment_callback",
     "THEME": "light",
-    "LOGIN": {  "image": lambda request: static("img/login_analytics2.png"),
+    "LOGIN": {  "image": lambda request: static("img/login_sq_bg.png"),
                "password_icon": lambda request: static("icons/eye-solid.svg"),
                 "username_icon": lambda request: static("icons/username-icon.svg")
                 },
-               
+    "LOGOUT": {  "image": lambda request: static("img/login_sq_bg.png"),
+                },
+
     "STYLES": [
         lambda request: static("unfold/css/style.css"),        # archivo original
         lambda request: static("css/unfold_override.css"),     # tu override personalizado
@@ -351,15 +437,15 @@ UNFOLD = {
 
         "base": {
             "50": "255 255 255",
-            "100": "202 196 196",
+            "100": "206 200 200",
             "200": "211 213 205",
             "300": "209 213 219",
-            "400": "41 168 80",
+            "400": "181 15 21",
             "500": "51 55 53",
             "600": "75 85 99",
             "700": "7 121 176",
             "800": "4 168 79",
-            "900": "60 59 59",
+            "900": "49 46 46",
             "950": "3 7 18",
         },
         "primary": {
@@ -369,11 +455,12 @@ UNFOLD = {
             "300": "216 180 254",
             "400": "192 132 252",
             "500": "229 234 231",
-            "600": "61 61 56",
+            "600": "30 29 29",
             "700": "126 34 206",
             "800": "107 33 168",
             "900": "24 85 2",
             "950": "59 7 100",
+            "750": "116, 132, 147",
         },
         "font": {
             "subtle-light": "var(--color-base-500)",
@@ -403,91 +490,541 @@ UNFOLD = {
 "navigation": [
 
     {
-        "title": _("Comunicaciones"),
+        "title": _("Recursos Legales (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
             {
-                "title": _("Bandeja de Entrada"),
-                "icon": "inbox",
-                "link": reverse_lazy("admin:usuarios_mensaje_changelist"),
+                "title": _(" Registros (SPDP)"),
+                "icon": "create",
+                "link": reverse_lazy("admin:smartbusinesslaw_spdp_actadelegado_changelist"),
                 "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
                 "permission": is_all,
             },
+
+            {
+                "title": _("Nombramientos (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_cartanombramiento_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Balances (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvsfinancialreport_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Informes (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_scvs_actasasamblea_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+
+
+            {
+                "title": _("Anexos (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_sri_anexostributarios_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Declaraciones (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_sri_declaracionimpuestos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+            {
+                "title": _("Contratos (MT)"),
+                "icon": "signature",
+                "link": reverse_lazy("admin:smartbusinesslaw_contratolaboral_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Nomina (IESS)"),
+                "icon": "people",
+                "link": reverse_lazy("admin:smartbusinesslaw_nomina_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
         ],
     },
 
     {
-        "title": _("Registros Administrativos"),
+        "title": _("Recursos Financieros (I+D)"),
         "separator": True,
         "collapsible": True,
         "items": [
+
             {
-                "title": _("Prospecciones"),
-                "icon": "edit",
-                "link": reverse_lazy("admin:usuarios_prospeccion_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_meddes",
-                "badge_color": "colors-primary-500",
-                "permission": is_administrativo_o_isuperuser,
-            },
-            {
-                "title": _("Instituciones"),
-                "icon": "school",
-                "link": reverse_lazy("admin:usuarios_prospecion_administrativa_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_prospeccion",
-                "badge_color": "custom-green-success",
-                "permission": is_institucional_o_administrativo,
-            },
-            {
-                "title": _("Pacientes"),
-                "icon": "book",
-                "link": reverse_lazy("admin:usuarios_profile_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_terapeutico",
-                "badge_color": "success",
-                "permission":  is_institucional_o_terapeuta_o_administrativo,
-            },
-            {
-                "title": _("Agenda"),
-                "icon": "calendar_today",
-                "link": reverse_lazy("admin:usuarios_cita_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_citas",
-                "badge_color": "font-subtle-light",
-                "permission": is_administrativo_o_isuperuser,
-            },
-            {
-                "title": _("Pagos"),
-                "icon": "payment",
-                "link": reverse_lazy("admin:usuarios_pagos_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_pagos",
+                "title": _("Ingresos Mensuales"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_paymentorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
-                "permission": is_admin_o_financiero,
+                "permission": is_all,
             },
+
+            {
+                "title": _("Ordenes (SaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_orders_saasorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Ordenes (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_orders_paasorder_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Pasivos/Activos"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_activos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Ingresos/Egresos"),
+                "icon": "archive",
+                "link": reverse_lazy("admin:smartbusinessanalytics_id_movimientofinanciero_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+
+            {
+                    "title": _("Analisis Financieros"),
+                    "icon": "analytics",
+                    "link": reverse_lazy("admin:smartbusinessanalytics_id_estadofinanciero_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_analisis",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+        },
+
+
+
         ],
     },
+
     {
-        "title": _("Registros Terapéuticos"),
-        "separator": True,
+        "title": _("Gestor administrativo & legal"),
+        "separator": False,
         "collapsible": True,
         "items": [
             {
-                "title": _("Valoraciones"),
-                "icon": "download",
-                "link": reverse_lazy("admin:usuarios_valoracionterapia_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_valoracion",
+                "title": _(" Registros (SPDP)"),
+                "icon": "create",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_spdp_actadelegado_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
-                "permission": is_institucional_o_terapeuta_o_administrativo,
+                "permission": is_staff_activo,
+            },
+
+
+
+
+            {
+                "title": _("Balances (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_scvsfinancialreport_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Informes (SCVS)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_scvs_actasasamblea_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+
+
+            {
+                "title": _("Anexos (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_sri_anexostributarios_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Declaraciones (SRI)"),
+                "icon": "edit",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_sri_declaracionimpuestos_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
             },
             {
-                "title": _("Terapias"),
-                "icon": "task",
-                "link": reverse_lazy("admin:usuarios_tareas_changelist"),
-                "badge": "usuarios.unfold_config.badge_callback_tareas",
+                "title": _("Contratos (MT)"),
+                "icon": "signature",
+                "link": reverse_lazy("admin:smartbusinesslaw_demo_contratolaboral_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
                 "badge_color": "custom-red-alert",
-                "permission": is_institucional_o_terapeuta_o_administrativo,
+                "permission": is_staff_activo,
             },
+
+
+
         ],
     },
+
+    {
+        "title": _("Gestor Financiero & Analítico"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Activos/Pasivos"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:smartbusinessanalytics_demo_activos_changelist"),
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_activos",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+            {
+                "title": _("Ingresos/Egresos"),
+                "icon": "archive",
+                "link": reverse_lazy("admin:smartbusinessanalytics_demo_movimientofinanciero_changelist"),
+                "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_ingresos_egresos",
+                "badge_color": "custom-red-alert",
+                "permission": is_staff_activo,
+            },
+
+
+
+            {
+                    "title": _("Resultados"),
+                    "icon": "analytics",
+                    "link": reverse_lazy("admin:smartbusinessanalytics_demo_estadofinanciero_changelist"),
+                    "badge": "smartbusinessanalytics_demo.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_staff_activo,
+        },
+
+
+
+        ],
+    },
+
+    {
+        "title": _("Project Management (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Actividades"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:usuarios_registroactividad_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Clientes ITC"),
+                "icon": "people",
+                "link": reverse_lazy("admin:usuarios_profile_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Proyectos ITC"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businesssystemproject_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Recursos ITC "),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_monthlysystemmetrics_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+            {
+                "title": _("DeV (I+D) ITC "),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessprocess_changelist"),
+                "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                "badge_color": "custom-red-alert",
+                "permission": is_all,
+            },
+
+
+        ],
+    },
+
+    {
+        "title": _("Develop Management (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Quantity Testing"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_qatest_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Cloud Resources"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_cloudresource_changelist"),
+                "permission": is_all,
+            },
+
+
+
+            {
+                "title": _("Investigación & Desarollo"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessprocess_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Automatizaciones"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessautomation_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Inteligencia Artificial"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:business_customer_projects_businessintelligent_changelist"),
+                "permission": is_all,
+            },
+
+
+
+        ],
+    },
+
+    {
+        "title": _("Product Management (I+D)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Categorías (SaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (SaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:saas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (PaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:paas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Categorías (AIaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:aiaas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (AIaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:aiaas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Categorías (IaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:iaas_shop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos (IaaP)"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:iaas_shop_product_changelist"),
+                "permission": is_all,
+            },
+
+        ],
+    },
+
+
+    {
+        "title": _("Catalogos de Productos (Web)"),
+        "separator": True,
+        "collapsible": True,
+        "items": [
+
+            {
+                "title": _("Categorías SBM"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbmshop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBA"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbashop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBL"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sblshop_category_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Categorías SBT"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbtshop_category_changelist"),
+                "permission": is_all,
+            },
+
+
+            {
+                "title": _("Productos SBM"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbmshop_sbmproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBA"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbashop_sbaproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBL"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sblshop_sblproduct_changelist"),
+                "permission": is_all,
+            },
+
+            {
+                "title": _("Productos SBT"),
+                "icon": "folder",
+                "link": reverse_lazy("admin:sbtshop_sbtproduct_changelist"),
+                "permission": is_all,
+            },
+
+        ],
+    },
+
+
+        {
+            "title": _("Ebooks ITC"),
+            "separator": True,
+            "collapsible": True,
+            "items": [
+
+                {
+                    "title": _("Ebook Categorías"),
+                    "icon": "folder",
+                    "link": reverse_lazy("admin:business_customer_projects_categorianoticia_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+                },
+
+                {
+                    "title": _("Crear Ebook"),
+                    "icon": "folder",
+                    "link": reverse_lazy("admin:business_customer_projects_noticia_changelist"),
+                    "badge": "usuarios.unfold_config.badge_callback_notificaciones",
+                    "badge_color": "custom-red-alert",
+                    "permission": is_all,
+                },
+
+
+
+
+
+            ],
+        },
+
+
 
 ],
 
@@ -511,101 +1048,192 @@ UNFOLD = {
 
 
 
-#LOGINGS REDIRECT
 
-LOGIN_REDIRECT_URL = 'usuarios:perfil'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-
-
-AUTH_USER_MODEL = 'usuarios.CustomUser'
-
-
-
-
-
-
-
-PARLER_DEFAULT_LANGUAGE_CODE = 'es'
-PARLER_DEFAULT_ACTIVATE = True
-PARLER_SHOW_EXCLUDED_LANGUAGE_TABS = False
-
-
-
-#AUTH_USER_MODEL = 'usuarios.Cita'
 
 
 MIDDLEWARE = [
     #'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-   
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    
+    #'elasticapm.contrib.django.middleware.TracingMiddleware'
     #'wagtail.core.middleware.site.SiteMiddleware',
     #'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-   # 'shop.middleware.LocaleRedirectMiddleware', 
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
-
-LANGUAGE_CODE = 'es'
-
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
-
-TIME_ZONE = 'America/Guayaquil'  # O 'America/Mexico_City', 'America/Argentina/Buenos_Aires', etc.
-
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
+#ELASTIC_APM = {
+    #'SERVICE_NAME': 'qnd031app',
+    #'SECRET_TOKEN': '',  # déjalo vacío si no usas auth
+    #'SERVER_URL': 'http://apm-server:8200',
+    #'ENVIRONMENT': 'production',
+    #'DEBUG': True,
+#}
 
 
-from django.utils.translation import gettext_lazy as _
 
-LANGUAGES = [
-    ('es', _('Español')),
-    ('en', _('Inglés')),
-]
 
 ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
-#SITE_ID = 1
-#WagtailAnalitycs
 
 
-
-#WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME ')
-
-#RESTFRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
 
+#Redis Setup
 
+
+
+
+#DJANGO ADMIN SETUPS
+
+#LOGINGS REDIRECT
+
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+#from django.urls import reverse_lazy
+#LOGIN_REDIRECT_URL = reverse_lazy('course_list')
+
+# Configuración de sesiones usando Redis
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+REDIS_HOST = os.environ.get('REDIS_HOST')  # Cambia esto según tu configuración
+REDIS_PORT  = os.environ.get('REDIS_PORT')        # Puerto por defecto de Redis
+REDIS_DB  = os.environ.get('REDIS_DB')
+
+#WEBAPP SETTINGS
+
+
+
+EMAIL_BACKEND = config("EMAIL_BACKEND")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_USER_INFO = config("EMAIL_HOST_USER_INFO", default="info@tudominio.com")
+EMAIL_HOST_USER_LICENCIAS = config("EMAIL_HOST_USER_LICENCIAS", default="licencias@tudominio.com")
+EMAIL_HOST_USER_ACTIVOS = config("EMAIL_HOST_USER_ACTIVOS", default="licencias@tudominio.com")
+EMAIL_HOST_USER_CTO = config("EMAIL_HOST_USER_CTO", default="licencias@tudominio.com")
+
+
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL_LICENCIAS = EMAIL_HOST_USER_LICENCIAS 
+DEFAULT_FROM_EMAIL_INFO = EMAIL_HOST_USER_INFO
+DEFAULT_FROM_EMAIL_ACTIVOS  = EMAIL_HOST_USER_ACTIVOS 
+DEFAULT_FROM_EMAIL_CTO = EMAIL_HOST_USER_CTO 
+
+
+
+CART_SESSION_ID = 'cart'
+SBLCART_SESSION_ID = 'cart'
+SBACART_SESSION_ID = 'cart'
+SBTCART_SESSION_ID = 'cart'
+SBMCART_SESSION_ID = 'cart'
+
+BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_M_ID')
+BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_KEY')
+BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
+
+from braintree import Configuration, Environment
+# para desplegar cambiar sandbox con Production
+Configuration.configure(
+    Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
 
 
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    #'account.authentication.EmailAuthBackend',
+    #'social_core.backends.facebook.FacebookOAuth2',
+    #'social_core.backends.twitter.TwitterOAuth',
+    #'social_core.backends.google.GoogleOAuth2',
+    # Login tradicional de Django (superusuario / contraseña)
+    # Backend de autenticación de Allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 
+# ==============================================================================
+# CONFIGURACIÓN DJANGO-ALLAUTH & ACCOUNT AUTHENTICATION
+# ==============================================================================
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+# Automatización de registro social sin pantallas intermedias
+SOCIALACCOUNT_AUTO_SIGNUP = True 
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
+# ==============================================================================
+# CONFIGURACIÓN DE SCOPES / PERMISOS PARA PROVEEDORES SOCIALES
+# ==============================================================================
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERSION': 'v18.0',
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'user:email',
+        ],
+    }
+}
+
+
+
+AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        "DIRS": [BASE_DIR /  "qnd041app","templates"], 
+        "DIRS": [BASE_DIR /  "qnd041app","templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -614,9 +1242,25 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+               # 'usuarios.context_processors.mensajes_nuevos_processor',
+               # 'usuarios.context_processors.datos_panel_usuario',
+               # 'usuarios.context_processors.user_profile_data',
+               # 'usuarios.context_processors.citas_context',
+               # 'usuarios.context_processors.tareas_context',
+               # 'usuarios.context_processors.pagos_context',
+               # 'usuarios.context_processors.profile_uploads_context',
+               # 'usuarios.context_processors.ultima_cita',
+               # 'usuarios.context_processors.ultima_tarea',
                 'saas_cart.context_processors.cart',
+                'paas_cart.context_processors.cart',
                 "business_customer_projects.context_processors.business_projects_context",
+                "business_customer_projects.context_processors.pending_payment_orders_total",
+                "business_customer_projects.context_processors.noticias_context",
+                "business_customer_projects.context_processors.tamano_empresa_context",
+                "services_cart.context_processors.cart",
                 'billing.context_processors.all_business_billing',
+                "wagtail.contrib.settings.context_processors.settings",
+
             ],
         },
     },
@@ -624,13 +1268,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
+WAGTAIL_ADMIN_BASE_URL =  os.environ.get('DOMAINS')
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 5 * 1024 * 1024 * 1024  # 5 GB en bytes
+WAGTAILIMAGES_MAX_IMAGE_PIXELS = 1000000000  # 1 millardo de píxeles (1 Gb)
 
 
 
-
-
-
-
+WAGTAIL_AI = {
+    "BACKENDS": {
+        "gemini": {
+            "CLASS": "qnd041app.settings.gemini_backend.GeminiBackend",
+            "CONFIG": {
+                "MODEL_ID": "gemini-1.5-flash",  # rápido/barato
+                # también puedes usar:
+                # gemini-1.5-pro → más potente
+                "API_KEY": os.environ.get("GEMINI_API_KEY"),
+            },
+        },
+    },
+    "TEXT_COMPLETION_BACKEND": "gemini",
+}
 
 
 # Database
@@ -643,33 +1300,10 @@ WSGI_APPLICATION = os.environ.get('WSGI_APPLICATION')
 
 
 
-REDIS_HOST=os.environ.get('REDIS_HOST')
-REDIS_PORT=os.environ.get('REDIS_PORT')
-REDIS_DB =os.environ.get('REDIS_DB')  
+# Configuración de sesiones usando Redis
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_CACHE_ALIAS = "default"
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60 
-
-
-BRAINTREE_MERCHANT_ID = os.environ.get('BRAINTREE_M_ID')
-BRAINTREE_PUBLIC_KEY = os.environ.get('BRAINTREE_KEY')
-BRAINTREE_PRIVATE_KEY = os.environ.get('BRAINTREE_PRIVATE_KEY')
-
-
-
-from braintree import Configuration, Environment
-# para desplegar cambiar sandbox con Production
-Configuration.configure(
-    Environment.Sandbox,
-    BRAINTREE_MERCHANT_ID,
-    BRAINTREE_PUBLIC_KEY,
-    BRAINTREE_PRIVATE_KEY
-)
 
 
 
@@ -692,20 +1326,43 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Internationalization
+# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+
+TIME_ZONE = 'America/Guayaquil'  # O 'America/Mexico_City', 'America/Argentina/Buenos_Aires', etc.
+LANGUAGE_CODE = 'es'
+
+WAGTAIL_ADMIN_BASE_URL = 'https://ec.smartquail.io'
+
+WAGTAIL_SITE_NAME = "Smart Business MEDIA"
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Spanish'),
+]
+
+LANGUAGE_CODE = 'es'
+
+
+WAGTAIL_I18N_ENABLED = False
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+USE_I18N = False
+USE_L10N = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
-STATICFILES_DIRS = [BASE_DIR / "staticfiles"]  
-STATIC_URL = "/static/"
-STATIC_ROOT = STATIC_ROOT = BASE_DIR / "static"
 
-
-
-
-
+# Rutas públicas a los archivos
+#MEDIA_URL = "https://www-static.sfo3.digitaloceanspaces.com/media/"
+#STATIC_URL = "https://www-static.sfo3.digitaloceanspaces.com/static/"
