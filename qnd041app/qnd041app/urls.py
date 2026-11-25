@@ -3,14 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.contrib.sitemaps.views import sitemap
+from django.http import HttpResponse 
 
-@csrf_exempt
+
 def robots_txt(request):
     lines = [
         "User-agent: *",
@@ -32,53 +32,11 @@ def robots_txt(request):
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
 
-@csrf_exempt
-def sitemap_plano(request):
-    xml_content = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/</loc>\n'
-        '    <changefreq>daily</changefreq>\n'
-        '    <priority>1.0</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/cto/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.9</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbmshop/smartbusinessproducts/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.8</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbashop/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.8</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sblshop/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.8</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbpshop/smartbusinessproducts/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.8</priority>\n'
-        '  </url>\n'
-        '  <url>\n'
-        '    <loc>https://ec.smartquail.io/sbtshop/</loc>\n'
-        '    <changefreq>weekly</changefreq>\n'
-        '    <priority>0.8</priority>\n'
-        '  </url>\n'
-        '</urlset>'
-    )
-    return HttpResponse(xml_content, content_type="application/xml")
+
 
 urlpatterns = [
     path('robots.txt', robots_txt),
-    path('sitemap.xml', sitemap_plano, name='sitemap'),
+    path('sitemap.xml', sitemap, name='sitemap'),
     
     # Administración y herramientas
     path("smartbusinessanalytics/", admin.site.urls),
