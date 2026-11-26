@@ -127,6 +127,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     'django.contrib.sites',
 
+  
+    "django.contrib.postgres",
+
+    
+
     # Allauth core
     'allauth',
     'allauth.account',
@@ -141,6 +146,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     'multiselectfield',
+    'ai_agent',
+    'building_admin',
     #'citas_regulares',
     #"core",
     #"wagtail_ai",
@@ -290,6 +297,7 @@ INSTALLED_APPS = [
     "social_media_A",
     'corsheaders',
     'wagtail_analytics',
+    'django.contrib.sitemaps',
 ]
 
 #LOGINGS REDIRECT

@@ -1,4 +1,4 @@
-#!/Users/smartquail/Desktop/QNODES2025/QND0/qnd041app/qnd041venv/bin/python3.13
+#!/Users/smartquail/Desktop/temp/TECH/Git/INSTANCE/qnd041app/qnd041venv/bin/python
 
 import sys
 import json
