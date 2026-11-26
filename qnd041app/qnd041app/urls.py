@@ -94,6 +94,8 @@ urlpatterns = [
     path('sbtshop/', include('sbtshop.urls', namespace='sbtshop')),
     path('sbpshop/', include('sbpshop.urls', namespace='sbpshop')),
 
+    path('bulding/', include('building_admin.urls', namespace='building_admin')),
+
     # Auth
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),

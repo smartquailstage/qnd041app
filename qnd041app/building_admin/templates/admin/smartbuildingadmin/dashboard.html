@@ -1,0 +1,152 @@
+{% extends 'unfold/layouts/base.html' %}
+{% load i18n static %}
+
+{% block title %}Dashboard Gestión de Edificios | SmartQuail{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Encabezado de contexto -->
+    <div class="border-b border-base-200 flex flex-row items-center mb-6 -mt-6 -mx-6 py-4 px-6 dark:border-base-800">
+        <div class="flex flex-row items-center gap-3">
+            <div class="border border-primary-700 bg-primary-600 flex items-center h-[38px] justify-center -my-1 rounded-default text-white w-[38px] hover:bg-primary-600/80 dark:border-primary-500">
+                <span class="material-symbols-outlined">apartment</span>
+            </div>
+
+            <div class="flex flex-col">
+                <h2 class="font-semibold text-[15px] text-important">
+                    Hola {{ user.first_name|default:user.username }}
+                </h2>
+                <p class="text-subtle">
+                    Entornos operativos, cartera de alícuotas, mantenimiento y normativa disponibles para la administración de edificios.
+                </p>
+            </div>
+        </div>
+
+        <div class="ml-auto flex items-center gap-2">
+            {% url 'admin:building_admin_edificio_changelist' as url_edificios %}
+            <a href="{{ url_edificios|default:'#' }}" class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer px-3 py-2 border border-primary-600 bg-primary-600 shadow-xs text-white hover:bg-primary-700">
+                <span class="material-symbols-outlined text-base">add_business</span>
+                Edificios
+            </a>
+
+            {% url 'admin:index' as url_admin_index %}
+            <a href="{{ url_admin_index|default:'#' }}" class="font-medium inline-flex group items-center gap-1 relative rounded-default justify-center whitespace-nowrap cursor-pointer px-3 py-2 border border-base-200 bg-white shadow-xs text-important dark:border-base-700 dark:bg-transparent hover:bg-base-100/80 dark:hover:bg-base-800/80">
+                Ver resumen
+            </a>
+        </div>
+    </div>
+
+    <!-- 1. BLOQUE PRINCIPAL: OPERACIÓN, FINANZAS Y NORMATIVA -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Tarjeta 1: Edificios y Unidades -->
+        {% url 'admin:building_admin_unidad_changelist' as url_unidades %}
+        <a href="{{ url_unidades|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Unidades y Alícuotas</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">domain</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Edificios, torres y % participación</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Gestionar &rarr;</span>
+            </div>
+        </a>
+
+        <!-- Tarjeta 2: Cargos y Expensas -->
+        {% url 'admin:building_admin_cargoalicuota_changelist' as url_cargos %}
+        <a href="{{ url_cargos|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Cobranza y Alícuotas</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">receipt_long</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Cargos mensuales, extras y saldos</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Ver cartera &rarr;</span>
+            </div>
+        </a>
+
+        <!-- Tarjeta 3: Mantenimiento -->
+        {% url 'admin:building_admin_ordenmantenimiento_changelist' as url_mantenimiento %}
+        <a href="{{ url_mantenimiento|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Mantenimiento</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">engineering</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Preventivo, correctivo y costos</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Ver órdenes &rarr;</span>
+            </div>
+        </a>
+
+        <!-- Tarjeta 4: Limpieza y Áreas Comunes -->
+        {% url 'admin:building_admin_registrolimpieza_changelist' as url_limpieza %}
+        <a href="{{ url_limpieza|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Limpieza y Áreas</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">cleaning_services</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Áreas comunes y bitácora diaria</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Ver registros &rarr;</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 2. BLOQUE SECUNDARIO: NORMATIVA, REGLAMENTOS Y AGENTES IA -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Documentos Normativos -->
+        {% url 'admin:building_admin_documentonormativo_changelist' as url_documentos %}
+        <a href="{{ url_documentos|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Documentos Normativos</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">gavel</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Ley de Propiedad Horizontal y reglamentos</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Consultar &rarr;</span>
+            </div>
+        </a>
+
+        <!-- Fragmentos / Cláusulas -->
+        {% url 'admin:building_admin_fragmentonormativo_changelist' as url_fragmentos %}
+        <a href="{{ url_fragmentos|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Artículos y Fragmentos</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">article</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Secciones indexadas para consulta rápida</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Explorar &rarr;</span>
+            </div>
+        </a>
+
+        <!-- Agente IA / Soul & Skills -->
+        {% url 'admin:ai_agent_agentsoul_changelist' as url_agente %}
+        <a href="{{ url_agente|default:'#' }}" class="block bg-white dark:bg-base-900 border border-base-200 dark:border-base-800 rounded-xl p-5 shadow-sm hover:border-primary-500 transition-all group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-base-500 dark:text-base-400">Asistente Operativo IA</span>
+                <div class="p-2 rounded-lg bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-xl">smart_toy</span>
+                </div>
+            </div>
+            <div class="mt-4 flex items-baseline justify-between">
+                <span class="text-xs text-base-400">Souls, skills y consulta normativa/operativa</span>
+                <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">Configurar &rarr;</span>
+            </div>
+        </a>
+    </div>
+
+</div>
+{% endblock %}
